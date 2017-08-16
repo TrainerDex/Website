@@ -18,6 +18,7 @@ from django.contrib import admin
 
 api_v01_patterns = [
     url(r"^enrollment/", include('enrollment.urls', namespace="enrollment")),
+    url(r"^gyms/", include('gyms.urls', namespace="gyms")),
 ]
 
 urlpatterns = [
