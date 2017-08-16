@@ -1,0 +1,20 @@
+<div ng-repeat="gym in vm.gyms.results track by $index">
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{ ::gym.title }}</span>
+        <span class="md-subhead">{{ ::gym.description }}</span>
+        <img ng-src="https://maps.googleapis.com/maps/api/staticmap?center={{ ::gym.latitude }},{{ ::gym.longitude }}&zoom=15&size=250x125&maptype=roadmap&markers={{ ::gym.latitude }},{{ ::gym.longitude }}&key=AIzaSyCEadifeA8X02v2OKv-orZWm8nQf1Q2EZ4" class="md-card-image maps-image" alt="Washed Out" src="">
+      </md-card-title-text>
+      <md-card-title-media>
+        <div class="md-media-lg card-media gym-icon">
+            <img ng-src="{{ ::gym.image }}" class="md-card-image" src="">
+        </div>
+      </md-card-title-media>
+    </md-card-title>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button href="https://www.google.com/maps/?daddr={{ ::gym.latitude }},{{ ::gym.longitude }}" target="_blank">Get Directions</md-button>
+      <md-button>Going</md-button>
+    </md-card-actions>
+  </md-card>
+</div>
