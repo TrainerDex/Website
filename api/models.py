@@ -23,7 +23,7 @@ class Trainer_Levels(models.Model):
 	
 class Trainers(models.Model):
 	username = models.CharField(max_length=30, unique=True)
-	discord_id = models.ForeignKey('Discordian', on_delete=models.CASCADE)
+	discord = models.ForeignKey('Discordian', on_delete=models.CASCADE)
 	start_date = models.DateField(null=True, blank=True)
 	join_date = models.DateField(auto_now_add=True)
 	has_cheated = models.BooleanField(default=False)

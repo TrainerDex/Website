@@ -26,5 +26,10 @@ discordServers_resource = Servers_Resource()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+	url(r'api/', include(levels_resource.urls)),
 	url(r'api/', include(trainers_resource.urls)),
+	url(r'api/', include(xp_resource.urls)),
+	url(r'api/', include(discordUsers_resource.urls)),
+	url(r'api/', include(discordMembers_resource.urls)),
+	url(r'api/', include(discordServers_resource.urls)),
 ]
