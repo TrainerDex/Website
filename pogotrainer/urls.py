@@ -13,23 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib import admin
-from api.resources import *
-
-levels_resource = Trainer_Levels_Resource()
-trainers_resource = Trainers_Resource()
-xp_resource = Experience_Resource()
-discordUsers_resource = Discordian_Resource()
-discordMembers_resource = Discordian_On_Servers_Resource()
-discordServers_resource = Servers_Resource()
+from rest_framework.urlpatterns import format_suffix_patterns
+from api.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-	url(r'api/', include(levels_resource.urls)),
-	url(r'api/', include(trainers_resource.urls)),
-	url(r'api/', include(xp_resource.urls)),
-	url(r'api/', include(discordUsers_resource.urls)),
-	url(r'api/', include(discordMembers_resource.urls)),
-	url(r'api/', include(discordServers_resource.urls)),
+	url(r'^api/trainer/', TrainersList.as_view()),
+	url(r'^api/level/', LevelList.as_view()),
+	url(r'^api/exp/', ExperienceList.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

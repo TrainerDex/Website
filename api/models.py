@@ -1,30 +1,30 @@
-import uuid
 from django.db import models
 
 # Create your models here.
 
 def factionImagePath(instance, filename):
-	return os.path.join('factions', str(instance.id), filename)
+	return os.path.join('factionLogo', str(instance.id), filename)
+
+def leaderImagePath(instance, filename):
+	return os.path.join('factionLeader', str(instance.id), filename)
 
 class Factions(models.Model):
 	faction_name = models.CharField(max_length=140)
 	faction_colour = models.IntegerField(null=True, blank=True)
-#	faction_image = models.ImageField(upload_to=factionImagePath, blank=True, null=True)
+	faction_image = models.ImageField(upload_to=factionImagePath, blank=True, null=True)
 	leader_name = models.CharField(max_length=140, null=True, blank=True)
-#	leader_image = models.ImageField(upload_to=leaderImagePath, blank=True, null=True) #https://stackoverflow.com/questions/8189800/django-store-user-image-in-model
-
-def __str__(self):
-	return '{}'.format(self.faction_name)
+	leader_image = models.ImageField(upload_to=leaderImagePath, blank=True, null=True) #https://stackoverflow.com/questions/8189800/django-store-user-image-in-model
 
 class Trainer_Levels(models.Model):
 	level = models.AutoField(primary_key=True)
 	min_total_xp = models.IntegerField(blank=True, null=False)
 	relative_xp = models.IntegerField()
 	
-class Trainers(models.Model):
+class Trainer(models.Model):
 	username = models.CharField(max_length=30, unique=True)
 	discord = models.ForeignKey('Discordian', on_delete=models.CASCADE)
 	start_date = models.DateField(null=True, blank=True)
+	faction = models.ForeignKey('Factions', on_delete=models.SET_DEFAULT, default=0)
 	join_date = models.DateField(auto_now_add=True)
 	has_cheated = models.BooleanField(default=False)
 	last_cheated = models.DateField(null=True, blank=True)
@@ -35,9 +35,48 @@ class Trainers(models.Model):
 	last_modified = models.DateTimeField(auto_now=True)
 	
 class Experience(models.Model):
-	trainer = models.ForeignKey('Trainers', on_delete=models.CASCADE, to_field='username')
-	xp = models.IntegerField(verbose_name='Total XP')
+	trainer = models.ForeignKey('Trainer', on_delete=models.CASCADE)
 	datetime = models.DateTimeField(auto_now_add=True)
+	xp = models.IntegerField(verbose_name='Total XP')
+	dex_caught = models.IntegerField(null=True, blank=True)
+	dex_seen = models.IntegerField(null=True, blank=True)
+	walk_dist = models.IntegerField(null=True, blank=True)
+	gen_1_dex = models.IntegerField(null=True, blank=True)
+	pkmn_caught = models.IntegerField(null=True, blank=True)
+	pkmn_evolved = models.IntegerField(null=True, blank=True)
+	pkstops_spun = models.IntegerField(null=True, blank=True)
+	battles_won = models.IntegerField(null=True, blank=True)
+	gen_2_dex = models.IntegerField(null=True, blank=True)
+	berry_fed = models.IntegerField(null=True, blank=True)
+	gym_defended = models.IntegerField(null=True, blank=True)
+	eggs_hatched = models.IntegerField(null=True, blank=True)
+	big_magikarp = models.IntegerField(null=True, blank=True)
+	legacy_gym_trained = models.IntegerField(null=True, blank=True)
+	tiny_rattata = models.IntegerField(null=True, blank=True)
+	pikachu_caught = models.IntegerField(null=True, blank=True)
+	unown_alphabet = models.IntegerField(null=True, blank=True)
+	raids_completed = models.IntegerField(null=True, blank=True)
+	#Pokemon-demographics
+	pkmn_normal = models.IntegerField(null=True, blank=True)
+	pkmn_flying = models.IntegerField(null=True, blank=True)
+	pkmn_poison = models.IntegerField(null=True, blank=True)
+	pkmn_ground = models.IntegerField(null=True, blank=True)
+	pkmn_rock = models.IntegerField(null=True, blank=True)
+	pkmn_bug = models.IntegerField(null=True, blank=True)
+	pkmn_steel = models.IntegerField(null=True, blank=True)
+	pkmn_fire = models.IntegerField(null=True, blank=True)
+	pkmn_water = models.IntegerField(null=True, blank=True)
+	pkmn_grass = models.IntegerField(null=True, blank=True)
+	pkmn_electric = models.IntegerField(null=True, blank=True)
+	pkmn_psychic = models.IntegerField(null=True, blank=True)
+	pkmn_dark = models.IntegerField(null=True, blank=True)
+	pkmn_fairy = models.IntegerField(null=True, blank=True)
+	pkmn_fighting = models.IntegerField(null=True, blank=True)
+	pkmn_ghost = models.IntegerField(null=True, blank=True)
+	pkmn_ice = models.IntegerField(null=True, blank=True)
+	pkmn_dragon = models.IntegerField(null=True, blank=True)
+	#Other stats
+	gym_badges = models.IntegerField(null=True, blank=True)
 	
 class Discordian(models.Model):
 	d_name = models.CharField(max_length=32)
