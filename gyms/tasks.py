@@ -92,7 +92,7 @@ def update_gyms():
                 gym.notification_sent_at = timezone.now()
                 data = {
                     'embeds': [{
-                        'title': '{} raid available'.format(gym.raid_pokemon_name),
+                        'title': '{} raid available at {}'.format(gym.raid_pokemon_name, gym.name),
                         'description': 'Ends at {} ({})'.format(town.timezone.localize(gym.raid_end).strftime("%H:%M:%S"), humanize.naturaltime(timezone.now()-gym.raid_end)),
                         'url': 'https://www.google.com/maps/?daddr={},{}'.format(gym.latitude, gym.longitude),
                         'image': {
