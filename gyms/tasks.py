@@ -17,7 +17,7 @@ import datetime
 import random
 import pytz
 import requests
-import humanize
+import arrow
 
 # https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule
 def isPointInPath(x, y, poly):
@@ -93,7 +93,7 @@ def update_gyms():
                 data = {
                     'embeds': [{
                         'title': '{} raid available at {}'.format(gym.raid_pokemon_name, gym.name),
-                        'description': 'Ends at {} ({})'.format(gym.raid_end.astimezone(town.timezone).strftime("%H:%M:%S"), humanize.naturaltime(timezone.now()-gym.raid_end)),
+                        'description': 'Ends at {} ({})'.format(gym.raid_end.astimezone(town.timezone).strftime("%H:%M:%S"), arrow.get(gym.raid_end).humanize(only_distance=True)),
                         'url': 'https://www.google.com/maps/?daddr={},{}'.format(gym.latitude, gym.longitude),
                         'image': {
                             'url': 'https://maps.googleapis.com/maps/api/staticmap?center={0},{1}&zoom=15&size=250x125&maptype=roadmap&markers={0},{1}&key={2}'.format(gym.latitude, gym.longitude, 'AIzaSyCEadifeA8X02v2OKv-orZWm8nQf1Q2EZ4')
