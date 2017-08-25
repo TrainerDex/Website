@@ -114,7 +114,7 @@ def update_gyms():
 @shared_task
 def send_discord_webhook(url, data):
     r = requests.post(
-        url
+        url,
         json=data
     )
     print(r.text)
