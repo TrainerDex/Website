@@ -3,12 +3,10 @@ angular.module("ekpogo").controller("GymController", GymController);
 
 function GymController(GymData, $scope, $window, $document) {
     var vm = this;
-    var windowElem = angular.element($window);
-    windowElem.bind("scroll", windowScroll);
-    function windowScroll() {
-        console.log("WINDOWSCROLL");
-        if (windowElem.scrollTop() === $document.height() - windowElem.height()) {
-            console.log("SCROLL");
+    var scrollElem = angular.element($document).find("#content").first();
+    scrollElem.bind("scroll", elementScroll);
+    function elementScroll() {
+        if (scrollElem.scrollTop() === scrollElem[0].scrollHeight - scrollElem[0].clientHeight) {
             GymData.getNext().then(function(result) {
                 vm.gyms = vm.gyms.concat(result);
             });

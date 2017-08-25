@@ -23,5 +23,5 @@ api_v01_patterns = [
 
 urlpatterns = [
     url(r"^api/0.1/", include(api_v01_patterns, namespace="api_v01")),
-    url(r'^admin/', admin.site.urls),
+    url(r'^api/admin/', admin.site.urls),
 ]

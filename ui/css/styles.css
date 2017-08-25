@@ -32,7 +32,30 @@ md-list-item > button {
     align-items: center;
 }
 
+.team-icon {
+    flex: 0;
+    max-height: 24px;
+    padding: 5px;
+}
+
 .maps-image {
     flex: 0;
     max-width: 300px;
+    padding: 5px;
+}
+
+.pokemon-image {
+    flex: 0;
+    max-width: 120px;
+}
+
+.gym-image {
+    flex: 0;
+    max-width: 300px;
+    padding: 5px;
+}
+
+.big-text {
+    font-size: 24px;
+    margin: 10px;
 }
