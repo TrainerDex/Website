@@ -1,12 +1,13 @@
 from django.core.management.base import BaseCommand, CommandError
 from gyms.models import Gym
 import json
+import argparse
 
 class Command(BaseCommand):
     help = 'Imports gym names, descriptions and images from pokemongomap json dump'
 
     def add_arguments(self, parser):
-        parser.add_argument('file', type=open)
+        parser.add_argument('file', type=argparse.FileType('r', encoding='UTF-8'))
 
     def handle(self, *args, **options):
         mids = set()
