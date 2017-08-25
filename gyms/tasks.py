@@ -103,8 +103,8 @@ def update_gyms():
                         }
                     }]
                 }
-                if hasattr(gym.town, 'url') and gym.town.url:
-                    send_discord_webhook.delay(gym.town.url, data)
+                if hasattr(gym.town, 'discord_webhook') and gym.town.discord_webhook:
+                    send_discord_webhook.delay(gym.town.discord_webhook, data)
 
             if old_gym != model_to_dict(gym):
                 gym.save()
