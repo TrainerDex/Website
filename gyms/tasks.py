@@ -103,7 +103,7 @@ def update_gyms():
                         }
                     }]
                 }
-                send_discord_webhook.delay(data)
+                send_discord_webhook.delay(gym.town.url, data)
 
             if old_gym != model_to_dict(gym):
                 gym.save()
@@ -112,9 +112,9 @@ def update_gyms():
         bulk(es_client, [ElasticGymSerializer(gym).es_instance().to_dict(include_meta=True) for gym in gyms_for_es_update])
 
 @shared_task
-def send_discord_webhook(data):
+def send_discord_webhook(url, data):
     r = requests.post(
-        'https://discordapp.com/api/webhooks/350346017457307660/umJGObUYEvP8wd47QPrrIZoPeS0RNsp2NrhlQUOdAKJAQ4d2Rpfv59Xue1k8kNlZ-6Sp',
+        url
         json=data
     )
     print(r.text)
