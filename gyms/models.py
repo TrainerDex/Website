@@ -2,11 +2,13 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
 from django.contrib.gis.db import models
+from timezone_field import TimeZoneField
 
 class Town(models.Model):
     name = models.CharField(max_length=64)
     poly = models.PolygonField()
     discord_webhook = models.URLField(null=True, blank=True)
+    timezone = TimeZoneField(default='Europe/London')
 
     def __str__(self):
         return self.name
