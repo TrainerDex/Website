@@ -88,7 +88,7 @@ def update_gyms():
                     break
             if not gym.notification_sent_at:
                 gym.notification_sent_at = timezone.now()
-            if gym.town and gym.is_raid_active() and gym.notification_sent_at < gym.raid_start:
+            if gym.town and gym.is_raid_active() and gym.notification_sent_at < gym.raid_start and gym.raid_level >= 4:
                 gym.notification_sent_at = timezone.now()
                 data = {
                     'embeds': [{
