@@ -1,5 +1,12 @@
 from django.db import models
 
+def factionImagePath(instance, filename):
+	return os.path.join('factionLogo', str(instance.id), filename)
+
+def leaderImagePath(instance, filename):
+	return os.path.join('factionLeader', str(instance.id), filename)
+
+
 #Login Models
 
 class Directory_Users(models.Model):
@@ -8,8 +15,9 @@ class Directory_Users(models.Model):
 	password = models.CharField(max_length=50)
 
 class Trainer(models.Model):
-	account = models.ForeignKey('Directory_Users', on_delete=models.SETNULL, null=True, blank=True)
+	account = models.ForeignKey('Directory_Users', on_delete=models.SET_NULL, null=True, blank=True)
 	username = models.CharField(max_length=30, unique=True)
+	discord = models.ForeignKey('Discord_Users', on_delete=models.SET_NULL, null=True, blank=True) 
 	start_date = models.DateField(null=True, blank=True)
 	faction = models.ForeignKey('Factions', on_delete=models.SET_DEFAULT, default=0)
 	join_date = models.DateField(auto_now_add=True)
@@ -22,12 +30,6 @@ class Trainer(models.Model):
 	last_modified = models.DateTimeField(auto_now=True)
 
 class Factions(models.Model):
-	def factionImagePath(instance, filename):
-		return os.path.join('factionLogo', str(instance.id), filename)
-	
-	def leaderImagePath(instance, filename):
-		return os.path.join('factionLeader', str(instance.id), filename)
-	
 	faction_name = models.CharField(max_length=140)
 	faction_colour = models.IntegerField(null=True, blank=True)
 	faction_image = models.ImageField(upload_to=factionImagePath, blank=True, null=True)
@@ -84,7 +86,7 @@ class Experience(models.Model):
 	gym_badges = models.IntegerField(null=True, blank=True)
 
 class Discord_Users(models.Model):
-	account = models.ForeignKey('Directory_Users', on_delete=models.SETNULL, null=True, blank=True)
+	account = models.ForeignKey('Directory_Users', on_delete=models.SET_NULL, null=True, blank=True)
 	d_name = models.CharField(max_length=32)
 	d_id = models.CharField(max_length=256, primary_key=True)
 	d_discriminator = models.CharField(max_length=256)
@@ -98,7 +100,7 @@ class Discord_Servers(models.Model):
 	s_region = models.CharField(max_length=256)
 	s_id = models.CharField(max_length=256, primary_key=True)
 	s_icon = models.CharField(max_length=256)
-	s_owner = models.ForeignKey('Discord_Users', on_delete=models.CASCADE)
+	s_owner = models.ForeignKey('Discord_Users', on_delete=models.SET_NULL, null=True, blank=True)
 	bans_cheaters = models.BooleanField(default=True)
 	seg_cheaters = models.BooleanField(default=False)
 	bans_minors = models.BooleanField(default=False)

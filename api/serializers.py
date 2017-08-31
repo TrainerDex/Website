@@ -23,15 +23,15 @@ class Experience_Serializer(serializers.ModelSerializer):
 		
 class Discord_Users_Serializer(serializers.ModelSerializer):
 	class Meta:
-		model = Discordian
+		model = Discord_Users
 		fields = '__all__'
 		
-class Discord_Users_Serializer(serializers.ModelSerializer):
+class Discord_Relations_Serializer(serializers.ModelSerializer):
 	class Meta:
-		model = Discordian_On_Servers
+		model = Discord_Relations
 		fields = '__all__'
 		
 class Discord_Servers_Serializer(serializers.ModelSerializer):
 	class Meta:
-		model = Servers
+		model = Discord_Servers
 		fields = '__all__'
