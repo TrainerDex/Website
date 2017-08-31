@@ -21,17 +21,17 @@ class Experience_Serializer(serializers.ModelSerializer):
 		model = Experience
 		fields = '__all__'
 		
-class Discordian_Serializer(serializers.ModelSerializer):
+class Discord_Users_Serializer(serializers.ModelSerializer):
 	class Meta:
 		model = Discordian
 		fields = '__all__'
 		
-class Discordian_On_Servers_Serializer(serializers.ModelSerializer):
+class Discord_Users_Serializer(serializers.ModelSerializer):
 	class Meta:
 		model = Discordian_On_Servers
 		fields = '__all__'
 		
-class Servers_Serializer(serializers.ModelSerializer):
+class Discord_Servers_Serializer(serializers.ModelSerializer):
 	class Meta:
 		model = Servers
 		fields = '__all__'

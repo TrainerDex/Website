@@ -20,13 +20,13 @@ from api.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-	url(r'^api/faction/', FactionsList.as_view()),
-	url(r'^api/trainer/', TrainersList.as_view()),
-	url(r'^api/level/', LevelList.as_view()),
-	url(r'^api/exp/', ExperienceList.as_view()),
-	url(r'^api/discord/user/', DiscordianList.as_view()),
-	url(r'^api/discord/server/', ServersList.as_view()),
-	url(r'^api/discord/states/', DiscordianOnServersList.as_view()),
+	url(r'^api/faction/', Factions_List.as_view()),
+	url(r'^api/trainer/', Trainers_List.as_view()),
+	url(r'^api/level/', Level_List.as_view()),
+	url(r'^api/exp/', Experience_List.as_view()),
+	url(r'^api/discord/user/', Discord_Users_List.as_view()),
+	url(r'^api/discord/server/', Discord_Servers_List.as_view()),
+	url(r'^api/discord/states/', Discord_Relations_List.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

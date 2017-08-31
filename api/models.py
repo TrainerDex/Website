@@ -78,7 +78,7 @@ class Experience(models.Model):
 	#Other stats
 	gym_badges = models.IntegerField(null=True, blank=True)
 	
-class Discordian(models.Model):
+class Discord_Users(models.Model):
 	d_name = models.CharField(max_length=32)
 	d_id = models.CharField(max_length=256, primary_key=True)
 	d_discriminator = models.CharField(max_length=256)
@@ -87,7 +87,7 @@ class Discordian(models.Model):
 	dob = models.DateField(null=True, blank=True)
 	real_name = models.CharField(max_length=256, null=True, blank=True)
 	
-class Servers(models.Model):
+class Discord_Servers(models.Model):
 	s_name = models.CharField(max_length=256)
 	s_region = models.CharField(max_length=256)
 	s_id = models.CharField(max_length=256, primary_key=True)
@@ -98,7 +98,7 @@ class Servers(models.Model):
 	bans_minors = models.BooleanField(default=False)
 	seg_minors = models.BooleanField(default=False)
 	
-class Discordian_On_Servers(models.Model):
+class Discord_Relations(models.Model):
 	d_id = models.ForeignKey('Discordian', on_delete=models.CASCADE)
 	d_server = models.ForeignKey('Servers', on_delete=models.CASCADE)
 	verified = models.BooleanField(default=False)

@@ -5,7 +5,7 @@ from rest_framework import status
 from .models import *
 from .serializers import *
 
-class FactionsList(APIView):
+class Factions_List(APIView):
 	
 	def get(self, request):
 		factions = Factions.objects.all()
@@ -18,7 +18,7 @@ class FactionsList(APIView):
 			return Response(serializer.errors, status=status.HTTP_423_LOCKED) 
 		return Response(serializer.errors, status=status.HTTP_423_LOCKED)
 
-class TrainersList(APIView):
+class Trainers_List(APIView):
 	
 	def get(self, request):
 		trainers = Trainer.objects.all()
@@ -32,7 +32,7 @@ class TrainersList(APIView):
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class LevelList(APIView):
+class Level_List(APIView):
 	
 	def get(self, request):
 		levels = Trainer_Levels.objects.all()
@@ -45,7 +45,7 @@ class LevelList(APIView):
 			return Response(serializer.errors, status=status.HTTP_423_LOCKED) 
 		return Response(serializer.errors, status=status.HTTP_423_LOCKED)
 
-class ExperienceList(APIView):
+class Experience_List(APIView):
 	
 	def get(self, request):
 		experience = Experience.objects.all()
@@ -59,43 +59,43 @@ class ExperienceList(APIView):
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class DiscordianList(APIView):
+class Discord_Users_List(APIView):
 	
 	def get(self, request):
-		discord = Discordian.objects.all()
-		serializer = Discordian_Serializer(discord, many=True)
+		discord = Discord_Users.objects.all()
+		serializer = Discord_Users_Serializer(discord, many=True)
 		return Response(serializer.data)
 	
 	def post(self, request, format=None):
-		serializer = Discordian_Serializer(data=request.data)
+		serializer = Discord_Users_Serializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ServersList(APIView):
+class Discord_Servers_List(APIView):
 	
 	def get(self, request):
-		server = Servers.objects.all()
-		serializer = Servers_Serializer(server, many=True)
+		server = Discord_Servers.objects.all()
+		serializer = Discord_Servers_Serializer(server, many=True)
 		return Response(serializer.data)
 	
 	def post(self, request, format=None):
-		serializer = Servers_Serializer(data=request.data)
+		serializer = Discord_Servers_Serializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class DiscordianOnServersList(APIView):
+class Discord_Relations_List(APIView):
 	
 	def get(self, request):
-		donserver = Discordian_On_Servers.objects.all()
-		serializer = Discordian_On_Servers_Serializer(donserver, many=True)
+		donserver = Discord_Relations.objects.all()
+		serializer = Discord_Relations_Serializer(donserver, many=True)
 		return Response(serializer.data)
 	
 	def post(self, request, format=None):
-		serializer = Discordian_On_Servers_Serializer(data=request.data)
+		serializer = Discord_Relations_Serializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
