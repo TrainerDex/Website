@@ -5,7 +5,7 @@ from django.db import models
 class Directory_Users(models.Model):
 	email = models.EmailField()
 	username = models.CharField(max_length=100)
-	password = models.CharField(max_lenght=50)
+	password = models.CharField(max_length=50)
 
 class Trainer(models.Model):
 	account = models.ForeignKey('Directory_Users', on_delete=models.SETNULL, null=True, blank=True)
