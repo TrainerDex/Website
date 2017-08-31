@@ -19,13 +19,13 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from trainer-api.views import *
 
 trainer_api_patterns = [
-	url(r'^api/faction/', FactionsList.as_view()),
-	url(r'^api/trainer/', TrainersList.as_view()),
-	url(r'^api/level/', LevelList.as_view()),
-	url(r'^api/exp/', ExperienceList.as_view()),
-	url(r'^api/discord/user/', DiscordianList.as_view()),
-	url(r'^api/discord/server/', ServersList.as_view()),
-	url(r'^api/discord/states/', DiscordianOnServersList.as_view()),
+	url(r'^trainers/faction/', Factions_List.as_view()),
+	url(r'^trainers/trainer/', Trainers_List.as_view()),
+	url(r'^trainers/level/', Level_List.as_view()),
+	url(r'^trainers/exp/', Experience_List.as_view()),
+	url(r'^trainers/discord/user/', Discord_Users_List.as_view()),
+	url(r'^trainers/discord/server/', Discord_Servers_List.as_view()),
+	url(r'^trainers/discord/states/', Discord_Relations_List.as_view()),
 ]
 
 trainer_api_patterns = format_suffix_patterns(trainer_api_patterns)
