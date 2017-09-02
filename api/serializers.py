@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from api.models import *
 
-class Faction_Serializer(serializers.ModelSerializer):
+class Factions_Serializer(serializers.ModelSerializer):
 	class Meta:
 		model = Factions
 		fields = '__all__'
