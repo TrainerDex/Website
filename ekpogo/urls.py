@@ -15,6 +15,20 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework.urlpatterns import format_suffix_patterns
+from trainer.views import *
+
+trainer_api_patterns = [
+	url(r'^api/1.0/faction/', Factions_List.as_view()),
+	url(r'^api/1.0/trainer/', Trainers_List.as_view()),
+	url(r'^api/1.0/level/', Level_List.as_view()),
+	url(r'^api/1.0/exp/', Experience_List.as_view()),
+	url(r'^api/1.0/discord/user/', Discord_Users_List.as_view()),
+	url(r'^api/1.0/discord/server/', Discord_Servers_List.as_view()),
+	url(r'^api/1.0/discord/states/', Discord_Relations_List.as_view()),
+]
+
+trainer_api_patterns = format_suffix_patterns(trainer_api_patterns)
 
 api_v01_patterns = [
     url(r"^enrollment/", include('enrollment.urls', namespace="enrollment")),
@@ -24,5 +38,5 @@ api_v01_patterns = [
 urlpatterns = [
     url(r"^api/0.1/", include(api_v01_patterns, namespace="api_v01")),
     url(r"^api/admin/", admin.site.urls),
-    url(r"^t/", include('trainer-api.views')),
+    url(r"^t/", include(trainer_api_patterns, namespace="trainers")),
 ]
