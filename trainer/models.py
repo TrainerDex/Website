@@ -1,4 +1,5 @@
 import os
+from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
 from colorful.fields import RGBColorField
@@ -9,11 +10,18 @@ def factionImagePath(instance, filename):
 def leaderImagePath(instance, filename):
 	return os.path.join('media/factionLeader', filename)
 
+class ExtendedProfile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='extended_profile')
+	dob = models.DateField(null=True, blank=True, verbose_name="date of birth")
+	
+	def __str__(self):
+		return self.user.username
+
 class Trainer(models.Model):
-	username = models.CharField(max_length=30, unique=True)
-	start_date = models.DateField(null=True, blank=True)
-	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, null=True)
-	join_date = models.DateField(auto_now_add=True)
+	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
+	username = models.CharField(max_length=30, unique=True, primary_key=True)
+	start_date = models.DateField(default=date(2016,7,13), null=True, blank=True)
+	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, null=True, verbose_name="team")
 	has_cheated = models.BooleanField(default=False)
 	last_cheated = models.DateField(null=True, blank=True)
 	currently_cheats = models.BooleanField(default=False)
@@ -21,10 +29,7 @@ class Trainer(models.Model):
 	daily_goal = models.IntegerField(null=True, blank=True)
 	total_goal = models.IntegerField(null=True, blank=True)
 	last_modified = models.DateTimeField(auto_now=True)
-	prefered = models.BooleanField(default=True)
-	#Third Party Accounts
-	discord = models.ForeignKey('Discord_User', on_delete=models.SET_NULL, null=True, blank=True)
-	ekpogo = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	prefered = models.BooleanField(default=True, verbose_name="main profile")
 	
 	def __str__(self):
 		return self.username
@@ -39,17 +44,9 @@ class Faction(models.Model):
 	def __str__(self):
 		return self.name
 
-class Trainer_Level(models.Model):
-	level = models.AutoField(primary_key=True)
-	min_total_xp = models.IntegerField(blank=True, null=False)
-	relative_xp = models.IntegerField()
-	
-	def __str__(self):
-		return "Level"+str(self.level)
-
 class Update(models.Model):
 	trainer = models.ForeignKey('Trainer', on_delete=models.CASCADE)
-	datetime = models.DateTimeField(auto_now_add=True)
+	datetime = models.DateTimeField(auto_now_add=True, editable=False)
 	xp = models.IntegerField(verbose_name='Total XP')
 	dex_caught = models.IntegerField(null=True, blank=True)
 	dex_seen = models.IntegerField(null=True, blank=True)
@@ -91,23 +88,24 @@ class Update(models.Model):
 	#Other stats
 	gym_badges = models.IntegerField(null=True, blank=True)
 
-class Discord_User(models.Model):
-	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+class DiscordUser(models.Model):
+	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='discord_account')
 	name = models.CharField(max_length=32)
-	id = models.CharField(max_length=256, primary_key=True)
-	discriminator = models.CharField(max_length=256)
+	discriminator = models.CharField(max_length=4, blank=False)
+	id = models.CharField(max_length=4, primary_key=True)
 	avatar_url = models.URLField()
 	creation = models.DateTimeField()
 	
 	def __str__(self):
-		return self.name
+		return self.name+'#'+str(self.discriminator)
 
-class Discord_Server(models.Model):
+class DiscordServer(models.Model):
 	name = models.CharField(max_length=256)
 	region = models.CharField(max_length=256)
 	id = models.CharField(max_length=256, primary_key=True)
 	icon = models.CharField(max_length=256)
-	owner = models.ForeignKey('Discord_User', on_delete=models.SET_NULL, null=True, blank=True)
+	owner = models.ForeignKey('DiscordUser', on_delete=models.SET_NULL, null=True, blank=True)
+	members = models.ManyToManyField('DiscordUser', through='DiscordMember', related_name='discord_members')
 	bans_cheaters = models.BooleanField(default=True)
 	seg_cheaters = models.BooleanField(default=False)
 	bans_minors = models.BooleanField(default=False)
@@ -116,11 +114,49 @@ class Discord_Server(models.Model):
 	def __str__(self):
 		return self.name
 
-class Discord_Relation(models.Model):
-	user = models.ForeignKey('Discord_User', on_delete=models.CASCADE)
-	server = models.ForeignKey('Discord_Server', on_delete=models.CASCADE)
-	verified = models.BooleanField(default=False)
-	ban = models.BooleanField(default=False)
+class DiscordMember(models.Model):
+	user = models.ForeignKey('DiscordUser', on_delete=models.CASCADE)
+	server = models.ForeignKey('DiscordServer', on_delete=models.CASCADE)
+	join = models.DateTimeField(auto_now_add=True)
 	
 	def __str__(self):
-		return str(self.user)+' '+str(self.server)
+		return str(self.user)
+	
+class Network(models.Model):
+	owner = models.ForeignKey(User, on_delete=models.CASCADE)
+	name = models.CharField(max_length=256)
+	discord_servers = models.ManyToManyField('DiscordServer', related_name='network_discord')
+	members = models.ManyToManyField(User, through='NetworkMember', related_name='network_members')
+	banned_users = models.ManyToManyField('DiscordUser', through='Ban', related_name='banned_network_members')
+	
+	def __str__(self):
+		return self.name
+	
+class NetworkMember(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	network = models.ForeignKey('Network', on_delete=models.CASCADE)
+	join = models.DateTimeField(auto_now_add=True)
+	
+	def __str__(self):
+		return self.user.username
+	
+class Ban(models.Model):
+	user = models.ForeignKey('DiscordUser', on_delete=models.CASCADE)
+	discord = models.ForeignKey('DiscordServer', on_delete=models.CASCADE, null=True, blank=True)
+	network = models.ForeignKey('Network', on_delete=models.CASCADE, null=True, blank=True)
+	reason = models.CharField(max_length=140)
+	datetime = models.DateTimeField(auto_now_add=True)
+	
+	def __str__(self):
+		return str(self.user)
+	
+	def clean(self):
+		if (self.discord and self.network) or not (self.discord or self.network):
+			raise ValidationError("You must specify either a server OR a network.")
+			
+class Report(models.Model): # Subject to change
+	reporter = models.CharField(max_length=50)
+	reportee = models.CharField(max_length=50)
+	reason = models.CharField(max_length=256)
+	datetime = models.DateTimeField(auto_now_add=True)
+	

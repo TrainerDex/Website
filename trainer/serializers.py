@@ -1,37 +1,73 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from .models import *
 
-class Faction_Serializer(serializers.ModelSerializer):
+class ExtendedProfileSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Faction
-		fields = '__all__'
-
-class Trainer_Level_Serializer(serializers.ModelSerializer):
-	class Meta:
-		model = Trainer_Level
-		fields = '__all__'
+		model = ExtendedProfile
+		fields = ('dob', )
 		
-class Trainer_Serializer(serializers.ModelSerializer):
-	class Meta:
-		model = Trainer
-		fields = '__all__'
-		
-class Update_Serializer(serializers.ModelSerializer):
+class UpdateSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Update
 		fields = '__all__'
-		
-class Discord_User_Serializer(serializers.ModelSerializer):
+
+class TrainerSerializer(serializers.ModelSerializer):
+	faction = serializers.StringRelatedField()
+	update = serializers.SerializerMethodField()
+	
+	def get_update(self, obj):
+		return UpdateSerializer(obj.update_set.order_by('datetime').last()).data
+	
 	class Meta:
-		model = Discord_User
+		model = Trainer
+		fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+	profiles = TrainerSerializer(many=True, read_only=True)
+	extended_profile = ExtendedProfileSerializer()
+		
+	class Meta:
+		model = User
+		fields = ('id', 'username', 'first_name', 'last_name', 'extended_profile', 'profiles')
+	
+class FactionSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Faction
 		fields = '__all__'
 		
-class Discord_Relation_Serializer(serializers.ModelSerializer):
+class DiscordServerSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Discord_Relation
+		model = DiscordServer
+		fields = '__all__'
+				
+class DiscordUserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = DiscordUser
 		fields = '__all__'
 		
-class Discord_Server_Serializer(serializers.ModelSerializer):
+class DiscordMemberSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Discord_Server
+		model = DiscordMember
+		fields = '__all__'
+		
+
+class NetworkSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Network
+		fields = '__all__'
+		
+class NetworkMemberSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = NetworkMember
+		fields = '__all__'
+		
+class BanSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Ban
+		fields = '__all__'
+
+class ReportSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Report
 		fields = '__all__'
