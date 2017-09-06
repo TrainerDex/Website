@@ -1,14 +1,14 @@
 from rest_framework import serializers
 from .models import *
 
-class Factions_Serializer(serializers.ModelSerializer):
+class Faction_Serializer(serializers.ModelSerializer):
 	class Meta:
-		model = Factions
+		model = Faction
 		fields = '__all__'
 
-class Trainer_Levels_Serializer(serializers.ModelSerializer):
+class Trainer_Level_Serializer(serializers.ModelSerializer):
 	class Meta:
-		model = Trainer_Levels
+		model = Trainer_Level
 		fields = '__all__'
 		
 class Trainer_Serializer(serializers.ModelSerializer):
@@ -16,22 +16,22 @@ class Trainer_Serializer(serializers.ModelSerializer):
 		model = Trainer
 		fields = '__all__'
 		
-class Experience_Serializer(serializers.ModelSerializer):
+class Update_Serializer(serializers.ModelSerializer):
 	class Meta:
-		model = Experience
+		model = Update
 		fields = '__all__'
 		
-class Discord_Users_Serializer(serializers.ModelSerializer):
+class Discord_User_Serializer(serializers.ModelSerializer):
 	class Meta:
-		model = Discord_Users
+		model = Discord_User
 		fields = '__all__'
 		
-class Discord_Relations_Serializer(serializers.ModelSerializer):
+class Discord_Relation_Serializer(serializers.ModelSerializer):
 	class Meta:
-		model = Discord_Relations
+		model = Discord_Relation
 		fields = '__all__'
 		
-class Discord_Servers_Serializer(serializers.ModelSerializer):
+class Discord_Server_Serializer(serializers.ModelSerializer):
 	class Meta:
-		model = Discord_Servers
+		model = Discord_Server
 		fields = '__all__'
