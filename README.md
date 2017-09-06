@@ -1,0 +1,1 @@
+Uses [https://github.com/charettes/django-colorful](django-colorful)
