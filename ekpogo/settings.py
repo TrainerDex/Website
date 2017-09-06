@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'enrollment',
     'gyms',
     'trainer',
+    'colorful',
 ]
 
 MIDDLEWARE = [
