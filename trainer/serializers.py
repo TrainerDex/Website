@@ -8,12 +8,12 @@ class ExtendedProfileSerializer(serializers.ModelSerializer):
 		fields = ('dob', )
 		
 class UpdateSerializer(serializers.ModelSerializer):
+	
 	class Meta:
 		model = Update
 		fields = '__all__'
 
 class TrainerSerializer(serializers.ModelSerializer):
-	faction = serializers.StringRelatedField()
 	update = serializers.SerializerMethodField()
 	
 	def get_update(self, obj):
