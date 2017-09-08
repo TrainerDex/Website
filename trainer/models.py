@@ -87,7 +87,10 @@ class Update(models.Model):
 	pkmn_dragon = models.IntegerField(null=True, blank=True)
 	#Other stats
 	gym_badges = models.IntegerField(null=True, blank=True)
-
+	
+	def __str__(self):
+		return self.trainer.username+' '+str(self.xp)+' '+str(self.datetime)
+	
 class DiscordUser(models.Model):
 	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='discord_account')
 	name = models.CharField(max_length=32)
