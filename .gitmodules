@@ -1,3 +1,3 @@
-[submodule "trainer-api-git"]
-	path = trainer-api-git
+[submodule ".TrainerDex"]
+	path = .TrainerDex
 	url = https://gitlab.home.azelphur.com/PokemonGoEK/trainer-api.git
