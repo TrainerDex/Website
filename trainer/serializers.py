@@ -8,6 +8,7 @@ class ExtendedProfileSerializer(serializers.ModelSerializer):
 		fields = ('dob', )
 		
 class UpdateSerializer(serializers.ModelSerializer):
+#	owner = serializers.ReadOnlyField(source='owner.username')
 	
 	class Meta:
 		model = Update
