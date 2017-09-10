@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'rest_framework',
+    'rest_framework.authtoken',
     'enrollment',
     'gyms',
     'trainer',
@@ -136,4 +137,10 @@ CELERYBEAT_SCHEDULE = {
         "task": "gyms.tasks.update_gyms",
         "schedule": datetime.timedelta(seconds=30),
     },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
 }
