@@ -1,4 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import detail_route
+from rest_framework import permissions
 from django.contrib.auth.models import User
 from .models import *
 from .serializers import *
@@ -18,6 +20,7 @@ class FactionViewSet(ModelViewSet):
 class UpdateViewSet(ModelViewSet):
 	serializer_class = UpdateSerializer
 	queryset = Update.objects.all()
+	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 	
 class DiscordUserViewSet(ModelViewSet):
 	serializer_class = DiscordUserSerializer
