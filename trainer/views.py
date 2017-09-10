@@ -4,6 +4,7 @@ from rest_framework import permissions
 from django.contrib.auth.models import User
 from .models import *
 from .serializers import *
+from .permissions import IsOwnerOrReadOnly
 
 class UserViewSet(ModelViewSet):
 	serializer_class = UserSerializer
@@ -21,6 +22,11 @@ class UpdateViewSet(ModelViewSet):
 	serializer_class = UpdateSerializer
 	queryset = Update.objects.all()
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+#	permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+#						 IsOwnerOrReadOnly,)
+	
+#	def perform_create(self, serializer):
+#		serializer.save(owner=self.request.user)
 	
 class DiscordUserViewSet(ModelViewSet):
 	serializer_class = DiscordUserSerializer

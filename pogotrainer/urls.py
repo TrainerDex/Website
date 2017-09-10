@@ -21,5 +21,6 @@ from rest_framework.authtoken import views
 urlpatterns = [
     url(r'^api/admin/', admin.site.urls),
     url(r"^api/trainer/", include('trainer.urls', namespace="trainer")),
+#    url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
 	url(r'^api-token-auth/', views.obtain_auth_token)
 ]
