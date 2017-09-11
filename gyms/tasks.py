@@ -64,7 +64,6 @@ def update_gyms():
             gym.guard_pokemon_id = monacle_gym.guard_pokemon_id
             gym.id = monacle_gym.id
             gym.last_modified = timezone.make_aware(monacle_gym.last_modified, pytz.utc) if monacle_gym.last_modified else None
-            gym.last_scanned = timezone.make_aware(monacle_gym.last_scanned, pytz.utc) if monacle_gym.last_scanned else None
             gym.longitude = monacle_gym.location[1]
             gym.latitude = monacle_gym.location[0]
             gym.team = monacle_gym.team
