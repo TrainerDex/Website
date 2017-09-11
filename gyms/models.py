@@ -28,6 +28,7 @@ class Gym(models.Model):
         (TEAM_UNCONTESTED, 'Uncontested'),
         (TEAM_MYSTIC, 'Mystic'),
         (TEAM_INSTINCT, 'Instinct'),
+        (TEAM_VALOR, 'Valor'),
     )
 
     enabled = models.BooleanField()
