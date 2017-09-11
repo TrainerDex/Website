@@ -10,12 +10,12 @@ def factionImagePath(instance, filename):
 def leaderImagePath(instance, filename):
 	return os.path.join('media/factionLeader', filename)
 
-class ExtendedProfile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='extended_profile')
-	dob = models.DateField(null=True, blank=True, verbose_name="date of birth")
-	
-	def __str__(self):
-		return self.user.username
+#class ExtendedProfile(models.Model):
+#	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='extended_profile')
+#	dob = models.DateField(null=True, blank=True, verbose_name="date of birth")
+#	
+#	def __str__(self):
+#		return self.user.username
 
 class Trainer(models.Model):
 	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
