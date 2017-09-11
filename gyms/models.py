@@ -31,7 +31,7 @@ class Gym(models.Model):
     )
 
     enabled = models.BooleanField()
-    guard_pokemon_id = models.IntegerField()
+    guard_pokemon_id = models.IntegerField(null=True, blank=True)
     id = models.CharField(max_length=64, primary_key=True)
     last_modified = models.DateTimeField()
     longitude = models.FloatField()

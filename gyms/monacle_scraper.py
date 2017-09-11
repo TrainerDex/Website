@@ -189,7 +189,7 @@ class MonacleScraper(object):
         for gym in gyms_list:
             if gym.get('raid_pokemon_id'):
                 raid_pokemon = Pokemon(
-                    id=gym['raid_pokemon_id'],
+                    id=int(gym['raid_pokemon_id']),
                     name=gym['raid_pokemon_name'],
                     cp=gym['raid_pokemon_cp'],
                     move_1=gym['raid_pokemon_move_1'],
