@@ -46,7 +46,7 @@ class Faction(models.Model):
 
 class Update(models.Model):
 	trainer = models.ForeignKey('Trainer', on_delete=models.CASCADE)
-	datetime = models.DateTimeField(auto_now_add=True, editable=False)
+	datetime = models.DateTimeField(auto_now_add=True)
 	xp = models.IntegerField(verbose_name='Total XP')
 	dex_caught = models.IntegerField(null=True, blank=True)
 	dex_seen = models.IntegerField(null=True, blank=True)
