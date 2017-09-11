@@ -217,11 +217,11 @@ class MonacleScraper(object):
                 enabled=stv(gym['enabled']),
                 guard_pokemon_id=gym['guard_pokemon_id'],
                 id=gym['gym_id'],
-                slots_available=gym['slots_available'],
+                slots_available=int(gym['slots_available']),
                 last_modified=None if gym['last_modified'] == 0 else datetime.datetime.fromtimestamp(gym['last_modified'] / 1000),
                 location=(gym['latitude'], gym['longitude']),
                 name=None, # KentPogoMap doesn't enter gyms for scanning currently
-                team=gym['team_id'],
+                team=int(gym['team_id']),
                 team_name=TEAM_NAMES[int(gym['team_id'])],
                 pokemon=[], # KentPogoMap doesn't enter gyms for scanning currently
                 total_gym_cp=None,
