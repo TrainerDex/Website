@@ -64,7 +64,6 @@ Gym = namedtuple('Gym', [
     'id',
     'slots_available',
     'last_modified',
-    'last_scanned',
     'location',
     'name',
     'team',
@@ -220,7 +219,6 @@ class MonacleScraper(object):
                 id=gym['gym_id'],
                 slots_available=gym['slots_available'],
                 last_modified=None if gym['last_modified'] == 0 else datetime.datetime.fromtimestamp(gym['last_modified'] / 1000),
-                last_scanned=stv(gym['last_scanned']),
                 location=(gym['latitude'], gym['longitude']),
                 name=None, # KentPogoMap doesn't enter gyms for scanning currently
                 team=gym['team_id'],
