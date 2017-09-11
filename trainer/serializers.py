@@ -26,11 +26,11 @@ class TrainerSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
 	profiles = TrainerSerializer(many=True, read_only=True)
-	extended_profile = ExtendedProfileSerializer()
+#	extended_profile = ExtendedProfileSerializer()
 		
 	class Meta:
 		model = User
-		fields = ('id', 'username', 'first_name', 'last_name', 'extended_profile', 'profiles')
+		fields = ('id', 'username', 'first_name', 'last_name', 'profiles')
 	
 class FactionSerializer(serializers.ModelSerializer):
 	class Meta:
