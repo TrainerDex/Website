@@ -225,7 +225,7 @@ class MonacleScraper(object):
                 team_name=TEAM_NAMES[int(gym['team_id'])],
                 pokemon=[], # KentPogoMap doesn't enter gyms for scanning currently
                 total_gym_cp=None,
-                raid_level=int(gym.get('raid_level')),
+                raid_level=int(gym['raid_level']) if gym['raid_level'] else None,
                 raid_pokemon=raid_pokemon,
                 raid_start=raid_start,
                 raid_end=raid_end
