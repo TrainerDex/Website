@@ -222,7 +222,7 @@ class MonacleScraper(object):
                 location=(gym['latitude'], gym['longitude']),
                 name=None, # KentPogoMap doesn't enter gyms for scanning currently
                 team=gym['team_id'],
-                team_name=TEAM_NAMES[gym['team_id']],
+                team_name=TEAM_NAMES[int(gym['team_id'])],
                 pokemon=[], # KentPogoMap doesn't enter gyms for scanning currently
                 total_gym_cp=None,
                 raid_level=gym.get('raid_level'),
