@@ -5,10 +5,9 @@ from django.contrib.auth.models import User
 from colorful.fields import RGBColorField
 
 def factionImagePath(instance, filename):
-	return os.path.join('media/factionLogo', filename)
+	return os.path.join('media/teams', filename)
 
-def leaderImagePath(instance, filename):
-	return os.path.join('media/factionLeader', filename)
+leaderImagePath = factionImagePath
 
 class ExtendedProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='extended_profile')
@@ -39,7 +38,7 @@ class Faction(models.Model):
 	colour = RGBColorField(default='#929292', null=True, blank=True)
 	image = models.ImageField(upload_to=factionImagePath, blank=True, null=True)
 	leader_name = models.CharField(max_length=140, null=True, blank=True)
-	leader_image = models.ImageField(upload_to=leaderImagePath, blank=True, null=True)
+	leader_image = models.ImageField(upload_to=factionImagePath, blank=True, null=True)
 	
 	def __str__(self):
 		return self.name
