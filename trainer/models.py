@@ -19,7 +19,7 @@ class ExtendedProfile(models.Model):
 
 class Trainer(models.Model):
 	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
-	username = models.CharField(max_length=30, unique=True, primary_key=True)
+	username = models.CharField(max_length=30, unique=True)
 	start_date = models.DateField(default=date(2016,7,13), null=True, blank=True)
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, null=True, verbose_name="team")
 	has_cheated = models.BooleanField(default=False)
