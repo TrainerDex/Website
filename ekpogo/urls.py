@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework.authtoken import views
 
 api_v01_patterns = [
     url(r"^enrollment/", include('enrollment.urls', namespace="enrollment")),
@@ -23,5 +25,7 @@ api_v01_patterns = [
 
 urlpatterns = [
     url(r"^api/0.1/", include(api_v01_patterns, namespace="api_v01")),
-    url(r'^api/admin/', admin.site.urls),
+    url(r"^api/admin/", admin.site.urls),
+    url(r"^api/trainer/", include('trainer.urls', namespace="trainer")),
+    url(r'^api-token-auth/', views.obtain_auth_token)
 ]
