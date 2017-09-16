@@ -64,7 +64,6 @@ def update_gyms():
             gym.guard_pokemon_id = monacle_gym.guard_pokemon_id
             gym.id = monacle_gym.id
             gym.last_modified = timezone.make_aware(monacle_gym.last_modified, pytz.utc) if monacle_gym.last_modified else None
-            gym.last_scanned = timezone.make_aware(monacle_gym.last_scanned, pytz.utc) if monacle_gym.last_scanned else None
             gym.longitude = monacle_gym.location[1]
             gym.latitude = monacle_gym.location[0]
             gym.team = monacle_gym.team
@@ -89,7 +88,6 @@ def update_gyms():
             if not gym.notification_sent_at:
                 gym.notification_sent_at = timezone.now()
             if gym.town and gym.is_raid_active() and gym.notification_sent_at < gym.raid_start and gym.raid_level >= 4:
-                gym.notification_sent_at = timezone.now()
                 data = {
                     'embeds': [{
                         'title': '{} raid available at {}'.format(gym.raid_pokemon_name, gym.name),
@@ -103,8 +101,9 @@ def update_gyms():
                         }
                     }]
                 }
-                if hasattr(gym.town, 'discord_webhook') and gym.town.discord_webhook:
-                    send_discord_webhook.delay(gym.town.discord_webhook, data)
+                if hasattr(gym.town, 'gym_discord_webhook_url') and gym.town.gym_discord_webhook_url:
+                    send_discord_webhook.delay(gym.town.gym_discord_webhook_url, data)
+                    gym.notification_sent_at = timezone.now()
 
             if old_gym != model_to_dict(gym):
                 gym.save()

@@ -64,7 +64,6 @@ Gym = namedtuple('Gym', [
     'id',
     'slots_available',
     'last_modified',
-    'last_scanned',
     'location',
     'name',
     'team',
@@ -190,7 +189,7 @@ class MonacleScraper(object):
         for gym in gyms_list:
             if gym.get('raid_pokemon_id'):
                 raid_pokemon = Pokemon(
-                    id=gym['raid_pokemon_id'],
+                    id=int(gym['raid_pokemon_id']),
                     name=gym['raid_pokemon_name'],
                     cp=gym['raid_pokemon_cp'],
                     move_1=gym['raid_pokemon_move_1'],
@@ -218,16 +217,15 @@ class MonacleScraper(object):
                 enabled=stv(gym['enabled']),
                 guard_pokemon_id=gym['guard_pokemon_id'],
                 id=gym['gym_id'],
-                slots_available=gym['slots_available'],
+                slots_available=int(gym['slots_available']),
                 last_modified=None if gym['last_modified'] == 0 else datetime.datetime.fromtimestamp(gym['last_modified'] / 1000),
-                last_scanned=stv(gym['last_scanned']),
                 location=(gym['latitude'], gym['longitude']),
                 name=None, # KentPogoMap doesn't enter gyms for scanning currently
-                team=gym['team_id'],
-                team_name=TEAM_NAMES[gym['team_id']],
+                team=int(gym['team_id']),
+                team_name=TEAM_NAMES[int(gym['team_id'])],
                 pokemon=[], # KentPogoMap doesn't enter gyms for scanning currently
                 total_gym_cp=None,
-                raid_level=gym.get('raid_level'),
+                raid_level=int(gym['raid_level']) if gym['raid_level'] else None,
                 raid_pokemon=raid_pokemon,
                 raid_start=raid_start,
                 raid_end=raid_end
