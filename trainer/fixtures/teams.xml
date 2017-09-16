@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+	<object model="trainer.faction" pk="0">
+		<field name="name" type="CharField">Teamless</field>
+		<field name="colour" type="CharField">#929292</field>
+		<field name="image" type="FileField">media/defaults/TeamLess.png</field>
+		<field name="leader_name" type="CharField"><None></None></field>
+		<field name="leader_image" type="FileField"></field>
+	</object>
+	<object model="trainer.faction" pk="1">
+		<field name="name" type="CharField">Mystic</field>
+		<field name="colour" type="CharField">#0005ff</field>
+		<field name="image" type="FileField">media/defaults/team_blue.png</field>
+		<field name="leader_name" type="CharField">Blanche</field>
+		<field name="leader_image" type="FileField">media/defaults/team_leader_blue.png</field>
+	</object>
+	<object model="trainer.faction" pk="2">
+		<field name="name" type="CharField">Valor</field>
+		<field name="colour" type="CharField">#ff0000</field>
+		<field name="image" type="FileField">media/defaults/team_red.png</field>
+		<field name="leader_name" type="CharField">Candela</field>
+		<field name="leader_image" type="FileField">media/defaults/team_leader_red.png</field>
+	</object>
+	<object model="trainer.faction" pk="3">
+		<field name="name" type="CharField">Instinct</field>
+		<field name="colour" type="CharField">#fff600</field>
+		<field name="image" type="FileField">media/defaults/team_yellow.png</field>
+		<field name="leader_name" type="CharField">Spark</field>
+		<field name="leader_image" type="FileField">media/defaults/team_leader_yellow.png</field>
+	</object>
+</django-objects>

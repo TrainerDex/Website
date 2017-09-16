@@ -1,0 +1,4 @@
+Django==1.10.7
+django_colorful==1.2
+colorful==0.4.0
+djangorestframework==3.6.4
