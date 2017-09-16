@@ -94,7 +94,7 @@ class DiscordUser(models.Model):
 	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='discord_account')
 	name = models.CharField(max_length=32)
 	discriminator = models.CharField(max_length=4, blank=False)
-	id = models.CharField(max_length=4, primary_key=True)
+	id = models.CharField(max_length=20, primary_key=True)
 	avatar_url = models.URLField()
 	creation = models.DateTimeField()
 	
