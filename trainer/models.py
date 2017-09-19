@@ -32,6 +32,9 @@ class Trainer(models.Model):
 	
 	def __str__(self):
 		return self.username
+	
+	class Meta:
+		ordering = ['username']
 
 class Faction(models.Model):
 	name = models.CharField(max_length=140)
@@ -90,6 +93,10 @@ class Update(models.Model):
 	def __str__(self):
 		return self.trainer.username+' '+str(self.xp)+' '+str(self.datetime)
 	
+	class Meta:
+		get_latest_by = 'datetime'
+		ordering = ['datetime']
+	
 class DiscordUser(models.Model):
 	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='discord_account')
 	name = models.CharField(max_length=32)
@@ -100,6 +107,9 @@ class DiscordUser(models.Model):
 	
 	def __str__(self):
 		return self.name+'#'+str(self.discriminator)
+	
+	class Meta:
+		ordering = ['name']
 
 class DiscordServer(models.Model):
 	name = models.CharField(max_length=256)
