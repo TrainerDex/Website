@@ -2,6 +2,7 @@ import os
 from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import *
 from colorful.fields import RGBColorField
 
 def factionImagePath(instance, filename):
@@ -15,6 +16,12 @@ class ExtendedProfile(models.Model):
 	
 	def __str__(self):
 		return self.user.username
+	
+def create_user_profile(sender, instance, created, **kwargs):
+	if created:
+		ExtendedProfile.objects.create(user=instance)
+		
+post_save.connect(create_user_profile, sender=User)
 
 class Trainer(models.Model):
 	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
