@@ -17,10 +17,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
+from ajax_select import urls as ajax_select_urls
 
 urlpatterns = [
     url(r'^api/admin/', admin.site.urls),
     url(r"^api/trainer/", include('trainer.urls', namespace="trainer")),
 #    url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
-	url(r'^api-token-auth/', views.obtain_auth_token)
+    url(r'^api-token-auth/', views.obtain_auth_token),
+    url(r'^ajax_select/', include(ajax_select_urls)),
 ]

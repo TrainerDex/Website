@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 	'rest_framework.authtoken',
 	'trainer',
     'colorful',
+	'ajax_select'
 ]
 
 MIDDLEWARE = [
