@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from colorful.fields import RGBColorField
 
 def factionImagePath(instance, filename):
-	return os.path.join('media/teams', filename)
+	return os.path.join('trainer/media/teams', filename)
 
 leaderImagePath = factionImagePath
 
