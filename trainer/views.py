@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import detail_route
 from rest_framework import permissions
