@@ -24,7 +24,7 @@ class FactionViewSet(ModelViewSet):
 
 class UpdateViewSet(ModelViewSet):
 	serializer_class = UpdateSerializer
-	queryset = Update.objects.all()
+	queryset = Update.objects.order_by('-datetime').all()
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 #	permission_classes = (permissions.IsAuthenticatedOrReadOnly,
 #						 IsOwnerOrReadOnly,)
