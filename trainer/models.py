@@ -76,6 +76,7 @@ class Update(models.Model):
 	pikachu_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name="pikachu fan")
 	unown_alphabet = models.PositiveIntegerField(null=True, blank=True, verbose_name="unown")
 	raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name="champion")
+	gen_3_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name="hoenn")
 	#Pokemon-demographics
 	pkmn_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name="schoolkid")
 	pkmn_flying = models.PositiveIntegerField(null=True, blank=True, verbose_name="bird keeper")
