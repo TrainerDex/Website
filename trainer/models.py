@@ -37,6 +37,15 @@ class Trainer(models.Model):
 	total_goal = models.PositiveIntegerField(null=True, blank=True)
 	last_modified = models.DateTimeField(auto_now=True)
 	prefered = models.BooleanField(default=True, verbose_name="main profile")
+	go_fest_2017 = models.BooleanField(default=False, verbose_name="Pokémon GO Fest Chicago")
+	outbreak_2017 = models.BooleanField(default=False, verbose_name="Pikachu Outbreak 2017")
+	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name="Safari Zone - Oberhausen, Germany")
+	safari_zone_2017_paris = models.BooleanField(default=False, verbose_name="Safari Zone - Paris, France")
+	safari_zone_2017_barcelona = models.BooleanField(default=False, verbose_name="Safari Zone - Barcelona, Spain")
+	safari_zone_2017_copenhagen = models.BooleanField(default=False, verbose_name="Safari Zone - Copenhagen, Denmark")
+	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name="Safari Zone - Prague, Czechia")
+	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name="Safari Zone - Stockholm, Sweden")
+	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name="Safari Zone - Amstelveen, The Netherlands")
 	
 	def __str__(self):
 		return self.username
@@ -98,15 +107,6 @@ class Update(models.Model):
 	pkmn_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name="dragon tamer")
 	#Badges
 	gym_badges = models.PositiveIntegerField(null=True, blank=True)
-	go_fest_2017 = models.BooleanField(default=False, verbose_name="Pokémon GO Fest Chicago")
-	outbreak_2017 = models.BooleanField(default=False, verbose_name="Pikachu Outbreak 2017")
-	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name="Safari Zone - Oberhausen, Germany")
-	safari_zone_2017_paris = models.BooleanField(default=False, verbose_name="Safari Zone - Paris, France")
-	safari_zone_2017_barcelona = models.BooleanField(default=False, verbose_name="Safari Zone - Barcelona, Spain")
-	safari_zone_2017_copenhagen = models.BooleanField(default=False, verbose_name="Safari Zone - Copenhagen, Denmark")
-	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name="Safari Zone - Prague, Czechia")
-	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name="Safari Zone - Stockholm, Sweden")
-	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name="Safari Zone - Amstelveen, The Netherlands")
 	
 	def __str__(self):
 		return self.trainer.username+' '+str(self.xp)+' '+str(self.datetime)
