@@ -60,7 +60,7 @@ class Update(models.Model):
 	xp = models.PositiveIntegerField(verbose_name='Total XP')
 	dex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name="seen")
 	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name="caught")
-	walk_dist = models.DecimalField(max_digits=16, decimal_places=1, null=True, blank=True, verbose_name="jogger")
+	walk_dist = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True, verbose_name="jogger")
 	gen_1_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name="kanto")
 	pkmn_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name="collector")
 	pkmn_evolved = models.PositiveIntegerField(null=True, blank=True, verbose_name="scientist")
