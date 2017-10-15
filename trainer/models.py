@@ -110,7 +110,7 @@ class DiscordUser(models.Model):
 	name = models.CharField(max_length=32)
 	discriminator = models.CharField(max_length=4, blank=False)
 	id = models.CharField(max_length=20, primary_key=True, verbose_name="ID")
-	avatar_url = models.URLField()
+	avatar_url = models.URLField(null=True, blank=True)
 	creation = models.DateTimeField()
 	
 	def __str__(self):
@@ -123,7 +123,7 @@ class DiscordServer(models.Model):
 	name = models.CharField(max_length=256)
 	region = models.CharField(max_length=256)
 	id = models.CharField(max_length=256, primary_key=True, verbose_name="ID")
-	icon = models.CharField(max_length=256)
+	icon = models.CharField(max_length=256, null=True, blank=True)
 	owner = models.ForeignKey('DiscordUser', on_delete=models.SET_NULL, null=True, blank=True)
 	members = models.ManyToManyField('DiscordUser', through='DiscordMember', related_name='discord_members')
 	bans_cheaters = models.BooleanField(default=True)
