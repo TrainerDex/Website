@@ -13,10 +13,10 @@ admin.site.register(Report)
 class XUserInline(admin.StackedInline):
 	model = ExtendedProfile
 	can_delete = False
-	
+
 class UserAdmin(BaseUserAdmin):
 	inlines = (XUserInline,)
-	
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
@@ -26,14 +26,14 @@ class UpdateAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(Update, {
 		'trainer': 'trainer'
 	})
-	
+
 @admin.register(Trainer)
 class TrainerAdmin(AjaxSelectAdmin):
 	
 	form = make_ajax_form(Trainer, {
 		'account': 'user'
 	})
-	
+
 @admin.register(Network)
 class NetworkAdmin(AjaxSelectAdmin):
 	
@@ -41,7 +41,7 @@ class NetworkAdmin(AjaxSelectAdmin):
 		'owner': 'user',
 		'discord_servers': 'discord_server'
 	})
-	
+
 @admin.register(NetworkMember)
 class NetworkMemberAdmin(AjaxSelectAdmin):
 	
@@ -49,21 +49,21 @@ class NetworkMemberAdmin(AjaxSelectAdmin):
 		'user': 'user',
 		'network': 'network'
 	})
-	
+
 @admin.register(DiscordUser)
 class DiscordUserAdmin(AjaxSelectAdmin):
 	
 	form = make_ajax_form(DiscordUser, {
 		'account': 'user'
 	})
-	
+
 @admin.register(DiscordServer)
 class DiscordServerAdmin(AjaxSelectAdmin):
 	
 	form = make_ajax_form(DiscordServer, {
 		'owner': 'user'
 	})
-	
+
 @admin.register(DiscordMember)
 class DiscordMemberAdmin(AjaxSelectAdmin):
 	
@@ -71,7 +71,7 @@ class DiscordMemberAdmin(AjaxSelectAdmin):
 		'user': 'user',
 		'server': 'discord_server'
 	})
-	
+
 @admin.register(Ban)
 class BanAdmin(AjaxSelectAdmin):
 	
