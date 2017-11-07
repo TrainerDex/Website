@@ -1,13 +1,13 @@
 ﻿# -*- coding: utf-8 -*-
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import *
+from trainer.models import *
 
 class ExtendedProfileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ExtendedProfile
 		fields = ('dob', )
-		
+
 class UpdateSerializer(serializers.ModelSerializer):
 	
 	class Meta:
@@ -35,22 +35,22 @@ class UserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = ('id', 'username', 'first_name', 'last_name', 'profiles')
-	
+
 class FactionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Faction
 		fields = '__all__'
-		
+
 class DiscordServerSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = DiscordServer
 		fields = '__all__'
-				
+
 class DiscordUserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = DiscordUser
 		fields = '__all__'
-		
+
 class DiscordMemberSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = DiscordMember
@@ -61,12 +61,12 @@ class NetworkSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Network
 		fields = '__all__'
-		
+
 class NetworkMemberSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = NetworkMember
 		fields = '__all__'
-		
+
 class BanSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Ban
