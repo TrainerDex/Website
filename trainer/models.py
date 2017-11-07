@@ -18,16 +18,16 @@ class ExtendedProfile(models.Model):
 	def __str__(self):
 		return self.user.username
 	
-def create_user_profile(sender, instance, created, **kwargs):
-	if created:
-		ExtendedProfile.objects.create(user=instance)
-		
-post_save.connect(create_user_profile, sender=User)
+	def create_user_profile(sender, instance, created, **kwargs):
+		if created:
+			ExtendedProfile.objects.create(user=instance)
+			
+	post_save.connect(create_user_profile, sender=User)
 
 class Trainer(models.Model):
 	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
 	username = models.CharField(max_length=30, unique=True)
-	start_date = models.DateField(default=date(2016,7,13), null=True, blank=True)
+	start_date = models.DateField(null=True, blank=True)
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, null=True, verbose_name="team")
 	has_cheated = models.BooleanField(default=False, verbose_name="known to have spoofed")
 	last_cheated = models.DateField(null=True, blank=True)
@@ -115,7 +115,7 @@ class Update(models.Model):
 	class Meta:
 		get_latest_by = 'datetime'
 		ordering = ['-datetime']
-	
+
 class DiscordUser(models.Model):
 	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='discord_account')
 	name = models.CharField(max_length=32)
@@ -152,7 +152,7 @@ class DiscordMember(models.Model):
 	
 	def __str__(self):
 		return str(self.user)
-	
+
 class Network(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=256)
@@ -162,7 +162,7 @@ class Network(models.Model):
 	
 	def __str__(self):
 		return self.name
-	
+
 class NetworkMember(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	network = models.ForeignKey('Network', on_delete=models.CASCADE)
@@ -170,7 +170,7 @@ class NetworkMember(models.Model):
 	
 	def __str__(self):
 		return self.user.username
-	
+
 class Ban(models.Model):
 	user = models.ForeignKey('DiscordUser', on_delete=models.CASCADE)
 	discord = models.ForeignKey('DiscordServer', on_delete=models.CASCADE, null=True, blank=True)
@@ -184,10 +184,9 @@ class Ban(models.Model):
 	def clean(self):
 		if (self.discord and self.network) or not (self.discord or self.network):
 			raise ValidationError("You must specify either a server OR a network.")
-			
+
 class Report(models.Model): # Subject to change
 	reporter = models.CharField(max_length=50)
 	reportee = models.CharField(max_length=50)
 	reason = models.CharField(max_length=256)
 	datetime = models.DateTimeField(auto_now_add=True)
-	

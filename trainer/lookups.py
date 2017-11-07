@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 from ajax_select import register, LookupChannel
-from .models import *
+from trainer.models import *
 from django.contrib.auth.models import User
 
 @register('trainer')
@@ -13,7 +13,7 @@ class TrainerLookup(LookupChannel):
 	
 	def format_item_display(self, item):
 		return u"<span class='tag'>%s</span>" % item.username
-	
+
 @register('user')
 class UserLookup(LookupChannel):
 	
@@ -35,7 +35,7 @@ class DiscordUserLookup(LookupChannel):
 	
 	def format_item_display(self, item):
 		return u"<span class='tag'>%s</span>" % item.name+'#'+item.discriminator
-	
+
 @register('discord_server')
 class DiscordServerLookup(LookupChannel):
 	
@@ -46,7 +46,7 @@ class DiscordServerLookup(LookupChannel):
 	
 	def format_item_display(self, item):
 		return u"<span class='tag'>%s</span>" % item.name
-	
+
 @register('network')
 class NetworkLookup(LookupChannel):
 	
@@ -57,4 +57,3 @@ class NetworkLookup(LookupChannel):
 	
 	def format_item_display(self, item):
 		return u"<span class='tag'>%s</span>" % item.name
-	
