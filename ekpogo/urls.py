@@ -30,4 +30,5 @@ urlpatterns = [
     url(r"^api/trainer/", include('trainer.urls', namespace="trainer")),
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^ajax_select/', include(ajax_select_urls)),
+    url(r'^accounts/', include('allauth.urls')),
 ]
