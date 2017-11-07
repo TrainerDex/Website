@@ -27,7 +27,7 @@ class ExtendedProfile(models.Model):
 class Trainer(models.Model):
 	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
 	username = models.CharField(max_length=30, unique=True)
-	start_date = models.DateField(default=date(2016,7,13), null=True, blank=True)
+	start_date = models.DateField(null=True, blank=True)
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, null=True, verbose_name="team")
 	has_cheated = models.BooleanField(default=False, verbose_name="known to have spoofed")
 	last_cheated = models.DateField(null=True, blank=True)
