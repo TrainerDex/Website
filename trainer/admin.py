@@ -27,7 +27,7 @@ class UpdateAdmin(AjaxSelectAdmin):
 		'trainer': 'trainer'
 	})
 	list_display = ('trainer', 'xp', 'datetime')
-	search_fields = ('trainer.username', 'trainer.account.username')
+	search_fields = ('trainer__username', 'trainer__account__username')
 	ordering = ('-datetime',)
 	
 @admin.register(Trainer)
@@ -38,7 +38,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 	})
 	list_display = ('username', 'faction', 'currently_cheats', 'statistics')
 	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'prefered')
-	search_fields = ('username', 'account.username.', 'account.first_name', 'account.last_name', 'faction')
+	search_fields = ('username', 'account__username', 'account__first_name', 'faction__name')
 	ordering = ('username',)
 	
 @admin.register(Network)
