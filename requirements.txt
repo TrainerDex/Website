@@ -23,3 +23,4 @@ vine==1.1.4
 arrow==0.10.0
 django_colorful==1.2
 Pillow==4.2.1
+django-ajax-selects==1.6.1
