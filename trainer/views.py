@@ -1,9 +1,10 @@
 ﻿# -*- coding: utf-8 -*-
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.decorators import detail_route
 from rest_framework import permissions
 from django.contrib.auth.models import User
 from trainer.models import *
+from allauth.socialaccount.models import SocialAccount
 from trainer.serializers import *
 from trainer.permissions import IsOwnerOrReadOnly
 
@@ -32,37 +33,12 @@ class UpdateViewSet(ModelViewSet):
 #	def perform_create(self, serializer):
 #		serializer.save(owner=self.request.user)
 
-class DiscordUserViewSet(ModelViewSet):
+class DiscordUserViewSet(ReadOnlyModelViewSet):
 	serializer_class = DiscordUserSerializer
-	queryset = DiscordUser.objects.all()
+	queryset = SocialAccount.objects.filter(provider='discord')
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class DiscordServerViewSet(ModelViewSet):
 	serializer_class = DiscordServerSerializer
 	queryset = DiscordServer.objects.all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-class DiscordMemberViewSet(ModelViewSet):
-	serializer_class = DiscordMemberSerializer
-	queryset = DiscordMember.objects.all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-class NetworkViewSet(ModelViewSet):
-	serializer_class = NetworkSerializer
-	queryset = Network.objects.all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-class NetworkMemberViewSet(ModelViewSet):
-	serializer_class = NetworkMemberSerializer
-	queryset = NetworkMember.objects.all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-class BanViewSet(ModelViewSet):
-	serializer_class = BanSerializer
-	queryset = Ban.objects.all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-class ReportViewSet(ModelViewSet):
-	serializer_class = ReportSerializer
-	queryset = Report.objects.all()
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

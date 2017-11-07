@@ -46,14 +46,3 @@ class DiscordServerLookup(LookupChannel):
 	
 	def format_item_display(self, item):
 		return u"<span class='tag'>%s</span>" % item.name
-
-@register('network')
-class NetworkLookup(LookupChannel):
-	
-	model = Network
-	
-	def get_query(self, q, request):
-		return self.model.objects.filter(name__icontains=q)
-	
-	def format_item_display(self, item):
-		return u"<span class='tag'>%s</span>" % item.name
