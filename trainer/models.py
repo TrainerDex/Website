@@ -116,26 +116,12 @@ class Update(models.Model):
 		get_latest_by = 'datetime'
 		ordering = ['-datetime']
 
-class DiscordUser(models.Model):
-	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='discord_account')
-	name = models.CharField(max_length=32)
-	discriminator = models.CharField(max_length=4, blank=False)
-	id = models.CharField(max_length=20, primary_key=True, verbose_name="ID")
-	avatar_url = models.URLField(null=True, blank=True)
-	creation = models.DateTimeField()
-	
-	def __str__(self):
-		return self.name+'#'+str(self.discriminator)
-	
-	class Meta:
-		ordering = ['name']
-
 class DiscordServer(models.Model):
 	name = models.CharField(max_length=256)
 	region = models.CharField(max_length=256)
 	id = models.CharField(max_length=256, primary_key=True, verbose_name="ID")
 	icon = models.CharField(max_length=256, null=True, blank=True)
-	owner = models.ForeignKey(DiscordUser, on_delete=models.SET_NULL, null=True, blank=True)
+	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 	bans_cheaters = models.BooleanField(default=True)
 	seg_cheaters = models.BooleanField(default=False, verbose_name="segregates cheaters")
 	bans_minors = models.BooleanField(default=False)
