@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -26,14 +26,16 @@ class UpdateAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(Update, {
 		'trainer': 'trainer'
 	})
-
+	search_fields = ['trainer.username']
+	
 @admin.register(Trainer)
 class TrainerAdmin(AjaxSelectAdmin):
 	
 	form = make_ajax_form(Trainer, {
 		'account': 'user'
 	})
-
+	search_fields = ['username']
+	
 @admin.register(Network)
 class NetworkAdmin(AjaxSelectAdmin):
 	
