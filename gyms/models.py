@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.gis.db import models
 from timezone_field import TimeZoneField
 from django.core.validators import validate_comma_separated_integer_list
+from trainer.models import Faction
 
 class Town(models.Model):
     name = models.CharField(max_length=64)
@@ -19,18 +20,6 @@ class Town(models.Model):
 
 
 class Gym(models.Model):
-    TEAM_UNCONTESTED = 0
-    TEAM_MYSTIC = 1
-    TEAM_VALOR = 2
-    TEAM_INSTINCT = 3
-
-    TEAM_CHOICES = (
-        (TEAM_UNCONTESTED, 'Uncontested'),
-        (TEAM_MYSTIC, 'Mystic'),
-        (TEAM_INSTINCT, 'Instinct'),
-        (TEAM_VALOR, 'Valor'),
-    )
-
     enabled = models.BooleanField()
     guard_pokemon_id = models.IntegerField(null=True, blank=True)
     id = models.CharField(max_length=64, primary_key=True)
@@ -41,7 +30,7 @@ class Gym(models.Model):
     description = models.TextField(null=True, blank=True)
     image = models.URLField(null=True, blank=True)
     
-    team = models.IntegerField(choices=TEAM_CHOICES)
+    team = models.ForeignKey(Faction, on_delete=models.SET_DEFAULT, default=0)
     slots_available = models.IntegerField()
     raid_start = models.DateTimeField(null=True, blank=True)
     raid_end = models.DateTimeField(null=True, blank=True)
