@@ -1,6 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
 from rest_framework.routers import SimpleRouter
-
 from trainer.views import *
 
 router = SimpleRouter()
