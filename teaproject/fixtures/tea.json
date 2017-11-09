@@ -1,0 +1,272 @@
+[
+{
+  "model": "teaproject.tea",
+  "pk": 1,
+  "fields": {
+    "name": "Yorkshire",
+    "green": false
+  }
+},
+{
+  "model": "teaproject.tea",
+  "pk": 2,
+  "fields": {
+    "name": "Yorkshire Gold",
+    "green": false
+  }
+},
+{
+  "model": "teaproject.tea",
+  "pk": 3,
+  "fields": {
+    "name": "Eros",
+    "green": false
+  }
+},
+{
+  "model": "teaproject.sweetener",
+  "pk": 2,
+  "fields": {
+    "name": "Sugar",
+    "cube": false,
+    "packet": false
+  }
+},
+{
+  "model": "teaproject.sweetener",
+  "pk": 5,
+  "fields": {
+    "name": "Sugar",
+    "cube": true,
+    "packet": false
+  }
+},
+{
+  "model": "teaproject.sweetener",
+  "pk": 6,
+  "fields": {
+    "name": "Sugar",
+    "cube": false,
+    "packet": true
+  }
+},
+{
+  "model": "teaproject.sweetener",
+  "pk": 7,
+  "fields": {
+    "name": "Sweetener",
+    "cube": false,
+    "packet": true
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#964e28",
+  "fields": {
+    "name": "Mr Tea"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#9c581b",
+  "fields": {
+    "name": "Iron Brew"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#a35024",
+  "fields": {
+    "name": "Peanut Safari"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#b69670",
+  "fields": {
+    "name": "Mountain Chimp"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#b86b37",
+  "fields": {
+    "name": "Burnt Toffee"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#c07e4e",
+  "fields": {
+    "name": "Midnight Savannah"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#d56f0b",
+  "fields": {
+    "name": "Nigerian Sunset"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#d8ad7a",
+  "fields": {
+    "name": "Devon Tan"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#dbcbbb",
+  "fields": {
+    "name": "Earl Gravy"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#e1af74",
+  "fields": {
+    "name": "Tio De Janeiro"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#e6bc8a",
+  "fields": {
+    "name": "Brown Zero"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#f2b153",
+  "fields": {
+    "name": "Brew Ha Ha"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#f2c175",
+  "fields": {
+    "name": "Colonel Mustard"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#f4ba94",
+  "fields": {
+    "name": "Strip Teas"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#f9a859",
+  "fields": {
+    "name": "Cuppa Cabana"
+  }
+},
+{
+  "model": "teaproject.colour",
+  "pk": "#fcecdc",
+  "fields": {
+    "name": "Skimmed Alive"
+  }
+},
+{
+  "model": "teaproject.cuppa",
+  "pk": 1,
+  "fields": {
+    "drinker": 2,
+    "tea": 2,
+    "datetime": "2017-11-05T12:13:00Z",
+    "sweetener_amt": 0,
+    "sweetener_type": null,
+    "colour": "#e1af74",
+    "iswaterhard": true,
+    "isbought": false
+  }
+},
+{
+  "model": "teaproject.cuppa",
+  "pk": 2,
+  "fields": {
+    "drinker": 2,
+    "tea": 2,
+    "datetime": "2017-11-05T17:05:35Z",
+    "sweetener_amt": 0,
+    "sweetener_type": null,
+    "colour": "#d8ad7a",
+    "iswaterhard": true,
+    "isbought": false
+  }
+},
+{
+  "model": "teaproject.cuppa",
+  "pk": 3,
+  "fields": {
+    "drinker": 2,
+    "tea": 3,
+    "datetime": "2017-11-06T09:34:47Z",
+    "sweetener_amt": 1,
+    "sweetener_type": 7,
+    "colour": "#d8ad7a",
+    "iswaterhard": true,
+    "isbought": true
+  }
+},
+{
+  "model": "teaproject.cuppa",
+  "pk": 4,
+  "fields": {
+    "drinker": 2,
+    "tea": 2,
+    "datetime": "2017-11-06T18:57:25Z",
+    "sweetener_amt": 0,
+    "sweetener_type": null,
+    "colour": "#c07e4e",
+    "iswaterhard": true,
+    "isbought": false
+  }
+},
+{
+  "model": "teaproject.cuppa",
+  "pk": 5,
+  "fields": {
+    "drinker": 2,
+    "tea": 2,
+    "datetime": "2017-11-07T10:00:00Z",
+    "sweetener_amt": 0,
+    "sweetener_type": null,
+    "colour": null,
+    "iswaterhard": true,
+    "isbought": false
+  }
+},
+{
+  "model": "teaproject.cuppa",
+  "pk": 6,
+  "fields": {
+    "drinker": 2,
+    "tea": 2,
+    "datetime": "2017-11-07T13:26:25Z",
+    "sweetener_amt": 0,
+    "sweetener_type": null,
+    "colour": "#d8ad7a",
+    "iswaterhard": true,
+    "isbought": false
+  }
+},
+{
+  "model": "teaproject.cuppa",
+  "pk": 7,
+  "fields": {
+    "drinker": 2,
+    "tea": 3,
+    "datetime": "2017-11-07T15:50:50Z",
+    "sweetener_amt": 1,
+    "sweetener_type": 7,
+    "colour": "#b86b37",
+    "iswaterhard": true,
+    "isbought": true
+  }
+}
+]
