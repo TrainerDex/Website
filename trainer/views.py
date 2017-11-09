@@ -40,5 +40,10 @@ class DiscordUserViewSet(ReadOnlyModelViewSet):
 
 class DiscordServerViewSet(ModelViewSet):
 	serializer_class = DiscordServerSerializer
-	queryset = DiscordServer.objects.all()
+	queryset = DiscordGuild.objects.all()
+	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+class DiscordGuildViewSet(ModelViewSet):
+	serializer_class = DiscordGuildSerializer
+	queryset = DiscordGuild.objects.all()
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

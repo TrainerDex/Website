@@ -116,7 +116,7 @@ class Update(models.Model):
 		get_latest_by = 'datetime'
 		ordering = ['-datetime']
 
-class DiscordServer(models.Model):
+class DiscordGuild(models.Model):
 	name = models.CharField(max_length=256)
 	region = models.CharField(max_length=256)
 	id = models.CharField(max_length=256, primary_key=True, verbose_name="ID")

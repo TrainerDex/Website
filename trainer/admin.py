@@ -40,9 +40,9 @@ class TrainerAdmin(AjaxSelectAdmin):
 	search_fields = ('username', 'account__username', 'account__first_name', 'faction__name')
 	ordering = ('username',)
 
-@admin.register(DiscordServer)
-class DiscordServerAdmin(AjaxSelectAdmin):
+@admin.register(DiscordGuild)
+class DiscordGuildAdmin(AjaxSelectAdmin):
 	
-	form = make_ajax_form(DiscordServer, {
+	form = make_ajax_form(DiscordGuild, {
 		'owner': 'user'
 	})

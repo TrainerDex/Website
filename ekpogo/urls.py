@@ -25,8 +25,13 @@ api_v0_1_patterns = [
     url(r"", include('trainer.0_1.urls', namespace="trainerdex")),
 ]
 
+api_v0_2_patterns = [
+    url(r"", include('trainer.urls', namespace="trainerdex")),
+]
+
 urlpatterns = [
     url(r"^api/0.1/", include(api_v0_1_patterns, namespace="api_v01")),
+    url(r"^api/0.2/", include(api_v0_2_patterns, namespace="api_v02")),
     url(r"^api/admin/", admin.site.urls),
     url(r"^api/trainer/", include('trainer.0_1.urls', namespace="trainer")), # legacy url scheme
     url(r'^api-token-auth/', views.obtain_auth_token),
