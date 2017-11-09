@@ -4,6 +4,7 @@ from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import *
+from django.utils import timezone
 from colorful.fields import RGBColorField
 
 class Tea(models.Model):
@@ -17,16 +18,16 @@ class Tea(models.Model):
 		ordering = ['name']
 
 class Sweetener(models.Model):
-	name = models.CharField(max_length=75, unique=True)
+	name = models.CharField(max_length=75)
 	cube = models.BooleanField(default=False)
 	packet = models.BooleanField(default=False)
 	
 	def __str__(self):
-		stringg += self.name
+		stringg = self.name
 		if self.cube is True:
-			stringg += "Cube"
+			stringg += " Cube"
 		elif self.packet is True:
-			stringg += "Packet"
+			stringg += " Packet"
 		return stringg
 	
 	class Meta:
@@ -40,17 +41,17 @@ class Colour(models.Model):
 		return self.name
 
 class Cuppa(models.Model):
-	drinker = models.ForeignKey(User, on_delete=models.CASCADE)
-	tea = model.ForeignKey(Tea, on_delete=models.CASCADE)
-	datetime = models.DateTimeField(auto_now_add=True)
-	sweetener_amt = models.PositiveIntegerField()
+	drinker = models.ForeignKey(User, on_delete=models.CASCADE, default=2)
+	tea = models.ForeignKey(Tea, on_delete=models.CASCADE)
+	datetime = models.DateTimeField(default=timezone.now)
+	sweetener_amt = models.PositiveIntegerField(default=0)
 	sweetener_type = models.ForeignKey(Sweetener, on_delete=models.SET_NULL, null=True, blank=True)
 	colour = models.ForeignKey(Colour, on_delete=models.SET_NULL, null=True, blank=True)
 	iswaterhard = models.BooleanField(default=True)
 	isbought = models.BooleanField(default=False)
 	
 	def __str__(self):
-		return self.tea.name+'+str(self.datetime)
+		return self.tea.name+' '+str(self.datetime)
 	
 	class Meta:
 		get_latest_by = 'datetime'
