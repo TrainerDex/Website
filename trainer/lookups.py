@@ -25,10 +25,10 @@ class UserLookup(LookupChannel):
 	def format_item_display(self, item):
 		return u"<span class='tag'>%s</span>" % item.username
 
-@register('discord_server')
-class DiscordServerLookup(LookupChannel):
+@register('discord_guild')
+class DiscordGuildLookup(LookupChannel):
 	
-	model = DiscordServer
+	model = DiscordGuild
 	
 	def get_query(self, q, request):
 		return self.model.objects.filter(name__icontains=q)

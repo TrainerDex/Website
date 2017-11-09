@@ -44,8 +44,22 @@ class FactionSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class DiscordServerSerializer(serializers.ModelSerializer):
+	owner = serializers.SerializerMethodField()
+	warning = serializers.SerializerMethodField()
+	
+	def get_owner(self, obj):
+		return SocialAccount.objects.filter(provider='discord', user=obj.owner)[0].uid
+	
+	def get_warning(self, obj):
+		return '/api/0.1/discord/servers/ has been deprecated. Please use /api/0.2/guilds/. Also, owner may not be 100% accurate if the server owner has multiple Discord accounts. Not for validation.'
+	
 	class Meta:
-		model = DiscordServer
+		model = DiscordGuild
+		fields = '__all__'
+
+class DiscordGuildSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = DiscordGuild
 		fields = '__all__'
 
 class DiscordUserSerializer(serializers.ModelSerializer):
