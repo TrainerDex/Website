@@ -15,7 +15,7 @@ admin.site.register(Colour)
 class CuppaAdmin(AjaxSelectAdmin):
 	
 	form = make_ajax_form(Cuppa, {
-		'drinker': 'drinker'
+		'drinker': 'user'
 	})
 	list_display = ('drinker', 'tea', 'colour', 'iswaterhard', 'isbought')
 	search_fields = ('drinker__username', 'tea__name')
