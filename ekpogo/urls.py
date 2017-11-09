@@ -19,15 +19,16 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 from ajax_select import urls as ajax_select_urls
 
-api_v01_patterns = [
+api_v0_1_patterns = [
     url(r"^enrollment/", include('enrollment.urls', namespace="enrollment")),
     url(r"^gyms/", include('gyms.urls', namespace="gyms")),
+    url(r"", include('trainer.0_1.urls', namespace="trainerdex")),
 ]
 
 urlpatterns = [
-    url(r"^api/0.1/", include(api_v01_patterns, namespace="api_v01")),
+    url(r"^api/0.1/", include(api_v0_1_patterns, namespace="api_v01")),
     url(r"^api/admin/", admin.site.urls),
-    url(r"^api/trainer/", include('trainer.urls', namespace="trainer")),
+    url(r"^api/trainer/", include('trainer.0_1.urls', namespace="trainer")), # legacy url scheme
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^ajax_select/', include(ajax_select_urls)),
     url(r'^accounts/', include('allauth.urls')),
