@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'trainer',
     'colorful',
     'ajax_select',
+    'teaproject',
 ]
 
 MIDDLEWARE = [
