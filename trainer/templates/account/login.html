@@ -6,15 +6,16 @@
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
-
+{% block warning %}
+{% endblock %}
 <h1>{% trans "Sign In" %}</h1>
 
 {% get_providers as socialaccount_providers %}
 
 {% if socialaccount_providers %}
-<p>{% blocktrans with site.name as site_name %}Please sign in with one
+<p>{% block signin_message %}{% blocktrans %}Please sign in with one
 of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+for an account and sign in below:{% endblocktrans %}{% endblock %}</p>
 
 <div class="socialaccount_ballot">
 
