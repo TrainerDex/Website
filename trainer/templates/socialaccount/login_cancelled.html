@@ -1,15 +1,19 @@
-{% extends "socialaccount/base.html" %}
+{% extends "account/login.html" %}
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Login Cancelled" %}{% endblock %}
-
-{% block content %}
-
-<h1>{% trans "Login Cancelled" %}</h1>
-
-{% url 'account_login' as login_url %}
-
-<p>{% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts. If this was a mistake, please proceed to <a href="{{login_url}}">sign in</a>.{% endblocktrans %}</p>
-
+{% block warning %}
+<div id="trainerdex-toast-warning" class="mdl-js-snackbar mdl-snackbar">
+  <div class="mdl-snackbar__text"></div>
+  <button class="mdl-snackbar__action" type="button"></button>
+</div>
+<script>
+r(function(){
+    var snackbarContainer = document.querySelector('#trainerdex-toast-warning');
+    var data = { message: '{% trans "Log in canceled." %}'};
+    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+});
+function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
+</script>
 {% endblock %}
+{% block signin_message %}{% blocktrans %}You decided to cancel the log in. If this was a mistake, please try again or, <a href="{{ signup_url }}">sign up</a>.{% endblocktrans %}{% endblock %}
