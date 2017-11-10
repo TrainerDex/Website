@@ -61,7 +61,7 @@
           </ul>
         </div>
       </header>
-      <div class="trainerdex-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+      <div class="trainerdex-drawer mdl-layout__drawer mdl-color--primary-dark mdl-color-text--primary-contrast">
         <header class="trainerdex-drawer-header">
           {% load account %}
           <img src="/static/images/user.png" class="trainerdex-avatar">
@@ -84,12 +84,12 @@
             </ul>
           </div>
         </header>
-        <nav class="trainerdex-navigation mdl-navigation mdl-color--blue-grey-800">
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Friends</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">assessment</i>Statistics</a>
+        <nav class="trainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
+          <a class="mdl-navigation__link" href=""><i class="material-icons" role="presentation">home</i>Home</a>
+          <a class="mdl-navigation__link" href=""><i class="material-icons" role="presentation">people</i>Friends</a>
+          <a class="mdl-navigation__link" href=""><i class="material-icons" role="presentation">assessment</i>Statistics</a>
           <div class="mdl-layout-spacer"></div>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+          <a class="mdl-navigation__link" href=""><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
         </nav>
       </div>
       
@@ -107,19 +107,6 @@
       function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
       </script>
       {% endfor %}{% endif %}
-      
-      <div id="trainerdex-toast-welcome" class="mdl-js-snackbar mdl-snackbar">
-        <div class="mdl-snackbar__text"></div>
-        <button class="mdl-snackbar__action" type="button"></button>
-      </div>
-      <script>
-      r(function(){
-          var snackbarContainer = document.querySelector('#trainerdex-toast-welcome');
-          var data = { message: 'This is where I will put the welcome message!'};
-          snackbarContainer.MaterialSnackbar.showSnackbar(data);
-      });
-      function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
-      </script>
       
       <main class="mdl-layout__content mdl-color--grey-100">
         {% block content %}
