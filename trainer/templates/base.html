@@ -45,11 +45,14 @@
   </head>
   <body>
     {% block body %}
-    <div class="trainerdex-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <div class="trainerdex-layout mdl-layout mdl-js-layout mdl-layout--fixed-header"> 
       <header class="trainerdex-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
+          <!-- Title -->
           <span class="mdl-layout-title">{% block section_title %}{% endblock %}</span>
+          <!-- Spacer -->
           <div class="mdl-layout-spacer"></div>
+          <!-- Information button -->
           <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
             <i class="material-icons">more_vert</i>
           </button>
@@ -89,35 +92,37 @@
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
         </nav>
       </div>
+      
+      {% if messages %}{% for message in messages %}
+      <div id="trainerdex-toast-message" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+      </div>
+      <script>
+      r(function(){
+          var snackbarContainer = document.querySelector('#trainerdex-toast-message');
+          var data = { message: '{{message}}'};
+          snackbarContainer.MaterialSnackbar.showSnackbar(data);
+      });
+      function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
+      </script>
+      {% endfor %}{% endif %}
+      
+      <div id="trainerdex-toast-welcome" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+      </div>
+      <script>
+      r(function(){
+          var snackbarContainer = document.querySelector('#trainerdex-toast-welcome');
+          var data = { message: 'This is where I will put the welcome message!'};
+          snackbarContainer.MaterialSnackbar.showSnackbar(data);
+      });
+      function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
+      </script>
+      
       <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid trainerdex-content">
-            {% if messages %}{% for message in messages %}
-            <div id="trainerdex-toast-message" class="mdl-js-snackbar mdl-snackbar">
-              <div class="mdl-snackbar__text"></div>
-              <button class="mdl-snackbar__action" type="button"></button>
-            </div>
-            <script>
-            r(function(){
-                var snackbarContainer = document.querySelector('#trainerdex-toast-message');
-                var data = { message: '{{message}}'};
-                snackbarContainer.MaterialSnackbar.showSnackbar(data);
-            });
-            function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
-            </script>
-            {% endfor %}{% endif %}
-            
-            <div id="trainerdex-toast-example" class="mdl-js-snackbar mdl-snackbar">
-              <div class="mdl-snackbar__text"></div>
-              <button class="mdl-snackbar__action" type="button"></button>
-            </div>
-            <script>
-            r(function(){
-                var snackbarContainer = document.querySelector('#trainerdex-toast-example');
-                var data = { message: 'Example Message.'};
-                snackbarContainer.MaterialSnackbar.showSnackbar(data);
-            });
-            function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
-            </script>
           {% block content %}
           {% endblock %}
           {% endblock %}
