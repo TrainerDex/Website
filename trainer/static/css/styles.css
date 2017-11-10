@@ -179,7 +179,7 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 .trainerdex-updates .mdl-card__title {
   min-height: 200px;
   background-image: url('/static/teams/instinct_leader.png');
-  background-position: 10% 10%;
+  background-position: right 1% top -2%;
   background-repeat: no-repeat;
 }
 .trainerdex-cards .mdl-card__actions a {
