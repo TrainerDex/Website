@@ -218,6 +218,10 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
   min-height: 100px;
 }
 
+.trainerdex-promo-text {
+  font-size: 1.3rem;
+}
+
 .trainerdex-profile .trainerdex-avatar {
   width: 140px;
   height: 140px;
