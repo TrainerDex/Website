@@ -213,3 +213,16 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
       -ms-flex-align: center;
           align-items: center;
 }
+
+.trainerdex-promo {
+  min-height: 100px;
+}
+
+.trainerdex-profile .trainerdex-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 70px;
+}
+.trainerdex-profile .trainerdex-name {
+  font-size: 26px;
+}

@@ -167,4 +167,4 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = '/api/admin/' #Temporary redirect URL for login
+LOGIN_REDIRECT_URL = 'user_profile'
