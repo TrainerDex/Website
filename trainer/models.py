@@ -1,5 +1,4 @@
-﻿# -*- coding: utf-8 -*-
-import os
+﻿import os
 from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
@@ -29,14 +28,14 @@ class Trainer(models.Model):
 	username = models.CharField(max_length=30, unique=True)
 	start_date = models.DateField(null=True, blank=True)
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name="team")
-	has_cheated = models.BooleanField(default=False, verbose_name="known to have spoofed")
-	last_cheated = models.DateField(null=True, blank=True)
-	currently_cheats = models.BooleanField(default=False, verbose_name="known spoofer")
+	has_cheated = models.BooleanField(default=False, verbose_name="Known Reformed-Cheater")
+	last_cheated = models.DateField(null=True, blank=True, verbose_name="last known cheating incident")
+	currently_cheats = models.BooleanField(default=False, verbose_name="Known Cheater")
 	statistics = models.BooleanField(default=True)
 	daily_goal = models.PositiveIntegerField(null=True, blank=True)
 	total_goal = models.PositiveIntegerField(null=True, blank=True)
 	last_modified = models.DateTimeField(auto_now=True)
-	prefered = models.BooleanField(default=True, verbose_name="main profile")
+	prefered = models.BooleanField(default=True, verbose_name="Main Profile")
 	go_fest_2017 = models.BooleanField(default=False, verbose_name="Pokémon GO Fest Chicago")
 	outbreak_2017 = models.BooleanField(default=False, verbose_name="Pikachu Outbreak 2017")
 	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name="Safari Zone - Oberhausen, Germany")

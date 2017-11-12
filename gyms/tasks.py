@@ -1,15 +1,14 @@
-# Create your tasks here
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from celery.decorators import periodic_task
-from .monacle_scraper import MonacleScraper
-from .search_indexes import GymIndex
-from .models import Gym, Town
+from gyms.monacle_scraper import MonacleScraper
+from gyms.search_indexes import GymIndex
+from gyms.models import Gym, Town
 from config.es_client import es_client
 from elasticsearch_dsl import Search
 from django.db import transaction
 from django.utils import timezone
-from .serializers import ElasticGymSerializer
+from gyms.serializers import ElasticGymSerializer
 from elasticsearch.helpers import bulk
 from django.forms.models import model_to_dict
 from django.contrib.gis.geos import Point

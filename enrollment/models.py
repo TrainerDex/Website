@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-# Create your models here.
+
 class Enrollment(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
     gym_id = models.PositiveIntegerField()

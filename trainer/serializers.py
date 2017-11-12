@@ -1,11 +1,13 @@
-﻿# -*- coding: utf-8 -*-
-import json
+﻿import json
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from trainer.models import *
+from trainer.models import ExtendedProfile, Trainer, Faction, Update, DiscordGuild
 from allauth.socialaccount.models import SocialAccount
 
 class ExtendedProfileSerializer(serializers.ModelSerializer):
+	
+	# Note to self, scrap
+	
 	class Meta:
 		model = ExtendedProfile
 		fields = ('dob', )
@@ -23,6 +25,8 @@ class TrainerSerializer(serializers.ModelSerializer):
 	def get_update(self, obj):
 		return UpdateSerializer(obj.update_set.order_by('-datetime').first()).data
 	
+	# Note to self, look into changing how updates as handled here
+	
 	def get_updates(self, obj):
 		return UpdateSerializer(obj.update_set.order_by('-datetime').all(), many=True).data
 	
@@ -33,6 +37,7 @@ class TrainerSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
 	profiles = TrainerSerializer(many=True, read_only=True)
 #	extended_profile = ExtendedProfileSerializer()
+# Note to self: handle extended profile as a dict/json string with information rather than individual fields or a seperate serializer
 		
 	class Meta:
 		model = User
@@ -58,6 +63,7 @@ class DiscordServerSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class DiscordGuildSerializer(serializers.ModelSerializer):
+	
 	class Meta:
 		model = DiscordGuild
 		fields = '__all__'
@@ -95,4 +101,3 @@ class DiscordUserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = SocialAccount
 		fields = ('account', 'id', 'name', 'discriminator', 'creation', 'avatar_url', 'ref')
-	

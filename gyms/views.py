@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from config.es_client import es_client
-from .search_indexes import GymIndex
+from gyms.search_indexes import GymIndex
 from rest_framework_elasticsearch import es_views, es_pagination, es_filters
 
 class RaidActiveFilter(object):
@@ -25,4 +25,3 @@ class GymView(es_views.ListElasticAPIView):
     es_search_fields = (
         'title',
     )
-    # Create your views here.

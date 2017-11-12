@@ -1,10 +1,10 @@
-from . import views
+from gyms.views import GymView
 from django.conf.urls import url
 
 urlpatterns = [
     url(
         regex=r'^$',
-        view=views.GymView.as_view(),
+        view=GymView.as_view(),
         name='gym-list',
     ),
 ]

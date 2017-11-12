@@ -1,15 +1,15 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from . import serializers
-from . import models
+from enrollment.serializers import EnrollmentSerializer, CreateEnrollmentSerializer
+from enrollment.models import Enrollment as EnrollmentModel
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 from rest_framework import status
 
 class EnrollmentViewset(viewsets.ModelViewSet):
-    serializer_class = serializers.EnrollmentSerializer
-    queryset = models.Enrollment.objects.all()
+    serializer_class = EnrollmentSerializer
+    queryset = EnrollmentModel.objects.all()
 
     @detail_route(methods=['POST'])
     def done(self, request, pk=None):
@@ -25,7 +25,7 @@ class EnrollmentViewset(viewsets.ModelViewSet):
     def get_serializer_class(self): 
         serializer_class = self.serializer_class 
         if self.request.method == 'POST': 
-            serializer_class = serializers.CreateEnrollmentSerializer 
+            serializer_class = CreateEnrollmentSerializer
         return serializer_class
 
     def create(self, request, *args, **kwargs):

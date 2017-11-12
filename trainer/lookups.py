@@ -1,6 +1,5 @@
-﻿# -*- coding: utf-8 -*-
-from ajax_select import register, LookupChannel
-from trainer.models import *
+﻿from ajax_select import register, LookupChannel
+from trainer.models import ExtendedProfile, Trainer, Faction, Update, DiscordGuild
 from django.contrib.auth.models import User
 
 @register('trainer')

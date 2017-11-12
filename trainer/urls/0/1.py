@@ -1,6 +1,5 @@
-﻿# -*- coding: utf-8 -*-
-from rest_framework.routers import SimpleRouter
-from trainer.views import *
+﻿from rest_framework.routers import SimpleRouter
+from trainer.views import UserViewSet, TrainerViewSet, FactionViewSet, UpdateViewSet, DiscordUserViewSet, DiscordServerViewSet
 
 router = SimpleRouter()
 router.register("users", UserViewSet)

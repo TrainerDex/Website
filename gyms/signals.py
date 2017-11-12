@@ -1,7 +1,7 @@
 from django.db.models.signals import pre_save, post_delete
 from django.dispatch import receiver
-from .models import Gym
-from .serializers import ElasticGymSerializer
+from gyms.models import Gym
+from gyms.serializers import ElasticGymSerializer
 from config.es_client import es_client
 """
 @receiver(pre_save, sender=Gym, dispatch_uid="update_record")

@@ -3,9 +3,9 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.decorators import detail_route
 from rest_framework import permissions
 from django.contrib.auth.models import User
-from trainer.models import *
+from trainer.models import ExtendedProfile, Trainer, Faction, Update, DiscordGuild
 from allauth.socialaccount.models import SocialAccount
-from trainer.serializers import *
+from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer, DiscordUserSerializer, DiscordServerSerializer, DiscordGuildSerializer
 from trainer.permissions import IsOwnerOrReadOnly
 
 class UserViewSet(ModelViewSet):
@@ -42,6 +42,8 @@ class DiscordServerViewSet(ModelViewSet):
 	serializer_class = DiscordServerSerializer
 	queryset = DiscordGuild.objects.all()
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+#build ConnectedSocialViewSet
 
 class DiscordGuildViewSet(ModelViewSet):
 	serializer_class = DiscordGuildSerializer
