@@ -9,6 +9,7 @@ class ExtendedProfileSerializer(serializers.ModelSerializer):
 		fields = ('dob', )
 
 class UpdateSerializer(serializers.ModelSerializer):
+	owner = serializers.ReadOnlyField(source='trainer.owner.id')
 	
 	class Meta:
 		model = Update
@@ -17,6 +18,7 @@ class UpdateSerializer(serializers.ModelSerializer):
 class TrainerSerializer(serializers.ModelSerializer):
 	update = serializers.SerializerMethodField()
 	updates = serializers.SerializerMethodField()
+	account = serializers.ReadOnlyField(source='owner.id')
 	
 	def get_update(self, obj):
 		return UpdateSerializer(obj.update_set.order_by('-datetime').first()).data
