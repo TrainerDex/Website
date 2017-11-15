@@ -1,4 +1,3 @@
-﻿# -*- coding: utf-8 -*-
 import os
 from datetime import date
 from django.db import models
@@ -25,7 +24,7 @@ class ExtendedProfile(models.Model):
 	post_save.connect(create_user_profile, sender=User)
 
 class Trainer(models.Model):
-	account = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
+	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
 	username = models.CharField(max_length=30, unique=True)
 	start_date = models.DateField(null=True, blank=True)
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name="team")

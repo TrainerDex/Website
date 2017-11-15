@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -26,18 +25,18 @@ class UpdateAdmin(AjaxSelectAdmin):
 		'trainer': 'trainer'
 	})
 	list_display = ('trainer', 'xp', 'datetime')
-	search_fields = ('trainer__username', 'trainer__account__username')
+	search_fields = ('trainer__username', 'trainer__owner__username')
 	ordering = ('-datetime',)
 	
 @admin.register(Trainer)
 class TrainerAdmin(AjaxSelectAdmin):
 	
 	form = make_ajax_form(Trainer, {
-		'account': 'user'
+		'owner': 'user'
 	})
 	list_display = ('username', 'faction', 'currently_cheats', 'statistics')
 	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'prefered')
-	search_fields = ('username', 'account__username', 'account__first_name', 'faction__name')
+	search_fields = ('username', 'account__username', 'owner__first_name', 'faction__name')
 	ordering = ('username',)
 
 @admin.register(DiscordGuild)
