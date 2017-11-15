@@ -8,7 +8,7 @@ Django==1.11.4
 django-model-changes==0.15
 django-rest-elasticsearch==0.3.1
 djangorestframework==3.6.3
-elasticsearch==5.4.0
+elasticsearch==6.0.0
 elasticsearch-dsl==5.3.0
 arrow==0.10.0
 idna==2.6
