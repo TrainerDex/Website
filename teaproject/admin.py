@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -14,9 +13,7 @@ admin.site.register(Colour)
 @admin.register(Cuppa)
 class CuppaAdmin(AjaxSelectAdmin):
 	
-	form = make_ajax_form(Cuppa, {
-		'drinker': 'user'
-	})
-	list_display = ('drinker', 'tea', 'colour', 'iswaterhard', 'isbought')
-	search_fields = ('drinker__username', 'tea__name')
+	list_display = ('tea', 'colour', 'hardWater', 'isBought')
+	search_fields = ('tea__name',)
 	ordering = ('-datetime',)
+	
