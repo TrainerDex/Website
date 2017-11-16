@@ -23,3 +23,4 @@ vine==1.1.4
 django_colorful==1.2
 Pillow==4.2.1
 django-ajax-selects==1.6.1
+django-material=1.1.1
