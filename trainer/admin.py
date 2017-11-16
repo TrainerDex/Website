@@ -6,7 +6,6 @@ from ajax_select.admin import AjaxSelectAdmin
 from ajax_select.fields import autoselect_fields_check_can_add
 from trainer.models import *
 
-admin.site.register(Faction)
 
 class XUserInline(admin.StackedInline):
 	model = ExtendedProfile
@@ -18,6 +17,10 @@ class UserAdmin(BaseUserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
+@admin.register(Faction)
+class UpdateAdmin(admin.ModelAdmin):
+	icon = '<i class="material-icons">warning</i>'
+
 @admin.register(Update)
 class UpdateAdmin(AjaxSelectAdmin):
 	
@@ -27,7 +30,8 @@ class UpdateAdmin(AjaxSelectAdmin):
 	list_display = ('trainer', 'xp', 'datetime')
 	search_fields = ('trainer__username', 'trainer__owner__username')
 	ordering = ('-datetime',)
-	
+	icon = '<i class="material-icons">insert_chart</i>'
+
 @admin.register(Trainer)
 class TrainerAdmin(AjaxSelectAdmin):
 	
@@ -38,6 +42,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'prefered')
 	search_fields = ('username', 'account__username', 'owner__first_name', 'faction__name')
 	ordering = ('username',)
+	icon = '<i class="material-icons">person</i>'
 
 @admin.register(DiscordGuild)
 class DiscordGuildAdmin(AjaxSelectAdmin):
@@ -45,3 +50,4 @@ class DiscordGuildAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(DiscordGuild, {
 		'owner': 'user'
 	})
+	icon = '<i class="material-icons">code</i>'
