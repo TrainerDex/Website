@@ -3,9 +3,12 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import detail_route
 from rest_framework import permissions
 from django.contrib.auth.models import User
+from django.shortcuts import render
 from trainer.models import *
 from trainer.serializers import *
-from trainer.permissions import IsOwnerOrReadOnly
+
+def index(request):
+	return render(request, 'index.html')
 
 class UserViewSet(ModelViewSet):
 	serializer_class = UserSerializer
@@ -26,11 +29,6 @@ class UpdateViewSet(ModelViewSet):
 	serializer_class = UpdateSerializer
 	queryset = Update.objects.order_by('-datetime').all()
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-#	permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-#						 IsOwnerOrReadOnly,)
-	
-#	def perform_create(self, serializer):
-#		serializer.save(owner=self.request.user)
 
 class DiscordUserViewSet(ModelViewSet):
 	serializer_class = DiscordUserSerializer
