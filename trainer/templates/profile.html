@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load account %}
+{% load static %}
 
 {% block head_title %}{% user_display user %}{% endblock %}
 {% block section_title %}{% user_display user %}{% endblock %}
@@ -11,7 +12,7 @@
   <div class="trainerdex-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
     <div class="trainerdex-separator mdl-cell--1-col mdl-cell--hide-phone"></div>
     <div class="trainerdex-profile mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop">
-      <img src="/static/images/user.png" class="trainerdex-profile trainerdex-avatar">
+      <img src="{% static 'images/user.png' %}" class="trainerdex-profile trainerdex-avatar">
       <div class="trainerdex-name">{% user_display user %}</div>
       
     </div>
