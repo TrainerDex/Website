@@ -13,7 +13,9 @@ admin.site.register(Colour)
 @admin.register(Cuppa)
 class CuppaAdmin(AjaxSelectAdmin):
 	
-	list_display = ('tea', 'colour', 'hardWater', 'isBought')
+	list_display = ('tea', 'colour', 'sweetener_amt', 'hardWater', 'isBought')
 	search_fields = ('tea__name',)
 	ordering = ('-datetime',)
+	date_hierarchy = 'datetime'
+	icon = '<i class="material-icons">☕</i>'
 	

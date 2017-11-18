@@ -18,3 +18,5 @@ urlpatterns = [
     url(r'^ajax_select/', include(ajax_select_urls)),
     url(r'^$', welcome),
 ]
+
+admin.site.site_title = "TrainerDex Admin"
