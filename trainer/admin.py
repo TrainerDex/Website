@@ -51,6 +51,7 @@ class DiscordUserAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(DiscordUser, {
 		'account': 'user'
 	})
+	icon = """<img style="height: 48px; color: #00c6af;" src="/static/img/discord.svg"/>"""
 
 @admin.register(DiscordServer)
 class DiscordServerAdmin(AjaxSelectAdmin):
@@ -58,11 +59,4 @@ class DiscordServerAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(DiscordServer, {
 		'owner': 'user'
 	})
-
-@admin.register(DiscordMember)
-class DiscordMemberAdmin(AjaxSelectAdmin):
-	
-	form = make_ajax_form(DiscordMember, {
-		'user': 'user',
-		'server': 'discord_server'
-	})
+	icon = """<img style="height: 48px; color: #00c6af;" src="/static/img/discord.svg"/>"""
