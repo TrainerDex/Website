@@ -38,8 +38,6 @@ INSTALLED_APPS = [
     'gyms',
     'trainer',
     'colorful',
-    'ajax_select',
-    #allauth shit
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
