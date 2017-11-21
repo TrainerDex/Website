@@ -1,9 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from ajax_select import make_ajax_form
-from ajax_select.admin import AjaxSelectAdmin
-from ajax_select.fields import autoselect_fields_check_can_add
 from trainer.models import *
 
 class XUserInline(admin.StackedInline):
@@ -21,11 +18,9 @@ class FactionAdmin(admin.ModelAdmin):
 	icon = '<i class="material-icons">warning</i>'
 
 @admin.register(Update)
-class UpdateAdmin(AjaxSelectAdmin):
+class UpdateAdmin(admin.ModelAdmin):
 	
-	form = make_ajax_form(Update, {
-		'trainer': 'trainer'
-	})
+	raw_id_fields = ("trainer",)
 	list_display = ('trainer', 'xp', 'datetime')
 	search_fields = ('trainer__username', 'trainer__account__username')
 	ordering = ('-datetime',)
@@ -33,11 +28,9 @@ class UpdateAdmin(AjaxSelectAdmin):
 	icon = '<i class="material-icons">insert_chart</i>'
 
 @admin.register(Trainer)
-class TrainerAdmin(AjaxSelectAdmin):
+class TrainerAdmin(admin.ModelAdmin):
 	
-	form = make_ajax_form(Trainer, {
-		'account': 'user'
-	})
+	raw_id_fields = ("account",)
 	list_display = ('username', 'faction', 'currently_cheats', 'statistics')
 	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'prefered')
 	search_fields = ('username', 'account__username', 'account__first_name')
@@ -46,17 +39,13 @@ class TrainerAdmin(AjaxSelectAdmin):
 	icon = '<i class="material-icons">person</i>'
 
 @admin.register(DiscordUser)
-class DiscordUserAdmin(AjaxSelectAdmin):
+class DiscordUserAdmin(admin.ModelAdmin):
 	
-	form = make_ajax_form(DiscordUser, {
-		'account': 'user'
-	})
+	raw_id_fields = ("account",)
 	icon = """<img style="height: 48px; color: #00c6af;" src="/static/img/discord.svg"/>"""
 
 @admin.register(DiscordServer)
-class DiscordServerAdmin(AjaxSelectAdmin):
+class DiscordServerAdmin(admin.ModelAdmin):
 	
-	form = make_ajax_form(DiscordServer, {
-		'owner': 'user'
-	})
+	raw_id_fields = ("owner",)
 	icon = """<img style="height: 48px; color: #00c6af;" src="/static/img/discord.svg"/>"""

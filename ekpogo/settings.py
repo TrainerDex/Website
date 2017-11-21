@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'gyms',
     'trainer',
     'colorful',
-    'ajax_select',
     'teaproject',
 ]
 
