@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request', #Already present, also needed for django-allauth
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'trainer.context_processors.google_analytics',
             ],
         },
     },
@@ -158,3 +159,6 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = 'user_profile'
+
+GOOGLE_ANALYTICS_PROPERTY_ID = '***REMOVED***'
+GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
