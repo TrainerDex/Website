@@ -135,8 +135,9 @@
         {% endblock %}
       </main>
     </div>
-      {% comment %}
-      {% endcomment %}
+      {% if GOOGLE_ANALYTICS_PROPERTY_ID %}
+        {% include "ga.html" %}
+      {% endif %}
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   </body>
 </html>
