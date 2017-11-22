@@ -7,6 +7,15 @@
 {% block head_title %}{% user_display user %}{% endblock %}
 {% block section_title %}{% user_display user %}{% endblock %}
 
+{% block extra_head %}
+<meta property="og:title" content="{% user_display user %}" />
+<meta property=”og:image” content=”{% static 'images/user.png' %}”/>
+<meta property="og:type" content="profile" />
+<meta property="profile:username" content="{% user_display user %}" />
+<meta name=”twitter:title” content=”{% user_display user %}”>
+<meta name=”twitter:image” content=”{% static 'images/user.png' %}”/>
+{% endblock %}
+
 {%block content%}
 <div class="trainerdex-cards mdl-grid">
   <div class="trainerdex-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
