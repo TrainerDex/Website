@@ -1,6 +1,6 @@
-from . import views
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
+from enrollment.views import *
 
-router = DefaultRouter()
-router.register(r'', views.EnrollmentViewset)
+router = SimpleRouter()
+router.register("raids", RaidViewset)
 urlpatterns = router.urls

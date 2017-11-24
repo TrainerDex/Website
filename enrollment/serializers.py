@@ -1,20 +1,12 @@
 from rest_framework import serializers
-from . import models
+from enrollment.models import *
 
 class EnrollmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Enrollment
-        fields = '__all__'
+	class Meta:
+		model = Enrollment
+		fields = '__all__'
 
-
-class CreateEnrollmentSerializer(serializers.ModelSerializer):
-    discord_ids = serializers.ListField(serializers.IntegerField)
-    class Meta:
-        model = models.Enrollment
-        fields = '__all__'
-
-
-class GymSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Enrollment
-        fields = '__all__'
+class RaidSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Raid
+		fields = '__all__'

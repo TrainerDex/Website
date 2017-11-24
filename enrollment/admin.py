@@ -1,3 +1,5 @@
 from django.contrib import admin
+from enrollment.models import *
 
-# Register your models here.
+admin.site.register(Raid)
+admin.site.register(Enrollment)
