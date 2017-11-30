@@ -20,10 +20,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'material.theme.teal',
-    'material',
-    'material.frontend',
-    'material.admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,8 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'rest_framework.authtoken',
+    'ajax_select',
     'enrollment',
-    'gyms',
+#    'gyms',
     'trainer',
     'colorful',
     'teaproject',
@@ -63,6 +60,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'trainer.context_processors.google_analytics',
             ],
         },
     },
@@ -139,3 +137,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+
+GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-110066146-1'
+GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
