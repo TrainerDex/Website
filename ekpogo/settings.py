@@ -20,10 +20,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'material.theme.teal',
-    'material',
-    'material.frontend',
-    'material.admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'rest_framework.authtoken',
+    'ajax_select',
     'enrollment',
 #    'gyms',
     'trainer',
