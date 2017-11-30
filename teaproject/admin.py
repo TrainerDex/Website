@@ -14,5 +14,3 @@ class CuppaAdmin(admin.ModelAdmin):
 	search_fields = ('tea__name',)
 	ordering = ('-datetime',)
 	date_hierarchy = 'datetime'
-	icon = '<i class="material-icons">☕</i>'
-	
