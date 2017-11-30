@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
+from ajax_select.admin import AjaxSelectAdmin
+from ajax_select import make_ajax_form
 from trainer.models import *
 
 class XUserInline(admin.StackedInline):
@@ -12,34 +14,35 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+admin.site.register(Faction)
 
-@admin.register(Faction)
-class FactionAdmin(admin.ModelAdmin):
-	icon = '<i class="material-icons">warning</i>'
 
 @admin.register(Update)
-class UpdateAdmin(admin.ModelAdmin):
+class UpdateAdmin(AjaxSelectAdmin):
 	
-	raw_id_fields = ("trainer",)
+	form = make_ajax_form(Update, {
+		'trainer' : 'trainer'
+	})
 	list_display = ('trainer', 'xp', 'datetime')
 	search_fields = ('trainer__username', 'trainer__owner__username')
 	ordering = ('-datetime',)
 	date_hierarchy = 'datetime'
-	icon = '<i class="material-icons">insert_chart</i>'
 
 @admin.register(Trainer)
-class TrainerAdmin(admin.ModelAdmin):
+class TrainerAdmin(AjaxSelectAdmin):
 	
-	raw_id_fields = ("owner",)
+	form = make_ajax_form(Trainer, {
+		'username' : 'user'
+	})
 	list_display = ('username', 'faction', 'currently_cheats', 'statistics')
 	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'prefered')
 	search_fields = ('username', 'owner__username', 'owner__first_name')
 	ordering = ('username',)
 	date_hierarchy = 'start_date'
-	icon = '<i class="material-icons">person</i>'
 
 @admin.register(DiscordGuild)
-class DiscordGuildAdmin(admin.ModelAdmin):
+class DiscordGuildAdmin(AjaxSelectAdmin):
 	
-	raw_id_fields = ("owner",)
-	icon = """<img style="height: 48px; color: #00c6af;" src="/static/img/discord.svg"/>"""
+	form = make_ajax_form(User, {
+		'username' : 'user'
+	})
