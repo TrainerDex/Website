@@ -60,6 +60,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'trainer.context_processors.google_analytics',
             ],
         },
     },
@@ -136,3 +137,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+
+GOOGLE_ANALYTICS_PROPERTY_ID = '***REMOVED***'
+GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
