@@ -51,5 +51,5 @@ class DiscordUserAdmin(AjaxSelectAdmin):
 class DiscordServerAdmin(AjaxSelectAdmin):
 	
 	form = make_ajax_form(DiscordServer, {
-		'owner' : 'disorduser'
+		'owner' : 'user'
 	})
