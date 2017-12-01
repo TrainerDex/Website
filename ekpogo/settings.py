@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'trainer',
     'colorful',
     'teaproject',
+    'website',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +138,8 @@ GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
 CITIES_LIGHT_TRANSLATION_LANGUAGES = ['es', 'en', 'fr', 'abbr']
 CITIES_LIGHT_INCLUDE_COUNTRIES = ['GB', 'NO', 'FR']
 CITIES_LIGHT_INCLUDE_CITY_TYPES = [ 'PPL', 'PPLA', 'PPLA2', 'PPLA3', 'PPLA4', 'PPLC', 'PPLF', 'PPLG', 'PPLL', 'PPLR', 'PPLS', 'STLMT']
+
+AJAX_LOOKUP_CHANNELS = {
+    'cities_light_country': ('cities_light.contrib.ajax_selects_lookups', 'CountryLookup'),
+    'cities_light_city': ('cities_light.contrib.ajax_selects_lookups', 'CityLookup'),
+}

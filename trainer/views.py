@@ -7,9 +7,6 @@ from django.shortcuts import render
 from trainer.models import *
 from trainer.serializers import *
 
-def index(request):
-	return render(request, 'index.html')
-
 class UserViewSet(ModelViewSet):
 	serializer_class = UserSerializer
 	queryset = User.objects.all()

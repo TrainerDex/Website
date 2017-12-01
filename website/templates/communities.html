@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+{% block section_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block content %}
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+          <thead>
+            <tr>
+              <th class="mdl-data-table__cell--non-numeric">Name</th>
+              <!-- <th>Location</th> -->
+              <th>Join!</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for server in discord_list %}
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">{{ server.name }}</td>
+              <!-- <td>{{ server.locations.name }}</td> -->
+              <td><a href="{{ server.uri }}"><i class="material-icons">star</i></a><td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+{% endblock %}
