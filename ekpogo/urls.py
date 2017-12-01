@@ -15,8 +15,8 @@ urlpatterns = [
     url(r"^api/trainer/", include('trainer.urls', namespace="trainer")),
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^ajax_select/', include(ajex_select_urls)),
-    url(r'^$', index),
-    url(r'^communities/', communities),
+    url(r'^$', index, name='home'),
+    url(r'^communities/', communities, name='communities'),
 ]
 
 admin.site.site_title = "TrainerDex Admin"
