@@ -1,0 +1,13 @@
+from django.contrib import admin
+from ajax_select.admin import AjaxSelectAdmin
+from ajax_select import make_ajax_form
+from website.models import *
+
+@admin.register(Discord)
+class DiscordAdmin(AjaxSelectAdmin):
+	
+	form = make_ajax_form(Discord, {
+		'locations' : 'cities_light_city'
+	})
+	list_display = ('name',)
+	search_fields = ('name',)
