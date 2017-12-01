@@ -7,7 +7,6 @@ from trainer.views import index as welcome
 
 api_v01_patterns = [
     url(r"^enrollment/", include('enrollment.urls', namespace="enrollment")),
-    url(r"^gyms/", include('gyms.urls', namespace="gyms")),
 ]
 
 urlpatterns = [
