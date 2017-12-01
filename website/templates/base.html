@@ -85,10 +85,9 @@
           </div>
         </header>
         <nav class="trainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
-          <a class="mdl-navigation__link mdl-button--disabled" ><i class="material-icons" role="presentation">home</i>Home</a>
-          <a class="mdl-navigation__link mdl-button--disabled" ><i class="material-icons" role="presentation">people</i>Friends</a>
+          <a class="mdl-navigation__link" href="{% url 'home' %}"><i class="material-icons" role="presentation">home</i>Home</a>
+          <a class="mdl-navigation__link" href="{% url 'communities' %}"><i class="material-icons" role="presentation">people</i>Communities</a>
           <a class="mdl-navigation__link mdl-button--disabled" ><i class="material-icons" role="presentation">assessment</i>Leaderboard</a>
-          <a class="mdl-navigation__link mdl-button--disabled" ><i class="material-icons" role="presentation">assessment</i>Server List</a>
           <div class="mdl-layout-spacer"></div>
           <a class="mdl-navigation__link mdl-button--disabled"><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
         </nav>
