@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'ajax_select',
+    'cities_light',
     'enrollment',
     'trainer',
     'colorful',
@@ -132,3 +133,7 @@ REST_FRAMEWORK = {
 
 GOOGLE_ANALYTICS_PROPERTY_ID = '***REMOVED***'
 GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
+
+CITIES_LIGHT_TRANSLATION_LANGUAGES = ['es', 'en', 'fr', 'abbr']
+CITIES_LIGHT_INCLUDE_COUNTRIES = ['GB', 'NO', 'FR']
+CITIES_LIGHT_INCLUDE_CITY_TYPES = [ 'PPL', 'PPLA', 'PPLA2', 'PPLA3', 'PPLA4', 'PPLC', 'PPLF', 'PPLG', 'PPLL', 'PPLR', 'PPLS', 'STLMT']
