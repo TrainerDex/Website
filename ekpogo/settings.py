@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'ajax_select',
     'enrollment',
-#    'gyms',
     'trainer',
     'colorful',
     'teaproject',
@@ -124,13 +123,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 USE_X_FORWARDED_HOST = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-CELERYBEAT_SCHEDULE = {
-    "monacle-scraper": {
-        "task": "gyms.tasks.update_gyms",
-        "schedule": datetime.timedelta(seconds=30),
-    },
-}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
