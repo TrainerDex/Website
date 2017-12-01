@@ -8,12 +8,12 @@
 
 {% block content %}
         <div class="mdl-grid welcome-content">
-          <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--3-offset-desktop mdl-cell--6-col-tablet mdl-cell--1-offset-tablet">
+          <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell--3-offset-desktop mdl-cell--1-offset-tablet">
             <thead>
               <tr>
                 <th></th>
                 <th class="mdl-data-table__cell--non-numeric">Name</th>
-                <!-- <th>Location</th> -->
+                <th>Location</th>
                 <th class="mdl-data-table__cell--non-numeric">Join!</th>
               </tr>
             </thead>
@@ -22,7 +22,7 @@
               <tr>
                 <td class="mdl-data-table__cell--non-numeric"><img width="32px" src="{% static 'img/Discord-Logo-Color.svg' %}" onerror="this.src='/static/img/Discord-Logo-Color.png'"></td>
                 <td class="mdl-data-table__cell--non-numeric">{{ server.name }}</td>
-                <!-- <td class="mdl-data-table__cell--non-numeric">{{ server.locations.name }}</td> -->
+                <td class="mdl-data-table__cell--non-numeric">{{ server.locations.name }}</td>
                 <td class="mdl-data-table__cell--non-numeric"><a href="{{ server.uri }}"><i class="material-icons">star</i></a><td>
               </tr>
               {% endfor %}
