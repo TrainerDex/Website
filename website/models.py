@@ -8,7 +8,7 @@ from cities_light.models import City
 
 class BaseCommunity(models.Model):
 	name = models.CharField(max_length=256)
-	locations = models.ForeignKey(City, null=True)
+	locations = models.ForeignKey(City, null=True, blank=True)
 	uri = models.URLField()
 	
 	def __str__(self):
