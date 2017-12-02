@@ -14,16 +14,14 @@
                 <th></th>
                 <th class="mdl-data-table__cell--non-numeric">Name</th>
                 <th>Location</th>
-                <th class="mdl-data-table__cell--non-numeric">Join!</th>
               </tr>
             </thead>
             <tbody>
               {% for server in discord_list %}
               <tr>
-                <td class="mdl-data-table__cell--non-numeric"><img width="32px" src="{% static 'img/Discord-Logo-Color.svg' %}" onerror="this.src='/static/img/Discord-Logo-Color.png'"></td>
+                <td class="mdl-data-table__cell--non-numeric"><a href="{{ server.uri }}"><img width="32px" src="{% static 'img/Discord-Logo-Color.svg' %}" onerror="this.src='/static/img/Discord-Logo-Color.png'"></a></td>
                 <td class="mdl-data-table__cell--non-numeric">{{ server.name }}</td>
-                <td class="mdl-data-table__cell--non-numeric">{{ server.locations.name }}</td>
-                <td class="mdl-data-table__cell--non-numeric"><a href="{{ server.uri }}"><i class="material-icons">star</i></a><td>
+                <td class="mdl-data-table__cell--non-numeric">{% if server.locations %}{{ server.locations.name }}{% if server.locations.region %}, {{ server.locations.region.name }}{% endif %}, {{ server.locations.country.code2 }}{% else %}Worldwide{% endif %}</td>
               </tr>
               {% endfor %}
             </tbody>
