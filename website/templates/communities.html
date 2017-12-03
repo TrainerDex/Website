@@ -17,11 +17,11 @@
               </tr>
             </thead>
             <tbody>
-              {% for server in discord_list %}
+              {% for community in community_list %}
               <tr>
-                <td class="mdl-data-table__cell--non-numeric"><a href="{{ server.uri }}"><img width="32px" src="{% static 'img/Discord-Logo-Color.svg' %}" onerror="this.src='/static/img/Discord-Logo-Color.png'"></a></td>
-                <td class="mdl-data-table__cell--non-numeric">{{ server.name }}</td>
-                <td class="mdl-data-table__cell--non-numeric">{% if server.locations %}{{ server.locations.name }}{% if server.locations.region %}, {{ server.locations.region.name }}{% endif %}, {{ server.locations.country.code2 }}{% else %}Worldwide{% endif %}</td>
+                <td class="mdl-data-table__cell--non-numeric"><a href="{{ community.invite }}"><img width="32px" src="{% static 'img/Discord-Logo-Color.svg' %}" onerror="this.src='/static/img/Discord-Logo-Color.png'"></a></td>
+                <td class="mdl-data-table__cell--non-numeric">{{ community.name }}</td>
+                <td class="mdl-data-table__cell--non-numeric">{% if community.locations %}{{ community.locations.name }}{% if community.locations.region %}, {{ community.locations.region.name }}{% endif %}, {{ community.locations.country.code2 }}{% else %}Worldwide{% endif %}</td>
               </tr>
               {% endfor %}
             </tbody>
