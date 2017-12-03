@@ -13,6 +13,10 @@ class BaseCommunity(models.Model):
 	
 	def __str__(self):
 		return self.name
+	
+	class Meta:
+		abstract = True
+		ordering = ['name']
 
 class Discord(BaseCommunity):
 	invite_slug = models.CharField(max_length=256)
@@ -21,6 +25,10 @@ class Discord(BaseCommunity):
 	@property
 	def invite(self):
 		return "https://discord.gg/"+self.invite_slug
+	
+	@property
+	def social(self):
+		return 'discord'
 
 class WhatsApp(BaseCommunity):
 	invite_slug = models.CharField(max_length=256)
@@ -29,11 +37,19 @@ class WhatsApp(BaseCommunity):
 	@property
 	def invite(self):
 		return "https://chat.whatsapp.com/invite/"+self.invite_slug
+	
+	@property
+	def social(self):
+		return 'whatsapp'
 
 class FacebookGroup(BaseCommunity):
-	invite_slug = models.CharField(max_length=256)
+	username = models.CharField(max_length=256)
 	extra_data = models.TextField(blank=True)
 	
 	@property
 	def invite(self):
-		return "https://www.facebook.com/groups/"+self.invite_slug
+		return "https://www.facebook.com/groups/"+self.username
+	
+	@property
+	def social(self):
+		return 'facebook'

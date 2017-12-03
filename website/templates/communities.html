@@ -8,7 +8,6 @@
 
 {% block content %}
         <div class="mdl-grid welcome-content">
-                <p>This page is being reconstructed, please hold</p>
           <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell--3-offset-desktop mdl-cell--1-offset-tablet">
             <thead>
               <tr>
@@ -20,7 +19,7 @@
             <tbody>
               {% for community in community_list %}
               <tr>
-                <td class="mdl-data-table__cell--non-numeric"><a href="{{ community.invite }}"><img width="32px" src="{% static 'img/Discord-Logo-Color.svg' %}" onerror="this.src='/static/img/Discord-Logo-Color.png'"></a></td>
+                <td class="mdl-data-table__cell--non-numeric"><a href="{{ community.invite }}"><img width="32px" src="/static/img/{{ community.social }}.svg" onerror="this.src='/static/img/{{ community.social }}.png'"></a></td>
                 <td class="mdl-data-table__cell--non-numeric">{{ community.name }}</td>
                 <td class="mdl-data-table__cell--non-numeric">{% if community.locations %}{{ community.locations.name }}{% if community.locations.region %}, {{ community.locations.region.name }}{% endif %}, {{ community.locations.country.code2 }}{% else %}Worldwide{% endif %}</td>
               </tr>
