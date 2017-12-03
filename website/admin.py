@@ -27,5 +27,5 @@ class FacebookGroupAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(FacebookGroup, {
 		'locations' : 'cities_light_city'
 	})
-	list_display = ('name', 'locations', 'invite_slug')
+	list_display = ('name', 'locations', 'username')
 	search_fields = ('name','locations')
