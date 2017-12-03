@@ -5,11 +5,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import *
 from cities_light.models import City
+from trainer.models import Faction
+
+DEFAULT_TEAM_ID=0
 
 class BaseCommunity(models.Model):
 	id = models.CharField(max_length=256, primary_key=True)
 	name = models.CharField(max_length=256)
 	locations = models.ForeignKey(City, null=True, blank=True)
+	team = models.ForeignKey(Faction, default=DEFAULT_TEAM_ID)
 	
 	def __str__(self):
 		return self.name
