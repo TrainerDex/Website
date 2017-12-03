@@ -9,5 +9,23 @@ class DiscordAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(Discord, {
 		'locations' : 'cities_light_city'
 	})
-	list_display = ('name',)
-	search_fields = ('name',)
+	list_display = ('name', 'locations', 'invite_slug')
+	search_fields = ('name','locations')
+
+@admin.register(WhatsApp)
+class WhatsAppAdmin(AjaxSelectAdmin):
+	
+	form = make_ajax_form(WhatsApp, {
+		'locations' : 'cities_light_city'
+	})
+	list_display = ('name', 'locations', 'invite_slug')
+	search_fields = ('name','locations')
+
+@admin.register(FacebookGroup)
+class FacebookGroupAdmin(AjaxSelectAdmin):
+	
+	form = make_ajax_form(FacebookGroup, {
+		'locations' : 'cities_light_city'
+	})
+	list_display = ('name', 'locations', 'invite_slug')
+	search_fields = ('name','locations')
