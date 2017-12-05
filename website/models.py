@@ -31,6 +31,15 @@ class Discord(BaseCommunity):
 		return "https://discord.gg/"+self.invite_slug
 	
 	@property
+	def active(self):
+		import requests
+		r = requests.get('https://discordapp.com/api/invites/'+self.invite_slug)
+		if r.json()['code'] == 10006:
+			return False
+		else:
+			return True
+	
+	@property
 	def social(self):
 		return 'discord'
 
