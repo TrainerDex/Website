@@ -14,6 +14,7 @@ class BaseCommunity(models.Model):
 	name = models.CharField(max_length=256)
 	locations = models.ForeignKey(City, null=True, blank=True)
 	team = models.ForeignKey(Faction, default=DEFAULT_TEAM_ID)
+	extra_data = models.TextField(blank=True)
 	
 	def __str__(self):
 		return self.name
@@ -23,8 +24,8 @@ class BaseCommunity(models.Model):
 		ordering = ['name']
 
 class Discord(BaseCommunity):
-	invite_slug = models.CharField(max_length=256)
-	extra_data = models.TextField(blank=True)
+	invite_slug = models.CharField(max_length=256, unique=True)
+	enhanced = models.BooleanField(default=False)
 	
 	@property
 	def invite(self):
@@ -41,11 +42,10 @@ class Discord(BaseCommunity):
 	
 	@property
 	def social(self):
-		return 'discord'
+		return 'discord-enhanced' if self.enhanced is True else 'discord'
 
 class WhatsApp(BaseCommunity):
-	invite_slug = models.CharField(max_length=256)
-	extra_data = models.TextField(blank=True)
+	invite_slug = models.CharField(max_length=256, unique=True)
 	
 	@property
 	def invite(self):
@@ -56,8 +56,7 @@ class WhatsApp(BaseCommunity):
 		return 'whatsapp'
 
 class FacebookGroup(BaseCommunity):
-	username = models.CharField(max_length=256)
-	extra_data = models.TextField(blank=True)
+	username = models.CharField(max_length=256, unique=True)
 	
 	@property
 	def invite(self):
@@ -66,3 +65,14 @@ class FacebookGroup(BaseCommunity):
 	@property
 	def social(self):
 		return 'facebook'
+
+class MessengerGroup(BaseCommunity):
+	invite_slug = models.CharField(max_length=256, unique=True)
+	
+	@property
+	def invite(self):
+		return "https://m.me/join/"+self.invite_slug
+	
+	@property
+	def social(self):
+		return 'messenger'
