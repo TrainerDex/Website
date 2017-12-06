@@ -29,3 +29,12 @@ class FacebookGroupAdmin(AjaxSelectAdmin):
 	})
 	list_display = ('name', 'locations', 'username')
 	search_fields = ('name','locations')
+
+@admin.register(MessengerGroup)
+class MessengerGroupAdmin(AjaxSelectAdmin):
+	
+	form = make_ajax_form(MessengerGroup, {
+		'locations' : 'cities_light_city'
+	})
+	list_display = ('name', 'locations', 'invite_slug')
+	search_fields = ('name','locations')
