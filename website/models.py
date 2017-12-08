@@ -11,9 +11,11 @@ DEFAULT_TEAM_ID=0
 
 class BaseCommunity(models.Model):
 	id = models.CharField(max_length=256, primary_key=True)
-	name = models.CharField(max_length=256)
+	name = models.CharField(max_length=140)
 	locations = models.ForeignKey(City, null=True, blank=True)
 	team = models.ForeignKey(Faction, default=DEFAULT_TEAM_ID)
+	description = models.CharField(max_length=140, blank=True)
+	long_description = models.TextField(blank=True)
 	extra_data = models.TextField(blank=True)
 	
 	def __str__(self):
