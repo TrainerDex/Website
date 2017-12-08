@@ -9,7 +9,7 @@
 {% block content %}
         <div class="mdl-grid welcome-content">
           <div class="mdl-card mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--8-col mdl-cell--2-offset-desktop">
-            <div class="welcome-message-title mdl-card__title">
+            <div class="mdl-card__title">
               <h2 class="mdl-card__title-text">Welcome</h2>
             </div>
             <div class="mdl-card__supporting-text">
@@ -26,22 +26,8 @@
             </script>
             <br>
             <div class="mdl-card__actions mdl-card--border">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="https://discord.gg/pFhMS3s">
-                International
-              </a>
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="https://discord.gg/CA55mxb">
-                Thanet and East Kent, UK
-              </a>
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="https://discord.gg/pkJV4Xw">
-                Herne Bay, UK
-              </a>
-            </div>
-            <div class="mdl-card__menu">
-              <a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" href="https://pixabay.com/en/wallpaper-minimal-landscape-1218441/">
-                <div id="atrib" class="icon material-icons">info</div>
-                <div class="mdl-tooltip" data-mdl-for="atrib">
-                Image attribution: maeichnau
-                </div>
+              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'communities' %}">
+                Let's go!
               </a>
             </div>
           </div>
