@@ -265,3 +265,8 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
   color: rgba(0, 0, 0, 0.54);
   background: transparent;
 }
+
+u.dotted {
+  border-bottom: 1px dashed #999;
+  text-decoration: none;
+}

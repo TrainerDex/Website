@@ -13,18 +13,17 @@
               <h2 class="mdl-card__title-text">Welcome</h2>
             </div>
             <div class="mdl-card__supporting-text">
-              The TrainerDex website is currently under construction.
-              Until then, don't be afraid to check out our Discord Servers!
-              A public server list of all known Pokemon Go servers is coming soon.
+              <p>
+                TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban, just check out our <u class="dotted" id="faq">FAQ</u>.
+                <div class="mdl-tooltip" for="faq">Coming soon!</div>
+              <p>
+                Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!
+              </p>
+              <p>
+                TrainerDex Web <em>beta</em> is coming soon, be sure to keep your eyes peeled. Join our <u class="dotted" id="newsletter">newsletter</u> for more information.
+              </p>
+              <div class="mdl-tooltip" for="newsletter">Coming soon!</div>
             </div>
-            <div id="p3" class="mdl-progress mdl-js-progress" style="width:95%; margin:0 auto;"></div>
-            <script>
-              document.querySelector('#p3').addEventListener('mdl-componentupgraded', function() {
-                this.MaterialProgress.setProgress(25);
-                this.MaterialProgress.setBuffer(54);
-              });
-            </script>
-            <br>
             <div class="mdl-card__actions mdl-card--border">
               <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'communities' %}">
                 Let's go!
