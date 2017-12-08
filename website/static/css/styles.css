@@ -18,14 +18,6 @@ html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
-.welcome-message-title {
-  min-height: 300px;
-  background-image: url('/static/img/welcome.png');
-  background-position: 100% 30%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 100%;
-}
 .welcome-cards .mdl-card__actions a {
   color: #00BCD4;
   text-decoration: none;
@@ -243,4 +235,38 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 }
 .trainerdex-profile .trainerdex-name {
   font-size: 26px;
+}
+
+.social-btn {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  margin: 0 16px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  opacity: 0.46;
+  border-radius: 2px;
+}
+/*.social-btn__twitter {
+  background-image: url('http://www.trainerdex.co.uk/static/img/twitter.svg');
+}*/
+.social-btn__facebook {
+  background-image: url('http://www.trainerdex.co.uk/static/img/facebook.svg');
+}
+.social-btn__gplus {
+  background-image: url('http://www.trainerdex.co.uk/static/img/googleplus.svg');
+}
+.social-btn__discord {
+  background-image: url('http://www.trainerdex.co.uk/static/img/discord.svg');
+}
+.social-btn__share {
+  color: rgba(0, 0, 0, 0.54);
+  background: transparent;
+}
+
+u.dotted {
+  border-bottom: 1px dashed #999;
+  text-decoration: none;
 }
