@@ -12,23 +12,25 @@
 
 {% block content %}
         <div class="mdl-grid welcome-content">
-          <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell--3-offset-desktop mdl-cell--1-offset-tablet">
-            <thead>
-              <tr>
-                <th></th>
-                <th class="mdl-data-table__cell--non-numeric">Name</th>
-                <th class="mdl-data-table__cell--non-numeric">Location</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for community in community_list %}
-              <tr>
-                <td class="mdl-data-table__cell--non-numeric"><a href="{{ community.invite }}"><img width="32px" src="/static/img/{{ community.social }}.svg" onerror="this.src='/static/img/{{ community.social }}.png'"></a></td>
-                <td class="mdl-data-table__cell--non-numeric">{{ community.name }} {% if 'discord' not in community.social %}<status-indicator></status-indicator>{% elif community.active %}<status-indicator positive pulse></status-indicator>{% elif not community.active %}<status-indicator negative></status-indicator>{% endif %}{% if community.team %}<img width="32px" src="{{ community.team.image }}" />{% endif %}</td>
-                <td class="mdl-data-table__cell--non-numeric">{% if community.locations %}{{ community.locations.name }}{% if community.locations.region %}, {{ community.locations.region.name }}{% endif %}, {{ community.locations.country.code2 }}{% else %}Worldwide{% endif %}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+          <div class="mdl-grid">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th class="mdl-data-table__cell--non-numeric">Name</th>
+                  <th class="mdl-data-table__cell--non-numeric">Location</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for community in community_list %}
+                <tr>
+                  <td class="mdl-data-table__cell--non-numeric"><a href="{{ community.invite }}" rel="external"><img width="32px" src="/static/img/{{ community.social }}.svg" onerror="this.src='/static/img/{{ community.social }}.png'"></a></td>
+                  <td class="mdl-data-table__cell--non-numeric">{{ community.name }} {% if 'discord' not in community.social %}<status-indicator></status-indicator>{% elif community.active %}<status-indicator positive pulse></status-indicator>{% elif not community.active %}<status-indicator negative></status-indicator>{% endif %}{% if community.team %}<img width="32px" src="{{ community.team.image }}" />{% endif %}</td>
+                  <td class="mdl-data-table__cell--non-numeric">{% if community.locations %}{{ community.locations.name }}{% if community.locations.region %}, {{ community.locations.region.name }}{% endif %}, {{ community.locations.country.code2 }}{% else %}Worldwide{% endif %}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
 {% endblock %}
