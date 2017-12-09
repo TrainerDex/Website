@@ -45,3 +45,4 @@ class DiscordGuildAdmin(AjaxSelectAdmin):
 	
 	form = make_ajax_form(User, {
 		'username' : 'user'
+	})

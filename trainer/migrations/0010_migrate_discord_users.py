@@ -21,7 +21,7 @@ def migrate_discord_users(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('trainer', '0008_clear_default_start_dates'),
+        ('trainer', '0009_auto_20171209_1502'),
         ('socialaccount', '0003_extra_data_default_dict'),
     ]
     

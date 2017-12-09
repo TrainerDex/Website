@@ -8,7 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('trainer', '0012_auto_20171108_1823'),
+        ('trainer', '0010_migrate_discord_users'),
     ]
 
     operations = [

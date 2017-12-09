@@ -123,7 +123,7 @@ class DiscordGuild(models.Model):
 	region = models.CharField(max_length=256)
 	id = models.CharField(max_length=256, primary_key=True, verbose_name="ID")
 	icon = models.CharField(max_length=256, null=True, blank=True)
-	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	maintainer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 	bans_cheaters = models.BooleanField(default=True)
 	seg_cheaters = models.BooleanField(default=False, verbose_name="segregates cheaters")
 	bans_minors = models.BooleanField(default=False)
