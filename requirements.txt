@@ -7,7 +7,6 @@ django==1.11.4
 django-model-changes==0.15
 django-rest-elasticsearch==0.3.1
 djangorestframework==3.6.3
-arrow==0.10.0
 idna==2.6
 kombu==4.1.0
 psycopg2==2.7.3.2
@@ -21,3 +20,4 @@ django_colorful==1.2
 humanize==0.5.1
 django-ajax-selects==1.6.1
 django-cities-light==3.3.0
+django-flat-responsive
