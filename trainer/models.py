@@ -1,14 +1,16 @@
-import os
+﻿# -*- coding: utf-8 -*-
 from datetime import date
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import *
 from colorful.fields import RGBColorField
 
 def factionImagePath(instance, filename):
-	return os.path.join('trainer/media/teams', filename)
+	return 'factions/'+instance.name
 
-leaderImagePath = factionImagePath
+def leaderImagePath(instance, filename):
+	return 'factions/'+instance.name+'-leader'
 
 class ExtendedProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='extended_profile')
@@ -45,6 +47,7 @@ class Trainer(models.Model):
 	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name="Safari Zone - Prague, Czechia")
 	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name="Safari Zone - Stockholm, Sweden")
 	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name="Safari Zone - Amstelveen, The Netherlands")
+	#top_50 = models.TextField(null=True, blank=True)
 	
 	def __str__(self):
 		return self.username
@@ -57,14 +60,14 @@ class Faction(models.Model):
 	colour = RGBColorField(default='#929292', null=True, blank=True)
 	image = models.ImageField(upload_to=factionImagePath, blank=True, null=True)
 	leader_name = models.CharField(max_length=140, null=True, blank=True)
-	leader_image = models.ImageField(upload_to=factionImagePath, blank=True, null=True)
+	leader_image = models.ImageField(upload_to=leaderImagePath, blank=True, null=True)
 	
 	def __str__(self):
 		return self.name
 
 class Update(models.Model):
 	trainer = models.ForeignKey('Trainer', on_delete=models.CASCADE)
-	datetime = models.DateTimeField(auto_now_add=True)
+	datetime = models.DateTimeField(default=timezone.now)
 	xp = models.PositiveIntegerField(verbose_name='Total XP')
 	dex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name="seen")
 	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name="caught")

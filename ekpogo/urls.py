@@ -5,10 +5,10 @@ from django.contrib import admin
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 from ajax_select import urls as ajex_select_urls
+from website.views import *
 
 api_v0_1_patterns = [
     url(r"^enrollment/", include('enrollment.urls', namespace="enrollment")),
-    url(r"^gyms/", include('gyms.urls', namespace="gyms")),
     url(r"", include('trainer.urls.0.1', namespace="trainerdex")),
 ]
 
@@ -23,6 +23,8 @@ urlpatterns = [
     url(r"^api/trainer/", include('trainer.urls.0.1', namespace="trainer")), # legacy url scheme
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^ajax_select/', include(ajex_select_urls)),
+    url(r'^$', index, name='home'),
+    url(r'^communities/', communities, name='communities'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^accounts/profile/$', TemplateView.as_view(template_name='profile.html'), name='user_profile'),
 ]
