@@ -1,0 +1,58 @@
+﻿import os
+from datetime import date
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import *
+from django.utils import timezone
+from colorful.fields import RGBColorField
+from humanize import naturaldate as strdate
+
+class Tea(models.Model):
+	name = models.CharField(max_length=75, unique=True)
+	green = models.BooleanField(default=False)
+	looseLeaf = models.BooleanField(default=False, verbose_name="loose leaf")
+	
+	def __str__(self):
+		return self.name
+	
+	class Meta:
+		ordering = ['name']
+
+class Sweetener(models.Model):
+	name = models.CharField(max_length=75)
+	cube = models.BooleanField(default=False)
+	packet = models.BooleanField(default=False)
+	
+	def __str__(self):
+		stringg = self.name
+		if self.cube is True:
+			stringg += " Cube"
+		elif self.packet is True:
+			stringg += " Packet"
+		return stringg
+	
+	class Meta:
+		ordering = ['name']
+
+class Colour(models.Model):
+	name = models.CharField(max_length=75)
+	colour = RGBColorField(primary_key=True)
+	
+	def __str__(self):
+		return self.name
+
+class Cuppa(models.Model):
+	tea = models.ForeignKey(Tea, on_delete=models.CASCADE)
+	datetime = models.DateTimeField(default=timezone.now, verbose_name="time")
+	sweetener_amt = models.PositiveIntegerField(default=0, verbose_name="sugars?")
+	sweetener_type = models.ForeignKey(Sweetener, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="or sweeteners?")
+	colour = models.ForeignKey(Colour, on_delete=models.SET_NULL, null=True, blank=True)
+	hardWater = models.BooleanField(default=True, verbose_name="hard water")
+	isBought = models.BooleanField(default=False, verbose_name="bought")
+	
+	def __str__(self):
+		return self.tea.name+' on '+strdate(self.datetime)
+	
+	class Meta:
+		get_latest_by = 'datetime'
+		ordering = ['-datetime']

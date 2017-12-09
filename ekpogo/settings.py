@@ -20,6 +20,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'flat_responsive',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,10 +32,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'ajax_select',
+    'cities_light',
     'enrollment',
-    'gyms',
     'trainer',
     'colorful',
+    'teaproject',
+    'website',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -133,13 +136,6 @@ USE_X_FORWARDED_HOST = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-CELERYBEAT_SCHEDULE = {
-    "monacle-scraper": {
-        "task": "gyms.tasks.update_gyms",
-        "schedule": datetime.timedelta(seconds=30),
-    },
-}
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
@@ -159,3 +155,12 @@ LOGIN_REDIRECT_URL = 'user_profile'
 
 GOOGLE_ANALYTICS_PROPERTY_ID = '***REMOVED***'
 GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
+
+CITIES_LIGHT_TRANSLATION_LANGUAGES = ['es', 'en', 'fr', 'abbr', 'de', 'nl']
+CITIES_LIGHT_INCLUDE_COUNTRIES = ['GB', 'BE', 'AT', 'AD', 'DK', 'FI', 'FR', 'DE', 'IS', 'IE', 'IM', 'IT', 'LU', 'MC', 'NL', 'NO', 'PL', 'PT', 'SM', 'ES', 'SE', 'CH', 'VA', 'CA', 'US']
+CITIES_LIGHT_INCLUDE_CITY_TYPES = [ 'PPL', 'PPLA', 'PPLA2', 'PPLA3', 'PPLA4', 'PPLC', 'PPLF', 'PPLG', 'PPLL', 'PPLR', 'PPLS', 'STLMT']
+
+AJAX_LOOKUP_CHANNELS = {
+    'cities_light_country': ('cities_light.contrib.ajax_selects_lookups', 'CountryLookup'),
+    'cities_light_city': ('cities_light.contrib.ajax_selects_lookups', 'CityLookup'),
+}

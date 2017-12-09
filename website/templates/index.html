@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+{% block section_title %}{% trans "Welcome" %}{% endblock %}
+
+
+{% block content %}
+        <div class="mdl-grid welcome-content">
+          <div class="mdl-card mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--8-col mdl-cell--2-offset-desktop">
+            <div class="mdl-card__title">
+              <h2 class="mdl-card__title-text">Welcome</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+              <p>
+                TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban, just check out our <u class="dotted" id="faq">FAQ</u>.
+                <div class="mdl-tooltip" for="faq">Coming soon!</div>
+              <p>
+                Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!
+              </p>
+              <p>
+                TrainerDex Web <em>beta</em> is coming soon, be sure to keep your eyes peeled. Join our <u class="dotted" id="newsletter">newsletter</u> for more information.
+              </p>
+              <div class="mdl-tooltip" for="newsletter">Coming soon!</div>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'communities' %}">
+                Let's go!
+              </a>
+            </div>
+          </div>
+        </div>
+{% endblock %}
