@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from trainer.models import *
 from allauth.socialaccount.models import SocialAccount
 from trainer.serializers import *
-from trainer.permissions import IsOwnerOrReadOnly
 
 class UserViewSet(ModelViewSet):
 	serializer_class = UserSerializer
@@ -25,21 +24,6 @@ class FactionViewSet(ModelViewSet):
 class UpdateViewSet(ModelViewSet):
 	serializer_class = UpdateSerializer
 	queryset = Update.objects.order_by('-datetime').all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-#	permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-#						 IsOwnerOrReadOnly,)
-	
-#	def perform_create(self, serializer):
-#		serializer.save(owner=self.request.user)
-
-class DiscordUserViewSet(ReadOnlyModelViewSet):
-	serializer_class = DiscordUserSerializer
-	queryset = SocialAccount.objects.filter(provider='discord')
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-class DiscordServerViewSet(ModelViewSet):
-	serializer_class = DiscordServerSerializer
-	queryset = DiscordGuild.objects.all()
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class DiscordGuildViewSet(ModelViewSet):
