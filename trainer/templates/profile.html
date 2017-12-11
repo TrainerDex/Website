@@ -8,23 +8,28 @@
 {% block section_title %}{% user_display user %}{% endblock %}
 
 {% block extra_head %}
-<meta property="og:title" content="{% user_display user %}" />
-<meta property=”og:image” content=”{% static 'images/user.png' %}”/>
+<meta property="og:title" content="{{trainer.username}}" />
+<meta property=”og:image” content=”{{trainer.faction.image}}”/>
 <meta property="og:type" content="profile" />
-<meta property="profile:username" content="{% user_display user %}" />
-<meta name=”twitter:title” content=”{% user_display user %}”>
-<meta name=”twitter:image” content=”{% static 'images/user.png' %}”/>
+<meta property="profile:username" content="{{trainer.username}}" />
+<meta name=”twitter:title” content=”{{trainer.username}}”>
+<meta name=”twitter:image” content=”{{trainer.faction.image}}”/>
 {% endblock %}
 
 {%block content%}
 <div class="trainerdex-cards mdl-grid">
   <div class="trainerdex-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
     <div class="trainerdex-separator mdl-cell--1-col mdl-cell--hide-phone"></div>
-    <div class="trainerdex-profile mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop">
-      <img src="{% static 'images/user.png' %}" class="trainerdex-profile trainerdex-avatar">
-      <div class="trainerdex-name">{% user_display user %}</div>
-      
-    </div>
+    {{trainer.username}}<br>
+    {{trainer.start_date}}<br>
+    {{trainer.faction}}<br>
+    {{trainer.has_cheated}}<br>
+    {{trainer.last_cheated}}<br>
+    {{trainer.currently_cheats}}<br>
+    {{trainer.statistics}}<br>
+    {{trainer.daily_goal}}<br>
+    {{trainer.total_goal}}<br>
+    {{xp}}
   </div>
 </div>
 {% endblock %}
