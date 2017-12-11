@@ -1,4 +1,3 @@
-from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.conf.urls import url, include
 from django.contrib import admin
@@ -6,6 +5,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 from ajax_select import urls as ajex_select_urls
 from website.views import *
+from trainer.views import profile
 
 api_v0_2_patterns = [
     url(r"", include('trainer.urls', namespace="trainerdex")),
@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^$', index, name='home'),
     url(r'^communities/', communities, name='communities'),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^accounts/profile/$', TemplateView.as_view(template_name='profile.html'), name='user_profile'),
+    url(r'^profile/(?P<username>[a-z]+)/$', profile, name='profile'),
 ]
 
 admin.site.site_title = "TrainerDex Admin"
