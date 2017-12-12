@@ -4,8 +4,8 @@
 {% load account %}
 {% load static %}
 
-{% block head_title %}{% user_display user %}{% endblock %}
-{% block section_title %}{% user_display user %}{% endblock %}
+{% block head_title %}{{trainer.username}}{% endblock %}
+{% block section_title %}{{trainer.username}}{% endblock %}
 
 {% block extra_head %}
 <meta property="og:title" content="{{trainer.username}}" />
@@ -20,16 +20,11 @@
 <div class="trainerdex-cards mdl-grid">
   <div class="trainerdex-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
     <div class="trainerdex-separator mdl-cell--1-col mdl-cell--hide-phone"></div>
-    {{trainer.username}}<br>
-    {{trainer.start_date}}<br>
-    {{trainer.faction}}<br>
-    {{trainer.has_cheated}}<br>
-    {{trainer.last_cheated}}<br>
-    {{trainer.currently_cheats}}<br>
-    {{trainer.statistics}}<br>
-    {{trainer.daily_goal}}<br>
-    {{trainer.total_goal}}<br>
-    {{xp}}
+    Username: {{trainer.username}}<br>
+    Start date: {{trainer.start_date}}<br>
+    Team: {{trainer.faction}}<br>
+    XP: {{xp}}<br>
+    Walk Distance: {{walk_dist}}
   </div>
 </div>
 {% endblock %}
