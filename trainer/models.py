@@ -1,9 +1,11 @@
 ﻿# -*- coding: utf-8 -*-
 from datetime import date
-from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.db import models
 from django.db.models.signals import *
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from colorful.fields import RGBColorField
 
 def factionImagePath(instance, filename):
@@ -113,6 +115,19 @@ class Update(models.Model):
 	
 	def __str__(self):
 		return self.trainer.username+' '+str(self.xp)+' '+str(self.datetime)
+	
+	def clean(self):
+		
+		errors = {}
+		
+		for field in Update._meta.get_fields():
+			if type(field) == models.PositiveIntegerField or field.name == 'walk_dist':
+				largest = Update.objects.filter(trainer=self.trainer).exclude(**{field.name : None}).order_by('-'+field.name).first() # Gets updates, filters by same trainer, excludes updates where that field is empty, get update with highest value in that field - this should always be the correct update
+				if largest is not None and getattr(self, field.name) is not None and getattr(self, field.name) < getattr(largest, field.name):
+					errors[field.name] = _("This value has previously been entered at a higher value. Values cannot decrease.")
+		
+		if errors != {}:
+			raise ValidationError(errors)
 	
 	class Meta:
 		get_latest_by = 'datetime'
