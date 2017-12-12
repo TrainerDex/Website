@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.reddit',
     'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.patreon',
     'allauth.socialaccount.providers.google',
 ]
 
@@ -152,6 +153,14 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = 'user_profile'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'reddit': {
+        'AUTH_PARAMS': {'duration': 'permanent'},
+        'SCOPE': ['identity', 'submit'],
+        'USER_AGENT': 'django:trainerdex:1.0 (by /u/jayturnr)',
+    }
+}
 
 GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-110066146-1'
 GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
