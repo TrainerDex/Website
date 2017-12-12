@@ -26,7 +26,7 @@ class BaseCommunity(models.Model):
 		ordering = ['name']
 
 class Discord(BaseCommunity):
-	invite_slug = models.CharField(max_length=256, unique=True)
+	invite_slug = models.SlugField(unique=True)
 	enhanced = models.BooleanField(default=False)
 	
 	@property
@@ -47,7 +47,7 @@ class Discord(BaseCommunity):
 		return 'discord-enhanced' if self.enhanced is True else 'discord'
 
 class WhatsApp(BaseCommunity):
-	invite_slug = models.CharField(max_length=256, unique=True)
+	invite_slug = models.SlugField(max_length=100, unique=True)
 	
 	@property
 	def invite(self):
@@ -58,7 +58,7 @@ class WhatsApp(BaseCommunity):
 		return 'whatsapp'
 
 class FacebookGroup(BaseCommunity):
-	username = models.CharField(max_length=256, unique=True)
+	username = models.SlugField(unique=True)
 	
 	@property
 	def invite(self):
@@ -69,7 +69,7 @@ class FacebookGroup(BaseCommunity):
 		return 'facebook'
 
 class MessengerGroup(BaseCommunity):
-	invite_slug = models.CharField(max_length=256, unique=True)
+	invite_slug = models.SlugField(max_length=100, unique=True)
 	
 	@property
 	def invite(self):
