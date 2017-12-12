@@ -1,10 +1,11 @@
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-from rest_framework.decorators import detail_route
-from rest_framework import permissions
-from django.shortcuts import get_object_or_404, render
-from django.contrib.auth.models import User
-from trainer.models import Trainer, Faction, Update, DiscordGuild
 from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth.models import User
+from django.db.models import PositiveIntegerField
+from django.shortcuts import get_object_or_404, render
+from rest_framework import permissions
+from rest_framework.decorators import detail_route
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from trainer.models import Trainer, Faction, Update, DiscordGuild
 from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer, DiscordGuildSerializer
 
 class UserViewSet(ModelViewSet):
@@ -35,17 +36,18 @@ class DiscordGuildViewSet(ModelViewSet):
 def profile(request, username):
 	try:
 		trainer = Trainer.objects.get(username__iexact=username)
-		updates = Update.objects.filter(trainer=trainer)
-		xp = 0
-		for i in updates:
-			if i.xp > xp:
-				xp = i.xp
-		#user = Trainer.owner
+		user = Trainer.owner
 	except Trainer.DoesNotExist:
-		raise Http404("User not found")
+		raise Http404("Trainer not found")
 	context = {
 		'trainer' : trainer,
-		'update_list' : updates,
-		'xp': xp,
 	}
+	
+	for field in Update._meta.get_fields():
+		if type(field) == PositiveIntegerField or field.name == 'walk_dist':
+			try:
+				context[field.name] = getattr(Update.objects.filter(trainer=trainer).exclude(**{field.name : None}).order_by('-'+field.name).first(), field.name)
+			except AttributeError:
+				context[field.name] = None
+	
 	return render(request, 'profile.html', context)
