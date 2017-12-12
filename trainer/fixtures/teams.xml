@@ -10,7 +10,7 @@
 	<object model="trainer.faction" pk="1">
 		<field name="name" type="CharField">Mystic</field>
 		<field name="colour" type="CharField">#0005ff</field>
-		<field name="image" type="FileField">static/img/Valor.png</field>
+		<field name="image" type="FileField">static/img/Mystic.png</field>
 		<field name="leader_name" type="CharField">Blanche</field>
 		<field name="leader_image" type="FileField"></field>
 	</object>
