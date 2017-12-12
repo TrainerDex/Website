@@ -13,8 +13,6 @@ def migrate_discord_users(apps, schema_editor):
         extra_data['username'] = user.name
         extra_data['id'] = user.id
         extra_data['discriminator'] = user.discriminator
-        if user.avatar_url.startswith('https://cdn.discordapp.com/avatars'):
-            extra_data['avatar'] = user.avatar_url.replace('https://cdn.discordapp.com/avatars/{}/'.format(user.id), '').split('.')[0]
             
         AuthUser.objects.create(user=user.account, uid=user.id, provider='discord', date_joined=user.creation, extra_data=extra_data)
 
