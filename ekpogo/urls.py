@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^$', index, name='home'),
     url(r'^communities/', communities, name='communities'),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^profile/(?P<username>[a-z]+)/$', profile, name='profile'),
+    url(r'^profile/(?P<username>.+)/$', profile, name='profile'),
 ]
 
 admin.site.site_title = "TrainerDex Admin"

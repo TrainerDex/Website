@@ -84,25 +84,27 @@ class Update(models.Model):
 	xp = models.PositiveIntegerField(verbose_name='Total XP')
 	dex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name="seen")
 	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name="caught")
+	gym_badges = models.PositiveIntegerField(null=True, blank=True)
+	
 	walk_dist = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True, verbose_name="jogger")
 	gen_1_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name="kanto")
 	pkmn_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name="collector")
 	pkmn_evolved = models.PositiveIntegerField(null=True, blank=True, verbose_name="scientist")
-	pkstops_spun = models.PositiveIntegerField(null=True, blank=True, verbose_name="backpacker")
-	battles_won = models.PositiveIntegerField(null=True, blank=True, verbose_name="battle girl")
-	gen_2_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name="johto")
-	berry_fed = models.PositiveIntegerField(null=True, blank=True, verbose_name="berry master")
-	gym_defended = models.PositiveIntegerField(null=True, blank=True, verbose_name="gym leader")
 	eggs_hatched = models.PositiveIntegerField(null=True, blank=True, verbose_name="breeder")
+	pkstops_spun = models.PositiveIntegerField(null=True, blank=True, verbose_name="backpacker")
 	big_magikarp = models.PositiveIntegerField(null=True, blank=True, verbose_name="fisherman")
+	battles_won = models.PositiveIntegerField(null=True, blank=True, verbose_name="battle girl")
 	legacy_gym_trained = models.PositiveIntegerField(null=True, blank=True, verbose_name="ace trainer")
 	tiny_rattata = models.PositiveIntegerField(null=True, blank=True, verbose_name="youngster")
 	pikachu_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name="pikachu fan")
+	gen_2_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name="johto")
 	unown_alphabet = models.PositiveIntegerField(null=True, blank=True, verbose_name="unown")
+	berry_fed = models.PositiveIntegerField(null=True, blank=True, verbose_name="berry master")
+	gym_defended = models.PositiveIntegerField(null=True, blank=True, verbose_name="gym leader")
 	raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name="champion")
 	leg_raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name="battle legend")
 	gen_3_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name="hoenn")
-	#Pokemon-demographics
+	
 	pkmn_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name="schoolkid")
 	pkmn_flying = models.PositiveIntegerField(null=True, blank=True, verbose_name="bird keeper")
 	pkmn_poison = models.PositiveIntegerField(null=True, blank=True, verbose_name="punk girl")
@@ -121,8 +123,7 @@ class Update(models.Model):
 	pkmn_ghost = models.PositiveIntegerField(null=True, blank=True, verbose_name="hex maniac")
 	pkmn_ice = models.PositiveIntegerField(null=True, blank=True, verbose_name="skier")
 	pkmn_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name="dragon tamer")
-	#Badges
-	gym_badges = models.PositiveIntegerField(null=True, blank=True)
+
 	
 	def __str__(self):
 		return self.trainer.username+' '+str(self.xp)+' '+str(self.update_time)
@@ -140,6 +141,8 @@ class Update(models.Model):
 		if update_time < date(2017,6,20):
 			self.raids_completed = None
 			self.leg_raids_completed = None
+			self.berry_fed = None
+			self.gym_defended = None
 		
 		if update_time >= date(2017,6,20) and Update.objects.filter(trainer=self.trainer).filter(update_time >= date(2017,6,20)).exclude(legacy_gym_trained=None).order_by('-'+field.name) is not None:
 			self.legacy_gym_trained = None
@@ -149,6 +152,7 @@ class Update(models.Model):
 		
 		if update_time < date(2016,12,1):
 			self.gen_2_dex = None
+			self.unown_alphabet = None
 		
 		if errors != {}:
 			raise ValidationError(errors)

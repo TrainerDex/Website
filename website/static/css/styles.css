@@ -228,13 +228,17 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
   font-size: 1.3rem;
 }
 
-.trainerdex-profile .trainerdex-avatar {
+.trainerdex--profile .trainerdex-avatar {
   width: 140px;
   height: 140px;
   border-radius: 70px;
 }
-.trainerdex-profile .trainerdex-name {
-  font-size: 26px;
+.trainerdex--profile-badges {
+  min-width:140px;
+}
+.trainerdex--profile-badges span{
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .social-btn {
