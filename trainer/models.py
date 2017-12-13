@@ -18,6 +18,7 @@ def leaderImagePath(instance, filename):
 class ExtendedProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='extended_profile')
 	dob = models.DateField(null=True, blank=True, verbose_name="date of birth")
+	prefered_profile = models.ForeignKey('Trainer', on_delete=models.SET_NULL, null=True, blank=False, related_name='main_profiles', limit_choices_to={'owner' : pk})
 	
 	def __str__(self):
 		return self.user.username
@@ -40,7 +41,6 @@ class Trainer(models.Model):
 	daily_goal = models.PositiveIntegerField(null=True, blank=True)
 	total_goal = models.PositiveIntegerField(null=True, blank=True)
 	last_modified = models.DateTimeField(auto_now=True)
-	prefered = models.BooleanField(default=True, verbose_name="main profile")
 	go_fest_2017 = models.BooleanField(default=False, verbose_name="Pokémon GO Fest Chicago")
 	outbreak_2017 = models.BooleanField(default=False, verbose_name="Pikachu Outbreak 2017")
 	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name="Safari Zone - Oberhausen, Germany")
@@ -51,6 +51,9 @@ class Trainer(models.Model):
 	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name="Safari Zone - Stockholm, Sweden")
 	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name="Safari Zone - Amstelveen, The Netherlands")
 	#top_50 = models.TextField(null=True, blank=True)
+	
+	def is_prefered(self):
+		return True if owner.prefered_profile == self else False
 	
 	def __str__(self):
 		return self.username
