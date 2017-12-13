@@ -18,7 +18,7 @@ def leaderImagePath(instance, filename):
 class ExtendedProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='extended_profile')
 	dob = models.DateField(null=True, blank=True, verbose_name="date of birth")
-	prefered_profile = models.ForeignKey('Trainer', on_delete=models.SET_NULL, null=True, blank=False, related_name='main_profiles', limit_choices_to={'owner' : pk})
+	prefered_profile = models.ForeignKey('Trainer', on_delete=models.SET_NULL, null=True, blank=False, related_name='main_profiles', limit_choices_to={'owner' : 1})
 	
 	def __str__(self):
 		return self.user.username
