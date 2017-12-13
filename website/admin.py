@@ -13,8 +13,8 @@ class DiscordAdmin(AjaxSelectAdmin):
 		'cities' : 'cities',
 		'districts' : 'districts',
 	})
-	list_display = ('name', 'invite_slug')
-	search_fields = ('name',)
+	list_display = ('name', 'locations', 'team', 'invite_slug', 'is_invite_override', 'active')
+	search_fields = ('name', 'locations')
 
 @admin.register(WhatsApp)
 class WhatsAppAdmin(AjaxSelectAdmin):
@@ -26,8 +26,8 @@ class WhatsAppAdmin(AjaxSelectAdmin):
 		'cities' : 'cities',
 		'districts' : 'districts',
 	})
-	list_display = ('name', 'invite_slug')
-	search_fields = ('name',)
+	list_display = ('name', 'locations', 'team', 'invite_slug', 'is_invite_override')
+	search_fields = ('name', 'locations')
 
 @admin.register(FacebookGroup)
 class FacebookGroupAdmin(AjaxSelectAdmin):
@@ -39,8 +39,8 @@ class FacebookGroupAdmin(AjaxSelectAdmin):
 		'cities' : 'cities',
 		'districts' : 'districts',
 	})
-	list_display = ('name', 'username')
-	search_fields = ('name',)
+	list_display = ('name', 'locations', 'team', 'username', 'is_invite_override')
+	search_fields = ('name', 'locations')
 
 @admin.register(MessengerGroup)
 class MessengerGroupAdmin(AjaxSelectAdmin):
@@ -52,5 +52,5 @@ class MessengerGroupAdmin(AjaxSelectAdmin):
 		'cities' : 'cities',
 		'districts' : 'districts',
 	})
-	list_display = ('name', 'invite_slug')
-	search_fields = ('name',)
+	list_display = ('name', 'locations', 'team', 'invite_slug', 'is_invite_override')
+	search_fields = ('name', 'locations')

@@ -32,7 +32,7 @@ class SubregionLookup(LookupChannel):
 		return self.model.objects.filter(name__icontains=q)
 	
 	def format_item_display(self, item):
-		return "<span class='tag'>{}, {}</span>".format(item.name, item.region.name)
+		return "<span class='tag'>{}, {}</span>".format(item, item.region)
 
 @register('cities')
 class CityLookup(LookupChannel):
@@ -43,7 +43,10 @@ class CityLookup(LookupChannel):
 		return self.model.objects.filter(name__icontains=q)
 	
 	def format_item_display(self, item):
-		return "<span class='tag'>{}, {}, {}</span>".format(item.name, item.subregion.name, item.region.code)
+		try:
+			return "<span class='tag'>{}, {}, {}</span>".format(item, item.subregion, item.region.code)
+		except AttributeError:
+			return "<span class='tag'>{}</span>".format(item.name)
 
 @register('districts')
 class DistrictLookup(LookupChannel):
@@ -54,4 +57,7 @@ class DistrictLookup(LookupChannel):
 		return self.model.objects.filter(name__icontains=q)
 	
 	def format_item_display(self, item):
-		return "<span class='tag'>{}, {}, {}</span>".format(item.name, item.city.name, item.region.code)
+		try:
+			return "<span class='tag'>{}, {}, {}</span>".format(item, item.city, item.region.code)
+		except AttributeError:
+			return "<span class='tag'>{}</span>".format(item, item.city)

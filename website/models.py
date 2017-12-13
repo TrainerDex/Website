@@ -28,6 +28,7 @@ class BaseCommunity(models.Model):
 	
 	def is_invite_override(self):
 		return True if self.invite_override_url is not None or self.invite_override_note is not None else False
+	is_invite_override.boolean = True
 	
 	@property
 	def locations(self):
@@ -48,7 +49,6 @@ class Discord(BaseCommunity):
 	def invite(self):
 		return "https://discord.gg/"+self.invite_slug
 	
-	@property
 	def active(self):
 		import requests
 		r = requests.get('https://discordapp.com/api/invites/'+self.invite_slug)
@@ -56,6 +56,7 @@ class Discord(BaseCommunity):
 			return False
 		else:
 			return True
+	active.boolean = True
 	
 	@property
 	def state(self):
