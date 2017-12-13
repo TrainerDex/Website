@@ -152,7 +152,7 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = 'user_profile'
+LOGIN_REDIRECT_URL = 'profile'
 
 SOCIALACCOUNT_PROVIDERS = {
     'reddit': {
