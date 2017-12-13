@@ -1,10 +1,12 @@
 ﻿# -*- coding: utf-8 -*-
 import os
+from cities.models import Country, City
 from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import *
-from cities_light.models import City
 from trainer.models import Faction
 
 DEFAULT_TEAM_ID=0
@@ -12,6 +14,9 @@ DEFAULT_TEAM_ID=0
 class BaseCommunity(models.Model):
 	id = models.CharField(max_length=256, primary_key=True)
 	name = models.CharField(max_length=140)
+	#location_type = models.ForeignKey(ContentType)
+	#location_id = models.PositiveIntegerField()
+	#location = GenericForeignKey('location_type', 'location_id')
 	team = models.ForeignKey(Faction, default=DEFAULT_TEAM_ID)
 	description = models.CharField(max_length=140, blank=True)
 	long_description = models.TextField(blank=True)
