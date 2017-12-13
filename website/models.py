@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import os
-from cities.models import Country, City
+from cities.models import Country, Region, Subregion, City, District
 from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
@@ -14,9 +14,11 @@ DEFAULT_TEAM_ID=0
 class BaseCommunity(models.Model):
 	id = models.CharField(max_length=256, primary_key=True)
 	name = models.CharField(max_length=140)
-	location_type = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.SET_NULL)
-	location_id = models.PositiveIntegerField(blank=True, null=True)
-	location = GenericForeignKey('location_type', 'location_id')
+	countries = models.ManyToManyField(Country, blank=True)
+	regions = models.ManyToManyField(Region, blank=True)
+	subregions = models.ManyToManyField(Subregion, blank=True)
+	cities = models.ManyToManyField(City, blank=True)
+	districts = models.ManyToManyField(District, blank=True)
 	team = models.ForeignKey(Faction, default=DEFAULT_TEAM_ID)
 	description = models.CharField(max_length=140, blank=True)
 	long_description = models.TextField(blank=True)
@@ -26,6 +28,10 @@ class BaseCommunity(models.Model):
 	
 	def is_invite_override(self):
 		return True if self.invite_override_url is not None or self.invite_override_note is not None else False
+	
+	@property
+	def locations(self):
+		return list(self.countries.all())+list(self.regions.all())+list(self.subregions.all())+list(self.cities.all())+list(self.districts.all())
 	
 	def __str__(self):
 		return self.name
