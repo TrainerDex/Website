@@ -14,21 +14,56 @@
 <meta property="profile:username" content="{{trainer.username}}" />
 <meta name=”twitter:title” content=”{{trainer.username}}”>
 <meta name=”twitter:image” content=”{{trainer.faction.image}}”/>
+<link href="/static/css/css-circular-prog-bar.css" media="all" rel="stylesheet" />
 {% endblock %}
 
 {%block content%}
-<div class="trainerdex-cards mdl-grid">
-  <div class="trainerdex-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-    <div class="trainerdex-separator mdl-cell--1-col mdl-cell--hide-phone"></div>
-    Username: {{trainer.username}}<br>
-    Start date: {{trainer.start_date}}<br>
-    Team: {{trainer.faction}}<br>
-    XP: {{xp}}<br>
-    Walk Distance: {{walk_dist}}
+<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+  <div class="mdl-tabs__tab-bar">
+      <a href="#info-panel" class="mdl-tabs__tab is-active">{% trans "Info" %}</a>
+      <a href="#badges-panel" class="mdl-tabs__tab">{% trans "Badges" %}</a>
+      <a href="#types-panel" class="mdl-tabs__tab">{% trans "Type Badges" %}</a>
   </div>
+
+  <div class="mdl-tabs__panel is-active" id="info-panel">
+    {% trans "Username" %}: {{trainer.username}}<br>
+    {% trans "Start date" %}: {{trainer.start_date}}<br>
+    {% trans "Team:" %} {{trainer.faction}}<br>
+    {% trans "XP" %}: {{xp}}
+  </div>
+  <div class="mdl-tabs__panel" id="badges-panel">
+    <div class="mdl-grid mdl-grid--no-spacing">
+      {% for badge in badges %}
+      <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile-badges">
+        <div class="progress-circle {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}">
+          <span>{{ badge.value }}</span>
+          <div class="left-half-clipper">
+            <div class="first50-bar"></div>
+            <div class="value-bar"></div>
+          </div>
+        </div>
+      <span>{{ badge.readable_name }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="mdl-tabs__panel" id="types-panel">
+    <div class="mdl-grid mdl-grid--no-spacing">
+      {% for badge in type_badges %}
+      <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile-badges">
+        <div class="progress-circle {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}">
+          <span>{{ badge.value }}</span>
+          <div class="left-half-clipper">
+            <div class="first50-bar"></div>
+            <div class="value-bar"></div>
+          </div>
+        </div>
+      <span>{{ badge.readable_name }}</span>
+      </div>
+      {% endfor %}
+    </div>
 </div>
 {% endblock %}
 
 {% block extra_body %}
-{% comment %}<!-- This is where things which go after </main> go --->{% endcomment %}
 {% endblock %}
