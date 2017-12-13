@@ -14,9 +14,9 @@ DEFAULT_TEAM_ID=0
 class BaseCommunity(models.Model):
 	id = models.CharField(max_length=256, primary_key=True)
 	name = models.CharField(max_length=140)
-	#location_type = models.ForeignKey(ContentType)
-	#location_id = models.PositiveIntegerField()
-	#location = GenericForeignKey('location_type', 'location_id')
+	location_type = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.SET_NULL)
+	location_id = models.PositiveIntegerField(blank=True, null=True)
+	location = GenericForeignKey('location_type', 'location_id')
 	team = models.ForeignKey(Faction, default=DEFAULT_TEAM_ID)
 	description = models.CharField(max_length=140, blank=True)
 	long_description = models.TextField(blank=True)
