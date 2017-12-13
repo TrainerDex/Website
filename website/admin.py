@@ -6,23 +6,51 @@ from website.models import *
 @admin.register(Discord)
 class DiscordAdmin(AjaxSelectAdmin):
 	
+	form = make_ajax_form(Discord, {
+		'countries' : 'countries',
+		'regions': 'regions',
+		'subregions' : 'subregions',
+		'cities' : 'cities',
+		'districts' : 'districts',
+	})
 	list_display = ('name', 'invite_slug')
 	search_fields = ('name',)
 
 @admin.register(WhatsApp)
 class WhatsAppAdmin(AjaxSelectAdmin):
 	
+	form = make_ajax_form(WhatsApp, {
+		'countries' : 'countries',
+		'regions': 'regions',
+		'subregions' : 'subregions',
+		'cities' : 'cities',
+		'districts' : 'districts',
+	})
 	list_display = ('name', 'invite_slug')
 	search_fields = ('name',)
 
 @admin.register(FacebookGroup)
 class FacebookGroupAdmin(AjaxSelectAdmin):
 	
+	form = make_ajax_form(FacebookGroup, {
+		'countries' : 'countries',
+		'regions': 'regions',
+		'subregions' : 'subregions',
+		'cities' : 'cities',
+		'districts' : 'districts',
+	})
 	list_display = ('name', 'username')
 	search_fields = ('name',)
 
 @admin.register(MessengerGroup)
 class MessengerGroupAdmin(AjaxSelectAdmin):
 	
+	form = make_ajax_form(MessengerGroup, {
+		'countries' : 'countries',
+		'regions': 'regions',
+		'subregions' : 'subregions',
+		'cities' : 'cities',
+		'districts' : 'districts',
+	})
 	list_display = ('name', 'invite_slug')
 	search_fields = ('name',)
