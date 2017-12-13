@@ -7,6 +7,7 @@ from django.db.models.signals import *
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from colorful.fields import RGBColorField
+from trainer.validators import *
 
 def factionImagePath(instance, filename):
 	return 'factions/'+instance.name
@@ -30,7 +31,7 @@ class ExtendedProfile(models.Model):
 class Trainer(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
 	username = models.CharField(max_length=30, unique=True)
-	start_date = models.DateField(null=True, blank=True)
+	start_date = models.DateField(null=True, blank=True, validators=[validate_startdate])
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name="team")
 	has_cheated = models.BooleanField(default=False, verbose_name="known to have spoofed")
 	last_cheated = models.DateField(null=True, blank=True)
@@ -54,6 +55,13 @@ class Trainer(models.Model):
 	def __str__(self):
 		return self.username
 	
+	def clean(self):
+		if (self.has_cheated is True or self.currently_cheats is True) and self.last_cheated is None:
+			self.has_cheated = True
+			self.last_cheated = date.today()
+		elif self.currently_cheats is True:
+			self.has_cheated = True
+	
 	class Meta:
 		ordering = ['username']
 
@@ -69,7 +77,7 @@ class Faction(models.Model):
 
 class Update(models.Model):
 	trainer = models.ForeignKey('Trainer', on_delete=models.CASCADE)
-	datetime = models.DateTimeField(default=timezone.now)
+	update_time = models.DateTimeField(default=timezone.now)
 	xp = models.PositiveIntegerField(verbose_name='Total XP')
 	dex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name="seen")
 	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name="caught")
@@ -114,7 +122,7 @@ class Update(models.Model):
 	gym_badges = models.PositiveIntegerField(null=True, blank=True)
 	
 	def __str__(self):
-		return self.trainer.username+' '+str(self.xp)+' '+str(self.datetime)
+		return self.trainer.username+' '+str(self.xp)+' '+str(self.update_time)
 	
 	def clean(self):
 		
@@ -126,12 +134,25 @@ class Update(models.Model):
 				if largest is not None and getattr(self, field.name) is not None and getattr(self, field.name) < getattr(largest, field.name):
 					errors[field.name] = _("This value has previously been entered at a higher value. Values cannot decrease.")
 		
+		if update_time < date(2017,6,20):
+			self.raids_completed = None
+			self.leg_raids_completed = None
+		
+		if update_time >= date(2017,6,20) and Update.objects.filter(trainer=self.trainer).filter(update_time >= date(2017,6,20)).exclude(legacy_gym_trained=None).order_by('-'+field.name) is not None:
+			self.legacy_gym_trained = None
+		
+		if update_time < date(2017,10,20):
+			self.gen_3_dex = None
+		
+		if update_time < date(2016,12,1):
+			self.gen_2_dex = None
+		
 		if errors != {}:
 			raise ValidationError(errors)
 	
 	class Meta:
-		get_latest_by = 'datetime'
-		ordering = ['-datetime']
+		get_latest_by = 'update_time'
+		ordering = ['-update_time']
 
 class DiscordGuild(models.Model):
 	name = models.CharField(max_length=256)

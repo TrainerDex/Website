@@ -23,10 +23,10 @@ class UpdateAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(Update, {
 		'trainer' : 'trainer'
 	})
-	list_display = ('trainer', 'xp', 'datetime')
+	list_display = ('trainer', 'xp', 'update_time')
 	search_fields = ('trainer__username', 'trainer__owner__username')
-	ordering = ('-datetime',)
-	date_hierarchy = 'datetime'
+	ordering = ('-update_time',)
+	date_hierarchy = 'update_time'
 
 @admin.register(Trainer)
 class TrainerAdmin(AjaxSelectAdmin):
@@ -35,7 +35,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 		'username' : 'user'
 	})
 	list_display = ('username', 'faction', 'currently_cheats', 'statistics')
-	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'prefered')
+	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics')
 	search_fields = ('username', 'owner__username', 'owner__first_name')
 	ordering = ('username',)
 	date_hierarchy = 'start_date'
