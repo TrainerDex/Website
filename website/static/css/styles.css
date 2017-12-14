@@ -23,9 +23,6 @@ html, body {
   text-decoration: none;
 }
 
-.gravatar {
-  margin: auto;
-}
 .trainerdex-card-wide.mdl-card {
   width: 512px;
 }
@@ -232,15 +229,31 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
   font-size: 1.3rem;
 }
 
-.trainerdex--profile .trainerdex-avatar {
+.mdl-cell--gravatar-box{
+  min-width: 160px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 0.5rem;
+}
+.gravatar {
   width: 140px;
   height: 140px;
   border-radius: 70px;
+  margin: auto;
+  display: flex;
 }
-.trainerdex--profile-badges {
+.trainerdex--profile-top {
+  margin: 0px;
+  border-radius: 0px;
+  width: 100%;
+}
+.trainerdex--profile__badges-individual {
   min-width:140px;
 }
-.trainerdex--profile-badges span{
+.trainerdex--profile__badges-individual {
+  min-width:140px;
+}
+.trainerdex--profile__badges-individual span{
   text-align: center;
   margin-bottom: 20px;
 }
