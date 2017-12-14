@@ -134,23 +134,23 @@ class Update(models.Model):
 		
 		for field in Update._meta.get_fields():
 			if type(field) == models.PositiveIntegerField or field.name == 'walk_dist':
-				largest = Update.objects.filter(trainer=self.trainer).exclude(**{field.name : None}).order_by('-'+field.name).first() # Gets updates, filters by same trainer, excludes updates where that field is empty, get update with highest value in that field - this should always be the correct update
+				largest = Update.objects.filter(trainer=self.trainer, update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name).first() # Gets updates, filters by same trainer, excludes updates where that field is empty, get update with highest value in that field - this should always be the correct update
 				if largest is not None and getattr(self, field.name) is not None and getattr(self, field.name) < getattr(largest, field.name):
 					errors[field.name] = _("This value has previously been entered at a higher value. Values cannot decrease.")
 		
-		if update_time < date(2017,6,20):
+		if self.update_time.date() < date(2017,6,20):
 			self.raids_completed = None
 			self.leg_raids_completed = None
 			self.berry_fed = None
 			self.gym_defended = None
 		
-		if update_time >= date(2017,6,20) and Update.objects.filter(trainer=self.trainer).filter(update_time >= date(2017,6,20)).exclude(legacy_gym_trained=None).order_by('-'+field.name) is not None:
+		if self.update_time.date() >= date(2017,6,20):
 			self.legacy_gym_trained = None
 		
-		if update_time < date(2017,10,20):
+		if self.update_time.date() < date(2017,10,20):
 			self.gen_3_dex = None
 		
-		if update_time < date(2016,12,1):
+		if self.update_time.date() < date(2016,12,1):
 			self.gen_2_dex = None
 			self.unown_alphabet = None
 		
