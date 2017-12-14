@@ -19,20 +19,19 @@
 {% endblock %}
 
 {%block content%}
-<div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top">
+<div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top {{trainer.faction.name.lower}}">
     <div class="mdl-cell mdl-cell--1-col mdl-cell--4-col-phone mdl-cell--gravatar-box">{% gravatar trainer.owner.email 140 %}</div>
     <div class="mdl-cell  mdl-cell--7-col-desktop mdl-cell--5-col-tablet mdl-cell--3-col-phone mdl-card__supporting-text">
-      {% trans "Username" %}: {{trainer.username}}<br>
       {% trans "Start date" %}: {{trainer.start_date}}<br>
       {% trans "Team:" %} {{trainer.faction}}<br>
       {% trans "XP" %}: {{xp}}
     </div>
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-  <div class="mdl-tabs__tab-bar">
-      <a href="#history-panel" class="mdl-tabs__tab">{% trans "History" %}</a>
-      <a href="#badges-panel" class="mdl-tabs__tab is-active">{% trans "Badges" %}</a>
-      <a href="#types-panel" class="mdl-tabs__tab">{% trans "Type Badges" %}</a>
+  <div class="mdl-tabs__tab-bar {{trainer.faction.name.lower}}">
+      <a href="#history-panel" class="mdl-tabs__tab {{trainer.faction.name.lower}}">{% trans "History" %}</a>
+      <a href="#badges-panel" class="mdl-tabs__tab is-active {{trainer.faction.name.lower}}">{% trans "Badges" %}</a>
+      <a href="#types-panel" class="mdl-tabs__tab {{trainer.faction.name.lower}}">{% trans "Type Badges" %}</a>
   </div>
 
   <div class="mdl-tabs__panel" id="history-panel">
@@ -59,12 +58,12 @@
     {% if badges %}
     <div class="mdl-grid mdl-grid--no-spacing">
       {% for badge in badges %}
-      <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile-badges">
-        <div class="progress-circle {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}">
+      <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
+        <div class="progress-circle {{trainer.faction.name.lower}} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}">
           <span>{{ badge.value }}</span>
           <div class="left-half-clipper">
-            <div class="first50-bar"></div>
-            <div class="value-bar"></div>
+            <div class="first50-bar {{trainer.faction.name.lower}}"></div>
+            <div class="value-bar {{trainer.faction.name.lower}}"></div>
           </div>
         </div>
       <span>{{ badge.readable_name }}</span>
@@ -88,12 +87,12 @@
     {% if type_badges %}
     <div class="mdl-grid mdl-grid--no-spacing">
       {% for badge in type_badges %}
-      <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile-badges">
-        <div class="progress-circle {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}">
+      <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
+        <div class="progress-circle {{trainer.faction.name.lower}} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}">
           <span>{{ badge.value }}</span>
           <div class="left-half-clipper">
-            <div class="first50-bar"></div>
-            <div class="value-bar"></div>
+            <div class="first50-bar {{trainer.faction.name.lower}}"></div>
+            <div class="value-bar {{trainer.faction.name.lower}}"></div>
           </div>
         </div>
       <span>{{ badge.readable_name }}</span>
