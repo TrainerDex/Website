@@ -7,9 +7,22 @@
 
 {% block content %}
 <div class="trainerdex-cards mdl-grid">
-  {% if form.accounts %}
-  <div class="trainerdex-separator mdl-cell--1-col"></div>
-  <div class="trainerdex-options trainerdex-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-desktop">
+  <div class="trainerdex-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col-tablet mdl-cell--8-col-desktop trainerdex-card-center" id="addconn">
+    <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+      <h2 class="mdl-card__title-text">{% trans 'Log in via Social Media' %}</h2>
+     </div>
+    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+      {% trans 'You can sign in to your account using any of the following third party accounts' %}
+    </div>
+    <div class="mdl-card__actions mdl-card--border socialaccount_providers">
+      {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
+    </div>
+  </div>
+</div>
+
+{% if form.accounts %}
+<div class="trainerdex-cards mdl-grid">
+  <div class="trainerdex-options trainerdex-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-desktop trainerdex-card-center" id="delconn">
   <form method="post" action="{% url 'socialaccount_connections' %}">
   {% csrf_token %}
   <fieldset>
@@ -27,7 +40,7 @@
         <li>
           <label for="id_account_{{ base_account.id }}" class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
             <input type="radio" id="id_account_{{ base_account.id }}" class="mdl-radio__button" name="account" value="{{ base_account.id }}"/>
-            <span class="mdl-checkbox__label socialaccount_provider {{ base_account.provider }} {{ account.get_brand.id }}">{{account.get_brand.name}} {{ account }}</span>
+            <span class="mdl-radio__label socialaccount_provider {{ base_account.provider }} {{ account.get_brand.id }}">{{account.get_brand.name}} {{ account }}</span>
           </label>
         </li>
   {% endwith %}
@@ -40,30 +53,9 @@
   </fieldset>
   </form>
   </div>
-  
-  <div class="trainerdex-updates trainerdex-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col-tablet mdl-cell--6-col-desktop">
-    <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
-      <h2 class="mdl-card__title-text">{% trans 'Link Accounts' %}</h2>
-     </div>
-    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-      {%blocktrans %}You can sign in to your account using any of the following third party accounts{% endblocktrans %}
-    </div>
-  
-  {% else %}
-  <div class="trainerdex-separator mdl-cell--2-col"></div>
-  <div class="trainerdex-updates trainerdex-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col-tablet mdl-cell--8-col-desktop">
-    <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
-      <h2 class="mdl-card__title-text">{% trans 'Add a 3rd Party Account' %}</h2>
-     </div>
-    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-      {% trans 'You currently have no social network accounts connected to this account.' %}
-    </div>
-  {% endif %}
-    <div class="mdl-card__actions mdl-card--border socialaccount_providers">
-      {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
-    </div>
-  </div>
 </div>
+{% endif %}
+
 {% include "socialaccount/snippets/login_extra.html" %}
 
 {% endblock %}

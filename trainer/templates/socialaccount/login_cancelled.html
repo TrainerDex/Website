@@ -1,19 +1,26 @@
-{% extends "account/login.html" %}
+{% extends "socialaccount/base.html" %}
 
 {% load i18n %}
 
-{% block warning %}
-<div id="trainerdex-toast-warning" class="mdl-js-snackbar mdl-snackbar">
-  <div class="mdl-snackbar__text"></div>
-  <button class="mdl-snackbar__action" type="button"></button>
+{% block head_title %}{% trans "Social Network Login Failure" %}{% endblock %}
+
+{% block content %}
+<div class="mdl-grid">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "Login Cancelled" %}</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      {% trans "Login was cancelled." %}
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'account_login' %}">
+        Return to login page
+      </a>
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'home' %}">
+        Home
+      </a>
+    </div>
+  </div>
 </div>
-<script>
-r(function(){
-    var snackbarContainer = document.querySelector('#trainerdex-toast-warning');
-    var data = { message: '{% trans "Log in canceled." %}'};
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
-});
-function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
-</script>
 {% endblock %}
-{% block signin_message %}{% blocktrans %}You decided to cancel the log in. If this was a mistake, please try again or, <a href="{{ signup_url }}">sign up</a>.{% endblocktrans %}{% endblock %}
