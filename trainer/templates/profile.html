@@ -9,9 +9,6 @@
 {% block head_title %}{{trainer.username}}{% endblock %}
 {% block section_title %}{{trainer.username}}{% endblock %}
 
-{% trans "It seems this trainer hasn't shared any of these badges. We only show badges with data to avoid showing a row of null values, that's kinda ugly." as no_badges %}
-{% trans "Oh no!" as no_badges_title %}
-
 {% block extra_head %}
 <meta property="og:title" content="{{trainer.username}}" />
 <meta property=”og:image” content=”{{trainer.faction.image}}”/>
@@ -101,10 +98,10 @@
     <div class="mdl-grid">
       <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
         <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">{{ no_badges_title }}</h2>
+          <h2 class="mdl-card__title-text">Oh no!</h2>
         </div>
         <div class="mdl-card__supporting-text">
-          {{ no_badges }}
+          It seems this trainer hasn't shared any of these badges. We only show badges with data to avoid showing a row of null values, that's kinda ugly.
         </div>
       </div>
     </div>
@@ -130,10 +127,10 @@
     <div class="mdl-grid">
       <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
         <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">{{ no_badges_title }}</h2>
+          <h2 class="mdl-card__title-text">Oh no!</h2>
         </div>
         <div class="mdl-card__supporting-text">
-          {{ no_badges }}
+          It seems this trainer hasn't shared any of these badges. We only show badges with data to avoid showing a row of null values, that's kinda ugly.
         </div>
       </div>
     </div>

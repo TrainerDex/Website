@@ -22,6 +22,22 @@ html, body {
   color: #00BCD4;
   text-decoration: none;
 }
+.trainerdex-card__alert {
+  margin-left: auto;
+  margin-right: auto;
+}
+.trainerdex-card__alert > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background-image: url('/static/img/alert.jpg');
+  background-position: center top 28%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+}
+.trainerdex-card__alert > .mdl-card__menu {
+  color: #fff;
+}
 
 .trainerdex-card-wide.mdl-card {
   width: 512px;
