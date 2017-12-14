@@ -60,7 +60,7 @@ Try not to upset Bobby Tables! (╯°□°）╯︵ ┻━┻
       <div class="trainerdex-drawer mdl-layout__drawer mdl-color--primary-dark mdl-color-text--primary-contrast">
         <header class="trainerdex-drawer-header">
           {% load account %}
-          <img src="{% gravatar_url user.email 64 %}" class="trainerdex-avatar">
+          <a href="/profile/"><img src="{% gravatar_url user.email 64 %}" class="trainerdex-avatar"></a>
           <div class="trainerdex-avatar-dropdown">
             <span>{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Anonymous" %}{% endif %}</span>
             <div class="mdl-layout-spacer"></div>

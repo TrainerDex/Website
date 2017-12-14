@@ -4,6 +4,7 @@
 {% load account %}
 {% load static %}
 {% load gravatar %}
+{% load humanize %}
 
 {% block head_title %}{{trainer.username}}{% endblock %}
 {% block section_title %}{{trainer.username}}{% endblock %}
@@ -21,10 +22,27 @@
 {%block content%}
 <div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top {{trainer.faction.name.lower}}">
     <div class="mdl-cell mdl-cell--1-col mdl-cell--4-col-phone mdl-cell--gravatar-box">{% gravatar trainer.owner.email 140 %}</div>
-    <div class="mdl-cell  mdl-cell--7-col-desktop mdl-cell--5-col-tablet mdl-cell--3-col-phone mdl-card__supporting-text">
-      {% trans "Start date" %}: {{trainer.start_date}}<br>
-      {% trans "Team:" %} {{trainer.faction}}<br>
-      {% trans "XP" %}: {{xp}}
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-phone mdl-card__supporting-text">
+      <ul class="mdl-list">
+        <li class="mdl-list__item">
+          <span class="mdl-list__item-primary-content">
+            <i class="material-icons mdl-list__item-icon">date_range</i>
+            {{trainer.start_date}}
+          </span>
+        </li>
+        <li class="mdl-list__item">
+          <span class="mdl-list__item-primary-content">
+            <i class="material-icons mdl-list__item-icon">home</i>
+            {{trainer.faction}}
+          </span>
+        </li>
+        <li class="mdl-list__item">
+          <span class="mdl-list__item-primary-content">
+            <i class="mdl-list__item-icon">XP</i>
+            {{xp|intcomma}}
+          </span>
+        </li>
+      </ul>
     </div>
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
@@ -39,15 +57,19 @@
       <table class=" mdl-cell mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
         <thead>
           <tr>
-            <th class="mdl-data-table__cell--non-numeric">Date</th>
-            <th>XP</th>
+            <th class="mdl-data-table__cell--non-numeric">{% trans "Date" %}</th>
+            <th>{% trans "XP" %}</th>
+            <th>{% trans "Collector" %}</th>
           </tr>
         </thead>
         <tbody>
           {% for update in updates %}
           <tr>
-            <td class="mdl-data-table__cell--non-numeric">{{update.update_time}}</td>
-            <td>{{update.xp}}
+            <td id="time-{{update.update_time.timestamp}}" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}</td>
+            <div class="mdl-tooltip" data-mdl-for="time-{{update.update_time.timestamp}}">{{update.update_time}}</div>
+            <td id="xp-{{update.update_time.timestamp}}">{{update.xp|default_if_none:"---"|intword}}</td>
+            <div class="mdl-tooltip" data-mdl-for="xp-{{update.update_time.timestamp}}">{{update.xp|intcomma}}</div>
+            <td id="pkmn_caught-{{update.update_time.timestamp}}">{{update.pkmn_caught|default_if_none:"---"|intcomma}}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -59,7 +81,8 @@
     <div class="mdl-grid mdl-grid--no-spacing">
       {% for badge in badges %}
       <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
-        <div class="progress-circle {{trainer.faction.name.lower}} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}">
+        <div class="progress-circle {{trainer.faction.name.lower}} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
+          <div class="mdl-tooltip" data-mdl-for="{{ badge.name }}">{{badge.time|naturalday}}</div>
           <span>{{ badge.value }}</span>
           <div class="left-half-clipper">
             <div class="first50-bar {{trainer.faction.name.lower}}"></div>
