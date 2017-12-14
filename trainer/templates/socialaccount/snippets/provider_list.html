@@ -5,17 +5,7 @@
 {% for provider in socialaccount_providers %}
 {% if provider.id == "openid" %}
 {% for brand in provider.get_brands %}
-<div class="mdl-card__actions mdl-card--border">
   <a href="{% provider_login_url provider.id openid=brand.openid_url process=process %}" class="mdl-button mdl-js-button mdl-js-ripple-effect socialaccount_provider {{provider.id}} {{brand.id}}">{{brand.name}}</a>
-</div>
-{% comment %}
-<li>
-  <a title="{{brand.name}}" 
-     class="socialaccount_provider {{provider.id}} {{brand.id}}" 
-     href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
-     >{{brand.name}}</a>
-</li>
-{% endcomment %}
 {% endfor %}
 {% endif %}
   <a href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"  class="mdl-button mdl-js-button mdl-js-ripple-effect socialaccount_provider {{provider.id}}" >{{provider.name}}</a>
