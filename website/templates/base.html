@@ -68,8 +68,13 @@ Try not to upset Bobby Tables! (╯°□°）╯︵ ┻━┻
               <span class="visuallyhidden">{% trans "Account Control" %}</span>
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-              <li disabled class="mdl-menu__item">{% trans "Login" %}</li>
+              {% if user.is_authenticated %}
+              <a class="mdl-navigation__link" href="{% url 'account_email' %}"><li class="mdl-menu__item">Change E-mail</li></a>
+              <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><li class="mdl-menu__item">Log out</li></a>
+              {% else %}
+              <a class="mdl-navigation__link" href="{% url 'account_login' %}"><li class="mdl-menu__item">{% trans "Login" %}</li></a>
               <li disabled class="mdl-menu__item mdl-menu__item--full-bleed-divider">{% trans "Register" %}</li>
+              {% endif %}
               <a class="mdl-navigation__link" href="{% url 'admin:index' %}"><li class="mdl-menu__item">Admin Panel</li></a>
             </ul>
           </div>
