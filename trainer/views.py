@@ -1,4 +1,5 @@
 from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import PositiveIntegerField
 from django.shortcuts import get_object_or_404, render
@@ -7,7 +8,7 @@ from pycent import percentage
 from rest_framework import permissions
 from rest_framework.decorators import detail_route
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-from trainer.models import Trainer, Faction, Update, DiscordGuild
+from trainer.models import Trainer, Faction, Update, DiscordGuild, ExtendedProfile
 from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer, DiscordGuildSerializer
 
 class UserViewSet(ModelViewSet):
@@ -140,3 +141,7 @@ def profile(request, username):
 	context['badges'] = badges
 	context['type_badges'] = type_badges
 	return render(request, 'profile.html', context)
+
+@login_required
+def selfprofile(request):
+	return profile(request, ExtendedProfile.objects.get(user=request.user).prefered_profile.username)

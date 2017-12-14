@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -5,9 +6,20 @@ from ajax_select.admin import AjaxSelectAdmin
 from ajax_select import make_ajax_form
 from trainer.models import *
 
+class XUserForm(forms.ModelForm):
+	class Meta:
+		model = ExtendedProfile
+		fields = ['dob','prefered_profile']
+	
+	def __init__(self, *args, **kwargs):
+		super(XUserForm, self).__init__(*args, **kwargs)
+		
+		self.fields['prefered_profile'].queryset = Trainer.objects.filter(owner=self.instance.user_id)
+
 class XUserInline(admin.StackedInline):
 	model = ExtendedProfile
 	can_delete = False
+	form = XUserForm
 
 class UserAdmin(BaseUserAdmin):
 	inlines = (XUserInline,)
@@ -15,7 +27,6 @@ class UserAdmin(BaseUserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(Faction)
-
 
 @admin.register(Update)
 class UpdateAdmin(AjaxSelectAdmin):

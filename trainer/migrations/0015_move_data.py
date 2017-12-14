@@ -3,14 +3,13 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import django.db.models.deletion
 
 def prefered_forward(apps, schema_editor):
     Trainer = apps.get_model('trainer', 'Trainer')
     User = apps.get_model('trainer', 'ExtendedProfile')
     for trainer in Trainer.objects.all():
         if trainer.owner is not None and trainer.prefered is True:
-            print("Setting default trainer for {x.owner.username} to {x.username}".format(trainer))
+            print("Setting default trainer for {x.owner.username} to {x.username}".format(x=trainer))
             user = User.objects.get(user=trainer.owner)
             user.prefered_profile = trainer
             user.save()
@@ -21,19 +20,9 @@ def prefered_backward(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('trainer', '0013_auto_20171212_2259'),
+        ('trainer', '0014_auto_20171214_0214'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='extendedprofile',
-            name='prefered_profile',
-            field=models.ForeignKey(blank=False, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='main_profiles', to='trainer.Trainer'),
-        ),
         migrations.RunPython(prefered_forward, prefered_backward),
-        migrations.RemoveField(
-            model_name='trainer',
-            name='prefered',
-        ),
-
     ]
