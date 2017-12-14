@@ -247,6 +247,9 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
   border-radius: 0px;
   width: 100%;
 }
+.trainerdex--profile-top.valor {
+  background: #e57373;
+}
 .trainerdex--profile__badges-individual {
   min-width:140px;
 }
@@ -256,6 +259,16 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 .trainerdex--profile__badges-individual span{
   text-align: center;
   margin-bottom: 20px;
+}
+
+.progress-circle.valor span{
+  color: #D32F2F;
+}
+.progress-circle.over50 .first50-bar.valor {
+  background-color: #D32F2F;
+}
+.value-bar.valor{
+  border-color: #D32F2F;
 }
 
 .social-btn {
@@ -290,4 +303,10 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 u.dotted {
   border-bottom: 1px dashed #999;
   text-decoration: none;
+}
+.mdl-tabs__tab-bar.valor {
+  background: #F44336;
+}
+.mdl-tabs__tab.is-active.valor {
+  background: #D32F2F;
 }
