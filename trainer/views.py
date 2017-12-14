@@ -57,7 +57,7 @@ BADGES = [
 	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90, 'i18n_name':_('Hoenn')},
 ]
 TYPE_BADGES = [
-	{'name':'pkmn_normal', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('')},
+	{'name':'pkmn_normal', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Normal')},
 	{'name':'pkmn_flying', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('')},
 	{'name':'pkmn_poison', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('')},
 	{'name':'pkmn_ground', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('')},
@@ -109,7 +109,7 @@ def profile(request, username):
 				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['gold'],0))
 			else:
 				badge_dict['percent'] = 100
-				badge_dict['time'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge['name'] : None}).order_by('-'+badge['name']).first(), 'update_time')
+			badge_dict['time'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge['name'] : None}).order_by('-'+badge['name']).first(), 'update_time')
 		except AttributeError:
 			continue
 		badges.append(badge_dict)
@@ -128,7 +128,7 @@ def profile(request, username):
 				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['gold'],0))
 			else:
 				badge_dict['percent'] = 100
-				badge_dict['time'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge['name'] : None}).order_by('-'+badge['name']).first(), 'update_time')
+			badge_dict['time'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge['name'] : None}).order_by('-'+badge['name']).first(), 'update_time')
 		except AttributeError:
 			continue
 		type_badges.append(badge_dict)
@@ -137,8 +137,7 @@ def profile(request, username):
 			context[badge] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge : None}).order_by('-'+badge).first(), badge)
 			context[badge+'-time'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge : None}).order_by('-'+badge).first(), 'update_time')
 		except AttributeError:
-			context[badge] = None
-			context[badge+'-time'] = None
+			continue
 	context['badges'] = badges
 	context['type_badges'] = type_badges
 	return render(request, 'profile.html', context)

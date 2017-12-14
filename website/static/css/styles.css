@@ -248,7 +248,13 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
   width: 100%;
 }
 .trainerdex--profile-top.valor {
-  background: #e57373;
+  background: #e57373; /* Red 300 */
+}
+.trainerdex--profile-top.mystic {
+  background: #7986cb; /* Blue 300 */
+}
+.trainerdex--profile-top.instinct {
+  background: #ffd54f; /* Yellow 300 */
 }
 .trainerdex--profile__badges-individual {
   min-width:140px;
@@ -269,6 +275,24 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 }
 .value-bar.valor{
   border-color: #D32F2F;
+}
+.progress-circle.mystic span{
+  color: #303F9F;
+}
+.progress-circle.over50 .first50-bar.mystic {
+  background-color: #303F9F;
+}
+.value-bar.mystic{
+  border-color: #303F9F;
+}
+.progress-circle.instinct span{
+  color: #FBC02D;
+}
+.progress-circle.over50 .first50-bar.instinct {
+  background-color: #FBC02D;
+}
+.value-bar.instinct{
+  border-color: #FBC02D;
 }
 
 .social-btn {
@@ -304,9 +328,22 @@ u.dotted {
   border-bottom: 1px dashed #999;
   text-decoration: none;
 }
+
 .mdl-tabs__tab-bar.valor {
   background: #F44336;
 }
 .mdl-tabs__tab.is-active.valor {
   background: #D32F2F;
+}
+.mdl-tabs__tab-bar.mystic {
+  background: #3F51B5;
+}
+.mdl-tabs__tab.is-active.mystic {
+  background: #303F9F;
+}
+.mdl-tabs__tab-bar.instinct {
+  background: #FFC107;
+}
+.mdl-tabs__tab.is-active.instinct {
+  background: #FBC02D;
 }
