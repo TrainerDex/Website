@@ -15,6 +15,7 @@ Try not to upset Bobby Tables! (╯°□°）╯︵ ┻━┻
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     {% load static %}
     {% load i18n %}
+    {% load gravatar %}
     <title>{% block head_title %}{% endblock %} | TrainerDex</title>
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" sizes="192x192" href="{% static 'img/android-desktop.png' %}">
@@ -40,8 +41,8 @@ Try not to upset Bobby Tables! (╯°□°）╯︵ ┻━┻
   </head>
   <body>
     {% block body %}
-    <div class="trainerdex-layout mdl-layout mdl-js-layout mdl-layout--fixed-header"> 
-      <header class="trainerdex-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header"> 
+      <header class="trainerdex-header mdl-layout__header">
         <div class="mdl-layout__header-row">
           <!-- Title -->
           <span class="mdl-layout-title">{% block section_title %}{% endblock %}</span>
@@ -59,7 +60,7 @@ Try not to upset Bobby Tables! (╯°□°）╯︵ ┻━┻
       <div class="trainerdex-drawer mdl-layout__drawer mdl-color--primary-dark mdl-color-text--primary-contrast">
         <header class="trainerdex-drawer-header">
           {% load account %}
-          <img src="{% static 'img/default-avatar.svg' %}" onerror="this.src='/static/img/default-avatar.svg.png'" class="trainerdex-avatar">
+          <img src="{% gravatar_url user.email 64 %}" class="trainerdex-avatar">
           <div class="trainerdex-avatar-dropdown">
             <span>{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Anonymous" %}{% endif %}</span>
             <div class="mdl-layout-spacer"></div>
@@ -80,11 +81,11 @@ Try not to upset Bobby Tables! (╯°□°）╯︵ ┻━┻
           </div>
         </header>
         <nav class="trainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
-          <a class="mdl-navigation__link" href="{% url 'home' %}"><i class="material-icons" role="presentation">home</i>{% trans "Home" %}</a>
-          <a class="mdl-navigation__link" href="{% url 'communities' %}"><i class="material-icons" role="presentation">people</i>{% trans "Communities" %}</a>
-          <a class="mdl-navigation__link mdl-button--disabled" ><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}"><i class="material-icons" role="presentation">home</i>{% trans "Home" %}</a>
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'communities' %}"><i class="material-icons" role="presentation">people</i>{% trans "Communities" %}</a>
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled" ><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
           <div class="mdl-layout-spacer"></div>
-          <a class="mdl-navigation__link mdl-button--disabled"><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled"><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
         </nav>
       </div>
       
