@@ -9,6 +9,9 @@
 {% block head_title %}{{trainer.username}}{% endblock %}
 {% block section_title %}{{trainer.username}}{% endblock %}
 
+{% trans "It seems this trainer hasn't shared any of these badges. We only show badges with data to avoid showing a row of null values, that's kinda ugly." as no_badges %}
+{% trans "Oh no!" as no_badges_title %}
+
 {% block extra_head %}
 <meta property="og:title" content="{{trainer.username}}" />
 <meta property=”og:image” content=”{{trainer.faction.image}}”/>
@@ -25,19 +28,20 @@
     <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-phone mdl-card__supporting-text">
       <ul class="mdl-list">
         <li class="mdl-list__item">
-          <span class="mdl-list__item-primary-content">
+          <span class="mdl-list__item-primary-content" id="start_date">
             <i class="material-icons mdl-list__item-icon">date_range</i>
-            {{trainer.start_date}}
+            {{trainer.start_date|default_if_none:"July 2016?"}}
+            {% if not trainer.start_date %}<div class="mdl-tooltip" data-mdl-for="start_date">Estimated</div>{% endif%}
           </span>
         </li>
         <li class="mdl-list__item">
-          <span class="mdl-list__item-primary-content">
+          <span class="mdl-list__item-primary-content" id="faction">
             <i class="material-icons mdl-list__item-icon">home</i>
             {{trainer.faction}}
           </span>
         </li>
         <li class="mdl-list__item">
-          <span class="mdl-list__item-primary-content">
+          <span class="mdl-list__item-primary-content" id="xp">
             <i class="mdl-list__item-icon">XP</i>
             {{xp|intcomma}}
           </span>
@@ -59,7 +63,7 @@
           <tr>
             <th class="mdl-data-table__cell--non-numeric">{% trans "Date" %}</th>
             <th>{% trans "XP" %}</th>
-            <th>{% trans "Collector" %}</th>
+            <th>{% trans "Pokémon Collected" %}</th>
           </tr>
         </thead>
         <tbody>
@@ -97,10 +101,10 @@
     <div class="mdl-grid">
       <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
         <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">Oh no!</h2>
+          <h2 class="mdl-card__title-text">{{ no_badges_title }}</h2>
         </div>
         <div class="mdl-card__supporting-text">
-          It seems this trainer hasn't share any of these badges. We only show badges with data to avoid showing a row of null values, that's kinda ugly.
+          {{ no_badges }}
         </div>
       </div>
     </div>
@@ -126,10 +130,10 @@
     <div class="mdl-grid">
       <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
         <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">Oh no!</h2>
+          <h2 class="mdl-card__title-text">{{ no_badges_title }}</h2>
         </div>
         <div class="mdl-card__supporting-text">
-          It seems this trainer hasn't share any of these badges. We only show badges with data to avoid showing a row of null values, that's kinda ugly.
+          {{ no_badges }}
         </div>
       </div>
     </div>
