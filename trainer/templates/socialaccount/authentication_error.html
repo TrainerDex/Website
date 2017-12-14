@@ -1,20 +1,23 @@
-{% extends "account/login.html" %}
+{% extends "socialaccount/base.html" %}
 
 {% load i18n %}
 
-{% block warning %}
-<div id="trainerdex-toast-warning" class="mdl-js-snackbar mdl-snackbar">
-  <div class="mdl-snackbar__text"></div>
-  <button class="mdl-snackbar__action" type="button"></button>
+{% block head_title %}{% trans "Social Network Login Failure" %}{% endblock %}
+
+{% block content %}
+<div class="mdl-grid">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "Social Network Login Failure" %}</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      {% trans "An error occurred while attempting to login via your social network account." %}
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        Return to login page
+      </a>
+    </div>
+  </div>
 </div>
-<script>
-r(function(){
-    var snackbarContainer = document.querySelector('#trainerdex-toast-warning');
-    var data = { message: '{% trans "An error occurred while attempting to login via your social network account." %}'};
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
-});
-function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
-</script>
 {% endblock %}
-{% block signin_message %}{% blocktrans %}An error occurred while attempting to login via your social network account. Please try again or, <a href="{{ signup_url }}">sign up</a>
-for an account and sign in below:{% endblocktrans %}{% endblock %}
