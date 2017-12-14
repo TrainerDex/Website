@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.gis',
+    'django_gravatar',
     'rest_framework',
     'rest_framework.authtoken',
     'ajax_select',
@@ -167,3 +168,6 @@ GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
 
 CITIES_LOCALES = ['en']
 CITIES_POSTAL_CODES = []
+
+GRAVATAR_DEFAULT_IMAGE = 'retro'
+GRAVATAR_DEFAULT_RATING = 'g'

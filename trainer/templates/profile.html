@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load account %}
 {% load static %}
+{% load gravatar %}
 
 {% block head_title %}{{trainer.username}}{% endblock %}
 {% block section_title %}{{trainer.username}}{% endblock %}
@@ -18,20 +19,46 @@
 {% endblock %}
 
 {%block content%}
+<div class="mdl-grid">
+  <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--2-col-desktop">{% gravatar trainer.owner.email 150 %}</div>
+  <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+    <div class="mdl-card__supporting-text">
+      {% trans "Username" %}: {{trainer.username}}<br>
+      {% trans "Start date" %}: {{trainer.start_date}}<br>
+      {% trans "Team:" %} {{trainer.faction}}<br>
+      {% trans "XP" %}: {{xp}}
+    </div>
+  </div>
+</div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
   <div class="mdl-tabs__tab-bar">
-      <a href="#info-panel" class="mdl-tabs__tab is-active">{% trans "Info" %}</a>
-      <a href="#badges-panel" class="mdl-tabs__tab">{% trans "Badges" %}</a>
+      <a href="#history-panel" class="mdl-tabs__tab">{% trans "History" %}</a>
+      <a href="#badges-panel" class="mdl-tabs__tab is-active">{% trans "Badges" %}</a>
       <a href="#types-panel" class="mdl-tabs__tab">{% trans "Type Badges" %}</a>
   </div>
 
-  <div class="mdl-tabs__panel is-active" id="info-panel">
-    {% trans "Username" %}: {{trainer.username}}<br>
-    {% trans "Start date" %}: {{trainer.start_date}}<br>
-    {% trans "Team:" %} {{trainer.faction}}<br>
-    {% trans "XP" %}: {{xp}}
+  <div class="mdl-tabs__panel" id="history-panel">
+    <div class="mdl-grid">
+      <table class=" mdl-cell mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
+        <thead>
+          <tr>
+            <th class="mdl-data-table__cell--non-numeric">Date</th>
+            <th>XP</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for update in updates %}
+          <tr>
+            <td class="mdl-data-table__cell--non-numeric">{{update.update_time}}</td>
+            <td>{{update.xp}}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
-  <div class="mdl-tabs__panel" id="badges-panel">
+  <div class="mdl-tabs__panel is-active" id="badges-panel">
+    {% if badges %}
     <div class="mdl-grid mdl-grid--no-spacing">
       {% for badge in badges %}
       <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile-badges">
@@ -46,8 +73,21 @@
       </div>
       {% endfor %}
     </div>
+    {% else %}
+    <div class="mdl-grid">
+      <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
+        <div class="mdl-card__title">
+          <h2 class="mdl-card__title-text">Oh no!</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+          It seems this trainer hasn't share any of these badges. We only show badges with data to avoid showing a row of null values, that's kinda ugly.
+        </div>
+      </div>
+    </div>
+    {% endif %}
   </div>
   <div class="mdl-tabs__panel" id="types-panel">
+    {% if type_bages %}
     <div class="mdl-grid mdl-grid--no-spacing">
       {% for badge in type_badges %}
       <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile-badges">
@@ -62,6 +102,18 @@
       </div>
       {% endfor %}
     </div>
+    {% else %}
+    <div class="mdl-grid">
+      <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
+        <div class="mdl-card__title">
+          <h2 class="mdl-card__title-text">Oh no!</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+          It seems this trainer hasn't share any of these badges. We only show badges with data to avoid showing a row of null values, that's kinda ugly.
+        </div>
+      </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 

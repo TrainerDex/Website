@@ -23,14 +23,18 @@ html, body {
   text-decoration: none;
 }
 
+.gravatar {
+  margin: auto;
+}
+.trainerdex-card-wide.mdl-card {
+  width: 512px;
+}
 .trainerdex-avatar {
   width: 64px;
   height: 64px;
   border-radius: 32px;
 }
-.trainerdex-layout .mdl-layout__header .mdl-layout__drawer-button {
-  color: rgba(0, 0, 0, 0.54);
-}
+
 .mdl-layout__drawer .avatar {
   margin-bottom: 16px;
 }

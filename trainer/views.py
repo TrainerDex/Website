@@ -90,6 +90,7 @@ def profile(request, username):
 		raise Http404("Trainer not found")
 	context = {
 		'trainer' : trainer,
+		'updates' : Update.objects.filter(trainer=trainer),
 	}
 	badges = []
 	type_badges = []
