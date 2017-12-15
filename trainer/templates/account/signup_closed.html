@@ -12,11 +12,15 @@
       <h2 class="mdl-card__title-text">{% trans "Sign Up Closed" %}</h2>
     </div>
     <div class="mdl-card__supporting-text">
-      {% trans "We are sorry, but new registrations are currently disabled." %}
+      {% trans "We are sorry, but registrations via the website are currently disabled." %}<br>
+      <strong>{% trans "You can register via joining our discord server and sharing a screenshot of your Pokemon Go profile" %}</strong>
     </div>
     <div class="mdl-card__actions mdl-card--border">
       <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'home' %}">
         Return to home
+      </a>
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'discord' %}">
+        Register via Discord
       </a>
     </div>
   </div>

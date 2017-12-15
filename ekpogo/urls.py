@@ -18,7 +18,8 @@ urlpatterns = [
     url(r'^ajax_select/', include(ajex_select_urls)),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^$', index, name='home'),
-    url(r'^communities/', communities, name='communities'),
+    url(r'^_DISCORD/$', discord, name='discord'),
+    url(r'^communities/$', communities, name='communities'),
     url(r'^trainer/$', profile, name='profile'),
     url(r'^(?P<username>[a-zA-Z0-9]+)/$', profile, name='profile'),
 ]

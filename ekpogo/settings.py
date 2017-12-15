@@ -156,7 +156,8 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = 'selfprofile'
+LOGIN_REDIRECT_URL = 'profile'
+ACCOUNT_ADAPTER = 'website.account_adapter.NoNewUsersAccountAdapter'
 
 SOCIALACCOUNT_PROVIDERS = {
     'reddit': {
