@@ -16,6 +16,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+ADMINS = [('Jay Turner', 'jaynicholasturner@gmail.com')]
 
 # Application definition
 
@@ -180,4 +181,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jaynicholasturner@gmail.com'
 EMAIL_HOST_PASSWORD = 'vaxtomtayxewsqma'
-DEFAULT_FROM_EMAIL = 'noreply@trainerdex.co.uk'
+DEFAULT_FROM_EMAIL = 'jayturnr@trainerdex.co.uk'
+SERVER_EMAIL = 'wellthatfuckedup@trainer.co.uk'
