@@ -39,6 +39,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
     <link rel="stylesheet" href="{% static 'node_modules/animate.css/animate.min.css' %}">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'node_modules/dialog-polyfill/dialog-polyfill.css' %}" />
     
     {% block extra_head %}
     {% endblock %}
@@ -128,6 +129,38 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
         {% block extra_body %}
         {% endblock %}
       </main>
+      
+      <script src="{% static 'node_modules/dialog-polyfill/dialog-polyfill.js' %}"></script>
+      
+      {% if user.is_authenticated %}
+      <button id="trainerdex__update-button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">add</i></button>
+      
+      <dialog class="mdl-dialog" id="trainerdex__update-dialog">
+        <h4 class="mdl-dialog__title">Create update!</h4>
+        <div class="mdl-dialog__content">
+          <p>
+            So listen... this is where the update badges form is gonna go!
+          </p>
+        </div>
+        <div class="mdl-dialog__actions">
+          <button type="button" class="mdl-button">Submit</button>
+          <button type="button" class="mdl-button close">Close</button>
+        </div>
+      </dialog>
+          
+      <script>
+        var button = $('#trainerdex__update-button')[0];
+        console.info(button)
+        var dialog = $('#trainerdex__update-dialog')[0];
+        button.addEventListener('click', function() {
+          dialog.showModal();
+        });
+        dialog.querySelector('.close').addEventListener('click', function() {
+          dialog.close();
+        });
+      </script>
+      {% endif %}
+      
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">TrainerDex</div>

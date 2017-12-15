@@ -438,3 +438,13 @@ u.dotted {
 .mdl-tabs__tab.is-active.instinct {
   background: #FBC02D;
 }
+
+#trainerdex__update-button {
+  position: fixed;
+  display: block;
+  right: 0;
+  bottom: 0;
+  margin-right: 40px;
+  margin-bottom: 40px;
+  z-index: 900;
+}
