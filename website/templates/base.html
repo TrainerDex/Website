@@ -56,8 +56,8 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
         </div>
         <div class="mdl-layout__header-row trainerdex-navigation-row mdl-layout--large-screen-only">
           <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-            <a class="mdl-navigation__link" href="{% url 'home' %}">{% trans "Home" %}</a>
-            <a class="mdl-navigation__link" href="{% url 'communities' %}">{% trans "Communities" %}</a>
+            <a class="mdl-navigation__link{% if request.path == '/' %} is-active{% endif %}" href="{% url 'home' %}">{% trans "Home" %}</a>
+            <a class="mdl-navigation__link{% if request.path == '/communities/' %} is-active{% endif %}" href="{% url 'communities' %}">{% trans "Communities" %}</a>
             <a class="mdl-navigation__link mdl-button--disabled">{% trans "Leaderboard" %}</a>
             <a class="mdl-navigation__link mdl-button--disabled">Contact</a>
           </nav>
@@ -99,8 +99,8 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
           </div>
         </header>
         <nav class="rainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}">{% trans "Home" %}</a>
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'communities' %}">{% trans "Communities" %}</a>
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast{% if request.path == '/' %} is-active{% endif %}" href="{% url 'home' %}">{% trans "Home" %}</a>
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast{% if request.path == '/communities/' %} is-active{% endif %}" href="{% url 'communities' %}">{% trans "Communities" %}</a>
           <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled">{% trans "Leaderboard" %}</a>
           <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled">Contact</a>
         </nav>
