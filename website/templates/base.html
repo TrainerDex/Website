@@ -19,6 +19,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
     {% load static %}
     {% load i18n %}
     {% load gravatar %}
+    {% load account %}
     <title>{% block head_title %}{% endblock %} | TrainerDex</title>
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" sizes="192x192" href="{% static 'img/android-desktop.png' %}">
@@ -45,23 +46,39 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
   <body>
     {% block body %}
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header"> 
-      <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
+      <header class="mdl-layout__header mdl-layout__header--waterfall trainerdex-header">
+        <div class="mdl-layout__header-row trainerdex-logo-row">
           {# Title #}
-          <span class="mdl-layout-title">{% block section_title %}TrainerDex{% endblock %}</span>
-          {# Spacer #}
-          <div class="mdl-layout-spacer"></div>
+          <span class="mdl-layout__title">
+            <div class="trainerdex-logo"></div>
+            <span class="mdl-layout__title">{% block section_title %}TrainerDex{% endblock %}</span>
+          </span>
+        </div>
+        <div class="mdl-layout__header-row trainerdex-navigation-row mdl-layout--large-screen-only">
+          <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+            <a class="mdl-navigation__link" href="{% url 'home' %}">{% trans "Home" %}</a>
+            <a class="mdl-navigation__link" href="{% url 'communities' %}">{% trans "Communities" %}</a>
+            <a class="mdl-navigation__link mdl-button--disabled">{% trans "Leaderboard" %}</a>
+            <a class="mdl-navigation__link mdl-button--disabled">Contact</a>
+          </nav>
+          
           {# Information button #}
-          {% comment "This is currently unused" %}
           <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
             <i class="material-icons">more_vert</i>
           </button>
-          {% endcomment %}
+          <ul class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect" for="hdrbtn">
+            {% if user.is_authenticated %}
+            <a class="mdl-navigation__link" href="{% url 'account_email' %}"><li class="mdl-menu__item">Change E-mail</li></a>
+            <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><li class="mdl-menu__item">Log out</li></a>
+            {% else %}
+            <a class="mdl-navigation__link" href="{% url 'account_login' %}"><li class="mdl-menu__item">{% trans "Login" %}</li></a>
+            <li disabled class="mdl-menu__item mdl-menu__item--full-bleed-divider">{% trans "Register" %}</li>
+            {% endif %}
+          </ul>
         </div>
       </header>
-      <div class="trainerdex-drawer mdl-layout__drawer mdl-color--primary-dark mdl-color-text--primary-contrast">
-        <header class="trainerdex-drawer-header">
-          {% load account %}
+      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+        <header class="trainerdex-drawer-header mdl-color--primary-dark mdl-color-text--primary-contrast">
           <a href="/profile/"><img src="{% gravatar_url user.email 64 %}" class="trainerdex-avatar"></a>
           <div class="trainerdex-avatar-dropdown">
             <span>{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Anon" %}{% endif %}</span>
@@ -81,12 +98,11 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
             </ul>
           </div>
         </header>
-        <nav class="trainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}"><i class="material-icons" role="presentation">home</i>{% trans "Home" %}</a>
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'communities' %}"><i class="material-icons" role="presentation">people</i>{% trans "Communities" %}</a>
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled" ><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
-          <div class="mdl-layout-spacer"></div>
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled"><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+        <nav class="rainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}">{% trans "Home" %}</a>
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'communities' %}">{% trans "Communities" %}</a>
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled">{% trans "Leaderboard" %}</a>
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled">Contact</a>
         </nav>
       </div>
       
@@ -106,21 +122,6 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
       {% endfor %}{% endif %}
       
       <main class="mdl-layout__content mdl-color--grey-100" style="flex: 1 0 auto;">
-        <!-- Disabled due to being annoying. Need to research cookies so I can set a "remember dismissed" cookie. 
-        <div id ="discord-mobile-promo" class="trainerdex-promo mdl-card mdl-shadow--2dp mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col mdl-cell--hide-desktop mdl-color--primary">
-          <div class="trainerdex-promo-text mdl-card__supporting-text mdl-color-text--primary-contrast">
-            {% blocktrans %}Don't forget to check out our discord server!{% endblocktrans %}
-          </div>
-          <div class="mdl-card__actions mdl-card--border">
-            <a id="discord-mobile-promo-proceed" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-color-text--primary-contrast" href="{% url 'discord' %}">
-              {% blocktrans %}Let's go!{% endblocktrans %}
-            </a>
-            <a id="discord-mobile-promo-close" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-color-text--primary-contrast" href="javascript:void(0);" onclick="hidePromo('discord-mobile-promo');">
-              Dismiss
-            </a>
-          </div>
-        </div>
-        -->
         {% block content %}
         {% endblock %}
         {% endblock %}
