@@ -47,17 +47,16 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header"> 
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
-          <!-- Title -->
-          <span class="mdl-layout-title">{% block section_title %}{% endblock %}</span>
-          <!-- Spacer -->
+          {# Title #}
+          <span class="mdl-layout-title">{% block section_title %}TrainerDex{% endblock %}</span>
+          {# Spacer #}
           <div class="mdl-layout-spacer"></div>
-          <!-- Information button -->
+          {# Information button #}
+          {% comment "This is currently unused" %}
           <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
             <i class="material-icons">more_vert</i>
           </button>
-          <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-            <a class="mdl-navigation__link" href="{% url 'admin:index' %}"><li class="mdl-menu__item">Admin Panel</li></a>
-          </ul>
+          {% endcomment %}
         </div>
       </header>
       <div class="trainerdex-drawer mdl-layout__drawer mdl-color--primary-dark mdl-color-text--primary-contrast">
@@ -65,7 +64,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
           {% load account %}
           <a href="/profile/"><img src="{% gravatar_url user.email 64 %}" class="trainerdex-avatar"></a>
           <div class="trainerdex-avatar-dropdown">
-            <span>{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Anonymous" %}{% endif %}</span>
+            <span>{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Anon" %}{% endif %}</span>
             <div class="mdl-layout-spacer"></div>
             <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
               <i class="material-icons" role="presentation">arrow_drop_down</i>
@@ -79,7 +78,6 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
               <a class="mdl-navigation__link" href="{% url 'account_login' %}"><li class="mdl-menu__item">{% trans "Login" %}</li></a>
               <li disabled class="mdl-menu__item mdl-menu__item--full-bleed-divider">{% trans "Register" %}</li>
               {% endif %}
-              <a class="mdl-navigation__link" href="{% url 'admin:index' %}"><li class="mdl-menu__item">Admin Panel</li></a>
             </ul>
           </div>
         </header>
@@ -136,6 +134,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
             <li><a href="#">{% trans "About" %}</a></li>
             <li><a href="#">{% trans "Help" %}</a></li>
             <li><a href="#">{% trans "Privacy &amp; Terms" %}</a></li>
+            {% if user.is_superuser %}<li><a href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</a></li>{% endif %}
           </ul>
         </div>
         <div class="mdl-mini-footer__right-section">
