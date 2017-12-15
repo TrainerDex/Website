@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.patreon',
     'allauth.socialaccount.providers.google',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -172,3 +173,11 @@ CITIES_POSTAL_CODES = []
 
 GRAVATAR_DEFAULT_IMAGE = 'retro'
 GRAVATAR_DEFAULT_RATING = 'g'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jaynicholasturner@gmail.com'
+EMAIL_HOST_PASSWORD = 'vaxtomtayxewsqma'
+DEFAULT_FROM_EMAIL = 'noreply@trainerdex.co.uk'
