@@ -2,7 +2,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import PositiveIntegerField
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _
 from pycent import percentage
 from rest_framework import permissions
@@ -82,12 +82,18 @@ STATS = [
 	'xp'
 ]
 
-def profile(request, username):
-	try:
-		trainer = Trainer.objects.get(username__iexact=username)
-		user = Trainer.owner
-	except Trainer.DoesNotExist:
-		raise Http404("Trainer not found")
+def profile(request, username=None):
+	if username:
+		trainer = get_object_or_404(Trainer, username__iexact=username)
+	elif request.GET.get('username'):
+		trainer = get_object_or_404(Trainer, username__iexact=request.GET.get('username'))
+	elif request.GET.get('id'):
+		trainer = get_object_or_404(Trainer, pk=request.GET.get('id'))
+	elif not request.user.is_authenticated():
+		return redirect('home')
+	else:
+		_extended_profile = get_object_or_404(ExtendedProfile, user=request.user)
+		trainer = _extended_profile.prefered_profile
 	context = {
 		'trainer' : trainer,
 		'updates' : Update.objects.filter(trainer=trainer),
@@ -141,7 +147,3 @@ def profile(request, username):
 	context['badges'] = badges
 	context['type_badges'] = type_badges
 	return render(request, 'profile.html', context)
-
-@login_required
-def selfprofile(request):
-	return profile(request, ExtendedProfile.objects.get(user=request.user).prefered_profile.username)
