@@ -4,7 +4,6 @@ import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -141,24 +140,31 @@ USE_X_FORWARDED_HOST = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Django Rest Framework
+# http://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     )
 }
 
+# Django AllAuth
+# http://django-allauth.readthedocs.io/en/latest/configuration.html
+
+SITE_ID = 1
+
+ACCOUNT_ADAPTER = 'website.account_adapter.NoNewUsersAccountAdapter'
+ACCOUNT_EMAIL_REQUIRED = True
+### ACCOUNT_FORMS = {'register': 'trainer.forms.RegisterForm'} # Not implemnted yet
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-
-SITE_ID = 1
-
 LOGIN_REDIRECT_URL = 'profile'
-ACCOUNT_ADAPTER = 'website.account_adapter.NoNewUsersAccountAdapter'
-
+SOCIALACCOUNT_AUTO_SIGNUP = False
 SOCIALACCOUNT_PROVIDERS = {
     'reddit': {
         'AUTH_PARAMS': {'duration': 'permanent'},
@@ -166,19 +172,31 @@ SOCIALACCOUNT_PROVIDERS = {
         'USER_AGENT': 'django:trainerdex:1.0 (by /u/jayturnr)',
     }
 }
+SOCIALACCOUNT_QUERY_EMAIL= True
 
-GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-110066146-1'
+# Google Analytics
+
 GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
+GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-110066146-1'
+
+# Django Cities
+# https://github.com/coderholic/django-cities#configuration
 
 CITIES_LOCALES = ['en']
 CITIES_POSTAL_CODES = []
 
+# Django Gravatar 2
+# https://github.com/twaddington/django-gravatar/#configuring
+
 GRAVATAR_DEFAULT_IMAGE = 'retro'
 GRAVATAR_DEFAULT_RATING = 'g'
 
+# Email
+# https://docs.djangoproject.com/en/1.11/topics/email/
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jaynicholasturner@gmail.com'
 EMAIL_HOST_PASSWORD = 'vaxtomtayxewsqma'
