@@ -2,46 +2,51 @@
 
 {% load i18n %}
 {% load account socialaccount %}
+{% load widget_tweaks %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% block section_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
 {% block warning %}
 {% endblock %}
-<h1>{% trans "Sign In" %}</h1>
-
-{% get_providers as socialaccount_providers %}
-
-{% if socialaccount_providers %}
-<p>{% block signin_message %}{% blocktrans %}Please sign in with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for an account and sign in below:{% endblocktrans %}{% endblock %}</p>
-
-<div class="socialaccount_ballot">
-
-  <ul class="socialaccount_providers">
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-  </ul>
-
-  <div class="login-or">{% trans 'or' %}</div>
-
+<div class="mdl-grid">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "Sign In" %}</h2>
+    </div>
+    {% get_providers as socialaccount_providers %}
+    <form class="login" method="POST" action="{% url 'account_login' %}">
+    <div class="mdl-card__supporting-text">
+      {% if socialaccount_providers %}
+        {% block signin_message %}{% blocktrans %}If you already have an account, you can login below or via a third party account. If not, <a href="{{ signup_url }}">sign up</a> for an account.{% endblocktrans %}{% endblock %}
+        {% include "socialaccount/snippets/login_extra.html" %}
+      {% else %}
+        {% blocktrans %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}
+      {% endif %}
+      <div id="form_login" class="mdl-textfield mdl-js-textfield">
+        {% csrf_token %}
+        {% render_field form.login class+="mdl-textfield__input" %}<br>
+        {% render_field form.password class+="mdl-textfield__input" %}
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="id_remember">
+          {% render_field form.remember class+="mdl-checkbox__input" %}
+          <span class="mdl-checkbox__label">Remember me</span>
+        </label>
+        {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+      </div>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit">{% trans "Sign In" %}</button>
+      {% if socialaccount_providers %}{% include "socialaccount/snippets/provider_list.html" with process="login" %}{% endif %}
+    </div>
+    <div class="mdl-card__menu">
+      <a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" href="{% url 'account_reset_password' %}">
+        <i class="material-icons">priority_high</i>
+      </a>
+     </div>
+    </form>
+  </div>
 </div>
-
-{% include "socialaccount/snippets/login_extra.html" %}
-
-{% else %}
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-{% endif %}
-
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
-</form>
-
 {% endblock %}

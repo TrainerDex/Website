@@ -3,9 +3,22 @@
 {% load i18n %}
 
 {% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
+{% block section_title %}{% trans "Sign Up Closed" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign Up Closed" %}</h1>
-
-<p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+<div class="mdl-grid">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "Sign Up Closed" %}</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      {% trans "We are sorry, but new registrations are currently disabled." %}
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'home' %}">
+        Return to home
+      </a>
+    </div>
+  </div>
+</div>
 {% endblock %}
