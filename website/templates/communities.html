@@ -16,8 +16,9 @@
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell">
               <thead>
                 <tr>
-                  <th></th>
+                  <th class="mdl-data-table__cell--non-numeric">Join</th>
                   <th class="mdl-data-table__cell--non-numeric">Name</th>
+                  <th class="mdl-data-table__cell--non-numeric">Team</th>
                   <th class="mdl-data-table__cell--non-numeric">Location</th>
                   <th class="mdl-data-table__cell--non-numeric">Description</th>
                 </tr>
@@ -25,8 +26,10 @@
               <tbody>
                 {% for community in community_list %}
                 <tr>
-                  <td class="mdl-data-table__cell--non-numeric"><a href="{{ community.invite }}" rel="external"><img width="32px" src="/static/img/{{ community.social }}.svg" onerror="this.src='/static/img/{{ community.social }}.png'"></a></td>
-                  <td class="mdl-data-table__cell--non-numeric">{{ community.name }} {% if community.state is 'unknown' %}<status-indicator></status-indicator>{% elif community.state is 'live' %}<status-indicator positive pulse></status-indicator>{% elif community.state is 'dead' %}<status-indicator negative></status-indicator>{% endif %}{% if community.team.name != "Teamless" %}<img width="32px" src="/{{ community.team.image }}" />{% endif %}</td>
+                  <td class="mdl-data-table__cell--non-numeric"><a href="{% if community.team.name != 'Teamless' and user.is_authenticated == True or community.team.name == 'Teamless' %}{{ community.invite }}{% else %}{% url 'account_login' %}{% endif %}" id="{{community.social}}_{{community.pk}}" rel="external"><img width="32px" src="/static/img/{{ community.social }}.svg" onerror="this.src='/static/img/{{ community.social }}.png'"></a></td>
+                    {% if community.team.name != "Teamless" and not user.is_authenticated %}<div class="mdl-tooltip" data-mdl-for="{{community.social}}_{{community.pk}}">Sign in to access team-restricted communities!</div>{% endif %}
+                  <td class="mdl-data-table__cell--non-numeric">{{ community.name }} {% if community.state is 'unknown' %}<status-indicator></status-indicator>{% elif community.state is 'live' %}<status-indicator positive pulse></status-indicator>{% elif community.state is 'dead' %}<status-indicator negative></status-indicator>{% endif %}</td>
+                  <td class="mdl-data-table__cell--non-numeric">{% if community.team.name != "Teamless" %}<img width="32px" src="/{{ community.team.image }}" />{% endif %}</td>
                   <td class="mdl-data-table__cell--non-numeric">{% for location in community.locations %}{{ location.name }}{% if location.parent %}, {{ location.parent.name }}{% endif %}<br>{% empty %}Worldwide{% endfor %}</td>
                   <td class="mdl-data-table__cell--non-numeric">{{ community.description }}</td>
                 </tr>
