@@ -58,7 +58,6 @@ html, body {
   margin: 0 !important;
 }
 
-
 .mdl-textfield--expandable {
   width: auto;
 }
@@ -67,12 +66,10 @@ html, body {
   display: none !important;
 }
 
-
 .trainerdex-logo-image {
   height: 28px;
   width: 140px;
 }
-
 
 .trainerdex-header {
   overflow: visible;
@@ -185,6 +182,7 @@ html, body {
   }
 }
 /* */
+
 .trainerdex-avatar {
   width: 64px;
   height: 64px;
