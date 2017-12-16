@@ -170,11 +170,8 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
       <button id="trainerdex__update-button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">add</i></button>
       
       <dialog class="mdl-dialog" id="trainerdex__update-dialog">
-        <iframe src="{% url 'api_v1:trainerdex:update_dialog' %}">
+        <iframe id="trainerdex__update-dialog_iframe" src="{% url 'api_v1:trainerdex:update_dialog' %}" scrolling="no" style="height: 200px;">
         </iframe>
-        <div class="mdl-dialog__actions">
-          <button type="button" class="mdl-button close">{% trans "Close" %}</button>
-        </div>
       </dialog>
       
       <script>
@@ -184,8 +181,12 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
         button.addEventListener('click', function() {
           dialog.showModal();
         });
-        dialog.querySelector('.close').addEventListener('click', function() {
-          dialog.close();
+        dialog.addEventListener('click', function (event) {
+            var rect = dialog.getBoundingClientRect();
+            var isInDialog=(rect.top <= event.clientY && event.clientY <= rect.top + rect.height && rect.left <= event.clientX && event.clientX <= rect.left + rect.width);
+            if (!isInDialog) {
+                dialog.close();
+            }
         });
       </script>
     {% endif %}

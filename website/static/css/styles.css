@@ -513,3 +513,5 @@ u.dotted {
   margin-bottom: 40px;
   z-index: 900;
 }
+
+iframe[scrolling='no'] { overflow: hidden; }
