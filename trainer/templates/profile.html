@@ -9,6 +9,9 @@
 {% block head_title %}{{trainer.username}}{% endblock %}
 {% block section_title %}{{trainer.username}}{% endblock %}
 
+{% block colour_scheme %}{% if trainer.faction.name == 'Valor' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-deep_orange.min.css" />{% elif trainer.faction.name == 'Mystic' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-deep_purple.min.css" />{% elif trainer.faction.name == 'Instinct' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.amber-yellow.min.css" />{% else %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css" />{% endif %}{% endblock %}
+
+
 {% block extra_head %}
 <meta property="og:title" content="{{trainer.username}}" />
 <meta property=”og:image” content=”{{trainer.faction.image}}”/>
