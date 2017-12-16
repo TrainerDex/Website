@@ -73,20 +73,20 @@ html, body {
 
 .trainerdex-header {
   overflow: visible;
-  background-color: white;
+/*  background-color: white;*/
 }
-
+/*
   .trainerdex-header .material-icons {
     color: #767777 !important;
   }
-
+*/
   .trainerdex-header .mdl-layout__drawer-button {
     background: transparent;
-    color: #767777;
+/*    color: #767777;*/
   }
 
   .trainerdex-header .mdl-navigation__link {
-    color: #757575;
+/*    color: #757575;*/
     font-weight: 700;
     font-size: 14px;
   }
