@@ -25,8 +25,9 @@
 {%block content%}
 <div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top {{trainer.faction.name.lower}}">
     <div class="mdl-cell mdl-cell--1-col mdl-cell--4-col-phone mdl-cell--gravatar-box">{% gravatar trainer.owner.email 140 %}</div>
-    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-phone mdl-card__supporting-text">
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-phone">
       <ul class="mdl-list">
+        <i class="mdl-card__title-text">{{trainer.username}}</i>
         <li class="mdl-list__item">
           <span class="mdl-list__item-primary-content" id="start_date">
             <i class="material-icons mdl-list__item-icon">date_range</i>
