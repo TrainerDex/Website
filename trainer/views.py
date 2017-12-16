@@ -8,6 +8,7 @@ from pycent import percentage
 from rest_framework import permissions
 from rest_framework.decorators import detail_route
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from trainer.forms import UpdateForm
 from trainer.models import Trainer, Faction, Update, DiscordGuild, ExtendedProfile
 from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer, DiscordGuildSerializer
 
@@ -147,3 +148,14 @@ def profile(request, username=None):
 	context['badges'] = badges
 	context['type_badges'] = type_badges
 	return render(request, 'profile.html', context)
+
+def update_dialog(request):
+	trainers = Trainer.objects.filter(owner=request.user)
+	if request.method == 'POST':
+		form = UpdateForm(request.POST)
+		if form.is_valid():
+			return HttpResponseRedirect('/success/')
+	else:
+		form = UpdateForm(trainers=trainers)
+	
+	return render(request, 'update_dialog.html', {'form': form, 'trainers': trainers})

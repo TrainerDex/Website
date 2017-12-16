@@ -146,9 +146,6 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
         {% endblock %}
       </main>
       
-      <script src="{% static 'node_modules/dialog-polyfill/dialog-polyfill.js' %}"></script>
-
-      
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">TrainerDex</div>
@@ -168,21 +165,18 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
     </div>
     
     {% if user.is_authenticated %}
+      <script src="{% static 'node_modules/dialog-polyfill/dialog-polyfill.js' %}"></script>
+      
       <button id="trainerdex__update-button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">add</i></button>
       
       <dialog class="mdl-dialog" id="trainerdex__update-dialog">
-        <h4 class="mdl-dialog__title">Create update!</h4>
-        <div class="mdl-dialog__content">
-          <p>
-            So listen... this is where the update badges form is gonna go!
-          </p>
-        </div>
+        <iframe src="{% url 'api_v1:trainerdex:update_dialog' %}">
+        </iframe>
         <div class="mdl-dialog__actions">
-          <button type="button" class="mdl-button">Submit</button>
-          <button type="button" class="mdl-button close">Close</button>
+          <button type="button" class="mdl-button close">{% trans "Close" %}</button>
         </div>
       </dialog>
-          
+      
       <script>
         var button = $('#trainerdex__update-button')[0];
         var dialog = $('#trainerdex__update-dialog')[0];

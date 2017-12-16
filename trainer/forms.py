@@ -1,13 +1,13 @@
 from django.forms import ModelForm
-from trainer.models import Update
+from trainer.models import Update, Trainer
 
 class UpdateForm(ModelForm):
 	class Meta:
 		model = Update
-		fields = ('__all__',)
+		fields = '__all__'
 		localized_fields = ('update_time',)
 	
-	def __init__(self, *args, **kwargs):
+	def __init__(self, trainers, *args, **kwargs):
 		super(UpdateForm, self).__init__(*args, **kwargs)
 		
-		self.fields['trainer'].queryset = Trainer.objects.filter(owner=self.instance.user_id)
+		self.fields['trainer'].queryset = trainers
