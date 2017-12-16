@@ -46,85 +46,150 @@ html, body {
 .trainerdex-card-wide.mdl-card {
   width: 512px;
 }
+
+/*  Header-specific */
+
+.trainerdex-search-box .mdl-textfield__input {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.trainerdex-header .mdl-menu__container {
+  z-index: 50;
+  margin: 0 !important;
+}
+
+
+.mdl-textfield--expandable {
+  width: auto;
+}
+
+.trainerdex-mobile-title {
+  display: none !important;
+}
+
+
+.trainerdex-logo-image {
+  height: 28px;
+  width: 140px;
+}
+
+
+.trainerdex-header {
+  overflow: visible;
+  background-color: white;
+}
+
+  .trainerdex-header .material-icons {
+    color: #767777 !important;
+  }
+
+  .trainerdex-header .mdl-layout__drawer-button {
+    background: transparent;
+    color: #767777;
+  }
+
+  .trainerdex-header .mdl-navigation__link {
+    color: #757575;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .trainerdex-header-navigation-container {
+    /* Simple hack to make the overflow happen to the left instead... */
+    direction: rtl;
+    -webkit-order: 1;
+        -ms-flex-order: 1;
+            order: 1;
+    width: 500px;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .trainerdex-header-navigation {
+    /* ... and now make sure the content is actually LTR */
+    direction: ltr;
+    -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    width: 800px;
+  }
+
+  .trainerdex-search-box.is-focused + .trainerdex-header-navigation-container {
+    opacity: 0;
+    width: 100px;
+  }
+
+
+  .trainerdex-header-navigation .mdl-navigation__link {
+    display: inline-block;
+    height: 60px;
+    line-height: 68px;
+    background-color: transparent !important;
+    border-bottom: 4px solid transparent;
+  }
+
+    .trainerdex-header-navigation .mdl-navigation__link:hover {
+      border-bottom: 4px solid #8bc34a;
+    }
+
+  .trainerdex-search-box {
+    -webkit-order: 2;
+        -ms-flex-order: 2;
+            order: 2;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .trainerdex-more-button {
+    -webkit-order: 3;
+        -ms-flex-order: 3;
+            order: 3;
+  }
+
+/**** Mobile layout ****/
+@media (max-width: 900px) {
+  .trainerdex-header-navigation-container {
+    display: none;
+  }
+
+  .trainerdex-title {
+    display: none !important;
+  }
+
+  .trainerdex-mobile-title {
+    display: block !important;
+    position: absolute;
+    left: calc(50% - 70px);
+    top: 12px;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* WebViews in iOS 9 break the "~" operator, and WebViews in OS X 10.10 break
+     consecutive "+" operators in some cases. Therefore, we need to use both
+     here to cover all the bases. */
+  .trainerdex.trainerdex-search-box.is-focused ~ .trainerdex-mobile-title,
+  .trainerdex-search-box.is-focused + .trainerdex-header-navigation-container + .trainerdex-mobile-title {
+    opacity: 0;
+  }
+
+  .trainerdex-more-button {
+    display: none;
+  }
+
+  .trainerdex-search-box.is-focused {
+    width: calc(100% - 48px);
+  }
+
+  .trainerdex-search-box .mdl-textfield__expandable-holder {
+    width: 100%;
+  }
+}
+/* */
 .trainerdex-avatar {
   width: 64px;
   height: 64px;
   border-radius: 32px;
 }
-
-
-/* From mdl-template-portfolio */
-.trainerdex-header {
-  position: relative;
-}
-.trainerdex-header .mdl-layout__header-row {
-  padding: 0;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-.mdl-layout__title {
-  font-size: 14px;
-  text-align: center;
-  font-weight: 300;
-}
-.is-compact .mdl-layout__title span {
-  display: none;
-}
-.trainerdex-logo-row {
-  min-height: 200px;
-}
-.is-compact .trainerdex-logo-row {
-  min-height: auto;
-}
-.trainerdex-logo {
-  background: url(/static/img/logo.png) center no-repeat;
-  background-size: cover;
-  height: 150px;
-  width: 150px;
-  margin: auto auto 10px;
-}
-.is-compact .trainerdex-logo {
-  height: 50px;
-  width: 50px;
-  margin-top: 7px;
-}
-.trainerdex-navigation-row {
-  background-color: rgba(0, 0, 0, 0.08);
-  text-transform: uppercase;
-  height: 45px;
-}
-.trainerdex-navigation-row  .mdl-navigation {
-  text-align: center;
-  max-width: 900px;
-  width: 100%;
-}
-.trainerdex-navigation-row .mdl-navigation__link {
-  -webkit-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  line-height: 42px;
-}
-
-.trainerdex-header .mdl-layout__drawer-button {
-    background-color: rgba(197, 197, 197, 0.44);
-}
-.trainerdex-navigation-row .is-active {
-  position: relative;
-  font-weight: bold;
-}
-.trainerdex-navigation-row .is-active:after {
-  content: "";
-  width: 70%;
-  height: 2px;
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background-color: rgb(255,64,129);
-  left: 15%;
-}
-/* */
 
 .mdl-layout__drawer .avatar {
   margin-bottom: 16px;
@@ -398,9 +463,11 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
   opacity: 0.46;
   border-radius: 2px;
 }
-/*.social-btn__twitter {
+/*
+.social-btn__twitter {
   background-image: url('http://www.trainerdex.co.uk/static/img/twitter.svg');
-}*/
+}
+*/
 .social-btn__facebook {
   background-image: url('http://www.trainerdex.co.uk/static/img/facebook.svg');
 }
