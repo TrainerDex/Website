@@ -1,14 +1,16 @@
 from allauth.socialaccount.models import SocialAccount
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import PositiveIntegerField
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _
 from pycent import percentage
 from rest_framework import permissions
 from rest_framework.decorators import detail_route
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-from trainer.forms import UpdateForm
+from trainer.forms import QuickUpdateForm
 from trainer.models import Trainer, Faction, Update, DiscordGuild, ExtendedProfile
 from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer, DiscordGuildSerializer
 
@@ -83,7 +85,7 @@ STATS = [
 	'xp'
 ]
 
-def profile(request, username=None):
+def TrainerProfileView(request, username=None):
 	if username:
 		trainer = get_object_or_404(Trainer, username__iexact=username)
 	elif request.GET.get('username'):
@@ -149,13 +151,15 @@ def profile(request, username=None):
 	context['type_badges'] = type_badges
 	return render(request, 'profile.html', context)
 
-def update_dialog(request):
-	trainers = Trainer.objects.filter(owner=request.user)
-	if request.method == 'POST':
-		form = UpdateForm(request.POST)
-		if form.is_valid():
-			return HttpResponseRedirect('/success/')
-	else:
-		form = UpdateForm(trainers=trainers)
+def QuickUpdateDialogView(request):
 	
-	return render(request, 'update_dialog.html', {'form': form, 'trainers': trainers})
+	if request.method == 'POST':
+		form = QuickUpdateForm(data=request.POST)
+		if form.is_valid() and Trainer.objects.get(pk=request.POST['trainer']) in Trainer.objects.filter(owner=request.user):
+			form.save()
+			return HttpResponseRedirect('/trainer')
+	else:
+		form = QuickUpdateForm()
+		form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
+		form.fields['trainer'].initial = ExtendedProfile.objects.get(pk=request.user).prefered_profile
+	return render(request, 'update_dialog.html', {'form': form, 'trainers': Trainer.objects.filter(owner=request.user)})
