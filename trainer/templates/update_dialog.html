@@ -21,9 +21,8 @@
         </div>{% endif %}
         <div class="mdl-textfield mdl-js-textfield">
           {% render_field form.xp class+="mdl-textfield__input" pattern="[0-9]*" %}
-          <label class="mdl-textfield__label" for="sample2">XP...</label>
+          <label class="mdl-textfield__label" for="sample2">{% trans "XP" %}</label>
           <span class="mdl-textfield__error">{{ form.xp.errors }}</span><br>
-          {% render_field form.update_time class+="mdl-textfield__input" type="hidden" %}
         </div>
       </div>
       <div class="mdl-dialog__actions">
