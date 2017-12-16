@@ -10,4 +10,4 @@ router.register("update", UpdateViewSet)
 router.register("guilds", DiscordGuildViewSet)
 
 urlpatterns = router.urls
-urlpatterns.append(url(r'^tools/update_dialog/$', update_dialog, name='update_dialog'))
+urlpatterns.append(url(r'^tools/update_dialog/$', QuickUpdateDialogView, name='update_dialog'))

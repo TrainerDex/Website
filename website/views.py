@@ -4,10 +4,10 @@ from website.models import Discord, FacebookGroup, WhatsApp, MessengerGroup
 from trainer.models import ExtendedProfile, Faction
 from itertools import chain
 
-def index(request):
+def IndexView(request):
 	return render(request, 'index.html')
 
-def communities(request):
+def CommunityListView(request):
 	discord_list = Discord.objects.all()
 	facebookgroup_list = FacebookGroup.objects.all()
 	messengergroup_list = MessengerGroup.objects.all()
@@ -20,6 +20,3 @@ def communities(request):
 		'community_list' : community_list,
 	}
 	return render(request, 'communities.html', context)
-
-def discord(request):
-	return redirect('https://discord.gg/pFhMS3s')
