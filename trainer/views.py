@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Max
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, QueryDict
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _
 from ekpogo.utils import nullbool, cleanleaderboardqueryset
@@ -37,7 +37,7 @@ class TrainerListView(APIView):
 			_queryset_all = _queryset.all()
 			_queryset_out = _queryset_out.union(_queryset_all)
 		
-		trainers = _queryset_out
+		trainers = _queryset_out.exclude(active=False)
 		serializer = TrainerSerializer(trainers, many=True)
 		return Response(serializer.data)
 	
@@ -55,7 +55,59 @@ class TrainerDetailView(APIView):
 	PATCH - Update a trainer
 	DELETE - Archives a trainer (hidden from APIs until trainer tries to join again)
 	"""
-	pass
+	
+	def get_object(self, pk):
+		return get_object_or_404(Trainer, pk=pk)
+	
+	def get(self, request, pk):
+		trainer = self.get_object(pk)
+		if trainer.active is True:
+			serializer = TrainerSerializer(trainer)
+			return Response(serializer.data)
+		elif trainer.active is False:
+			response = {
+				'code': 1,
+				'reason': 'Profile deactivated',
+				'profile': {
+					'id': trainer.pk,
+					'faction': trainer.faction.id,
+				},
+			}
+			return Response(response, status=status.HTTP_423_LOCKED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	
+	def patch(self, request, pk):
+		trainer = self.get_object(pk)
+		serializer = TrainerSerializer(trainer, data=request.data, partial=True)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_200_OK)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	
+	def delete(self, request, pk):
+		trainer = self.get_object(pk)
+		if trainer.active:
+			trainer.active = False
+			trainer.save()
+			response = {
+				'code': 1,
+				'reason': 'Profile deactivated',
+				'profile': {
+					'id': trainer.pk,
+					'faction': trainer.faction.id,
+				},
+			}
+			return Response(response, status=status.HTTP_204_NO_CONTENT)
+		response = {
+				'code': 2,
+				'reason': 'Profile already deactivated',
+				'profile': {
+					'id': trainer.pk,
+					'faction': trainer.faction.id,
+				},
+			}
+		return Response(response, status=status.HTTP_400_BAD_REQUEST)
+	
 
 class UpdateListView(APIView):
 	"""
