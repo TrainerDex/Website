@@ -1,5 +1,5 @@
 from ajax_select import register, LookupChannel
-from trainer.models import Trainer, DiscordGuild
+from trainer.models import Trainer
 from django.contrib.auth.models import User
 
 @register('trainer')
@@ -23,14 +23,3 @@ class UserLookup(LookupChannel):
 	
 	def format_item_display(self, item):
 		return u"<span class='tag'>%s</span>" % item.username
-
-@register('discord_guild')
-class DiscordGuildLookup(LookupChannel):
-	
-	model = DiscordGuild
-	
-	def get_query(self, q, request):
-		return self.model.objects.filter(name__icontains=q)
-	
-	def format_item_display(self, item):
-		return u"<span class='tag'>%s</span>" % item.name
