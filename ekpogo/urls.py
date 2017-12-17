@@ -5,7 +5,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 from ajax_select import urls as ajex_select_urls
 from website.views import *
-from trainer.views import TrainerProfileView
+from trainer.views import TrainerProfileView, LeaderboardView
 
 api_v1_patterns = [
     url(r'', include('trainer.urls', namespace="trainerdex")),
@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^$', IndexView, name='home'),
     url(r'^_DISCORD/$', DisordRedirectView, name='discord'),
     url(r'^communities/$', CommunityListView, name='communities'),
+    url(r'^leaderboard/$', LeaderboardView, name='leaderboard'),
     url(r'^trainer/$', TrainerProfileView, name='profile'),
     url(r'^(?P<username>[a-zA-Z0-9]+)/$', TrainerProfileView, name='profile'),
 ]
