@@ -6,6 +6,7 @@ from django.db.models import PositiveIntegerField, Max
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _
+from ekpogo.utils import nullbool, cleanleaderboardqueryset
 from pycent import percentage
 from rest_framework import permissions
 from rest_framework.decorators import detail_route
@@ -166,12 +167,39 @@ def QuickUpdateDialogView(request):
 
 def LeaderboardView(request):
 	
-	_trainers_query = Trainer.objects
-	try:
-		_trainers_team = _trainers_query.filter(faction__in=request.GET.get('team').split(','))
-	except:
-		_trainers_team = None
-	_trainers_query = _trainers_team if _trainers_team else _trainers_query
-	_trainers = _trainers_query.exclude(currently_cheats=True).annotate(Max('update__xp'), Max('update__update_time'))
-	leaderboard = sorted(_trainers, key=lambda x: x.update__xp__max, reverse=True)
-	return render(request, 'leaderboard.html', {'leaderboard': leaderboard})
+	#Defining Parameters
+	showValor = {'param':'Valor', 'value':nullbool(request.GET.get('valor'), default=True)}
+	showMystic = {'param':'Mystic', 'value':nullbool(request.GET.get('mystic'), default=True)}
+	showInstinct = {'param':'Instinct', 'value':nullbool(request.GET.get('instinct'), default=True)}
+	showSpoofers = {'param':'currently_cheats', 'value':nullbool(request.GET.get('spoofers'), default=False)}
+	
+	_trainers_query = Trainer.objects.exclude(statistics=False)
+	for param in (showValor, showMystic, showInstinct):
+		if param['value'] is False:
+			_trainers_query = _trainers_query.exclude(faction__name=param['param'])
+	_trainers_non_legit = _trainers_query.exclude(currently_cheats = False).annotate(Max('update__xp'), Max('update__update_time'))
+	_trainers_non_legit = cleanleaderboardqueryset(_trainers_non_legit, key=lambda x: x.update__xp__max, reverse=True)
+	_trainers_legit = _trainers_query.exclude(currently_cheats = True).annotate(Max('update__xp'), Max('update__update_time'))
+	_trainers_legit = cleanleaderboardqueryset(_trainers_legit, key=lambda x: x.update__xp__max, reverse=True)
+	
+	_trainers = []
+	for trainer in _trainers_legit:
+		_trainers.append({
+			'position' : _trainers_legit.index(trainer)+1,
+			'trainer' : trainer,
+			'xp' : trainer.update__xp__max,
+			'time' : trainer.update__update_time__max,
+		})
+	if showSpoofers['value']:
+		for trainer in _trainers_non_legit:
+			_trainers.append({
+				'position' : None,
+				'trainer' : trainer,
+				'xp' : trainer.update__xp__max,
+				'time' : trainer.update__update_time__max,
+				})
+	_trainers.sort(key = lambda x: x['xp'], reverse=True)
+	
+	
+	
+	return render(request, 'leaderboard.html', {'leaderboard' : _trainers, 'valor' : showValor, 'mystic' : showMystic, 'instinct' : showInstinct, 'spoofers' : showSpoofers})
