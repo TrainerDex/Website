@@ -1,44 +1,59 @@
-from allauth.socialaccount.models import SocialAccount
 from datetime import datetime
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import PositiveIntegerField, Max
+from django.db.models import Max
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _
 from ekpogo.utils import nullbool, cleanleaderboardqueryset
 from pycent import percentage
-from rest_framework import permissions
+from rest_framework import authentication, permissions
 from rest_framework.decorators import detail_route
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from trainer.forms import QuickUpdateForm
-from trainer.models import Trainer, Faction, Update, DiscordGuild, ExtendedProfile
-from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer, DiscordGuildSerializer
+from trainer.models import Trainer, Faction, Update, ExtendedProfile
+from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer
 
-class UserViewSet(ModelViewSet):
-	serializer_class = UserSerializer
-	queryset = User.objects.all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+# RESTful API Views
 
-class TrainerViewSet(ModelViewSet):
-	serializer_class = TrainerSerializer
-	queryset = Trainer.objects.all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class TrainerListView():
+	"""
+	GET - Accepts HTTP.get paramaters for team, searchquery
+	POST - Create a trainer
+	"""
+	authentication_classes = (authentication.TokenAuthentication,)
+	permission_classes = (permissions.IsAdminUser,)
+	
 
-class FactionViewSet(ModelViewSet):
-	serializer_class = FactionSerializer
-	queryset = Faction.objects.all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class TrainerDetailView():
+	"""
+	GET - Trainer detail
+	PATCH - Update a trainer
+	DELETE - Archives a trainer (hidden from APIs until trainer tries to join again)
+	"""
+	pass
 
-class UpdateViewSet(ModelViewSet):
-	serializer_class = UpdateSerializer
-	queryset = Update.objects.order_by('-datetime').all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class UpdateListView():
+	"""
+	GET - Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
+	POST/PATCH - Create a update
+	"""
+	pass
 
-class DiscordGuildViewSet(ModelViewSet):
-	serializer_class = DiscordGuildSerializer
-	queryset = DiscordGuild.objects.all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class UpdateDetailView():
+	"""
+	GET - Gets detailed view
+	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied
+	DELETE - Delete an update, works within first 48 hours of creation, otherwise, an email request for deletion is sent to admin
+	"""
+	pass
+
+class TrainerOwnerRedirect():
+	"""
+	Always turns 303 See Other redirect to correct URI
+	"""
+	pass
+
+# Web-based views
 
 BADGES = [
 	{'name':'walk_dist', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Jogger')},
@@ -60,6 +75,7 @@ BADGES = [
 	{'name':'leg_raids_completed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Battle Legend')},
 	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90, 'i18n_name':_('Hoenn')},
 ]
+
 TYPE_BADGES = [
 	{'name':'pkmn_normal', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Normal')},
 	{'name':'pkmn_flying', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Flying')},
@@ -79,6 +95,7 @@ TYPE_BADGES = [
 	{'name':'pkmn_ice', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Ice')},
 	{'name':'pkmn_dragon', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Dragon')},
 ]
+
 STATS = [
 	'dex_caught',
 	'dex_seen',

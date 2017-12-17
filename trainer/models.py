@@ -160,17 +160,3 @@ class Update(models.Model):
 	class Meta:
 		get_latest_by = 'update_time'
 		ordering = ['-update_time']
-
-class DiscordGuild(models.Model):
-	name = models.CharField(max_length=256)
-	region = models.CharField(max_length=256)
-	id = models.CharField(max_length=256, primary_key=True, verbose_name="ID")
-	icon = models.CharField(max_length=256, null=True, blank=True)
-	maintainer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-	bans_cheaters = models.BooleanField(default=True)
-	seg_cheaters = models.BooleanField(default=False, verbose_name="segregates cheaters")
-	bans_minors = models.BooleanField(default=False)
-	seg_minors = models.BooleanField(default=False, verbose_name="segregates minors")
-	
-	def __str__(self):
-		return self.name

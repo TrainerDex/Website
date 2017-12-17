@@ -7,4 +7,3 @@ class QuickUpdateForm(ModelForm):
 		model = Update
 		fields = ('trainer', 'xp', 'update_time')
 	
-

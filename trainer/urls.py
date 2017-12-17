@@ -1,13 +1,11 @@
 from django.conf.urls import url
-from rest_framework.routers import SimpleRouter
-from trainer.views import *
+from trainer.views import TrainerListView, TrainerDetailView, UpdateListView, UpdateDetailView, TrainerOwnerRedirect
 
-router = SimpleRouter()
-router.register("users", UserViewSet)
-router.register("trainers", TrainerViewSet)
-router.register("factions", FactionViewSet)
-router.register("update", UpdateViewSet)
-router.register("guilds", DiscordGuildViewSet)
 
-urlpatterns = router.urls
-urlpatterns.append(url(r'^tools/update_dialog/$', QuickUpdateDialogView, name='update_dialog'))
+urlpatterns = [
+    url(r'^trainers/', TrainerListView),
+    url(r'^trainers/<int:id>', TrainerDetailView),
+    url(r'^trainers/<int:trainer>/updates/', UpdateListView),
+    url(r'^trainers/<int:trainer>/updates/<int:uuid>/', UpdateDetailView),
+    url(r'^trainers/<int:id>/owner', TrainerOwnerRedirect),
+]

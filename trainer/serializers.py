@@ -1,12 +1,11 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from trainer.models import *
-from allauth.socialaccount.models import SocialAccount
 
 class ExtendedProfileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ExtendedProfile
-		fields = ('dob', )
+		fields = ('dob', 'prefered_profile')
 
 class UpdateSerializer(serializers.ModelSerializer):
 	owner = serializers.ReadOnlyField(source='trainer.owner.id')
@@ -16,34 +15,24 @@ class UpdateSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class TrainerSerializer(serializers.ModelSerializer):
-	update = serializers.SerializerMethodField()
-	updates = serializers.SerializerMethodField()
 	account = serializers.ReadOnlyField(source='owner.id')
-	
-	def get_update(self, obj):
-		return UpdateSerializer(obj.update_set.order_by('-datetime').first()).data
-	
-	def get_updates(self, obj):
-		return UpdateSerializer(obj.update_set.order_by('-datetime').all(), many=True).data
 	
 	class Meta:
 		model = Trainer
 		fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
-	profiles = TrainerSerializer(many=True, read_only=True)
-#	extended_profile = ExtendedProfileSerializer()
-		
+	extra = serializers.SerializerMethodField()
+	
+	def get_extra(self, obj):
+		return ExtendedProfileSerializer(ExtendedProfile.objects.get(user=obj)).data
+	
 	class Meta:
 		model = User
-		fields = ('id', 'username', 'first_name', 'last_name', 'profiles')
+		fields = ('id', 'username', 'first_name', 'last_name', 'extra')
 
 class FactionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Faction
 		fields = '__all__'
 
-class DiscordGuildSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = DiscordGuild
-		fields = '__all__'
