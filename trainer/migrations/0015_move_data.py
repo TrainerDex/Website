@@ -14,8 +14,6 @@ def prefered_forward(apps, schema_editor):
             user.prefered_profile = trainer
             user.save()
 
-def prefered_backward(apps, schema_editor):
-    print("Data about prefered profile is lost, sorry.")
 
 class Migration(migrations.Migration):
 
@@ -24,5 +22,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(prefered_forward, prefered_backward),
+        migrations.RunPython(prefered_forward, migrations.RunPython.noop),
     ]

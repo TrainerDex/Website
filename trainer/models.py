@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+﻿import uuid
 from datetime import date
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -80,6 +80,7 @@ class Faction(models.Model):
 		return self.name
 
 class Update(models.Model):
+	uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
 	trainer = models.ForeignKey('Trainer', on_delete=models.CASCADE)
 	update_time = models.DateTimeField(default=timezone.now)
 	xp = models.PositiveIntegerField(verbose_name='Total XP')
@@ -131,13 +132,13 @@ class Update(models.Model):
 	
 	def clean(self):
 		
-		errors = {}
+		error_dict = {}
 		
 		for field in Update._meta.get_fields():
 			if type(field) == models.PositiveIntegerField or field.name == 'walk_dist':
 				largest = Update.objects.filter(trainer=self.trainer, update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name).first() # Gets updates, filters by same trainer, excludes updates where that field is empty, get update with highest value in that field - this should always be the correct update
 				if largest is not None and getattr(self, field.name) is not None and getattr(self, field.name) < getattr(largest, field.name):
-					errors[field.name] = _("This value has previously been entered at a higher value. Values cannot decrease.")
+					error_dict[field.name] = ValidationError(_("This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."))
 		
 		if self.update_time.date() < date(2017,6,20):
 			self.raids_completed = None
@@ -155,8 +156,8 @@ class Update(models.Model):
 			self.gen_2_dex = None
 			self.unown_alphabet = None
 		
-		if errors != {}:
-			raise ValidationError(errors)
+		if error_dict != {}:
+			raise ValidationError(error_dict)
 	
 	class Meta:
 		get_latest_by = 'update_time'

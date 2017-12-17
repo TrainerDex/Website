@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Max
-from django.http import HttpResponseRedirect, QueryDict
+from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _
 from ekpogo.utils import nullbool, cleanleaderboardqueryset
@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from trainer.forms import QuickUpdateForm
 from trainer.models import Trainer, Faction, Update, ExtendedProfile
-from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer
+from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, FactionSerializer, BriefUpdateSerializer, DetailedUpdateSerializer
 
 # RESTful API Views
 
@@ -38,11 +38,15 @@ class TrainerListView(APIView):
 			_queryset_out = _queryset_out.union(_queryset_all)
 		
 		trainers = _queryset_out.exclude(active=False)
-		serializer = TrainerSerializer(trainers, many=True)
-		return Response(serializer.data)
+		if request.GET.get('detail') == '1':
+			serializer = DetailedTrainerSerializer(trainers, many=True)
+			return Response(serializer.data)
+		else:
+			serializer = BriefTrainerSerializer(trainers, many=True)
+			return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
 	
 	def post(self, request):
-		serializer = TrainerSerializer(data=request.data)
+		serializer = DetailedTrainerSerializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -60,10 +64,14 @@ class TrainerDetailView(APIView):
 		return get_object_or_404(Trainer, pk=pk)
 	
 	def get(self, request, pk):
+		print(status.HTTP_423_LOCKED)
 		trainer = self.get_object(pk)
 		if trainer.active is True:
-			serializer = TrainerSerializer(trainer)
-			return Response(serializer.data)
+			if trainer.statistics is True or (trainer.statistics is False and request.GET.get('statistics') == 'force'):
+				serializer = DetailedTrainerSerializer(trainer)
+				return Response(serializer.data)
+			elif trainer.statistics is False:
+				return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 		elif trainer.active is False:
 			response = {
 				'code': 1,
@@ -78,7 +86,7 @@ class TrainerDetailView(APIView):
 	
 	def patch(self, request, pk):
 		trainer = self.get_object(pk)
-		serializer = TrainerSerializer(trainer, data=request.data, partial=True)
+		serializer = DetailedTrainerSerializer(trainer, data=request.data, partial=True)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_200_OK)
@@ -114,7 +122,23 @@ class UpdateListView(APIView):
 	GET - Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
 	POST/PATCH - Create a update
 	"""
-	pass
+	
+	def get(self, request, pk):
+		updates = Update.objects.filter(trainer=pk)
+		serializer = BriefUpdateSerializer(updates, many=True)
+		return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
+	
+	def post(self, request, pk):
+		serializer = DetailedUpdateSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.clean()
+			serializer.save(trainer=get_object_or_404(Trainer, pk=pk))
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	
+	def patch(self, request, pk):
+		return self.post(self, request, pk)
+	
 
 class UpdateDetailView(APIView):
 	"""
