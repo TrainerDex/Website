@@ -31,6 +31,7 @@ class ExtendedProfile(models.Model):
 
 class Trainer(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
+	active = models.BooleanField(default=True)
 	username = models.CharField(max_length=30, unique=True)
 	start_date = models.DateField(null=True, blank=True, validators=[validate_startdate])
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name="team")
