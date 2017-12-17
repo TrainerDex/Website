@@ -6,25 +6,50 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _
 from ekpogo.utils import nullbool, cleanleaderboardqueryset
 from pycent import percentage
-from rest_framework import authentication, permissions
+from rest_framework import authentication, permissions, status
 from rest_framework.decorators import detail_route
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from trainer.forms import QuickUpdateForm
 from trainer.models import Trainer, Faction, Update, ExtendedProfile
 from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer
 
 # RESTful API Views
 
-class TrainerListView():
+class TrainerListView(APIView):
 	"""
-	GET - Accepts HTTP.get paramaters for team, searchquery
+	GET - Accepts HTTP.get paramaters for team, q and all
 	POST - Create a trainer
 	"""
 	authentication_classes = (authentication.TokenAuthentication,)
 	permission_classes = (permissions.IsAdminUser,)
 	
+	def get(self, request):
+		_queryset = Trainer.objects
+		_queryset_out = _queryset.none()
+		if request.GET.get('q'):
+			_queryset_query = _queryset.filter(username__icontains=request.GET.get('q'))
+			_queryset_out = _queryset_out.union(_queryset_query)
+		if request.GET.get('team'):
+			_queryset_team = _queryset.filter(faction=request.GET.get('team'))
+			_queryset_out = _queryset_out.union(_queryset_team)
+		if nullbool(request.GET.get('all'), default=False) and request.GET.get('all') in (1, True, '1', 'True'):
+			_queryset_all = _queryset.all()
+			_queryset_out = _queryset_out.union(_queryset_all)
+		
+		trainers = _queryset_out
+		serializer = TrainerSerializer(trainers, many=True)
+		return Response(serializer.data)
+	
+	def post(self, request):
+		serializer = TrainerSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	
 
-class TrainerDetailView():
+class TrainerDetailView(APIView):
 	"""
 	GET - Trainer detail
 	PATCH - Update a trainer
@@ -32,14 +57,14 @@ class TrainerDetailView():
 	"""
 	pass
 
-class UpdateListView():
+class UpdateListView(APIView):
 	"""
 	GET - Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
 	POST/PATCH - Create a update
 	"""
 	pass
 
-class UpdateDetailView():
+class UpdateDetailView(APIView):
 	"""
 	GET - Gets detailed view
 	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied
@@ -47,7 +72,7 @@ class UpdateDetailView():
 	"""
 	pass
 
-class TrainerOwnerRedirect():
+class TrainerOwnerRedirect(APIView):
 	"""
 	Always turns 303 See Other redirect to correct URI
 	"""

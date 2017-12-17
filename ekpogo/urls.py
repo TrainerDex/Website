@@ -16,7 +16,7 @@ def DisordRedirectView(request):
     return redirect('https://discord.gg/pFhMS3s')
 
 urlpatterns = [
-    url(r'^api/1.0/', include(api_v1_patterns, namespace="api_v1")),
+    url(r'^api/v1/', include(api_v1_patterns, namespace="api_v1")),
     url(r'^api/admin/', admin.site.urls),
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^ajax_select/', include(ajex_select_urls)),
