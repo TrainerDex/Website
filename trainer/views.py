@@ -2,7 +2,7 @@ from allauth.socialaccount.models import SocialAccount
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import PositiveIntegerField
+from django.db.models import PositiveIntegerField, Max
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _
@@ -163,3 +163,15 @@ def QuickUpdateDialogView(request):
 		form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
 		form.fields['trainer'].initial = ExtendedProfile.objects.get(pk=request.user).prefered_profile
 	return render(request, 'update_dialog.html', {'form': form, 'trainers': Trainer.objects.filter(owner=request.user)})
+
+def LeaderboardView(request):
+	
+	_trainers_query = Trainer.objects
+	try:
+		_trainers_team = _trainers_query.filter(faction__in=request.GET.get('team').split(','))
+	except:
+		_trainers_team = None
+	_trainers_query = _trainers_team if _trainers_team else _trainers_query
+	_trainers = _trainers_query.exclude(currently_cheats=True).annotate(Max('update__xp'), Max('update__update_time'))
+	leaderboard = sorted(_trainers, key=lambda x: x.update__xp__max, reverse=True)
+	return render(request, 'leaderboard.html', {'leaderboard': leaderboard})

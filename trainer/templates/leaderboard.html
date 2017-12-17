@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+
+{% block head_title %}{% trans "Communities" %}{% endblock %}
+{% block section_title %}{% trans "Communities" %}{% endblock %}
+
+{% block content %}
+        <div class="mdl-grid welcome-content">
+          <div class="mdl-grid table-responsive">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell">
+              <thead>
+                <tr>
+                  <th class="mdl-data-table__cell">Position</th>
+                  <th class="mdl-data-table__cell--non-numeric">Name</th>
+                  <th class="mdl-data-table__cell--non-numeric">Team</th>
+                  <th class="mdl-data-table__cell">XP</th>
+                  <th class="mdl-data-table__cell--non-numeric">Date Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for trainer in leaderboard %}
+                <tr>
+                  <td class="mdl-data-table__cell">{{ forloop.counter }}</td>
+                  <td class="mdl-data-table__cell--non-numeric">{{ trainer.username }}</td>
+                  <td class="mdl-data-table__cell--non-numeric">{% if trainer.faction.name != "Teamless" %}<img width="32px" src="/{{ trainer.faction.image }}" />{% endif %}</td>
+                  <td class="mdl-data-table__cell">{{trainer.update__xp__max|intcomma}}</td>
+                  <td class="mdl-data-table__cell--non-numeric">{{trainer.update__update_time__max|naturalday}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+{% endblock %}
