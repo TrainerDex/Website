@@ -8,11 +8,12 @@ from website.views import *
 from trainer.views import TrainerProfileView, LeaderboardView
 
 api_v1_patterns = [
-    url(r'', include('trainer.urls', namespace="trainerdex")),
+    url(r'^trainers/', include('trainer.urls', namespace="trainer_profiles")),
+#    url(r'^gyms/', include('raids.urls', namespace="raid_enrollment")),
 ]
 
 def DisordRedirectView(request):
-	return redirect('https://discord.gg/pFhMS3s')
+    return redirect('https://discord.gg/pFhMS3s')
 
 urlpatterns = [
     url(r'^api/1.0/', include(api_v1_patterns, namespace="api_v1")),

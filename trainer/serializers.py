@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from trainer.models import *
-from allauth.socialaccount.models import SocialAccount
 
 class ExtendedProfileSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -32,7 +31,6 @@ class TrainerSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
 	profiles = TrainerSerializer(many=True, read_only=True)
-#	extended_profile = ExtendedProfileSerializer()
 		
 	class Meta:
 		model = User
@@ -43,7 +41,3 @@ class FactionSerializer(serializers.ModelSerializer):
 		model = Faction
 		fields = '__all__'
 
-class DiscordGuildSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = DiscordGuild
-		fields = '__all__'

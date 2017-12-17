@@ -12,8 +12,10 @@ from rest_framework import permissions
 from rest_framework.decorators import detail_route
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from trainer.forms import QuickUpdateForm
-from trainer.models import Trainer, Faction, Update, DiscordGuild, ExtendedProfile
-from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer, DiscordGuildSerializer
+from trainer.models import Trainer, Faction, Update, ExtendedProfile
+from trainer.serializers import UserSerializer, TrainerSerializer, FactionSerializer, UpdateSerializer
+
+# RESTful API Views
 
 class UserViewSet(ModelViewSet):
 	serializer_class = UserSerializer
@@ -35,10 +37,7 @@ class UpdateViewSet(ModelViewSet):
 	queryset = Update.objects.order_by('-datetime').all()
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-class DiscordGuildViewSet(ModelViewSet):
-	serializer_class = DiscordGuildSerializer
-	queryset = DiscordGuild.objects.all()
-	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+# Web-based views
 
 BADGES = [
 	{'name':'walk_dist', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Jogger')},
@@ -60,6 +59,7 @@ BADGES = [
 	{'name':'leg_raids_completed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Battle Legend')},
 	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90, 'i18n_name':_('Hoenn')},
 ]
+
 TYPE_BADGES = [
 	{'name':'pkmn_normal', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Normal')},
 	{'name':'pkmn_flying', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Flying')},
@@ -79,6 +79,7 @@ TYPE_BADGES = [
 	{'name':'pkmn_ice', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Ice')},
 	{'name':'pkmn_dragon', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Dragon')},
 ]
+
 STATS = [
 	'dex_caught',
 	'dex_seen',

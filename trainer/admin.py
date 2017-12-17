@@ -50,10 +50,3 @@ class TrainerAdmin(AjaxSelectAdmin):
 	search_fields = ('username', 'owner__username', 'owner__first_name')
 	ordering = ('username',)
 	date_hierarchy = 'start_date'
-
-@admin.register(DiscordGuild)
-class DiscordGuildAdmin(AjaxSelectAdmin):
-	
-	form = make_ajax_form(User, {
-		'username' : 'user'
-	})
