@@ -5,10 +5,12 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 from ajax_select import urls as ajex_select_urls
 from website.views import *
-from trainer.views import TrainerProfileView, LeaderboardView
+from trainer.views import TrainerProfileView, LeaderboardView, LeaderboardAPIView
+from trainer.urls import TrainerURLS
 
 api_v1_patterns = [
-    url(r'^trainers/', include('trainer.urls', namespace="trainer_profiles")),
+    url(r'^trainers/', include(TrainerURLS, namespace="trainer_profiles")),
+    url(r'^leaderboard/$', LeaderboardAPIView.as_view()),
 #    url(r'^gyms/', include('raids.urls', namespace="raid_enrollment")),
 ]
 
