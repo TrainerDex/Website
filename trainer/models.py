@@ -125,7 +125,8 @@ class Update(models.Model):
 	pkmn_ghost = models.PositiveIntegerField(null=True, blank=True, verbose_name="hex maniac")
 	pkmn_ice = models.PositiveIntegerField(null=True, blank=True, verbose_name="skier")
 	pkmn_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name="dragon tamer")
-
+	
+	meta_time_created = models.DateTimeField(auto_now_add=True)
 	
 	def __str__(self):
 		return self.trainer.username+' '+str(self.xp)+' '+str(self.update_time)

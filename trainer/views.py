@@ -1,11 +1,13 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.contrib.auth.models import User
+from django.core.mail import mail_admins
 from django.db.models import Max
 from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _
 from ekpogo.utils import nullbool, cleanleaderboardqueryset
 from pycent import percentage
+from pytz import utc
 from rest_framework import authentication, permissions, status
 from rest_framework.decorators import detail_route
 from rest_framework.views import APIView
@@ -106,15 +108,7 @@ class TrainerDetailView(APIView):
 				},
 			}
 			return Response(response, status=status.HTTP_204_NO_CONTENT)
-		response = {
-				'code': 2,
-				'reason': 'Profile already deactivated',
-				'profile': {
-					'id': trainer.pk,
-					'faction': trainer.faction.id,
-				},
-			}
-		return Response(response, status=status.HTTP_400_BAD_REQUEST)
+		return Response(status=status.HTTP_400_BAD_REQUEST)
 	
 
 class UpdateListView(APIView):
@@ -146,7 +140,36 @@ class UpdateDetailView(APIView):
 	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied
 	DELETE - Delete an update, works within first 48 hours of creation, otherwise, an email request for deletion is sent to admin
 	"""
-	pass
+	
+	def get(self, request, uuid, pk):
+		update = get_object_or_404(Update, trainer=pk, uuid=uuid)
+		serializer = DetailedUpdateSerializer(update)
+		if update.trainer.id != int(pk):
+			return Response(serializer.errors, status=400)
+		return Response(serializer.data)
+	
+	def patch(self, request, uuid, pk):
+		update = get_object_or_404(Update, trainer=pk, uuid=uuid)
+		if update.meta_time_created > datetime.now(utc)-timedelta(minutes=32):
+			serializer = DetailedUpdateSerializer(update, data=request.data)
+			if serializer.is_valid():
+				serializer.clean()
+				serializer.save(trainer=update.trainer,uuid=trainer.uuid,pk=trainer.pk)
+				return Response(serializer.data)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	
+	def delete(self, request, uuid, pk):
+		update = get_object_or_404(Update, trainer=pk, uuid=uuid)
+		if update.meta_time_created > datetime.now(utc)-timedelta(days=2):
+			update.delete()
+			return Response(status=status.HTTP_204_NO_CONTENT)
+		else:
+			SUBJECT = 'Late Update Deletion Request'
+			MESSAGE = 'There has been a request to delete {update} by {requester} at {ip}'.format(update=request.build_absolute_uri(), requester=request.user, ip=request.get_host())
+			mail_admins(SUBJECT, MESSAGE)
+			return Response({'request_made': True, 'subject': SUBJECT, 'message': MESSAGE}, status=status.HTTP_202_ACCEPTED)
+		return Response(status=status.HTTP_400_BAD_REQUEST)
+	
 
 class TrainerOwnerRedirect(APIView):
 	"""
