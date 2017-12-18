@@ -20,31 +20,25 @@ from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser
 
 class TrainerListView(APIView):
 	"""
-	GET - Accepts HTTP.get paramaters for team, q and all
-	POST - Create a trainer
+	GET - Accepts paramaters for Team (t) and Username (q)
+	POST - Register a Trainer, needs PK for User
 	"""
 	
 	authentication_classes = (authentication.TokenAuthentication,)
 	
 	def get(self, request):
-		_queryset = Trainer.objects
-		_queryset_out = _queryset.none()
-		if request.GET.get('q'):
-			_queryset_query = _queryset.filter(username__icontains=request.GET.get('q'))
-			_queryset_out = _queryset_out.union(_queryset_query)
-		if request.GET.get('team'):
-			_queryset_team = _queryset.filter(faction=request.GET.get('team'))
-			_queryset_out = _queryset_out.union(_queryset_team)
-		if nullbool(request.GET.get('all'), default=False) and request.GET.get('all') in (1, True, '1', 'True'):
-			_queryset_all = _queryset.all()
-			_queryset_out = _queryset_out.union(_queryset_all)
+		queryset = Trainer.objects.exclude(active=False)
+		if request.GET.get('q') or request.GET.get('t'):
+			if request.GET.get('q'):
+				queryset = queryset.filter(username__icontains=request.GET.get('q'))
+			if request.GET.get('t'):
+				queryset = queryset.filter(faction=request.GET.get('t'))
 		
-		trainers = _queryset_out.exclude(active=False)
 		if request.GET.get('detail') == '1':
-			serializer = DetailedTrainerSerializer(trainers, many=True)
+			serializer = DetailedTrainerSerializer(queryset, many=True)
 			return Response(serializer.data)
 		else:
-			serializer = BriefTrainerSerializer(trainers, many=True)
+			serializer = BriefTrainerSerializer(queryset, many=True)
 			return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
 	
 	def post(self, request):
