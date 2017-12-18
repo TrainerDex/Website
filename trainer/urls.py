@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from trainer.views import TrainerListView, TrainerDetailView, UpdateListView, UpdateDetailViewLatest, UpdateDetailView, QuickUpdateDialogView, UserViewSet
+from trainer.views import TrainerListView, TrainerDetailView, UpdateListView, UpdateDetailViewLatest, UpdateDetailView, QuickUpdateDialogView, UserViewSet, SocialLookupView, AutoRegisterView
 from trainer.errors import ThrowMalformedPKError, ThrowMalformedUUIDError
 
 class TrainerURLs:
@@ -20,5 +20,6 @@ class UserURLs:
     urlpatterns = [
         url(r'^$', UserViewSet.as_view({'get':'list','post':'create'})),
         url(r'^(?P<pk>[0-9]+)/$', UserViewSet.as_view({'get':'retrieve','patch':'partial_update'})),
-        #url(r'^(?P<pk>[0-9]+)/???/$', ???.as_view()),
+        url(r'^social/$', SocialLookupView.as_view()),
+        url(r'^register/$', AutoRegisterView.as_view()),
     ]
