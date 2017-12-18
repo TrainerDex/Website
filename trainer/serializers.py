@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from trainer.models import *
+from trainer.shortcuts import level_parser
 
 class ExtendedProfileSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -8,7 +9,11 @@ class ExtendedProfileSerializer(serializers.ModelSerializer):
 		fields = ('dob', 'prefered_profile')
 
 class BriefUpdateSerializer(serializers.ModelSerializer):
+	level = serializers.SerializerMethodField()
 	altered_fields = serializers.SerializerMethodField()
+	
+	def get_level(self, obj):
+		return level_parser(xp=obj.xp)
 	
 	def get_altered_fields(self, obj):
 		changed_list = []
@@ -20,9 +25,13 @@ class BriefUpdateSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Update
-		fields = ('uuid', 'trainer', 'update_time', 'xp', 'altered_fields')
+		fields = ('uuid', 'trainer', 'update_time', 'xp', 'level', 'altered_fields')
 
 class DetailedUpdateSerializer(serializers.ModelSerializer):
+	level = serializers.SerializerMethodField()
+	
+	def get_level(self, obj):
+		return level_parser(xp=obj.xp)
 	
 	def validate(self, attrs):
 		instance = Update(**attrs)
@@ -31,7 +40,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Update
-		fields = ('uuid', 'trainer', 'update_time', 'xp', 'dex_caught', 'dex_seen', 'gym_badges', 'walk_dist', 'gen_1_dex', 'pkmn_caught', 'pkmn_evolved', 'eggs_hatched', 'pkstops_spun', 'big_magikarp', 'battles_won', 'legacy_gym_trained', 'tiny_rattata', 'pikachu_caught', 'gen_2_dex', 'unown_alphabet', 'berry_fed', 'gym_defended', 'raids_completed', 'leg_raids_completed', 'gen_3_dex', 'pkmn_normal', 'pkmn_flying', 'pkmn_poison', 'pkmn_ground', 'pkmn_rock', 'pkmn_bug', 'pkmn_steel', 'pkmn_fire', 'pkmn_water', 'pkmn_grass', 'pkmn_electric', 'pkmn_psychic', 'pkmn_dark', 'pkmn_fairy', 'pkmn_fighting', 'pkmn_ghost', 'pkmn_ice', 'pkmn_dragon')
+		fields = ('uuid', 'trainer', 'update_time', 'xp', 'level', 'dex_caught', 'dex_seen', 'gym_badges', 'walk_dist', 'gen_1_dex', 'pkmn_caught', 'pkmn_evolved', 'eggs_hatched', 'pkstops_spun', 'big_magikarp', 'battles_won', 'legacy_gym_trained', 'tiny_rattata', 'pikachu_caught', 'gen_2_dex', 'unown_alphabet', 'berry_fed', 'gym_defended', 'raids_completed', 'leg_raids_completed', 'gen_3_dex', 'pkmn_normal', 'pkmn_flying', 'pkmn_poison', 'pkmn_ground', 'pkmn_rock', 'pkmn_bug', 'pkmn_steel', 'pkmn_fire', 'pkmn_water', 'pkmn_grass', 'pkmn_electric', 'pkmn_psychic', 'pkmn_dark', 'pkmn_fairy', 'pkmn_fighting', 'pkmn_ghost', 'pkmn_ice', 'pkmn_dragon')
 
 class BriefTrainerSerializer(serializers.ModelSerializer):
 	
@@ -58,4 +67,38 @@ class UserSerializer(serializers.ModelSerializer):
 class FactionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Faction
-		fields = '__all__'
+		fields = ('id', 'name', 'colour')
+
+class LeaderboardSerializer(serializers.Serializer):
+	level = serializers.SerializerMethodField()
+	position = serializers.SerializerMethodField()
+	id = serializers.SerializerMethodField()
+	username = serializers.SerializerMethodField()
+	faction = serializers.SerializerMethodField()
+	xp = serializers.SerializerMethodField()
+	last_updated = serializers.SerializerMethodField()
+	
+	def get_position(self, obj):
+		return obj[0]
+	
+	def get_level(self, obj):
+		return level_parser(xp=obj[1].update__xp__max).level
+	
+	def get_id(self, obj):
+		return obj[1].id
+	
+	def get_username(self, obj):
+		return obj[1].username
+	
+	def get_faction(self, obj):
+		return FactionSerializer(obj[1].faction).data
+	
+	def get_xp(self, obj):
+		return obj[1].update__xp__max
+	
+	def get_last_updated(self, obj):
+		return obj[1].update__update_time__max
+	
+	class Meta:
+		model = Trainer
+		fields = ('position', 'id', 'username', 'faction', 'level', 'xp', 'last_updated')

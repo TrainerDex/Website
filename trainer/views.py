@@ -5,7 +5,6 @@ from django.db.models import Max
 from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _
-from ekpogo.utils import nullbool, cleanleaderboardqueryset
 from pycent import percentage
 from pytz import utc
 from rest_framework import authentication, permissions, status
@@ -14,7 +13,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from trainer.forms import QuickUpdateForm
 from trainer.models import Trainer, Faction, Update, ExtendedProfile
-from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, FactionSerializer, BriefUpdateSerializer, DetailedUpdateSerializer
+from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, FactionSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer
+from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser
 
 # RESTful API Views
 
@@ -23,8 +23,8 @@ class TrainerListView(APIView):
 	GET - Accepts HTTP.get paramaters for team, q and all
 	POST - Create a trainer
 	"""
+	
 	authentication_classes = (authentication.TokenAuthentication,)
-	permission_classes = (permissions.IsAdminUser,)
 	
 	def get(self, request):
 		_queryset = Trainer.objects
@@ -61,6 +61,8 @@ class TrainerDetailView(APIView):
 	PATCH - Update a trainer
 	DELETE - Archives a trainer (hidden from APIs until trainer tries to join again)
 	"""
+	
+	authentication_classes = (authentication.TokenAuthentication,)
 	
 	def get_object(self, pk):
 		return get_object_or_404(Trainer, pk=pk)
@@ -117,6 +119,8 @@ class UpdateListView(APIView):
 	POST/PATCH - Create a update
 	"""
 	
+	authentication_classes = (authentication.TokenAuthentication,)
+	
 	def get(self, request, pk):
 		updates = Update.objects.filter(trainer=pk)
 		serializer = BriefUpdateSerializer(updates, many=True)
@@ -134,12 +138,38 @@ class UpdateListView(APIView):
 		return self.post(self, request, pk)
 	
 
+class UpdateDetailViewLatest(APIView):
+	"""
+	GET - Gets detailed view of the latest update
+	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked.
+	"""
+	
+	authentication_classes = (authentication.TokenAuthentication,)
+	
+	def get(self, request, pk):
+		update = Update.objects.filter(trainer=pk).latest('update_time')
+		serializer = DetailedUpdateSerializer(update)
+		return Response(serializer.data)
+	
+	def patch(self, request, pk):
+		update = Update.objects.filter(trainer=pk).latest('update_time')
+		if update.meta_time_created > datetime.now(utc)-timedelta(minutes=32):
+			serializer = DetailedUpdateSerializer(update, data=request.data)
+			if serializer.is_valid():
+				serializer.clean()
+				serializer.save(trainer=update.trainer,uuid=update.uuid,pk=update.pk)
+				return Response(serializer.data)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	
+
 class UpdateDetailView(APIView):
 	"""
 	GET - Gets detailed view
-	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied
+	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked.
 	DELETE - Delete an update, works within first 48 hours of creation, otherwise, an email request for deletion is sent to admin
 	"""
+	
+	authentication_classes = (authentication.TokenAuthentication,)
 	
 	def get(self, request, uuid, pk):
 		update = get_object_or_404(Update, trainer=pk, uuid=uuid)
@@ -154,7 +184,7 @@ class UpdateDetailView(APIView):
 			serializer = DetailedUpdateSerializer(update, data=request.data)
 			if serializer.is_valid():
 				serializer.clean()
-				serializer.save(trainer=update.trainer,uuid=trainer.uuid,pk=trainer.pk)
+				serializer.save(trainer=update.trainer,uuid=update.uuid,pk=update.pk)
 				return Response(serializer.data)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	
@@ -171,11 +201,14 @@ class UpdateDetailView(APIView):
 		return Response(status=status.HTTP_400_BAD_REQUEST)
 	
 
-class TrainerOwnerRedirect(APIView):
-	"""
-	Always turns 303 See Other redirect to correct URI
-	"""
-	pass
+class LeaderboardAPIView(APIView):
+	
+	def get(self, request):
+		leaderboard = Trainer.objects.exclude(statistics=False, currently_cheats=True).annotate(Max('update__xp'), Max('update__update_time'))
+		leaderboard = cleanleaderboardqueryset(leaderboard, key=lambda x: x.update__xp__max, reverse=True)
+		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
+		return Response(serializer.data)
+	
 
 # Web-based views
 
@@ -289,6 +322,7 @@ def TrainerProfileView(request, username=None):
 			context[badge+'-time'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge : None}).order_by('-'+badge).first(), 'update_time')
 		except AttributeError:
 			continue
+	context['level'] = level_parser(xp=context['xp']),
 	context['badges'] = badges
 	context['type_badges'] = type_badges
 	return render(request, 'profile.html', context)
@@ -330,6 +364,7 @@ def LeaderboardView(request):
 			'trainer' : trainer,
 			'xp' : trainer.update__xp__max,
 			'time' : trainer.update__update_time__max,
+			'level' : level_parser(xp=trainer.update__xp__max),
 		})
 	if showSpoofers['value']:
 		for trainer in _trainers_non_legit:
@@ -338,9 +373,8 @@ def LeaderboardView(request):
 				'trainer' : trainer,
 				'xp' : trainer.update__xp__max,
 				'time' : trainer.update__update_time__max,
+				'level' : level_parser(xp=trainer.update__xp__max),
 				})
 	_trainers.sort(key = lambda x: x['xp'], reverse=True)
-	
-	
 	
 	return render(request, 'leaderboard.html', {'leaderboard' : _trainers, 'valor' : showValor, 'mystic' : showMystic, 'instinct' : showInstinct, 'spoofers' : showSpoofers})
