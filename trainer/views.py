@@ -10,6 +10,7 @@ from pytz import utc
 from rest_framework import authentication, permissions, status
 from rest_framework.decorators import detail_route
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from trainer.forms import QuickUpdateForm
 from trainer.models import Trainer, Faction, Update, ExtendedProfile
@@ -17,6 +18,11 @@ from trainer.serializers import UserSerializer, BriefTrainerSerializer, Detailed
 from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser
 
 # RESTful API Views
+
+class UserViewSet(ModelViewSet):
+	serializer_class = UserSerializer
+	queryset = User.objects.all()
+	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class TrainerListView(APIView):
 	"""

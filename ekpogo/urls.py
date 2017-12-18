@@ -6,10 +6,11 @@ from rest_framework.authtoken import views
 from ajax_select import urls as ajex_select_urls
 from website.views import *
 from trainer.views import TrainerProfileView, LeaderboardView, LeaderboardAPIView
-from trainer.urls import TrainerURLS
+from trainer.urls import TrainerURLs, UserURLs
 
 api_v1_patterns = [
-    url(r'^trainers/', include(TrainerURLS, namespace="trainer_profiles")),
+    url(r'^trainers/', include(TrainerURLs, namespace="trainer_profiles")),
+    url(r'^users/', include(UserURLs, namespace="user_profiles")),
     url(r'^leaderboard/$', LeaderboardAPIView.as_view()),
 #    url(r'^gyms/', include('raids.urls', namespace="raid_enrollment")),
 ]
