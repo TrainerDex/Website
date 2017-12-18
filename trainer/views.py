@@ -1,3 +1,4 @@
+from allauth.socialaccount.models import SocialAccount
 from datetime import datetime, timedelta
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins
@@ -14,7 +15,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from trainer.forms import QuickUpdateForm
 from trainer.models import Trainer, Faction, Update, ExtendedProfile
-from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, FactionSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer
+from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, FactionSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
 from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser
 
 # RESTful API Views
@@ -210,6 +211,121 @@ class LeaderboardAPIView(APIView):
 		return Response(serializer.data)
 	
 
+class SocialLookupView(APIView):
+	"""
+	GET args:
+		provider (requiered) - platform, options are 'facebook', 'twitter', 'discord', 'google', 'patreon'
+		
+		One of the below, they're checked in this order so if you provide more than one, only the first would be processed.
+		uid - Social ID, supports a comma seperated list. Could be useful for passing a list of users in a server to retrieve a list of UserIDs, which could then be passed to api/v1/leaderboard/
+		user - TrainerDex User ID, supports a comma seperated list
+		trainer - TrainerDex Trainer ID
+	POST: Register a SocialAccount
+	"""
+	
+	def get(self, request):
+		query = SocialAccount.objects.filter(provider=request.GET.get('provider'))
+		if request.GET.get('uid'):
+			query = query.filter(uid__in=request.GET.get('uid').split(','))
+		elif request.GET.get('user'):
+			query = query.filter(user__in=request.GET.get('user').split(','))
+		elif request.GET.get('trainer'):
+			query = query.filter(user=get_object_or_404(Trainer, pk=request.GET.get('trainer')).owner)
+		else:
+			return Response(status=status.HTTP_400_BAD_REQUEST)
+		serializer = SocialAllAuthSerializer(query, many=True)
+		return Response(serializer.data)
+		
+	def post(self, request):
+		serializer = SocialAllAuthSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class AutoRegisterView(APIView):
+	"""
+	POST: Create an account.
+	This API requests a dict of dicts or ints. If ints, it will use an existing object, if dict it'll attempt to create a new object.
+	
+	{
+		"user":{                       # Required to exist. If not providing int value of existing user, provide an empty dict.
+			"first_name": "string",    # Optional
+			"last_name": "string",     # Optional
+			"email": "string@mail.com",# Optional. Recommended.
+		},
+		"trainer":{
+			"username":"TrainerName",  # Required. This MUST be an exact 1:1 copy of the Trainer name. Not case sensitive.
+			"start_date":"iso-8601",   # Optional. If provided, must be provided in iso-8601 format as a string.
+			"faction": 0,              # Required. Integer. 0 Teamless, 1 Blue, 2 Red, 3 Yellow
+			"has_cheated": false,      # Optional. Defaults to false. This is a hidden stat that helps us with reports.
+			"last_cheated":"iso-8601", # Optional. If supplied, has_cheated will reset to true. If has_cheated was true and this wasn't supplied, this will default to today.
+			"currently_cheats": false, # Optional. If true, has_cheated will set to true and last_cheated will set to today.
+			"statistics": true,        # Optional. Defaults to true. Option to opt out of international leaderboard and public profile will be empty.
+			"daily_goal": 0,           # Optional. Defaults to null.
+			"total_goal": 0,           # Optional. Defaults to null.
+		},
+		"update":{
+			"xp": 2000000,             # Required. Please ensure accuracy when supplying this value as there is only a 32 minute window to adjust if it was entered too high. Additionally, there is a 48 hour window to delete if you miss the 32 minute window
+			"walk_dist": "123.4",      # Optional. Supply as string for precision of the decimal.
+			medal_name: integer,       # Any medal listed below.
+		},
+		"social":{                     # Ignored. Not implemented yet.
+			"provider": "string",      # Required. Choices are 'facebook', 'twitter', 'discord', 'google', 'patreon'.
+			"uid": "12345",            # Required. String representation of a users ID from social provider.
+			"extra_data":{jsondict},   # Optional. Read [here](https://github.com/pennersr/django-allauth/issues/140#issuecomment-10607940) about how this is implemented.
+		}
+	}
+	"""
+	
+	def post(self, request):
+		
+		if not ((isinstance(request.data['user'], dict) or isinstance(request.data['user'], int)) and isinstance(request.data['trainer'], dict) and isinstance(request.data['update'], dict)):
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		user = request.data['user']
+		trainer = request.data['trainer']
+		update = request.data['update']
+		
+		if isinstance(user, dict):
+			user['username'] = '_'+trainer['username']
+			user_serializer = UserSerializer(data=user)
+			trainer['owner'] = 1
+			user['profiles'] = []
+			try:
+				user.pop('password')
+			except KeyError:
+				pass
+		elif isinstance(user, int):
+			user = get_object_or_404(User, pk=user)
+			user_serializer = UserSerializer(user)
+			trainer['owner'] = user.pk
+		
+		update['trainer'] = 0
+		
+		trainer_serializer = DetailedTrainerSerializer(data=trainer)
+		update_serializer = DetailedUpdateSerializer(data=update)
+		
+		
+		
+		user_valid = user_serializer.is_valid() if isinstance(user, dict) else True
+		trainer_valid = trainer_serializer.is_valid()
+		update_valid = update_serializer.is_valid()
+		if user_valid and trainer_valid and update_valid:
+			if isinstance(user, dict):
+				user_serializer.validated_data.pop('profiles')
+				user_serializer.save()
+				user_saved = get_object_or_404(User, id=user_serializer.data['id'])
+				#user_saved = User.objects.create_user(**user_serializer.validated_data)
+			else:
+				user_saved = user
+			
+			trainer_serializer.save(owner=user_saved)
+			trainer_saved = get_object_or_404(Trainer, id=trainer_serializer.data['id'])
+			update_serializer.save(trainer=trainer_saved)
+			update_saved = get_object_or_404(Update, trainer=trainer_serializer.data['id'])
+			return Response([user_serializer.data, trainer_serializer.data, update_serializer.data], status=status.HTTP_201_CREATED)
+		return Response(status=status.HTTP_400_BAD_REQUEST)
+	
 # Web-based views
 
 BADGES = [

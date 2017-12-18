@@ -1,0 +1,29 @@
+[
+{
+  "model": "trainer.trainer",
+  "pk": 0,
+  "fields": {
+    "owner": null,
+    "active": false,
+    "username": "DummyTrainer",
+    "start_date": null,
+    "faction": 0,
+    "has_cheated": false,
+    "last_cheated": null,
+    "currently_cheats": false,
+    "statistics": true,
+    "daily_goal": null,
+    "total_goal": null,
+    "last_modified": "2017-12-14T02:08:41.990Z",
+    "go_fest_2017": false,
+    "outbreak_2017": false,
+    "safari_zone_2017_oberhausen": false,
+    "safari_zone_2017_paris": false,
+    "safari_zone_2017_barcelona": false,
+    "safari_zone_2017_copenhagen": false,
+    "safari_zone_2017_prague": false,
+    "safari_zone_2017_stockholm": false,
+    "safari_zone_2017_amstelveen": false
+  }
+}
+]
