@@ -441,17 +441,17 @@ def TrainerProfileView(request, username=None):
 	return render(request, 'profile.html', context)
 
 def QuickUpdateDialogView(request):
-	
-	if request.method == 'POST':
-		form = QuickUpdateForm(data=request.POST)
-		if form.is_valid() and Trainer.objects.get(pk=request.POST['trainer']) in Trainer.objects.filter(owner=request.user):
-			form.save()
-			return HttpResponseRedirect('/trainer')
-	else:
-		form = QuickUpdateForm()
-		form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
+	form = QuickUpdateForm(request.POST or None)
+	if form.is_valid() and Trainer.objects.get(pk=request.POST['trainer']) in Trainer.objects.filter(owner=request.user):
+		form.save()
+		return HttpResponseRedirect(reverse('api_v1:trainer_profiles:update_success'))
+	form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
+	if request.method == 'GET':
 		form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
 	return render(request, 'update_dialog.html', {'form': form, 'trainers': Trainer.objects.filter(owner=request.user)})
+
+def QuickUpdateSuccessView(request):
+	return render(request, 'update_success.html')
 
 def LeaderboardView(request):
 	
