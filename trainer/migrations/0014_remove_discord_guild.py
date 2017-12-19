@@ -8,7 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('trainer', '0016_remove_trainer_prefered'),
+        ('trainer', '0013_auto_20171212_2259'),
     ]
 
     operations = [

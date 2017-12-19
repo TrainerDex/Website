@@ -4,11 +4,6 @@ from django.contrib.auth.models import User
 from trainer.models import *
 from trainer.shortcuts import level_parser
 
-class ExtendedProfileSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = ExtendedProfile
-		fields = ('dob', 'prefered_profile')
-
 class BriefUpdateSerializer(serializers.ModelSerializer):
 	altered_fields = serializers.SerializerMethodField()
 	
@@ -48,13 +43,6 @@ class DetailedTrainerSerializer(serializers.ModelSerializer):
 		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen')
 
 class UserSerializer(serializers.ModelSerializer):
-	main_profile = serializers.SerializerMethodField()
-	
-	def get_main_profile(self, obj):
-		try:
-			return obj.extended_profile.prefered_profile.id
-		except AttributeError:
-			return None
 	
 	def create(self, validated_data):
 		user = User.objects.create_user(**validated_data)
@@ -62,7 +50,7 @@ class UserSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = User
-		fields = ('id', 'username', 'first_name', 'last_name', 'main_profile', 'profiles')
+		fields = ('id', 'username', 'first_name', 'last_name')
 
 class FactionSerializer(serializers.ModelSerializer):
 	class Meta:

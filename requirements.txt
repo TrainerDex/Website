@@ -25,3 +25,4 @@ django-flat-responsive
 pycent==1.0
 django-gravatar2==1.4.2
 django-widget-tweaks==1.4.1
+django-exclusivebooleanfield==0.3.0

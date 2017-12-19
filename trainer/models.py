@@ -1,4 +1,5 @@
 ﻿import uuid
+from colorful.fields import RGBColorField
 from datetime import date
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -6,7 +7,7 @@ from django.db import models
 from django.db.models.signals import *
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from colorful.fields import RGBColorField
+from exclusivebooleanfield.fields import ExclusiveBooleanField
 from trainer.validators import *
 
 def factionImagePath(instance, filename):
@@ -14,20 +15,6 @@ def factionImagePath(instance, filename):
 
 def leaderImagePath(instance, filename):
 	return 'factions/'+instance.name+'-leader'
-
-class ExtendedProfile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='extended_profile')
-	dob = models.DateField(null=True, blank=True, verbose_name="date of birth")
-	prefered_profile = models.ForeignKey('Trainer', on_delete=models.SET_NULL, null=True, blank=False, related_name='main_profiles')
-	
-	def __str__(self):
-		return self.user.username
-	
-	def create_user_profile(sender, instance, created, **kwargs):
-		if created:
-			ExtendedProfile.objects.create(user=instance)
-			
-	post_save.connect(create_user_profile, sender=User)
 
 class Trainer(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles')
@@ -51,6 +38,7 @@ class Trainer(models.Model):
 	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name="Safari Zone - Prague, Czechia")
 	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name="Safari Zone - Stockholm, Sweden")
 	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name="Safari Zone - Amstelveen, The Netherlands")
+	prefered = ExclusiveBooleanField(on='owner')
 	#top_50 = models.TextField(null=True, blank=True)
 	
 	def is_prefered(self):
