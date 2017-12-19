@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from trainer.forms import QuickUpdateForm
-from trainer.models import Trainer, Faction, Update, ExtendedProfile
+from trainer.models import Trainer, Faction, Update
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, FactionSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
 from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser
 
@@ -290,7 +290,6 @@ class AutoRegisterView(APIView):
 			user['username'] = '_'+trainer['username']
 			user_serializer = UserSerializer(data=user)
 			trainer['owner'] = 1
-			user['profiles'] = []
 			try:
 				user.pop('password')
 			except KeyError:
@@ -312,7 +311,6 @@ class AutoRegisterView(APIView):
 		update_valid = update_serializer.is_valid()
 		if user_valid and trainer_valid and update_valid:
 			if isinstance(user, dict):
-				user_serializer.validated_data.pop('profiles')
 				user_serializer.save()
 				user_saved = get_object_or_404(User, id=user_serializer.data['id'])
 				#user_saved = User.objects.create_user(**user_serializer.validated_data)
@@ -386,8 +384,7 @@ def TrainerProfileView(request, username=None):
 	elif not request.user.is_authenticated():
 		return redirect('home')
 	else:
-		_extended_profile = get_object_or_404(ExtendedProfile, user=request.user)
-		trainer = _extended_profile.prefered_profile
+		trainer = get_object_or_404(Trainer, owner=request.user, prefered=True)
 	context = {
 		'trainer' : trainer,
 		'updates' : Update.objects.filter(trainer=trainer),
@@ -453,7 +450,7 @@ def QuickUpdateDialogView(request):
 	else:
 		form = QuickUpdateForm()
 		form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
-		form.fields['trainer'].initial = ExtendedProfile.objects.get(pk=request.user).prefered_profile
+		form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
 	return render(request, 'update_dialog.html', {'form': form, 'trainers': Trainer.objects.filter(owner=request.user)})
 
 def LeaderboardView(request):
