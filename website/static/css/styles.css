@@ -158,6 +158,11 @@ html, body {
   .trainerdex-title {
     display: none !important;
   }
+  .trainerdex-title a {
+    color: rgb(255,255,255) !important;
+    text-decoration-color: rgb(255,255,255) !important;
+    text-decoration-line: none !important;
+  }
 
   .trainerdex-mobile-title {
     display: block !important;
