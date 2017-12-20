@@ -54,7 +54,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
       <header class="trainerdex-header mdl-layout__header is-casting-shadow">
         <div class="mdl-layout__header-row">
           <span class="trainerdex-title mdl-layout__title">
-            <img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">
+            <a href="{% url 'home' %}" class="trainerdex-title">{#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex</a><sup>beta</sup>
           </span>
           {# Add spacer, to align navigation to the right in desktop #}
           <div class="mdl-layout-spacer"></div>
@@ -76,7 +76,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
             </nav>
           </div>
           <span class="trainerdex-mobile-title mdl-layout-title">
-            <img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">
+            {#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex<sup>beta</sup>
           </span>
           <button class="trainerdex-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
             <i class="material-icons">more_vert</i>
@@ -116,7 +116,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
         </header>
         <nav class="trainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
           {%if user.is_authenticated %}
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'profile' %}">{% trans "My Profile" %}</a>{% else %}<a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}">{% trans "Home" %}</a>{% endif %}
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'profile' %}"><i class="material-icons">person</i>{% trans "My Profile" %}</a>{% else %}<a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}"><i class="material-icons">home</i>{% trans "Home" %}</a>{% endif %}
           <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'communities' %}"><i class="material-icons" role="presentation">people</i>{% trans "Communities" %}</a>
           <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'leaderboard' %}"><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
           <div class="mdl-layout-spacer"></div>
@@ -164,6 +164,12 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
         </div>
       </footer>
     </div>
+    
+    {% block update_stats_button %}
+    {% if user.is_authenticated %}
+    <a id="trainerdex__update-button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" href="{% url 'update_stats' %}"><i class="material-icons">add</i></a>
+    {% endif %}
+    {% endblock %}
     
     {% if GOOGLE_ANALYTICS_PROPERTY_ID %}
       {% include "ga.html" %}
