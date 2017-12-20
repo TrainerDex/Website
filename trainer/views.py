@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.core.mail import mail_admins
 from django.db.models import Max
 from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, redirect, reverse
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from pycent import percentage
 from pytz import utc
@@ -435,20 +436,22 @@ def TrainerProfileView(request, username=None):
 			context[badge+'-time'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge : None}).order_by('-'+badge).first(), 'update_time')
 		except AttributeError:
 			continue
-	context['level'] = level_parser(xp=context['xp']),
+	context['level'] = level_parser(xp=context['xp'])
 	context['badges'] = badges
 	context['type_badges'] = type_badges
 	
 	if request.user == trainer.owner:
-		request.POST['trainer'] = trainer.pk
-		form = QuickUpdateForm(request.POST or None)
+		form_data = request.POST.copy()
+		form_data['trainer'] = trainer.pk
+		form_data['update_time'] = timezone.now()
+		form = QuickUpdateForm(form_data or None)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect(reverse('profile', args=[trainer.pk]))
+			return HttpResponseRedirect(reverse('profile')+'?id={}#history-panel'.format(trainer.pk))
 		form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
 		if request.method == 'GET':
 			form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
-		return render(request, 'update_dialog.html', {'form': form, 'trainers': Trainer.objects.filter(owner=request.user)})
+		context['form'] = form
 	
 	return render(request, 'profile.html', context)
 

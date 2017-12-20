@@ -28,7 +28,7 @@
         </div>
         <div class="mdl-grid">
           <div class="trainerdex-card-center mdl-cell mdl-cell--6-col-tablet mdl-cell--8-col-desktop table-responsive">
-            <table class="trainerdex-card-center mdl-data-table mdl-js-data-table mdl-shadow--2dp ">
+            <table class="trainerdex-card-center mdl-data-table mdl-js-data-table mdl-shadow--2dp">
               <thead>
                 <tr>
                   <th>#</th>
@@ -42,7 +42,7 @@
                 {% for trainer in leaderboard %}
                 <tr>
                   <td>{{ trainer.position|default_if_none:'<i class="material-icons">close</i>' }}</td>
-                  <td class="mdl-data-table__cell--non-numeric">{{ trainer.trainer.username }}</td>
+                  <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }}</a></td>
                   <td class="mdl-data-table__cell--non-numeric">{% if trainer.trainer.faction.name != "Teamless" %}<img width="32px" src="/{{ trainer.trainer.faction.image }}" />{% endif %}</td>
                   <td>{{trainer.xp|intcomma}}</td>
                   <td class="mdl-data-table__cell--non-numeric">{{trainer.time|naturalday}}</td>

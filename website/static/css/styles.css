@@ -572,3 +572,9 @@ iframe[scrolling='no'] { overflow: hidden; }
         border-bottom: 0;
     }
 }
+
+.leaderboard-link {
+  color: rgba(0,0,0,.87);
+  text-decoration-color: rgba(0,0,0,.87);
+  text-decoration-line: none;
+}
