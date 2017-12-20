@@ -34,6 +34,7 @@ html, body {
 .trainerdex-card-center {
   margin-left: auto;
   margin-right: auto;
+  width: auto;
 }
 .trainerdex-card__alert > .mdl-card__title {
   color: #fff;
@@ -577,4 +578,8 @@ iframe[scrolling='no'] { overflow: hidden; }
   color: rgba(0,0,0,.87);
   text-decoration-color: rgba(0,0,0,.87);
   text-decoration-line: none;
+}
+
+.trainerdex-collapsable {
+  min-height: 60px;
 }
