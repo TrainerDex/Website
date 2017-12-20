@@ -323,7 +323,7 @@ class AutoRegisterView(APIView):
 			update_saved = get_object_or_404(Update, trainer=trainer_serializer.data['id'])
 			return Response([user_serializer.data, trainer_serializer.data, update_serializer.data], status=status.HTTP_201_CREATED)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
-	
+
 # Web-based views
 
 BADGES = [
@@ -438,20 +438,34 @@ def TrainerProfileView(request, username=None):
 	context['level'] = level_parser(xp=context['xp']),
 	context['badges'] = badges
 	context['type_badges'] = type_badges
+	
+	if request.user == trainer.owner:
+		request.POST['trainer'] = trainer.pk
+		form = QuickUpdateForm(request.POST or None)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect(reverse('profile', args=[trainer.pk]))
+		form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
+		if request.method == 'GET':
+			form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
+		return render(request, 'update_dialog.html', {'form': form, 'trainers': Trainer.objects.filter(owner=request.user)})
+	
 	return render(request, 'profile.html', context)
 
 def QuickUpdateDialogView(request):
-	form = QuickUpdateForm(request.POST or None)
-	if form.is_valid() and Trainer.objects.get(pk=request.POST['trainer']) in Trainer.objects.filter(owner=request.user):
-		form.save()
-		return HttpResponseRedirect(reverse('api_v1:trainer_profiles:update_success'))
-	form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
-	if request.method == 'GET':
-		form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
-	return render(request, 'update_dialog.html', {'form': form, 'trainers': Trainer.objects.filter(owner=request.user)})
+	pass
+	#form = QuickUpdateForm(request.POST or None)
+	#if form.is_valid() and Trainer.objects.get(pk=request.POST['trainer']) in Trainer.objects.filter(owner=request.user):
+	#	form.save()
+	#	return HttpResponseRedirect(reverse('api_v1:trainer_profiles:update_success'))
+	#form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
+	#if request.method == 'GET':
+	#	form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
+	#return render(request, 'update_dialog.html', {'form': form, 'trainers': Trainer.objects.filter(owner=request.user)})
 
 def QuickUpdateSuccessView(request):
-	return render(request, 'update_success.html')
+	pass
+	#return render(request, 'update_success.html')
 
 def LeaderboardView(request):
 	

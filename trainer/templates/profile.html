@@ -68,6 +68,15 @@
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td id="create-time" class="mdl-data-table__cell--non-numeric">Now
+          {% render_field form.update_time style="visibility: hidden" type="hidden" %}</td>
+            <td id="create--xp" class="mdl-data-table__cell--non-numeric">
+          {% render_field form.xp class+="mdl-textfield__input" pattern="[0-9]*" %}
+              <label class="mdl-textfield__label" for="sample2">{% trans "XP" %}</label>
+              <span class="mdl-textfield__error">{{ form.xp.errors }}</span><td>
+            <td id="create-submit" class="mdl-data-table__cell--non-numeric"><button  type="submit" name="action"class="mdl-button">{% trans "Submit" %}</button></td>
+          <tr>
           {% for update in updates %}
           <tr>
             <td id="time-{{update.update_time.timestamp}}" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}</td>
