@@ -225,7 +225,7 @@ class SocialLookupView(APIView):
 		uid - Social ID, supports a comma seperated list. Could be useful for passing a list of users in a server to retrieve a list of UserIDs, which could then be passed to api/v1/leaderboard/
 		user - TrainerDex User ID, supports a comma seperated list
 		trainer - TrainerDex Trainer ID
-	POST: Register a SocialAccount
+	PUT: Register a SocialAccount. Patch if exists, post if not.
 	"""
 	
 	def get(self, request):
@@ -241,8 +241,9 @@ class SocialLookupView(APIView):
 		serializer = SocialAllAuthSerializer(query, many=True)
 		return Response(serializer.data)
 		
-	def post(self, request):
-		serializer = SocialAllAuthSerializer(data=request.data)
+	def put(self, request):
+		query = SocialAccount.objects.get(provider=request.data['provider'], uid=request.data['uid'])
+		serializer = SocialAllAuthSerializer(query, data=request.data, partial=True) if query else SocialAllAuthSerializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
