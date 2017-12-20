@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from trainer.views import TrainerListView, TrainerDetailView, UpdateListView, UpdateDetailViewLatest, UpdateDetailView, QuickUpdateDialogView, UserViewSet, SocialLookupView, AutoRegisterView, QuickUpdateSuccessView
+from trainer.views import TrainerListView, TrainerDetailView, UpdateListView, UpdateDetailViewLatest, UpdateDetailView, UserViewSet, SocialLookupView, AutoRegisterView
 from trainer.errors import ThrowMalformedPKError, ThrowMalformedUUIDError
 
 class TrainerURLs:
@@ -12,8 +12,6 @@ class TrainerURLs:
         url(r'^(?P<pk>[0-9]+)/updates/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})/$', UpdateDetailView.as_view()),
         url(r'^(?P<pk>.+)/updates/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})/$', ThrowMalformedPKError),
         #url(r'^(?P<pk>[0-9]+)/updates/(.+)', ThrowMalformedUUIDError),
-        url(r'^tools/update_dialog/$', QuickUpdateDialogView, name='update_dialog'),
-        url(r'^tools/update_success/$', QuickUpdateSuccessView, name='update_success'),
     ]
 
 class UserURLs:

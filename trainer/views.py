@@ -1,5 +1,6 @@
 from allauth.socialaccount.models import SocialAccount
 from datetime import datetime, timedelta
+from django import forms
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins
 from django.db.models import Max
@@ -14,7 +15,7 @@ from rest_framework.decorators import detail_route
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from trainer.forms import QuickUpdateForm
+from trainer.forms import QuickUpdateForm, UpdateForm
 from trainer.models import Trainer, Faction, Update
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, FactionSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
 from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser
@@ -455,16 +456,20 @@ def TrainerProfileView(request, username=None):
 	
 	return render(request, 'profile.html', context)
 
-def QuickUpdateDialogView(request):
+def UpdateDialogView(request):
 	pass
-	#form = QuickUpdateForm(request.POST or None)
-	#if form.is_valid() and Trainer.objects.get(pk=request.POST['trainer']) in Trainer.objects.filter(owner=request.user):
-	#	form.save()
-	#	return HttpResponseRedirect(reverse('api_v1:trainer_profiles:update_success'))
-	#form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
-	#if request.method == 'GET':
-	#	form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
-	#return render(request, 'update_dialog.html', {'form': form, 'trainers': Trainer.objects.filter(owner=request.user)})
+	form = UpdateForm(request.POST or None)
+	form.fields['update_time'].widget = forms.HiddenInput()
+	if form.is_valid() and (int(request.POST['trainer']),) in Trainer.objects.filter(owner=request.user).values_list('pk'):
+		print('valid')
+		form.save()
+		return HttpResponseRedirect(reverse('profile')+'?id={}#history-panel'.format(request.POST['trainer']))
+	else:
+		print(form.errors)
+	form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
+	if request.method == 'GET':
+		form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
+	return render(request, 'create_update.html', {'form': form})
 
 def QuickUpdateSuccessView(request):
 	pass
