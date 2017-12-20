@@ -39,7 +39,7 @@ class TrainerListView(APIView):
 		queryset = Trainer.objects.exclude(active=False)
 		if request.GET.get('q') or request.GET.get('t'):
 			if request.GET.get('q'):
-				queryset = queryset.filter(username__icontains=request.GET.get('q'))
+				queryset = queryset.filter(username__iexact=request.GET.get('q'))
 			if request.GET.get('t'):
 				queryset = queryset.filter(faction=request.GET.get('t'))
 		
