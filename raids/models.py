@@ -1,5 +1,6 @@
 from django.db import models
 from trainer.models import Trainer
+from django.utils.translation import ugettext_lazy as _
 
 class Raid(models.Model):
 	pokemon = models.PositiveIntegerField()
@@ -24,16 +25,16 @@ class Enrollment(models.Model):
 	FAILED = 'X'
 	ABORTED = '/'
 	ENROLLMENT_CHOICES = (
-		(INTERESTED, 'Interested'),
-		(GOING, 'En Route'),
-		(GOING_NOTLEFT, 'Will be there'),
-		(GOING_LATE, 'Running late'),
-		(ARRIVED, 'At the gym'),
-		(COMPLETE, 'Completed'),
-		(COMPLETE_CAUGHT, 'Completed (successful catch)'),
-		(COMPLETE_RAN, 'Completed (boss ran)'),
-		(FAILED, 'Failed to complete raid'),
-		(ABORTED, 'No longer interested in raid'),
+		(INTERESTED, _('Interested')),
+		(GOING, _('En Route')),
+		(GOING_NOTLEFT, _('Will be there')),
+		(GOING_LATE, _('Running late')),
+		(ARRIVED, _('At the gym')),
+		(COMPLETE, _('Completed')),
+		(COMPLETE_CAUGHT, _('Completed (successful catch)')),
+		(COMPLETE_RAN, _('Completed (boss ran)')),
+		(FAILED, _('Failed to complete raid')),
+		(ABORTED, _('No longer interested in raid')),
 	)
 	trainer = models.ForeignKey(Trainer)
 	raid = models.ForeignKey(Raid)
