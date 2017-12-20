@@ -1,78 +1,98 @@
-﻿# -*- coding: utf-8 -*-
+from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from trainer.models import *
+from trainer.shortcuts import level_parser
 
-class ExtendedProfileSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = ExtendedProfile
-		fields = ('dob', )
-
-class UpdateSerializer(serializers.ModelSerializer):
+class BriefUpdateSerializer(serializers.ModelSerializer):
+	altered_fields = serializers.SerializerMethodField()
+	
+	def get_altered_fields(self, obj):
+		changed_list = []
+		field_list = ('dex_caught', 'dex_seen', 'gym_badges', 'walk_dist', 'gen_1_dex', 'pkmn_caught', 'pkmn_evolved', 'eggs_hatched', 'pkstops_spun', 'big_magikarp', 'battles_won', 'legacy_gym_trained', 'tiny_rattata', 'pikachu_caught', 'gen_2_dex', 'unown_alphabet', 'berry_fed', 'gym_defended', 'raids_completed', 'leg_raids_completed', 'gen_3_dex', 'pkmn_normal', 'pkmn_flying', 'pkmn_poison', 'pkmn_ground', 'pkmn_rock', 'pkmn_bug', 'pkmn_steel', 'pkmn_fire', 'pkmn_water', 'pkmn_grass', 'pkmn_electric', 'pkmn_psychic', 'pkmn_dark', 'pkmn_fairy', 'pkmn_fighting', 'pkmn_ghost', 'pkmn_ice', 'pkmn_dragon')
+		for k, v in obj.__dict__.items():
+			if k in field_list and v is not None:
+				changed_list.append(k)
+		return changed_list
 	
 	class Meta:
 		model = Update
-		fields = '__all__'
+		fields = ('uuid', 'trainer', 'update_time', 'xp', 'altered_fields')
 
-class TrainerSerializer(serializers.ModelSerializer):
-	update = serializers.SerializerMethodField()
-	updates = serializers.SerializerMethodField()
+class DetailedUpdateSerializer(serializers.ModelSerializer):
 	
-	def get_update(self, obj):
-		return UpdateSerializer(obj.update_set.order_by('-datetime').first()).data
+	def validate(self, attrs):
+		instance = Update(**attrs)
+		instance.clean()
+		return attrs
 	
-	def get_updates(self, obj):
-		return UpdateSerializer(obj.update_set.order_by('-datetime').all(), many=True).data
+	class Meta:
+		model = Update
+		fields = ('uuid', 'trainer', 'update_time', 'xp', 'dex_caught', 'dex_seen', 'gym_badges', 'walk_dist', 'gen_1_dex', 'pkmn_caught', 'pkmn_evolved', 'eggs_hatched', 'pkstops_spun', 'big_magikarp', 'battles_won', 'legacy_gym_trained', 'tiny_rattata', 'pikachu_caught', 'gen_2_dex', 'unown_alphabet', 'berry_fed', 'gym_defended', 'raids_completed', 'leg_raids_completed', 'gen_3_dex', 'pkmn_normal', 'pkmn_flying', 'pkmn_poison', 'pkmn_ground', 'pkmn_rock', 'pkmn_bug', 'pkmn_steel', 'pkmn_fire', 'pkmn_water', 'pkmn_grass', 'pkmn_electric', 'pkmn_psychic', 'pkmn_dark', 'pkmn_fairy', 'pkmn_fighting', 'pkmn_ghost', 'pkmn_ice', 'pkmn_dragon')
+
+class BriefTrainerSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Trainer
-		fields = '__all__'
+		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal')
+
+class DetailedTrainerSerializer(serializers.ModelSerializer):
+	
+	class Meta:
+		model = Trainer
+		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen')
 
 class UserSerializer(serializers.ModelSerializer):
-	profiles = TrainerSerializer(many=True, read_only=True)
-#	extended_profile = ExtendedProfileSerializer()
-		
+	
+	def create(self, validated_data):
+		user = User.objects.create_user(**validated_data)
+		return user
+	
 	class Meta:
 		model = User
-		fields = ('id', 'username', 'first_name', 'last_name', 'profiles')
+		fields = ('id', 'username', 'first_name', 'last_name')
 
 class FactionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Faction
-		fields = '__all__'
+		fields = ('id', 'name', 'colour')
 
-class DiscordServerSerializer(serializers.ModelSerializer):
+class LeaderboardSerializer(serializers.Serializer):
+	level = serializers.SerializerMethodField()
+	position = serializers.SerializerMethodField()
+	id = serializers.SerializerMethodField()
+	username = serializers.SerializerMethodField()
+	faction = serializers.SerializerMethodField()
+	xp = serializers.SerializerMethodField()
+	last_updated = serializers.SerializerMethodField()
+	
+	def get_position(self, obj):
+		return obj[0]
+	
+	def get_level(self, obj):
+		return level_parser(xp=obj[1].update__xp__max).level
+	
+	def get_id(self, obj):
+		return obj[1].id
+	
+	def get_username(self, obj):
+		return obj[1].username
+	
+	def get_faction(self, obj):
+		return FactionSerializer(obj[1].faction).data
+	
+	def get_xp(self, obj):
+		return obj[1].update__xp__max
+	
+	def get_last_updated(self, obj):
+		return obj[1].update__update_time__max
+	
 	class Meta:
-		model = DiscordServer
-		fields = '__all__'
+		model = Trainer
+		fields = ('position', 'id', 'username', 'faction', 'level', 'xp', 'last_updated')
 
-class DiscordUserSerializer(serializers.ModelSerializer):
+class SocialAllAuthSerializer(serializers.ModelSerializer):
+	
 	class Meta:
-		model = DiscordUser
-		fields = '__all__'
-
-class DiscordMemberSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = DiscordMember
-		fields = '__all__'
-		
-
-class NetworkSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Network
-		fields = '__all__'
-
-class NetworkMemberSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = NetworkMember
-		fields = '__all__'
-
-class BanSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Ban
-		fields = '__all__'
-
-class ReportSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Report
-		fields = '__all__'
+		model = SocialAccount
+		fields = ('user', 'provider', 'uid', 'extra_data')
