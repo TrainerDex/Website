@@ -4,7 +4,6 @@ import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -16,6 +15,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+ADMINS = [('Jay Turner', 'jaynicholasturner@gmail.com')]
 
 # Application definition
 
@@ -24,19 +24,32 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django.contrib.gis',
+    'django_gravatar',
     'rest_framework',
     'rest_framework.authtoken',
     'ajax_select',
-    'cities_light',
-    'enrollment',
+    'cities',
+#    'raids',
     'trainer',
     'colorful',
     'teaproject',
     'website',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.discord',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.reddit',
+    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.patreon',
+    'allauth.socialaccount.providers.google',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'trainer.context_processors.google_analytics',
+                'website.context_processors.google_analytics',
             ],
         },
     },
@@ -127,20 +140,65 @@ USE_X_FORWARDED_HOST = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Django Rest Framework
+# http://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     )
 }
 
-GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-110066146-1'
-GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
+# Django AllAuth
+# http://django-allauth.readthedocs.io/en/latest/configuration.html
 
-CITIES_LIGHT_TRANSLATION_LANGUAGES = ['es', 'en', 'fr', 'abbr', 'de', 'nl']
-CITIES_LIGHT_INCLUDE_COUNTRIES = ['GB', 'BE', 'AT', 'AD', 'DK', 'FI', 'FR', 'DE', 'IS', 'IE', 'IM', 'IT', 'LU', 'MC', 'NL', 'NO', 'PL', 'PT', 'SM', 'ES', 'SE', 'CH', 'VA', 'CA', 'US']
-CITIES_LIGHT_INCLUDE_CITY_TYPES = [ 'PPL', 'PPLA', 'PPLA2', 'PPLA3', 'PPLA4', 'PPLC', 'PPLF', 'PPLG', 'PPLL', 'PPLR', 'PPLS', 'STLMT']
+SITE_ID = 1
 
-AJAX_LOOKUP_CHANNELS = {
-    'cities_light_country': ('cities_light.contrib.ajax_selects_lookups', 'CountryLookup'),
-    'cities_light_city': ('cities_light.contrib.ajax_selects_lookups', 'CityLookup'),
+ACCOUNT_ADAPTER = 'website.account_adapter.NoNewUsersAccountAdapter'
+ACCOUNT_EMAIL_REQUIRED = True
+### ACCOUNT_FORMS = {'register': 'trainer.forms.RegisterForm'} # Not implemnted yet
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+LOGIN_REDIRECT_URL = 'profile'
+SOCIALACCOUNT_AUTO_SIGNUP = False
+SOCIALACCOUNT_PROVIDERS = {
+    'reddit': {
+        'AUTH_PARAMS': {'duration': 'permanent'},
+        'SCOPE': ['identity', 'submit'],
+        'USER_AGENT': 'django:trainerdex:1.0 (by /u/jayturnr)',
+    }
 }
+SOCIALACCOUNT_QUERY_EMAIL= True
+
+# Google Analytics
+
+GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
+GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-110066146-1'
+
+# Django Cities
+# https://github.com/coderholic/django-cities#configuration
+
+CITIES_LOCALES = ['en']
+CITIES_POSTAL_CODES = []
+
+# Django Gravatar 2
+# https://github.com/twaddington/django-gravatar/#configuring
+
+GRAVATAR_DEFAULT_IMAGE = 'retro'
+GRAVATAR_DEFAULT_RATING = 'g'
+
+# Email
+# https://docs.djangoproject.com/en/1.11/topics/email/
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jaynicholasturner@gmail.com'
+EMAIL_HOST_PASSWORD = 'vaxtomtayxewsqma'
+DEFAULT_FROM_EMAIL = 'jayturnr@trainerdex.co.uk'
+SERVER_EMAIL = 'support@trainerdex.co.uk'

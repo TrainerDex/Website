@@ -12,6 +12,13 @@ def clear_default_start_date(apps, schema_editor):
             trainer.start_date = None
             trainer.save()
 
+def unclear_default_start_date(apps, schema_editor):
+    Trainer = apps.get_model('trainer', 'Trainer')
+    for trainer in Trainer.objects.all():
+        if trainer.start_date == None:
+            trainer.start_date = date(2016,7,13)
+            trainer.save()
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -19,5 +26,5 @@ class Migration(migrations.Migration):
     ]
     
     operations=[
-        migrations.RunPython(clear_default_start_date),
+        migrations.RunPython(clear_default_start_date, unclear_default_start_date),
     ]
