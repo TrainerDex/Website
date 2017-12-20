@@ -7,3 +7,10 @@ class QuickUpdateForm(ModelForm):
 		model = Update
 		fields = ('trainer', 'xp', 'update_time')
 	
+
+class UpdateForm(ModelForm):
+	
+	class Meta:
+		model = Update
+		fields = '__all__'
+	
