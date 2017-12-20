@@ -1,5 +1,6 @@
 from django.apps import AppConfig
+from django.utils.translation import ugettext_lazy as _
 
 class TrainerDexConfig(AppConfig):
 	name = 'trainer'
-	verbose_name = 'TrainerDex Profiles'
+	verbose_name = _("TrainerDex Profiles")

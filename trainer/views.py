@@ -5,7 +5,7 @@ from django.core.mail import mail_admins
 from django.db.models import Max
 from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 from pycent import percentage
 from pytz import utc
 from rest_framework import authentication, permissions, status
