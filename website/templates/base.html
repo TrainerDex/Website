@@ -69,10 +69,10 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
           {# Navigation #}
           <div class="trainerdex-header-navigation-container">
             <nav class="trainerdex-header-navigation mdl-navigation">
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'home' %}">{% trans "Home" %}</a>
+              {%if user.is_authenticated %}
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'profile' %}">{% user_display user %}</a>{% else %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'home' %}">{% trans "Home" %}</a>{% endif %}
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'communities' %}">{% trans "Communities" %}</a>
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a>
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'profile' %}">{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Profile" %}{% endif %}</a>
             </nav>
           </div>
           <span class="trainerdex-mobile-title mdl-layout-title">
@@ -115,7 +115,8 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
           </div>
         </header>
         <nav class="trainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}"><i class="material-icons" role="presentation">home</i>{% trans "Home" %}</a>
+          {%if user.is_authenticated %}
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'profile' %}">{% trans "My Profile" %}</a>{% else %}<a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}">{% trans "Home" %}</a>{% endif %}
           <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'communities' %}"><i class="material-icons" role="presentation">people</i>{% trans "Communities" %}</a>
           <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'leaderboard' %}"><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
           <div class="mdl-layout-spacer"></div>

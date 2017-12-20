@@ -28,8 +28,8 @@ urlpatterns = [
     url(r'^_DISCORD/$', DisordRedirectView, name='discord'),
     url(r'^communities/$', CommunityListView, name='communities'),
     url(r'^leaderboard/$', LeaderboardView, name='leaderboard'),
-    url(r'^trainer/$', TrainerProfileView, name='profile'),
-    url(r'^(?P<username>[a-zA-Z0-9]+)/$', TrainerProfileView, name='profile'),
+    url(r'^profile/$', TrainerProfileView, name='profile'),
+    url(r'^(?P<username>[a-zA-Z0-9]+)/$', TrainerProfileView, name='profile_short'),
 ]
 
 admin.site.site_title = "TrainerDex Admin"
