@@ -1,17 +1,24 @@
-﻿# -*- coding: utf-8 -*-
-from rest_framework.routers import SimpleRouter
+from django.conf.urls import url
+from trainer.views import TrainerListView, TrainerDetailView, UpdateListView, UpdateDetailViewLatest, UpdateDetailView, UserViewSet, SocialLookupView, AutoRegisterView
+from trainer.errors import ThrowMalformedPKError, ThrowMalformedUUIDError
 
-from trainer.views import *
+class TrainerURLs:
+    
+    urlpatterns = [
+        url(r'^$', TrainerListView.as_view()),
+        url(r'^(?P<pk>[0-9]+)/$', TrainerDetailView.as_view()),
+        url(r'^(?P<pk>[0-9]+)/updates/$', UpdateListView.as_view()),
+        url(r'^(?P<pk>[0-9]+)/updates/latest/$', UpdateDetailViewLatest.as_view()),
+        url(r'^(?P<pk>[0-9]+)/updates/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})/$', UpdateDetailView.as_view()),
+        url(r'^(?P<pk>.+)/updates/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})/$', ThrowMalformedPKError),
+        #url(r'^(?P<pk>[0-9]+)/updates/(.+)', ThrowMalformedUUIDError),
+    ]
 
-router = SimpleRouter()
-router.register("users", UserViewSet)
-router.register("trainers", TrainerViewSet)
-router.register("factions", FactionViewSet)
-router.register("update", UpdateViewSet)
-router.register("discord/users", DiscordUserViewSet)
-router.register("discord/servers", DiscordServerViewSet)
-router.register("networks", NetworkViewSet)
-router.register("bans", BanViewSet)
-router.register("reports", ReportViewSet)
-
-urlpatterns = router.urls
+class UserURLs:
+    
+    urlpatterns = [
+        url(r'^$', UserViewSet.as_view({'get':'list','post':'create'})),
+        url(r'^(?P<pk>[0-9]+)/$', UserViewSet.as_view({'get':'retrieve','patch':'partial_update'})),
+        url(r'^social/$', SocialLookupView.as_view()),
+        url(r'^register/$', AutoRegisterView.as_view()),
+    ]

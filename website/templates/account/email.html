@@ -1,0 +1,103 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block head_title %}{% trans "Account" %}{% endblock %}
+{% block section_title %}{% trans "Account" %}{% endblock %}
+
+{% block extra_head %}
+<script>
+$(function(){
+    $("#id_email").removeAttr('placeholder');
+    $("#form_email").removeClass('has-placeholder');
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="mdl-grid">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "Add E-mail Address" %}</h2>
+    </div>
+      <form method="post" action="{% url 'account_email' %}" class="add_email">
+        <div class="mdl-card__supporting-text">
+          <p>Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation.</p>
+          <div id="form_email" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            {% csrf_token %}
+            {% render_field form.email class+="mdl-textfield__input" placeholder='Enter email...' %}
+            <label class="mdl-textfield__label" for="id_email">Enter email...</label>
+          </div>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" name="action_add" type="submit"><i class="material-icons">done</i>{% trans "Add E-mail" %}</button>
+        </div>
+      </form>
+  </div>
+</div>
+<div class="mdl-grid">
+  <div class="trainerdex-options mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "E-mail Addresses" %}</h2>
+    </div>
+{% if user.emailaddress_set.all %}
+    <form action="{% url 'account_email' %}" class="email_list" method="post">
+    {% csrf_token %}
+    <fieldset class="blockLabels">
+    <div class="mdl-card__supporting-text">
+      {% trans 'The following e-mail addresses are associated with your account:' %}
+    </div>
+    <ul class="mdl-list">
+  {% for emailaddress in user.emailaddress_set.all %}
+      <li class="mdl-list__item {% if emailaddress.primary %}mdl-list__item--two-line{%endif%}">
+        <label for="email_radio_{{forloop.counter}}"  class="mdl-radio mdl-js-radio mdl-js-ripple-effect mdl-list__item-primary-content">
+          <input id="email_radio_{{forloop.counter}}" type="radio" class="mdl-radio__button" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
+          <span class="mdl-radio__label">{{ emailaddress.email }}</span>
+          {% if emailaddress.primary %}<span class="mdl-list__item-sub-title">Primary</span>{% endif %}
+        </label>
+        <span class="mdl-list__item-secondary-action">
+          {% if emailaddress.verified %}<label class="mdl-icon-toggle mdl-js-icon-toggle" for="verified_{{forloop.counter}}">
+            <input type="checkbox" id="verified_{{forloop.counter}}" class="mdl-icon-toggle__input mdl-list__item-secondary-action" checked>
+            <i class="mdl-icon-toggle__label material-icons">verified_user</i>
+          </label>{% endif %}
+        </span>
+      </li>
+  {% endfor %}
+    </ul>
+    <div class="mdl-card__actions mdl-card--border">
+      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action_primary" ><i class="material-icons">done</i> {% trans 'Make Primary' %}</button>
+      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action_send" ><i class="material-icons">autorenew</i> {% trans 'Re-send Verification' %}</button>
+      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action_remove" ><i class="material-icons">remove_circle</i> {% trans 'Remove' %}</button>
+      <div id="action_remove_message" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+      </div>
+    </div>
+  </fieldset>
+  </form>
+{% else %}
+    <div class="mdl-card__supporting-text">
+      <strong>{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}
+    </div>
+{% endif %}
+  </div>
+</div>
+{% endblock %}
+
+
+{% block extra_body %}
+<script type="text/javascript">
+(function() {
+  var message = "{% trans 'Do you really want to remove the selected e-mail address?' %}";
+  var actions = document.getElementsByName('action_remove');
+  if (actions.length) {
+    actions[0].addEventListener("click", function(e) {
+      if (! confirm(message)) {
+        e.preventDefault();
+      }
+    });
+  }
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,283 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block head_title %}{% trans "Update Stats" %}{% endblock %}
+{% block section_title %}{% trans "Update Stats" %}{% endblock %}
+
+{% block update_stats_button %}<!-- {% trans 'Why are you looking for where the code for the button to this page usually is... just update your damn stats' %} -->{% endblock %}
+
+    {% block extra_head %}
+    <link rel="stylesheet" href="{% static 'node_modules/mdl-selectfield/dist/mdl-selectfield.min.css' %}">
+    {% endblock %}
+
+{% block content %}
+{% trans "Input must be a positive number!" as input_number_error %}
+<div class="mdl-grid">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "Update Stats" %}</h2>
+    </div>
+    <form method="POST" action="{% url 'update_stats' %}" class="update_stats" id="form_update_stats">
+      {% csrf_token %}
+      <div class="mdl-card__supporting-text" style="text-align: center;">
+        <span>{{ form.non_field_errors }}</span>
+        <div class="mdl-selectfield mdl-js-selectfield{% if form.trainer.errors %} is-invalid{% endif %}">
+          {% render_field form.trainer class+="mdl-textfield__input" %}
+          <span class="mdl-selectfield__error">{{ form.trainer.errors }}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.xp.errors %} is-invalid{% endif %}">
+          {{ form.xp|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_xp">{% trans 'XP' %}<sup>*</sup></label>
+          <span class="mdl-textfield__error"><sup>*</sup>{% trans 'Required.' %} {{form.xp.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <h5>Pokédex Stats</h5>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.dex_caught.errors %} is-invalid{% endif %}">
+          {{ form.dex_caught|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_dex_caught">{% trans 'Species Caught' %}</label>
+          <span class="mdl-textfield__error">{{form.dex_caught.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.dex_seen.errors %} is-invalid{% endif %}">
+          {{ form.dex_seen|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_dex_seen">{% trans 'Species Seen' %}</label>
+          <span class="mdl-textfield__error">{{form.dex_seen.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <h5>Profile Badges</h5>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.gym_badges.errors %} is-invalid{% endif %}">
+          {{ form.gym_badges|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_gym_badges">{% trans 'Gym Badges' %}</label>
+          <span class="mdl-textfield__error">{{form.gym_badges.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.walk_dist.errors %} is-invalid{% endif %}">
+          {{ form.walk_dist|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+(\.[0-9]+)?"}}
+          <label class="mdl-textfield__label" for="id_walk_dist">{% trans 'Distance Walked' %}</label>
+          <span class="mdl-textfield__error">{{form.walk_dist.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.gen_1_dex.errors %} is-invalid{% endif %}">
+          {{ form.gen_1_dex|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_gen_1_dex">{% trans 'Kanto Pokédex' %}</label>
+          <span class="mdl-textfield__error">{{form.gen_1_dex.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_caught.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_caught|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_caught">{% trans 'Pokémon Caught' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_caught.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_evolved.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_evolved|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_evolved">{% trans 'Pokémon Evolved' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_evolved.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.eggs_hatched.errors %} is-invalid{% endif %}">
+          {{ form.eggs_hatched|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_eggs_hatched">{% trans 'Eggs Hatched' %}</label>
+          <span class="mdl-textfield__error">{{form.eggs_hatched.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkstops_spun.errors %} is-invalid{% endif %}">
+          {{ form.pkstops_spun|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkstops_spun">{% trans 'Pokéstops Spun' %}</label>
+          <span class="mdl-textfield__error">{{form.pkstops_spun.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.battles_won.errors %} is-invalid{% endif %}">
+          {{ form.battles_won|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_battles_won">{% trans 'Battles Won' %}</label>
+          <span class="mdl-textfield__error">{{form.battles_won.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.tiny_rattata.errors %} is-invalid{% endif %}">
+          {{ form.tiny_rattata|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_tiny_rattata">{% trans 'Tiny Rattata' %}</label>
+          <span class="mdl-textfield__error">{{form.tiny_rattata.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pikachu_caught.errors %} is-invalid{% endif %}">
+          {{ form.pikachu_caught|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pikachu_caught">{% trans 'Pikachu Caught' %}</label>
+          <span class="mdl-textfield__error">{{form.pikachu_caught.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.big_magikarp.errors %} is-invalid{% endif %}">
+          {{ form.big_magikarp|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_big_magikarp">{% trans 'Big Magikarp' %}</label>
+          <span class="mdl-textfield__error">{{form.big_magikarp.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.unown_alphabet.errors %} is-invalid{% endif %}">
+          {{ form.unown_alphabet|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_unown_alphabet">{% trans 'Unown' %}</label>
+          <span class="mdl-textfield__error">{{form.unown_alphabet.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.gen_2_dex.errors %} is-invalid{% endif %}">
+          {{ form.gen_2_dex|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_gen_2_dex">{% trans 'Johto Pokédex' %}</label>
+          <span class="mdl-textfield__error">{{form.gen_2_dex.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.berry_fed.errors %} is-invalid{% endif %}">
+          {{ form.berry_fed|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_berry_fed">{% trans 'Berries Fed' %}</label>
+          <span class="mdl-textfield__error">{{form.berry_fed.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.gym_defended.errors %} is-invalid{% endif %}">
+          {{ form.gym_defended|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_gym_defended">{% trans 'Gyms Defended (hours)' %}</label>
+          <span class="mdl-textfield__error">{{form.gym_defended.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.raids_completed.errors %} is-invalid{% endif %}">
+          {{ form.raids_completed|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_raids_completed">{% trans 'Raids Completed (Levels 1-4)' %}</label>
+          <span class="mdl-textfield__error">{{form.raids_completed.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.gen_3_dex.errors %} is-invalid{% endif %}">
+          {{ form.gen_3_dex|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_gen_3_dex">{% trans 'Hoenn Pokédex' %}</label>
+          <span class="mdl-textfield__error">{{form.gen_3_dex.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.leg_raids_completed.errors %} is-invalid{% endif %}">
+          {{ form.leg_raids_completed|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_leg_raids_completed">{% trans 'Raids Completed (Level 5)' %}</label>
+          <span class="mdl-textfield__error">{{form.leg_raids_completed.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <h5>Pokémon Type Badges</h5>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_normal.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_normal|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_normal">{% trans 'Normal' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_normal.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_flying.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_flying|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_flying">{% trans 'Flying' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_flying.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_poison.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_poison|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_poison">{% trans 'Poison' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_poison.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_ground.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_ground|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_ground">{% trans 'Ground' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_ground.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_rock.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_rock|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_rock">{% trans 'Rock' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_rock.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_bug.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_bug|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_bug">{% trans 'Bug' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_bug.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_steel.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_steel|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_steel">{% trans 'Steel' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_steel.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_fire.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_fire|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_fire">{% trans 'Fire' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_fire.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_water.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_water|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_water">{% trans 'Water' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_water.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_grass.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_grass|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_grass">{% trans 'Grass' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_grass.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_electric.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_electric|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_electric">{% trans 'Electric' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_electric.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_psychic.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_psychic|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_psychic">{% trans 'Psychic' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_psychic.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_dark.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_dark|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_dark">{% trans 'Dark' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_dark.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_fairy.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_fairy|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_fairy">{% trans 'Fairy' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_fairy.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_fighting.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_fighting|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_fighting">{% trans 'Fighting' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_fighting.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_ghost.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_ghost|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_ghost">{% trans 'Ghost' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_ghost.errors|default:input_number_error}}</span>
+        </div><br>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_ice.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_ice|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_ice">{% trans 'Ice' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_ice.errors|default:input_number_error}}</span>
+        </div>
+        
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_dragon.errors %} is-invalid{% endif %}">
+          {{ form.pkmn_dragon|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
+          <label class="mdl-textfield__label" for="id_pkmn_dragon">{% trans 'Dragon' %}</label>
+          <span class="mdl-textfield__error">{{form.pkmn_dragon.errors|default:input_number_error}}</span>
+        </div><br>
+        
+      </div>
+      {# Include the hidden fields #}
+      {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+      {% endfor %}
+      <div class="mdl-card__actions mdl-card--border">
+        <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action">{% trans "Submit" %}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
