@@ -1,0 +1,175 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+{% load account %}
+{% load static %}
+{% load gravatar %}
+{% load humanize %}
+{% load widget_tweaks %}
+
+{% block head_title %}{{trainer.username}}{% endblock %}
+{% block section_title %}{{trainer.username}}{% endblock %}
+
+{% block colour_scheme %}{% if trainer.faction.name == 'Valor' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-deep_orange.min.css" />{% elif trainer.faction.name == 'Mystic' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-deep_purple.min.css" />{% elif trainer.faction.name == 'Instinct' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.amber-yellow.min.css" />{% else %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css" />{% endif %}{% endblock %}
+
+
+{% block extra_head %}
+<meta property="og:title" content="{{trainer.username}}" />
+<meta property=”og:image” content=”{{trainer.faction.image}}”/>
+<meta property="og:type" content="profile" />
+<meta property="profile:username" content="{{trainer.username}}" />
+<meta name=”twitter:title” content=”{{trainer.username}}”>
+<meta name=”twitter:image” content=”{{trainer.faction.image}}”/>
+<link href="/static/css/css-circular-prog-bar.css" media="all" rel="stylesheet" />
+<link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+<script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+{% endblock %}
+
+{%block content%}
+<div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top {{trainer.faction.name.lower}}">
+    <div class="mdl-cell mdl-cell--1-col mdl-cell--4-col-phone mdl-cell--gravatar-box">{% gravatar trainer.owner.email 140 %}</div>
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-phone">
+      <ul class="mdl-list">
+        <i class="mdl-card__title-text">{{trainer.username}}</i>
+        <li class="mdl-list__item">
+          <span class="mdl-list__item-primary-content" id="start_date">
+            <i class="material-icons mdl-list__item-icon">date_range</i>
+            {{trainer.start_date|default_if_none:"July 2016?"}}
+            {% if not trainer.start_date %}<div class="mdl-tooltip" data-mdl-for="start_date">Estimated</div>{% endif%}
+          </span>
+        </li>
+        <li class="mdl-list__item">
+          <span class="mdl-list__item-primary-content" id="faction">
+            <i class="material-icons mdl-list__item-icon">home</i>
+            {{trainer.faction}}
+          </span>
+        </li>
+        <li class="mdl-list__item">
+          <span class="mdl-list__item-primary-content" id="xp">
+            <i class="mdl-list__item-icon">XP</i>
+            {{xp|intcomma}} | Lvl {{level.level}}
+          </span>
+        </li>
+      </ul>
+    </div>
+</div>
+<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+  <div class="mdl-tabs__tab-bar {{trainer.faction.name.lower}}">
+      <a href="#history-panel" class="mdl-tabs__tab is-active {{trainer.faction.name.lower}}">{% trans "History" %}</a>
+      <a href="#badges-panel" class="mdl-tabs__tab {{trainer.faction.name.lower}}">{% trans "Badges" %}</a>
+      <a href="#types-panel" class="mdl-tabs__tab {{trainer.faction.name.lower}}">{% trans "Type Badges" %}</a>
+  </div>
+
+  <div class="mdl-tabs__panel is-active" id="history-panel">
+    {% if trainer.owner == user %}<div class="mdl-grid">
+    <form method="POST" action="{% url 'profile' %}" class="mdl-cell mdl-card mdl-shadow--2dp trainerdex-card-center trainerdex-collapsable">
+    {% csrf_token %}
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text"><a data-toggle="collapse" href="#collapse_xp">Quick update</a></h2>
+      </div><div id="collapse_xp" class="collapse">
+      <div class="mdl-card__supporting-text">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.xp.errors %} is-invalid{% endif %}">
+          {% render_field form.xp class+="mdl-textfield__input" min=%}
+          <label class="mdl-textfield__label" for="id_xp">{% trans 'XP' %}</label>
+          <span class="mdl-textfield__error">{{form.xp.errors}}</span>
+        </div>
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <button type="submit" name="action" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">{% trans "Submit" %}</button>
+      </div></div>
+    </form>
+    </div>{% endif %}
+    <div class="mdl-grid table-responsive">
+      <table class="mdl-cell mdl-data-table mdl-js-data-table mdl-shadow--2dp trainerdex-card-center">
+        <thead>
+          <tr>
+            <th class="mdl-data-table__cell--non-numeric">{% trans "Date" %}</th>
+            <th>{% trans "XP" %}</th>
+            <th>{% trans "Pokémon" %}</th>
+            <th>{% trans "Evolved" %}</th>
+            <th>{% trans "Eggs" %}</th>
+            <th>{% trans "Raids" %}</th>
+            <th>{% trans "Legendary Raids" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for update in updates %}
+          <tr>
+            <td id="time-{{update.update_time.timestamp}}" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}</td>
+            <div class="mdl-tooltip" data-mdl-for="time-{{update.update_time.timestamp}}">{{update.update_time}}</div>
+            <td id="xp-{{update.update_time.timestamp}}">{{update.xp|default_if_none:"---"|intword}}</td>
+            <div class="mdl-tooltip" data-mdl-for="xp-{{update.update_time.timestamp}}">{{update.xp|intcomma}}</div>
+            <td id="pkmn_caught-{{update.update_time.timestamp}}">{{update.pkmn_caught|default_if_none:"---"|intcomma}}</td>
+            <td id="pkmn_evolved-{{update.update_time.timestamp}}">{{update.pkmn_evolved|default_if_none:"---"|intcomma}}</td>
+            <td id="eggs_hatched-{{update.update_time.timestamp}}">{{update.eggs_hatched|default_if_none:"---"|intcomma}}</td>
+            <td id="raids_completed-{{update.update_time.timestamp}}">{{update.raids_completed|default_if_none:"---"|intcomma}}</td>
+            <td id="leg_raids_completed-{{update.update_time.timestamp}}">{{update.leg_raids_completed|default_if_none:"---"|intcomma}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="mdl-tabs__panel" id="badges-panel">
+    {% if badges %}
+    <div class="mdl-grid mdl-grid--no-spacing">
+      {% for badge in badges %}
+      <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
+        <div class="progress-circle {{trainer.faction.name.lower}} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
+          <div class="mdl-tooltip" data-mdl-for="{{ badge.name }}">{{badge.time|naturalday}}</div>
+          <span>{{ badge.value }}</span>
+          <div class="left-half-clipper">
+            <div class="first50-bar {{trainer.faction.name.lower}}"></div>
+            <div class="value-bar {{trainer.faction.name.lower}}"></div>
+          </div>
+        </div>
+      <span>{{ badge.readable_name }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="mdl-grid">
+      <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
+        <div class="mdl-card__title">
+          <h2 class="mdl-card__title-text">Oh no!</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+          It seems this trainer hasn't shared any of these badges. We only show badges with data to avoid showing a row of null values, that's kinda ugly.
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  <div class="mdl-tabs__panel" id="types-panel">
+    {% if type_badges %}
+    <div class="mdl-grid mdl-grid--no-spacing">
+      {% for badge in type_badges %}
+      <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
+        <div class="progress-circle {{trainer.faction.name.lower}} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}">
+          <span>{{ badge.value }}</span>
+          <div class="left-half-clipper">
+            <div class="first50-bar {{trainer.faction.name.lower}}"></div>
+            <div class="value-bar {{trainer.faction.name.lower}}"></div>
+          </div>
+        </div>
+      <span>{{ badge.readable_name }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="mdl-grid">
+      <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
+        <div class="mdl-card__title">
+          <h2 class="mdl-card__title-text">Oh no!</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+          It seems this trainer hasn't shared any of these badges. We only show badges with data to avoid showing a row of null values, that's kinda ugly.
+        </div>
+      </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_body %}
+{% endblock %}
