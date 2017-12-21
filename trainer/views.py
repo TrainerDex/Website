@@ -132,7 +132,6 @@ class UpdateListView(APIView):
 	def post(self, request, pk):
 		serializer = DetailedUpdateSerializer(data=request.data)
 		if serializer.is_valid():
-			serializer.clean()
 			serializer.save(trainer=get_object_or_404(Trainer, pk=pk))
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -242,8 +241,12 @@ class SocialLookupView(APIView):
 		return Response(serializer.data)
 		
 	def put(self, request):
-		query = SocialAccount.objects.get(provider=request.data['provider'], uid=request.data['uid'])
-		serializer = SocialAllAuthSerializer(query, data=request.data, partial=True) if query else SocialAllAuthSerializer(data=request.data)
+		try:
+			query = SocialAccount.objects.get(provider=request.data['provider'], uid=request.data['uid'])
+		except:
+			serializer = SocialAllAuthSerializer(data=request.data)
+		else:
+			serializer = SocialAllAuthSerializer(query, data=request.data, partial=True)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
