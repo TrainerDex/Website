@@ -67,6 +67,7 @@ class LeaderboardSerializer(serializers.Serializer):
 	faction = serializers.SerializerMethodField()
 	xp = serializers.SerializerMethodField()
 	last_updated = serializers.SerializerMethodField()
+	user_id = serializers.SerializerMethodField()
 	
 	def get_position(self, obj):
 		return obj[0]
@@ -89,9 +90,12 @@ class LeaderboardSerializer(serializers.Serializer):
 	def get_last_updated(self, obj):
 		return obj[1].update__update_time__max
 	
+	def get_user_id(self, obj):
+		return obj[1].owner.pk if obj[1].owner else None
+	
 	class Meta:
 		model = Trainer
-		fields = ('position', 'id', 'username', 'faction', 'level', 'xp', 'last_updated')
+		fields = ('position', 'id', 'username', 'faction', 'level', 'xp', 'last_updated', 'user_id')
 
 class SocialAllAuthSerializer(serializers.ModelSerializer):
 	
