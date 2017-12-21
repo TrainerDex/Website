@@ -170,6 +170,15 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {'duration': 'permanent'},
         'SCOPE': ['identity', 'submit'],
         'USER_AGENT': 'django:trainerdex:1.0 (by /u/jayturnr)',
+    },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
     }
 }
 SOCIALACCOUNT_QUERY_EMAIL= True
