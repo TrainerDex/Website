@@ -1,6 +1,7 @@
 from allauth.socialaccount.models import SocialAccount
 from datetime import datetime, timedelta
 from django import forms
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins
 from django.db.models import Max
@@ -463,6 +464,7 @@ def TrainerProfileView(request, username=None):
 	
 	return render(request, 'profile.html', context)
 
+@login_required
 def UpdateDialogView(request):
 	pass
 	form = UpdateForm(request.POST or None)
@@ -477,10 +479,6 @@ def UpdateDialogView(request):
 	if request.method == 'GET':
 		form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
 	return render(request, 'create_update.html', {'form': form})
-
-def QuickUpdateSuccessView(request):
-	pass
-	#return render(request, 'update_success.html')
 
 def LeaderboardView(request):
 	
