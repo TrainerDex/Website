@@ -1,0 +1,28 @@
+{% extends "help/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "FAQ" %}{% endblock %}
+{% block section_title %}{% trans "FAQ" %}{% endblock %}
+{% block article_title %}{% trans "Frequently Asked Questions" %}{% endblock %}
+
+{% block help_navigation %}{% endblock %}
+
+                {% block article_content %}
+                <ol>
+                  <li>
+                    <span class="help-faq-question" id="phantom-goals">
+                      {% trans "My total goal is missing!!!" %}
+                    </span>
+                    <div class="help-faq-answer">
+                      {% blocktrans %}
+                      <p><i>This isn't a question. That's you complaining, but I have an answer anyway.</i></p>
+                      
+                      <p>You most likely had a <em>phantom goal</em> This isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants to own up to. Instead, this related to goals shown by the Discord bot. Before the 22nd December, once you reached your goal the bot would reset it to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal as a promotion for goals.</p>
+                      
+                      <p>Since then, the default behaviour is to automatically move your goal on to the next level when you reach your goal, rather than resetting to zero. To give the user a choice <em>not</em> to have a goal. We removed phantom goals. Phantom goals didn't congratulate the user either, whereas set goals do.</p>
+                      {% endblocktrans %}
+                    </div>
+                  </li>
+                </ol>
+                {% endblock%}
