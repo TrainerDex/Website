@@ -20,9 +20,7 @@
 <meta property="profile:username" content="{{trainer.username}}" />
 <meta name=”twitter:title” content=”{{trainer.username}}”>
 <meta name=”twitter:image” content=”{{trainer.faction.image}}”/>
-<link href="/static/css/css-circular-prog-bar.css" media="all" rel="stylesheet" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{% static '/css/collapsible.css' %}"/>
 {% endblock %}
 
 {%block content%}
@@ -61,24 +59,28 @@
   </div>
 
   <div class="mdl-tabs__panel is-active" id="history-panel">
-    {% if trainer.owner == user %}<div class="mdl-grid">
-    <form method="POST" action="{% url 'profile' %}" class="mdl-cell mdl-card mdl-shadow--2dp trainerdex-card-center trainerdex-collapsable">
-    {% csrf_token %}
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text"><a data-toggle="collapse" href="#collapse_xp">Quick update</a></h2>
-      </div><div id="collapse_xp" class="collapse">
-      <div class="mdl-card__supporting-text">
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.xp.errors %} is-invalid{% endif %}">
-          {% render_field form.xp class+="mdl-textfield__input" min=%}
-          <label class="mdl-textfield__label" for="id_xp">{% trans 'XP' %}</label>
-          <span class="mdl-textfield__error">{{form.xp.errors}}</span>
-        </div>
+    {% if trainer.owner == user %}
+    <div class="mdl-grid">
+      <div class="collapsible-card mdl-card mdl-shadow--2dp trainerdex-card-center ">
+        <header class="mdl-card__title mdlext-js-collapsible mdlext-collapsible {{trainer.faction.name.lower}}">
+          <h2 class="mdl-card__title-text">Quick update</h2>
+        </header>
+        <form method="POST" action="{% url 'profile' %}" class="mdlext-collapsible-region">
+       {% csrf_token %}
+          <section class="mdl-card__supporting-text">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.xp.errors %} is-invalid{% endif %}">
+              {% render_field form.xp class+="mdl-textfield__input" min=%}
+              <label class="mdl-textfield__label" for="id_xp">{% trans 'XP' %}</label>
+              <span class="mdl-textfield__error">{{form.xp.errors}}</span>
+            </div>
+          </section>
+          <footer class="mdl-card__actions mdl-card--border">
+            <button type="submit" name="action" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">{% trans "Submit" %}</button>
+          </footer>
+        </form>
       </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <button type="submit" name="action" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">{% trans "Submit" %}</button>
-      </div></div>
-    </form>
-    </div>{% endif %}
+    </div>
+    {% endif %}
     <div class="mdl-grid table-responsive">
       <table class="mdl-cell mdl-data-table mdl-js-data-table mdl-shadow--2dp trainerdex-card-center">
         <thead>
