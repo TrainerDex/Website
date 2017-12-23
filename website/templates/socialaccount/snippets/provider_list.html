@@ -2,11 +2,17 @@
 
 {% get_providers as socialaccount_providers %}
 
+<div class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdlext-js-menu-button" role="button" aria-expanded="false" aria-haspopup="true" aria-controls="social_login">
+  <span>Log in with...</span>
+  <i class="material-icons">more_vert</i>
+</div>
+<ul id="social_login" class="mdlext-menu" role="menu" tabindex="-1" hidden>
 {% for provider in socialaccount_providers %}
 {% if provider.id == "openid" %}
 {% for brand in provider.get_brands %}
-  <a href="{% provider_login_url provider.id openid=brand.openid_url process=process %}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect socialaccount_provider {{provider.id}} {{brand.id}}">{{brand.name}}</a>
+  <a href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><li class="mdlext-menu__item mdl-button--colored mdl-js-button mdl-js-ripple-effect socialaccount_provider {{provider.id}}" role="button" tabindex="-1">{{brand.name}}</li></a>
 {% endfor %}
 {% endif %}
-  <a href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"  class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect socialaccount_provider {{provider.id}}" >{{provider.name}}</a>
+  <a href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><li class="mdlext-menu__item mdl-button--colored mdl-js-button mdl-js-ripple-effect socialaccount_provider {{provider.id}}" role="button" tabindex="-1">{{provider.name}}</li></a>
 {% endfor %}
+</ul>

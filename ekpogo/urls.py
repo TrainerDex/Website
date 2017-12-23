@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^_DISCORD/$', DisordRedirectView, name='discord'),
     url(r'^communities/$', CommunityListView, name='communities'),
     url(r'^leaderboard/$', LeaderboardView, name='leaderboard'),
+    url(r'^help/faq$', FAQView, name='faq'),
     url(r'^profile/$', TrainerProfileView, name='profile'),
     url(r'^tools/update_stats/$', UpdateDialogView, name='update_stats'),
     url(r'^(?P<username>[a-zA-Z0-9]+)/$', TrainerProfileView, name='profile_short'),

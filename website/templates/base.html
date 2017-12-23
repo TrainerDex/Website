@@ -36,6 +36,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
     <link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
     
     <link rel="stylesheet" href="{% static 'node_modules/material-design-lite/material.min.css' %}">
+    <link rel="stylesheet" href="{% static 'node_modules/mdl-ext/lib/mdl-ext.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     {% block colour_scheme %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css" />{% endblock %}
@@ -139,20 +140,22 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
       </script>
       {% endfor %}{% endif %}
       
+      {% block page %}
       <main class="mdl-layout__content mdl-color--grey-100" style="flex: 1 0 auto;">
         {% block content %}
         {% endblock %}
-        {% endblock %}
-        {% block extra_body %}
-        {% endblock %}
       </main>
+      {% endblock %}
       
+      {% endblock %}
+      {% block extra_body %}
+      {% endblock %}
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">TrainerDex</div>
           <ul class="mdl-mini-footer__link-list">
-            <li><a href="#">{% trans "About" %}</a></li>
-            <li><a href="#">{% trans "Help" %}</a></li>
+            <li><a href="{% url 'home' %}">{% trans "About" %}</a></li>
+            <li><a href="{% url 'faq' %}">{% trans "Help" %}</a></li>
             <li><a href="#">{% trans "Privacy &amp; Terms" %}</a></li>
             {% if user.is_superuser %}<li><a href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</a></li>{% endif %}
           </ul>
@@ -175,5 +178,6 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
       {% include "ga.html" %}
     {% endif %}
     <script src="{% static 'node_modules/material-design-lite/material.min.js' %}"></script>
+    <script src="{% static 'node_modules/mdl-ext/lib/mdl-ext.min.js' %}"></script>
   </body>
 </html>

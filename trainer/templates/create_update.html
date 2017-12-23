@@ -9,10 +9,6 @@
 
 {% block update_stats_button %}<!-- {% trans 'Why are you looking for where the code for the button to this page usually is... just update your damn stats' %} -->{% endblock %}
 
-    {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'node_modules/mdl-selectfield/dist/mdl-selectfield.min.css' %}">
-    {% endblock %}
-
 {% block content %}
 {% trans "Input must be a positive number!" as input_number_error %}
 <div class="mdl-grid">
@@ -24,9 +20,10 @@
       {% csrf_token %}
       <div class="mdl-card__supporting-text" style="text-align: center;">
         <span>{{ form.non_field_errors }}</span>
-        <div class="mdl-selectfield mdl-js-selectfield{% if form.trainer.errors %} is-invalid{% endif %}">
-          {% render_field form.trainer class+="mdl-textfield__input" %}
-          <span class="mdl-selectfield__error">{{ form.trainer.errors }}</span>
+        <div class="mdlext-selectfield mdlext-js-selectfield mdlext-selectfield--floating-label{% if form.trainer.errors %} is-invalid{% endif %}">
+          {% render_field form.trainer class+="mdlext-selectfield__select" %}
+          <label for="id_trainer" class="mdlext-selectfield__label">Trainer</label>
+          <span class="mdlext-selectfield__error">{{ form.trainer.errors }}</span>
         </div>
         
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.xp.errors %} is-invalid{% endif %}">
