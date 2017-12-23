@@ -1,0 +1,47 @@
+.help-ribbon {
+  width: 100%;
+  height: 40vh;
+  background-color: #00796B;
+  -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+          flex-shrink: 0;
+}
+
+.help-main {
+  margin-top: -35vh;
+  -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+          flex-shrink: 0;
+}
+
+.help-container {
+  max-width: 1600px;
+  width: calc(100% - 16px);
+  margin: 0 auto;
+}
+
+.help-content {
+  border-radius: 2px;
+  padding: 80px 56px;
+  margin-bottom: 80px;
+}
+
+.is-small-screen .help-content {
+  padding: 40px 28px;
+}
+
+.help-content h3 {
+  margin-top: 48px;
+}
+
+.help-faq-question {
+  font-weight: 600;
+  font-variant: small-caps;
+  font-size: 1.2rem;
+}
+
+.help-faq-answer {
+  font-size: 0.7rem;
+  margin-left: 1rem;
+  margin-top: 0.2rem;
+}

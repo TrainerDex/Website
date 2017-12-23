@@ -20,3 +20,6 @@ def CommunityListView(request):
 		'community_list' : community_list,
 	}
 	return render(request, 'communities.html', context)
+
+def FAQView(request):
+	return render(request, 'help/faq.html')

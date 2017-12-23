@@ -140,20 +140,22 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
       </script>
       {% endfor %}{% endif %}
       
+      {% block page %}
       <main class="mdl-layout__content mdl-color--grey-100" style="flex: 1 0 auto;">
         {% block content %}
         {% endblock %}
-        {% endblock %}
-        {% block extra_body %}
-        {% endblock %}
       </main>
+      {% endblock %}
       
+      {% endblock %}
+      {% block extra_body %}
+      {% endblock %}
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">TrainerDex</div>
           <ul class="mdl-mini-footer__link-list">
-            <li><a href="#">{% trans "About" %}</a></li>
-            <li><a href="#">{% trans "Help" %}</a></li>
+            <li><a href="{% url 'home' %}">{% trans "About" %}</a></li>
+            <li><a href="{% url 'faq' %}">{% trans "Help" %}</a></li>
             <li><a href="#">{% trans "Privacy &amp; Terms" %}</a></li>
             {% if user.is_superuser %}<li><a href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</a></li>{% endif %}
           </ul>
