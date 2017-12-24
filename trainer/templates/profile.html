@@ -97,16 +97,16 @@
         </thead>
         <tbody>
           {% for update in updates %}
-          <tr>
-            <td id="time-{{update.update_time.timestamp}}" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}</td>
-            <div class="mdl-tooltip" data-mdl-for="time-{{update.update_time.timestamp}}">{{update.update_time}}</div>
-            <td id="xp-{{update.update_time.timestamp}}">{{update.xp|default_if_none:"---"|intword}}</td>
-            <div class="mdl-tooltip" data-mdl-for="xp-{{update.update_time.timestamp}}">{{update.xp|intcomma}}</div>
-            <td id="pkmn_caught-{{update.update_time.timestamp}}">{{update.pkmn_caught|default_if_none:"---"|intcomma}}</td>
-            <td id="pkmn_evolved-{{update.update_time.timestamp}}">{{update.pkmn_evolved|default_if_none:"---"|intcomma}}</td>
-            <td id="eggs_hatched-{{update.update_time.timestamp}}">{{update.eggs_hatched|default_if_none:"---"|intcomma}}</td>
-            <td id="raids_completed-{{update.update_time.timestamp}}">{{update.raids_completed|default_if_none:"---"|intcomma}}</td>
-            <td id="leg_raids_completed-{{update.update_time.timestamp}}">{{update.leg_raids_completed|default_if_none:"---"|intcomma}}</td>
+          <tr id="{{update.uuid}}">
+            <td id="{{update.uuid}}-time" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}</td>
+            <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-time">{{update.update_time}}</div>
+            <td id="{{update.uuid}}-xp">{{update.xp|default_if_none:"---"|intword}}</td>
+            <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-xp">{{update.xp|intcomma}}</div>
+            <td id="{{update.uuid}}-pkmn_caught">{{update.pkmn_caught|default_if_none:"---"|intcomma}}</td>
+            <td id="{{update.uuid}}-pkmn_evolved">{{update.pkmn_evolved|default_if_none:"---"|intcomma}}</td>
+            <td id="{{update.uuid}}-eggs_hatched">{{update.eggs_hatched|default_if_none:"---"|intcomma}}</td>
+            <td id="{{update.uuid}}-raids_completed">{{update.raids_completed|default_if_none:"---"|intcomma}}</td>
+            <td id="{{update.uuid}}-leg_raids_completed">{{update.leg_raids_completed|default_if_none:"---"|intcomma}}</td>
           </tr>
           {% endfor %}
         </tbody>
