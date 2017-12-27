@@ -23,6 +23,8 @@
               <a type="button" id="spoofers" class="mdl-chip" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'0,1' }}">
                 <span class="mdl-chip__text">{{ spoofers.value|yesno:'Hide,Show' }} {% trans 'Spoofers' %}</span>
               </a>
+              <br>
+              <span>Some trainer information is sourced from Twitter. More information will be coming soon.</span>
             </div>
           </div>
         </div>
