@@ -15,11 +15,11 @@
 
 {% block extra_head %}
 <meta property="og:title" content="{{trainer.username}}" />
-<meta property="og:image" content="{{trainer.faction.image}}"/>
+<meta property="og:image" content="https://www.trainerdex.co.uk/{{trainer.faction.image}}"/>
 <meta property="og:type" content="profile" />
 <meta property="profile:username" content="{{trainer.username}}" />
 <meta name="twitter:title" content="{{trainer.username}}">
-<meta name="twitter:image" content="{{trainer.faction.image}}"/>
+<meta name="twitter:image" content="https://www.trainerdex.co.uk/{{trainer.faction.image}}"/>
 <link rel="stylesheet" href="{% static '/css/collapsible.css' %}"/>
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
