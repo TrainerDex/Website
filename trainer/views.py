@@ -498,7 +498,9 @@ def LeaderboardView(request):
 	_trainers_legit = cleanleaderboardqueryset(_trainers_legit, key=lambda x: x.update__xp__max, reverse=True)
 	
 	_trainers = []
+	grand_total_xp = 0
 	for trainer in _trainers_legit:
+		grand_total_xp += trainer.update__xp__max
 		_trainers.append({
 			'position' : _trainers_legit.index(trainer)+1,
 			'trainer' : trainer,
@@ -508,6 +510,7 @@ def LeaderboardView(request):
 		})
 	if showSpoofers['value']:
 		for trainer in _trainers_non_legit:
+			grand_total_xp += trainer.update__xp__max
 			_trainers.append({
 				'position' : None,
 				'trainer' : trainer,
@@ -517,4 +520,4 @@ def LeaderboardView(request):
 				})
 	_trainers.sort(key = lambda x: x['xp'], reverse=True)
 	
-	return render(request, 'leaderboard.html', {'leaderboard' : _trainers, 'valor' : showValor, 'mystic' : showMystic, 'instinct' : showInstinct, 'spoofers' : showSpoofers})
+	return render(request, 'leaderboard.html', {'leaderboard' : _trainers, 'valor' : showValor, 'mystic' : showMystic, 'instinct' : showInstinct, 'spoofers' : showSpoofers, 'grand_total_xp' : grand_total_xp})
