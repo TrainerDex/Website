@@ -24,9 +24,10 @@
                 <span class="mdl-chip__text">{{ spoofers.value|yesno:'Hide,Show' }} {% trans 'Spoofers' %}</span>
               </a>
               <br>
-              <span>Some trainer information is sourced from Twitter. More information will be coming soon.</span>
-			  <br>
-			  <span>The Grand Total XP of Everybody currently shown in this leaderboard: {{ grand_total_xp }}</span>
+              <span id="twittertt">Some trainers information is sourced from Twitter. More information will be coming soon.</span>
+              <div class="mdl-tooltip" data-mdl-for="twittertt">ReversalYouTube, BrandonTan91, TRNRtipsNick and a few others. See <a href="https://www.twitter.com/TrainerDexApp">twitter</a> for more information.</div>
+              <br>
+              <span>The Grand Total XP of Everybody currently shown in this leaderboard: {{ grand_total_xp | intcomma }}XP</span>
             </div>
           </div>
         </div>
