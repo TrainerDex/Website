@@ -50,7 +50,8 @@
         
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.gym_badges.errors %} is-invalid{% endif %}">
           {{ form.gym_badges|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
-          <label class="mdl-textfield__label" for="id_gym_badges">{% trans 'Gym Badges' %}</label>
+          <label class="mdl-textfield__label" for="id_gym_badges">{% trans 'Total Gym Badges' %}</label>
+          <div class="mdl-tooltip" data-mdl-for="id_gym_badges">This can be easily calculated via going to your gym badges screen and clicking on your map. We have a better system for this planned</div>
           <span class="mdl-textfield__error">{{form.gym_badges.errors|default:input_number_error}}</span>
         </div>
         
