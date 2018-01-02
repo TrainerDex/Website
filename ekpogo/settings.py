@@ -38,7 +38,6 @@ INSTALLED_APPS = [
 #    'raids',
     'trainer',
     'colorful',
-    'teaproject',
     'website',
     'allauth',
     'allauth.account',
