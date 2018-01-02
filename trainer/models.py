@@ -72,8 +72,8 @@ class Update(models.Model):
 	trainer = models.ForeignKey('Trainer', on_delete=models.CASCADE)
 	update_time = models.DateTimeField(default=timezone.now)
 	xp = models.PositiveIntegerField(verbose_name='Total XP')
-	dex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("seen"))
-	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("caught"))
+	dex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("caught"))
+	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("seen"))
 	gym_badges = models.PositiveIntegerField(null=True, blank=True)
 	
 	walk_dist = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True, verbose_name=_("jogger"))

@@ -7,7 +7,7 @@
 {% load humanize %}
 {% load widget_tweaks %}
 
-{% block head_title %}{{trainer.username}}{% endblock %}
+{% block head_title %}{{trainer.username}} | TL {{level.level}}{% endblock %}
 {% block section_title %}{{trainer.username}}{% endblock %}
 
 {% block colour_scheme %}{% if trainer.faction.name == 'Valor' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-deep_orange.min.css" />{% elif trainer.faction.name == 'Mystic' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-deep_purple.min.css" />{% elif trainer.faction.name == 'Instinct' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.amber-yellow.min.css" />{% else %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css" />{% endif %}{% endblock %}
@@ -34,7 +34,7 @@
           <span class="mdl-list__item-primary-content" id="start_date">
             <i class="material-icons mdl-list__item-icon">date_range</i>
             {{trainer.start_date|default_if_none:"July 2016?"}}
-            {% if not trainer.start_date %}<div class="mdl-tooltip" data-mdl-for="start_date">Estimated</div>{% endif%}
+            {% if not trainer.start_date %}<div class="mdl-tooltip" data-mdl-for="start_date">Wild guess! Most trainers started in July 2016.</div>{% endif%}
           </span>
         </li>
         <li class="mdl-list__item">
@@ -46,7 +46,7 @@
         <li class="mdl-list__item">
           <span class="mdl-list__item-primary-content" id="xp">
             <i class="mdl-list__item-icon">XP</i>
-            {{xp|intcomma}} | Lvl {{level.level}}
+            {{xp|intcomma}} | TL {{level.level}}
           </span>
         </li>
       </ul>
