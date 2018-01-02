@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^api/admin/', admin.site.urls),
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^ajax_select/', include(ajex_select_urls)),
-    url(r'^accounts/settings' SettingsView, name='account_settings'),
+    url(r'^accounts/settings', SettingsView, name='account_settings'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^$', IndexView, name='home'),
     url(r'^_DISCORD/$', DisordRedirectView, name='discord'),

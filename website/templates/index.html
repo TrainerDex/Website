@@ -13,8 +13,8 @@
               <h2 class="mdl-card__title-text">Welcome</h2>
             </div>
             <div class="mdl-card__supporting-text">
-              <p>
-                {% blocktrans %}TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban, just check out our <a href="{% url 'faq' %}" id="faq">FAQ</a>.{% endblocktrans %}
+              <p>{% url 'faq' as faq_url %}
+                {% blocktrans %}TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban, just check out our <a href="{{ faq_url}}" id="faq">FAQ</a>.{% endblocktrans %}
               <p>
                 {% blocktrans %}Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!{% endblocktrans %}
               </p>
