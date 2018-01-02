@@ -209,5 +209,5 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jaynicholasturner@gmail.com'
 EMAIL_HOST_PASSWORD = 'vaxtomtayxewsqma'
-DEFAULT_FROM_EMAIL = 'jayturnr@trainerdex.co.uk'
+DEFAULT_FROM_EMAIL = 'support@trainerdex.co.uk'
 SERVER_EMAIL = 'support@trainerdex.co.uk'
