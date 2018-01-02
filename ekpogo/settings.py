@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-gb'
 
 TIME_ZONE = 'UTC'
 
@@ -191,7 +191,7 @@ GOOGLE_ANALYTICS_PROPERTY_ID = '***REMOVED***'
 # Django Cities
 # https://github.com/coderholic/django-cities#configuration
 
-CITIES_LOCALES = ['en']
+CITIES_LOCALES = ['en', 'ja']
 CITIES_POSTAL_CODES = []
 
 # Django Gravatar 2
@@ -211,3 +211,8 @@ EMAIL_HOST_USER = 'jaynicholasturner@gmail.com'
 EMAIL_HOST_PASSWORD = 'vaxtomtayxewsqma'
 DEFAULT_FROM_EMAIL = 'support@trainerdex.co.uk'
 SERVER_EMAIL = 'support@trainerdex.co.uk'
+
+LOCALE_PATHS = [
+    'trainer/locale',
+    'website/locale',
+]
