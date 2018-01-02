@@ -23,3 +23,6 @@ def CommunityListView(request):
 
 def FAQView(request):
 	return render(request, 'help/faq.html')
+
+def SettingsView(request):
+	return render(request, 'help/account_settings.html')

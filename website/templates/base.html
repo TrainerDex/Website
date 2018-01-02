@@ -84,8 +84,8 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
             {% if user.is_authenticated %}
-            <a class="mdl-navigation__link" href="{% url 'account_email' %}"><li class="mdl-menu__item">Change E-mail</li></a>
-            <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><li class="mdl-menu__item">Log out</li></a>
+            <a class="mdl-navigation__link" href="{% url 'account_settings' %}"><li class="mdl-menu__item">{% trans "Account Settings" %}</li></a>
+            <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><li class="mdl-menu__item">{% trans "Log out" %}</li></a>
             {% else %}
             <a class="mdl-navigation__link" href="{% url 'account_login' %}"><li class="mdl-menu__item">{% trans "Login" %}</li></a>
             <li disabled class="mdl-menu__item">{% trans "Register" %}</li>
@@ -106,11 +106,11 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
               {% if user.is_authenticated %}
-              <a class="mdl-navigation__link" href="{% url 'account_email' %}"><li class="mdl-menu__item">Change E-mail</li></a>
-              <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><li class="mdl-menu__item">Log out</li></a>
+              <a class="mdl-navigation__link" href="{% url 'account_settings' %}"><li class="mdl-menu__item">{% trans "Account Settings" %}</li></a>
+              <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><li class="mdl-menu__item">{% trans "Log out" %}</li></a>
               {% else %}
               <a class="mdl-navigation__link" href="{% url 'account_login' %}"><li class="mdl-menu__item">{% trans "Login" %}</li></a>
-              <li disabled class="mdl-menu__item mdl-menu__item--full-bleed-divider">{% trans "Register" %}</li>
+              <li disabled class="mdl-menu__item">{% trans "Register" %}</li>
               {% endif %}
             </ul>
           </div>

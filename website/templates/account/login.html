@@ -32,6 +32,8 @@
           {% render_field form.remember class+="mdl-checkbox__input" %}
           <span class="mdl-checkbox__label">Remember me</span>
         </label>
+        <br>
+        <span><a href="{% url 'account_reset_password' %}">Forgotten password?</a></span>
         {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
         {% endif %}
