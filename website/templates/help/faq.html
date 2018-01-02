@@ -28,11 +28,11 @@
                     <span class="help-faq-question" id="goals">
                       {% trans "How do I set a goal?" %}
                     </span>
-                    <div class="help-faq-answer">
+                    <div class="help-faq-answer">{% url 'discord' as discord_url %}
                       {% blocktrans %}
                       <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>
                       
-                      <p>Simply message the Discord Bot, <a href="{% url 'discord' %}">TrainerDex#6280</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>
+                      <p>Simply message the Discord Bot, <a href="{{discord_url}}">TrainerDex#6280</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>
                       
                       <p class="help-faq-question">Options</p>
                       <ul>
