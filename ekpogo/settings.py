@@ -55,11 +55,17 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+LOCALE_PATHS = [
+    'trainer/locale',
+    'website/locale',
 ]
 
 ROOT_URLCONF = 'ekpogo.urls'
@@ -211,8 +217,3 @@ EMAIL_HOST_USER = 'jaynicholasturner@gmail.com'
 EMAIL_HOST_PASSWORD = 'vaxtomtayxewsqma'
 DEFAULT_FROM_EMAIL = 'support@trainerdex.co.uk'
 SERVER_EMAIL = 'support@trainerdex.co.uk'
-
-LOCALE_PATHS = [
-    'trainer/locale',
-    'website/locale',
-]
