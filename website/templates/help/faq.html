@@ -24,5 +24,28 @@
                       {% endblocktrans %}
                     </div>
                   </li>
+                  <li>
+                    <span class="help-faq-question" id="goals">
+                      {% trans "How do I set a goal?" %}
+                    </span>
+                    <div class="help-faq-answer">{% url 'discord' as discord_url %}
+                      {% blocktrans %}
+                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>
+                      
+                      <p>Simply message the Discord Bot, <a href="{{discord_url}}">TrainerDex#6280</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>
+                      
+                      <p class="help-faq-question">Options</p>
+                      <ul>
+                        <li>
+                          <code>daily</code> - Sets your daily or 'rate' goal. This is the goal which shows you the speed at which you're progressing. This takes a numeric value ranging from 0 to 3000000.
+                        </li>
+                        <li>
+                          <code>total</code> - Sets your total or 'reach' goal. This is the goal which you would use to get a grasp of when you're going to reach a specific point. This takes a numeric value which is at least one more than your current experience. 
+                          <em>Sidenote - <code>.update goal total</code> has an aditiinal option, <code>auto</code>, which sets a goal for you based on your current experince.</em>
+                        </li>
+                      </ul>
+                      {% endblocktrans %}
+                    </div>
+                  </li>
                 </ol>
                 {% endblock%}

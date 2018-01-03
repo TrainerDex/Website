@@ -10,12 +10,11 @@
         <div class="mdl-grid welcome-content">
           <div class="mdl-card mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--8-col mdl-cell--2-offset-desktop">
             <div class="mdl-card__title">
-              <h2 class="mdl-card__title-text">Welcome</h2>
+              <h2 class="mdl-card__title-text">{% trans 'Welcome' %}</h2>
             </div>
             <div class="mdl-card__supporting-text">
-              <p>
-                {% blocktrans %}TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban, just check out our <u class="dotted" id="faq">FAQ</u>.{% endblocktrans %}
-                <div class="mdl-tooltip" for="faq">{% trans "Coming soon!" %}</div>
+              <p>{% url 'faq' as faq_url %}
+                {% blocktrans %}TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban, just check out our <a href="{{ faq_url}}" id="faq">FAQ</a>.{% endblocktrans %}
               <p>
                 {% blocktrans %}Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!{% endblocktrans %}
               </p>
@@ -24,7 +23,7 @@
               </p>
             </div>
             <div class="mdl-card__actions mdl-card--border">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'communities' %}">
+              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'profile' %}">
                 Let's go!
               </a>
             </div>

@@ -7,7 +7,7 @@
 {% block head_title %}{% trans "Update Stats" %}{% endblock %}
 {% block section_title %}{% trans "Update Stats" %}{% endblock %}
 
-{% block update_stats_button %}<!-- {% trans 'Why are you looking for where the code for the button to this page usually is... just update your damn stats' %} -->{% endblock %}
+{% block update_stats_button %}<!-- Why are you looking for where the code for the button to this page usually is... just update your damn stats! -->{% endblock %}
 
 {% block content %}
 {% trans "Input must be a positive number!" as input_number_error %}
@@ -22,14 +22,14 @@
         <span>{{ form.non_field_errors }}</span>
         <div class="mdlext-selectfield mdlext-js-selectfield mdlext-selectfield--floating-label{% if form.trainer.errors %} is-invalid{% endif %}">
           {% render_field form.trainer class+="mdlext-selectfield__select" %}
-          <label for="id_trainer" class="mdlext-selectfield__label">Trainer</label>
+          <label for="id_trainer" class="mdlext-selectfield__label">{% trans "Trainer" %}</label>
           <span class="mdlext-selectfield__error">{{ form.trainer.errors }}</span>
         </div>
         
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.xp.errors %} is-invalid{% endif %}">
           {{ form.xp|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
-          <label class="mdl-textfield__label" for="id_xp">{% trans 'XP' %}<sup>*</sup></label>
-          <span class="mdl-textfield__error"><sup>*</sup>{% trans 'Required.' %} {{form.xp.errors|default:input_number_error}}</span>
+          <label class="mdl-textfield__label" for="id_xp">{% trans "XP" %}<sup>*</sup></label>
+          <span class="mdl-textfield__error"><sup>*</sup>{% trans "Required" %} {{form.xp.errors|default:input_number_error}}</span>
         </div><br>
         
         <h5>Pokédex Stats</h5>
@@ -50,7 +50,8 @@
         
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.gym_badges.errors %} is-invalid{% endif %}">
           {{ form.gym_badges|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
-          <label class="mdl-textfield__label" for="id_gym_badges">{% trans 'Gym Badges' %}</label>
+          <label class="mdl-textfield__label" for="id_gym_badges">{% trans 'Total Gym Badges' %}</label>
+          <div class="mdl-tooltip" data-mdl-for="id_gym_badges">This can be easily calculated via going to your gym badges screen and clicking on your map. We have a better system for this planned</div>
           <span class="mdl-textfield__error">{{form.gym_badges.errors|default:input_number_error}}</span>
         </div>
         
@@ -134,7 +135,7 @@
         
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.gym_defended.errors %} is-invalid{% endif %}">
           {{ form.gym_defended|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
-          <label class="mdl-textfield__label" for="id_gym_defended">{% trans 'Gyms Defended (hours)' %}</label>
+          <label class="mdl-textfield__label" for="id_gym_defended">{% trans 'Gyms Defended (Hours)' %}</label>
           <span class="mdl-textfield__error">{{form.gym_defended.errors|default:input_number_error}}</span>
         </div>
         

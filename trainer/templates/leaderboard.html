@@ -25,9 +25,9 @@
               </a>
               <br>
               <span id="twittertt">Some trainers information is sourced from Twitter. More information will be coming soon.</span>
-              <div class="mdl-tooltip" data-mdl-for="twittertt">ReversalYouTube, BrandonTan91, TRNRtipsNick and a few others. See <a href="https://www.twitter.com/TrainerDexApp">twitter</a> for more information.</div>
+              <div class="mdl-tooltip" data-mdl-for="twittertt">ReversalYouTube, BrandonTan91, TRNRtipsNick and a few others. See <a href="https://www.twitter.com/TrainerDexApp">Twitter</a> for more information.</div>
               <br>
-              <span>The Grand Total XP of Everybody currently shown in this leaderboard: {{ grand_total_xp | intcomma }}XP</span>
+              <span>{% blocktrans %}Grand Total XP: {{ grand_total_xp | intword }}{% endblocktrans %}</span>
             </div>
           </div>
         </div>
@@ -37,10 +37,16 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th class="mdl-data-table__cell--non-numeric">Name</th>
-                  <th class="mdl-data-table__cell--non-numeric">Team</th>
-                  <th>XP</th>
-                  <th class="mdl-data-table__cell--non-numeric">Date Updated</th>
+                  <th class="mdl-data-table__cell--non-numeric">{% trans "Username" %}</th>
+                  <th>{% trans "TL" %}</th>
+                  <th class="mdl-data-table__cell--non-numeric">{% trans "Team" %}</th>
+                  <th>{% trans "XP" %}</th>
+                  <th class="mdl-data-table__cell--non-numeric">{% trans "Date Updated" %}</th>
+                  <th>{% trans "Pokémon Caught" %}</th>
+                  <th>{% trans "Hours Defended" %}</th>
+                  <th>{% trans "Eggs Hatched" %}</th>
+                  <th>{% trans "KM Walked" %}</th>
+                  <th>{% trans "Pokéstops Spun" %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -48,9 +54,15 @@
                 <tr>
                   <td>{{ trainer.position|default_if_none:'<i class="material-icons">close</i>' }}</td>
                   <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }}</a></td>
+                  <td>{{trainer.level}}</td>
                   <td class="mdl-data-table__cell--non-numeric">{% if trainer.trainer.faction.name != "Teamless" %}<img width="32px" src="/{{ trainer.trainer.faction.image }}" />{% endif %}</td>
                   <td>{{trainer.xp|intcomma}}</td>
                   <td class="mdl-data-table__cell--non-numeric">{{trainer.time|naturalday}}</td>
+                  <td>{{trainer.pkmn_caught|default_if_none:""|intcomma}}</td>
+                  <td>{{trainer.gym_defended|default_if_none:""|intcomma}}</td>
+                  <td>{{trainer.eggs_hatched|default_if_none:""|intcomma}}</td>
+                  <td>{{trainer.walk_dist|default_if_none:""|intcomma}}</td>
+                  <td>{{trainer.pkstops_spun|default_if_none:""|intcomma}}</td>
                 </tr>
                 {% endfor %}
               </tbody>
