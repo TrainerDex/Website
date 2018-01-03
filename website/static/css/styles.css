@@ -18,6 +18,10 @@ html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
+.profile-medal {
+  width: 4rem;
+}
+
 .mdl-cell__single-center {
   margin-left: auto;
   margin-right: auto;
@@ -395,7 +399,6 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 }
 
 .mdl-cell--gravatar-box{
-  min-width: 160px;
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 0.5rem;
