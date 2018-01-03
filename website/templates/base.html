@@ -23,7 +23,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
     {% load account %}
     
     <title>{% block head_title %}{% endblock %} | TrainerDex</title>
-    <meta name="description" content="Introducing TrainerDex, the social experience Pokemon Go is lacking!">
+    <meta name="description" content="{% trans 'Introducing TrainerDex, the social experience Pokemon Go is lacking!' %}">
     
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" sizes="192x192" href="{% static 'img/android-desktop.png' %}">
@@ -55,7 +55,8 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
       <header class="trainerdex-header mdl-layout__header is-casting-shadow">
         <div class="mdl-layout__header-row">
           <span class="trainerdex-title mdl-layout__title">
-            <a href="{% url 'home' %}" class="trainerdex-title">{#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex</a><sup>beta</sup>
+            {# Translators: 'beta' should remain in lowercase #}
+            <a href="{% url 'home' %}" class="trainerdex-title">{#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex</a><sup>{% trans 'beta' %}</sup>
           </span>
           {# Add spacer, to align navigation to the right in desktop #}
           <div class="mdl-layout-spacer"></div>
@@ -77,18 +78,19 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
             </nav>
           </div>
           <span class="trainerdex-mobile-title mdl-layout-title">
-            {#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex<sup>beta</sup>
+            {# Translators: 'beta' should remain in lowercase #}
+            {#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex<sup>{% trans 'beta' %}</sup>
           </span>
           <button class="trainerdex-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
             {% if user.is_authenticated %}
-            <a class="mdl-navigation__link" href="{% url 'account_email' %}"><li class="mdl-menu__item">Change E-mail</li></a>
-            <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><li class="mdl-menu__item">Log out</li></a>
+            <a class="mdl-navigation__link" href="{% url 'account_settings' %}"><li class="mdl-menu__item">{% trans "Account Settings" %}</li></a>
+            <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><li class="mdl-menu__item">{% trans "Log out" %}</li></a>
             {% else %}
             <a class="mdl-navigation__link" href="{% url 'account_login' %}"><li class="mdl-menu__item">{% trans "Login" %}</li></a>
-            <li disabled class="mdl-menu__item">{% trans "Register" %}</li>
+            <div class="mdl-navigation__link"><li disabled class="mdl-menu__item">{% trans "Register" %}</li></div>
             {% endif %}
           </ul>
         </div>
@@ -106,11 +108,11 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
               {% if user.is_authenticated %}
-              <a class="mdl-navigation__link" href="{% url 'account_email' %}"><li class="mdl-menu__item">Change E-mail</li></a>
-              <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><li class="mdl-menu__item">Log out</li></a>
+              <a class="mdl-navigation__link" href="{% url 'account_settings' %}"><li class="mdl-menu__item">{% trans "Account Settings" %}</li></a>
+              <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><li class="mdl-menu__item">{% trans "Log out" %}</li></a>
               {% else %}
               <a class="mdl-navigation__link" href="{% url 'account_login' %}"><li class="mdl-menu__item">{% trans "Login" %}</li></a>
-              <li disabled class="mdl-menu__item mdl-menu__item--full-bleed-divider">{% trans "Register" %}</li>
+              <li disabled class="mdl-menu__item">{% trans "Register" %}</li>
               {% endif %}
             </ul>
           </div>
@@ -121,7 +123,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
           <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'communities' %}"><i class="material-icons" role="presentation">people</i>{% trans "Communities" %}</a>
           <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'leaderboard' %}"><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
           <div class="mdl-layout-spacer"></div>
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled"><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+          <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled"><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">{% trans 'Help' %}</span></a>
         </nav>
       </div>
       

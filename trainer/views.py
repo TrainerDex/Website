@@ -107,7 +107,7 @@ class TrainerDetailView(APIView):
 			trainer.save()
 			response = {
 				'code': 1,
-				'reason': 'Profile deactivated',
+				'reason': _('Profile deactivated'),
 				'profile': {
 					'id': trainer.pk,
 					'faction': trainer.faction.id,
@@ -197,8 +197,8 @@ class UpdateDetailView(APIView):
 			update.delete()
 			return Response(status=status.HTTP_204_NO_CONTENT)
 		else:
-			SUBJECT = 'Late Update Deletion Request'
-			MESSAGE = 'There has been a request to delete {update} by {requester} at {ip}'.format(update=request.build_absolute_uri(), requester=request.user, ip=request.get_host())
+			SUBJECT = _('Late Update Deletion Request')
+			MESSAGE = _('There has been a request to delete {update} by {requester} at {ip}').format(update=request.build_absolute_uri(), requester=request.user, ip=request.get_host())
 			mail_admins(SUBJECT, MESSAGE)
 			return Response({'request_made': True, 'subject': SUBJECT, 'message': MESSAGE}, status=status.HTTP_202_ACCEPTED)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -337,24 +337,24 @@ class AutoRegisterView(APIView):
 # Web-based views
 
 BADGES = [
-	{'name':'walk_dist', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Jogger')},
-	{'name':'gen_1_dex', 'bronze':5, 'silver':50, 'gold':100, 'i18n_name':_('Kanto')},
-	{'name':'pkmn_caught', 'bronze':30, 'silver':500, 'gold':2000, 'i18n_name':_('Collector')},
-	{'name':'pkmn_evolved', 'bronze':3, 'silver':20, 'gold':200, 'i18n_name':_('Scientist')},
-	{'name':'eggs_hatched', 'bronze':10, 'silver':100, 'gold':500, 'i18n_name':_('Breeder')},
-	{'name':'pkstops_spun', 'bronze':100, 'silver':1000, 'gold':2000, 'i18n_name':_('Backpacker')},
-	{'name':'big_magikarp', 'bronze':3, 'silver':50, 'gold':300, 'i18n_name':_('Fisherman')},
-	{'name':'battles_won', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Battle Girl')},
+	{'name':'walk_dist', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Distance Walked')},
+	{'name':'gen_1_dex', 'bronze':5, 'silver':50, 'gold':100, 'i18n_name':_('Kanto Pokédex')},
+	{'name':'pkmn_caught', 'bronze':30, 'silver':500, 'gold':2000, 'i18n_name':_('Pokémon Caught')},
+	{'name':'pkmn_evolved', 'bronze':3, 'silver':20, 'gold':200, 'i18n_name':_('Pokémon Evolved')},
+	{'name':'eggs_hatched', 'bronze':10, 'silver':100, 'gold':500, 'i18n_name':_('Eggs Hatched')},
+	{'name':'pkstops_spun', 'bronze':100, 'silver':1000, 'gold':2000, 'i18n_name':_('Pokéstops Spun')},
+	{'name':'big_magikarp', 'bronze':3, 'silver':50, 'gold':300, 'i18n_name':_('Big Magikarp')},
+	{'name':'battles_won', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Battles Won')},
 	{'name':'legacy_gym_trained', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Ace Trainer')},
-	{'name':'tiny_rattata', 'bronze':3, 'silver':50, 'gold':300, 'i18n_name':_('Younster')},
-	{'name':'pikachu_caught', 'bronze':3, 'silver':50, 'gold':300, 'i18n_name':_('Pikachu Fan')},
-	{'name':'gen_2_dex', 'bronze':5, 'silver':30, 'gold':70, 'i18n_name':_('Johto')},
+	{'name':'tiny_rattata', 'bronze':3, 'silver':50, 'gold':300, 'i18n_name':_('Tiny Rattata')},
+	{'name':'pikachu_caught', 'bronze':3, 'silver':50, 'gold':300, 'i18n_name':_('Pikachu Caught')},
+	{'name':'gen_2_dex', 'bronze':5, 'silver':30, 'gold':70, 'i18n_name':_('Johto Pokédex')},
 	{'name':'unown_alphabet', 'bronze':3, 'silver':10, 'gold':26, 'i18n_name':_('Unown')},
-	{'name':'berry_fed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Berry Master')},
-	{'name':'gym_defended', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Gym Leader')},
-	{'name':'raids_completed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Champion')},
-	{'name':'leg_raids_completed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Battle Legend')},
-	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90, 'i18n_name':_('Hoenn')},
+	{'name':'berry_fed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Berries Fed')},
+	{'name':'gym_defended', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Gyms Defended (Hours)')},
+	{'name':'raids_completed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Raids Completed (Levels 1-4)')},
+	{'name':'leg_raids_completed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Raids Completed (Level 5)')},
+	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90, 'i18n_name':_('Hoenn Pokédex')},
 ]
 
 TYPE_BADGES = [
@@ -492,9 +492,9 @@ def LeaderboardView(request):
 	for param in (showValor, showMystic, showInstinct):
 		if param['value'] is False:
 			_trainers_query = _trainers_query.exclude(faction__name=param['param'])
-	_trainers_non_legit = _trainers_query.exclude(currently_cheats = False).annotate(Max('update__xp'), Max('update__update_time'))
+	_trainers_non_legit = _trainers_query.exclude(currently_cheats = False).annotate(Max('update__xp'), Max('update__update_time'), Max('update__pkmn_caught'), Max('update__gym_defended'), Max('update__eggs_hatched'), Max('update__walk_dist'), Max('update__pkstops_spun'))
 	_trainers_non_legit = cleanleaderboardqueryset(_trainers_non_legit, key=lambda x: x.update__xp__max, reverse=True)
-	_trainers_legit = _trainers_query.exclude(currently_cheats = True).annotate(Max('update__xp'), Max('update__update_time'))
+	_trainers_legit = _trainers_query.exclude(currently_cheats = True).annotate(Max('update__xp'), Max('update__update_time'), Max('update__pkmn_caught'), Max('update__gym_defended'), Max('update__eggs_hatched'), Max('update__walk_dist'), Max('update__pkstops_spun'))
 	_trainers_legit = cleanleaderboardqueryset(_trainers_legit, key=lambda x: x.update__xp__max, reverse=True)
 	
 	_trainers = []
@@ -505,19 +505,29 @@ def LeaderboardView(request):
 			'position' : _trainers_legit.index(trainer)+1,
 			'trainer' : trainer,
 			'xp' : trainer.update__xp__max,
+			'pkmn_caught' : trainer.update__pkmn_caught__max,
+			'gym_defended' : trainer.update__gym_defended__max,
+			'eggs_hatched' : trainer.update__eggs_hatched__max,
+			'walk_dist' : trainer.update__walk_dist__max,
+			'pkstops_spun' : trainer.update__pkstops_spun__max,
 			'time' : trainer.update__update_time__max,
-			'level' : level_parser(xp=trainer.update__xp__max),
+			'level' : level_parser(xp=trainer.update__xp__max).level,
 		})
 	if showSpoofers['value']:
 		for trainer in _trainers_non_legit:
 			grand_total_xp += trainer.update__xp__max
 			_trainers.append({
-				'position' : None,
+				'position' : _trainers_legit.index(trainer)+1,
 				'trainer' : trainer,
 				'xp' : trainer.update__xp__max,
+				'pkmn_caught' : trainer.update__pkmn_caught__max,
+				'gym_defended' : trainer.update__gym_defended__max,
+				'eggs_hatched' : trainer.update__eggs_hatched__max,
+				'walk_dist' : trainer.update__walk_dist__max,
+				'pkstops_spun' : trainer.update__pkstops_spun__max,
 				'time' : trainer.update__update_time__max,
-				'level' : level_parser(xp=trainer.update__xp__max),
-				})
+				'level' : level_parser(xp=trainer.update__xp__max).level,
+			})
 	_trainers.sort(key = lambda x: x['xp'], reverse=True)
 	
 	return render(request, 'leaderboard.html', {'leaderboard' : _trainers, 'valor' : showValor, 'mystic' : showMystic, 'instinct' : showInstinct, 'spoofers' : showSpoofers, 'grand_total_xp' : grand_total_xp})
