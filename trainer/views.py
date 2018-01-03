@@ -517,7 +517,7 @@ def LeaderboardView(request):
 		for trainer in _trainers_non_legit:
 			grand_total_xp += trainer.update__xp__max
 			_trainers.append({
-				'position' : _trainers_legit.index(trainer)+1,
+				'position' : None,
 				'trainer' : trainer,
 				'xp' : trainer.update__xp__max,
 				'pkmn_caught' : trainer.update__pkmn_caught__max,
