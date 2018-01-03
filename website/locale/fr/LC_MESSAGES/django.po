@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-03 00:27+0000\n"
+"POT-Creation-Date: 2018-01-03 21:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -391,7 +391,7 @@ msgid "Set Password"
 msgstr ""
 
 #: templates/account/password_set.html:18
-msgid "Please set a password! They"
+msgid "Please set a password! They're quite important you know."
 msgstr ""
 
 #: templates/account/signup.html:5 templates/account/signup.html:6
