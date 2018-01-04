@@ -109,7 +109,7 @@
         <tbody>
           {% for update in updates %}
           <tr id="{{update.uuid}}">
-            <td id="{{update.uuid}}-time" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}</td>
+            <td id="{{update.uuid}}-time" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}{% if update.meta_crowd_sourced %} <i class="material-icons">room_service</i>{% endif %}</td>
             <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-time">{{update.update_time}}</div>
             <td id="{{update.uuid}}-xp">{{update.xp|default_if_none:"---"|intword}}</td>
             <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-xp">{{update.xp|intcomma}}</div>

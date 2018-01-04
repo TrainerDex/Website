@@ -124,6 +124,20 @@ class Update(models.Model):
 	pkmn_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Dragon"))
 	
 	meta_time_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Time Created"))
+	DATABASE_SOURCES = (
+		('?', _('undefined')),
+		('cs_social_twitter', _('Twitter')),
+		('cs_social_facebook', _('Facebook')),
+		('ts_social_discord', _('Official Discord Bot')),
+		('web_quick', _('Quick Update')),
+		('web_detailed', _('Detailed Update')),
+	)
+	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?')
+	
+	def meta_crowd_sourced(self):
+		if self.meta_source.startswith('cs'):
+			return True
+		return False
 	
 	def __str__(self):
 		return self.trainer.username+' '+str(self.xp)+' '+str(self.update_time)
