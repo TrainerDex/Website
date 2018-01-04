@@ -198,7 +198,7 @@ GOOGLE_ANALYTICS_PROPERTY_ID = '***REMOVED***'
 # Django Cities
 # https://github.com/coderholic/django-cities#configuration
 
-CITIES_LOCALES = ['en', 'ja']
+CITIES_LOCALES = ['en', 'da', 'de', 'es', 'fr', 'ja', 'nl', 'no', 'pl', 'sv']
 CITIES_POSTAL_CODES = []
 
 # Django Gravatar 2

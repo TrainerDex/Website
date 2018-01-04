@@ -9,6 +9,7 @@ from django.db.models.signals import *
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_noop as _noop
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 from trainer.validators import *
 
@@ -136,12 +137,12 @@ class Update(models.Model):
 	
 	meta_time_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Time Created"))
 	DATABASE_SOURCES = (
-		('?', _('undefined')),
-		('cs_social_twitter', _('Twitter')),
-		('cs_social_facebook', _('Facebook')),
-		('ts_social_discord', _('Official Discord Bot')),
-		('web_quick', _('Quick Update')),
-		('web_detailed', _('Detailed Update')),
+		('?', _noop('undefined')),
+		('cs_social_twitter', _noop('Twitter')),
+		('cs_social_facebook', _noop('Facebook')),
+		('ts_social_discord', _noop('Official Discord Bot')),
+		('web_quick', _noop('Quick Update')),
+		('web_detailed', _noop('Detailed Update')),
 	)
 	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?')
 	
