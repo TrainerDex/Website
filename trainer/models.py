@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import *
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from exclusivebooleanfield.fields import ExclusiveBooleanField
@@ -39,7 +40,6 @@ class Trainer(models.Model):
 	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Stockholm, Sweden"))
 	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Amstelveen, The Netherlands"))
 	prefered = ExclusiveBooleanField(on='owner')
-	#top_50 = models.TextField(null=True, blank=True)
 	
 	def is_prefered(self):
 		return True if owner.prefered_profile == self else False
@@ -53,6 +53,9 @@ class Trainer(models.Model):
 			self.last_cheated = date.today()
 		elif self.currently_cheats is True:
 			self.has_cheated = True
+	
+	def get_absolute_url(self):
+		return reverse('profile_short', args=[self.username])
 	
 	class Meta:
 		ordering = ['username']
