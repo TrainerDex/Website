@@ -26,5 +26,5 @@ pycent==1.0
 django-gravatar2==1.4.2
 django-widget-tweaks==1.4.1
 django-exclusivebooleanfield==0.3.0
-django-rosetta==0.7.13
+django-rosetta==0.7.14
 django-cookie-law==1.0.13
