@@ -18,6 +18,10 @@ html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
+.mdl-data-table__cell--non-numeric .material-icons {
+  font-size: 15px;
+}
+
 .profile-medal {
   width: 4rem;
 }
