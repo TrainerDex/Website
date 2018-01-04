@@ -5,6 +5,10 @@ from ajax_select import make_ajax_form
 from trainer.models import *
 
 admin.site.register(Faction)
+admin.site.register(PlayZonesDetailCountry)
+admin.site.register(PlayZonesDetailRegion)
+admin.site.register(PlayZonesDetailSubregion)
+admin.site.register(PlayZonesDetailCity)
 
 @admin.register(Update)
 class UpdateAdmin(AjaxSelectAdmin):
