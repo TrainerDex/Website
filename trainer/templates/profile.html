@@ -52,6 +52,11 @@
       </ul>
     </div>
     <div class="mdl-cell mdl-cell--1-col mdl-cell--8-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: right;">
+      {% for country in trainer.play_zones_country.all %}
+        {% with 'img/flags/'|add:country.code.lower|add:'.png' as flag_url %}
+        <img src="{% static flag_url %}" style="height: 30px" alt="{{country}}"/>
+        {% endwith %}
+      {% endfor %}
       {% if trainer.go_fest_2017 %}
         <img class="profile-medal" src="{% static 'img/go_fest_2017.png' %}" />
       {% endif %}

@@ -1,4 +1,5 @@
 ﻿import uuid
+from cities.models import Country, Region, Subregion, City, District
 from colorful.fields import RGBColorField
 from datetime import date
 from django.contrib.auth.models import User
@@ -40,6 +41,16 @@ class Trainer(models.Model):
 	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Stockholm, Sweden"))
 	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Amstelveen, The Netherlands"))
 	prefered = ExclusiveBooleanField(on='owner')
+	
+	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country')
+	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region')
+	leaderboard_subregion = models.ForeignKey(Subregion, null=True, blank=True, verbose_name=_("Subregion"), related_name='leaderboard_trainers_subregion')
+	leaderboard_city = models.ForeignKey(City, null=True, blank=True, verbose_name=_("City"), related_name='leaderboard_trainers_city')
+	
+	play_zones_country = models.ManyToManyField(Country, through='PlayZonesDetailCountry' , blank=True, verbose_name=_("Country"), related_name='playzone_trainers_country')
+	play_zones_region = models.ManyToManyField(Region, through='PlayZonesDetailRegion' , blank=True, verbose_name=_("Region"), related_name='playzone_trainers_region')
+	play_zones_subregion = models.ManyToManyField(Subregion, through='PlayZonesDetailSubregion' , blank=True, verbose_name=_("Subregion"), related_name='playzone_trainers_subregion')
+	play_zones_city = models.ManyToManyField(City, through='PlayZonesDetailCity' , blank=True, verbose_name=_("City"), related_name='playzone_trainers_city')
 	
 	def is_prefered(self):
 		return True if owner.prefered_profile == self else False
@@ -176,3 +187,24 @@ class Update(models.Model):
 		ordering = ['-update_time']
 		verbose_name = _("Update")
 		verbose_name_plural = _("Updates")
+	
+class PlayZonesDetailBase(models.Model):
+	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+	privacy_show_on_profile = models.BooleanField(default=True, verbose_name=_("Show on profile"))
+	privacy_show_on_directory = models.BooleanField(default=True, verbose_name=_("Show in local directory"))
+	subscribe_updates = models.BooleanField(default=False, verbose_name=_("Subscribe to updates"))
+	
+	class Meta:
+		abstract = True
+
+class PlayZonesDetailCountry(PlayZonesDetailBase):
+	location = models.ForeignKey(Country, on_delete=models.CASCADE)
+
+class PlayZonesDetailRegion(PlayZonesDetailBase):
+	location = models.ForeignKey(Region, on_delete=models.CASCADE)
+
+class PlayZonesDetailSubregion(PlayZonesDetailBase):
+	location = models.ForeignKey(Subregion, on_delete=models.CASCADE)
+
+class PlayZonesDetailCity(PlayZonesDetailBase):
+	location = models.ForeignKey(City, on_delete=models.CASCADE)
