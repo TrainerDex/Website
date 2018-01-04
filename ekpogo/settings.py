@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'ajax_select',
     'cities',
     'colorful',
+    'cookielaw',
 #    'raids',
     'rosetta',
     'trainer',
