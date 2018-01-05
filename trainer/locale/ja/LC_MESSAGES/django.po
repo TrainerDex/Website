@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-03 00:27+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2018-01-05 14:08+0000\n"
+"Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Translated-Using: django-rosetta 0.7.13\n"
 
 #: apps.py:6
 msgid "TrainerDex Profiles"
@@ -145,8 +146,9 @@ msgid "Distance Walked"
 msgstr ""
 
 #: models.py:86 templates/create_update.html:66 views.py:341
+#, fuzzy
 msgid "Kanto Pokédex"
-msgstr ""
+msgstr "カントー"
 
 #: models.py:87 templates/create_update.html:72 templates/leaderboard.html:45
 #: views.py:342
@@ -394,7 +396,7 @@ msgstr ""
 
 #: templates/profile.html:91
 msgid "Pokémon"
-msgstr ""
+msgstr "ポケモン"
 
 #: templates/profile.html:92
 msgid "Evolved"
@@ -414,8 +416,8 @@ msgstr ""
 
 #: templates/profile.html:117
 msgid ""
-"It seems this trainer hasn't shared any of these medals. We only show medals "
-"with data to avoid showing a row of null values, that's kinda ugly."
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
 msgstr ""
 
 #: validators.py:7
