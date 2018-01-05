@@ -227,3 +227,19 @@ class PlayZonesDetailCity(PlayZonesDetailBase):
 	class Meta:
 		verbose_name=_("Play Zone - City-wide")
 		verbose_name_plural=_("Play Zones - City-wide")
+
+#class TrainerRating(models.Model):
+#	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
+#	overall = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], verbose_name=_("Overall rating"))
+#	tardiness = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], verbose_name=_("Tardiness"))
+#	online_behaviour = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], verbose_name=_("In-game behaviour"))
+#	offline_behaviour = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], verbose_name=_("Real-world behaviour"))
+
+class TrainerReport(models.Model):
+	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
+	reporter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_("Reported by"))
+	report = models.TextField(verbose_name=_("Report"))
+	
+	class Meta:
+		verbose_name=_("Report")
+		verbose_name_plural=_("Reports")
