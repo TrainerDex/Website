@@ -192,7 +192,7 @@ class Update(models.Model):
 		verbose_name_plural = _("Updates")
 	
 class PlayZonesDetailBase(models.Model):
-	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
 	privacy_show_on_profile = models.BooleanField(default=True, verbose_name=_("Show on profile"))
 	privacy_show_on_directory = models.BooleanField(default=True, verbose_name=_("Show in local directory"))
 	subscribe_updates = models.BooleanField(default=False, verbose_name=_("Subscribe to updates"))
@@ -201,13 +201,29 @@ class PlayZonesDetailBase(models.Model):
 		abstract = True
 
 class PlayZonesDetailCountry(PlayZonesDetailBase):
-	location = models.ForeignKey(Country, on_delete=models.CASCADE)
+	location = models.ForeignKey(Country, on_delete=models.CASCADE, verbose_name=_("Country"))
+	
+	class Meta:
+		verbose_name=_("Play Zone - National")
+		verbose_name_plural=_("Play Zones - National")
 
 class PlayZonesDetailRegion(PlayZonesDetailBase):
-	location = models.ForeignKey(Region, on_delete=models.CASCADE)
+	location = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name=_("Region"))
+	
+	class Meta:
+		verbose_name=_("Play Zone - Regional")
+		verbose_name_plural=_("Play Zones - Regional")
 
 class PlayZonesDetailSubregion(PlayZonesDetailBase):
-	location = models.ForeignKey(Subregion, on_delete=models.CASCADE)
+	location = models.ForeignKey(Subregion, on_delete=models.CASCADE, verbose_name=_("Subregion"))
+	
+	class Meta:
+		verbose_name=_("Play Zone - Subregional")
+		verbose_name_plural=_("Play Zones - Subregional")
 
 class PlayZonesDetailCity(PlayZonesDetailBase):
-	location = models.ForeignKey(City, on_delete=models.CASCADE)
+	location = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name=_("City"))
+	
+	class Meta:
+		verbose_name=_("Play Zone - City-wide")
+		verbose_name_plural=_("Play Zones - City-wide")
