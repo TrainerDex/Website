@@ -55,11 +55,6 @@ class UserSerializer(serializers.ModelSerializer):
 		fields = ('id', 'username', 'first_name', 'last_name', 'profiles')
 		read_only_fields = ('profiles',)
 
-class FactionSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Faction
-		fields = ('id', 'name', 'colour')
-
 class LeaderboardSerializer(serializers.Serializer):
 	level = serializers.SerializerMethodField()
 	position = serializers.SerializerMethodField()

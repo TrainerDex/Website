@@ -14,10 +14,10 @@ from exclusivebooleanfield.fields import ExclusiveBooleanField
 from trainer.validators import *
 
 def factionImagePath(instance, filename):
-	return 'factions/'+instance.name
+	return 'img/'+instance.name #remains for legacy reasons
 
 def leaderImagePath(instance, filename):
-	return 'factions/'+instance.name+'-leader'
+	return 'img/'+instance.name+'-leader' #remains for legacy reasons
 
 class Trainer(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles', verbose_name=_("User"))
@@ -77,9 +77,11 @@ class Trainer(models.Model):
 class Faction(models.Model):
 	name = models.CharField(max_length=140, verbose_name=_("Name"))
 	colour = RGBColorField(default='#929292', null=True, blank=True, verbose_name=_("Colour"))
-	image = models.ImageField(upload_to=factionImagePath, blank=True, null=True, verbose_name=_("Image"))
 	leader_name = models.CharField(max_length=140, null=True, blank=True, verbose_name=_("Leader"))
-	leader_image = models.ImageField(upload_to=leaderImagePath, blank=True, null=True, verbose_name="{} ({})".format(_("Leader"),_("Image")))
+	
+	@property
+	def image(self):
+		return 'img/'+self.name+'.png'
 	
 	def __str__(self):
 		return self.name
