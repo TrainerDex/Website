@@ -16,7 +16,7 @@ class UpdateAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(Update, {
 		'trainer' : 'trainer'
 	})
-	list_display = ('trainer', 'xp', 'update_time')
+	list_display = ('trainer', 'xp', 'update_time', 'meta_crowd_sourced','meta_source')
 	search_fields = ('trainer__username', 'trainer__owner__username')
 	ordering = ('-update_time',)
 	date_hierarchy = 'update_time'
