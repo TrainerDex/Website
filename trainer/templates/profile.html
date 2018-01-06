@@ -26,8 +26,8 @@
 
 {%block content%}
 <div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top {{trainer.faction.name.lower}}">
-    <div class="mdl-cell mdl-cell--1-col mdl-cell--4-col-phone mdl-cell--gravatar-box">{% gravatar trainer.owner.email 140 %}</div>
-    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-phone">
+    <div class="mdl-cell mdl-cell--1-col mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box">{% gravatar trainer.owner.email 140 %}</div>
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
       <ul class="mdl-list">
         <i class="mdl-card__title-text">{{trainer.username}}</i>
         <li class="mdl-list__item">
@@ -50,6 +50,22 @@
           </span>
         </li>
       </ul>
+    </div>
+    <div class="mdl-cell mdl-cell--1-col mdl-cell--8-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: right;">
+      {% for country in trainer.play_zones_country.all %}
+        {% with 'img/flags/'|add:country.code.lower|add:'.png' as flag_url %}
+        <img src="{% static flag_url %}" style="height: 30px" alt="{{country}}"/>
+        {% endwith %}
+      {% endfor %}
+      {% if trainer.go_fest_2017 %}
+        <img class="profile-medal" src="{% static 'img/go_fest_2017.png' %}" />
+      {% endif %}
+      {% if trainer.outbreak_2017 %}
+        <img class="profile-medal" src="{% static 'img/outbreak_2017.png' %}" />
+      {% endif %}
+      {% if trainer.safari_zone_2017_oberhausen or trainer.safari_zone_2017_paris or trainer.safari_zone_2017_barcelona or trainer.safari_zone_2017_copenhagen or trainer.safari_zone_2017_prague or trainer.safari_zone_2017_stockholm or trainer.safari_zone_2017_amstelveen %}
+        <img class="profile-medal" src="{% static 'img/safari_zone_2017.png' %}" />
+      {% endif %}
     </div>
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
@@ -98,7 +114,7 @@
         <tbody>
           {% for update in updates %}
           <tr id="{{update.uuid}}">
-            <td id="{{update.uuid}}-time" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}</td>
+            <td id="{{update.uuid}}-time" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}{% if update.meta_crowd_sourced %} <i class="material-icons">room_service</i>{% endif %}</td>
             <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-time">{{update.update_time}}</div>
             <td id="{{update.uuid}}-xp">{{update.xp|default_if_none:"---"|intword}}</td>
             <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-xp">{{update.xp|intcomma}}</div>

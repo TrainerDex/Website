@@ -32,7 +32,7 @@
           <span class="mdl-textfield__error"><sup>*</sup>{% trans "Required" %} {{form.xp.errors|default:input_number_error}}</span>
         </div><br>
         
-        <h5>Pokédex Stats</h5>
+        <h5>{% trans "Pokédex Stats" %}</h5>
         
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.dex_caught.errors %} is-invalid{% endif %}">
           {{ form.dex_caught|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
@@ -46,7 +46,7 @@
           <span class="mdl-textfield__error">{{form.dex_seen.errors|default:input_number_error}}</span>
         </div><br>
         
-        <h5>Profile Badges</h5>
+        <h5>{% trans "Profile Medals" %}</h5>
         
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.gym_badges.errors %} is-invalid{% endif %}">
           {{ form.gym_badges|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
@@ -157,7 +157,7 @@
           <span class="mdl-textfield__error">{{form.leg_raids_completed.errors|default:input_number_error}}</span>
         </div><br>
         
-        <h5>Pokémon Type Badges</h5>
+        <h5>{% trans "Pokémon Type Medals" %}</h5>
         
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.pkmn_normal.errors %} is-invalid{% endif %}">
           {{ form.pkmn_normal|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
