@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-05 23:35+0000\n"
+"POT-Creation-Date: 2018-01-06 00:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,23 +91,23 @@ msgstr ""
 msgid "Safari Zone"
 msgstr ""
 
-#: models.py:46 models.py:51 models.py:204
+#: models.py:46 models.py:51 models.py:206
 msgid "Country"
 msgstr ""
 
-#: models.py:47 models.py:52 models.py:211
+#: models.py:47 models.py:52 models.py:213
 msgid "Region"
 msgstr ""
 
-#: models.py:48 models.py:53 models.py:218
+#: models.py:48 models.py:53 models.py:220
 msgid "Subregion"
 msgstr ""
 
-#: models.py:49 models.py:54 models.py:225
+#: models.py:49 models.py:54 models.py:227
 msgid "City"
 msgstr ""
 
-#: models.py:74 models.py:95 models.py:195 models.py:239
+#: models.py:74 models.py:95 models.py:197 models.py:241
 #: templates/create_update.html:25
 msgid "Trainer"
 msgstr ""
@@ -304,73 +304,81 @@ msgstr ""
 msgid "Time Created"
 msgstr ""
 
-#: models.py:167
+#: models.py:149
+msgid "Source"
+msgstr ""
+
+#: models.py:156
+msgid "Crowd Sourced"
+msgstr ""
+
+#: models.py:169
 msgid ""
 "This value has previously been entered at a higher value. Please try again, "
 "ensuring you enter your Total XP."
 msgstr ""
 
-#: models.py:191
+#: models.py:193
 msgid "Update"
 msgstr ""
 
-#: models.py:192
+#: models.py:194
 msgid "Updates"
 msgstr ""
 
-#: models.py:196
+#: models.py:198
 msgid "Show on profile"
 msgstr ""
 
-#: models.py:197
+#: models.py:199
 msgid "Show in local directory"
 msgstr ""
 
-#: models.py:198
+#: models.py:200
 msgid "Subscribe to updates"
 msgstr ""
 
-#: models.py:207
+#: models.py:209
 msgid "Play Zone - National"
 msgstr ""
 
-#: models.py:208
+#: models.py:210
 msgid "Play Zones - National"
 msgstr ""
 
-#: models.py:214
+#: models.py:216
 msgid "Play Zone - Regional"
 msgstr ""
 
-#: models.py:215
+#: models.py:217
 msgid "Play Zones - Regional"
 msgstr ""
 
-#: models.py:221
+#: models.py:223
 msgid "Play Zone - Subregional"
 msgstr ""
 
-#: models.py:222
+#: models.py:224
 msgid "Play Zones - Subregional"
 msgstr ""
 
-#: models.py:228
+#: models.py:230
 msgid "Play Zone - City-wide"
 msgstr ""
 
-#: models.py:229
+#: models.py:231
 msgid "Play Zones - City-wide"
 msgstr ""
 
-#: models.py:240
+#: models.py:242
 msgid "Reported by"
 msgstr ""
 
-#: models.py:241 models.py:244
+#: models.py:243 models.py:246
 msgid "Report"
 msgstr ""
 
-#: models.py:245
+#: models.py:247
 msgid "Reports"
 msgstr ""
 

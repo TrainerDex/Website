@@ -138,7 +138,7 @@ class Update(models.Model):
 	pkmn_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Dragon"))
 	
 	meta_time_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Time Created"))
-	DATABASE_SOURCES = (
+	DATABASE_SOURCES = ( #cs crowd sourced # ts text sourced
 		('?', _noop('undefined')),
 		('cs_social_twitter', _noop('Twitter')),
 		('cs_social_facebook', _noop('Facebook')),
@@ -146,12 +146,14 @@ class Update(models.Model):
 		('web_quick', _noop('Quick Update')),
 		('web_detailed', _noop('Detailed Update')),
 	)
-	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?')
+	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
 	
 	def meta_crowd_sourced(self):
 		if self.meta_source.startswith('cs'):
 			return True
 		return False
+	meta_crowd_sourced.boolean = True
+	meta_crowd_sourced.short_description = _("Crowd Sourced")
 	
 	def __str__(self):
 		return self.trainer.username+' '+str(self.xp)+' '+str(self.update_time)
