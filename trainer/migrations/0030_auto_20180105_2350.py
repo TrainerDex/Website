@@ -10,10 +10,9 @@ def set_twitter_users(apps, schema_editor):
     for row in Update.objects.filter(trainer__pk__in=[188,284,285,396,528]):
         row.meta_source = 'cs_social_twitter'
         row.save()
-    for row in Update.objects.filter(trainer__pk=401):
-        if row.update_time <= date(2017,12,26):
-            row.meta_source = 'cs_social_twitter'
-            row.save()
+    for row in Update.objects.filter(trainer__pk=401, update_time__lt=date(2017,12,26)):
+        row.meta_source = 'cs_social_twitter'
+        row.save()
     for row in Update.objects.exclude(trainer__pk__in=[188,284,285,396,401,528]).filter(update_time__lt=date(2017,12,22)):
         row.meta_source = 'ts_social_discord'
         row.save()
