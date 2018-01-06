@@ -1,20 +1,23 @@
 ﻿import uuid
+from cities.models import Country, Region, Subregion, City, District
 from colorful.fields import RGBColorField
 from datetime import date
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import *
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_noop as _noop
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 from trainer.validators import *
 
 def factionImagePath(instance, filename):
-	return 'factions/'+instance.name
+	return 'img/'+instance.name #remains for legacy reasons
 
 def leaderImagePath(instance, filename):
-	return 'factions/'+instance.name+'-leader'
+	return 'img/'+instance.name+'-leader' #remains for legacy reasons
 
 class Trainer(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles', verbose_name=_("User"))
@@ -39,7 +42,16 @@ class Trainer(models.Model):
 	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Stockholm, Sweden"))
 	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Amstelveen, The Netherlands"))
 	prefered = ExclusiveBooleanField(on='owner')
-	#top_50 = models.TextField(null=True, blank=True)
+	
+	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country')
+	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region')
+	leaderboard_subregion = models.ForeignKey(Subregion, null=True, blank=True, verbose_name=_("Subregion"), related_name='leaderboard_trainers_subregion')
+	leaderboard_city = models.ForeignKey(City, null=True, blank=True, verbose_name=_("City"), related_name='leaderboard_trainers_city')
+	
+	play_zones_country = models.ManyToManyField(Country, through='PlayZonesDetailCountry' , blank=True, verbose_name=_("Country"), related_name='playzone_trainers_country')
+	play_zones_region = models.ManyToManyField(Region, through='PlayZonesDetailRegion' , blank=True, verbose_name=_("Region"), related_name='playzone_trainers_region')
+	play_zones_subregion = models.ManyToManyField(Subregion, through='PlayZonesDetailSubregion' , blank=True, verbose_name=_("Subregion"), related_name='playzone_trainers_subregion')
+	play_zones_city = models.ManyToManyField(City, through='PlayZonesDetailCity' , blank=True, verbose_name=_("City"), related_name='playzone_trainers_city')
 	
 	def is_prefered(self):
 		return True if owner.prefered_profile == self else False
@@ -54,6 +66,9 @@ class Trainer(models.Model):
 		elif self.currently_cheats is True:
 			self.has_cheated = True
 	
+	def get_absolute_url(self):
+		return reverse('profile_short', args=[self.username])
+	
 	class Meta:
 		ordering = ['username']
 		verbose_name = _("Trainer")
@@ -62,9 +77,11 @@ class Trainer(models.Model):
 class Faction(models.Model):
 	name = models.CharField(max_length=140, verbose_name=_("Name"))
 	colour = RGBColorField(default='#929292', null=True, blank=True, verbose_name=_("Colour"))
-	image = models.ImageField(upload_to=factionImagePath, blank=True, null=True, verbose_name=_("Image"))
 	leader_name = models.CharField(max_length=140, null=True, blank=True, verbose_name=_("Leader"))
-	leader_image = models.ImageField(upload_to=leaderImagePath, blank=True, null=True, verbose_name="{} ({})".format(_("Leader"),_("Image")))
+	
+	@property
+	def image(self):
+		return 'img/'+self.name+'.png'
 	
 	def __str__(self):
 		return self.name
@@ -121,6 +138,22 @@ class Update(models.Model):
 	pkmn_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Dragon"))
 	
 	meta_time_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Time Created"))
+	DATABASE_SOURCES = ( #cs crowd sourced # ts text sourced
+		('?', _noop('undefined')),
+		('cs_social_twitter', _noop('Twitter')),
+		('cs_social_facebook', _noop('Facebook')),
+		('ts_social_discord', _noop('Official Discord Bot')),
+		('web_quick', _noop('Quick Update')),
+		('web_detailed', _noop('Detailed Update')),
+	)
+	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
+	
+	def meta_crowd_sourced(self):
+		if self.meta_source.startswith('cs'):
+			return True
+		return False
+	meta_crowd_sourced.boolean = True
+	meta_crowd_sourced.short_description = _("Crowd Sourced")
 	
 	def __str__(self):
 		return self.trainer.username+' '+str(self.xp)+' '+str(self.update_time)
@@ -159,3 +192,56 @@ class Update(models.Model):
 		ordering = ['-update_time']
 		verbose_name = _("Update")
 		verbose_name_plural = _("Updates")
+	
+class PlayZonesDetailBase(models.Model):
+	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
+	privacy_show_on_profile = models.BooleanField(default=True, verbose_name=_("Show on profile"))
+	privacy_show_on_directory = models.BooleanField(default=True, verbose_name=_("Show in local directory"))
+	subscribe_updates = models.BooleanField(default=False, verbose_name=_("Subscribe to updates"))
+	
+	class Meta:
+		abstract = True
+
+class PlayZonesDetailCountry(PlayZonesDetailBase):
+	location = models.ForeignKey(Country, on_delete=models.CASCADE, verbose_name=_("Country"))
+	
+	class Meta:
+		verbose_name=_("Play Zone - National")
+		verbose_name_plural=_("Play Zones - National")
+
+class PlayZonesDetailRegion(PlayZonesDetailBase):
+	location = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name=_("Region"))
+	
+	class Meta:
+		verbose_name=_("Play Zone - Regional")
+		verbose_name_plural=_("Play Zones - Regional")
+
+class PlayZonesDetailSubregion(PlayZonesDetailBase):
+	location = models.ForeignKey(Subregion, on_delete=models.CASCADE, verbose_name=_("Subregion"))
+	
+	class Meta:
+		verbose_name=_("Play Zone - Subregional")
+		verbose_name_plural=_("Play Zones - Subregional")
+
+class PlayZonesDetailCity(PlayZonesDetailBase):
+	location = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name=_("City"))
+	
+	class Meta:
+		verbose_name=_("Play Zone - City-wide")
+		verbose_name_plural=_("Play Zones - City-wide")
+
+#class TrainerRating(models.Model):
+#	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
+#	overall = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], verbose_name=_("Overall rating"))
+#	tardiness = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], verbose_name=_("Tardiness"))
+#	online_behaviour = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], verbose_name=_("In-game behaviour"))
+#	offline_behaviour = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], verbose_name=_("Real-world behaviour"))
+
+class TrainerReport(models.Model):
+	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
+	reporter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_("Reported by"))
+	report = models.TextField(verbose_name=_("Report"))
+	
+	class Meta:
+		verbose_name=_("Report")
+		verbose_name_plural=_("Reports")

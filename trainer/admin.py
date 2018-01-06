@@ -5,6 +5,10 @@ from ajax_select import make_ajax_form
 from trainer.models import *
 
 admin.site.register(Faction)
+admin.site.register(PlayZonesDetailCountry)
+admin.site.register(PlayZonesDetailRegion)
+admin.site.register(PlayZonesDetailSubregion)
+admin.site.register(PlayZonesDetailCity)
 
 @admin.register(Update)
 class UpdateAdmin(AjaxSelectAdmin):
@@ -12,7 +16,7 @@ class UpdateAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(Update, {
 		'trainer' : 'trainer'
 	})
-	list_display = ('trainer', 'xp', 'update_time')
+	list_display = ('trainer', 'xp', 'update_time', 'meta_crowd_sourced','meta_source')
 	search_fields = ('trainer__username', 'trainer__owner__username')
 	ordering = ('-update_time',)
 	date_hierarchy = 'update_time'
