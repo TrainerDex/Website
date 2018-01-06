@@ -453,6 +453,7 @@ def TrainerProfileView(request, username=None):
 		form_data = request.POST.copy()
 		form_data['trainer'] = trainer.pk
 		form_data['update_time'] = timezone.now()
+		form_data['meta_source'] = 'web_quick'
 		form = QuickUpdateForm(form_data or None)
 		if form.is_valid():
 			form.save()
@@ -466,8 +467,12 @@ def TrainerProfileView(request, username=None):
 
 @login_required
 def UpdateDialogView(request):
-	pass
-	form = UpdateForm(request.POST or None)
+	if request.POST:
+		form_data = request.POST.copy()
+		form_data['meta_source'] = 'web_detailed'
+	else:
+		form_data = None
+	form = UpdateForm(form_data or None)
 	form.fields['update_time'].widget = forms.HiddenInput()
 	if form.is_valid() and (int(request.POST['trainer']),) in Trainer.objects.filter(owner=request.user).values_list('pk'):
 		print('valid')

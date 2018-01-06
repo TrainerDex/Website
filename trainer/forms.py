@@ -5,7 +5,7 @@ class QuickUpdateForm(ModelForm):
 	
 	class Meta:
 		model = Update
-		fields = ('trainer', 'xp', 'update_time')
+		fields = ('trainer', 'xp', 'update_time', 'meta_source')
 	
 
 class UpdateForm(ModelForm):
