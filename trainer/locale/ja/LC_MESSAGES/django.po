@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 00:06+0000\n"
+"POT-Creation-Date: 2018-01-06 19:58+0000\n"
 "PO-Revision-Date: 2018-01-05 14:08+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Translated-Using: django-rosetta 0.7.13\n"
+
+#: admin.py:48 models.py:247
+msgid "Reports"
+msgstr ""
+
+#: admin.py:51 templates/profile.html:74
+msgid "Medals"
+msgstr ""
+
+#: admin.py:54 templates/leaderboard.html:7 templates/leaderboard.html:8
+msgid "Leaderboard"
+msgstr ""
 
 #: apps.py:6
 msgid "TrainerDex Profiles"
@@ -380,10 +392,6 @@ msgstr ""
 msgid "Report"
 msgstr ""
 
-#: models.py:247
-msgid "Reports"
-msgstr ""
-
 #: templates/create_update.html:7 templates/create_update.html:8
 #: templates/create_update.html:17
 msgid "Update Stats"
@@ -419,10 +427,6 @@ msgstr ""
 
 #: templates/create_update.html:276 templates/profile.html:95
 msgid "Submit"
-msgstr ""
-
-#: templates/leaderboard.html:7 templates/leaderboard.html:8
-msgid "Leaderboard"
 msgstr ""
 
 #: templates/leaderboard.html:15
@@ -464,10 +468,6 @@ msgstr ""
 
 #: templates/profile.html:73
 msgid "History"
-msgstr ""
-
-#: templates/profile.html:74
-msgid "Medals"
 msgstr ""
 
 #: templates/profile.html:75
