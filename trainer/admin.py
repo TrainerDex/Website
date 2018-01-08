@@ -10,6 +10,7 @@ admin.site.register(PlayZonesDetailCountry)
 admin.site.register(PlayZonesDetailRegion)
 admin.site.register(PlayZonesDetailSubregion)
 admin.site.register(PlayZonesDetailCity)
+admin.site.register(TrainerReport)
 
 @admin.register(Update)
 class UpdateAdmin(AjaxSelectAdmin):
@@ -39,7 +40,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 	date_hierarchy = 'start_date'
 	fieldsets = (
 		(None, {
-			'fields': ('owner', 'username', 'faction', 'start_date', 'active', 'statistics', 'daily_goal', 'total_goal')
+			'fields': ('owner', 'username', 'faction', 'start_date', 'active', 'statistics', 'daily_goal', 'total_goal', 'prefered')
 		}),
 		(_('Reports'), {
 			'fields': ('has_cheated', 'last_cheated', 'currently_cheats')
