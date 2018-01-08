@@ -59,7 +59,10 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
         <div class="mdl-layout__header-row">
           <span class="trainerdex-title mdl-layout__title">
             {# Translators: 'beta' should remain in lowercase #}
-            <a href="{% url 'home' %}" class="trainerdex-title">{#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex</a><sup>{% trans 'beta' %}</sup>
+            {#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex<sup>{% trans 'beta' %}</sup>
+          </span>
+          <span class="trainerdex-sub-title mdl-layout__title">
+            {% block section_title %}{% endblock %}
           </span>
           {# Add spacer, to align navigation to the right in desktop #}
           <div class="mdl-layout-spacer"></div>

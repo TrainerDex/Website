@@ -157,6 +157,15 @@ html, body {
             order: 3;
   }
 
+.trainerdex-sub-title {
+    display: block !important;
+    position: absolute;
+    left: calc(50% - 80px);
+    right: calc(50% - 40px);
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+  }
+
 /**** Mobile layout ****/
 @media (max-width: 900px) {
   .trainerdex-header-navigation-container {
@@ -166,12 +175,10 @@ html, body {
   .trainerdex-title {
     display: none !important;
   }
-  .trainerdex-title a {
-    color: rgb(255,255,255) !important;
-    text-decoration-color: rgb(255,255,255) !important;
-    text-decoration-line: none !important;
-  }
 
+  .trainerdex-sub-title {
+    display: none !important;
+  }
   .trainerdex-mobile-title {
     display: block !important;
     position: absolute;
