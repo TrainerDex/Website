@@ -18,6 +18,13 @@ html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
+li.mdl-menu__item > i.material-icons {
+    display: inline-flex;
+    vertical-align: middle;
+    line-height: 48px;
+    padding-right: 5px;
+}
+
 .mdl-data-table__cell--non-numeric .material-icons {
   font-size: 15px;
 }

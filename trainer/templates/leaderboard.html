@@ -13,20 +13,16 @@
           </header>
           <div class="mdl-card__menu mdl-color-text--primary-contrast">
             <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon">
-              <i class="material-icons">more_vert</i>
+              <i class="material-icons">filter_list</i>
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="leaderboard-options">
-              <li class="mdl-menu__item">
-                <a type="button" id="mystic" class="mdl-menu__item mdl-js-ripple-effect" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'0,1' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}">{% trans 'Mystic' %}</a>
+              <li class="mdl-menu__item mdl-js-ripple-effect" id="mystic" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'0,1' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}';">{% autoescape off %}{{ mystic.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Mystic' %}
               </li>
-              <li class="mdl-menu__item">
-                <a type="button" id="valor" class="mdl-menu__item mdl-js-ripple-effect" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'0,1' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}">{% trans 'Valor' %}</a>
+              <li class="mdl-menu__item mdl-js-ripple-effect" id="valor" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'0,1' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}';">{% autoescape off %}{{ valor.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Valor' %}
               </li>
-              <li class="mdl-menu__item">
-                <a type="button" id="instinct" class="mdl-menu__item mdl-js-ripple-effect mdl-menu__item--full-bleed-divider" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'0,1' }}&spoofers={{ spoofers.value|yesno:'1,0' }}">{% trans 'Instinct' %}</a>
+              <li class="mdl-menu__item mdl-js-ripple-effect" id="instinct" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'0,1' }}&spoofers={{ spoofers.value|yesno:'1,0' }}';">{% autoescape off %}{{ instinct.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Instinct' %}
               </li>
-              <li class="mdl-menu__item">
-                <a type="button" id="spoofers" class="mdl-menu__item mdl-js-ripple-effect" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'0,1' }}">{% trans 'Spoofers' %}</a>
+              <li class="mdl-menu__item mdl-js-ripple-effect" id="spoofers" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'0,1' }}';">{% autoescape off %}{{ spoofers.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Spoofers' %}
               </li>
             </ul>
           </div>
