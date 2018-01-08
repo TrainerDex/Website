@@ -22,6 +22,7 @@
 <meta name="twitter:image" content="https://www.trainerdex.co.uk/{{trainer.faction.image}}"/>
 <link rel="stylesheet" href="{% static '/css/collapsible.css' %}"/>
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
+<link href="{% static 'node_modules/flag-icon-css/css/flag-icon.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
 
 {%block content%}
@@ -53,9 +54,7 @@
     </div>
     <div class="mdl-cell mdl-cell--1-col mdl-cell--8-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: right;">
       {% for country in trainer.play_zones_country.all %}
-        {% with 'img/flags/'|add:country.code.lower|add:'.png' as flag_url %}
-        <img src="{% static flag_url %}" style="height: 30px" alt="{{country}}"/>
-        {% endwith %}
+        <span class="flag-icon flag-icon-{{country.code.lower}} flag-icon-squared flag-icon-circle"></span>
       {% endfor %}
       {% if trainer.go_fest_2017 %}
         <img class="profile-medal" src="{% static 'img/go_fest_2017.png' %}" />
@@ -64,7 +63,7 @@
         <img class="profile-medal" src="{% static 'img/outbreak_2017.png' %}" />
       {% endif %}
       {% if trainer.safari_zone_2017_oberhausen or trainer.safari_zone_2017_paris or trainer.safari_zone_2017_barcelona or trainer.safari_zone_2017_copenhagen or trainer.safari_zone_2017_prague or trainer.safari_zone_2017_stockholm or trainer.safari_zone_2017_amstelveen %}
-        <img class="profile-medal" src="{% static 'img/safari_zone_2017_flag.svg' %}" onerror="{% static 'img/safari_zone_2017_flag.png' %}" />
+        <img class="profile-medal" src="{% static 'img/safari_zone_2017.png' %}" />
       {% endif %}
     </div>
 </div>
