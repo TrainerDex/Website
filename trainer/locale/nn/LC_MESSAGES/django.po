@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 20:31+0000\n"
+"POT-Creation-Date: 2018-01-08 21:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:44 models.py:247
+#: admin.py:45 models.py:247
 msgid "Reports"
 msgstr ""
 
-#: admin.py:47 templates/profile.html:74
+#: admin.py:48 templates/profile.html:74
 msgid "Medals"
 msgstr ""
 
-#: admin.py:50 templates/leaderboard.html:7 templates/leaderboard.html:8
+#: admin.py:51 templates/leaderboard.html:7 templates/leaderboard.html:12
 msgid "Leaderboard"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: models.py:25 templates/leaderboard.html:39
+#: models.py:25 templates/leaderboard.html:44
 msgid "Username"
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 msgid "Start Date"
 msgstr ""
 
-#: models.py:27 models.py:90 templates/leaderboard.html:41
+#: models.py:27 models.py:90 templates/leaderboard.html:46
 msgid "Team"
 msgstr ""
 
@@ -148,7 +148,7 @@ msgstr ""
 msgid "Time Updated"
 msgstr ""
 
-#: models.py:97 templates/create_update.html:31 templates/leaderboard.html:42
+#: models.py:97 templates/create_update.html:31 templates/leaderboard.html:47
 #: templates/profile.html:90 templates/profile.html:106
 msgid "XP"
 msgstr ""
@@ -173,7 +173,7 @@ msgstr ""
 msgid "Kanto Pokédex"
 msgstr ""
 
-#: models.py:104 templates/create_update.html:72 templates/leaderboard.html:44
+#: models.py:104 templates/create_update.html:72 templates/leaderboard.html:49
 #: views.py:342
 msgid "Pokémon Caught"
 msgstr ""
@@ -182,12 +182,12 @@ msgstr ""
 msgid "Pokémon Evolved"
 msgstr ""
 
-#: models.py:106 templates/create_update.html:84 templates/leaderboard.html:46
+#: models.py:106 templates/create_update.html:84 templates/leaderboard.html:51
 #: views.py:344
 msgid "Eggs Hatched"
 msgstr ""
 
-#: models.py:107 templates/create_update.html:90 templates/leaderboard.html:48
+#: models.py:107 templates/create_update.html:90 templates/leaderboard.html:53
 #: views.py:345
 msgid "Pokéstops Spun"
 msgstr ""
@@ -427,40 +427,51 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: templates/leaderboard.html:15
+#: templates/leaderboard.html:20
 msgid "Mystic"
 msgstr ""
 
-#: templates/leaderboard.html:18
+#: templates/leaderboard.html:23
 msgid "Valor"
 msgstr ""
 
-#: templates/leaderboard.html:21
+#: templates/leaderboard.html:26
 msgid "Instinct"
 msgstr ""
 
-#: templates/leaderboard.html:24
+#: templates/leaderboard.html:29
 msgid "Spoofers"
 msgstr ""
 
-#: templates/leaderboard.html:29
+#: templates/leaderboard.html:34
+msgid "*"
+msgstr ""
+
+#: templates/leaderboard.html:35
+#, python-format
+msgid ""
+"If a trainer has a %(ss_ident)s next to their name, it means the information "
+"was sourced from social media."
+msgstr ""
+
+#: templates/leaderboard.html:37
 msgid "Grand Total XP"
 msgstr ""
 
-#: templates/leaderboard.html:40 templates/profile.html:10
+#: templates/leaderboard.html:45 templates/profile.html:10
 #: templates/profile.html:49
 msgid "TL"
 msgstr ""
 
-#: templates/leaderboard.html:43
+#: templates/leaderboard.html:48
 msgid "Date Updated"
 msgstr ""
 
-#: templates/leaderboard.html:45
+#: templates/leaderboard.html:50
 msgid "Hours Defended"
 msgstr ""
 
-#: templates/leaderboard.html:47
+#: templates/leaderboard.html:52
 msgid "KM Walked"
 msgstr ""
 

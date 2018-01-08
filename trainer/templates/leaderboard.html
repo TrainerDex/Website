@@ -5,67 +5,71 @@
 {% load humanize %}
 
 {% block head_title %}{% trans "Leaderboard" %}{% endblock %}
-{% block section_title %}{% trans "Leaderboard" %}{% endblock %}
 
 {% block content %}
-        <div class="mdl-grid">
-          <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-phone mdl-card mdl-shadow--2dp trainerdex-card-center" style="min-height:72px; height: auto; text-align: center;">
-            <div class="mdl-card__supporting-text">
-              <a type="button" id="mystic" class="mdl-chip" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'0,1' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}">
-                <span class="mdl-chip__text">{{ mystic.value|yesno:'Hide,Show' }} {% trans 'Mystic' %}</span>
-              </a>
-              <a type="button" id="valor" class="mdl-chip" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'0,1' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}">
-                <span class="mdl-chip__text">{{ valor.value|yesno:'Hide,Show' }} {% trans 'Valor' %}</span>
-              </a>
-              <a type="button" id="instinct" class="mdl-chip" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'0,1' }}&spoofers={{ spoofers.value|yesno:'1,0' }}">
-                <span class="mdl-chip__text">{{ instinct.value|yesno:'Hide,Show' }} {% trans 'Instinct' %}</span>
-              </a><br>
-              <a type="button" id="spoofers" class="mdl-chip" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'0,1' }}">
-                <span class="mdl-chip__text">{{ spoofers.value|yesno:'Hide,Show' }} {% trans 'Spoofers' %}</span>
-              </a>
-              <br>
-              <span>If a trainer has a <i class="material-icons" style="font-size: 1.1rem;">room_service</i> next to their name, it means the information was sourced from social media.</span>
-              <br>
-              <span>{% trans 'Grand Total XP' %}: {{ grand_total_xp | intword }}</span>
-            </div>
+          <header class="mdl-card__title mdl-color--primary-dark mdl-color-text--primary-contrast mdl-shadow--4dp">
+            <h2 class="mdl-card__title-text">
+{% block section_title %}{% trans "Leaderboard" %}{% endblock %}</h2>
+          </header>
+          <div class="mdl-card__menu mdl-color-text--primary-contrast">
+            <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon">
+              <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="leaderboard-options">
+              <li class="mdl-menu__item">
+                <a type="button" id="mystic" class="mdl-menu__item mdl-js-ripple-effect" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'0,1' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}">{% trans 'Mystic' %}</a>
+              </li>
+              <li class="mdl-menu__item">
+                <a type="button" id="valor" class="mdl-menu__item mdl-js-ripple-effect" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'0,1' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}">{% trans 'Valor' %}</a>
+              </li>
+              <li class="mdl-menu__item">
+                <a type="button" id="instinct" class="mdl-menu__item mdl-js-ripple-effect mdl-menu__item--full-bleed-divider" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'0,1' }}&spoofers={{ spoofers.value|yesno:'1,0' }}">{% trans 'Instinct' %}</a>
+              </li>
+              <li class="mdl-menu__item">
+                <a type="button" id="spoofers" class="mdl-menu__item mdl-js-ripple-effect" href="{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'0,1' }}">{% trans 'Spoofers' %}</a>
+              </li>
+            </ul>
           </div>
-        </div>
-        <div class="mdl-grid">
-          <div class="trainerdex-card-center mdl-cell mdl-cell--6-col-tablet mdl-cell--8-col-desktop table-responsive">
-            <table class="trainerdex-card-center mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th class="mdl-data-table__cell--non-numeric">{% trans "Username" %}</th>
-                  <th>{% trans "TL" %}</th>
-                  <th class="mdl-data-table__cell--non-numeric">{% trans "Team" %}</th>
-                  <th>{% trans "XP" %}</th>
-                  <th class="mdl-data-table__cell--non-numeric">{% trans "Date Updated" %}</th>
-                  <th>{% trans "Pokémon Caught" %}</th>
-                  <th>{% trans "Hours Defended" %}</th>
-                  <th>{% trans "Eggs Hatched" %}</th>
-                  <th>{% trans "KM Walked" %}</th>
-                  <th>{% trans "Pokéstops Spun" %}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for trainer in leaderboard %}
-                <tr>
-                  <td>{{ trainer.position|default_if_none:'<i class="material-icons">close</i>' }}</td>
-                  <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }}{% if trainer.trainer.update_set.latest.meta_crowd_sourced %} <i class="material-icons">room_service</i>{% endif %}</a></td>
-                  <td>{{trainer.level}}</td>
-                  <td class="mdl-data-table__cell--non-numeric">{% if trainer.trainer.faction.name != "Teamless" %}<img width="32px" src="{% static trainer.trainer.faction.image %}" />{% endif %}</td>
-                  <td>{{trainer.xp|intcomma}}</td>
-                  <td class="mdl-data-table__cell--non-numeric">{{trainer.time|naturalday}}</td>
-                  <td>{{trainer.pkmn_caught|default_if_none:""|intcomma}}</td>
-                  <td>{{trainer.gym_defended|default_if_none:""|intcomma}}</td>
-                  <td>{{trainer.eggs_hatched|default_if_none:""|intcomma}}</td>
-                  <td>{{trainer.walk_dist|default_if_none:""|intcomma}}</td>
-                  <td>{{trainer.pkstops_spun|default_if_none:""|intcomma}}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+          <div class="mdl-card__supporting-text mdl-color--primary mdl-color-text--primary-contrast" style="width: 100%">
+            {% trans '*' as ss_ident %}
+            {% blocktrans %}If a trainer has a {{ss_ident}} next to their name, it means the information was sourced from social media.{% endblocktrans %}
+            <br>
+            {% trans 'Grand Total XP' %}: {{ grand_total_xp | intword }}
           </div>
-        </div>
+          <div class="table-responsive">
+            <table class="mdl-data-table mdl-js-data-table" style="width: 100%">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th class="mdl-data-table__cell--non-numeric">{% trans "Username" %}</th>
+                <th>{% trans "TL" %}</th>
+                <th class="mdl-data-table__cell--non-numeric">{% trans "Team" %}</th>
+                <th>{% trans "XP" %}</th>
+                <th class="mdl-data-table__cell--non-numeric">{% trans "Date Updated" %}</th>
+                <th>{% trans "Pokémon Caught" %}</th>
+                <th>{% trans "Hours Defended" %}</th>
+                <th>{% trans "Eggs Hatched" %}</th>
+                <th>{% trans "KM Walked" %}</th>
+                <th>{% trans "Pokéstops Spun" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for trainer in leaderboard %}
+              <tr>
+                <td>{{ trainer.position|default_if_none:'<i class="material-icons">close</i>' }}</td>
+                <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }}{% if trainer.trainer.update_set.latest.meta_crowd_sourced %}{{ss_ident}}{% endif %}</a></td>
+                <td>{{trainer.level}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{% if trainer.trainer.faction.name != "Teamless" %}<img width="32px" src="{% static trainer.trainer.faction.image %}" />{% endif %}</td>
+                <td>{{trainer.xp|intcomma}}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{trainer.time|naturalday}}</td>
+                <td>{{trainer.pkmn_caught|default_if_none:""|intcomma}}</td>
+                <td>{{trainer.gym_defended|default_if_none:""|intcomma}}</td>
+                <td>{{trainer.eggs_hatched|default_if_none:""|intcomma}}</td>
+                <td>{{trainer.walk_dist|default_if_none:""|intcomma}}</td>
+                <td>{{trainer.pkstops_spun|default_if_none:""|intcomma}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          </div>
 {% endblock %}
