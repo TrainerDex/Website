@@ -54,7 +54,7 @@
     </div>
     <div class="mdl-cell mdl-cell--1-col mdl-cell--8-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: right;">
       {% for country in trainer.play_zones_country.all %}
-        <span class="flag-icon flag-icon-{{country.code.lower}} flag-icon-squared flag-icon-circle"></span>
+        <span class="flag-icon flag-icon-{{country.code.lower}} flag-icon-squared flag-icon-circle mdl-shadow--4dp"></span>
       {% endfor %}
       {% if trainer.go_fest_2017 %}
         <img class="profile-medal" src="{% static 'img/go_fest_2017.png' %}" />
