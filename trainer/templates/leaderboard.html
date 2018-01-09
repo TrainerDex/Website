@@ -55,7 +55,7 @@
                 <td>{{ trainer.position|default_if_none:'<i class="material-icons">close</i>' }}</td>
                 <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }}{% if trainer.trainer.update_set.latest.meta_crowd_sourced %}{{ss_ident}}{% endif %}</a></td>
                 <td>{{trainer.level}}</td>
-                <td class="mdl-data-table__cell--non-numeric"><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'"/></td>
+                <td class="mdl-data-table__cell--non-numeric"><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'" alt="{{trainer.trainer.faction.name}}"/></td>
                 <td>{{trainer.xp|intcomma}}</td>
                 <td class="mdl-data-table__cell--non-numeric">{{trainer.time|naturalday}}</td>
                 <td>{{trainer.pkmn_caught|default_if_none:""|intcomma}}</td>
