@@ -83,6 +83,10 @@ class Faction(models.Model):
 	def image(self):
 		return 'img/'+self.name+'.png'
 	
+	@property
+	def vector_image(self):
+		return 'img/'+self.name+'.svg'
+	
 	def __str__(self):
 		return self.name
 	
