@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-05 00:06+0000\n"
+"POT-Creation-Date: 2018-01-13 01:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: models.py:17 templates/communities.html:20
+#: models.py:17 templates/communities.html:24
 msgid "Name"
 msgstr ""
 
@@ -42,11 +42,11 @@ msgstr ""
 msgid "Districts"
 msgstr ""
 
-#: models.py:23 templates/communities.html:21
+#: models.py:23 templates/communities.html:25
 msgid "Team"
 msgstr ""
 
-#: models.py:24 templates/communities.html:23
+#: models.py:24 templates/communities.html:27
 msgid "Description"
 msgstr ""
 
@@ -500,7 +500,7 @@ msgid "Home"
 msgstr ""
 
 #: templates/base.html:79 templates/base.html:126 templates/communities.html:6
-#: templates/communities.html:7
+#: templates/communities.html:14
 msgid "Communities"
 msgstr ""
 
@@ -555,19 +555,24 @@ msgstr ""
 msgid "Admin Panel"
 msgstr ""
 
-#: templates/communities.html:19
+#: templates/communities.html:17
+#, python-format
+msgid "To submit a community to this list, email %(email)s "
+msgstr ""
+
+#: templates/communities.html:23
 msgid "Join"
 msgstr ""
 
-#: templates/communities.html:22
+#: templates/communities.html:26
 msgid "Location"
 msgstr ""
 
-#: templates/communities.html:30
+#: templates/communities.html:34
 msgid "Sign in to access team-restricted communities!"
 msgstr ""
 
-#: templates/communities.html:33
+#: templates/communities.html:37
 msgid "Worldwide"
 msgstr ""
 
