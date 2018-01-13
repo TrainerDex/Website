@@ -160,7 +160,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
           <div class="mdl-logo">TrainerDex</div>
           <ul class="mdl-mini-footer__link-list">
             <li><a href="{% url 'home' %}">{% trans "About" %}</a></li>
-            <li><a href="{% url 'faq' %}">{% trans "Help" %}</a></li>
+            <li><a href="{% url 'help:faq' %}">{% trans "Help" %}</a></li>
             <li><a href="#">{% trans "Privacy &amp; Terms" %}</a></li>
             {% if user.is_superuser %}<li><a href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</a></li>{% endif %}
           </ul>
