@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.urls import resolve
 from pycent import percentage
 from pytz import utc
 from rest_framework import authentication, permissions, status
@@ -303,9 +304,11 @@ STATS = [
 	'xp'
 ]
 
-def TrainerProfileHTMLView(request, username=None):
+def CheckURLShortcut(request, username=None, id=None):
 	if username:
 		trainer = get_object_or_404(Trainer, username__iexact=username)
+	elif id:
+		trainer = get_object_or_404(Trainer, pk=id)
 	elif request.GET.get('username'):
 		trainer = get_object_or_404(Trainer, username__iexact=request.GET.get('username'))
 	elif request.GET.get('id'):
@@ -314,6 +317,14 @@ def TrainerProfileHTMLView(request, username=None):
 		return redirect('home')
 	else:
 		trainer = get_object_or_404(Trainer, owner=request.user, prefered=True)
+	
+	if resolve(reverse('profile_username', kwargs={'username':trainer.username})).func == TrainerProfileHTMLView:
+		return HttpResponseRedirect(reverse('profile_username', kwargs={'username':trainer.username}))
+	else:
+		return TrainerProfileHTMLView(request, username=trainer.username)
+
+def TrainerProfileHTMLView(request, username):
+	trainer = get_object_or_404(Trainer, username__iexact=username)
 	context = {
 		'trainer' : trainer,
 		'updates' : Update.objects.filter(trainer=trainer),

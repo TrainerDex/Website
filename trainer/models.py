@@ -67,7 +67,7 @@ class Trainer(models.Model):
 			self.has_cheated = True
 	
 	def get_absolute_url(self):
-		return reverse('profile_short', args=[self.username])
+		return reverse('profile', kwargs={'id':self.pk})
 	
 	class Meta:
 		ordering = ['username']
@@ -190,6 +190,9 @@ class Update(models.Model):
 		
 		if error_dict != {}:
 			raise ValidationError(error_dict)
+	
+	def get_absolute_url(self):
+		return reverse('update_detail', kwargs={'uuid':self.uuid})
 	
 	class Meta:
 		get_latest_by = 'update_time'
