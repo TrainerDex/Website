@@ -1,4 +1,4 @@
-{% extends "socialaccount/base.html" %}
+{% extends "base.html" %}
 
 {% load i18n %}
 {% load account %}
@@ -113,7 +113,7 @@
         <tbody>
           {% for update in updates %}
           <tr id="{{update.uuid}}">
-            <td id="{{update.uuid}}-time" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}{% if update.meta_crowd_sourced %} <i class="material-icons">room_service</i>{% endif %}</td>
+            <td id="{{update.uuid}}-time" class="mdl-data-table__cell--non-numeric" onclick="location.href='{% url 'update_detail' uuid=update.uuid %}';">{{update.update_time|naturalday}}{% if update.meta_crowd_sourced %} <i class="material-icons">room_service</i>{% endif %}</td>
             <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-time">{{update.update_time}}</div>
             <td id="{{update.uuid}}-xp">{{update.xp|default_if_none:"---"|intword}}</td>
             <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-xp">{{update.xp|intcomma}}</div>
@@ -164,7 +164,8 @@
     <div class="mdl-grid mdl-grid--no-spacing">
       {% for badge in type_badges %}
       <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
-        <div class="progress-circle {{trainer.faction.name.lower}} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}">
+        <div class="progress-circle {{trainer.faction.name.lower}} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
+          <div class="mdl-tooltip" data-mdl-for="{{ badge.name }}">{{badge.time|naturalday}}</div>
           <span>{{ badge.value }}</span>
           <div class="left-half-clipper">
             <div class="first50-bar {{trainer.faction.name.lower}}"></div>

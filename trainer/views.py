@@ -394,9 +394,8 @@ def CreateUpdateHTMLView(request):
 	form = UpdateForm(form_data or None)
 	form.fields['update_time'].widget = forms.HiddenInput()
 	if form.is_valid() and (int(request.POST['trainer']),) in Trainer.objects.filter(owner=request.user).values_list('pk'):
-		print('valid')
-		form.save()
-		return HttpResponseRedirect(reverse('profile')+'?id={}#history-panel'.format(request.POST['trainer']))
+		update = form.save()
+		return HttpResponseRedirect(reverse('update_detail', kwargs={'uuid':update.uuid}))
 	else:
 		print(form.errors)
 	form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
@@ -454,3 +453,32 @@ def LeaderboardHTMLView(request):
 	_trainers.sort(key = lambda x: x['xp'], reverse=True)
 	
 	return render(request, 'leaderboard.html', {'leaderboard' : _trainers, 'valor' : showValor, 'mystic' : showMystic, 'instinct' : showInstinct, 'spoofers' : showSpoofers, 'grand_total_xp' : grand_total_xp})
+
+def UpdateInstanceHTMLView(request, uuid):
+	update = get_object_or_404(Update, uuid=uuid)
+	context = {
+		'update' : update,
+		'trainer' : update.trainer,
+		'level' : level_parser(xp=update.xp)
+	}
+	
+	badges = []
+	type_badges = []
+	for badge in BADGES+TYPE_BADGES:
+		badge_dict = {
+			'name':badge['name'],
+			'readable_name':badge['i18n_name'],
+		}
+		badge_dict['value'] = getattr(update, badge['name'])
+		if badge_dict['value']:
+			if badge_dict['value'] < badge['bronze']:
+				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['bronze'],0))
+			elif badge_dict['value'] < badge['silver']:
+				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['silver'],0))
+			elif badge_dict['value'] < badge['gold']:
+				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['gold'],0))
+			else:
+				badge_dict['percent'] = 100
+			badges.append(badge_dict)
+	context['badges'] = badges
+	return render(request, 'update.html', context)
