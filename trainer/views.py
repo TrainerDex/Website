@@ -28,7 +28,7 @@ class UserViewSet(ModelViewSet):
 	queryset = User.objects.all()
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-class TrainerListView(APIView):
+class TrainerListJSONView(APIView):
 	"""
 	GET - Accepts paramaters for Team (t) and Username (q)
 	POST - Register a Trainer, needs PK for User
@@ -59,7 +59,7 @@ class TrainerListView(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	
 
-class TrainerDetailView(APIView):
+class TrainerDetailJSONView(APIView):
 	"""
 	GET - Trainer detail
 	PATCH - Update a trainer
@@ -117,7 +117,7 @@ class TrainerDetailView(APIView):
 		return Response(status=status.HTTP_400_BAD_REQUEST)
 	
 
-class UpdateListView(APIView):
+class UpdateListJSONView(APIView):
 	"""
 	GET - Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
 	POST/PATCH - Create a update
@@ -141,7 +141,7 @@ class UpdateListView(APIView):
 		return self.post(self, request, pk)
 	
 
-class UpdateDetailViewLatest(APIView):
+class LatestUpdateJSONView(APIView):
 	"""
 	GET - Gets detailed view of the latest update
 	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked.
@@ -165,7 +165,7 @@ class UpdateDetailViewLatest(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	
 
-class UpdateDetailView(APIView):
+class UpdateDetailJSONView(APIView):
 	"""
 	GET - Gets detailed view
 	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked.
@@ -204,7 +204,7 @@ class UpdateDetailView(APIView):
 		return Response(status=status.HTTP_400_BAD_REQUEST)
 	
 
-class LeaderboardAPIView(APIView):
+class LeaderboardJSONView(APIView):
 	
 	def get(self, request):
 		query = Trainer.objects
@@ -216,7 +216,7 @@ class LeaderboardAPIView(APIView):
 		return Response(serializer.data)
 	
 
-class SocialLookupView(APIView):
+class SocialLookupJSONView(APIView):
 	"""
 	GET args:
 		provider (requiered) - platform, options are 'facebook', 'twitter', 'discord', 'google', 'patreon'
@@ -252,17 +252,6 @@ class SocialLookupView(APIView):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-
-
-
-
-
-
-
 
 # Web-based views
 
@@ -314,7 +303,7 @@ STATS = [
 	'xp'
 ]
 
-def TrainerProfileView(request, username=None):
+def TrainerProfileHTMLView(request, username=None):
 	if username:
 		trainer = get_object_or_404(Trainer, username__iexact=username)
 	elif request.GET.get('username'):
@@ -396,7 +385,7 @@ def TrainerProfileView(request, username=None):
 	return render(request, 'profile.html', context)
 
 @login_required
-def UpdateDialogView(request):
+def CreateUpdateHTMLView(request):
 	if request.POST:
 		form_data = request.POST.copy()
 		form_data['meta_source'] = 'web_detailed'
@@ -415,8 +404,7 @@ def UpdateDialogView(request):
 		form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
 	return render(request, 'create_update.html', {'form': form})
 
-def LeaderboardView(request):
-	
+def LeaderboardHTMLView(request):
 	#Defining Parameters
 	showValor = {'param':'Valor', 'value':nullbool(request.GET.get('valor'), default=True)}
 	showMystic = {'param':'Mystic', 'value':nullbool(request.GET.get('mystic'), default=True)}
