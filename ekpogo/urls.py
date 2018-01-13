@@ -5,18 +5,13 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 from ajax_select import urls as ajex_select_urls
 from website.views import *
-from trainer.views import TrainerProfileHTMLView, LeaderboardHTMLView, LeaderboardJSONView, CreateUpdateHTMLView
-from trainer.urls import TrainerURLs, UserURLs
+from trainer import urls as TrainerURLS
+from support import urls as SupportURLS
 
 api_v1_patterns = [
-    url(r'^trainers/', include(TrainerURLs, namespace="trainer_profiles")),
-    url(r'^users/', include(UserURLs, namespace="user_profiles")),
-    url(r'^leaderboard/$', LeaderboardJSONView.as_view()),
+    url('', include(TrainerURLS.REST, namespace="trainer_api")),
 #    url(r'^gyms/', include('raids.urls', namespace="raid_enrollment")),
 ]
-
-def DisordRedirectView(request):
-    return redirect('https://discord.gg/pFhMS3s')
 
 urlpatterns = [
     url(r'^api/v1/', include(api_v1_patterns, namespace="api_v1")),
@@ -27,13 +22,9 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^tools/rosetta/', include('rosetta.urls')),
     url(r'^$', IndexView, name='home'),
-    url(r'^_DISCORD/$', DisordRedirectView, name='discord'),
     url(r'^communities/$', CommunityListView, name='communities'),
-    url(r'^leaderboard/$', LeaderboardHTMLView, name='leaderboard'),
-    url(r'^help/faq$', FAQView, name='faq'),
-    url(r'^profile/$', TrainerProfileHTMLView, name='profile'),
-    url(r'^tools/update_stats/$', CreateUpdateHTMLView, name='update_stats'),
-    url(r'^(?P<username>[a-zA-Z0-9]+)/$', TrainerProfileHTMLView, name='profile_short'),
+    url(r'^help/', include(SupportURLS, namespace='help')),
+    url('', include(TrainerURLS.HTML)),
 ]
 
 admin.site.site_title = "TrainerDex Admin"

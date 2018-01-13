@@ -1,23 +1,32 @@
 from django.conf.urls import url
-from trainer.views import TrainerListJSONView, TrainerDetailJSONView, UpdateListJSONView, LatestUpdateJSONView, UpdateDetailJSONView, UserViewSet, SocialLookupJSONView
+from trainer.views import TrainerListJSONView, TrainerDetailJSONView, UpdateListJSONView, LatestUpdateJSONView, UpdateDetailJSONView, UserViewSet, SocialLookupJSONView, LeaderboardJSONView
+from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView
 from trainer.errors import ThrowMalformedPKError, ThrowMalformedUUIDError
 
-class TrainerURLs:
+class REST:
     
     urlpatterns = [
-        url(r'^$', TrainerListJSONView.as_view()),
-        url(r'^(?P<pk>[0-9]+)/$', TrainerDetailJSONView.as_view()),
-        url(r'^(?P<pk>[0-9]+)/updates/$', UpdateListJSONView.as_view()),
-        url(r'^(?P<pk>[0-9]+)/updates/latest/$', LatestUpdateJSONView.as_view()),
-        url(r'^(?P<pk>[0-9]+)/updates/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})/$', UpdateDetailJSONView.as_view()),
-        url(r'^(?P<pk>.+)/updates/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})/$', ThrowMalformedPKError),
-        #url(r'^(?P<pk>[0-9]+)/updates/(.+)', ThrowMalformedUUIDError),
+        # /
+        url(r'^leaderboard/$', LeaderboardJSONView.as_view()),
+        # /trainers/
+        url(r'^trainers/$', TrainerListJSONView.as_view()),
+        url(r'^trainers/(?P<pk>[0-9]+)/$', TrainerDetailJSONView.as_view()),
+        url(r'^trainers/(?P<pk>[0-9]+)/updates/$', UpdateListJSONView.as_view()),
+        url(r'^trainers/(?P<pk>[0-9]+)/updates/latest/$', LatestUpdateJSONView.as_view()),
+        url(r'^trainers/(?P<pk>[0-9]+)/updates/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})/$', UpdateDetailJSONView.as_view()),
+        url(r'^trainers/(?P<pk>.+)/updates/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})/$', ThrowMalformedPKError),
+        #url(r'^trainers/(?P<pk>[0-9]+)/updates/(.+)', ThrowMalformedUUIDError),
+        # /users/
+        url(r'^users/$', UserViewSet.as_view({'get':'list','post':'create'})),
+        url(r'^users/(?P<pk>[0-9]+)/$', UserViewSet.as_view({'get':'retrieve','patch':'partial_update'})),
+        url(r'^users/social/$', SocialLookupJSONView.as_view()),
     ]
 
-class UserURLs:
+class HTML:
     
     urlpatterns = [
-        url(r'^$', UserViewSet.as_view({'get':'list','post':'create'})),
-        url(r'^(?P<pk>[0-9]+)/$', UserViewSet.as_view({'get':'retrieve','patch':'partial_update'})),
-        url(r'^social/$', SocialLookupJSONView.as_view()),
+        url(r'^leaderboard/$', LeaderboardHTMLView, name='leaderboard'),
+        url(r'^profile/$', TrainerProfileHTMLView, name='profile'),
+        url(r'^tools/update_stats/$', CreateUpdateHTMLView, name='update_stats'),
+        url(r'^(?P<username>[a-zA-Z0-9]+)/$', TrainerProfileHTMLView, name='profile_short'),
     ]

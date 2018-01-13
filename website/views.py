@@ -21,8 +21,5 @@ def CommunityListView(request):
 	}
 	return render(request, 'communities.html', context)
 
-def FAQView(request):
-	return render(request, 'help/faq.html')
-
 def SettingsView(request):
 	return render(request, 'help/account_settings.html')

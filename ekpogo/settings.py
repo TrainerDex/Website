@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rosetta',
     'trainer',
     'website',
+    'support',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
