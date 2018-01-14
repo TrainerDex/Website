@@ -415,14 +415,13 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 .mdl-cell--gravatar-box{
   margin-top: auto;
   margin-bottom: auto;
-  margin-left: 0.5rem;
 }
 .gravatar {
-  width: 140px;
-  height: 140px;
+  width: 100%;
   border-radius: 70px;
   margin: auto;
   display: flex;
+  max-width: 140px;
 }
 .trainerdex--profile-top {
   margin: 0px;

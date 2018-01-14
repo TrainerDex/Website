@@ -27,7 +27,7 @@
 
 {%block content%}
 <div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top {{trainer.faction.name.lower}}">
-    <div class="mdl-cell mdl-cell--1-col mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box">{% gravatar trainer.owner.email 140 %}</div>
+    <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="{% gravatar_url trainer.owner.email 140 %}" /></div>
     <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
       <ul class="mdl-list">
         <i class="mdl-card__title-text">{{trainer.username}}</i>
@@ -52,7 +52,7 @@
         </li>
       </ul>
     </div>
-    <div class="mdl-cell mdl-cell--1-col mdl-cell--8-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: right;">
+    <div class="mdl-cell mdl-cell--1-col mdl-cell--5-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: right;">
       {% for country in trainer.play_zones_country.all %}
         <span class="flag-icon flag-icon-{{country.code.lower}} flag-icon-squared flag-icon-circle mdl-shadow--4dp"></span>
       {% endfor %}
