@@ -153,8 +153,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',),
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+        'rest_framework.authentication.TokenAuthentication',
+        ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'ekpogo.permissions.IsAdminUserOrReadOnly',
+        ),
 }
 
 # Django AllAuth
