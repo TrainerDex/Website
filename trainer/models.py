@@ -148,7 +148,9 @@ class Update(models.Model):
 		('cs_social_facebook', _noop('Facebook')),
 		('ts_social_discord', _noop('Official Discord Bot')),
 		('web_quick', _noop('Quick Update')),
-		('web_detailed', _noop('Detailed Update')),
+		('ts_registration', _noop('Registration')),
+		('ss_registration', _noop('Registration Screenshot')),
+		('ss_generic', _noop('Generic Screenshot')),
 	)
 	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
 	
@@ -165,12 +167,15 @@ class Update(models.Model):
 	def clean(self):
 		
 		error_dict = {}
-		
-		for field in Update._meta.get_fields():
-			if type(field) == models.PositiveIntegerField or field.name == 'walk_dist':
-				largest = Update.objects.filter(trainer=self.trainer, update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name).first() # Gets updates, filters by same trainer, excludes updates where that field is empty, get update with highest value in that field - this should always be the correct update
-				if largest is not None and getattr(self, field.name) is not None and getattr(self, field.name) < getattr(largest, field.name):
-					error_dict[field.name] = ValidationError(_("This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."))
+		try: # Workaround for inital registrations
+			for field in Update._meta.get_fields():
+				if type(field) == models.PositiveIntegerField or field.name == 'walk_dist':
+					largest = Update.objects.filter(trainer=self.trainer, update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name).first() # Gets updates, filters by same trainer, excludes updates where that field is empty, get update with highest value in that field - this should always be the correct update
+					if largest is not None and getattr(self, field.name) is not None and getattr(self, field.name) < getattr(largest, field.name):
+						error_dict[field.name] = ValidationError(_("This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."))
+		except Exception as e:
+			if str(e) != 'Update has no trainer.':
+				raise e
 		
 		if self.update_time.date() < date(2017,6,20):
 			self.raids_completed = None

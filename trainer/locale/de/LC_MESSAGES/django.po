@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-13 01:45+0000\n"
+"POT-Creation-Date: 2018-01-15 15:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:45 models.py:251
+#: admin.py:45 models.py:259
 msgid "Reports"
 msgstr ""
 
@@ -103,23 +103,23 @@ msgstr ""
 msgid "Safari Zone"
 msgstr ""
 
-#: models.py:46 models.py:51 models.py:210
+#: models.py:46 models.py:51 models.py:218
 msgid "Country"
 msgstr ""
 
-#: models.py:47 models.py:52 models.py:217
+#: models.py:47 models.py:52 models.py:225
 msgid "Region"
 msgstr ""
 
-#: models.py:48 models.py:53 models.py:224
+#: models.py:48 models.py:53 models.py:232
 msgid "Subregion"
 msgstr ""
 
-#: models.py:49 models.py:54 models.py:231
+#: models.py:49 models.py:54 models.py:239
 msgid "City"
 msgstr ""
 
-#: models.py:74 models.py:99 models.py:201 models.py:245
+#: models.py:74 models.py:99 models.py:209 models.py:253
 #: templates/create_update.html:25
 msgid "Trainer"
 msgstr ""
@@ -165,114 +165,114 @@ msgstr ""
 msgid "Total Gym Badges"
 msgstr ""
 
-#: models.py:106 templates/create_update.html:60 views.py:340
+#: models.py:106 templates/create_update.html:60 views.py:262
 msgid "Distance Walked"
 msgstr ""
 
-#: models.py:107 templates/create_update.html:66 views.py:341
+#: models.py:107 templates/create_update.html:66 views.py:263
 msgid "Kanto Pokédex"
 msgstr ""
 
 #: models.py:108 templates/create_update.html:72 templates/leaderboard.html:44
-#: views.py:342
+#: views.py:264
 msgid "Pokémon Caught"
 msgstr ""
 
-#: models.py:109 templates/create_update.html:78 views.py:343
+#: models.py:109 templates/create_update.html:78 views.py:265
 msgid "Pokémon Evolved"
 msgstr ""
 
 #: models.py:110 templates/create_update.html:84 templates/leaderboard.html:46
-#: views.py:344
+#: views.py:266
 msgid "Eggs Hatched"
 msgstr ""
 
 #: models.py:111 templates/create_update.html:90 templates/leaderboard.html:48
-#: views.py:345
+#: views.py:267
 msgid "Pokéstops Spun"
 msgstr ""
 
-#: models.py:112 templates/create_update.html:114 views.py:346
+#: models.py:112 templates/create_update.html:114 views.py:268
 msgid "Big Magikarp"
 msgstr ""
 
-#: models.py:113 templates/create_update.html:96 views.py:347
+#: models.py:113 templates/create_update.html:96 views.py:269
 msgid "Battles Won"
 msgstr ""
 
-#: models.py:114 views.py:348
+#: models.py:114 views.py:270
 msgid "Ace Trainer"
 msgstr ""
 
-#: models.py:115 templates/create_update.html:102 views.py:349
+#: models.py:115 templates/create_update.html:102 views.py:271
 msgid "Tiny Rattata"
 msgstr ""
 
-#: models.py:116 templates/create_update.html:108 views.py:350
+#: models.py:116 templates/create_update.html:108 views.py:272
 msgid "Pikachu Caught"
 msgstr ""
 
-#: models.py:117 templates/create_update.html:126 views.py:351
+#: models.py:117 templates/create_update.html:126 views.py:273
 msgid "Johto Pokédex"
 msgstr ""
 
-#: models.py:118 templates/create_update.html:120 views.py:352
+#: models.py:118 templates/create_update.html:120 views.py:274
 msgid "Unown"
 msgstr ""
 
-#: models.py:119 templates/create_update.html:132 views.py:353
+#: models.py:119 templates/create_update.html:132 views.py:275
 msgid "Berries Fed"
 msgstr ""
 
-#: models.py:120 templates/create_update.html:138 views.py:354
+#: models.py:120 templates/create_update.html:138 views.py:276
 msgid "Gyms Defended (Hours)"
 msgstr ""
 
-#: models.py:121 templates/create_update.html:144 views.py:355
+#: models.py:121 templates/create_update.html:144 views.py:277
 msgid "Raids Completed (Levels 1-4)"
 msgstr ""
 
-#: models.py:122 templates/create_update.html:156 views.py:356
+#: models.py:122 templates/create_update.html:156 views.py:278
 msgid "Raids Completed (Level 5)"
 msgstr ""
 
-#: models.py:123 templates/create_update.html:150 views.py:357
+#: models.py:123 templates/create_update.html:150 views.py:279
 msgid "Hoenn Pokédex"
 msgstr ""
 
-#: models.py:125 templates/create_update.html:164 views.py:361
+#: models.py:125 templates/create_update.html:164 views.py:283
 msgid "Normal"
 msgstr ""
 
-#: models.py:126 templates/create_update.html:170 views.py:362
+#: models.py:126 templates/create_update.html:170 views.py:284
 msgid "Flying"
 msgstr ""
 
-#: models.py:127 templates/create_update.html:176 views.py:363
+#: models.py:127 templates/create_update.html:176 views.py:285
 msgid "Poison"
 msgstr ""
 
-#: models.py:128 templates/create_update.html:182 views.py:364
+#: models.py:128 templates/create_update.html:182 views.py:286
 msgid "Ground"
 msgstr ""
 
-#: models.py:129 templates/create_update.html:188 views.py:365
+#: models.py:129 templates/create_update.html:188 views.py:287
 msgid "Rock"
 msgstr ""
 
-#: models.py:130 templates/create_update.html:194 views.py:366
+#: models.py:130 templates/create_update.html:194 views.py:288
 msgid "Bug"
 msgstr ""
 
-#: models.py:131 templates/create_update.html:200 views.py:367
+#: models.py:131 templates/create_update.html:200 views.py:289
 msgid "Steel"
 msgstr ""
 
-#: models.py:132 templates/create_update.html:206 views.py:368
+#: models.py:132 templates/create_update.html:206 views.py:290
 msgid "Fire"
 msgstr ""
 
-#: models.py:133 templates/create_update.html:212 views.py:369
+#: models.py:133 templates/create_update.html:212 views.py:291
 msgid "Water"
 msgstr ""
 
@@ -280,7 +280,7 @@ msgstr ""
 msgid "Grass"
 msgstr ""
 
-#: models.py:135 templates/create_update.html:224 views.py:370
+#: models.py:135 templates/create_update.html:224 views.py:292
 msgid "Electric"
 msgstr ""
 
@@ -288,7 +288,7 @@ msgstr ""
 msgid "Pychic"
 msgstr ""
 
-#: models.py:137 templates/create_update.html:236 views.py:372
+#: models.py:137 templates/create_update.html:236 views.py:294
 msgid "Dark"
 msgstr ""
 
@@ -296,19 +296,19 @@ msgstr ""
 msgid "Fary"
 msgstr ""
 
-#: models.py:139 templates/create_update.html:248 views.py:374
+#: models.py:139 templates/create_update.html:248 views.py:296
 msgid "Fighting"
 msgstr ""
 
-#: models.py:140 templates/create_update.html:254 views.py:375
+#: models.py:140 templates/create_update.html:254 views.py:297
 msgid "Ghost"
 msgstr ""
 
-#: models.py:141 templates/create_update.html:260 views.py:376
+#: models.py:141 templates/create_update.html:260 views.py:298
 msgid "Ice"
 msgstr ""
 
-#: models.py:142 templates/create_update.html:266 views.py:377
+#: models.py:142 templates/create_update.html:266 views.py:299
 msgid "Dragon"
 msgstr ""
 
@@ -316,77 +316,77 @@ msgstr ""
 msgid "Time Created"
 msgstr ""
 
-#: models.py:153
+#: models.py:155
 msgid "Source"
 msgstr ""
 
-#: models.py:160
+#: models.py:162
 msgid "Crowd Sourced"
 msgstr ""
 
-#: models.py:173
+#: models.py:175
 msgid ""
 "This value has previously been entered at a higher value. Please try again, "
 "ensuring you enter your Total XP."
 msgstr ""
 
-#: models.py:197
+#: models.py:205
 msgid "Update"
 msgstr ""
 
-#: models.py:198
+#: models.py:206
 msgid "Updates"
 msgstr ""
 
-#: models.py:202
+#: models.py:210
 msgid "Show on profile"
 msgstr ""
 
-#: models.py:203
+#: models.py:211
 msgid "Show in local directory"
 msgstr ""
 
-#: models.py:204
+#: models.py:212
 msgid "Subscribe to updates"
 msgstr ""
 
-#: models.py:213
+#: models.py:221
 msgid "Play Zone - National"
 msgstr ""
 
-#: models.py:214
+#: models.py:222
 msgid "Play Zones - National"
 msgstr ""
 
-#: models.py:220
+#: models.py:228
 msgid "Play Zone - Regional"
 msgstr ""
 
-#: models.py:221
+#: models.py:229
 msgid "Play Zones - Regional"
 msgstr ""
 
-#: models.py:227
+#: models.py:235
 msgid "Play Zone - Subregional"
 msgstr ""
 
-#: models.py:228
+#: models.py:236
 msgid "Play Zones - Subregional"
 msgstr ""
 
-#: models.py:234
+#: models.py:242
 msgid "Play Zone - City-wide"
 msgstr ""
 
-#: models.py:235
+#: models.py:243
 msgid "Play Zones - City-wide"
 msgstr ""
 
-#: models.py:246
+#: models.py:254
 msgid "Reported by"
 msgstr ""
 
-#: models.py:247 models.py:250
+#: models.py:255 models.py:258
 msgid "Report"
 msgstr ""
 
@@ -415,11 +415,11 @@ msgstr ""
 msgid "Pokémon Type Medals"
 msgstr ""
 
-#: templates/create_update.html:230 views.py:371
+#: templates/create_update.html:230 views.py:293
 msgid "Psychic"
 msgstr ""
 
-#: templates/create_update.html:242 views.py:373
+#: templates/create_update.html:242 views.py:295
 msgid "Fairy"
 msgstr ""
 
@@ -459,7 +459,7 @@ msgid "Grand Total XP"
 msgstr ""
 
 #: templates/leaderboard.html:40 templates/profile.html:10
-#: templates/profile.html:50
+#: templates/profile.html:50 templates/update.html:10 templates/update.html:49
 msgid "TL"
 msgstr ""
 
@@ -521,15 +521,15 @@ msgstr ""
 msgid "The date you entered was before launch date of 6th July 2016"
 msgstr ""
 
-#: views.py:110
+#: views.py:113
 msgid "Profile deactivated"
 msgstr ""
 
-#: views.py:200
+#: views.py:203
 msgid "Late Update Deletion Request"
 msgstr ""
 
-#: views.py:201
+#: views.py:204
 #, python-brace-format
 msgid "There has been a request to delete {update} by {requester} at {ip}"
 msgstr ""
