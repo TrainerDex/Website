@@ -7,6 +7,7 @@ from ajax_select import urls as ajex_select_urls
 from website.views import *
 from trainer import urls as TrainerURLS
 from support import urls as SupportURLS
+from trainer.views import RegistrationView
 
 api_v1_patterns = [
     url('', include(TrainerURLS.REST, namespace="trainer_api")),
@@ -19,6 +20,7 @@ urlpatterns = [
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^ajax_select/', include(ajex_select_urls)),
     url(r'^accounts/settings', SettingsView, name='account_settings'),
+    url(r'^accounts/signup/$', RegistrationView, name='account_signup'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^tools/rosetta/', include('rosetta.urls')),
     url(r'^$', IndexView, name='home'),

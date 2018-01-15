@@ -1,6 +1,8 @@
 from allauth.socialaccount.models import SocialAccount
 from datetime import datetime, timedelta
 from django import forms
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins
@@ -17,7 +19,7 @@ from rest_framework.decorators import detail_route
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from trainer.forms import QuickUpdateForm, UpdateForm
+from trainer.forms import QuickUpdateForm, UpdateForm, RegistrationFormUser, RegistrationFormTrainer, RegistrationFormUpdate
 from trainer.models import Trainer, Update
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
 from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser
@@ -406,6 +408,7 @@ def CreateUpdateHTMLView(request):
 	form.fields['update_time'].widget = forms.HiddenInput()
 	if form.is_valid() and (int(request.POST['trainer']),) in Trainer.objects.filter(owner=request.user).values_list('pk'):
 		update = form.save()
+		messages.success(request, 'Statistics updated')
 		return HttpResponseRedirect(reverse('update_detail', kwargs={'uuid':update.uuid}))
 	else:
 		print(form.errors)
@@ -493,3 +496,32 @@ def UpdateInstanceHTMLView(request, uuid):
 			badges.append(badge_dict)
 	context['badges'] = badges
 	return render(request, 'update.html', context)
+
+def RegistrationView(request):
+	user_form = RegistrationFormUser()
+	trainer_form = RegistrationFormTrainer()
+	update_form = RegistrationFormUpdate()
+	
+	if request.POST:
+		user_form = RegistrationFormUser(request.POST)
+		trainer_form = RegistrationFormTrainer(request.POST)
+		update_form = RegistrationFormUpdate(request.POST)
+		user_form_valid = user_form.is_valid()
+		trainer_form_valid = trainer_form.is_valid()
+		update_form_valid = update_form.is_valid()
+		if user_form_valid and trainer_form_valid and update_form_valid:
+			user = user_form.save()
+			trainer = trainer_form.save(commit=False)
+			update = update_form.save(commit=False)
+			trainer.owner = user
+			trainer.username = user.username
+			trainer.prefered = True
+			trainer_form.save()
+			update.trainer = trainer
+			update.meta_source = 'ts_registration'
+			update_form.save()
+			messages.success(request, "Thanks for registering. You are now logged in.")
+			new_user = authenticate(username=user_form.cleaned_data['username'], password=user_form.cleaned_data['password1'],)
+			login(request, new_user)
+			return HttpResponseRedirect('/profile/')
+	return render(request, 'account/signup.html', {'user_form': user_form,'trainer_form': trainer_form,'update_form': update_form})
