@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-15 15:39+0000\n"
+"POT-Creation-Date: 2018-01-15 16:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -623,8 +623,8 @@ msgstr ""
 #, python-format
 msgid ""
 "TrainerDex is a service for tracking and updating your progress in Pokémon "
-"Go. Don't worry, there's no risk of ban, just check out our <a href="
-"\"%(faq_url)s\" id=\"faq\">FAQ</a>."
+"Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s"
+"\" id=\"faq\">FAQ</a>."
 msgstr ""
 
 #: templates/index.html:19
@@ -634,11 +634,15 @@ msgid ""
 msgstr ""
 
 #: templates/index.html:22
+#, python-format
 msgid ""
-"TrainerDex Web <em>beta</em> is here! Send a message on the <a href="
-"\"https://discord.trainerdex.co.uk/\">discord</a> to register. A web "
-"registration form is coming soon. <a href=\"https://paypal.me/pools/"
-"c/7Zo3MYKWVJ\">Donations help!</a> "
+"TrainerDex Web <em>beta</em> is here! Click <a href=\"%(account_signup)s"
+"\">here</a> to register. <a href=\"%(donation_url)s\">Donations</a> help a "
+"lot with development!"
+msgstr ""
+
+#: templates/index.html:27
+msgid "Let's go!"
 msgstr ""
 
 #: templates/socialaccount/authentication_error.html:5

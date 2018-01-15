@@ -33,17 +33,17 @@ class TrainerAdmin(AjaxSelectAdmin):
 		'leaderboard_subregion' : 'subregions',
 		'leaderboard_city' : 'cities',
 	})
-	list_display = ('username', 'faction', 'currently_cheats', 'statistics')
-	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics')
+	list_display = ('username', 'faction', 'currently_cheats', 'statistics', 'verified')
+	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'verified')
 	search_fields = ('username', 'owner__username', 'owner__first_name')
 	ordering = ('username',)
 	date_hierarchy = 'start_date'
 	fieldsets = (
 		(None, {
-			'fields': ('owner', 'username', 'faction', 'start_date', 'active', 'statistics', 'daily_goal', 'total_goal', 'prefered')
+			'fields': ('owner', 'username', 'faction', 'start_date', 'statistics', 'daily_goal', 'total_goal', 'prefered')
 		}),
 		(_('Reports'), {
-			'fields': ('has_cheated', 'last_cheated', 'currently_cheats')
+			'fields': ('has_cheated', 'last_cheated', 'currently_cheats', 'verified', 'active')
 		}),
 		(_('Medals'), {
 			'fields': ('go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen')
