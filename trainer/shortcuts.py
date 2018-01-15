@@ -66,10 +66,9 @@ def level_parser(xp=None, level=None):
 	
 	if xp and level:
 		raise ValueError
-	if xp:
-		LevelTuples.reverse()
+	if xp is not None:
 		for level in LevelTuples:
-			if level.total_xp <= xp:
+			if level.total_xp <= xp < (level.total_xp+level.xp_required):
 				return level
 	if level:
 		return next((x for x in LevelTuples if x.level == level), None)
