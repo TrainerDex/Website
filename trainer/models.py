@@ -53,6 +53,8 @@ class Trainer(models.Model):
 	play_zones_subregion = models.ManyToManyField(Subregion, through='PlayZonesDetailSubregion' , blank=True, verbose_name=_("Subregion"), related_name='playzone_trainers_subregion')
 	play_zones_city = models.ManyToManyField(City, through='PlayZonesDetailCity' , blank=True, verbose_name=_("City"), related_name='playzone_trainers_city')
 	
+	verified = models.BooleanField(default=False, verbose_name=_("Verified"))
+	
 	def is_prefered(self):
 		return True if owner.prefered_profile == self else False
 	

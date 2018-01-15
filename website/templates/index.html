@@ -14,17 +14,17 @@
             </div>
             <div class="mdl-card__supporting-text">
               <p>{% url 'faq' as faq_url %}
-                {% blocktrans %}TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban, just check out our <a href="{{ faq_url}}" id="faq">FAQ</a>.{% endblocktrans %}
+                {% blocktrans %}TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban! Check out our <a href="{{ faq_url}}" id="faq">FAQ</a>.{% endblocktrans %}
               <p>
                 {% blocktrans %}Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!{% endblocktrans %}
               </p>
-              <p>
-                {% blocktrans %}TrainerDex Web <em>beta</em> is here! Send a message on the <a href="https://discord.trainerdex.co.uk/">discord</a> to register. A web registration form is coming soon. <a href="https://paypal.me/pools/c/7Zo3MYKWVJ">Donations help!</a> {% endblocktrans %}
+              <p>{% url 'account_signup' as account_signup %}
+                {% blocktrans with donation_url='https://paypal.me/pools/c/7Zo3MYKWVJ' %}TrainerDex Web <em>beta</em> is here! Click <a href="{{account_signup}}">here</a> to register. <a href="{{donation_url}}">Donations</a> help a lot with development!{% endblocktrans %}
               </p>
             </div>
             <div class="mdl-card__actions mdl-card--border">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'profile' %}">
-                Let's go!
+              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'account_login' %}">
+                {% trans "Let's go!" %}
               </a>
             </div>
           </div>
