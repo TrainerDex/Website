@@ -19,7 +19,7 @@
                 {% blocktrans %}Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!{% endblocktrans %}
               </p>
               <p>{% url 'account_signup' as account_signup %}
-                {% blocktrans with donation_url='https://paypal.me/pools/c/7Zo3MYKWVJ' %}TrainerDex Web <em>beta</em> is here! Click <a href="{{account_signup}}">here</a> to register. <a href="{{donation_url}}">Donations</a> help a lot with development!{% endblocktrans %}
+                {% blocktrans with donation_url='https://paypal.me/pools/c/7Zo3MYKWVJ' %}TrainerDex Web <em>beta</em> is here!{% endblocktrans %} {% if not user.is_authenticated %}{% blocktrans %}Click <a href="{{account_signup}}">here</a> to register. {% endblocktrans %}{% endif %}{% blocktrans %}<a href="{{donation_url}}">Donations</a> help a lot with development!{% endblocktrans %}
               </p>
             </div>
             <div class="mdl-card__actions mdl-card--border">
