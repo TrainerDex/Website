@@ -504,6 +504,9 @@ def RegistrationView(request):
 	update_form = RegistrationFormUpdate()
 	upload_form = RegistrationFormScreenshot()
 	
+	if request.user.is_authenticated:
+		return HttpResponseRedirect('/')
+	
 	if request.POST:
 		user_form = RegistrationFormUser(request.POST)
 		trainer_form = RegistrationFormTrainer(request.POST)

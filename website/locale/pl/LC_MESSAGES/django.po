@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-16 13:23+0000\n"
+"POT-Creation-Date: 2018-01-16 13:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -646,11 +646,17 @@ msgid ""
 msgstr ""
 
 #: templates/index.html:22
+msgid "TrainerDex Web <em>beta</em> is here!"
+msgstr ""
+
+#: templates/index.html:22
 #, python-format
-msgid ""
-"TrainerDex Web <em>beta</em> is here! Click <a href=\"%(account_signup)s"
-"\">here</a> to register. <a href=\"%(donation_url)s\">Donations</a> help a "
-"lot with development!"
+msgid "Click <a href=\"%(account_signup)s\">here</a> to register. "
+msgstr ""
+
+#: templates/index.html:22
+#, python-format
+msgid "<a href=\"%(donation_url)s\">Donations</a> help a lot with development!"
 msgstr ""
 
 #: templates/index.html:27
