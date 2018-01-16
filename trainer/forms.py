@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm, EmailField
+from django.forms import ModelForm, EmailField, Form, Field, FileInput
+from django.utils.translation import ugettext_lazy as _
 from trainer.models import Update, Trainer
 
 class QuickUpdateForm(ModelForm):
@@ -42,3 +43,7 @@ class RegistrationFormUpdate(ModelForm):
 	class Meta:
 		model = Update
 		fields = ('xp',)
+
+class RegistrationFormScreenshot(Form):
+	front_ss = Field(label=_("Profile Screenshot (Top)"), widget = FileInput, required = True )
+	back_ss = Field(label=_("Profile Screenshot (Bottom)"), widget = FileInput, required = True )

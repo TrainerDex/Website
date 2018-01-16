@@ -1,11 +1,12 @@
 from allauth.socialaccount.models import SocialAccount
 from datetime import datetime, timedelta
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.mail import mail_admins
+from django.core.mail import mail_admins, EmailMessage
 from django.db.models import Max
 from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect, reverse
@@ -19,7 +20,7 @@ from rest_framework.decorators import detail_route
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from trainer.forms import QuickUpdateForm, UpdateForm, RegistrationFormUser, RegistrationFormTrainer, RegistrationFormUpdate
+from trainer.forms import QuickUpdateForm, UpdateForm, RegistrationFormUser, RegistrationFormTrainer, RegistrationFormUpdate, RegistrationFormScreenshot
 from trainer.models import Trainer, Update
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
 from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser
@@ -501,14 +502,17 @@ def RegistrationView(request):
 	user_form = RegistrationFormUser()
 	trainer_form = RegistrationFormTrainer()
 	update_form = RegistrationFormUpdate()
+	upload_form = RegistrationFormScreenshot()
 	
 	if request.POST:
 		user_form = RegistrationFormUser(request.POST)
 		trainer_form = RegistrationFormTrainer(request.POST)
 		update_form = RegistrationFormUpdate(request.POST)
+		upload_form = RegistrationFormScreenshot(request.POST)
 		user_form_valid = user_form.is_valid()
 		trainer_form_valid = trainer_form.is_valid()
 		update_form_valid = update_form.is_valid()
+		upload_form_valid = upload_form.is_valid()
 		if user_form_valid and trainer_form_valid and update_form_valid:
 			user = user_form.save()
 			trainer = trainer_form.save(commit=False)
@@ -520,8 +524,17 @@ def RegistrationView(request):
 			update.trainer = trainer
 			update.meta_source = 'ts_registration'
 			update_form.save()
-			messages.success(request, "Thanks for registering. You are now logged in.")
+			messages.success(request, _("Thanks for registering. You are now logged in."))
+			email_subject = "Verification request by Trainer {trainer}".format(trainer=trainer.username)
+			email_message = "{trainer} has requested to be verified. Review the attached image and visit {link} to make a decision. The users email is {email} incase you need to contact them.".format(trainer=trainer.username, link='https://www.trainerdex.co.uk/api/admin/trainer/trainer/'+str(trainer.pk)+'/change/', email=user.email)
+			mail = EmailMessage(email_subject, email_message, to=settings.ADMINS)
+			front_img = request.FILES['front_ss']
+			back_img = request.FILES['back_ss']
+			mail.attach(front_img.name, front_img.read(), front_img.content_type)
+			mail.attach(back_img.name, back_img.read(), back_img.content_type)
+			mail.send()
+			messages.info(request, _("Your screeenshots have been sent for verification. This can take up to 48 hours. You can start using the website immediately."))
 			new_user = authenticate(username=user_form.cleaned_data['username'], password=user_form.cleaned_data['password1'],)
 			login(request, new_user)
 			return HttpResponseRedirect('/profile/')
-	return render(request, 'account/signup.html', {'user_form': user_form,'trainer_form': trainer_form,'update_form': update_form})
+	return render(request, 'account/signup.html', {'user_form': user_form,'trainer_form': trainer_form,'update_form': update_form, 'upload_form': upload_form})

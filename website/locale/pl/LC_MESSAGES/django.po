@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-15 16:00+0000\n"
+"POT-Creation-Date: 2018-01-16 13:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -449,11 +449,23 @@ msgstr ""
 msgid "Re-enter password"
 msgstr ""
 
+#: templates/account/signup.html:71
+msgid "Screenshots"
+msgstr ""
+
 #: templates/account/signup.html:73
+msgid "Profile Screenshot (Top)"
+msgstr ""
+
+#: templates/account/signup.html:78
+msgid "Profile Screenshot (Bottom)"
+msgstr ""
+
+#: templates/account/signup.html:84
 msgid "Statistics"
 msgstr ""
 
-#: templates/account/signup.html:78 templates/base.html:96
+#: templates/account/signup.html:89 templates/base.html:96
 #: templates/base.html:118
 msgid "Register"
 msgstr ""
