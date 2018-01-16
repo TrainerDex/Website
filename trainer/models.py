@@ -150,6 +150,7 @@ class Update(models.Model):
 		('cs_social_facebook', _noop('Facebook')),
 		('ts_social_discord', _noop('Official Discord Bot')),
 		('web_quick', _noop('Quick Update')),
+		('web_detailed', _noop('Detailed Update')),
 		('ts_registration', _noop('Registration')),
 		('ss_registration', _noop('Registration Screenshot')),
 		('ss_generic', _noop('Generic Screenshot')),
