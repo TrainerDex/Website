@@ -411,8 +411,6 @@ def CreateUpdateHTMLView(request):
 		update = form.save()
 		messages.success(request, 'Statistics updated')
 		return HttpResponseRedirect(reverse('update_detail', kwargs={'uuid':update.uuid}))
-	else:
-		print(form.errors)
 	form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
 	if request.method == 'GET':
 		form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
