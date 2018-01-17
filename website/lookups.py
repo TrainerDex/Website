@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 from ajax_select import register, LookupChannel
 from cities.models import Country, Region, Subregion, City, District
 

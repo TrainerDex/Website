@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
 from django.contrib.auth.models import User

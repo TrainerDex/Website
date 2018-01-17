@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 import os
 import datetime
 
@@ -66,8 +67,7 @@ MIDDLEWARE = [
 ]
 
 LOCALE_PATHS = [
-    'trainer/locale',
-    'website/locale',
+    'conf/locale',
 ]
 
 ROOT_URLCONF = 'ekpogo.urls'

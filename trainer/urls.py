@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 from django.conf.urls import url
 from trainer.views import TrainerListJSONView, TrainerDetailJSONView, UpdateListJSONView, LatestUpdateJSONView, UpdateDetailJSONView, UserViewSet, SocialLookupJSONView, LeaderboardJSONView
 from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, UpdateInstanceHTMLView, CheckURLShortcut

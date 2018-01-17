@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 from django.conf import settings
 
 def google_analytics(request):

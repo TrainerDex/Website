@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 from rest_framework.exceptions import ValidationError, ParseError
 from django.utils.translation import ugettext_lazy as _
 

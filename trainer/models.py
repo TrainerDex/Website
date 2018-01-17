@@ -1,4 +1,5 @@
-﻿import uuid
+﻿# -*- coding: utf-8 -*-
+import uuid
 from cities.models import Country, Region, Subregion, City, District
 from colorful.fields import RGBColorField
 from datetime import date

@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from website.models import Discord, FacebookGroup, WhatsApp, MessengerGroup
