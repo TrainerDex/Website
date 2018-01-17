@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-17 15:21+0000\n"
+"POT-Creation-Date: 2018-01-17 22:50+0000\n"
 "PO-Revision-Date: 2018-01-17 16:56+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,7 +57,7 @@ msgid "How do I set a goal?"
 msgstr "どのように目標を設定するのですか？"
 
 #: support/templates/help/faq.html:32
-#, python-format, fuzzy
+#, fuzzy, python-format
 msgid ""
 "\n"
 "                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>\n"
@@ -71,7 +71,7 @@ msgid ""
 "                        </li>\n"
 "                        <li>\n"
 "                          <code>total</code> - Sets your total or 'reach' goal. This is the goal which you would use to get a grasp of when you're going to reach a specific point. This takes a numeric value which is at least one more than your current experience. \n"
-"                          <em>Sidenote - <code>.update goal total</code> has an aditiinal option, <code>auto</code>, which sets a goal for you based on your current experince.</em>\n"
+"                          <em>Sidenote - <code>.update goal total</code> has an additional option, <code>auto</code>, which sets a goal for you based on your current experince.</em>\n"
 "                        </li>\n"
 "                      </ul>\n"
 "                      "
@@ -142,7 +142,7 @@ msgstr "ユーザー"
 msgid "Active"
 msgstr "アクティブ"
 
-#: trainer/models.py:26 trainer/templates/leaderboard.html:39
+#: trainer/models.py:26 trainer/templates/leaderboard.html:67
 #: website/templates/account/signup.html:31
 #, fuzzy
 msgid "Username"
@@ -154,7 +154,7 @@ msgid "Start Date"
 msgstr "開始日"
 
 #: trainer/models.py:28 trainer/models.py:97
-#: trainer/templates/leaderboard.html:41 website/models.py:23
+#: trainer/templates/leaderboard.html:69 website/models.py:23
 #: website/templates/account/signup.html:49
 #: website/templates/communities.html:25
 msgid "Team"
@@ -205,18 +205,22 @@ msgid "Safari Zone"
 msgstr "サファリゾーン"
 
 #: trainer/models.py:47 trainer/models.py:52 trainer/models.py:222
+#: trainer/templates/leaderboard.html:36 trainer/templates/leaderboard.html:37
 msgid "Country"
 msgstr "国"
 
 #: trainer/models.py:48 trainer/models.py:53 trainer/models.py:229
+#: trainer/templates/leaderboard.html:42 trainer/templates/leaderboard.html:43
 msgid "Region"
 msgstr "地方"
 
 #: trainer/models.py:49 trainer/models.py:54 trainer/models.py:236
+#: trainer/templates/leaderboard.html:48 trainer/templates/leaderboard.html:49
 msgid "Subregion"
 msgstr "小地方"
 
 #: trainer/models.py:50 trainer/models.py:55 trainer/models.py:243
+#: trainer/templates/leaderboard.html:54 trainer/templates/leaderboard.html:55
 msgid "City"
 msgstr "都市"
 
@@ -258,7 +262,7 @@ msgid "Time Updated"
 msgstr ""
 
 #: trainer/models.py:104 trainer/templates/create_update.html:31
-#: trainer/templates/leaderboard.html:42 trainer/templates/profile.html:89
+#: trainer/templates/leaderboard.html:70 trainer/templates/profile.html:89
 #: trainer/templates/profile.html:105 website/templates/account/signup.html:37
 msgid "XP"
 msgstr ""
@@ -276,136 +280,136 @@ msgid "Total Gym Badges"
 msgstr ""
 
 #: trainer/models.py:109 trainer/templates/create_update.html:60
-#: trainer/views.py:264
+#: trainer/views.py:266
 msgid "Distance Walked"
 msgstr ""
 
 #: trainer/models.py:110 trainer/templates/create_update.html:66
-#: trainer/views.py:265
+#: trainer/views.py:267
 msgid "Kanto Pokédex"
 msgstr ""
 
 #: trainer/models.py:111 trainer/templates/create_update.html:72
-#: trainer/templates/leaderboard.html:44 trainer/views.py:266
+#: trainer/templates/leaderboard.html:72 trainer/views.py:268
 msgid "Pokémon Caught"
 msgstr ""
 
 #: trainer/models.py:112 trainer/templates/create_update.html:78
-#: trainer/views.py:267
+#: trainer/views.py:269
 msgid "Pokémon Evolved"
 msgstr ""
 
 #: trainer/models.py:113 trainer/templates/create_update.html:84
-#: trainer/templates/leaderboard.html:46 trainer/views.py:268
+#: trainer/templates/leaderboard.html:74 trainer/views.py:270
 msgid "Eggs Hatched"
 msgstr ""
 
 #: trainer/models.py:114 trainer/templates/create_update.html:90
-#: trainer/templates/leaderboard.html:48 trainer/views.py:269
+#: trainer/templates/leaderboard.html:76 trainer/views.py:271
 msgid "Pokéstops Spun"
 msgstr ""
 
 #: trainer/models.py:115 trainer/templates/create_update.html:114
-#: trainer/views.py:270
+#: trainer/views.py:272
 msgid "Big Magikarp"
 msgstr ""
 
 #: trainer/models.py:116 trainer/templates/create_update.html:96
-#: trainer/views.py:271
+#: trainer/views.py:273
 msgid "Battles Won"
 msgstr ""
 
-#: trainer/models.py:117 trainer/views.py:272
+#: trainer/models.py:117 trainer/views.py:274
 msgid "Ace Trainer"
 msgstr ""
 
 #: trainer/models.py:118 trainer/templates/create_update.html:102
-#: trainer/views.py:273
+#: trainer/views.py:275
 msgid "Tiny Rattata"
 msgstr ""
 
 #: trainer/models.py:119 trainer/templates/create_update.html:108
-#: trainer/views.py:274
+#: trainer/views.py:276
 msgid "Pikachu Caught"
 msgstr ""
 
 #: trainer/models.py:120 trainer/templates/create_update.html:126
-#: trainer/views.py:275
+#: trainer/views.py:277
 msgid "Johto Pokédex"
 msgstr ""
 
 #: trainer/models.py:121 trainer/templates/create_update.html:120
-#: trainer/views.py:276
+#: trainer/views.py:278
 msgid "Unown"
 msgstr ""
 
 #: trainer/models.py:122 trainer/templates/create_update.html:132
-#: trainer/views.py:277
+#: trainer/views.py:279
 msgid "Berries Fed"
 msgstr ""
 
 #: trainer/models.py:123 trainer/templates/create_update.html:138
-#: trainer/views.py:278
+#: trainer/views.py:280
 msgid "Gyms Defended (Hours)"
 msgstr ""
 
 #: trainer/models.py:124 trainer/templates/create_update.html:144
-#: trainer/views.py:279
+#: trainer/views.py:281
 msgid "Raids Completed (Levels 1-4)"
 msgstr ""
 
 #: trainer/models.py:125 trainer/templates/create_update.html:156
-#: trainer/views.py:280
+#: trainer/views.py:282
 msgid "Raids Completed (Level 5)"
 msgstr ""
 
 #: trainer/models.py:126 trainer/templates/create_update.html:150
-#: trainer/views.py:281
+#: trainer/views.py:283
 msgid "Hoenn Pokédex"
 msgstr ""
 
 #: trainer/models.py:128 trainer/templates/create_update.html:164
-#: trainer/views.py:285
+#: trainer/views.py:287
 msgid "Normal"
 msgstr ""
 
 #: trainer/models.py:129 trainer/templates/create_update.html:170
-#: trainer/views.py:286
+#: trainer/views.py:288
 msgid "Flying"
 msgstr ""
 
 #: trainer/models.py:130 trainer/templates/create_update.html:176
-#: trainer/views.py:287
+#: trainer/views.py:289
 msgid "Poison"
 msgstr ""
 
 #: trainer/models.py:131 trainer/templates/create_update.html:182
-#: trainer/views.py:288
+#: trainer/views.py:290
 msgid "Ground"
 msgstr ""
 
 #: trainer/models.py:132 trainer/templates/create_update.html:188
-#: trainer/views.py:289
+#: trainer/views.py:291
 msgid "Rock"
 msgstr ""
 
 #: trainer/models.py:133 trainer/templates/create_update.html:194
-#: trainer/views.py:290
+#: trainer/views.py:292
 msgid "Bug"
 msgstr ""
 
 #: trainer/models.py:134 trainer/templates/create_update.html:200
-#: trainer/views.py:291
+#: trainer/views.py:293
 msgid "Steel"
 msgstr ""
 
 #: trainer/models.py:135 trainer/templates/create_update.html:206
-#: trainer/views.py:292
+#: trainer/views.py:294
 msgid "Fire"
 msgstr ""
 
 #: trainer/models.py:136 trainer/templates/create_update.html:212
-#: trainer/views.py:293
+#: trainer/views.py:295
 msgid "Water"
 msgstr ""
 
@@ -414,7 +418,7 @@ msgid "Grass"
 msgstr ""
 
 #: trainer/models.py:138 trainer/templates/create_update.html:224
-#: trainer/views.py:294
+#: trainer/views.py:296
 msgid "Electric"
 msgstr ""
 
@@ -423,7 +427,7 @@ msgid "Pychic"
 msgstr ""
 
 #: trainer/models.py:140 trainer/templates/create_update.html:236
-#: trainer/views.py:296
+#: trainer/views.py:298
 msgid "Dark"
 msgstr ""
 
@@ -432,22 +436,22 @@ msgid "Fary"
 msgstr ""
 
 #: trainer/models.py:142 trainer/templates/create_update.html:248
-#: trainer/views.py:298
+#: trainer/views.py:300
 msgid "Fighting"
 msgstr ""
 
 #: trainer/models.py:143 trainer/templates/create_update.html:254
-#: trainer/views.py:299
+#: trainer/views.py:301
 msgid "Ghost"
 msgstr ""
 
 #: trainer/models.py:144 trainer/templates/create_update.html:260
-#: trainer/views.py:300
+#: trainer/views.py:302
 msgid "Ice"
 msgstr ""
 
 #: trainer/models.py:145 trainer/templates/create_update.html:266
-#: trainer/views.py:301
+#: trainer/views.py:303
 msgid "Dragon"
 msgstr ""
 
@@ -464,9 +468,7 @@ msgid "Crowd Sourced"
 msgstr ""
 
 #: trainer/models.py:179
-msgid ""
-"This value has previously been entered at a higher value. Please try again, "
-"ensuring you enter your Total XP."
+msgid "This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."
 msgstr ""
 
 #: trainer/models.py:209
@@ -555,11 +557,11 @@ msgstr ""
 msgid "Pokémon Type Medals"
 msgstr ""
 
-#: trainer/templates/create_update.html:230 trainer/views.py:295
+#: trainer/templates/create_update.html:230 trainer/views.py:297
 msgid "Psychic"
 msgstr ""
 
-#: trainer/templates/create_update.html:242 trainer/views.py:297
+#: trainer/templates/create_update.html:242 trainer/views.py:299
 msgid "Fairy"
 msgstr ""
 
@@ -589,31 +591,33 @@ msgid "*"
 msgstr ""
 
 #: trainer/templates/leaderboard.html:30
-#, python-format, fuzzy
-msgid ""
-"If a trainer has a %(ss_ident)s next to their name, it means the information"
-" was sourced from social media."
+#, fuzzy, python-format
+msgid "If a trainer has a %(ss_ident)s next to their name, it means the information was sourced from social media."
 msgstr "※トレーナーが自分の名前の隣に%(ss_ident)sがある場合は、情報がソーシャルメディアから供給されたことを意味します。"
 
 #: trainer/templates/leaderboard.html:32
 msgid "Grand Total XP"
 msgstr ""
 
-#: trainer/templates/leaderboard.html:40 trainer/templates/profile.html:10
+#: trainer/templates/leaderboard.html:34
+msgid "Filter"
+msgstr ""
+
+#: trainer/templates/leaderboard.html:68 trainer/templates/profile.html:10
 #: trainer/templates/profile.html:50 trainer/templates/update.html:10
 #: trainer/templates/update.html:49
 msgid "TL"
 msgstr "レベル"
 
-#: trainer/templates/leaderboard.html:43
+#: trainer/templates/leaderboard.html:71
 msgid "Date Updated"
 msgstr ""
 
-#: trainer/templates/leaderboard.html:45
+#: trainer/templates/leaderboard.html:73
 msgid "Hours Defended"
 msgstr ""
 
-#: trainer/templates/leaderboard.html:47
+#: trainer/templates/leaderboard.html:75
 msgid "KM Walked"
 msgstr ""
 
@@ -654,36 +658,32 @@ msgid "Legendary Raids"
 msgstr ""
 
 #: trainer/templates/profile.html:132
-msgid ""
-"It seems this trainer hasn't shared any of these medals. We only show medals"
-" with data to avoid showing a row of null values, that's kinda ugly."
+msgid "It seems this trainer hasn't shared any of these medals. We only show medals with data to avoid showing a row of null values, that's kinda ugly."
 msgstr ""
 
 #: trainer/validators.py:8
 msgid "The date you entered was before launch date of 6th July 2016"
 msgstr ""
 
-#: trainer/views.py:115
+#: trainer/views.py:117
 msgid "Profile deactivated"
 msgstr ""
 
-#: trainer/views.py:205
+#: trainer/views.py:207
 msgid "Late Update Deletion Request"
 msgstr ""
 
-#: trainer/views.py:206
+#: trainer/views.py:208
 #, python-brace-format
 msgid "There has been a request to delete {update} by {requester} at {ip}"
 msgstr ""
 
-#: trainer/views.py:529
+#: trainer/views.py:614
 msgid "Thanks for registering. You are now logged in."
 msgstr ""
 
-#: trainer/views.py:538
-msgid ""
-"Your screeenshots have been sent for verification. This can take up to 48 "
-"hours. You can start using the website immediately."
+#: trainer/views.py:623
+msgid "Your screeenshots have been sent for verification. This can take up to 48 hours. You can start using the website immediately."
 msgstr ""
 
 #: website/models.py:18
@@ -777,9 +777,7 @@ msgid "Add E-mail Address"
 msgstr ""
 
 #: website/templates/account/email.html:26
-msgid ""
-"Add an email address to your account to get back in if you forget your "
-"password. Also, your primary email is used for gravatar generation."
+msgid "Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation."
 msgstr ""
 
 #. Translators: This is shown in the email field when it is empty
@@ -822,10 +820,7 @@ msgid "Warning:"
 msgstr ""
 
 #: website/templates/account/email.html:83
-msgid ""
-"You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, "
-"etc."
+msgid "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc."
 msgstr ""
 
 #: website/templates/account/email.html:94
@@ -886,9 +881,7 @@ msgstr ""
 
 #: website/templates/account/email_confirm.html:18
 #, python-format
-msgid ""
-"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
-"address for user %(user_display)s."
+msgid "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s."
 msgstr ""
 
 #: website/templates/account/email_confirm.html:23
@@ -912,16 +905,12 @@ msgstr ""
 
 #: website/templates/account/login.html:22
 #, python-format
-msgid ""
-"If you already have an account, you can login below or via a third party "
-"account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
+msgid "If you already have an account, you can login below or via a third party account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
 msgstr ""
 
 #: website/templates/account/login.html:25
 #, python-format
-msgid ""
-"If you have not created an account yet, then please <a "
-"href=\"%(signup_url)s\">sign up</a> first."
+msgid "If you have not created an account yet, then please <a href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
 
 #: website/templates/account/login.html:33
@@ -1011,9 +1000,7 @@ msgid "Password Reset"
 msgstr ""
 
 #: website/templates/account/password_reset.html:29
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you"
-" an e-mail allowing you to reset it."
+msgid "Forgotten your password? Enter your e-mail address below, and we'll send you an e-mail allowing you to reset it."
 msgstr ""
 
 #: website/templates/account/password_reset.html:30
@@ -1029,9 +1016,7 @@ msgid "Reset My Password"
 msgstr ""
 
 #: website/templates/account/password_reset_done.html:17
-msgid ""
-"We have sent you an e-mail. Please contact us if you do not receive it "
-"within a few minutes."
+msgid "We have sent you an e-mail. Please contact us if you do not receive it within a few minutes."
 msgstr ""
 
 #: website/templates/account/password_reset_done.html:21
@@ -1047,9 +1032,7 @@ msgid "Bad Token"
 msgstr ""
 
 #: website/templates/account/password_reset_from_key.html:18
-msgid ""
-"The password reset link was invalid, possibly because it has already been "
-"used."
+msgid "The password reset link was invalid, possibly because it has already been used."
 msgstr ""
 
 #: website/templates/account/password_reset_from_key.html:22
@@ -1089,9 +1072,7 @@ msgstr ""
 
 #: website/templates/account/signup.html:25
 #, python-format
-msgid ""
-"You would already have an account if you use the Discord bot, please <a "
-"href=\"%(login_url)s\">sign in</a>."
+msgid "You would already have an account if you use the Discord bot, please <a href=\"%(login_url)s\">sign in</a>."
 msgstr ""
 
 #: website/templates/account/signup.html:61
@@ -1118,14 +1099,11 @@ msgid "Sign Up Closed"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:15
-msgid ""
-"We are sorry, but registrations via the website are currently disabled."
+msgid "We are sorry, but registrations via the website are currently disabled."
 msgstr ""
 
 #: website/templates/account/signup_closed.html:16
-msgid ""
-"You can register via joining our Discord server and sharing a screenshot of "
-"your Pokémon Go profile"
+msgid "You can register via joining our Discord server and sharing a screenshot of your Pokémon Go profile"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:23
@@ -1147,24 +1125,15 @@ msgid "Verify Your E-mail Address"
 msgstr ""
 
 #: website/templates/account/verification_sent.html:15
-msgid ""
-"We have sent an e-mail to you for verification. Follow the link provided to "
-"finalize the signup process. Please contact us if you do not receive it "
-"within a few minutes."
+msgid "We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes."
 msgstr ""
 
 #: website/templates/account/verified_email_required.html:16
-msgid ""
-"This part of the site requires us to verify that you are who you claim to "
-"be. For this purpose, we require that you verify ownership of your e-mail "
-"address. "
+msgid "This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address. "
 msgstr ""
 
 #: website/templates/account/verified_email_required.html:17
-msgid ""
-"We have sent an e-mail to you for verification. Please click on the link "
-"inside this e-mail. Please contact us if you do not receive it within a few "
-"minutes."
+msgid "We have sent an e-mail to you for verification. Please click on the link inside this e-mail. Please contact us if you do not receive it within a few minutes."
 msgstr ""
 
 #: website/templates/base.html:27
@@ -1272,16 +1241,11 @@ msgstr "ようこそ"
 
 #: website/templates/index.html:17
 #, python-format
-msgid ""
-"TrainerDex is a service for tracking and updating your progress in Pokémon "
-"Go. Don't worry, there's no risk of ban! Check out our <a "
-"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
+msgid "TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
 msgstr ""
 
 #: website/templates/index.html:19
-msgid ""
-"Our discord bot is currently live and provides <em>leaderboards, badges, "
-"profiles</em> and more!"
+msgid "Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!"
 msgstr ""
 
 #: website/templates/index.html:22
@@ -1311,8 +1275,7 @@ msgid "Social Network Login Failure"
 msgstr ""
 
 #: website/templates/socialaccount/authentication_error.html:15
-msgid ""
-"An error occurred while attempting to login via your social network account."
+msgid "An error occurred while attempting to login via your social network account."
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:5
@@ -1326,15 +1289,11 @@ msgid "Log in via Social Media"
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:15
-msgid ""
-"You can sign in to your account using any of the following third party "
-"accounts"
+msgid "You can sign in to your account using any of the following third party accounts"
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:33
-msgid ""
-"You can sign in to your account using any of the following third party "
-"accounts:"
+msgid "You can sign in to your account using any of the following third party accounts:"
 msgstr ""
 
 #: website/templates/socialaccount/login_cancelled.html:12
