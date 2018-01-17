@@ -67,7 +67,7 @@
             <label for="id_password2" class="mdl-textfield__label">{% trans 'Re-enter password' %}</label>
             <span class="mdl-textfield__error">{{ user_form.password1.errors }}</span>
           </div><br>
-          
+          <!--
           <span class="mdl-switch__label">{% trans 'Screenshots' %}</span><br>
           <label>
             <span class="mdl-switch__label">{% trans "Profile Screenshot (Top)" %}</span><br>
@@ -77,7 +77,7 @@
           <label>
             <span class="mdl-switch__label">{% trans "Profile Screenshot (Bottom)" %}</span><br>
             {{ upload_form.back_ss }}
-          </label><br>
+          </label><br>-->
           
           <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="id_statistics">
             {% render_field trainer_form.statistics class+="mdl-switch__input" %}

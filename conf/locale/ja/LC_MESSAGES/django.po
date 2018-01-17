@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-17 22:50+0000\n"
+"POT-Creation-Date: 2018-01-17 23:20+0000\n"
 "PO-Revision-Date: 2018-01-17 16:56+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -678,12 +678,18 @@ msgstr ""
 msgid "There has been a request to delete {update} by {requester} at {ip}"
 msgstr ""
 
-#: trainer/views.py:614
+#: trainer/views.py:615
 msgid "Thanks for registering. You are now logged in."
 msgstr ""
 
-#: trainer/views.py:623
-msgid "Your screeenshots have been sent for verification. This can take up to 48 hours. You can start using the website immediately."
+#: trainer/views.py:616
+#, fuzzy
+msgid "TrainerDex Verification"
+msgstr "TrainerDexプロファイル"
+
+#: trainer/views.py:617
+#, python-brace-format
+msgid "Welcome {trainer}, please respond to this email with screenshots of the top and bottom of your TrainerDex profile for verification. Once verified, you will appear in the leaderboards."
 msgstr ""
 
 #: website/models.py:18
