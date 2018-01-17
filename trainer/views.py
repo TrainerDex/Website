@@ -214,10 +214,10 @@ class UpdateDetailJSONView(APIView):
 class LeaderboardJSONView(APIView):
 	
 	def get(self, request):
-		query = Trainer.objects
+		query = Trainer.objects.exclude(statistics=False, currently_cheats=True, prefered=False)
 		if request.GET.get('users'):
 			query = query.filter(id__in=request.GET.get('users').split(','))
-		leaderboard = query.exclude(statistics=False, currently_cheats=True).annotate(Max('update__xp'), Max('update__update_time'))
+		leaderboard = query.annotate(Max('update__xp'), Max('update__update_time'))
 		leaderboard = cleanleaderboardqueryset(leaderboard, key=lambda x: x.update__xp__max, reverse=True)
 		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
 		return Response(serializer.data)
