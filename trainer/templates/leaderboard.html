@@ -8,7 +8,7 @@
 
 {% block content %}
           <header class="mdl-card__title mdl-color--primary-dark mdl-color-text--primary-contrast mdl-shadow--4dp">
-            <h2 class="mdl-card__title-text">{% block section_title %}{% trans "Leaderboard" %}{% endblock %}</h2>
+            <h2 class="mdl-card__title-text">{% block section_title %}{{filtered_place.name|default:"International"}} {% trans "Leaderboard" %}{% endblock %}</h2>
           </header>
           <div class="mdl-card__menu mdl-color-text--primary-contrast">
             <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon">
@@ -30,6 +30,34 @@
             {% blocktrans %}If a trainer has a {{ss_ident}} next to their name, it means the information was sourced from social media.{% endblocktrans %}
             <br>
             {% trans 'Grand Total XP' %}: {{ grand_total_xp | intword }}
+            <br>
+            {% trans 'Filter' %}
+<form>
+  <select name='{% trans 'Country' %}' onchange='if(this.value != 0) {location.href="{% url "leaderboard" %}country/"+this.value;} else {location.href="{% url "leaderboard" %}";}'>
+    <option value="0"{% if country == None %} selected="selected"{% endif %} disabled>{% trans 'Country' %}</option>
+    {% for option in countries %}
+    <option value='{{option.pk}}'{% if option == country %} selected="selected"{% endif %}>{{option.name}}</option>
+    {% endfor %}
+  </select>
+  <select name='{% trans 'Region' %}' onchange='location.href="{% url "leaderboard" %}region/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
+    <option value="0"{% if country == None %} selected="selected"{% endif %} disabled>{% trans 'Region' %}</option>
+    {% for option in regions %}
+    <option value='{{option.pk}}'{% if option == region %} selected="selected"{% endif %}>{{option.name}}</option>
+    {% endfor %}
+  </select>
+  <select name='{% trans 'Subregion' %}' onchange='location.href="{% url "leaderboard" %}subregion/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
+    <option value="0"{% if country == None %} selected="selected"{% endif %} disabled>{% trans 'Subregion' %}</option>
+    {% for option in subregions %}
+    <option value='{{option.pk}}'{% if option == subregion %} selected="selected"{% endif %}>{{option.name}}</option>
+    {% endfor %}
+  </select>
+  <select name='{% trans 'City' %}' onchange='location.href="{% url "leaderboard" %}city/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
+    <option value="0"{% if country == None %} selected="selected"{% endif %} disabled>{% trans 'City' %}</option>
+    {% for option in cities %}
+    <option value='{{option.pk}}'{% if option == city %} selected="selected"{% endif %}>{{option.name}}</option>
+    {% endfor %}
+  </select>
+</form>
           </div>
           <div class="table-responsive">
             <table class="mdl-data-table mdl-js-data-table" style="width: 100%">

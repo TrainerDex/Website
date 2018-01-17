@@ -1,5 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from allauth.socialaccount.models import SocialAccount
+from annoying.functions import get_object_or_this
+from cities.models import Country, Region, Subregion, City
 from datetime import datetime, timedelta
 from django import forms
 from django.conf import settings
@@ -415,30 +417,101 @@ def CreateUpdateHTMLView(request):
 	form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
 	if request.method == 'GET':
 		form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
-	return render(request, 'create_update.html', {'form': form})
+	context = {
+		'form': form
+	}
+	return render(request, 'create_update.html', context)
 
-def LeaderboardHTMLView(request):
-	#Defining Parameters
+def LeaderboardHTMLView(request, country=None, region=None, subregion=None, city=None):
 	showValor = {'param':'Valor', 'value':nullbool(request.GET.get('valor'), default=True)}
 	showMystic = {'param':'Mystic', 'value':nullbool(request.GET.get('mystic'), default=True)}
 	showInstinct = {'param':'Instinct', 'value':nullbool(request.GET.get('instinct'), default=True)}
 	showSpoofers = {'param':'currently_cheats', 'value':nullbool(request.GET.get('spoofers'), default=False)}
 	
-	_trainers_query = Trainer.objects.exclude(statistics=False)
+	QuerySet = Trainer.objects.exclude(statistics=False, verified=False)
+	
+	if city:
+		QuerySet = QuerySet.filter(leaderboard_city = city)
+		rcontext = {
+			'countries' : Country.objects.all(),
+			'country' : City.objects.get(id=city).subregion.region.country,
+			'regions' : Region.objects.filter(country=City.objects.get(id=city).subregion.region.country),
+			'region' : City.objects.get(id=city).subregion.region,
+			'subregions' : Subregion.objects.filter(region=City.objects.get(id=city).subregion.region),
+			'subregion' : City.objects.get(id=city).subregion,
+			'cities' : City.objects.filter(subregion=City.objects.get(id=city).subregion),
+			'city' : City.objects.get(id=city),
+			'filtered_place' : City.objects.get(id=city),
+		}
+	elif subregion:
+		QuerySet = QuerySet.filter(leaderboard_subregion = subregion)
+		rcontext = {
+			'countries' : Country.objects.all(),
+			'country' : Subregion.objects.get(id=subregion).region.country,
+			'regions' : Region.objects.filter(country=Subregion.objects.get(id=subregion).region.country),
+			'region' : Subregion.objects.get(id=subregion).region,
+			'subregions' : Subregion.objects.filter(region=Subregion.objects.get(id=subregion).region),
+			'subregion' : Subregion.objects.get(id=subregion),
+			'cities' : City.objects.filter(subregion=subregion),
+			'city' : None,
+			'filtered_place' : Subregion.objects.get(id=subregion),
+		}
+	elif region:
+		QuerySet = QuerySet.filter(leaderboard_region = region)
+		rcontext = {
+			'countries' : Country.objects.all(),
+			'country' : Region.objects.get(id=region).country,
+			'regions' : Region.objects.filter(country=Region.objects.get(id=region).country),
+			'region' : Region.objects.get(id=region),
+			'subregions' : Subregion.objects.filter(region=region),
+			'subregion' : None,
+			'cities' : City.objects.none(),
+			'city' : None,
+			'filtered_place' : Region.objects.get(id=region),
+		}
+	elif country:
+		QuerySet = QuerySet.filter(leaderboard_country = country)
+		rcontext = {
+			'countries' : Country.objects.all(),
+			'country' : Country.objects.get(id=country),
+			'regions' : Region.objects.filter(country=country),
+			'region' : None,
+			'subregions' : Subregion.objects.none(),
+			'subregion' : None,
+			'cities' : City.objects.none(),
+			'city' : None,
+			'filtered_place' : Country.objects.get(id=country),
+		}
+	else:
+		rcontext = {
+			'countries' : Country.objects.all(),
+			'country' : None,
+			'regions' : Region.objects.none(),
+			'region' : None,
+			'subregions' : Subregion.objects.none(),
+			'subregion' : None,
+			'cities' : City.objects.none(),
+			'city' : None,
+			'filtered_place' : None,
+		}
+	
 	for param in (showValor, showMystic, showInstinct):
 		if param['value'] is False:
-			_trainers_query = _trainers_query.exclude(faction__name=param['param'])
-	_trainers_non_legit = _trainers_query.exclude(currently_cheats = False).annotate(Max('update__xp'), Max('update__update_time'), Max('update__pkmn_caught'), Max('update__gym_defended'), Max('update__eggs_hatched'), Max('update__walk_dist'), Max('update__pkstops_spun'))
-	_trainers_non_legit = cleanleaderboardqueryset(_trainers_non_legit, key=lambda x: x.update__xp__max, reverse=True)
-	_trainers_legit = _trainers_query.exclude(currently_cheats = True).annotate(Max('update__xp'), Max('update__update_time'), Max('update__pkmn_caught'), Max('update__gym_defended'), Max('update__eggs_hatched'), Max('update__walk_dist'), Max('update__pkstops_spun'))
-	_trainers_legit = cleanleaderboardqueryset(_trainers_legit, key=lambda x: x.update__xp__max, reverse=True)
+			QuerySet = QuerySet.exclude(faction__name=param['param'])
 	
-	_trainers = []
-	grand_total_xp = 0
-	for trainer in _trainers_legit:
-		grand_total_xp += trainer.update__xp__max
-		_trainers.append({
-			'position' : _trainers_legit.index(trainer)+1,
+	QuerySetSpoofers = QuerySet.exclude(currently_cheats = False).annotate(Max('update__xp'), Max('update__update_time'), Max('update__pkmn_caught'), Max('update__gym_defended'), Max('update__eggs_hatched'), Max('update__walk_dist'), Max('update__pkstops_spun'))
+	QuerySetSpoofers = cleanleaderboardqueryset(QuerySetSpoofers, key=lambda x: x.update__xp__max, reverse=True)
+	
+	QuerySet = QuerySet.exclude(currently_cheats = True).annotate(Max('update__xp'), Max('update__update_time'), Max('update__pkmn_caught'), Max('update__gym_defended'), Max('update__eggs_hatched'), Max('update__walk_dist'), Max('update__pkstops_spun'))
+	QuerySet = cleanleaderboardqueryset(QuerySet, key=lambda x: x.update__xp__max, reverse=True)
+	
+	Results = []
+	GRAND_TOTAL = 0
+	
+	for trainer in QuerySet:
+		GRAND_TOTAL += trainer.update__xp__max
+		Results.append({
+			'position' : QuerySet.index(trainer)+1,
 			'trainer' : trainer,
 			'xp' : trainer.update__xp__max,
 			'pkmn_caught' : trainer.update__pkmn_caught__max,
@@ -449,10 +522,11 @@ def LeaderboardHTMLView(request):
 			'time' : trainer.update__update_time__max,
 			'level' : level_parser(xp=trainer.update__xp__max).level,
 		})
+	
 	if showSpoofers['value']:
-		for trainer in _trainers_non_legit:
-			grand_total_xp += trainer.update__xp__max
-			_trainers.append({
+		for trainer in QuerySetSpoofers:
+			GRAND_TOTAL += trainer.update__xp__max
+			Results.append({
 				'position' : None,
 				'trainer' : trainer,
 				'xp' : trainer.update__xp__max,
@@ -464,9 +538,20 @@ def LeaderboardHTMLView(request):
 				'time' : trainer.update__update_time__max,
 				'level' : level_parser(xp=trainer.update__xp__max).level,
 			})
-	_trainers.sort(key = lambda x: x['xp'], reverse=True)
 	
-	return render(request, 'leaderboard.html', {'leaderboard' : _trainers, 'valor' : showValor, 'mystic' : showMystic, 'instinct' : showInstinct, 'spoofers' : showSpoofers, 'grand_total_xp' : grand_total_xp})
+	Results.sort(key = lambda x: x['xp'], reverse=True)
+	
+	context = {
+		'leaderboard' : Results,
+		'valor' : showValor,
+		'mystic' : showMystic,
+		'instinct' : showInstinct,
+		'spoofers' : showSpoofers,
+		'grand_total_xp' : GRAND_TOTAL,
+	}
+	context.update(rcontext)
+	print(context)
+	return render(request, 'leaderboard.html', context)
 
 def UpdateInstanceHTMLView(request, uuid):
 	update = get_object_or_404(Update, uuid=uuid)

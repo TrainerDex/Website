@@ -27,6 +27,10 @@ class HTML:
     
     urlpatterns = [
         url(r'^leaderboard/$', LeaderboardHTMLView, name='leaderboard'),
+        url(r'^leaderboard/country/(?P<country>[0-9]+)$', LeaderboardHTMLView, name='leaderboard'),
+        url(r'^leaderboard/region/(?P<region>[0-9]+)$', LeaderboardHTMLView, name='leaderboard'),
+        url(r'^leaderboard/subregion/(?P<subregion>[0-9]+)$', LeaderboardHTMLView, name='leaderboard'),
+        url(r'^leaderboard/city/(?P<city>[0-9]+)$', LeaderboardHTMLView, name='leaderboard'),
         url(r'^profile/$', CheckURLShortcut, name='profile'),
         url(r'^profile/username/(?P<username>[a-zA-Z0-9]+)$', CheckURLShortcut, name='profile'),
         url(r'^profile/id/(?P<id>[0-9]+)$', CheckURLShortcut, name='profile'),
