@@ -40,19 +40,19 @@
     {% endfor %}
   </select>
   <select name='{% trans 'Region' %}' onchange='location.href="{% url "leaderboard" %}region/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
-    <option value="0"{% if country == None %} selected="selected"{% endif %} disabled>{% trans 'Region' %}</option>
+    <option value="0"{% if region == None %} selected="selected"{% endif %} disabled>{% trans 'Region' %}</option>
     {% for option in regions %}
     <option value='{{option.pk}}'{% if option == region %} selected="selected"{% endif %}>{{option.name}}</option>
     {% endfor %}
   </select>
   <select name='{% trans 'Subregion' %}' onchange='location.href="{% url "leaderboard" %}subregion/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
-    <option value="0"{% if country == None %} selected="selected"{% endif %} disabled>{% trans 'Subregion' %}</option>
+    <option value="0"{% if subregion == None %} selected="selected"{% endif %} disabled>{% trans 'Subregion' %}</option>
     {% for option in subregions %}
     <option value='{{option.pk}}'{% if option == subregion %} selected="selected"{% endif %}>{{option.name}}</option>
     {% endfor %}
   </select>
   <select name='{% trans 'City' %}' onchange='location.href="{% url "leaderboard" %}city/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
-    <option value="0"{% if country == None %} selected="selected"{% endif %} disabled>{% trans 'City' %}</option>
+    <option value="0"{% if city == None %} selected="selected"{% endif %} disabled>{% trans 'City' %}</option>
     {% for option in cities %}
     <option value='{{option.pk}}'{% if option == city %} selected="selected"{% endif %}>{{option.name}}</option>
     {% endfor %}
