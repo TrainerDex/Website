@@ -9,27 +9,32 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-17 15:21+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2018-01-17 16:56+0000\n"
+"Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.7.13\n"
 
 #: support/templates/help/faq.html:5 support/templates/help/faq.html:6
+#, fuzzy
 msgid "FAQ"
-msgstr ""
+msgstr "よくある質問"
 
 #: support/templates/help/faq.html:7
+#, fuzzy
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "よくある質問"
 
 #: support/templates/help/faq.html:15
+#, fuzzy
 msgid "My total goal is missing!!!"
-msgstr ""
+msgstr "私の「Reach Goal」が欠落しています！"
 
 #: support/templates/help/faq.html:18
+#, fuzzy
 msgid ""
 "\n"
 "                      <p><i>This isn't a question. That's you complaining, but I have an answer anyway.</i></p>\n"
@@ -39,13 +44,20 @@ msgid ""
 "                      <p>Since then, the default behaviour is to automatically move your goal on to the next level when you reach your goal, rather than resetting to zero. To give the user a choice <em>not</em> to have a goal. We removed phantom goals. Phantom goals didn't congratulate the user either, whereas set goals do.</p>\n"
 "                      "
 msgstr ""
+"\n"
+"<p><i>これは質問ではありません。 それはあなたの不平ですが、私はとにかく答えがあります。</i></p>\n"
+"\n"
+"<p>おそらくあなたは<em> ファントムゴール\"</ em>を持っています。これは Danny Phantom、幽霊、または誰も自分の目標にしたくないものとは関係ありません。 代わりに、これはDiscordボットによって示された目標に関連しています。 12月22日以前は、目標に達するとボットはゼロにリセットされました。 レベル40以下の人とゼロのゴールには、目標の推進としてファントムゴールが割り当てられました。</p>\n"
+"\n"
+"<p>それ以来、デフォルトの動作では、ゼロにリセットするのではなく、目標に到達したときに目標を次のレベルに自動的に移動します。 ユーザに目標を持たない選択肢を与えること。 ファントム目標を削除しました。 ファントムの目標は、目標を達成するのに対し、ユーザーにも祝福しませんでした。</p>"
 
 #: support/templates/help/faq.html:29
+#, fuzzy
 msgid "How do I set a goal?"
-msgstr ""
+msgstr "どのように目標を設定するのですか？"
 
 #: support/templates/help/faq.html:32
-#, python-format
+#, python-format, fuzzy
 msgid ""
 "\n"
 "                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>\n"
@@ -64,24 +76,43 @@ msgid ""
 "                      </ul>\n"
 "                      "
 msgstr ""
+"\n"
+"<p>現在目標はDiscordボットでしか動作していませんが、すぐにウェブに向かいます</p>\n"
+"\n"
+"<p>Discordボット<a href=\"%(discord_url)s\">TrainerDex#6280</a>に<code>.update goal &lt;option&gt; &lt;value&gt;</code>とメッセージを送るだけで、</p>\n"
+"\n"
+"<p class=\"help-faq-question\">オプション</p>\n"
+"<ul>\n"
+"<li>\n"
+"<code>daily</code> - これはあなたの \"レート目標\"を設定します。 これは、あなたが進んでいるスピードを示す目標です。 これは、0〜3000000の範囲の数値をとります。\n"
+"</li>\n"
+"<li>\n"
+"<code>total</code> - これはあなたの「到達目標」を設定します。 これは、特定のターゲットに到達するタイミングを把握するために使用する目標です。 これは現在のXPよりも少なくとも1つ多い数値をとります。\n"
+"<em>サイドノート: <code>.update goal total</code>には、現在のXPに基づいて目標を設定する追加オプション <code>auto</code>があります。</em>\n"
+"</li>\n"
+"</ul>"
 
 #: trainer/admin.py:46 trainer/models.py:256
+#, fuzzy
 msgid "Reports"
-msgstr ""
+msgstr "レポート"
 
 #: trainer/admin.py:49 trainer/templates/profile.html:73
+#, fuzzy
 msgid "Medals"
-msgstr ""
+msgstr "メダル"
 
 #: trainer/admin.py:52 trainer/templates/leaderboard.html:7
 #: trainer/templates/leaderboard.html:11 website/templates/base.html:80
 #: website/templates/base.html:127
+#, fuzzy
 msgid "Leaderboard"
-msgstr ""
+msgstr "リーダーボード"
 
 #: trainer/apps.py:7
+#, fuzzy
 msgid "TrainerDex Profiles"
-msgstr ""
+msgstr "TrainerDexプロファイル"
 
 #: trainer/errors.py:6
 msgid "Expected a Numeric ID, got gibberish."
@@ -92,36 +123,42 @@ msgid "Expected a UUID, got gibberish."
 msgstr ""
 
 #: trainer/forms.py:49 website/templates/account/signup.html:73
+#, fuzzy
 msgid "Profile Screenshot (Top)"
-msgstr ""
+msgstr "プロフィールスクリーンショット（トップ）"
 
 #: trainer/forms.py:50 website/templates/account/signup.html:78
+#, fuzzy
 msgid "Profile Screenshot (Bottom)"
-msgstr ""
+msgstr "プロフィールスクリーンショット（下）"
 
 #: trainer/models.py:24
+#, fuzzy
 msgid "User"
-msgstr ""
+msgstr "ユーザー"
 
 #: trainer/models.py:25
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "アクティブ"
 
 #: trainer/models.py:26 trainer/templates/leaderboard.html:39
 #: website/templates/account/signup.html:31
+#, fuzzy
 msgid "Username"
-msgstr ""
+msgstr "ユーザー名"
 
 #: trainer/models.py:27 website/templates/account/signup.html:43
+#, fuzzy
 msgid "Start Date"
-msgstr ""
+msgstr "開始日"
 
 #: trainer/models.py:28 trainer/models.py:97
 #: trainer/templates/leaderboard.html:41 website/models.py:23
 #: website/templates/account/signup.html:49
 #: website/templates/communities.html:25
 msgid "Team"
-msgstr ""
+msgstr "派"
 
 #: trainer/models.py:29
 msgid "Historic Cheater"
@@ -132,12 +169,14 @@ msgid "Last Cheated"
 msgstr ""
 
 #: trainer/models.py:31
+#, fuzzy
 msgid "Cheater"
-msgstr ""
+msgstr "詐欺師"
 
 #: trainer/models.py:32 website/templates/account/signup.html:84
+#, fuzzy
 msgid "Statistics"
-msgstr ""
+msgstr "統計"
 
 #: trainer/models.py:33
 msgid "Rate Goal"
@@ -157,59 +196,62 @@ msgstr ""
 
 #: trainer/models.py:37
 msgid "Pikachu Outbreak"
-msgstr ""
+msgstr "ピカチュウだけじゃない ピカチュウ大量発生チュウ！"
 
 #: trainer/models.py:38 trainer/models.py:39 trainer/models.py:40
 #: trainer/models.py:41 trainer/models.py:42 trainer/models.py:43
 #: trainer/models.py:44
 msgid "Safari Zone"
-msgstr ""
+msgstr "サファリゾーン"
 
 #: trainer/models.py:47 trainer/models.py:52 trainer/models.py:222
 msgid "Country"
-msgstr ""
+msgstr "国"
 
 #: trainer/models.py:48 trainer/models.py:53 trainer/models.py:229
 msgid "Region"
-msgstr ""
+msgstr "地方"
 
 #: trainer/models.py:49 trainer/models.py:54 trainer/models.py:236
 msgid "Subregion"
-msgstr ""
+msgstr "小地方"
 
 #: trainer/models.py:50 trainer/models.py:55 trainer/models.py:243
 msgid "City"
-msgstr ""
+msgstr "都市"
 
 #: trainer/models.py:57
+#, fuzzy
 msgid "Verified"
-msgstr ""
+msgstr "検証済み"
 
 #: trainer/models.py:77 trainer/models.py:102 trainer/models.py:213
 #: trainer/models.py:250 trainer/templates/create_update.html:25
 msgid "Trainer"
-msgstr ""
+msgstr "ポケモントレーナー "
 
 #: trainer/models.py:78
 msgid "Trainers"
-msgstr ""
+msgstr "ポケモントレーナー "
 
 #: trainer/models.py:81 website/models.py:17
 #: website/templates/communities.html:24
 msgid "Name"
-msgstr ""
+msgstr "名"
 
 #: trainer/models.py:82
 msgid "Colour"
-msgstr ""
+msgstr "色"
 
 #: trainer/models.py:83
+#, fuzzy
 msgid "Leader"
-msgstr ""
+msgstr "リーダー"
 
 #: trainer/models.py:98
+#, fuzzy
 msgid "Teams"
-msgstr ""
+msgstr "派"
 
 #: trainer/models.py:103
 msgid "Time Updated"
@@ -422,7 +464,9 @@ msgid "Crowd Sourced"
 msgstr ""
 
 #: trainer/models.py:179
-msgid "This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."
+msgid ""
+"This value has previously been entered at a higher value. Please try again, "
+"ensuring you enter your Total XP."
 msgstr ""
 
 #: trainer/models.py:209
@@ -497,7 +541,7 @@ msgstr ""
 
 #: trainer/templates/create_update.html:32
 msgid "Required"
-msgstr ""
+msgstr "必須"
 
 #: trainer/templates/create_update.html:35
 msgid "Pokédex Stats"
@@ -520,20 +564,21 @@ msgid "Fairy"
 msgstr ""
 
 #: trainer/templates/create_update.html:276 trainer/templates/profile.html:94
+#, fuzzy
 msgid "Submit"
-msgstr ""
+msgstr "提出する"
 
 #: trainer/templates/leaderboard.html:18
 msgid "Mystic"
-msgstr ""
+msgstr "ミスティック"
 
 #: trainer/templates/leaderboard.html:20
 msgid "Valor"
-msgstr ""
+msgstr "ヴァーラー"
 
 #: trainer/templates/leaderboard.html:22
 msgid "Instinct"
-msgstr ""
+msgstr "インスティンクト"
 
 #: trainer/templates/leaderboard.html:24
 msgid "Spoofers"
@@ -544,9 +589,11 @@ msgid "*"
 msgstr ""
 
 #: trainer/templates/leaderboard.html:30
-#, python-format
-msgid "If a trainer has a %(ss_ident)s next to their name, it means the information was sourced from social media."
-msgstr ""
+#, python-format, fuzzy
+msgid ""
+"If a trainer has a %(ss_ident)s next to their name, it means the information"
+" was sourced from social media."
+msgstr "※トレーナーが自分の名前の隣に%(ss_ident)sがある場合は、情報がソーシャルメディアから供給されたことを意味します。"
 
 #: trainer/templates/leaderboard.html:32
 msgid "Grand Total XP"
@@ -556,7 +603,7 @@ msgstr ""
 #: trainer/templates/profile.html:50 trainer/templates/update.html:10
 #: trainer/templates/update.html:49
 msgid "TL"
-msgstr ""
+msgstr "レベル"
 
 #: trainer/templates/leaderboard.html:43
 msgid "Date Updated"
@@ -607,7 +654,9 @@ msgid "Legendary Raids"
 msgstr ""
 
 #: trainer/templates/profile.html:132
-msgid "It seems this trainer hasn't shared any of these medals. We only show medals with data to avoid showing a row of null values, that's kinda ugly."
+msgid ""
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
 msgstr ""
 
 #: trainer/validators.py:8
@@ -632,7 +681,9 @@ msgid "Thanks for registering. You are now logged in."
 msgstr ""
 
 #: trainer/views.py:538
-msgid "Your screeenshots have been sent for verification. This can take up to 48 hours. You can start using the website immediately."
+msgid ""
+"Your screeenshots have been sent for verification. This can take up to 48 "
+"hours. You can start using the website immediately."
 msgstr ""
 
 #: website/models.py:18
@@ -726,7 +777,9 @@ msgid "Add E-mail Address"
 msgstr ""
 
 #: website/templates/account/email.html:26
-msgid "Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation."
+msgid ""
+"Add an email address to your account to get back in if you forget your "
+"password. Also, your primary email is used for gravatar generation."
 msgstr ""
 
 #. Translators: This is shown in the email field when it is empty
@@ -769,7 +822,10 @@ msgid "Warning:"
 msgstr ""
 
 #: website/templates/account/email.html:83
-msgid "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc."
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
 
 #: website/templates/account/email.html:94
@@ -830,7 +886,9 @@ msgstr ""
 
 #: website/templates/account/email_confirm.html:18
 #, python-format
-msgid "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s."
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
 msgstr ""
 
 #: website/templates/account/email_confirm.html:23
@@ -854,12 +912,16 @@ msgstr ""
 
 #: website/templates/account/login.html:22
 #, python-format
-msgid "If you already have an account, you can login below or via a third party account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
+msgid ""
+"If you already have an account, you can login below or via a third party "
+"account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
 msgstr ""
 
 #: website/templates/account/login.html:25
 #, python-format
-msgid "If you have not created an account yet, then please <a href=\"%(signup_url)s\">sign up</a> first."
+msgid ""
+"If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
 
 #: website/templates/account/login.html:33
@@ -949,7 +1011,9 @@ msgid "Password Reset"
 msgstr ""
 
 #: website/templates/account/password_reset.html:29
-msgid "Forgotten your password? Enter your e-mail address below, and we'll send you an e-mail allowing you to reset it."
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 
 #: website/templates/account/password_reset.html:30
@@ -965,7 +1029,9 @@ msgid "Reset My Password"
 msgstr ""
 
 #: website/templates/account/password_reset_done.html:17
-msgid "We have sent you an e-mail. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
 msgstr ""
 
 #: website/templates/account/password_reset_done.html:21
@@ -981,7 +1047,9 @@ msgid "Bad Token"
 msgstr ""
 
 #: website/templates/account/password_reset_from_key.html:18
-msgid "The password reset link was invalid, possibly because it has already been used."
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used."
 msgstr ""
 
 #: website/templates/account/password_reset_from_key.html:22
@@ -1021,7 +1089,9 @@ msgstr ""
 
 #: website/templates/account/signup.html:25
 #, python-format
-msgid "You would already have an account if you use the Discord bot, please <a href=\"%(login_url)s\">sign in</a>."
+msgid ""
+"You would already have an account if you use the Discord bot, please <a "
+"href=\"%(login_url)s\">sign in</a>."
 msgstr ""
 
 #: website/templates/account/signup.html:61
@@ -1048,11 +1118,14 @@ msgid "Sign Up Closed"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:15
-msgid "We are sorry, but registrations via the website are currently disabled."
+msgid ""
+"We are sorry, but registrations via the website are currently disabled."
 msgstr ""
 
 #: website/templates/account/signup_closed.html:16
-msgid "You can register via joining our Discord server and sharing a screenshot of your Pokémon Go profile"
+msgid ""
+"You can register via joining our Discord server and sharing a screenshot of "
+"your Pokémon Go profile"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:23
@@ -1074,15 +1147,24 @@ msgid "Verify Your E-mail Address"
 msgstr ""
 
 #: website/templates/account/verification_sent.html:15
-msgid "We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
 msgstr ""
 
 #: website/templates/account/verified_email_required.html:16
-msgid "This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address. "
+msgid ""
+"This part of the site requires us to verify that you are who you claim to "
+"be. For this purpose, we require that you verify ownership of your e-mail "
+"address. "
 msgstr ""
 
 #: website/templates/account/verified_email_required.html:17
-msgid "We have sent an e-mail to you for verification. Please click on the link inside this e-mail. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent an e-mail to you for verification. Please click on the link "
+"inside this e-mail. Please contact us if you do not receive it within a few "
+"minutes."
 msgstr ""
 
 #: website/templates/base.html:27
@@ -1186,15 +1268,20 @@ msgstr ""
 #: website/templates/index.html:5 website/templates/index.html:6
 #: website/templates/index.html:13
 msgid "Welcome"
-msgstr ""
+msgstr "ようこそ"
 
 #: website/templates/index.html:17
 #, python-format
-msgid "TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
+msgid ""
+"TrainerDex is a service for tracking and updating your progress in Pokémon "
+"Go. Don't worry, there's no risk of ban! Check out our <a "
+"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
 msgstr ""
 
 #: website/templates/index.html:19
-msgid "Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!"
+msgid ""
+"Our discord bot is currently live and provides <em>leaderboards, badges, "
+"profiles</em> and more!"
 msgstr ""
 
 #: website/templates/index.html:22
@@ -1213,7 +1300,7 @@ msgstr ""
 
 #: website/templates/index.html:27
 msgid "Let's go!"
-msgstr ""
+msgstr "行こう！"
 
 #: website/templates/socialaccount/authentication_error.html:5
 #: website/templates/socialaccount/authentication_error.html:6
@@ -1224,7 +1311,8 @@ msgid "Social Network Login Failure"
 msgstr ""
 
 #: website/templates/socialaccount/authentication_error.html:15
-msgid "An error occurred while attempting to login via your social network account."
+msgid ""
+"An error occurred while attempting to login via your social network account."
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:5
@@ -1238,11 +1326,15 @@ msgid "Log in via Social Media"
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:15
-msgid "You can sign in to your account using any of the following third party accounts"
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts"
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:33
-msgid "You can sign in to your account using any of the following third party accounts:"
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts:"
 msgstr ""
 
 #: website/templates/socialaccount/login_cancelled.html:12
