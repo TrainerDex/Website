@@ -9,25 +9,26 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-17 15:21+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2018-01-17 18:56+0000\n"
+"Last-Translator: b'  <pfuentes1985@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.7.13\n"
 
 #: support/templates/help/faq.html:5 support/templates/help/faq.html:6
 msgid "FAQ"
-msgstr ""
+msgstr "Preguntas frecuentes"
 
 #: support/templates/help/faq.html:7
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Preguntas frecuentes"
 
 #: support/templates/help/faq.html:15
 msgid "My total goal is missing!!!"
-msgstr ""
+msgstr "Mi objetivo total no se encuentra!!!"
 
 #: support/templates/help/faq.html:18
 msgid ""
@@ -39,10 +40,16 @@ msgid ""
 "                      <p>Since then, the default behaviour is to automatically move your goal on to the next level when you reach your goal, rather than resetting to zero. To give the user a choice <em>not</em> to have a goal. We removed phantom goals. Phantom goals didn't congratulate the user either, whereas set goals do.</p>\n"
 "                      "
 msgstr ""
+"\n"
+"<p><I>Esto no es una pregunta. Este es tu reclamo, pero tengo una respuesta de todos modos.</i></p>\n"
+"\n"
+"<p> Lo más probable es que tengas un <em> objetivo fantasma </em> Esto no tiene nada que ver con Danny Phantom, fantasmas, o un objetivo propio que nadie quiere reconocer. En cambio, esto se relaciona con los objetivos mostrados por el bot de Discord. Antes del 22 de diciembre, una vez que alcanzas tu objetivo, el bot lo reiniciará a cero. Cualquiera que esté por debajo del nivel 40 y una meta cero se le asignó un objetivo fantasma como promoción de metas. </p>\n"
+"\n"
+"<p> Desde entonces, el comportamiento predeterminado es mover automáticamente  tu objetivo al siguiente nivel cuando lo alcanzas, en lugar de volver a cero. Para darle al usuario la opción <em> no </ em> de tener un objetivo. Eliminamos objetivos fantasmas. Las metas fantasmas tampoco felicitan al usuario, mientras que las metas establecidas sí lo hacen. </p>"
 
 #: support/templates/help/faq.html:29
 msgid "How do I set a goal?"
-msgstr ""
+msgstr "¿Cómo establezco una meta?"
 
 #: support/templates/help/faq.html:32
 #, python-format
@@ -64,717 +71,762 @@ msgid ""
 "                      </ul>\n"
 "                      "
 msgstr ""
+"\n"
+"<p> Actualmente, las metas solo funcionan en el bot de Discord, sin embargo, pronto llegarán a la Web</p>\n"
+"\n"
+"<p>Simplemente escribe este mensaje al Bot de Discord <a href=\"%(discord_url)s\">TrainerDex#6280</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>\n"
+"\n"
+"<p class=\"help-faq-question\">Opciones</p>\n"
+"<ul>\n"
+"<li>\n"
+"<code>Diario</code> - Establece tu objetivo diario o de 'ritmo'. Este objetivo te muestra la velocidad a la que progresas. Toma un valor numérico que va de 0 a 3.000.000.\n"
+"</li>\n"
+"<li>\n"
+"<code>Total</code> - Establece tu objetivo total o de \"alcance\". Este objetivo es el que usarías para obtener una idea de cuándo llegarás a un punto específico. Esto toma un valor numérico que es al menos uno más que su experiencia actual.\n"
+"<em>nota al margen - <code>.update goal total</code> tiene una opción adicional<code>auto</code>, establece un objetivo basado en tu experiencia actual.</em>\n"
+"</li>\n"
+"</ul>"
 
 #: trainer/admin.py:46 trainer/models.py:256
 msgid "Reports"
-msgstr ""
+msgstr "Reportes"
 
 #: trainer/admin.py:49 trainer/templates/profile.html:73
 msgid "Medals"
-msgstr ""
+msgstr "Medallas"
 
 #: trainer/admin.py:52 trainer/templates/leaderboard.html:7
 #: trainer/templates/leaderboard.html:11 website/templates/base.html:80
 #: website/templates/base.html:127
 msgid "Leaderboard"
-msgstr ""
+msgstr "Tabla de clasificación"
 
 #: trainer/apps.py:7
 msgid "TrainerDex Profiles"
-msgstr ""
+msgstr "Perfiles de TrainerDex "
 
 #: trainer/errors.py:6
 msgid "Expected a Numeric ID, got gibberish."
-msgstr ""
+msgstr "Se esperaba un ID numérica, pero no se encontró"
 
 #: trainer/errors.py:9
 msgid "Expected a UUID, got gibberish."
-msgstr ""
+msgstr "Se esperaba un UUID, pero no se encontró"
 
 #: trainer/forms.py:49 website/templates/account/signup.html:73
 msgid "Profile Screenshot (Top)"
-msgstr ""
+msgstr "Captura de pantalla de perfil (Parte Superior)"
 
 #: trainer/forms.py:50 website/templates/account/signup.html:78
 msgid "Profile Screenshot (Bottom)"
-msgstr ""
+msgstr "Captura de pantalla de perfil (Parte Inferior)"
 
 #: trainer/models.py:24
 msgid "User"
-msgstr ""
+msgstr "Usuario"
 
 #: trainer/models.py:25
 msgid "Active"
-msgstr ""
+msgstr "Activo"
 
 #: trainer/models.py:26 trainer/templates/leaderboard.html:39
 #: website/templates/account/signup.html:31
 msgid "Username"
-msgstr ""
+msgstr "Nombre de Usuario"
 
 #: trainer/models.py:27 website/templates/account/signup.html:43
 msgid "Start Date"
-msgstr ""
+msgstr "Fecha de inicio"
 
 #: trainer/models.py:28 trainer/models.py:97
 #: trainer/templates/leaderboard.html:41 website/models.py:23
 #: website/templates/account/signup.html:49
 #: website/templates/communities.html:25
 msgid "Team"
-msgstr ""
+msgstr "Equipo"
 
 #: trainer/models.py:29
 msgid "Historic Cheater"
-msgstr ""
+msgstr "Historial de tramposos"
 
 #: trainer/models.py:30
 msgid "Last Cheated"
-msgstr ""
+msgstr "Último tramposo"
 
 #: trainer/models.py:31
 msgid "Cheater"
-msgstr ""
+msgstr "Tramposo"
 
 #: trainer/models.py:32 website/templates/account/signup.html:84
 msgid "Statistics"
-msgstr ""
+msgstr "Estadísticas "
 
 #: trainer/models.py:33
 msgid "Rate Goal"
-msgstr ""
+msgstr "Tasa de meta "
 
 #: trainer/models.py:34
 msgid "Reach Goal"
-msgstr ""
+msgstr "Alcanzar el objetivo"
 
 #: trainer/models.py:35
 msgid "Last Modified"
-msgstr ""
+msgstr "Última modificación"
 
 #: trainer/models.py:36
 msgid "Pokémon GO Fest Chicago"
-msgstr ""
+msgstr "Pokémon GO Festival en Chicago"
 
 #: trainer/models.py:37
 msgid "Pikachu Outbreak"
-msgstr ""
+msgstr "Estallido de Pikachus "
 
 #: trainer/models.py:38 trainer/models.py:39 trainer/models.py:40
 #: trainer/models.py:41 trainer/models.py:42 trainer/models.py:43
 #: trainer/models.py:44
 msgid "Safari Zone"
-msgstr ""
+msgstr "Zona Safari"
 
 #: trainer/models.py:47 trainer/models.py:52 trainer/models.py:222
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #: trainer/models.py:48 trainer/models.py:53 trainer/models.py:229
 msgid "Region"
-msgstr ""
+msgstr "Región"
 
 #: trainer/models.py:49 trainer/models.py:54 trainer/models.py:236
 msgid "Subregion"
-msgstr ""
+msgstr "Subregión"
 
 #: trainer/models.py:50 trainer/models.py:55 trainer/models.py:243
 msgid "City"
-msgstr ""
+msgstr "Ciudad"
 
 #: trainer/models.py:57
 msgid "Verified"
-msgstr ""
+msgstr "Verificado"
 
 #: trainer/models.py:77 trainer/models.py:102 trainer/models.py:213
 #: trainer/models.py:250 trainer/templates/create_update.html:25
 msgid "Trainer"
-msgstr ""
+msgstr "Entrenador"
 
 #: trainer/models.py:78
 msgid "Trainers"
-msgstr ""
+msgstr "Entrenadores"
 
 #: trainer/models.py:81 website/models.py:17
 #: website/templates/communities.html:24
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: trainer/models.py:82
 msgid "Colour"
-msgstr ""
+msgstr "Color"
 
 #: trainer/models.py:83
 msgid "Leader"
-msgstr ""
+msgstr "Líder"
 
 #: trainer/models.py:98
 msgid "Teams"
-msgstr ""
+msgstr "Equipo"
 
 #: trainer/models.py:103
 msgid "Time Updated"
-msgstr ""
+msgstr "Tiempo Actualizado"
 
 #: trainer/models.py:104 trainer/templates/create_update.html:31
 #: trainer/templates/leaderboard.html:42 trainer/templates/profile.html:89
 #: trainer/templates/profile.html:105 website/templates/account/signup.html:37
 msgid "XP"
-msgstr ""
+msgstr "Experiencia"
 
 #: trainer/models.py:105 trainer/templates/create_update.html:39
 msgid "Species Caught"
-msgstr ""
+msgstr "Especies atrapadas"
 
 #: trainer/models.py:106 trainer/templates/create_update.html:45
 msgid "Species Seen"
-msgstr ""
+msgstr "Especies vistas"
 
 #: trainer/models.py:107 trainer/templates/create_update.html:53
 msgid "Total Gym Badges"
-msgstr ""
+msgstr "Total medallas de gimnasios"
 
 #: trainer/models.py:109 trainer/templates/create_update.html:60
 #: trainer/views.py:264
 msgid "Distance Walked"
-msgstr ""
+msgstr "Distancia recorrida "
 
 #: trainer/models.py:110 trainer/templates/create_update.html:66
 #: trainer/views.py:265
 msgid "Kanto Pokédex"
-msgstr ""
+msgstr "Kanto Pokédex"
 
 #: trainer/models.py:111 trainer/templates/create_update.html:72
 #: trainer/templates/leaderboard.html:44 trainer/views.py:266
 msgid "Pokémon Caught"
-msgstr ""
+msgstr "Pokécolector"
 
 #: trainer/models.py:112 trainer/templates/create_update.html:78
 #: trainer/views.py:267
 msgid "Pokémon Evolved"
-msgstr ""
+msgstr "Científico "
 
 #: trainer/models.py:113 trainer/templates/create_update.html:84
 #: trainer/templates/leaderboard.html:46 trainer/views.py:268
 msgid "Eggs Hatched"
-msgstr ""
+msgstr "Criapokémon"
 
 #: trainer/models.py:114 trainer/templates/create_update.html:90
 #: trainer/templates/leaderboard.html:48 trainer/views.py:269
 msgid "Pokéstops Spun"
-msgstr ""
+msgstr "Mochilero"
 
 #: trainer/models.py:115 trainer/templates/create_update.html:114
 #: trainer/views.py:270
 msgid "Big Magikarp"
-msgstr ""
+msgstr "Pescador"
 
 #: trainer/models.py:116 trainer/templates/create_update.html:96
 #: trainer/views.py:271
 msgid "Battles Won"
-msgstr ""
+msgstr "Luchador"
 
 #: trainer/models.py:117 trainer/views.py:272
 msgid "Ace Trainer"
-msgstr ""
+msgstr "Esquiador"
 
 #: trainer/models.py:118 trainer/templates/create_update.html:102
 #: trainer/views.py:273
 msgid "Tiny Rattata"
-msgstr ""
+msgstr "Joven"
 
 #: trainer/models.py:119 trainer/templates/create_update.html:108
 #: trainer/views.py:274
 msgid "Pikachu Caught"
-msgstr ""
+msgstr "Fan de Pikachu"
 
 #: trainer/models.py:120 trainer/templates/create_update.html:126
 #: trainer/views.py:275
 msgid "Johto Pokédex"
-msgstr ""
+msgstr "Johto"
 
 #: trainer/models.py:121 trainer/templates/create_update.html:120
 #: trainer/views.py:276
 msgid "Unown"
-msgstr ""
+msgstr "Unown"
 
 #: trainer/models.py:122 trainer/templates/create_update.html:132
 #: trainer/views.py:277
 msgid "Berries Fed"
-msgstr ""
+msgstr "Maestro de Bayas"
 
 #: trainer/models.py:123 trainer/templates/create_update.html:138
 #: trainer/views.py:278
 msgid "Gyms Defended (Hours)"
-msgstr ""
+msgstr "Líder de gimnasio "
 
 #: trainer/models.py:124 trainer/templates/create_update.html:144
 #: trainer/views.py:279
 msgid "Raids Completed (Levels 1-4)"
-msgstr ""
+msgstr "Campeón (Nivel 1-4)"
 
 #: trainer/models.py:125 trainer/templates/create_update.html:156
 #: trainer/views.py:280
 msgid "Raids Completed (Level 5)"
-msgstr ""
+msgstr "Combates legendarios (Nivel 5)"
 
 #: trainer/models.py:126 trainer/templates/create_update.html:150
 #: trainer/views.py:281
 msgid "Hoenn Pokédex"
-msgstr ""
+msgstr "Hoenn"
 
 #: trainer/models.py:128 trainer/templates/create_update.html:164
 #: trainer/views.py:285
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: trainer/models.py:129 trainer/templates/create_update.html:170
 #: trainer/views.py:286
 msgid "Flying"
-msgstr ""
+msgstr "Volador"
 
 #: trainer/models.py:130 trainer/templates/create_update.html:176
 #: trainer/views.py:287
 msgid "Poison"
-msgstr ""
+msgstr "Veneno"
 
 #: trainer/models.py:131 trainer/templates/create_update.html:182
 #: trainer/views.py:288
 msgid "Ground"
-msgstr ""
+msgstr "Tierra"
 
 #: trainer/models.py:132 trainer/templates/create_update.html:188
 #: trainer/views.py:289
 msgid "Rock"
-msgstr ""
+msgstr "Roca"
 
 #: trainer/models.py:133 trainer/templates/create_update.html:194
 #: trainer/views.py:290
 msgid "Bug"
-msgstr ""
+msgstr "Bicho"
 
 #: trainer/models.py:134 trainer/templates/create_update.html:200
 #: trainer/views.py:291
 msgid "Steel"
-msgstr ""
+msgstr "Acero"
 
 #: trainer/models.py:135 trainer/templates/create_update.html:206
 #: trainer/views.py:292
 msgid "Fire"
-msgstr ""
+msgstr "Fuego"
 
 #: trainer/models.py:136 trainer/templates/create_update.html:212
 #: trainer/views.py:293
 msgid "Water"
-msgstr ""
+msgstr "Agua"
 
 #: trainer/models.py:137 trainer/templates/create_update.html:218
 msgid "Grass"
-msgstr ""
+msgstr "Planta"
 
 #: trainer/models.py:138 trainer/templates/create_update.html:224
 #: trainer/views.py:294
 msgid "Electric"
-msgstr ""
+msgstr "Eléctrico "
 
 #: trainer/models.py:139
 msgid "Pychic"
-msgstr ""
+msgstr "Psíquico "
 
 #: trainer/models.py:140 trainer/templates/create_update.html:236
 #: trainer/views.py:296
 msgid "Dark"
-msgstr ""
+msgstr "Siniestro"
 
 #: trainer/models.py:141
 msgid "Fary"
-msgstr ""
+msgstr "Hada"
 
 #: trainer/models.py:142 trainer/templates/create_update.html:248
 #: trainer/views.py:298
 msgid "Fighting"
-msgstr ""
+msgstr "Pelea"
 
 #: trainer/models.py:143 trainer/templates/create_update.html:254
 #: trainer/views.py:299
 msgid "Ghost"
-msgstr ""
+msgstr "Fantasma"
 
 #: trainer/models.py:144 trainer/templates/create_update.html:260
 #: trainer/views.py:300
 msgid "Ice"
-msgstr ""
+msgstr "Hielo"
 
 #: trainer/models.py:145 trainer/templates/create_update.html:266
 #: trainer/views.py:301
 msgid "Dragon"
-msgstr ""
+msgstr "Dragón"
 
 #: trainer/models.py:147
 msgid "Time Created"
-msgstr ""
+msgstr "Tiempo creado"
 
 #: trainer/models.py:159
 msgid "Source"
-msgstr ""
+msgstr "Fuente"
 
 #: trainer/models.py:166
 msgid "Crowd Sourced"
-msgstr ""
+msgstr "Fuente de origen "
 
 #: trainer/models.py:179
-msgid "This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."
+msgid ""
+"This value has previously been entered at a higher value. Please try again, "
+"ensuring you enter your Total XP."
 msgstr ""
+"Este valor fue previamente entrado como un valor alto. Por favor, vuelva a "
+"internarlo, asegúrate que ingreses el total de tu XP."
 
 #: trainer/models.py:209
 msgid "Update"
-msgstr ""
+msgstr "Actualización"
 
 #: trainer/models.py:210
 msgid "Updates"
-msgstr ""
+msgstr "Actualizaciones"
 
 #: trainer/models.py:214
 msgid "Show on profile"
-msgstr ""
+msgstr "Mostrar en perfil"
 
 #: trainer/models.py:215
 msgid "Show in local directory"
-msgstr ""
+msgstr "Mostrar en directorio local"
 
 #: trainer/models.py:216
 msgid "Subscribe to updates"
-msgstr ""
+msgstr "Suscribirse a actualizaciones "
 
 #: trainer/models.py:225
 msgid "Play Zone - National"
-msgstr ""
+msgstr "Zona de juego - Nacional"
 
 #: trainer/models.py:226
 msgid "Play Zones - National"
-msgstr ""
+msgstr "Zona de juegos - Nacional"
 
 #: trainer/models.py:232
 msgid "Play Zone - Regional"
-msgstr ""
+msgstr "Zona de juego - Regional"
 
 #: trainer/models.py:233
 msgid "Play Zones - Regional"
-msgstr ""
+msgstr "Zona de juegos - Regional"
 
 #: trainer/models.py:239
 msgid "Play Zone - Subregional"
-msgstr ""
+msgstr "Zona de juego -  Subregional"
 
 #: trainer/models.py:240
 msgid "Play Zones - Subregional"
-msgstr ""
+msgstr "Zona de juegos - Subregional "
 
 #: trainer/models.py:246
 msgid "Play Zone - City-wide"
-msgstr ""
+msgstr "Zona de juego - Toda la ciudad"
 
 #: trainer/models.py:247
 msgid "Play Zones - City-wide"
-msgstr ""
+msgstr "Zona de juegos - Toda la ciudad "
 
 #: trainer/models.py:251
 msgid "Reported by"
-msgstr ""
+msgstr "Reportado por "
 
 #: trainer/models.py:252 trainer/models.py:255
 msgid "Report"
-msgstr ""
+msgstr "Reporte"
 
 #: trainer/templates/create_update.html:7
 #: trainer/templates/create_update.html:8
 #: trainer/templates/create_update.html:17
 msgid "Update Stats"
-msgstr ""
+msgstr "Actualizar estadisticas "
 
 #: trainer/templates/create_update.html:13
 msgid "Input must be a positive number!"
-msgstr ""
+msgstr "La entrada debe ser un numero positivo !"
 
 #: trainer/templates/create_update.html:32
 msgid "Required"
-msgstr ""
+msgstr "Requerido"
 
 #: trainer/templates/create_update.html:35
 msgid "Pokédex Stats"
-msgstr ""
+msgstr "Estadísticas de la Pokédex"
 
 #: trainer/templates/create_update.html:49
 msgid "Profile Medals"
-msgstr ""
+msgstr "Insignias"
 
 #: trainer/templates/create_update.html:160
 msgid "Pokémon Type Medals"
-msgstr ""
+msgstr "Medallas de Pokémon por tipo"
 
 #: trainer/templates/create_update.html:230 trainer/views.py:295
 msgid "Psychic"
-msgstr ""
+msgstr "Psíquico "
 
 #: trainer/templates/create_update.html:242 trainer/views.py:297
 msgid "Fairy"
-msgstr ""
+msgstr "Hada"
 
 #: trainer/templates/create_update.html:276 trainer/templates/profile.html:94
 msgid "Submit"
-msgstr ""
+msgstr "Enviar"
 
 #: trainer/templates/leaderboard.html:18
 msgid "Mystic"
-msgstr ""
+msgstr "Sabiduría "
 
 #: trainer/templates/leaderboard.html:20
 msgid "Valor"
-msgstr ""
+msgstr "Valor"
 
 #: trainer/templates/leaderboard.html:22
 msgid "Instinct"
-msgstr ""
+msgstr "Instinto"
 
 #: trainer/templates/leaderboard.html:24
 msgid "Spoofers"
-msgstr ""
+msgstr "Spoofers"
 
 #: trainer/templates/leaderboard.html:29
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: trainer/templates/leaderboard.html:30
 #, python-format
-msgid "If a trainer has a %(ss_ident)s next to their name, it means the information was sourced from social media."
+msgid ""
+"If a trainer has a %(ss_ident)s next to their name, it means the information"
+" was sourced from social media."
 msgstr ""
+"Si el entrenador tiene %(ss_ident)s cerca de su nombre, quiere decir que la "
+"información a sido obtenida desde la red social."
 
 #: trainer/templates/leaderboard.html:32
 msgid "Grand Total XP"
-msgstr ""
+msgstr "Total de experiencia"
 
 #: trainer/templates/leaderboard.html:40 trainer/templates/profile.html:10
 #: trainer/templates/profile.html:50 trainer/templates/update.html:10
 #: trainer/templates/update.html:49
 msgid "TL"
-msgstr ""
+msgstr "Nivel de Entrenador"
 
 #: trainer/templates/leaderboard.html:43
 msgid "Date Updated"
-msgstr ""
+msgstr "Fecha actualizada"
 
 #: trainer/templates/leaderboard.html:45
 msgid "Hours Defended"
-msgstr ""
+msgstr "Horas defendiendo"
 
 #: trainer/templates/leaderboard.html:47
 msgid "KM Walked"
-msgstr ""
+msgstr "KM caminados"
 
 #: trainer/templates/profile.html:72
 msgid "History"
-msgstr ""
+msgstr "Historia"
 
 #: trainer/templates/profile.html:74
 msgid "Type Medals"
-msgstr ""
+msgstr "Tipo de medallas"
 
 #: trainer/templates/profile.html:82
 msgid "Quick Update"
-msgstr ""
+msgstr "Actualización rapida"
 
 #: trainer/templates/profile.html:104
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #: trainer/templates/profile.html:106
 msgid "Pokémon"
-msgstr ""
+msgstr "Pokémon"
 
 #: trainer/templates/profile.html:107
 msgid "Evolved"
-msgstr ""
+msgstr "Evolucionados"
 
 #: trainer/templates/profile.html:108
 msgid "Eggs"
-msgstr ""
+msgstr "Huevos"
 
 #: trainer/templates/profile.html:109
 msgid "Raids"
-msgstr ""
+msgstr "Incursiones"
 
 #: trainer/templates/profile.html:110
 msgid "Legendary Raids"
-msgstr ""
+msgstr "Incursiones Legendarias"
 
 #: trainer/templates/profile.html:132
-msgid "It seems this trainer hasn't shared any of these medals. We only show medals with data to avoid showing a row of null values, that's kinda ugly."
+msgid ""
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
 msgstr ""
+"Parece que este entrenador no ha compartido ninguna de sus medallas. Solo "
+"mostramos medallas con datos para evitar mostrar una fila de valores nulos, "
+"eso es feo."
 
 #: trainer/validators.py:8
 msgid "The date you entered was before launch date of 6th July 2016"
-msgstr ""
+msgstr "La fecha que proveíste es antes del lanzamiento 6 de julio de 2016"
 
 #: trainer/views.py:115
 msgid "Profile deactivated"
-msgstr ""
+msgstr "Perfil desactivado"
 
 #: trainer/views.py:205
 msgid "Late Update Deletion Request"
-msgstr ""
+msgstr "Solicitud de eliminación tardía"
 
 #: trainer/views.py:206
 #, python-brace-format
 msgid "There has been a request to delete {update} by {requester} at {ip}"
 msgstr ""
+"Ha habido una solicitud para eliminar  {update} por  {requester} por  {ip}"
 
 #: trainer/views.py:529
 msgid "Thanks for registering. You are now logged in."
-msgstr ""
+msgstr "Gracias por registrarte. Ahora tu has accedido "
 
 #: trainer/views.py:538
-msgid "Your screeenshots have been sent for verification. This can take up to 48 hours. You can start using the website immediately."
+msgid ""
+"Your screeenshots have been sent for verification. This can take up to 48 "
+"hours. You can start using the website immediately."
 msgstr ""
+"Tus capturas de pantalla han sido enviadas para ser verificadas. Esto puede "
+"tomar hasta 48 horas. Puedes empezar a utilizar el sitio inmediatamente."
 
 #: website/models.py:18
 msgid "Countries"
-msgstr ""
+msgstr "Países"
 
 #: website/models.py:19
 msgid "Regions"
-msgstr ""
+msgstr "Regiones"
 
 #: website/models.py:20
 msgid "Subregions"
-msgstr ""
+msgstr "Subregiones"
 
 #: website/models.py:21
 msgid "Cities"
-msgstr ""
+msgstr "Ciudades"
 
 #: website/models.py:22
 msgid "Districts"
-msgstr ""
+msgstr "Distritos"
 
 #: website/models.py:24 website/templates/communities.html:27
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #: website/models.py:25
 msgid "Long Description"
-msgstr ""
+msgstr "Descripción larga"
 
 #: website/models.py:47
 msgid "Enhanced"
-msgstr ""
+msgstr "Mejorado"
 
 #: website/models.py:71
 msgid "Discord Server"
-msgstr ""
+msgstr "Servidor de Discord"
 
 #: website/models.py:72
 msgid "Discord Servers"
-msgstr ""
+msgstr "Servidores de Discord"
 
 #: website/models.py:90
 msgid "WhatsApp Group"
-msgstr ""
+msgstr "Grupo de WhatsApp"
 
 #: website/models.py:91
 msgid "WhatsApp Groups"
-msgstr ""
+msgstr "Grupos de WhatsApp"
 
 #: website/models.py:113
 msgid "Facebook Group"
-msgstr ""
+msgstr "Grupo de Facebook"
 
 #: website/models.py:114
 msgid "Facebook Groups"
-msgstr ""
+msgstr "Grupos de Facebook"
 
 #: website/models.py:132
 msgid "Facebook Messenger Group"
-msgstr ""
+msgstr "Grupo de Messenger en Facebook"
 
 #: website/models.py:133
 msgid "Facebook Messenger Groups"
-msgstr ""
+msgstr "Grupos de Messenger en Facebook"
 
 #: website/templates/account/account_inactive.html:5
 #: website/templates/account/account_inactive.html:6
 #: website/templates/account/account_inactive.html:12
 msgid "Account Inactive"
-msgstr ""
+msgstr "Cuenta Inactiva"
 
 #: website/templates/account/account_inactive.html:15
 msgid "This account is inactive."
-msgstr ""
+msgstr "Esta cuenta esta inactiva."
 
 #: website/templates/account/account_inactive.html:19
 #: website/templates/account/password_reset_from_key.html:45
 #: website/templates/socialaccount/authentication_error.html:19
 #: website/templates/socialaccount/login_cancelled.html:19
 msgid "Return to login page"
-msgstr ""
+msgstr "Volver a la página de Inicio de Sesión "
 
 #: website/templates/account/email.html:6
 #: website/templates/account/email.html:7
 msgid "Account"
-msgstr ""
+msgstr "Cuenta"
 
 #: website/templates/account/email.html:22
 msgid "Add E-mail Address"
-msgstr ""
+msgstr "Agregar correo electrónico "
 
 #: website/templates/account/email.html:26
-msgid "Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation."
+msgid ""
+"Add an email address to your account to get back in if you forget your "
+"password. Also, your primary email is used for gravatar generation."
 msgstr ""
+"Agregue una dirección de correo electrónico a su cuenta para volver a "
+"ingresar si olvida su contraseña. Además, su correo electrónico principal se"
+" usa para la generación de Gravatar."
 
 #. Translators: This is shown in the email field when it is empty
 #: website/templates/account/email.html:30
 #: website/templates/account/signup.html:55
 msgid "Enter email..."
-msgstr ""
+msgstr "Ingrese su correo electrónico..."
 
 #: website/templates/account/email.html:36
 msgid "Add E-mail"
-msgstr ""
+msgstr "Agregar correo electrónico "
 
 #: website/templates/account/email.html:44
 msgid "E-mail Addresses"
-msgstr ""
+msgstr "Direcciones de correo electrónico"
 
 #: website/templates/account/email.html:51
 msgid "The following e-mail addresses are associated with your account:"
 msgstr ""
+"La siguiente dirección de correo electrónico esta asociada con tu cuenta:"
 
 #: website/templates/account/email.html:59
 msgid "Primary"
-msgstr ""
+msgstr "Primario"
 
 #: website/templates/account/email.html:71
 msgid "Make Primary"
-msgstr ""
+msgstr "Hacer Primario"
 
 #: website/templates/account/email.html:72
 msgid "Re-send Verification"
-msgstr ""
+msgstr "Re enviar verificación"
 
 #: website/templates/account/email.html:73
 #: website/templates/socialaccount/connections.html:51
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: website/templates/account/email.html:83
 msgid "Warning:"
-msgstr ""
+msgstr "Advertencia:"
 
 #: website/templates/account/email.html:83
-msgid "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc."
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
+"Actualmente no tienes ninguna dirección de correo electrónico configurada. "
+"Realmente debería agregar una dirección de correo electrónico para que pueda"
+" recibir notificaciones, restablecer su contraseña, etc."
 
 #: website/templates/account/email.html:94
 msgid "Do you really want to remove the selected e-mail address?"
-msgstr ""
+msgstr "¿Realmente quires remover el correo electrónico seleccionado?"
 
 #: website/templates/account/email/email_confirmation_message.txt:1
 #, python-format
@@ -785,6 +837,11 @@ msgid ""
 "\n"
 "To confirm this is correct, go to %(activate_url)s\n"
 msgstr ""
+"Saludos desde %(site_name)!\n"
+"\n"
+"Estas recibiendo este correo porque el usuario %(user_display) a conectado este correo electrónico en su cuenta. Si no fuiste tu, por favor ignora este correo.\n"
+"\n"
+"Para confirmar que es correcto, vaya a  %(activate_url)s\n"
 
 #: website/templates/account/email/email_confirmation_message.txt:7
 #, python-format
@@ -792,10 +849,12 @@ msgid ""
 "Thank you from %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
+"Gracias desde Thank you from %(site_name)s!\n"
+"%(site_domain)s"
 
 #: website/templates/account/email/email_confirmation_subject.txt:3
 msgid "Please confirm your E-mail Address"
-msgstr ""
+msgstr "Por favor, confirme su dirección de correo electrónico"
 
 #: website/templates/account/email/password_reset_key_message.txt:1
 #, python-format
@@ -805,11 +864,15 @@ msgid ""
 "You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
 "It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
 msgstr ""
+"Saludos desde  %(site_name)s!\n"
+"\n"
+"Estas recibiendo este correo porque tu u otra persona ha solicitado una contraseña para su cuenta de usuario.\n"
+"Se puede ignorar de forma segura si no solicitó un restablecimiento de contraseña. Haga clic en el siguiente enlace para restablecer su contraseña."
 
 #: website/templates/account/email/password_reset_key_message.txt:8
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
-msgstr ""
+msgstr "En caso que lo hayas olvidado, tu usuario es %(username)s."
 
 #: website/templates/account/email/password_reset_key_message.txt:10
 #, python-format
@@ -817,114 +880,130 @@ msgid ""
 "Thank you for using %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
+"Gracias por utilizar %(site_name)s!\n"
+"%(site_domain)s"
 
 #: website/templates/account/email/password_reset_key_subject.txt:3
 msgid "Password Reset E-mail"
-msgstr ""
+msgstr "Email de restablecimiento de contraseña"
 
 #: website/templates/account/email_confirm.html:6
 #: website/templates/account/email_confirm.html:7
 #: website/templates/account/email_confirm.html:13
 msgid "Confirm E-mail Address"
-msgstr ""
+msgstr "Confirmar dirección de correo electrónico "
 
 #: website/templates/account/email_confirm.html:18
 #, python-format
-msgid "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s."
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
 msgstr ""
+"Por favor, confirme que (email)s\">%(email)s</a> es el correo electronic "
+"para el usuario  %(user_display)s."
 
 #: website/templates/account/email_confirm.html:23
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #: website/templates/account/email_confirm.html:29
 msgid "This e-mail confirmation link expired or is invalid."
 msgstr ""
+"Este enlace de confirmación por correo electrónico expiró o no es válido."
 
 #: website/templates/account/email_confirm.html:33
 msgid "Resend confirmation email"
-msgstr ""
+msgstr "Re enviar correo electrónico de confirmación"
 
 #: website/templates/account/login.html:7
 #: website/templates/account/login.html:8
 #: website/templates/account/login.html:16
 #: website/templates/account/login.html:43
 msgid "Sign In"
-msgstr ""
+msgstr "Inicio de sesión"
 
 #: website/templates/account/login.html:22
 #, python-format
-msgid "If you already have an account, you can login below or via a third party account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
+msgid ""
+"If you already have an account, you can login below or via a third party "
+"account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
 msgstr ""
+"Si tu ya tienes una cuenta, puedes iniciar sesión a continuación o utilizado"
+" una cuenta de terceros. Si no, <a href=\"%(signup_url)s\">crea</a> tu nueva"
+" cuenta."
 
 #: website/templates/account/login.html:25
 #, python-format
-msgid "If you have not created an account yet, then please <a href=\"%(signup_url)s\">sign up</a> first."
+msgid ""
+"If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
+"Si no hay creado una cuenta aún,  por favor <a href=\"%(signup_url)s\">Crea "
+"una cuenta</a> primero."
 
 #: website/templates/account/login.html:33
 msgid "Remember me"
-msgstr ""
+msgstr "Recuérdame "
 
 #: website/templates/account/login.html:36
 msgid "Forgotten password?"
-msgstr ""
+msgstr "¿Olvidó su contraseña?"
 
 #: website/templates/account/logout.html:5
 #: website/templates/account/logout.html:6
 #: website/templates/account/logout.html:12
 #: website/templates/account/logout.html:23
 msgid "Sign Out"
-msgstr ""
+msgstr "Cerrar sesión"
 
 #: website/templates/account/logout.html:15
 msgid "Are you sure you want to sign out?"
-msgstr ""
+msgstr "¿Estás seguro que quieres salir?"
 
 #: website/templates/account/messages/cannot_delete_primary_email.txt:2
 #, python-format
 msgid "You cannot remove your primary e-mail address (%(email)s)."
-msgstr ""
+msgstr "No puedes eliminar tu dirección de correo primaria (%(email)s)."
 
 #: website/templates/account/messages/email_confirmation_sent.txt:2
 #, python-format
 msgid "Confirmation e-mail sent to %(email)s."
-msgstr ""
+msgstr "Confirmación de coreo electrónico enviado a %(email)s."
 
 #: website/templates/account/messages/email_confirmed.txt:2
 #, python-format
 msgid "You have confirmed %(email)s."
-msgstr ""
+msgstr "Tu haz confirmado %(email)s."
 
 #: website/templates/account/messages/email_deleted.txt:2
 #, python-format
 msgid "Removed e-mail address %(email)s."
-msgstr ""
+msgstr "Remover dirección de correo electrónico %(email)s."
 
 #: website/templates/account/messages/logged_in.txt:4
 #, python-format
 msgid "Successfully signed in as %(name)s."
-msgstr ""
+msgstr "Inicio de sesiono correcto como %(name)s."
 
 #: website/templates/account/messages/logged_out.txt:2
 msgid "You have signed out."
-msgstr ""
+msgstr "Tu haz cerrado sesión."
 
 #: website/templates/account/messages/password_changed.txt:3
 msgid "Password successfully changed to hunter2."
-msgstr ""
+msgstr "La contraseña ha sido cambiada a hunter2."
 
 #: website/templates/account/messages/password_set.txt:2
 msgid "Password successfully set."
-msgstr ""
+msgstr "Contraseña correctamente cambiada."
 
 #: website/templates/account/messages/primary_email_set.txt:2
 msgid "Primary e-mail address set."
-msgstr ""
+msgstr "Correo electrónico primario establecido."
 
 #: website/templates/account/messages/unverified_primary_email.txt:2
 msgid "Your primary e-mail address must be verified."
-msgstr ""
+msgstr "Tu dirección de correo electrónico primario debe ser verificada."
 
 #: website/templates/account/password_change.html:6
 #: website/templates/account/password_change.html:7
@@ -937,7 +1016,7 @@ msgstr ""
 #: website/templates/account/password_reset_from_key_done.html:5
 #: website/templates/account/password_reset_from_key_done.html:11
 msgid "Change Password"
-msgstr ""
+msgstr "Cambiar contraseña"
 
 #: website/templates/account/password_reset.html:7
 #: website/templates/account/password_reset.html:8
@@ -946,27 +1025,36 @@ msgstr ""
 #: website/templates/account/password_reset_done.html:7
 #: website/templates/account/password_reset_done.html:13
 msgid "Password Reset"
-msgstr ""
+msgstr "Resetear contraseña"
 
 #: website/templates/account/password_reset.html:29
-msgid "Forgotten your password? Enter your e-mail address below, and we'll send you an e-mail allowing you to reset it."
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
+"Haz olvidado tu contraseña? Introduce la dirección de correo electrónico a "
+"continuación y te enviaremos un correo electrónico que te permitirá "
+"resetearla."
 
 #: website/templates/account/password_reset.html:30
 msgid "Please contact us if you have any trouble resetting your password."
-msgstr ""
+msgstr "Por favor, contáctanos si tienes problemas reseteando tu contraseña"
 
 #: website/templates/account/password_reset.html:33
 msgid "Email address..."
-msgstr ""
+msgstr "Dirección de correo electrónico..."
 
 #: website/templates/account/password_reset.html:37
 msgid "Reset My Password"
-msgstr ""
+msgstr "Resetear mi contraseña"
 
 #: website/templates/account/password_reset_done.html:17
-msgid "We have sent you an e-mail. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
 msgstr ""
+"Te hemos enviado un correo electrónico. Por favor contáctenos si no lo "
+"recibes en unos minutos."
 
 #: website/templates/account/password_reset_done.html:21
 #: website/templates/account/password_reset_from_key_done.html:18
@@ -974,42 +1062,46 @@ msgstr ""
 #: website/templates/account/verification_sent.html:18
 #: website/templates/socialaccount/login_cancelled.html:22
 msgid "Return to homepage"
-msgstr ""
+msgstr "Volver al Inicio"
 
 #: website/templates/account/password_reset_from_key.html:13
 msgid "Bad Token"
-msgstr ""
+msgstr "Token malo"
 
 #: website/templates/account/password_reset_from_key.html:18
-msgid "The password reset link was invalid, possibly because it has already been used."
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used."
 msgstr ""
+"El link para resetear tu contraseña es invalido, posiblemente porque ya ha "
+"sido utilizado."
 
 #: website/templates/account/password_reset_from_key.html:22
 msgid "New password reset key"
-msgstr ""
+msgstr "Nueva clave para restablecer contraseña"
 
 #: website/templates/account/password_reset_from_key.html:36
 msgid "change password"
-msgstr ""
+msgstr "cambiar contraseña"
 
 #: website/templates/account/password_reset_from_key.html:41
 msgid "Your password has now been changed."
-msgstr ""
+msgstr "Tu contraseña ha sido cambiada"
 
 #: website/templates/account/password_reset_from_key_done.html:14
 msgid "Your password is now changed."
-msgstr ""
+msgstr "Tu contraseña ha cambiado."
 
 #: website/templates/account/password_set.html:6
 #: website/templates/account/password_set.html:7
 #: website/templates/account/password_set.html:13
 #: website/templates/account/password_set.html:27
 msgid "Set Password"
-msgstr ""
+msgstr "Configurar contraseña"
 
 #: website/templates/account/password_set.html:18
 msgid "Please set a password! They're quite important you know."
-msgstr ""
+msgstr "Por favor configura tu contraseña!. Es súper importante, ya sabes.!"
 
 #: website/templates/account/signup.html:7
 #: website/templates/account/signup.html:8
@@ -1017,52 +1109,61 @@ msgstr ""
 #: website/templates/socialaccount/signup.html:5
 #: website/templates/socialaccount/signup.html:6
 msgid "Signup"
-msgstr ""
+msgstr "Registrate "
 
 #: website/templates/account/signup.html:25
 #, python-format
-msgid "You would already have an account if you use the Discord bot, please <a href=\"%(login_url)s\">sign in</a>."
+msgid ""
+"You would already have an account if you use the Discord bot, please <a "
+"href=\"%(login_url)s\">sign in</a>."
 msgstr ""
+" tendrías una cuenta si usas el bot de Discord, por favor <a "
+"href=\"%(login_url)s\">registrarse</a>."
 
 #: website/templates/account/signup.html:61
 msgid "Enter password"
-msgstr ""
+msgstr "Ingrese su contraseña"
 
 #: website/templates/account/signup.html:67
 msgid "Re-enter password"
-msgstr ""
+msgstr "Re ingrese su contraseña"
 
 #: website/templates/account/signup.html:71
 msgid "Screenshots"
-msgstr ""
+msgstr "Capturas de pantalla"
 
 #: website/templates/account/signup.html:89 website/templates/base.html:96
 #: website/templates/base.html:118
 msgid "Register"
-msgstr ""
+msgstr "Registrar"
 
 #: website/templates/account/signup_closed.html:5
 #: website/templates/account/signup_closed.html:6
 #: website/templates/account/signup_closed.html:12
 msgid "Sign Up Closed"
-msgstr ""
+msgstr "Inscripción cerrada"
 
 #: website/templates/account/signup_closed.html:15
-msgid "We are sorry, but registrations via the website are currently disabled."
-msgstr ""
+msgid ""
+"We are sorry, but registrations via the website are currently disabled."
+msgstr "Lo sentimos, pero el registro vía este sitio están desactivadas"
 
 #: website/templates/account/signup_closed.html:16
-msgid "You can register via joining our Discord server and sharing a screenshot of your Pokémon Go profile"
+msgid ""
+"You can register via joining our Discord server and sharing a screenshot of "
+"your Pokémon Go profile"
 msgstr ""
+"Te puedes registrar uniéndotelas en nuestro servidor en Discord y compartir "
+"una captura de pantalla de tu perfil en Pokémon Go"
 
 #: website/templates/account/signup_closed.html:23
 msgid "Register via Discord"
-msgstr ""
+msgstr "Registro vía Discord"
 
 #: website/templates/account/snippets/already_logged_in.html:5
 #, python-format
 msgid "you are already logged in as %(user_display)s."
-msgstr ""
+msgstr "Haz iniciado sesión como %(user_display)s."
 
 #: website/templates/account/verification_sent.html:5
 #: website/templates/account/verification_sent.html:6
@@ -1071,149 +1172,181 @@ msgstr ""
 #: website/templates/account/verified_email_required.html:6
 #: website/templates/account/verified_email_required.html:12
 msgid "Verify Your E-mail Address"
-msgstr ""
+msgstr "Verifica tu dirección de correo electrónico "
 
 #: website/templates/account/verification_sent.html:15
-msgid "We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
 msgstr ""
+"Le hemos enviado un correo electrónico para su verificación. Siga el enlace "
+"provisto para finalizar el proceso de registro. Por favor contáctenos si no "
+"lo recibe en unos minutos."
 
 #: website/templates/account/verified_email_required.html:16
-msgid "This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address. "
+msgid ""
+"This part of the site requires us to verify that you are who you claim to "
+"be. For this purpose, we require that you verify ownership of your e-mail "
+"address. "
 msgstr ""
+"Esta parte del sitio requiere que verifiquemos que usted es quien dice ser. "
+"Para este fin, le solicitamos que verifique la propiedad de su dirección de "
+"correo electrónico."
 
 #: website/templates/account/verified_email_required.html:17
-msgid "We have sent an e-mail to you for verification. Please click on the link inside this e-mail. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent an e-mail to you for verification. Please click on the link "
+"inside this e-mail. Please contact us if you do not receive it within a few "
+"minutes."
 msgstr ""
+"Le hemos enviado un correo electrónico para su verificación. Haga clic en el"
+" enlace dentro de este correo. Por favor contáctenos si no lo recibe en unos"
+" minutos."
 
 #: website/templates/base.html:27
 msgid "Introducing TrainerDex, the social experience Pokemon Go is lacking!"
 msgstr ""
+"Presentando TrainerDex, la experiencia social que le faltaba a Pokémon Go!"
 
 #. Translators: 'beta' should remain in lowercase
 #: website/templates/base.html:62 website/templates/base.html:85
 msgid "beta"
-msgstr ""
+msgstr "beta (minúscula) "
 
 #: website/templates/base.html:78 website/templates/base.html:125
 msgid "Home"
-msgstr ""
+msgstr "Inicio"
 
 #: website/templates/base.html:79 website/templates/base.html:126
 #: website/templates/communities.html:6 website/templates/communities.html:14
 msgid "Communities"
-msgstr ""
+msgstr "Comunidades"
 
 #: website/templates/base.html:92 website/templates/base.html:114
 #: website/templates/help/account_settings.html:5
 #: website/templates/help/account_settings.html:6
 #: website/templates/help/account_settings.html:7
 msgid "Account Settings"
-msgstr ""
+msgstr "Configuración de cuenta"
 
 #: website/templates/base.html:93 website/templates/base.html:115
 msgid "Log out"
-msgstr ""
+msgstr "Cerrar sesión"
 
 #: website/templates/base.html:95 website/templates/base.html:117
 msgid "Login"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: website/templates/base.html:106
 msgid "Anon"
-msgstr ""
+msgstr "Anonimo "
 
 #: website/templates/base.html:110
 msgid "Account Control"
-msgstr ""
+msgstr "Control de cuenta"
 
 #: website/templates/base.html:125
 msgid "My Profile"
-msgstr ""
+msgstr "Mi perfil"
 
 #: website/templates/base.html:129 website/templates/base.html:163
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: website/templates/base.html:162
 msgid "About"
-msgstr ""
+msgstr "Sobre"
 
 #: website/templates/base.html:164
 msgid "Privacy &amp; Terms"
-msgstr ""
+msgstr "Términos y Privacidad"
 
 #: website/templates/base.html:165
 msgid "Admin Panel"
-msgstr ""
+msgstr "Panel administrativo"
 
 #: website/templates/communities.html:17
 #, python-format
 msgid "To submit a community to this list, email %(email)s "
 msgstr ""
+"Para enviar una comunidad a esta lista, envíe un correo electrónico "
+"%(email)s"
 
 #: website/templates/communities.html:23
 msgid "Join"
-msgstr ""
+msgstr "Unirse"
 
 #: website/templates/communities.html:26
 msgid "Location"
-msgstr ""
+msgstr "Locación"
 
 #: website/templates/communities.html:34
 msgid "Sign in to access team-restricted communities!"
-msgstr ""
+msgstr "Regístrese para acceder a comunidades restringidas por equipos!"
 
 #: website/templates/communities.html:37
 msgid "Worldwide"
-msgstr ""
+msgstr "Mundial"
 
 #: website/templates/help/account_settings.html:14
 msgid "Set/Change Password"
-msgstr ""
+msgstr "Establecer/Cambiar contraseña"
 
 #: website/templates/help/account_settings.html:17
 msgid "Email Management"
-msgstr ""
+msgstr "Gestión de correo electrónico"
 
 #: website/templates/help/account_settings.html:20
 msgid "Link Social Accounts"
-msgstr ""
+msgstr "Vincular Cuentas Sociales"
 
 #: website/templates/help/account_settings.html:23
 msgid "Set Goal"
-msgstr ""
+msgstr "Establecer una meta"
 
 #: website/templates/index.html:5 website/templates/index.html:6
 #: website/templates/index.html:13
 msgid "Welcome"
-msgstr ""
+msgstr "Bienvenido/a"
 
 #: website/templates/index.html:17
 #, python-format
-msgid "TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
+msgid ""
+"TrainerDex is a service for tracking and updating your progress in Pokémon "
+"Go. Don't worry, there's no risk of ban! Check out our <a "
+"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
 msgstr ""
+"TrainerDex es un servicio para seguir y actualizar tu progreso en Pokémon "
+"Go. No te preocupes, no hay riesgo de ban!  Revisa aquí nuestras <a "
+"href=\"%(faq_url)s\" id=\"faq\">Preguntas Frecuentes</a>."
 
 #: website/templates/index.html:19
-msgid "Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!"
+msgid ""
+"Our discord bot is currently live and provides <em>leaderboards, badges, "
+"profiles</em> and more!"
 msgstr ""
+"Nuestro bot en Discord se encuentra actualmente vivo y provee <em> tablas de"
+" clasificación, insignias, perfiles </em> ¡y más!"
 
 #: website/templates/index.html:22
 msgid "TrainerDex Web <em>beta</em> is here!"
-msgstr ""
+msgstr "TrainerDex Web <em>beta</em> I esta aquí!"
 
 #: website/templates/index.html:22
 #, python-format
 msgid "Click <a href=\"%(account_signup)s\">here</a> to register. "
-msgstr ""
+msgstr "Haz click <a href=\"%(account_signup)s\">aquí</a>  para registrarte. "
 
 #: website/templates/index.html:22
 #, python-format
 msgid "<a href=\"%(donation_url)s\">Donations</a> help a lot with development!"
 msgstr ""
+"<a href=\"%(donation_url)s\">Donaciones</a> ayudan mucho con el desarrollo!"
 
 #: website/templates/index.html:27
 msgid "Let's go!"
-msgstr ""
+msgstr "Vamos!"
 
 #: website/templates/socialaccount/authentication_error.html:5
 #: website/templates/socialaccount/authentication_error.html:6
@@ -1221,54 +1354,65 @@ msgstr ""
 #: website/templates/socialaccount/login_cancelled.html:5
 #: website/templates/socialaccount/login_cancelled.html:6
 msgid "Social Network Login Failure"
-msgstr ""
+msgstr "Error de inicio de sesión de red social"
 
 #: website/templates/socialaccount/authentication_error.html:15
-msgid "An error occurred while attempting to login via your social network account."
+msgid ""
+"An error occurred while attempting to login via your social network account."
 msgstr ""
+"Un error ha ocurrido cuando intentabas iniciar sesiono vía tu cuenta de red "
+"social."
 
 #: website/templates/socialaccount/connections.html:5
 #: website/templates/socialaccount/connections.html:6
 #: website/templates/socialaccount/connections.html:30
 msgid "Account Connections"
-msgstr ""
+msgstr "Conexiones de cuenta"
 
 #: website/templates/socialaccount/connections.html:12
 msgid "Log in via Social Media"
-msgstr ""
+msgstr "Inicio de sesión vía Medio comunicación social"
 
 #: website/templates/socialaccount/connections.html:15
-msgid "You can sign in to your account using any of the following third party accounts"
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts"
 msgstr ""
+"Puedes registrarte utilizando cualquiera de las siguientes cuentas de "
+"terceros"
 
 #: website/templates/socialaccount/connections.html:33
-msgid "You can sign in to your account using any of the following third party accounts:"
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts:"
 msgstr ""
+"Puedes registrarte utilizando cualquiera de las siguientes cuentas de "
+"terceros:"
 
 #: website/templates/socialaccount/login_cancelled.html:12
 msgid "Login Cancelled"
-msgstr ""
+msgstr "Cancelando inicio de sesión"
 
 #: website/templates/socialaccount/login_cancelled.html:15
 msgid "Login was cancelled."
-msgstr ""
+msgstr "Inicio de sesión cancelado."
 
 #: website/templates/socialaccount/messages/account_connected.txt:2
 msgid "The social account has been connected."
-msgstr ""
+msgstr "La cuenta social ha sido conectada."
 
 #: website/templates/socialaccount/messages/account_connected_other.txt:2
 msgid "The social account is already connected to a different account."
-msgstr ""
+msgstr "La cuenta social esta actualmente conectada a diferente cuenta."
 
 #: website/templates/socialaccount/messages/account_disconnected.txt:2
 msgid "The social account has been disconnected."
-msgstr ""
+msgstr "La cuenta social ha sido desconectada."
 
 #: website/templates/socialaccount/signup.html:12
 #: website/templates/socialaccount/signup.html:24
 msgid "Sign Up"
-msgstr ""
+msgstr "Regístrate  "
 
 #: website/templates/socialaccount/signup.html:14
 #, python-format
@@ -1276,3 +1420,6 @@ msgid ""
 "You are about to use your %(provider_name)s account to login to\n"
 "%(site_name)s. As a final step, please complete the following form:"
 msgstr ""
+"Estas a punto de utilizar tu cuenta  %(provider_name)s para iniciar sesión "
+"en %(site_name)s. Para finalizar, por favor completa el siguiente "
+"formulario:"
