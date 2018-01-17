@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 from allauth.socialaccount.models import SocialAccount
 from datetime import datetime, timedelta
 from django import forms

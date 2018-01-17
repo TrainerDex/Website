@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 from ajax_select import make_ajax_form
 from ajax_select.admin import AjaxSelectAdmin
 from django.contrib import admin
