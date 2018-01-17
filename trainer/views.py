@@ -214,7 +214,7 @@ class UpdateDetailJSONView(APIView):
 class LeaderboardJSONView(APIView):
 	
 	def get(self, request):
-		query = Trainer.objects.exclude(statistics=False, currently_cheats=True, prefered=False)
+		query = Trainer.objects.exclude(statistics=False).exclude(currently_cheats=True).exclude(prefered=False).exclude(verified=False)
 		if request.GET.get('users'):
 			query = query.filter(id__in=request.GET.get('users').split(','))
 		leaderboard = query.annotate(Max('update__xp'), Max('update__update_time'))
@@ -428,7 +428,7 @@ def LeaderboardHTMLView(request, country=None, region=None, subregion=None, city
 	showInstinct = {'param':'Instinct', 'value':nullbool(request.GET.get('instinct'), default=True)}
 	showSpoofers = {'param':'currently_cheats', 'value':nullbool(request.GET.get('spoofers'), default=False)}
 	
-	QuerySet = Trainer.objects.exclude(statistics=False, verified=False)
+	QuerySet = Trainer.objects.exclude(statistics=False).exclude(verified=False)
 	
 	if city:
 		QuerySet = QuerySet.filter(leaderboard_city = city)
