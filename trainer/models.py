@@ -49,11 +49,6 @@ class Trainer(models.Model):
 	leaderboard_subregion = models.ForeignKey(Subregion, null=True, blank=True, verbose_name=_("Subregion"), related_name='leaderboard_trainers_subregion')
 	leaderboard_city = models.ForeignKey(City, null=True, blank=True, verbose_name=_("City"), related_name='leaderboard_trainers_city')
 	
-	play_zones_country = models.ManyToManyField(Country, through='PlayZonesDetailCountry' , blank=True, verbose_name=_("Country"), related_name='playzone_trainers_country')
-	play_zones_region = models.ManyToManyField(Region, through='PlayZonesDetailRegion' , blank=True, verbose_name=_("Region"), related_name='playzone_trainers_region')
-	play_zones_subregion = models.ManyToManyField(Subregion, through='PlayZonesDetailSubregion' , blank=True, verbose_name=_("Subregion"), related_name='playzone_trainers_subregion')
-	play_zones_city = models.ManyToManyField(City, through='PlayZonesDetailCity' , blank=True, verbose_name=_("City"), related_name='playzone_trainers_city')
-	
 	verified = models.BooleanField(default=False, verbose_name=_("Verified"))
 	
 	def is_prefered(self):
