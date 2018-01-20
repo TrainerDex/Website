@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^tools/rosetta/', include('rosetta.urls')),
     url(r'^$', IndexView, name='home'),
-    url(r'^communities/$', CommunityListView, name='communities'),
+    url(r'^communities/$', Status410),
     url(r'^help/', include(SupportURLS, namespace='help')),
     url('', include(TrainerURLS.HTML)),
 ]

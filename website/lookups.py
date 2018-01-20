@@ -48,17 +48,3 @@ class CityLookup(LookupChannel):
 			return "<span class='tag'>{}, {}, {}</span>".format(item, item.subregion, item.region.code)
 		except AttributeError:
 			return "<span class='tag'>{}</span>".format(item.name)
-
-@register('districts')
-class DistrictLookup(LookupChannel):
-	
-	model = District
-	
-	def get_query(self, q, request):
-		return self.model.objects.filter(name__icontains=q)
-	
-	def format_item_display(self, item):
-		try:
-			return "<span class='tag'>{}, {}, {}</span>".format(item, item.city, item.region.code)
-		except AttributeError:
-			return "<span class='tag'>{}</span>".format(item, item.city)
