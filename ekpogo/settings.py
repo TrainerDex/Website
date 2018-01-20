@@ -219,3 +219,4 @@ EMAIL_HOST_USER = 'jaynicholasturner@gmail.com'
 EMAIL_HOST_PASSWORD = 'vaxtomtayxewsqma'
 DEFAULT_FROM_EMAIL = 'support@trainerdex.co.uk'
 SERVER_EMAIL = 'support@trainerdex.co.uk'
+SOCIALACCOUNT_AUTO_SIGNUP = False
