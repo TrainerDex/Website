@@ -7,10 +7,6 @@ from ajax_select import make_ajax_form
 from trainer.models import *
 
 admin.site.register(Faction)
-admin.site.register(PlayZonesDetailCountry)
-admin.site.register(PlayZonesDetailRegion)
-admin.site.register(PlayZonesDetailSubregion)
-admin.site.register(PlayZonesDetailCity)
 admin.site.register(TrainerReport)
 
 @admin.register(Update)
@@ -52,8 +48,5 @@ class TrainerAdmin(AjaxSelectAdmin):
 		(_('Leaderboard'), {
 			'fields': ('leaderboard_country', 'leaderboard_region', 'leaderboard_subregion', 'leaderboard_city')
 		}),
-		#(_('Play Zones'), {
-		#	'fields': ('play_zones_country', 'play_zones_region', 'play_zones_subregion', 'play_zones_city')
-		#}),
 	)
 	
