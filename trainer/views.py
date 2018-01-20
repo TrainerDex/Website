@@ -79,7 +79,6 @@ class TrainerDetailJSONView(APIView):
 		return get_object_or_404(Trainer, pk=pk)
 	
 	def get(self, request, pk):
-		print(status.HTTP_423_LOCKED)
 		trainer = self.get_object(pk)
 		if trainer.active is True:
 			if trainer.statistics is True or (trainer.statistics is False and request.GET.get('statistics') == 'force'):
@@ -550,7 +549,6 @@ def LeaderboardHTMLView(request, country=None, region=None, subregion=None, city
 		'grand_total_xp' : GRAND_TOTAL,
 	}
 	context.update(rcontext)
-	print(context)
 	return render(request, 'leaderboard.html', context)
 
 def UpdateInstanceHTMLView(request, uuid):
