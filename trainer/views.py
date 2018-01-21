@@ -610,7 +610,7 @@ def RegistrationView(request):
 			messages.success(request, _("Thanks for registering. You are now logged in."))
 			email_subject = _("[TrainerDex] Verification needed for {trainer}").format(trainer=trainer.username)
 			email_message = _("Welcome {trainer}, please respond to this email with screenshots of the top and bottom of your Pokemon Go profile for verification. Once verified, you will appear in the leaderboards.").format(trainer=trainer.username)
-			mail = EmailMessage(email_subject, email_message, to=(user.email,))
+			mail = EmailMessage(email_subject, email_message, to=('{} <{}>'.format(user.username, user.email),))
 			mail.send()
 			new_user = authenticate(username=user_form.cleaned_data['username'], password=user_form.cleaned_data['password1'],)
 			login(request, new_user)
