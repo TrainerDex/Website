@@ -7,7 +7,7 @@ from django.db import migrations
 def rename_trainers(apps, schema_editor):
     Trainer = apps.get_model('trainer', 'Trainer')
     for trainer in Trainer.objects.all():
-        if trainer.owner and (trainer.prefered==True or len(trainer.owner.profiles)==1) and trainer.username != trainer.owner.username:
+        if trainer.owner and (trainer.prefered==True or len(trainer.owner.profiles.all())==1) and trainer.username != trainer.owner.username:
             trainer.owner.username = trainer.username
             trainer.owner.save()
 
