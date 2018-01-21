@@ -9,27 +9,31 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-21 12:04+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2018-01-21 12:33+0000\n"
+"Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.8.1\n"
 
 #: support/templates/help/faq.html:5 support/templates/help/faq.html:6
+#, fuzzy
 msgid "FAQ"
-msgstr ""
+msgstr "OSS"
 
 #: support/templates/help/faq.html:7
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Ofte stillede spørgsmål"
 
 #: support/templates/help/faq.html:15
+#, fuzzy
 msgid "My total goal is missing!!!"
-msgstr ""
+msgstr "Hvorfor mangler mit mål?"
 
 #: support/templates/help/faq.html:18
+#, fuzzy
 msgid ""
 "\n"
 "                      <p><i>This isn't a question. That's you complaining, but I have an answer anyway.</i></p>\n"
@@ -39,13 +43,19 @@ msgid ""
 "                      <p>Since then, the default behaviour is to automatically move your goal on to the next level when you reach your goal, rather than resetting to zero. To give the user a choice <em>not</em> to have a goal. We removed phantom goals. Phantom goals didn't congratulate the user either, whereas set goals do.</p>\n"
 "                      "
 msgstr ""
+"\n"
+"<p><b>Ærligt, dette spørgsmål vedrører ikke danskere, da det er gammelt og relaterer sig tilbage til de tidlige dage, hvor vi kun havde folk fra London.</b></p>\n"
+"\n"
+"<p>Du har sandsynligvis et <em>phantom mål</ em>. Dette er ikke noget at gøre med spøgelser eller et <a href=\"https://da.wikipedia.org/wiki/Selvm%C3%A5l\">selvmål</a>, som ingen ønsker at påtage sig ansvar for. I stedet for dette relaterede til mål, der blev vist af Discord bot. Før den 22. december, når du nåede dit mål, ville boten nulstille den til nul. Enhver under niveau 40 og et mål på 0 blev tildelt et fantommål som en forfremmelse for mål.</p>\n"
+"\n"
+"<p>Siden da er standardadfærden at flytte dit mål automatisk til det næste niveau, når du når dit mål, snarere end at nulstille til nul. At give brugeren et valg <em>ikke</ em> for at have et mål. Vi fjernede phantom mål. Phantom mål gratulerede heller ikke brugeren, mens sætte mål gør.</p>"
 
 #: support/templates/help/faq.html:29
 msgid "How do I set a goal?"
-msgstr ""
+msgstr "Hvordan sætter jeg et mål?"
 
 #: support/templates/help/faq.html:32
-#, python-format
+#, python-format, fuzzy
 msgid ""
 "\n"
 "                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>\n"
@@ -64,14 +74,33 @@ msgid ""
 "                      </ul>\n"
 "                      "
 msgstr ""
+"\n"
+"<p>Mål arbejder for øjeblikket kun på Discord bot, men de kommer <em>snart</em>™ til hjemmesiden</p>\n"
+"\n"
+"<p>Besked denne linje til <a href=\"%(discord_url)s\">Discord</a> bot: <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>\n"
+"\n"
+"<p class=\"help-faq-question\">Muligheder</p>\n"
+"<ul>\n"
+"<li>\n"
+"<code>daily</code> - \n"
+"157/5000\n"
+"Indstiller dit daglige eller \"rate\" mål. Dette er målet, der viser dig den hastighed, hvormed du er i gang. Dette tager en numerisk værdi på mellem 0 og 3000000.\n"
+"</li>\n"
+"<li>\n"
+"<code>total</code> - Indstiller dit samlede eller 'nå' mål. Dette er det mål, du vil bruge til at forstå, hvornår du kommer til et bestemt punkt. Dette tager en numerisk værdi, der er mindst en mere end din nuværende oplevelse.\n"
+"<em>Sidenote - <code>.update goal total</code> har en ekstra mulighed, <code>auto</code>, som angiver et mål for dig baseret på din nuværende oplevelse.</em>\n"
+"</li>\n"
+"</ul>"
 
 #: trainer/admin.py:42 trainer/models.py:251
+#, fuzzy
 msgid "Reports"
-msgstr ""
+msgstr "Rapporter"
 
 #: trainer/admin.py:45 trainer/templates/profile.html:73
+#, fuzzy
 msgid "Medals"
-msgstr ""
+msgstr "Medaljer"
 
 #: trainer/admin.py:48 trainer/templates/leaderboard.html:7
 #: trainer/templates/leaderboard.html:11 website/templates/base.html:79
@@ -80,37 +109,42 @@ msgid "Leaderboard"
 msgstr ""
 
 #: trainer/apps.py:7
+#, fuzzy
 msgid "TrainerDex Profiles"
-msgstr ""
+msgstr "TrainerDex Profiler"
 
 #: trainer/errors.py:6
+#, fuzzy
 msgid "Expected a Numeric ID, got gibberish."
-msgstr ""
+msgstr "Forventet et numerisk ID, fik tull."
 
 #: trainer/errors.py:9
+#, fuzzy
 msgid "Expected a UUID, got gibberish."
-msgstr ""
+msgstr "Forventet et UUID, fik tull."
 
 #: trainer/forms.py:49 website/templates/account/signup.html:73
+#, fuzzy
 msgid "Profile Screenshot (Top)"
-msgstr ""
+msgstr "Profil Skærmbillede (Top)"
 
 #: trainer/forms.py:50 website/templates/account/signup.html:78
 msgid "Profile Screenshot (Bottom)"
-msgstr ""
+msgstr "Profil Skærmbillede (Nederst)"
 
 #: trainer/models.py:24
 msgid "User"
-msgstr ""
+msgstr "Bruger"
 
 #: trainer/models.py:25
 msgid "Active"
-msgstr ""
+msgstr "Aktiv"
 
 #: trainer/models.py:26 trainer/templates/leaderboard.html:67
 #: website/templates/account/signup.html:31
+#, fuzzy
 msgid "Username"
-msgstr ""
+msgstr "Brugernavn"
 
 #: trainer/models.py:27 website/templates/account/signup.html:43
 msgid "Start Date"
@@ -119,8 +153,9 @@ msgstr ""
 #: trainer/models.py:28 trainer/models.py:92
 #: trainer/templates/leaderboard.html:69
 #: website/templates/account/signup.html:49
+#, fuzzy
 msgid "Team"
-msgstr ""
+msgstr "Hold"
 
 #: trainer/models.py:29
 msgid "Historic Cheater"
@@ -135,16 +170,19 @@ msgid "Cheater"
 msgstr ""
 
 #: trainer/models.py:32 website/templates/account/signup.html:84
+#, fuzzy
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: trainer/models.py:33
+#, fuzzy
 msgid "Rate Goal"
-msgstr ""
+msgstr "Vurder Mål"
 
 #: trainer/models.py:34
+#, fuzzy
 msgid "Reach Goal"
-msgstr ""
+msgstr "Nå Mål"
 
 #: trainer/models.py:35
 msgid "Last Modified"
@@ -167,31 +205,35 @@ msgstr ""
 #: trainer/models.py:47 trainer/models.py:217
 #: trainer/templates/leaderboard.html:36 trainer/templates/leaderboard.html:37
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 #: trainer/models.py:48 trainer/models.py:224
 #: trainer/templates/leaderboard.html:42 trainer/templates/leaderboard.html:43
+#, fuzzy
 msgid "Region"
-msgstr ""
+msgstr "Område"
 
 #: trainer/models.py:49 trainer/models.py:231
 #: trainer/templates/leaderboard.html:48 trainer/templates/leaderboard.html:49
+#, fuzzy
 msgid "Subregion"
-msgstr ""
+msgstr "Delområde"
 
 #: trainer/models.py:50 trainer/models.py:238
 #: trainer/templates/leaderboard.html:54 trainer/templates/leaderboard.html:55
+#, fuzzy
 msgid "City"
-msgstr ""
+msgstr "By"
 
 #: trainer/models.py:52
 msgid "Verified"
-msgstr ""
+msgstr "Verificeres"
 
 #: trainer/models.py:72 trainer/models.py:97 trainer/models.py:208
 #: trainer/models.py:245 trainer/templates/create_update.html:25
+#, fuzzy
 msgid "Trainer"
-msgstr ""
+msgstr "Instruktør"
 
 #: trainer/models.py:73
 msgid "Trainers"
@@ -424,7 +466,9 @@ msgid "Crowd Sourced"
 msgstr ""
 
 #: trainer/models.py:174
-msgid "This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."
+msgid ""
+"This value has previously been entered at a higher value. Please try again, "
+"ensuring you enter your Total XP."
 msgstr ""
 
 #: trainer/models.py:204
@@ -547,7 +591,9 @@ msgstr ""
 
 #: trainer/templates/leaderboard.html:30
 #, python-format
-msgid "If a trainer has a %(ss_ident)s next to their name, it means the information was sourced from social media."
+msgid ""
+"If a trainer has a %(ss_ident)s next to their name, it means the information"
+" was sourced from social media."
 msgstr ""
 
 #: trainer/templates/leaderboard.html:32
@@ -613,7 +659,9 @@ msgid "Legendary Raids"
 msgstr ""
 
 #: trainer/templates/profile.html:132
-msgid "It seems this trainer hasn't shared any of these medals. We only show medals with data to avoid showing a row of null values, that's kinda ugly."
+msgid ""
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
 msgstr ""
 
 #: trainer/validators.py:8
@@ -644,7 +692,10 @@ msgstr ""
 
 #: trainer/views.py:612
 #, python-brace-format
-msgid "Welcome {trainer}, please respond to this email with screenshots of the top and bottom of your Pokemon Go profile for verification. Once verified, you will appear in the leaderboards."
+msgid ""
+"Welcome {trainer}, please respond to this email with screenshots of the top "
+"and bottom of your Pokemon Go profile for verification. Once verified, you "
+"will appear in the leaderboards."
 msgstr ""
 
 #: website/templates/account/account_inactive.html:5
@@ -674,7 +725,9 @@ msgid "Add E-mail Address"
 msgstr ""
 
 #: website/templates/account/email.html:26
-msgid "Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation."
+msgid ""
+"Add an email address to your account to get back in if you forget your "
+"password. Also, your primary email is used for gravatar generation."
 msgstr ""
 
 #. Translators: This is shown in the email field when it is empty
@@ -717,7 +770,10 @@ msgid "Warning:"
 msgstr ""
 
 #: website/templates/account/email.html:83
-msgid "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc."
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
 
 #: website/templates/account/email.html:94
@@ -778,7 +834,9 @@ msgstr ""
 
 #: website/templates/account/email_confirm.html:18
 #, python-format
-msgid "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s."
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
 msgstr ""
 
 #: website/templates/account/email_confirm.html:23
@@ -802,12 +860,16 @@ msgstr ""
 
 #: website/templates/account/login.html:22
 #, python-format
-msgid "If you already have an account, you can login below or via a third party account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
+msgid ""
+"If you already have an account, you can login below or via a third party "
+"account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
 msgstr ""
 
 #: website/templates/account/login.html:25
 #, python-format
-msgid "If you have not created an account yet, then please <a href=\"%(signup_url)s\">sign up</a> first."
+msgid ""
+"If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
 
 #: website/templates/account/login.html:33
@@ -897,7 +959,9 @@ msgid "Password Reset"
 msgstr ""
 
 #: website/templates/account/password_reset.html:29
-msgid "Forgotten your password? Enter your e-mail address below, and we'll send you an e-mail allowing you to reset it."
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 
 #: website/templates/account/password_reset.html:30
@@ -913,7 +977,9 @@ msgid "Reset My Password"
 msgstr ""
 
 #: website/templates/account/password_reset_done.html:17
-msgid "We have sent you an e-mail. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
 msgstr ""
 
 #: website/templates/account/password_reset_done.html:21
@@ -929,7 +995,9 @@ msgid "Bad Token"
 msgstr ""
 
 #: website/templates/account/password_reset_from_key.html:18
-msgid "The password reset link was invalid, possibly because it has already been used."
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used."
 msgstr ""
 
 #: website/templates/account/password_reset_from_key.html:22
@@ -969,7 +1037,9 @@ msgstr ""
 
 #: website/templates/account/signup.html:25
 #, python-format
-msgid "You would already have an account if you use the Discord bot, please <a href=\"%(login_url)s\">sign in</a>."
+msgid ""
+"You would already have an account if you use the Discord bot, please <a "
+"href=\"%(login_url)s\">sign in</a>."
 msgstr ""
 
 #: website/templates/account/signup.html:61
@@ -996,11 +1066,14 @@ msgid "Sign Up Closed"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:15
-msgid "We are sorry, but registrations via the website are currently disabled."
+msgid ""
+"We are sorry, but registrations via the website are currently disabled."
 msgstr ""
 
 #: website/templates/account/signup_closed.html:16
-msgid "You can register via joining our Discord server and sharing a screenshot of your Pokémon Go profile"
+msgid ""
+"You can register via joining our Discord server and sharing a screenshot of "
+"your Pokémon Go profile"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:23
@@ -1022,15 +1095,24 @@ msgid "Verify Your E-mail Address"
 msgstr ""
 
 #: website/templates/account/verification_sent.html:15
-msgid "We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
 msgstr ""
 
 #: website/templates/account/verified_email_required.html:16
-msgid "This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address. "
+msgid ""
+"This part of the site requires us to verify that you are who you claim to "
+"be. For this purpose, we require that you verify ownership of your e-mail "
+"address. "
 msgstr ""
 
 #: website/templates/account/verified_email_required.html:17
-msgid "We have sent an e-mail to you for verification. Please click on the link inside this e-mail. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent an e-mail to you for verification. Please click on the link "
+"inside this e-mail. Please contact us if you do not receive it within a few "
+"minutes."
 msgstr ""
 
 #: website/templates/base.html:27
@@ -1112,11 +1194,16 @@ msgstr ""
 
 #: website/templates/index.html:17
 #, python-format
-msgid "TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
+msgid ""
+"TrainerDex is a service for tracking and updating your progress in Pokémon "
+"Go. Don't worry, there's no risk of ban! Check out our <a "
+"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
 msgstr ""
 
 #: website/templates/index.html:19
-msgid "Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!"
+msgid ""
+"Our discord bot is currently live and provides <em>leaderboards, badges, "
+"profiles</em> and more!"
 msgstr ""
 
 #: website/templates/index.html:22
@@ -1146,7 +1233,8 @@ msgid "Social Network Login Failure"
 msgstr ""
 
 #: website/templates/socialaccount/authentication_error.html:15
-msgid "An error occurred while attempting to login via your social network account."
+msgid ""
+"An error occurred while attempting to login via your social network account."
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:5
@@ -1160,11 +1248,15 @@ msgid "Log in via Social Media"
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:15
-msgid "You can sign in to your account using any of the following third party accounts"
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts"
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:33
-msgid "You can sign in to your account using any of the following third party accounts:"
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts:"
 msgstr ""
 
 #: website/templates/socialaccount/login_cancelled.html:12
