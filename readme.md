@@ -1,14 +1,13 @@
  # TrainerStats by TrainerDex
- * [x] Leaderboards
-  * [x] Regional Leaderboards
-   * [ ] Regional Leaderboard Settings
-  * [ ] Better Leaderboard API - Server-side: Take list of social IDs and return an formatted leaderboard - optional
-                                 Alternatively: Take a discord server ID, script connects to server and gets IDs
-								 Runs a lookup script and retrieves trainer
-	
- * [ ] Profile editing
+ - [x] Leaderboards
+    - [x] Regional Leaderboards
+      - [ ] Regional Leaderboard Settings
+    - [ ] Better Leaderboard API - Server-side: Take list of social IDs and return an formatted leaderboard - optional
+                                   Alternatively: Take a discord server ID, script connects to server and gets IDs
+                                   Runs a lookup script and retrieves trainer
+ - [ ] Profile editing
  
  # TrainerDex Protect
- * [ ] Rewrite and separate cogs as a separate bot
+ - [ ] Rewrite and separate cogs as a separate bot
 	   This means that Oak will be revived to do anything non TrainerDex-y
  
