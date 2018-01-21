@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-21 11:58+0000\n"
+"POT-Creation-Date: 2018-01-21 12:04+0000\n"
 "PO-Revision-Date: 2018-01-17 16:56+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -681,9 +681,9 @@ msgid "Thanks for registering. You are now logged in."
 msgstr ""
 
 #: trainer/views.py:611
-#, fuzzy
-msgid "TrainerDex Verification"
-msgstr "TrainerDexプロファイル"
+#, fuzzy, python-brace-format
+msgid "[TrainerDex] Verification needed for {trainer}"
+msgstr "[TrainerDex] {trainer}の検証が必要"
 
 #: trainer/views.py:612
 #, python-brace-format
