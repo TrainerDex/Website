@@ -9,27 +9,31 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-21 12:04+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2018-01-21 12:33+0000\n"
+"Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.8.1\n"
 
 #: support/templates/help/faq.html:5 support/templates/help/faq.html:6
+#, fuzzy
 msgid "FAQ"
-msgstr ""
+msgstr "OSS"
 
 #: support/templates/help/faq.html:7
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Ofte stillede spørgsmål"
 
 #: support/templates/help/faq.html:15
+#, fuzzy
 msgid "My total goal is missing!!!"
-msgstr ""
+msgstr "Hvorfor mangler mit mål?"
 
 #: support/templates/help/faq.html:18
+#, fuzzy
 msgid ""
 "\n"
 "                      <p><i>This isn't a question. That's you complaining, but I have an answer anyway.</i></p>\n"
@@ -39,13 +43,19 @@ msgid ""
 "                      <p>Since then, the default behaviour is to automatically move your goal on to the next level when you reach your goal, rather than resetting to zero. To give the user a choice <em>not</em> to have a goal. We removed phantom goals. Phantom goals didn't congratulate the user either, whereas set goals do.</p>\n"
 "                      "
 msgstr ""
+"\n"
+"<p><b>Ærligt, dette spørgsmål vedrører ikke danskere, da det er gammelt og relaterer sig tilbage til de tidlige dage, hvor vi kun havde folk fra London.</b></p>\n"
+"\n"
+"<p>Du har sandsynligvis et <em>phantom mål</ em>. Dette er ikke noget at gøre med spøgelser eller et <a href=\"https://da.wikipedia.org/wiki/Selvm%C3%A5l\">selvmål</a>, som ingen ønsker at påtage sig ansvar for. I stedet for dette relaterede til mål, der blev vist af Discord bot. Før den 22. december, når du nåede dit mål, ville boten nulstille den til nul. Enhver under niveau 40 og et mål på 0 blev tildelt et fantommål som en forfremmelse for mål.</p>\n"
+"\n"
+"<p>Siden da er standardadfærden at flytte dit mål automatisk til det næste niveau, når du når dit mål, snarere end at nulstille til nul. At give brugeren et valg <em>ikke</ em> for at have et mål. Vi fjernede phantom mål. Phantom mål gratulerede heller ikke brugeren, mens sætte mål gør.</p>"
 
 #: support/templates/help/faq.html:29
 msgid "How do I set a goal?"
-msgstr ""
+msgstr "Hvordan sætter jeg et mål?"
 
 #: support/templates/help/faq.html:32
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>\n"
@@ -64,14 +74,33 @@ msgid ""
 "                      </ul>\n"
 "                      "
 msgstr ""
+"\n"
+"<p>Mål arbejder for øjeblikket kun på Discord bot, men de kommer <em>snart</em>™ til hjemmesiden</p>\n"
+"\n"
+"<p>Besked denne linje til <a href=\"%(discord_url)s\">Discord</a> bot: <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>\n"
+"\n"
+"<p class=\"help-faq-question\">Muligheder</p>\n"
+"<ul>\n"
+"<li>\n"
+"<code>daily</code> - \n"
+"157/5000\n"
+"Indstiller dit daglige eller \"rate\" mål. Dette er målet, der viser dig den hastighed, hvormed du er i gang. Dette tager en numerisk værdi på mellem 0 og 3000000.\n"
+"</li>\n"
+"<li>\n"
+"<code>total</code> - Indstiller dit samlede eller 'nå' mål. Dette er det mål, du vil bruge til at forstå, hvornår du kommer til et bestemt punkt. Dette tager en numerisk værdi, der er mindst en mere end din nuværende oplevelse.\n"
+"<em>Sidenote - <code>.update goal total</code> har en ekstra mulighed, <code>auto</code>, som angiver et mål for dig baseret på din nuværende oplevelse.</em>\n"
+"</li>\n"
+"</ul>"
 
 #: trainer/admin.py:42 trainer/models.py:251
+#, fuzzy
 msgid "Reports"
-msgstr ""
+msgstr "Rapporter"
 
 #: trainer/admin.py:45 trainer/templates/profile.html:73
+#, fuzzy
 msgid "Medals"
-msgstr ""
+msgstr "Medaljer"
 
 #: trainer/admin.py:48 trainer/templates/leaderboard.html:7
 #: trainer/templates/leaderboard.html:11 website/templates/base.html:79
@@ -80,37 +109,42 @@ msgid "Leaderboard"
 msgstr ""
 
 #: trainer/apps.py:7
+#, fuzzy
 msgid "TrainerDex Profiles"
-msgstr ""
+msgstr "TrainerDex Profiler"
 
 #: trainer/errors.py:6
+#, fuzzy
 msgid "Expected a Numeric ID, got gibberish."
-msgstr ""
+msgstr "Forventet et numerisk ID, fik tull."
 
 #: trainer/errors.py:9
+#, fuzzy
 msgid "Expected a UUID, got gibberish."
-msgstr ""
+msgstr "Forventet et UUID, fik tull."
 
 #: trainer/forms.py:49 website/templates/account/signup.html:73
+#, fuzzy
 msgid "Profile Screenshot (Top)"
-msgstr ""
+msgstr "Profil Skærmbillede (Top)"
 
 #: trainer/forms.py:50 website/templates/account/signup.html:78
 msgid "Profile Screenshot (Bottom)"
-msgstr ""
+msgstr "Profil Skærmbillede (Nederst)"
 
 #: trainer/models.py:24
 msgid "User"
-msgstr ""
+msgstr "Bruger"
 
 #: trainer/models.py:25
 msgid "Active"
-msgstr ""
+msgstr "Aktiv"
 
 #: trainer/models.py:26 trainer/templates/leaderboard.html:67
 #: website/templates/account/signup.html:31
+#, fuzzy
 msgid "Username"
-msgstr ""
+msgstr "Brugernavn"
 
 #: trainer/models.py:27 website/templates/account/signup.html:43
 msgid "Start Date"
@@ -119,8 +153,9 @@ msgstr ""
 #: trainer/models.py:28 trainer/models.py:92
 #: trainer/templates/leaderboard.html:69
 #: website/templates/account/signup.html:49
+#, fuzzy
 msgid "Team"
-msgstr ""
+msgstr "Hold"
 
 #: trainer/models.py:29
 msgid "Historic Cheater"
@@ -135,16 +170,19 @@ msgid "Cheater"
 msgstr ""
 
 #: trainer/models.py:32 website/templates/account/signup.html:84
+#, fuzzy
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: trainer/models.py:33
+#, fuzzy
 msgid "Rate Goal"
-msgstr ""
+msgstr "Vurder Mål"
 
 #: trainer/models.py:34
+#, fuzzy
 msgid "Reach Goal"
-msgstr ""
+msgstr "Nå Mål"
 
 #: trainer/models.py:35
 msgid "Last Modified"
@@ -167,31 +205,35 @@ msgstr ""
 #: trainer/models.py:47 trainer/models.py:217
 #: trainer/templates/leaderboard.html:36 trainer/templates/leaderboard.html:37
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 #: trainer/models.py:48 trainer/models.py:224
 #: trainer/templates/leaderboard.html:42 trainer/templates/leaderboard.html:43
+#, fuzzy
 msgid "Region"
-msgstr ""
+msgstr "Område"
 
 #: trainer/models.py:49 trainer/models.py:231
 #: trainer/templates/leaderboard.html:48 trainer/templates/leaderboard.html:49
+#, fuzzy
 msgid "Subregion"
-msgstr ""
+msgstr "Delområde"
 
 #: trainer/models.py:50 trainer/models.py:238
 #: trainer/templates/leaderboard.html:54 trainer/templates/leaderboard.html:55
+#, fuzzy
 msgid "City"
-msgstr ""
+msgstr "By"
 
 #: trainer/models.py:52
 msgid "Verified"
-msgstr ""
+msgstr "Verificeres"
 
 #: trainer/models.py:72 trainer/models.py:97 trainer/models.py:208
 #: trainer/models.py:245 trainer/templates/create_update.html:25
+#, fuzzy
 msgid "Trainer"
-msgstr ""
+msgstr "Instruktør"
 
 #: trainer/models.py:73
 msgid "Trainers"
