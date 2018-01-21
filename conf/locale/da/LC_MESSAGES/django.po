@@ -466,7 +466,9 @@ msgid "Crowd Sourced"
 msgstr ""
 
 #: trainer/models.py:174
-msgid "This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."
+msgid ""
+"This value has previously been entered at a higher value. Please try again, "
+"ensuring you enter your Total XP."
 msgstr ""
 
 #: trainer/models.py:204
@@ -589,7 +591,9 @@ msgstr ""
 
 #: trainer/templates/leaderboard.html:30
 #, python-format
-msgid "If a trainer has a %(ss_ident)s next to their name, it means the information was sourced from social media."
+msgid ""
+"If a trainer has a %(ss_ident)s next to their name, it means the information"
+" was sourced from social media."
 msgstr ""
 
 #: trainer/templates/leaderboard.html:32
@@ -655,7 +659,9 @@ msgid "Legendary Raids"
 msgstr ""
 
 #: trainer/templates/profile.html:132
-msgid "It seems this trainer hasn't shared any of these medals. We only show medals with data to avoid showing a row of null values, that's kinda ugly."
+msgid ""
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
 msgstr ""
 
 #: trainer/validators.py:8
@@ -686,7 +692,10 @@ msgstr ""
 
 #: trainer/views.py:612
 #, python-brace-format
-msgid "Welcome {trainer}, please respond to this email with screenshots of the top and bottom of your Pokemon Go profile for verification. Once verified, you will appear in the leaderboards."
+msgid ""
+"Welcome {trainer}, please respond to this email with screenshots of the top "
+"and bottom of your Pokemon Go profile for verification. Once verified, you "
+"will appear in the leaderboards."
 msgstr ""
 
 #: website/templates/account/account_inactive.html:5
@@ -716,7 +725,9 @@ msgid "Add E-mail Address"
 msgstr ""
 
 #: website/templates/account/email.html:26
-msgid "Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation."
+msgid ""
+"Add an email address to your account to get back in if you forget your "
+"password. Also, your primary email is used for gravatar generation."
 msgstr ""
 
 #. Translators: This is shown in the email field when it is empty
@@ -759,7 +770,10 @@ msgid "Warning:"
 msgstr ""
 
 #: website/templates/account/email.html:83
-msgid "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc."
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
 
 #: website/templates/account/email.html:94
@@ -820,7 +834,9 @@ msgstr ""
 
 #: website/templates/account/email_confirm.html:18
 #, python-format
-msgid "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s."
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
 msgstr ""
 
 #: website/templates/account/email_confirm.html:23
@@ -844,12 +860,16 @@ msgstr ""
 
 #: website/templates/account/login.html:22
 #, python-format
-msgid "If you already have an account, you can login below or via a third party account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
+msgid ""
+"If you already have an account, you can login below or via a third party "
+"account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
 msgstr ""
 
 #: website/templates/account/login.html:25
 #, python-format
-msgid "If you have not created an account yet, then please <a href=\"%(signup_url)s\">sign up</a> first."
+msgid ""
+"If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
 
 #: website/templates/account/login.html:33
@@ -939,7 +959,9 @@ msgid "Password Reset"
 msgstr ""
 
 #: website/templates/account/password_reset.html:29
-msgid "Forgotten your password? Enter your e-mail address below, and we'll send you an e-mail allowing you to reset it."
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 
 #: website/templates/account/password_reset.html:30
@@ -955,7 +977,9 @@ msgid "Reset My Password"
 msgstr ""
 
 #: website/templates/account/password_reset_done.html:17
-msgid "We have sent you an e-mail. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
 msgstr ""
 
 #: website/templates/account/password_reset_done.html:21
@@ -971,7 +995,9 @@ msgid "Bad Token"
 msgstr ""
 
 #: website/templates/account/password_reset_from_key.html:18
-msgid "The password reset link was invalid, possibly because it has already been used."
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used."
 msgstr ""
 
 #: website/templates/account/password_reset_from_key.html:22
@@ -1011,7 +1037,9 @@ msgstr ""
 
 #: website/templates/account/signup.html:25
 #, python-format
-msgid "You would already have an account if you use the Discord bot, please <a href=\"%(login_url)s\">sign in</a>."
+msgid ""
+"You would already have an account if you use the Discord bot, please <a "
+"href=\"%(login_url)s\">sign in</a>."
 msgstr ""
 
 #: website/templates/account/signup.html:61
@@ -1038,11 +1066,14 @@ msgid "Sign Up Closed"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:15
-msgid "We are sorry, but registrations via the website are currently disabled."
+msgid ""
+"We are sorry, but registrations via the website are currently disabled."
 msgstr ""
 
 #: website/templates/account/signup_closed.html:16
-msgid "You can register via joining our Discord server and sharing a screenshot of your Pokémon Go profile"
+msgid ""
+"You can register via joining our Discord server and sharing a screenshot of "
+"your Pokémon Go profile"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:23
@@ -1064,15 +1095,24 @@ msgid "Verify Your E-mail Address"
 msgstr ""
 
 #: website/templates/account/verification_sent.html:15
-msgid "We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
 msgstr ""
 
 #: website/templates/account/verified_email_required.html:16
-msgid "This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address. "
+msgid ""
+"This part of the site requires us to verify that you are who you claim to "
+"be. For this purpose, we require that you verify ownership of your e-mail "
+"address. "
 msgstr ""
 
 #: website/templates/account/verified_email_required.html:17
-msgid "We have sent an e-mail to you for verification. Please click on the link inside this e-mail. Please contact us if you do not receive it within a few minutes."
+msgid ""
+"We have sent an e-mail to you for verification. Please click on the link "
+"inside this e-mail. Please contact us if you do not receive it within a few "
+"minutes."
 msgstr ""
 
 #: website/templates/base.html:27
@@ -1154,11 +1194,16 @@ msgstr ""
 
 #: website/templates/index.html:17
 #, python-format
-msgid "TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
+msgid ""
+"TrainerDex is a service for tracking and updating your progress in Pokémon "
+"Go. Don't worry, there's no risk of ban! Check out our <a "
+"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
 msgstr ""
 
 #: website/templates/index.html:19
-msgid "Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!"
+msgid ""
+"Our discord bot is currently live and provides <em>leaderboards, badges, "
+"profiles</em> and more!"
 msgstr ""
 
 #: website/templates/index.html:22
@@ -1188,7 +1233,8 @@ msgid "Social Network Login Failure"
 msgstr ""
 
 #: website/templates/socialaccount/authentication_error.html:15
-msgid "An error occurred while attempting to login via your social network account."
+msgid ""
+"An error occurred while attempting to login via your social network account."
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:5
@@ -1202,11 +1248,15 @@ msgid "Log in via Social Media"
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:15
-msgid "You can sign in to your account using any of the following third party accounts"
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts"
 msgstr ""
 
 #: website/templates/socialaccount/connections.html:33
-msgid "You can sign in to your account using any of the following third party accounts:"
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts:"
 msgstr ""
 
 #: website/templates/socialaccount/login_cancelled.html:12
