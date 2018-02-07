@@ -7,92 +7,108 @@
 {% block head_title %}{% trans "Leaderboard" %}{% endblock %}
 
 {% block content %}
-          <header class="mdl-card__title mdl-color--primary-dark mdl-color-text--primary-contrast mdl-shadow--4dp">
-            <h2 class="mdl-card__title-text">{% block section_title %}{{filtered_place.name|default:"International"}} {% trans "Leaderboard" %}{% endblock %}</h2>
-          </header>
-          <div class="mdl-card__menu mdl-color-text--primary-contrast">
-            <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon">
-              <i class="material-icons">filter_list</i>
-            </button>
-            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="leaderboard-options">
-              <li class="mdl-menu__item mdl-js-ripple-effect" id="mystic" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'0,1' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}';">{% autoescape off %}{{ mystic.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Mystic' %}
-              </li>
-              <li class="mdl-menu__item mdl-js-ripple-effect" id="valor" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'0,1' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}';">{% autoescape off %}{{ valor.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Valor' %}
-              </li>
-              <li class="mdl-menu__item mdl-js-ripple-effect" id="instinct" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'0,1' }}&spoofers={{ spoofers.value|yesno:'1,0' }}';">{% autoescape off %}{{ instinct.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Instinct' %}
-              </li>
-              <li class="mdl-menu__item mdl-js-ripple-effect" id="spoofers" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'0,1' }}';">{% autoescape off %}{{ spoofers.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Spoofers' %}
-              </li>
-            </ul>
-          </div>
-          <div class="mdl-card__supporting-text mdl-color--primary mdl-color-text--primary-contrast" style="width: 100%">
-            {% trans '*' as ss_ident %}
-            {% blocktrans %}If a trainer has a {{ss_ident}} next to their name, it means the information was sourced from social media.{% endblocktrans %}
-            <br>
-            {% trans 'Grand Total XP' %}: {{ grand_total_xp | intword }}
-            <br>
-            {% trans 'Filter' %}
-<form>
-  <select name='{% trans 'Country' %}' onchange='if(this.value != 0) {location.href="{% url "leaderboard" %}country/"+this.value;} else {location.href="{% url "leaderboard" %}";}'>
-    <option value="0"{% if country == None %} selected="selected"{% endif %} disabled>{% trans 'Country' %}</option>
-    {% for option in countries %}
-    <option value='{{option.pk}}'{% if option == country %} selected="selected"{% endif %}>{{option.name}}</option>
-    {% endfor %}
-  </select>
-  <select name='{% trans 'Region' %}' onchange='location.href="{% url "leaderboard" %}region/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
-    <option value="0"{% if region == None %} selected="selected"{% endif %} disabled>{% trans 'Region' %}</option>
-    {% for option in regions %}
-    <option value='{{option.pk}}'{% if option == region %} selected="selected"{% endif %}>{{option.name}}</option>
-    {% endfor %}
-  </select>
-  <select name='{% trans 'Subregion' %}' onchange='location.href="{% url "leaderboard" %}subregion/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
-    <option value="0"{% if subregion == None %} selected="selected"{% endif %} disabled>{% trans 'Subregion' %}</option>
-    {% for option in subregions %}
-    <option value='{{option.pk}}'{% if option == subregion %} selected="selected"{% endif %}>{{option.name}}</option>
-    {% endfor %}
-  </select>
-  <select name='{% trans 'City' %}' onchange='location.href="{% url "leaderboard" %}city/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
-    <option value="0"{% if city == None %} selected="selected"{% endif %} disabled>{% trans 'City' %}</option>
-    {% for option in cities %}
-    <option value='{{option.pk}}'{% if option == city %} selected="selected"{% endif %}>{{option.name}}</option>
-    {% endfor %}
-  </select>
-</form>
-          </div>
-          <div class="table-responsive">
-            <table class="mdl-data-table mdl-js-data-table" style="width: 100%">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th class="mdl-data-table__cell--non-numeric">{% trans "Username" %}</th>
-                  <th>{% trans "TL" %}</th>
-                  <th class="mdl-data-table__cell--non-numeric">{% trans "Team" %}</th>
-                  <th>{% trans "XP" %}</th>
-                  <th class="mdl-data-table__cell--non-numeric">{% trans "Date Updated" %}</th>
-                  <th>{% trans "Pokémon Caught" %}</th>
-                  <th>{% trans "Hours Defended" %}</th>
-                  <th>{% trans "Eggs Hatched" %}</th>
-                  <th>{% trans "KM Walked" %}</th>
-                  <th>{% trans "Pokéstops Spun" %}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for trainer in leaderboard %}
-                <tr>
-                  <td>{{ trainer.position|default_if_none:'<i class="material-icons">close</i>' }}</td>
-                  <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }}{% if trainer.trainer.update_set.latest.meta_crowd_sourced %}{{ss_ident}}{% endif %}</a></td>
-                  <td>{{trainer.level}}</td>
-                  <td class="mdl-data-table__cell--non-numeric"><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'" alt="{{trainer.trainer.faction.name}}"/></td>
-                  <td>{{trainer.xp|intcomma}}</td>
-                  <td class="mdl-data-table__cell--non-numeric">{{trainer.time|naturalday}}</td>
-                  <td>{{trainer.pkmn_caught|default_if_none:""|intcomma}}</td>
-                  <td>{{trainer.gym_defended|default_if_none:""|intcomma}}</td>
-                  <td>{{trainer.eggs_hatched|default_if_none:""|intcomma}}</td>
-                  <td>{{trainer.walk_dist|default_if_none:""|intcomma}}</td>
-                  <td>{{trainer.pkstops_spun|default_if_none:""|intcomma}}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+<header class="mdl-card__title mdl-color--primary-dark mdl-color-text--primary-contrast mdl-shadow--4dp">
+  <h2 class="mdl-card__title-text">{% block section_title %}{{filtered_place.name|default:"International"}} {% trans "Leaderboard" %}{% endblock %}</h2>
+</header>
+
+<div class="mdl-card__menu mdl-color-text--primary-contrast">
+  <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon">
+    <i class="material-icons">filter_list</i>
+  </button>
+  
+  <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="leaderboard-options">
+    <li class="mdl-menu__item mdl-js-ripple-effect" id="mystic" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'0,1' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}';">{% autoescape off %}{{ mystic.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Mystic' %}
+    </li>
+    <li class="mdl-menu__item mdl-js-ripple-effect" id="valor" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'0,1' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'1,0' }}';">{% autoescape off %}{{ valor.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Valor' %}
+    </li>
+    <li class="mdl-menu__item mdl-js-ripple-effect" id="instinct" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'0,1' }}&spoofers={{ spoofers.value|yesno:'1,0' }}';">{% autoescape off %}{{ instinct.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Instinct' %}
+    </li>
+    <li class="mdl-menu__item mdl-js-ripple-effect" id="spoofers" class="button" onclick="location.href='{% url 'leaderboard' %}?valor={{ valor.value|yesno:'1,0' }}&mystic={{ mystic.value|yesno:'1,0' }}&instinct={{ instinct.value|yesno:'1,0' }}&spoofers={{ spoofers.value|yesno:'0,1' }}';">{% autoescape off %}{{ spoofers.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Spoofers' %}
+    </li>
+  </ul>
+</div>
+
+<div class="mdl-card__supporting-text mdl-color--primary mdl-color-text--primary-contrast" style="width: 100%">
+  {% trans '*' as ss_ident %}
+  {% blocktrans %}If a trainer has a {{ss_ident}} next to their name, it means the information was sourced from social media.{% endblocktrans %}
+  <br>
+  {% trans 'Grand Total XP' %}: {{ grand_total_xp | intword }}
+  <br>
+  {% trans 'Filter' %}
+  <form>
+    <select name="{% trans 'Country' %}" onchange='if(this.value != 0) {location.href="{% url "leaderboard" %}country/"+this.value;} else {location.href="{% url "leaderboard" %}";}'>
+      <option value="0"{% if country == None %} selected="selected"{% endif %} disabled>{% trans 'Country' %}</option>
+      {% for option in countries %}
+      <option value="{{option.pk}}"{% if option == country %} selected="selected"{% endif %}>{{option.name}}</option>
+      {% endfor %}
+    </select>
+    <select name="{% trans 'Region' %}" onchange='location.href="{% url "leaderboard" %}region/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
+      <option value="0"{% if region == None %} selected="selected"{% endif %} disabled>{% trans 'Region' %}</option>
+      {% for option in regions %}
+      <option value="{{option.pk}}"{% if option == region %} selected="selected"{% endif %}>{{option.name}}</option>
+      {% endfor %}
+    </select>
+    <select name="{% trans 'Subregion' %}" onchange='location.href="{% url "leaderboard" %}subregion/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
+      <option value="0"{% if subregion == None %} selected="selected"{% endif %} disabled>{% trans 'Subregion' %}</option>
+      {% for option in subregions %}
+      <option value="{{option.pk}}"{% if option == subregion %} selected="selected"{% endif %}>{{option.name}}</option>
+      {% endfor %}
+    </select>
+    <select name="{% trans 'City' %}" onchange='location.href="{% url "leaderboard" %}city/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
+      <option value="0"{% if city == None %} selected="selected"{% endif %} disabled>{% trans 'City' %}</option>
+      {% for option in cities %}
+      <option value="{{option.pk}}"{% if option == city %} selected="selected"{% endif %}>{{option.name}}</option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
+<div class="table-responsive">
+  <table class="mdl-data-table mdl-js-data-table" style="width: 100%">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th class="mdl-data-table__cell--non-numeric">{% trans "Username" %}</th>
+        <th>{% trans "TL" %}</th>
+        <th class="mdl-data-table__cell--non-numeric">{% trans "Team" %}</th>
+        <th>{% trans "XP" %}</th>
+        <th class="mdl-data-table__cell--non-numeric">{% trans "Date Updated" %}</th>
+        <th>{% trans "Pokémon Caught" %}</th>
+        <th>{% trans "Hours Defended" %}</th>
+        <th>{% trans "Eggs Hatched" %}</th>
+        <th>{% trans "KM Walked" %}</th>
+        <th>{% trans "Pokéstops Spun" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for trainer in leaderboard %}
+      <tr>
+        <td>{{trainer.position|default_if_none:'<i class="material-icons">close</i>'}}</td>
+        <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }}{% if trainer.trainer.update_set.latest.meta_crowd_sourced %}{{ss_ident}}{% endif %}</a></td>
+        <td>{{trainer.level}}</td>
+        <td class="mdl-data-table__cell--non-numeric"><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'" alt="{{trainer.trainer.faction.name}}"/></td>
+        <td>{{trainer.xp|intcomma}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{trainer.time|naturalday}}</td>
+        <td>{{trainer.pkmn_caught|default_if_none:""|intcomma}}</td>
+        <td>{{trainer.gym_defended|default_if_none:""|intcomma}}</td>
+        <td>{{trainer.eggs_hatched|default_if_none:""|intcomma}}</td>
+        <td>{{trainer.walk_dist|default_if_none:""|intcomma}}</td>
+        <td>{{trainer.pkstops_spun|default_if_none:""|intcomma}}</td>
+      </tr>
+      {% if forloop.last or forloop.revcounter0|divisibleby:50 %}<tr class="adsbygoogle"><td colspan="11">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-format="fluid"
+             data-ad-layout-key="-gq-d+2z-3c-37"
+             data-ad-client="ca-pub-2420889738442704"
+             data-ad-slot="3367714191"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </td></tr>{% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}
