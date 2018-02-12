@@ -5,7 +5,7 @@ chardet==3.0.4
 django-ajax-selects==1.7.0
 django-allauth==0.34.0
 django-annoying==0.10.4
-django-cities==0.5.0.5
+django-cities==0.5.0.6
 django-colorful==1.2
 django-cookie-law==1.0.13
 django-exclusivebooleanfield==0.3.0
