@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-21 12:04+0000\n"
-"PO-Revision-Date: 2018-01-17 19:25+0000\n"
-"Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
+"PO-Revision-Date: 2018-01-21 13:23+0000\n"
+"Last-Translator: b'  <pfuentes1985@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Translated-Using: django-rosetta 0.7.13\n"
+"X-Translated-Using: django-rosetta 0.8.1\n"
 
 #: support/templates/help/faq.html:5 support/templates/help/faq.html:6
 msgid "FAQ"
@@ -463,8 +463,12 @@ msgid "Crowd Sourced"
 msgstr "Fuente de origen "
 
 #: trainer/models.py:174
-msgid "This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."
-msgstr "Este valor fue previamente entrado como un valor alto. Por favor, vuelva a internarlo, asegúrate que ingreses el total de tu XP."
+msgid ""
+"This value has previously been entered at a higher value. Please try again, "
+"ensuring you enter your Total XP."
+msgstr ""
+"Este valor fue previamente entrado como un valor alto. Por favor, vuelva a "
+"internarlo, asegúrate que ingreses el total de tu XP."
 
 #: trainer/models.py:204
 msgid "Update"
@@ -586,8 +590,12 @@ msgstr "*"
 
 #: trainer/templates/leaderboard.html:30
 #, python-format
-msgid "If a trainer has a %(ss_ident)s next to their name, it means the information was sourced from social media."
-msgstr "Si el entrenador tiene %(ss_ident)s cerca de su nombre, quiere decir que la información a sido obtenida desde la red social."
+msgid ""
+"If a trainer has a %(ss_ident)s next to their name, it means the information"
+" was sourced from social media."
+msgstr ""
+"Si el entrenador tiene %(ss_ident)s cerca de su nombre, quiere decir que la "
+"información a sido obtenida desde la red social."
 
 #: trainer/templates/leaderboard.html:32
 msgid "Grand Total XP"
@@ -595,7 +603,7 @@ msgstr "Total de experiencia"
 
 #: trainer/templates/leaderboard.html:34
 msgid "Filter"
-msgstr ""
+msgstr "Filtro"
 
 #: trainer/templates/leaderboard.html:68 trainer/templates/profile.html:10
 #: trainer/templates/profile.html:50 trainer/templates/update.html:10
@@ -652,8 +660,13 @@ msgid "Legendary Raids"
 msgstr "Incursiones Legendarias"
 
 #: trainer/templates/profile.html:132
-msgid "It seems this trainer hasn't shared any of these medals. We only show medals with data to avoid showing a row of null values, that's kinda ugly."
-msgstr "Parece que este entrenador no ha compartido ninguna de sus medallas. Solo mostramos medallas con datos para evitar mostrar una fila de valores nulos, eso es feo."
+msgid ""
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
+msgstr ""
+"Parece que este entrenador no ha compartido ninguna de sus medallas. Solo "
+"mostramos medallas con datos para evitar mostrar una fila de valores nulos, "
+"eso es feo."
 
 #: trainer/validators.py:8
 msgid "The date you entered was before launch date of 6th July 2016"
@@ -670,21 +683,29 @@ msgstr "Solicitud de eliminación tardía"
 #: trainer/views.py:207
 #, python-brace-format
 msgid "There has been a request to delete {update} by {requester} at {ip}"
-msgstr "Ha habido una solicitud para eliminar {update} por {requester} por {ip}"
+msgstr ""
+"Ha habido una solicitud para eliminar {update} por {requester} por {ip}"
 
 #: trainer/views.py:610
 msgid "Thanks for registering. You are now logged in."
 msgstr "Gracias por registrarte. Ahora tu has accedido "
 
 #: trainer/views.py:611
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "[TrainerDex] Verification needed for {trainer}"
-msgstr "[TrainerDex] Verificación para {trainer}"
+msgstr "[TrainerDex] Verificación necesaria para  {trainer}"
 
 #: trainer/views.py:612
 #, python-brace-format
-msgid "Welcome {trainer}, please respond to this email with screenshots of the top and bottom of your Pokemon Go profile for verification. Once verified, you will appear in the leaderboards."
+msgid ""
+"Welcome {trainer}, please respond to this email with screenshots of the top "
+"and bottom of your Pokemon Go profile for verification. Once verified, you "
+"will appear in the leaderboards."
 msgstr ""
+"Bienvenido {trainer}, por favor responda a este correo con la captura de "
+"pantalla de la parte superior e inferior de tu perfil en Pokémon Go con "
+"propósitos de verificación. Una vez verificado, aparecerás en la tabla de "
+"líderes. "
 
 #: website/templates/account/account_inactive.html:5
 #: website/templates/account/account_inactive.html:6
@@ -713,8 +734,13 @@ msgid "Add E-mail Address"
 msgstr "Agregar correo electrónico "
 
 #: website/templates/account/email.html:26
-msgid "Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation."
-msgstr "Agregue una dirección de correo electrónico a su cuenta para volver a ingresar si olvida su contraseña. Además, su correo electrónico principal se usa para la generación de Gravatar."
+msgid ""
+"Add an email address to your account to get back in if you forget your "
+"password. Also, your primary email is used for gravatar generation."
+msgstr ""
+"Agregue una dirección de correo electrónico a su cuenta para volver a "
+"ingresar si olvida su contraseña. Además, su correo electrónico principal se"
+" usa para la generación de Gravatar."
 
 #. Translators: This is shown in the email field when it is empty
 #: website/templates/account/email.html:30
@@ -732,7 +758,8 @@ msgstr "Direcciones de correo electrónico"
 
 #: website/templates/account/email.html:51
 msgid "The following e-mail addresses are associated with your account:"
-msgstr "La siguiente dirección de correo electrónico esta asociada con tu cuenta:"
+msgstr ""
+"La siguiente dirección de correo electrónico esta asociada con tu cuenta:"
 
 #: website/templates/account/email.html:59
 msgid "Primary"
@@ -756,8 +783,14 @@ msgid "Warning:"
 msgstr "Advertencia:"
 
 #: website/templates/account/email.html:83
-msgid "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc."
-msgstr "Actualmente no tienes ninguna dirección de correo electrónico configurada. Realmente debería agregar una dirección de correo electrónico para que pueda recibir notificaciones, restablecer su contraseña, etc."
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
+msgstr ""
+"Actualmente no tienes ninguna dirección de correo electrónico configurada. "
+"Realmente debería agregar una dirección de correo electrónico para que pueda"
+" recibir notificaciones, restablecer su contraseña, etc."
 
 #: website/templates/account/email.html:94
 msgid "Do you really want to remove the selected e-mail address?"
@@ -830,8 +863,12 @@ msgstr "Confirmar dirección de correo electrónico "
 
 #: website/templates/account/email_confirm.html:18
 #, python-format
-msgid "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s."
-msgstr "Por favor, confirme que <a href=\"mailto:%(email)s\">%(email)s</a> es el correo electronic para el usuario %(user_display)s."
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+"Por favor, confirme que <a href=\"mailto:%(email)s\">%(email)s</a> es el "
+"correo electronic para el usuario %(user_display)s."
 
 #: website/templates/account/email_confirm.html:23
 msgid "Confirm"
@@ -839,7 +876,8 @@ msgstr "Confirmar"
 
 #: website/templates/account/email_confirm.html:29
 msgid "This e-mail confirmation link expired or is invalid."
-msgstr "Este enlace de confirmación por correo electrónico expiró o no es válido."
+msgstr ""
+"Este enlace de confirmación por correo electrónico expiró o no es válido."
 
 #: website/templates/account/email_confirm.html:33
 msgid "Resend confirmation email"
@@ -854,13 +892,22 @@ msgstr "Inicio de sesión"
 
 #: website/templates/account/login.html:22
 #, python-format
-msgid "If you already have an account, you can login below or via a third party account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
-msgstr "Si tu ya tienes una cuenta, puedes iniciar sesión a continuación o utilizado una cuenta de terceros. Si no, <a href=\"%(signup_url)s\">crea</a> tu nueva cuenta."
+msgid ""
+"If you already have an account, you can login below or via a third party "
+"account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
+msgstr ""
+"Si tu ya tienes una cuenta, puedes iniciar sesión a continuación o utilizado"
+" una cuenta de terceros. Si no, <a href=\"%(signup_url)s\">crea</a> tu nueva"
+" cuenta."
 
 #: website/templates/account/login.html:25
 #, python-format
-msgid "If you have not created an account yet, then please <a href=\"%(signup_url)s\">sign up</a> first."
-msgstr "Si no hay creado una cuenta aún,  por favor <a href=\"%(signup_url)s\">Crea una cuenta</a> primero."
+msgid ""
+"If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first."
+msgstr ""
+"Si no hay creado una cuenta aún,  por favor <a href=\"%(signup_url)s\">Crea "
+"una cuenta</a> primero."
 
 #: website/templates/account/login.html:33
 msgid "Remember me"
@@ -949,8 +996,13 @@ msgid "Password Reset"
 msgstr "Resetear contraseña"
 
 #: website/templates/account/password_reset.html:29
-msgid "Forgotten your password? Enter your e-mail address below, and we'll send you an e-mail allowing you to reset it."
-msgstr "Haz olvidado tu contraseña? Introduce la dirección de correo electrónico a continuación y te enviaremos un correo electrónico que te permitirá resetearla."
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
+msgstr ""
+"Haz olvidado tu contraseña? Introduce la dirección de correo electrónico a "
+"continuación y te enviaremos un correo electrónico que te permitirá "
+"resetearla."
 
 #: website/templates/account/password_reset.html:30
 msgid "Please contact us if you have any trouble resetting your password."
@@ -965,8 +1017,12 @@ msgid "Reset My Password"
 msgstr "Resetear mi contraseña"
 
 #: website/templates/account/password_reset_done.html:17
-msgid "We have sent you an e-mail. Please contact us if you do not receive it within a few minutes."
-msgstr "Te hemos enviado un correo electrónico. Por favor contáctenos si no lo recibes en unos minutos."
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"Te hemos enviado un correo electrónico. Por favor contáctenos si no lo "
+"recibes en unos minutos."
 
 #: website/templates/account/password_reset_done.html:21
 #: website/templates/account/password_reset_from_key_done.html:18
@@ -981,8 +1037,12 @@ msgid "Bad Token"
 msgstr "Token malo"
 
 #: website/templates/account/password_reset_from_key.html:18
-msgid "The password reset link was invalid, possibly because it has already been used."
-msgstr "El link para resetear tu contraseña es invalido, posiblemente porque ya ha sido utilizado."
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used."
+msgstr ""
+"El link para resetear tu contraseña es invalido, posiblemente porque ya ha "
+"sido utilizado."
 
 #: website/templates/account/password_reset_from_key.html:22
 msgid "New password reset key"
@@ -1021,8 +1081,12 @@ msgstr "Registrate "
 
 #: website/templates/account/signup.html:25
 #, python-format
-msgid "You would already have an account if you use the Discord bot, please <a href=\"%(login_url)s\">sign in</a>."
-msgstr " tendrías una cuenta si usas el bot de Discord, por favor <a href=\"%(login_url)s\">registrarse</a>."
+msgid ""
+"You would already have an account if you use the Discord bot, please <a "
+"href=\"%(login_url)s\">sign in</a>."
+msgstr ""
+" tendrías una cuenta si usas el bot de Discord, por favor <a "
+"href=\"%(login_url)s\">registrarse</a>."
 
 #: website/templates/account/signup.html:61
 msgid "Enter password"
@@ -1048,12 +1112,17 @@ msgid "Sign Up Closed"
 msgstr "Inscripción cerrada"
 
 #: website/templates/account/signup_closed.html:15
-msgid "We are sorry, but registrations via the website are currently disabled."
+msgid ""
+"We are sorry, but registrations via the website are currently disabled."
 msgstr "Lo sentimos, pero el registro vía este sitio están desactivadas"
 
 #: website/templates/account/signup_closed.html:16
-msgid "You can register via joining our Discord server and sharing a screenshot of your Pokémon Go profile"
-msgstr "Te puedes registrar uniéndotelas en nuestro servidor en Discord y compartir una captura de pantalla de tu perfil en Pokémon Go"
+msgid ""
+"You can register via joining our Discord server and sharing a screenshot of "
+"your Pokémon Go profile"
+msgstr ""
+"Te puedes registrar uniéndotelas en nuestro servidor en Discord y compartir "
+"una captura de pantalla de tu perfil en Pokémon Go"
 
 #: website/templates/account/signup_closed.html:23
 msgid "Register via Discord"
@@ -1074,20 +1143,39 @@ msgid "Verify Your E-mail Address"
 msgstr "Verifica tu dirección de correo electrónico "
 
 #: website/templates/account/verification_sent.html:15
-msgid "We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes."
-msgstr "Le hemos enviado un correo electrónico para su verificación. Siga el enlace provisto para finalizar el proceso de registro. Por favor contáctenos si no lo recibe en unos minutos."
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"Le hemos enviado un correo electrónico para su verificación. Siga el enlace "
+"provisto para finalizar el proceso de registro. Por favor contáctenos si no "
+"lo recibe en unos minutos."
 
 #: website/templates/account/verified_email_required.html:16
-msgid "This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address. "
-msgstr "Esta parte del sitio requiere que verifiquemos que usted es quien dice ser. Para este fin, le solicitamos que verifique la propiedad de su dirección de correo electrónico."
+msgid ""
+"This part of the site requires us to verify that you are who you claim to "
+"be. For this purpose, we require that you verify ownership of your e-mail "
+"address. "
+msgstr ""
+"Esta parte del sitio requiere que verifiquemos que usted es quien dice ser. "
+"Para este fin, le solicitamos que verifique la propiedad de su dirección de "
+"correo electrónico."
 
 #: website/templates/account/verified_email_required.html:17
-msgid "We have sent an e-mail to you for verification. Please click on the link inside this e-mail. Please contact us if you do not receive it within a few minutes."
-msgstr "Le hemos enviado un correo electrónico para su verificación. Haga clic en el enlace dentro de este correo. Por favor contáctenos si no lo recibe en unos minutos."
+msgid ""
+"We have sent an e-mail to you for verification. Please click on the link "
+"inside this e-mail. Please contact us if you do not receive it within a few "
+"minutes."
+msgstr ""
+"Le hemos enviado un correo electrónico para su verificación. Haga clic en el"
+" enlace dentro de este correo. Por favor contáctenos si no lo recibe en unos"
+" minutos."
 
 #: website/templates/base.html:27
 msgid "Introducing TrainerDex, the social experience Pokemon Go is lacking!"
-msgstr "Presentando TrainerDex, la experiencia social que le faltaba a Pokémon Go!"
+msgstr ""
+"Presentando TrainerDex, la experiencia social que le faltaba a Pokémon Go!"
 
 #. Translators: 'beta' should remain in lowercase
 #: website/templates/base.html:62 website/templates/base.html:84
@@ -1164,12 +1252,22 @@ msgstr "Bienvenido/a"
 
 #: website/templates/index.html:17
 #, python-format
-msgid "TrainerDex is a service for tracking and updating your progress in Pokémon Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
-msgstr "TrainerDex es un servicio para seguir y actualizar tu progreso en Pokémon Go. No te preocupes, no hay riesgo de ban!  Revisa aquí nuestras <a href=\"%(faq_url)s\" id=\"faq\">Preguntas Frecuentes</a>."
+msgid ""
+"TrainerDex is a service for tracking and updating your progress in Pokémon "
+"Go. Don't worry, there's no risk of ban! Check out our <a "
+"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
+msgstr ""
+"TrainerDex es un servicio para seguir y actualizar tu progreso en Pokémon "
+"Go. No te preocupes, no hay riesgo de ban!  Revisa aquí nuestras <a "
+"href=\"%(faq_url)s\" id=\"faq\">Preguntas Frecuentes</a>."
 
 #: website/templates/index.html:19
-msgid "Our discord bot is currently live and provides <em>leaderboards, badges, profiles</em> and more!"
-msgstr "¡Nuestro bot en Discord se encuentra actualmente vivo y provee <em> tablas de clasificación, insignias, perfiles </em> y más!"
+msgid ""
+"Our discord bot is currently live and provides <em>leaderboards, badges, "
+"profiles</em> and more!"
+msgstr ""
+"¡Nuestro bot en Discord se encuentra actualmente vivo y provee <em> tablas "
+"de clasificación, insignias, perfiles </em> y más!"
 
 #: website/templates/index.html:22
 msgid "TrainerDex Web <em>beta</em> is here!"
@@ -1183,7 +1281,8 @@ msgstr "Haz click <a href=\"%(account_signup)s\">aquí</a>  para registrarte. "
 #: website/templates/index.html:22
 #, python-format
 msgid "<a href=\"%(donation_url)s\">Donations</a> help a lot with development!"
-msgstr "<a href=\"%(donation_url)s\">Donaciones</a> ayudan mucho con el desarrollo!"
+msgstr ""
+"<a href=\"%(donation_url)s\">Donaciones</a> ayudan mucho con el desarrollo!"
 
 #: website/templates/index.html:27
 msgid "Let's go!"
@@ -1198,8 +1297,11 @@ msgid "Social Network Login Failure"
 msgstr "Error de inicio de sesión de red social"
 
 #: website/templates/socialaccount/authentication_error.html:15
-msgid "An error occurred while attempting to login via your social network account."
-msgstr "Un error ha ocurrido cuando intentabas iniciar sesiono vía tu cuenta de red social."
+msgid ""
+"An error occurred while attempting to login via your social network account."
+msgstr ""
+"Un error ha ocurrido cuando intentabas iniciar sesiono vía tu cuenta de red "
+"social."
 
 #: website/templates/socialaccount/connections.html:5
 #: website/templates/socialaccount/connections.html:6
@@ -1212,12 +1314,20 @@ msgid "Log in via Social Media"
 msgstr "Inicio de sesión vía Medio comunicación social"
 
 #: website/templates/socialaccount/connections.html:15
-msgid "You can sign in to your account using any of the following third party accounts"
-msgstr "Puedes registrarte utilizando cualquiera de las siguientes cuentas de terceros"
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts"
+msgstr ""
+"Puedes registrarte utilizando cualquiera de las siguientes cuentas de "
+"terceros"
 
 #: website/templates/socialaccount/connections.html:33
-msgid "You can sign in to your account using any of the following third party accounts:"
-msgstr "Puedes registrarte utilizando cualquiera de las siguientes cuentas de terceros:"
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts:"
+msgstr ""
+"Puedes registrarte utilizando cualquiera de las siguientes cuentas de "
+"terceros:"
 
 #: website/templates/socialaccount/login_cancelled.html:12
 msgid "Login Cancelled"
@@ -1249,7 +1359,10 @@ msgstr "Regístrate"
 msgid ""
 "You are about to use your %(provider_name)s account to login to\n"
 "%(site_name)s. As a final step, please complete the following form:"
-msgstr "Estas a punto de utilizar tu cuenta  %(provider_name)s para iniciar sesión en %(site_name)s. Para finalizar, por favor completa el siguiente formulario:"
+msgstr ""
+"Estas a punto de utilizar tu cuenta  %(provider_name)s para iniciar sesión "
+"en %(site_name)s. Para finalizar, por favor completa el siguiente "
+"formulario:"
 
 #~ msgid "Countries"
 #~ msgstr "Países"
@@ -1303,7 +1416,9 @@ msgstr "Estas a punto de utilizar tu cuenta  %(provider_name)s para iniciar sesi
 #~ msgstr "Comunidades"
 
 #~ msgid "To submit a community to this list, email %(email)s "
-#~ msgstr "Para enviar una comunidad a esta lista, envíe un correo electrónico %(email)s"
+#~ msgstr ""
+#~ "Para enviar una comunidad a esta lista, envíe un correo electrónico "
+#~ "%(email)s"
 
 #~ msgid "Join"
 #~ msgstr "Unirse"
@@ -1317,5 +1432,9 @@ msgstr "Estas a punto de utilizar tu cuenta  %(provider_name)s para iniciar sesi
 #~ msgid "Worldwide"
 #~ msgstr "Mundial"
 
-#~ msgid "Your screeenshots have been sent for verification. This can take up to 48 hours. You can start using the website immediately."
-#~ msgstr "Tus capturas de pantalla han sido enviadas para ser verificadas. Esto puede tomar hasta 48 horas. Puedes empezar a utilizar el sitio inmediatamente."
+#~ msgid ""
+#~ "Your screeenshots have been sent for verification. This can take up to 48 "
+#~ "hours. You can start using the website immediately."
+#~ msgstr ""
+#~ "Tus capturas de pantalla han sido enviadas para ser verificadas. Esto puede "
+#~ "tomar hasta 48 horas. Puedes empezar a utilizar el sitio inmediatamente."

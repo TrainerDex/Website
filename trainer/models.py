@@ -150,6 +150,7 @@ class Update(models.Model):
 		('ts_registration', _noop('Registration')),
 		('ss_registration', _noop('Registration Screenshot')),
 		('ss_generic', _noop('Generic Screenshot')),
+		('cs_social_youtube', _noop('YouTube')),
 	)
 	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
 	
