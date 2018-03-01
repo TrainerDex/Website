@@ -42,11 +42,16 @@ class TrainerAdmin(AjaxSelectAdmin):
 		(_('Reports'), {
 			'fields': ('has_cheated', 'last_cheated', 'currently_cheats', 'verified', 'active')
 		}),
-		(_('Medals'), {
-			'fields': ('go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen')
+		(_('Events'), {
+			'fields': ('go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen', 'event_10b')
 		}),
 		(_('Leaderboard'), {
 			'fields': ('leaderboard_country', 'leaderboard_region', 'leaderboard_subregion', 'leaderboard_city')
 		}),
 	)
+	
+	def get_readonly_fields(self, request, obj=None):
+		if obj: # editing an existing object
+			return self.readonly_fields + ('event_10b',)
+		return self.readonly_fields
 	
