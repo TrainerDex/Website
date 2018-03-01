@@ -144,15 +144,17 @@ class Update(models.Model):
 	meta_time_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Time Created"))
 	DATABASE_SOURCES = ( #cs crowd sourced # ts text sourced
 		('?', _noop('undefined')),
-		('cs_social_twitter', _noop('Twitter')),
-		('cs_social_facebook', _noop('Facebook')),
-		('ts_social_discord', _noop('Official Discord Bot')),
-		('web_quick', _noop('Quick Update')),
-		('web_detailed', _noop('Detailed Update')),
+		('cs_social_twitter', _noop('Twitter (Found)')),
+		('cs_social_facebook', _noop('Facebook (Found)')),
+		('cs_social_youtube', _noop('YouTube (Found)')),
+		('ts_social_discord', _noop('Discord (Bot)')),
+		('ts_social_twitter', _noop('Twitter (Bot)')),
+		('web_quick', _noop('Quick Update (Web)')),
+		('web_detailed', _noop('Detailed Update (Web)')),
 		('ts_registration', _noop('Registration')),
-		('ss_registration', _noop('Registration Screenshot')),
+		('ss_registration', _noop('Registration w/ Screenshot')),
 		('ss_generic', _noop('Generic Screenshot')),
-		('cs_social_youtube', _noop('YouTube')),
+		('ss_ocr', _noop("OCR Screenshot")),
 	)
 	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
 	
