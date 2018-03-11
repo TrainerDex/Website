@@ -34,11 +34,11 @@ INSTALLED_APPS = [
     'django_gravatar',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_api_key',
     'ajax_select',
     'cities',
     'colorful',
     'cookielaw',
-#    'raids',
     'rosetta',
     'trainer',
     'website',
@@ -157,6 +157,7 @@ REST_FRAMEWORK = {
         ),
     'DEFAULT_PERMISSION_CLASSES': (
         'ekpogo.permissions.IsAdminUserOrReadOnly',
+        'rest_framework_api_key.permissions.HasAPIAccess',
         ),
 }
 

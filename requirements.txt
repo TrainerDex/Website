@@ -18,6 +18,7 @@ django-timezone-field==2.1
 django-widget-tweaks==1.4.1
 django==1.11.4
 djangorestframework==3.6.3
+drfapikey=0.0.3
 humanize==0.5.1
 idna==2.6
 kombu==4.1.0
