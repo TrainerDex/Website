@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 from django.conf.urls import url
-from trainer.views import TrainerListJSONView, TrainerDetailJSONView, UpdateListJSONView, LatestUpdateJSONView, UpdateDetailJSONView, UserViewSet, SocialLookupJSONView, LeaderboardJSONView
+from trainer.views import TrainerListJSONView, TrainerDetailJSONView, UpdateListJSONView, LatestUpdateJSONView, UpdateDetailJSONView, UserViewSet, SocialLookupJSONView, LeaderboardJSONView, DiscordLeaderboardAPIView
 from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, UpdateInstanceHTMLView, CheckURLShortcut
 from trainer.errors import ThrowMalformedPKError, ThrowMalformedUUIDError
 
@@ -8,6 +8,7 @@ class REST:
     
     urlpatterns = [
         # /
+        url(r'^leaderboard/discord/(?P<guild>[0-9]+)/$', DiscordLeaderboardAPIView.as_view()),
         url(r'^leaderboard/$', LeaderboardJSONView.as_view()),
         # /trainers/
         url(r'^trainers/$', TrainerListJSONView.as_view()),
