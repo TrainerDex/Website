@@ -83,7 +83,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
           <div class="trainerdex-header-navigation-container">
             <nav class="trainerdex-header-navigation mdl-navigation">
               {%if user.is_authenticated %}
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'profile' %}">{% user_display user %}</a>{% else %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'home' %}">{% trans "Home" %}</a>{% endif %}
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'profile' %}">{% user_display user %}</a>{% else %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'help:about' %}">{% trans "About Us" %}</a>{% endif %}
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a>
             </nav>
           </div>
@@ -165,7 +165,7 @@ TO-DO: Insert pun about Bobby Tables (╯°□°）╯︵ ┻━┻
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">TrainerDex</div>
           <ul class="mdl-mini-footer__link-list">
-            <li><a href="{% url 'home' %}">{% trans "About" %}</a></li>
+            <li><a href="{% url 'help:about' %}">{% trans "About" %}</a></li>
             <li><a href="{% url 'help:faq' %}">{% trans "Help" %}</a></li>
             <li><a href="#">{% trans "Privacy &amp; Terms" %}</a></li>
             {% if user.is_superuser %}<li><a href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</a></li>{% endif %}
