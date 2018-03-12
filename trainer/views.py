@@ -18,6 +18,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.urls import resolve
 from pycent import percentage
 from pytz import utc
+import requests
 from rest_framework import authentication, permissions, status
 from rest_framework.decorators import detail_route
 from rest_framework.views import APIView
@@ -258,6 +259,39 @@ class SocialLookupJSONView(APIView):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DiscordLeaderboardAPIView(APIView):
+	def get(self, request, guild):
+		discord_base_url = 'https://discordapp.com/api'
+		headers = {}
+		output = {'generated':datetime.utcnow()}
+		
+		if request.GET.get('DiscordAuthorization'):
+			headers['Authorization'] = request.GET.get('DiscordAuthorization')
+		else:
+			headers['Authorization'] = 'Bot Mzc3NTU5OTAyNTEzNzkwOTc3.DYhWdw.tBGXI2g8RqH3EbDDdypSaQLXYLU'
+		
+		_guild = requests.get('{base_url}/guilds/{param}'.format(base_url=discord_base_url, param=guild), headers=headers)
+		if not status.is_success(_guild.status_code):
+			return Response({'error': '003 - Bad Guild ID', 'cause': "Most likely, the bot parameter provided doesn't have access to that guild", 'solution': "If I have to lay this out to you, you shouldn't be here"}, status=status.HTTP_400_BAD_REQUEST)
+		_guild = _guild.json()
+		
+		output['title'] = '{guild_name} Leaderboard'.format(guild_name=_guild['name'])
+		opt_out_role_id = [x['id'] for x in _guild['roles'] if x['name'] in ('NoLB,')]
+		
+		members = requests.get('{base_url}/guilds/{param}/members'.format(base_url=discord_base_url, param=guild), headers=headers, params={'limit':1000})
+		if not status.is_success(members.status_code):
+			return Response({'error': '000 - Unknown', 'cause': 'unknown', 'solution':'forward this output to apisupport@trainerdex.co.uk', 'Discord API Responce': members.content}, status=members.status_code)
+		members = [x['user']['id'] for x in members.json() if not any([i in x['roles'] for i in opt_out_role_id])]
+		trainers = Trainer.objects.filter(owner__socialaccount__provider='discord', owner__socialaccount__uid__in=members)
+		
+		leaderboard = trainers.annotate(Max('update__xp'), Max('update__update_time'))
+		leaderboard = cleanleaderboardqueryset(leaderboard, key=lambda x: x.update__xp__max, reverse=True)
+		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
+		output['leaderboard'] = serializer.data
+		return Response(output)
+		#return Response(serializer.data)
+	
 
 # Web-based views
 
