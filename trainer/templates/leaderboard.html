@@ -95,18 +95,6 @@
         <td>{{trainer.walk_dist|default_if_none:""|intcomma}}</td>
         <td>{{trainer.pkstops_spun|default_if_none:""|intcomma}}</td>
       </tr>
-      {% if forloop.last or forloop.revcounter0|divisibleby:50 %}<tr class="adsbygoogle"><td colspan="11">
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-format="fluid"
-             data-ad-layout-key="-gq-d+2z-3c-37"
-             data-ad-client="ca-pub-2420889738442704"
-             data-ad-slot="3367714191"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-      </td></tr>{% endif %}
       {% endfor %}
     </tbody>
   </table>
