@@ -4,6 +4,7 @@ from cities.models import Country, Region, Subregion, City, District
 from colorful.fields import RGBColorField
 from datetime import date
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import CICharField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import *
@@ -23,7 +24,7 @@ def leaderImagePath(instance, filename):
 class Trainer(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles', verbose_name=_("User"))
 	active = models.BooleanField(default=True, verbose_name=_("Active"))
-	username = models.CharField(max_length=30, unique=True, validators=[validate_pokemon_go_username], verbose_name=_("Username"))
+	username = CICharField(max_length=30, unique=True, validators=[validate_pokemon_go_username], verbose_name=_("Username")) #CaseInsensitive
 	start_date = models.DateField(null=True, blank=True, validators=[validate_startdate], verbose_name=_("Start Date"))
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"))
 	has_cheated = models.BooleanField(default=False, verbose_name=_("Historic Cheater"))
