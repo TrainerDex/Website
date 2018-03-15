@@ -71,7 +71,7 @@ class TrainerDetailJSONView(APIView):
 	"""
 	GET - Trainer detail
 	PATCH - Update a trainer
-	DELETE - Archives a trainer (hidden from APIs until trainer tries to join again)
+	DELETE - Archives a trainer
 	"""
 	
 	authentication_classes = (authentication.TokenAuthentication,)
@@ -82,8 +82,11 @@ class TrainerDetailJSONView(APIView):
 	def get(self, request, pk):
 		trainer = self.get_object(pk)
 		if trainer.active is True:
-			if trainer.statistics is True or (trainer.statistics is False and request.GET.get('statistics') == 'force'):
+			if request.GET.get('detail') == 'low':
+				serializer = BriefTrainerSerializer(trainer)
+			else:
 				serializer = DetailedTrainerSerializer(trainer)
+			if trainer.statistics is True or (trainer.statistics is False and request.GET.get('statistics') == 'force'):
 				return Response(serializer.data)
 			elif trainer.statistics is False:
 				return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
