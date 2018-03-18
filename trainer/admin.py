@@ -43,7 +43,10 @@ class TrainerAdmin(AjaxSelectAdmin):
 			'fields': ('has_cheated', 'last_cheated', 'currently_cheats', 'verified', 'active')
 		}),
 		(_('Events'), {
-			'fields': ('go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen', 'event_10b')
+			'fields': ('go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen')
+		}),
+		(_('Website Events'), {
+			'fields': ('event_10b','event_1k_users')
 		}),
 		(_('Leaderboard'), {
 			'fields': ('leaderboard_country', 'leaderboard_region', 'leaderboard_subregion', 'leaderboard_city')
