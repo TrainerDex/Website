@@ -53,6 +53,7 @@ class Trainer(models.Model):
 	verified = models.BooleanField(default=False, verbose_name=_("Verified"))
 	
 	event_10b = models.BooleanField(default=False)
+	event_1k_users = models.BooleanField(default=False)
 	
 	def is_prefered(self):
 		return True if owner.prefered_profile == self else False

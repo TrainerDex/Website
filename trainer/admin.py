@@ -52,6 +52,6 @@ class TrainerAdmin(AjaxSelectAdmin):
 	
 	def get_readonly_fields(self, request, obj=None):
 		if obj: # editing an existing object
-			return self.readonly_fields + ('event_10b',)
+			return self.readonly_fields + ('event_10b','event_1k_users')
 		return self.readonly_fields
 	
