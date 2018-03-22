@@ -37,7 +37,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 	date_hierarchy = 'start_date'
 	fieldsets = (
 		(None, {
-			'fields': ('owner', 'username', 'faction', 'start_date', 'statistics', 'daily_goal', 'total_goal', 'prefered')
+			'fields': ('owner', 'username', 'faction', 'start_date', 'statistics', 'daily_goal', 'total_goal',)
 		}),
 		(_('Reports'), {
 			'fields': ('has_cheated', 'last_cheated', 'currently_cheats', 'verified', 'active')

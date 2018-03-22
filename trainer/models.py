@@ -8,11 +8,11 @@ from django.contrib.postgres.fields import CICharField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import *
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
-from exclusivebooleanfield.fields import ExclusiveBooleanField
 from trainer.validators import *
 
 def factionImagePath(instance, filename):
@@ -22,10 +22,10 @@ def leaderImagePath(instance, filename):
 	return 'img/'+instance.name+'-leader' #remains for legacy reasons
 
 class Trainer(models.Model):
-	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles', verbose_name=_("User"))
+	owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
 	active = models.BooleanField(default=True, verbose_name=_("Active"))
-	username = CICharField(max_length=30, unique=True, validators=[validate_pokemon_go_username], verbose_name=_("Username")) #CaseInsensitive
-	start_date = models.DateField(null=True, blank=True, validators=[validate_startdate], verbose_name=_("Start Date"))
+	username = CICharField(max_length=30, unique=True, validators=[PokemonGoUsernameValidator], verbose_name=_("Username")) #CaseInsensitive
+	start_date = models.DateField(null=True, blank=True, validators=[StartDateValidator], verbose_name=_("Start Date"))
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"))
 	has_cheated = models.BooleanField(default=False, verbose_name=_("Historic Cheater"))
 	last_cheated = models.DateField(null=True, blank=True, verbose_name=_("Last Cheated"))
@@ -34,6 +34,7 @@ class Trainer(models.Model):
 	daily_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Rate Goal"))
 	total_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Reach Goal"))
 	last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last Modified"))
+	
 	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest Chicago"))
 	outbreak_2017 = models.BooleanField(default=False, verbose_name=_("Pikachu Outbreak")+" 2017")
 	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Oberhausen, Germany"))
@@ -43,7 +44,6 @@ class Trainer(models.Model):
 	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Prague, Czechia"))
 	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Stockholm, Sweden"))
 	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Amstelveen, The Netherlands"))
-	prefered = ExclusiveBooleanField(on='owner')
 	
 	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country')
 	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region')
@@ -75,6 +75,13 @@ class Trainer(models.Model):
 		ordering = ['username']
 		verbose_name = _("Trainer")
 		verbose_name_plural = _("Trainers")
+
+@receiver(post_save, sender=User)
+def create_profile(sender, **kwargs):
+	if kwargs['created']:
+		trainer = Trainer.objects.create(owner=kwargs['instance'], username=kwargs['instance'].username)
+		return trainer
+	return None
 
 class Faction(models.Model):
 	name = models.CharField(max_length=140, verbose_name=_("Name"))

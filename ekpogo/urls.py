@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^ajax_select/', include(ajex_select_urls)),
     url(r'^accounts/settings', SettingsView, name='account_settings'),
-    url(r'^accounts/signup/$', RegistrationView, name='account_signup'),
+    #url(r'^accounts/signup/$', RegistrationView, name='account_signup'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^tools/rosetta/', include('rosetta.urls')),
     url(r'^$', RedirectView.as_view(pattern_name='leaderboard', permanent=False), name='home'),
