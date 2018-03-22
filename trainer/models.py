@@ -1,18 +1,19 @@
 ﻿# -*- coding: utf-8 -*-
 import uuid
+from os.path import splitext
 from cities.models import Country, Region, Subregion, City, District
 from colorful.fields import RGBColorField
-from datetime import date
+from datetime import date, datetime
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import CICharField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import *
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
-from exclusivebooleanfield.fields import ExclusiveBooleanField
 from trainer.validators import *
 
 def factionImagePath(instance, filename):
@@ -21,11 +22,16 @@ def factionImagePath(instance, filename):
 def leaderImagePath(instance, filename):
 	return 'img/'+instance.name+'-leader' #remains for legacy reasons
 
+def VerificationImagePath(instance, filename):
+	return 'v_{0}_{1}{ext}'.format(instance.owner.id, datetime.utcnow().timestamp(), ext=splitext(filename)[1])
+
+def VerificationUpdateImagePath(instance, filename):
+	return 'v_{0}/v_{1}_{2}{ext}'.format(instance.trainer.owner.id, instance.trainer.id, instance.meta_time_created.timestamp(), ext=splitext(filename)[1])
+
 class Trainer(models.Model):
-	owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='profiles', verbose_name=_("User"))
-	active = models.BooleanField(default=True, verbose_name=_("Active"))
-	username = CICharField(max_length=30, unique=True, validators=[validate_pokemon_go_username], verbose_name=_("Username")) #CaseInsensitive
-	start_date = models.DateField(null=True, blank=True, validators=[validate_startdate], verbose_name=_("Start Date"))
+	owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
+	username = CICharField(max_length=30, unique=True, validators=[PokemonGoUsernameValidator], verbose_name=_("Username")) #CaseInsensitive
+	start_date = models.DateField(null=True, blank=True, validators=[StartDateValidator], verbose_name=_("Start Date"))
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"))
 	has_cheated = models.BooleanField(default=False, verbose_name=_("Historic Cheater"))
 	last_cheated = models.DateField(null=True, blank=True, verbose_name=_("Last Cheated"))
@@ -34,16 +40,16 @@ class Trainer(models.Model):
 	daily_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Rate Goal"))
 	total_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Reach Goal"))
 	last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last Modified"))
+	
 	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest Chicago"))
-	outbreak_2017 = models.BooleanField(default=False, verbose_name=_("Pikachu Outbreak")+" 2017")
-	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Oberhausen, Germany"))
-	safari_zone_2017_paris = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Paris, France"))
-	safari_zone_2017_barcelona = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Barcelona, Spain"))
-	safari_zone_2017_copenhagen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Copenhagen, Denmark"))
-	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Prague, Czechia"))
-	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Stockholm, Sweden"))
-	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - "+("Amstelveen, The Netherlands"))
-	prefered = ExclusiveBooleanField(on='owner')
+	outbreak_2017 = models.BooleanField(default=False, verbose_name=_("Pikachu Outbreak 2017"))
+	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Oberhausen, Germany")
+	safari_zone_2017_paris = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Paris, France")
+	safari_zone_2017_barcelona = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Barcelona, Spain")
+	safari_zone_2017_copenhagen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Copenhagen, Denmark")
+	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Prague, Czechia")
+	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Stockholm, Sweden")
+	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Amstelveen, The Netherlands")
 	
 	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country')
 	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region')
@@ -55,11 +61,30 @@ class Trainer(models.Model):
 	event_10b = models.BooleanField(default=False)
 	event_1k_users = models.BooleanField(default=False)
 	
+	verification = models.ImageField(upload_to=VerificationImagePath, null=True, blank=True)
+	
 	def is_prefered(self):
 		return True if owner.prefered_profile == self else False
 	
 	def __str__(self):
 		return self.username
+	
+	@property
+	def active(self):
+		return self.owner.active
+	
+	@property
+	def profile_complete(self):
+		return bool(
+			bool(self.owner) and bool(self.username) and bool(self.verification)
+		)
+	
+	@property
+	def profile_completed_optional(self):
+		return bool(
+			bool(self.profile_complete) and
+			bool(self.start_date)
+		)
 	
 	def clean(self):
 		if (self.has_cheated is True or self.currently_cheats is True) and self.last_cheated is None:
@@ -75,6 +100,13 @@ class Trainer(models.Model):
 		ordering = ['username']
 		verbose_name = _("Trainer")
 		verbose_name_plural = _("Trainers")
+
+@receiver(post_save, sender=User)
+def create_profile(sender, **kwargs):
+	if kwargs['created']:
+		trainer = Trainer.objects.create(owner=kwargs['instance'], username=kwargs['instance'].username)
+		return trainer
+	return None
 
 class Faction(models.Model):
 	name = models.CharField(max_length=140, verbose_name=_("Name"))
@@ -105,24 +137,26 @@ class Update(models.Model):
 	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Species Seen"))
 	gym_badges = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Total Gym Badges"))
 	
-	walk_dist = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True, verbose_name=_("Distance Walked"))
-	gen_1_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Kanto Pokédex"))
-	pkmn_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pokémon Caught"))
-	pkmn_evolved = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pokémon Evolved"))
-	eggs_hatched = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Eggs Hatched"))
-	pkstops_spun = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pokéstops Spun"))
-	big_magikarp = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Big Magikarp"))
-	battles_won = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Battles Won"))
+	walk_dist = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True, verbose_name=_("Jogger"))
+	gen_1_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Kanto"))
+	pkmn_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Collector"))
+	pkmn_evolved = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Scientist"))
+	eggs_hatched = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Breeder"))
+	pkstops_spun = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Backpacker"))
+	battles_won = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Battle Girl"))
+	big_magikarp = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Fisherman"))
 	legacy_gym_trained = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Ace Trainer"))
-	tiny_rattata = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Tiny Rattata"))
-	pikachu_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pikachu Caught"))
-	gen_2_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Johto Pokédex"))
+	tiny_rattata = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Youngster"))
+	pikachu_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pikachu Fan"))
+	gen_2_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Johto"))
 	unown_alphabet = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Unown"))
-	berry_fed = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Berries Fed"))
-	gym_defended = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Gyms Defended (Hours)"))
-	raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Raids Completed (Levels 1-4)"))
-	leg_raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Raids Completed (Level 5)"))
-	gen_3_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Hoenn Pokédex"))
+	berry_fed = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Berry Master"))
+	gym_defended = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Gym Leader"))
+	raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Champion"))
+	leg_raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Battle Legend"))
+	gen_3_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Hoenn"))
+	quests = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pokémon Ranger"))
+	mew_encountered = models.PositiveIntegerField(null=True, blank=True, verbose_name=_noop("Mew"))
 	
 	pkmn_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Normal"))
 	pkmn_flying = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Flying"))
@@ -144,13 +178,15 @@ class Update(models.Model):
 	pkmn_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Dragon"))
 	
 	meta_time_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Time Created"))
-	DATABASE_SOURCES = ( #cs crowd sourced # ts text sourced
+	DATABASE_SOURCES = ( #cs crowd sourced # ts text sourced # ss screenshot
 		('?', _noop('undefined')),
 		('cs_social_twitter', _noop('Twitter (Found)')),
 		('cs_social_facebook', _noop('Facebook (Found)')),
 		('cs_social_youtube', _noop('YouTube (Found)')),
-		('ts_social_discord', _noop('Discord (Bot)')),
-		('ts_social_twitter', _noop('Twitter (Bot)')),
+		('cs_?', _noop('Sourced Elsewhere')),
+		('ts_social_discord', _noop('Discord')),
+		('ts_social_twitter', _noop('Twitter')),
+		('ts_direct', _noop('Directly told (via text)')),
 		('web_quick', _noop('Quick Update (Web)')),
 		('web_detailed', _noop('Detailed Update (Web)')),
 		('ts_registration', _noop('Registration')),
@@ -160,12 +196,15 @@ class Update(models.Model):
 	)
 	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
 	
+	image_proof = models.ImageField(upload_to=VerificationUpdateImagePath, null=True, blank=True)
+	
 	def meta_crowd_sourced(self):
 		if self.meta_source.startswith('cs'):
 			return True
 		return False
 	meta_crowd_sourced.boolean = True
 	meta_crowd_sourced.short_description = _("Crowd Sourced")
+	
 	
 	def __str__(self):
 		return self.trainer.username+' '+str(self.xp)+' '+str(self.update_time)
@@ -192,6 +231,10 @@ class Update(models.Model):
 		if self.update_time.date() >= date(2017,6,20):
 			self.legacy_gym_trained = None
 		
+		if self.update_time.date() < date(201,3,30):
+			self.quests = None
+			self.mew_encountered = None
+		
 		if self.update_time.date() < date(2017,10,20):
 			self.gen_3_dex = None
 		
@@ -211,42 +254,6 @@ class Update(models.Model):
 		verbose_name = _("Update")
 		verbose_name_plural = _("Updates")
 	
-class PlayZonesDetailBase(models.Model):
-	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
-	privacy_show_on_profile = models.BooleanField(default=True, verbose_name=_("Show on profile"))
-	privacy_show_on_directory = models.BooleanField(default=True, verbose_name=_("Show in local directory"))
-	subscribe_updates = models.BooleanField(default=False, verbose_name=_("Subscribe to updates"))
-	
-	class Meta:
-		abstract = True
-
-class PlayZonesDetailCountry(PlayZonesDetailBase):
-	location = models.ForeignKey(Country, on_delete=models.CASCADE, verbose_name=_("Country"))
-	
-	class Meta:
-		verbose_name=_("Play Zone - National")
-		verbose_name_plural=_("Play Zones - National")
-
-class PlayZonesDetailRegion(PlayZonesDetailBase):
-	location = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name=_("Region"))
-	
-	class Meta:
-		verbose_name=_("Play Zone - Regional")
-		verbose_name_plural=_("Play Zones - Regional")
-
-class PlayZonesDetailSubregion(PlayZonesDetailBase):
-	location = models.ForeignKey(Subregion, on_delete=models.CASCADE, verbose_name=_("Subregion"))
-	
-	class Meta:
-		verbose_name=_("Play Zone - Subregional")
-		verbose_name_plural=_("Play Zones - Subregional")
-
-class PlayZonesDetailCity(PlayZonesDetailBase):
-	location = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name=_("City"))
-	
-	class Meta:
-		verbose_name=_("Play Zone - City-wide")
-		verbose_name_plural=_("Play Zones - City-wide")
 
 class TrainerReport(models.Model):
 	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))

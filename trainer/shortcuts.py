@@ -75,3 +75,47 @@ def level_parser(xp=None, level=None):
 		return next((x for x in LevelTuples if x.level == level), None)
 	else:
 		raise ValueError
+
+UPDATE_FIELDS_BADGES = (
+	'walk_dist',
+	'gen_1_dex',
+	'pkmn_caught',
+	'pkmn_evolved',
+	'eggs_hatched',
+	'pkstops_spun',
+	'big_magikarp',
+	'battles_won',
+	'legacy_gym_trained',
+	'tiny_rattata',
+	'pikachu_caught',
+	'gen_2_dex',
+	'unown_alphabet',
+	'berry_fed',
+	'gym_defended',
+	'raids_completed',
+	'leg_raids_completed',
+	'gen_3_dex',
+	'quests',
+	#'mew_encountered',
+)
+
+UPDATE_FIELDS_TYPES = (
+	'pkmn_normal',
+	'pkmn_flying',
+	'pkmn_poison',
+	'pkmn_ground',
+	'pkmn_rock',
+	'pkmn_bug',
+	'pkmn_steel',
+	'pkmn_fire',
+	'pkmn_water',
+	'pkmn_grass',
+	'pkmn_electric',
+	'pkmn_psychic',
+	'pkmn_dark',
+	'pkmn_fairy',
+	'pkmn_fighting',
+	'pkmn_ghost',
+	'pkmn_ice',
+	'pkmn_dragon',
+)

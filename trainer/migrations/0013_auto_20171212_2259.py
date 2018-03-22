@@ -25,6 +25,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='trainer',
             name='start_date',
-            field=models.DateField(blank=True, null=True, validators=[trainer.validators.validate_startdate]),
+            field=models.DateField(blank=True, null=True, validators=[trainer.validators.StartDateValidator]),
         ),
     ]

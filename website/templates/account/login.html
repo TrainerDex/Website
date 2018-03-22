@@ -40,7 +40,9 @@
       </div>
     </div>
     <div class="mdl-card__actions mdl-card--border">
-      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit">{% trans "Sign In" %}</button>
+      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit">{% trans "Sign In via Username and Password" %} &raquo;</button>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
       {% if socialaccount_providers %}{% include "socialaccount/snippets/provider_list.html" with process="login" %}{% endif %}
     </div>
     <div class="mdl-card__menu">

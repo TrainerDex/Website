@@ -1,50 +1,51 @@
 ﻿# -*- coding: utf-8 -*-
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm, EmailField, Form, Field, FileInput
+from django.forms import ModelForm, CharField, ModelChoiceField
 from django.utils.translation import ugettext_lazy as _
 from trainer.models import Update, Trainer
-
-class QuickUpdateForm(ModelForm):
-	
-	class Meta:
-		model = Update
-		fields = ('trainer', 'xp', 'update_time', 'meta_source')
-	
+from trainer.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 class UpdateForm(ModelForm):
 	
 	class Meta:
 		model = Update
-		fields = '__all__'
+		fields = (
+			'trainer',
+			'xp',
+			'meta_source',
+			'dex_caught',
+			'dex_seen',
+			'gym_badges',
+			'update_time',
+		) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
 	
-
-class RegistrationFormUser(UserCreationForm):
-	email = EmailField(required=True)
-	
-	class Meta:
-		model = User
-		fields = ('username', 'email','password1','password2',)
-	
-	def save(self, commit=True):
-		user = super(RegistrationFormUser, self).save(commit=False)
-		user.email = self.cleaned_data["email"]
-		if commit:
-			user.save()
-		return user
 
 class RegistrationFormTrainer(ModelForm):
 	
 	class Meta:
 		model = Trainer
-		fields = ('username', 'start_date', 'faction', 'statistics',)
+		fields = (
+			'username',
+			'start_date',
+			'faction',
+			'statistics',
+			'daily_goal',
+			'total_goal',
+			'verification',
+		)
+	
 
 class RegistrationFormUpdate(ModelForm):
 	
 	class Meta:
 		model = Update
-		fields = ('xp',)
-
-class RegistrationFormScreenshot(Form):
-	front_ss = Field(label=_("Profile Screenshot (Top)"), widget = FileInput, required = True )
-	back_ss = Field(label=_("Profile Screenshot (Bottom)"), widget = FileInput, required = True )
+		fields = (
+			'trainer',
+			'xp',
+			'meta_source',
+			'dex_caught',
+			'dex_seen',
+			'gym_badges',
+			'image_proof',
+			'update_time',
+		) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
+	

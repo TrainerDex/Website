@@ -11,11 +11,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins, EmailMessage
 from django.db.models import Max
-from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, render, redirect, reverse
+from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest, Http404
+from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_noop as _noop
 from django.urls import resolve
+import logging
 from pycent import percentage
 from pytz import utc
 import requests
@@ -24,10 +26,12 @@ from rest_framework.decorators import detail_route
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from trainer.forms import QuickUpdateForm, UpdateForm, RegistrationFormUser, RegistrationFormTrainer, RegistrationFormUpdate, RegistrationFormScreenshot
+from trainer.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
 from trainer.models import Trainer, Update
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
 from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser
+
+logger = logging.getLogger('django.trainerdex')
 
 # RESTful API Views
 
@@ -217,7 +221,7 @@ class UpdateDetailJSONView(APIView):
 class LeaderboardJSONView(APIView):
 	
 	def get(self, request):
-		query = Trainer.objects.exclude(statistics=False).exclude(currently_cheats=True).exclude(prefered=False).exclude(verified=False)
+		query = Trainer.objects.exclude(statistics=False).exclude(currently_cheats=True).exclude(verified=False)
 		if request.GET.get('users'):
 			query = query.filter(id__in=request.GET.get('users').split(','))
 		leaderboard = query.annotate(Max('update__xp'), Max('update__update_time'))
@@ -299,44 +303,46 @@ class DiscordLeaderboardAPIView(APIView):
 # Web-based views
 
 BADGES = [
-	{'name':'walk_dist', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Distance Walked')},
-	{'name':'gen_1_dex', 'bronze':5, 'silver':50, 'gold':100, 'i18n_name':_('Kanto Pokédex')},
-	{'name':'pkmn_caught', 'bronze':30, 'silver':500, 'gold':2000, 'i18n_name':_('Pokémon Caught')},
-	{'name':'pkmn_evolved', 'bronze':3, 'silver':20, 'gold':200, 'i18n_name':_('Pokémon Evolved')},
-	{'name':'eggs_hatched', 'bronze':10, 'silver':100, 'gold':500, 'i18n_name':_('Eggs Hatched')},
-	{'name':'pkstops_spun', 'bronze':100, 'silver':1000, 'gold':2000, 'i18n_name':_('Pokéstops Spun')},
-	{'name':'big_magikarp', 'bronze':3, 'silver':50, 'gold':300, 'i18n_name':_('Big Magikarp')},
-	{'name':'battles_won', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Battles Won')},
-	{'name':'legacy_gym_trained', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Ace Trainer')},
-	{'name':'tiny_rattata', 'bronze':3, 'silver':50, 'gold':300, 'i18n_name':_('Tiny Rattata')},
-	{'name':'pikachu_caught', 'bronze':3, 'silver':50, 'gold':300, 'i18n_name':_('Pikachu Caught')},
-	{'name':'gen_2_dex', 'bronze':5, 'silver':30, 'gold':70, 'i18n_name':_('Johto Pokédex')},
-	{'name':'unown_alphabet', 'bronze':3, 'silver':10, 'gold':26, 'i18n_name':_('Unown')},
-	{'name':'berry_fed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Berries Fed')},
-	{'name':'gym_defended', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Gyms Defended (Hours)')},
-	{'name':'raids_completed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Raids Completed (Levels 1-4)')},
-	{'name':'leg_raids_completed', 'bronze':10, 'silver':100, 'gold':1000, 'i18n_name':_('Raids Completed (Level 5)')},
-	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90, 'i18n_name':_('Hoenn Pokédex')},
+	{'name':'walk_dist', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'gen_1_dex', 'bronze':5, 'silver':50, 'gold':100},
+	{'name':'pkmn_caught', 'bronze':30, 'silver':500, 'gold':2000},
+	{'name':'pkmn_evolved', 'bronze':3, 'silver':20, 'gold':200},
+	{'name':'eggs_hatched', 'bronze':10, 'silver':100, 'gold':500},
+	{'name':'pkstops_spun', 'bronze':100, 'silver':1000, 'gold':2000},
+	{'name':'big_magikarp', 'bronze':3, 'silver':50, 'gold':300},
+	{'name':'battles_won', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'legacy_gym_trained', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'tiny_rattata', 'bronze':3, 'silver':50, 'gold':300},
+	{'name':'pikachu_caught', 'bronze':3, 'silver':50, 'gold':300},
+	{'name':'gen_2_dex', 'bronze':5, 'silver':30, 'gold':70},
+	{'name':'unown_alphabet', 'bronze':3, 'silver':10, 'gold':26},
+	{'name':'berry_fed', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'gym_defended', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'raids_completed', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'leg_raids_completed', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90},
+	{'name':'quests', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'mew_encountered', 'bronze':5, 'silver':10, 'gold':30},
 ]
 
 TYPE_BADGES = [
-	{'name':'pkmn_normal', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Normal')},
-	{'name':'pkmn_flying', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Flying')},
-	{'name':'pkmn_poison', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Poison')},
-	{'name':'pkmn_ground', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Ground')},
-	{'name':'pkmn_rock', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Rock')},
-	{'name':'pkmn_bug', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Bug')},
-	{'name':'pkmn_steel', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Steel')},
-	{'name':'pkmn_fire', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Fire')},
-	{'name':'pkmn_water', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Water')},
-	{'name':'pkmn_electric', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Electric')},
-	{'name':'pkmn_psychic', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Psychic')},
-	{'name':'pkmn_dark', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Dark')},
-	{'name':'pkmn_fairy', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Fairy')},
-	{'name':'pkmn_fighting', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Fighting')},
-	{'name':'pkmn_ghost', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Ghost')},
-	{'name':'pkmn_ice', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Ice')},
-	{'name':'pkmn_dragon', 'bronze':10, 'silver':50, 'gold':200, 'i18n_name':_('Dragon')},
+	{'name':'pkmn_normal', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_flying', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_poison', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_ground', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_rock', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_bug', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_steel', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_fire', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_water', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_electric', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_psychic', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_dark', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_fairy', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_fighting', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_ghost', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_ice', 'bronze':10, 'silver':50, 'gold':200},
+	{'name':'pkmn_dragon', 'bronze':10, 'silver':50, 'gold':200},
 ]
 
 STATS = [
@@ -345,6 +351,20 @@ STATS = [
 	'gym_badges',
 	'xp'
 ]
+
+def _check_if_trainer_valid(trainer):
+	logger.log(level=30 if trainer.profile_complete else 20, msg='Checking {username}: Completed profile: {status}'.format(username=trainer.username, status=trainer.profile_complete))
+	logger.log(level=30 if trainer.update_set.count() else 20, msg='Checking {username}: Update count: {count}'.format(username=trainer.username, count=trainer.update_set.count()))
+	if (not trainer.profile_complete and not trainer.verified) or not trainer.update_set.count():
+		raise Http404('{} has not completed their profile.'.format(trainer.owner.username))
+	return trainer
+
+def _check_if_self_valid(request):
+	try:
+		_check_if_trainer_valid(request.user.trainer)
+		return True
+	except Http404:
+		return False
 
 def CheckURLShortcut(request, username=None, id=None):
 	if username:
@@ -358,7 +378,7 @@ def CheckURLShortcut(request, username=None, id=None):
 	elif not request.user.is_authenticated():
 		return redirect('home')
 	else:
-		trainer = get_object_or_404(Trainer, owner=request.user, prefered=True)
+		trainer = request.user.trainer
 	
 	if resolve(reverse('profile_username', kwargs={'username':trainer.username})).func == TrainerProfileHTMLView:
 		return HttpResponseRedirect(reverse('profile_username', kwargs={'username':trainer.username}))
@@ -366,17 +386,22 @@ def CheckURLShortcut(request, username=None, id=None):
 		return TrainerProfileHTMLView(request, username=trainer.username)
 
 def TrainerProfileHTMLView(request, username):
-	trainer = get_object_or_404(Trainer, username__iexact=username)
+	if request.user.is_authenticated() and not _check_if_self_valid(request):
+		messages.warning(request, _("Please complete your profile to continue using the website."))
+		return HttpResponseRedirect(reverse('profile_set_up'))
+	
+	trainer = _check_if_trainer_valid(get_object_or_404(Trainer, username__iexact=username))
+	updates = get_list_or_404(Update, trainer=trainer)
 	context = {
 		'trainer' : trainer,
-		'updates' : Update.objects.filter(trainer=trainer),
+		'updates' : updates,
 	}
 	badges = []
 	type_badges = []
 	for badge in BADGES:
 		badge_dict = {
 			'name':badge['name'],
-			'readable_name':badge['i18n_name'],
+			'readable_name':Update._meta.get_field(badge['name']).verbose_name,
 		}
 		try:
 			badge_dict['value'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge['name'] : None}).order_by('-'+badge['name']).first(), badge['name'])
@@ -395,7 +420,7 @@ def TrainerProfileHTMLView(request, username):
 	for badge in TYPE_BADGES:
 		badge_dict = {
 			'name':badge['name'],
-			'readable_name':badge['i18n_name'],
+			'readable_name':Update._meta.get_field(badge['name']).verbose_name,
 		}
 		try:
 			badge_dict['value'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge['name'] : None}).order_by('-'+badge['name']).first(), badge['name'])
@@ -421,24 +446,14 @@ def TrainerProfileHTMLView(request, username):
 	context['badges'] = badges
 	context['type_badges'] = type_badges
 	
-	if request.user == trainer.owner:
-		form_data = request.POST.copy()
-		form_data['trainer'] = trainer.pk
-		form_data['update_time'] = timezone.now()
-		form_data['meta_source'] = 'web_quick'
-		form = QuickUpdateForm(form_data or None)
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect(reverse('profile')+'?id={}#history-panel'.format(trainer.pk))
-		form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
-		if request.method == 'GET':
-			form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
-		context['form'] = form
-	
 	return render(request, 'profile.html', context)
 
 @login_required
 def CreateUpdateHTMLView(request):
+	if request.user.is_authenticated() and not _check_if_self_valid(request):
+		messages.warning(request, _("Please complete your profile to continue using the website."))
+		return HttpResponseRedirect(reverse('profile_set_up'))
+	
 	if request.POST:
 		form_data = request.POST.copy()
 		form_data['meta_source'] = 'web_detailed'
@@ -452,13 +467,17 @@ def CreateUpdateHTMLView(request):
 		return HttpResponseRedirect(reverse('update_detail', kwargs={'uuid':update.uuid}))
 	form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
 	if request.method == 'GET':
-		form.fields['trainer'].initial = get_object_or_404(Trainer, owner=request.user, prefered=True)
+		form.fields['trainer'].initial = request.user.trainer
 	context = {
 		'form': form
 	}
 	return render(request, 'create_update.html', context)
 
 def LeaderboardHTMLView(request, country=None, region=None, subregion=None, city=None):
+	if request.user.is_authenticated() and not _check_if_self_valid(request):
+		messages.warning(request, _("Please complete your profile to continue using the website."))
+		return HttpResponseRedirect(reverse('profile_set_up'))
+	
 	showValor = {'param':'Valor', 'value':nullbool(request.GET.get('valor'), default=True)}
 	showMystic = {'param':'Mystic', 'value':nullbool(request.GET.get('mystic'), default=True)}
 	showInstinct = {'param':'Instinct', 'value':nullbool(request.GET.get('instinct'), default=True)}
@@ -589,6 +608,10 @@ def LeaderboardHTMLView(request, country=None, region=None, subregion=None, city
 	return render(request, 'leaderboard.html', context)
 
 def UpdateInstanceHTMLView(request, uuid):
+	if request.user.is_authenticated() and not _check_if_self_valid(request):
+		messages.warning(request, _("Please complete your profile to continue using the website."))
+		return HttpResponseRedirect(reverse('profile_set_up'))
+	
 	update = get_object_or_404(Update, uuid=uuid)
 	context = {
 		'update' : update,
@@ -617,39 +640,50 @@ def UpdateInstanceHTMLView(request, uuid):
 	context['badges'] = badges
 	return render(request, 'update.html', context)
 
-def RegistrationView(request):
-	user_form = RegistrationFormUser()
-	trainer_form = RegistrationFormTrainer()
-	update_form = RegistrationFormUpdate()
-	upload_form = None
+@login_required
+def SetUpProfileViewStep2(request):
+	if request.user.is_authenticated() and _check_if_self_valid(request):
+		if len(trainer.update_set.all()) == 0:
+			return redirect(SetUpProfileViewStep3, permanent=False)
+		return HttpResponseRedirect(reverse('profile'))
 	
-	if request.user.is_authenticated:
-		return HttpResponseRedirect('/')
+	form = RegistrationFormTrainer(instance=request.user.trainer)
+	form.fields['verification'].required = True
 	
-	if request.POST:
-		user_form = RegistrationFormUser(request.POST)
-		trainer_form = RegistrationFormTrainer(request.POST)
-		update_form = RegistrationFormUpdate(request.POST)
-		user_form_valid = user_form.is_valid()
-		trainer_form_valid = trainer_form.is_valid()
-		update_form_valid = update_form.is_valid()
-		if user_form_valid and trainer_form_valid and update_form_valid:
-			user = user_form.save()
-			trainer = trainer_form.save(commit=False)
-			update = update_form.save(commit=False)
-			trainer.owner = user
-			trainer.username = user.username
-			trainer.prefered = True
-			trainer_form.save()
-			update.trainer = trainer
-			update.meta_source = 'ts_registration'
-			update_form.save()
-			messages.success(request, _("Thanks for registering. You are now logged in."))
-			email_subject = _("[TrainerDex] Verification needed for {trainer}").format(trainer=trainer.username)
-			email_message = _("Welcome {trainer}, please respond to this email with screenshots of the top and bottom of your Pokemon Go profile for verification. Once verified, you will appear in the leaderboards.").format(trainer=trainer.username)
-			mail = EmailMessage(email_subject, email_message, to=('{} <{}>'.format(user.username, user.email),))
-			mail.send()
-			new_user = authenticate(username=user_form.cleaned_data['username'], password=user_form.cleaned_data['password1'],)
-			login(request, new_user)
-			return HttpResponseRedirect('/profile/')
-	return render(request, 'account/signup.html', {'user_form': user_form,'trainer_form': trainer_form,'update_form': update_form, 'upload_form': upload_form})
+	if request.method == 'POST':
+		form = RegistrationFormTrainer(request.POST, request.FILES, instance=request.user.trainer)
+		form.fields['verification'].required = True
+		if form.is_valid() and form.has_changed():
+			request.user.username = form.cleaned_data['username']
+			request.user.save()
+			form.save()
+			messages.success(request, _("Thank you for filling out your profile. Your screenshots have been sent for verification. An admin will verify you within the next couple of days. Until then, you will not appear in the Global Leaderboard but you can still use Guild Leaderboards and and update your stats!"))
+			return redirect(SetUpProfileViewStep3, permanent=False)
+	return render(request, 'account/signup2.html', {'form': form})
+
+@login_required
+def SetUpProfileViewStep3(request):
+	if request.user.is_authenticated() and _check_if_self_valid(request) and len(trainer.update_set.all()) > 0:
+		return redirect(CreateUpdateHTMLView, permanent=False)
+	
+	form = RegistrationFormUpdate(initial={'trainer':request.user.trainer})
+	form.fields['image_proof'].required = True
+	
+	if request.method == 'POST':
+		logger.info(request.FILES)
+		form_data = request.POST.copy()
+		form_data['meta_source'] = 'ss_registration'
+		form = RegistrationFormUpdate(form_data, request.FILES)
+		form.fields['image_proof'].required = True
+		form.trainer = request.user.trainer
+		logger.info(form.is_valid())
+		if form.is_valid():
+			form.save()
+			messages.success(request, _("Stats updated. Screenshot included."))
+			return HttpResponseRedirect(reverse('profile_username', kwargs={'username':request.user.trainer.username}))
+		logger.info(form.cleaned_data)
+		logger.error(form.errors)
+	form.fields['update_time'].widget = forms.HiddenInput()
+	form.fields['meta_source'].widget = forms.HiddenInput()
+	form.fields['trainer'].widget = forms.HiddenInput()
+	return render(request, 'account/signup3.html', {'form': form})
