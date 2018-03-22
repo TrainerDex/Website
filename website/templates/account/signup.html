@@ -18,75 +18,37 @@
 <div class="mdl-grid">
   <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
     <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">{% trans "Signup" %}</h2>
+      <h2 class="mdl-card__title-text">{% trans "Register" %} - {% trans "Step 1" %}</h2>
     </div>
-    <form method="POST" action="{% url 'account_signup' %}" enctype="multipart/form-data" class="signup">
-      <div class="mdl-card__supporting-text">
-        {% blocktrans %}You would already have an account if you use the Discord bot, please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
-        <div id="signup_form">
+    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+      <div class="mdl-card__supporting-text" style="text-align: center;">
+        {% blocktrans trimmed with '<a href="'|add:login_url|add:'">'|safe as login_link_start and '</a>' as login_link_end %}
+        If you are in a Discord Guild Leaderboard or have been contacted by us via Twitter, you would already have an account. Please {{ login_link_start }}sign in{{ login_link_end }} instead.
+        {% endblocktrans %}<br>
+        <div id="signup_form" class="mdl-textfield mdl-js-textfield">
           {% csrf_token %}
-          
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if user_form.username.errors or trainer_form.username.errors %} is-invalid{% endif %}">
-              {% render_field user_form.username class+="mdl-textfield__input" %}
-            <label for="id_username" class="mdl-textfield__label">{% trans 'Username' %}</label>
-            <span class="mdl-textfield__error">{{ user_form.username.errors|add:trainer_form.username.errors }}</span>
-          </div>
-          
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if trainer_form.xp.errors %} is-invalid{% endif %}">
-            {{ update_form.xp|add_class:"mdl-textfield__input"|append_attr:"type:text"|append_attr:"pattern:[0-9]+"}}
-            <label class="mdl-textfield__label" for="id_xp">{% trans "XP" %}</label>
-            <span class="mdl-textfield__error">{{ trainer_form.xp.errors }}</span>
+          <span>{{ form.non_field_errors }}</span>
+          {# Include the hidden fields #}
+          {% for hidden in form.hidden_fields %}
+           {{ hidden }}
+          {% endfor %}
+          {# Include the visible fields #}
+          {% for field in form.visible_fields %}
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if field.errors %} is-invalid{% endif %}">
+            {{ field|add_class:"mdl-textfield__input"}}
+            <label class="mdl-textfield__label" for="{{field.id_for_label}}">{{field.label}}</label>
+            {% for error in field.errors %}
+              <span class="mdl-textfield__error">{{error}}</span>
+            {% endfor %}
           </div><br>
-          
-          <div class="mdl-date-textfield mdl-js-date-textfield mdl-date-textfield--floating-label{% if ttrainer_form.start_date.errors %} is-invalid{% endif %}">
-            {% render_field trainer_form.start_date class+="mdl-date-textfield__input" %}
-            <label class="mdl-date-textfield__label" for="id_xp">{% trans "Start Date" %}</label>
-            <span class="mdl-date-textfield__error">{{ trainer_form.start_date.errors }}</span>
-          </div>
-          
-          <div class="mdlext-selectfield mdlext-js-selectfield mdlext-selectfield--floating-label{% if trainer_form.faction.errors %} is-invalid{% endif %}">
-            {% render_field trainer_form.faction class+="mdlext-selectfield__select" %}
-            <label class="mdlext-selectfield__label" for="id_xp">{% trans "Team" %}</label>
-            <span class="mdlext-selectfield__error">{{ trainer_form.faction.errors }}</span>
-          </div><br>
-          
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if user_form.email.errors %} is-invalid{% endif %}">
-            {% render_field user_form.email class+="mdl-textfield__input" %}
-            <label for="id_email" class="mdl-textfield__label">{% trans 'Enter email...' %}</label>
-            <span class="mdl-textfield__error">{{ user_form.email.errors }}</span>
-          </div><br>
-          
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if user_form.password1.errors %} is-invalid{% endif %}">
-              {% render_field user_form.password1 class+="mdl-textfield__input" %}
-            <label for="id_password1" class="mdl-textfield__label">{% trans 'Enter password' %}</label>
-            <span class="mdl-textfield__error">{{ user_form.password1.errors }}</span>
-          </div>
-          
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if user_form.password2.errors %} is-invalid{% endif %}">
-              {% render_field user_form.password2 class+="mdl-textfield__input" %}
-            <label for="id_password2" class="mdl-textfield__label">{% trans 'Re-enter password' %}</label>
-            <span class="mdl-textfield__error">{{ user_form.password1.errors }}</span>
-          </div><br>
-          <!--
-          <span class="mdl-switch__label">{% trans 'Screenshots' %}</span><br>
-          <label>
-            <span class="mdl-switch__label">{% trans "Profile Screenshot (Top)" %}</span><br>
-            {{ upload_form.front_ss }}
-          </label><br>
-          
-          <label>
-            <span class="mdl-switch__label">{% trans "Profile Screenshot (Bottom)" %}</span><br>
-            {{ upload_form.back_ss }}
-          </label><br>-->
-          
-          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="id_statistics">
-            {% render_field trainer_form.statistics class+="mdl-switch__input" %}
-            <span class="mdl-switch__label">{% trans 'Statistics' %}</span>
-          </label>
+          {% endfor %}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
         </div>
       </div>
       <div class="mdl-card__actions mdl-card--border">
-        <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action">{% trans "Register" %}</button>
+        <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action">{% trans "Register" %} &raquo;</button>
       </div>
     </form>
   </div>

@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='trainer',
             name='username',
-            field=models.CharField(max_length=30, unique=True, validators=[trainer.validators.validate_pokemon_go_username], verbose_name='Username'),
+            field=models.CharField(max_length=30, unique=True, validators=[trainer.validators.PokemonGoUsernameValidator], verbose_name='Username'),
         ),
     ]
