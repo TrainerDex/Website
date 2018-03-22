@@ -3,14 +3,14 @@ from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from trainer.models import *
-from trainer.shortcuts import level_parser
+from trainer.shortcuts import level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 class BriefUpdateSerializer(serializers.ModelSerializer):
 	altered_fields = serializers.SerializerMethodField()
 	
 	def get_altered_fields(self, obj):
 		changed_list = []
-		field_list = ('dex_caught', 'dex_seen', 'gym_badges', 'walk_dist', 'gen_1_dex', 'pkmn_caught', 'pkmn_evolved', 'eggs_hatched', 'pkstops_spun', 'big_magikarp', 'battles_won', 'legacy_gym_trained', 'tiny_rattata', 'pikachu_caught', 'gen_2_dex', 'unown_alphabet', 'berry_fed', 'gym_defended', 'raids_completed', 'leg_raids_completed', 'gen_3_dex', 'pkmn_normal', 'pkmn_flying', 'pkmn_poison', 'pkmn_ground', 'pkmn_rock', 'pkmn_bug', 'pkmn_steel', 'pkmn_fire', 'pkmn_water', 'pkmn_grass', 'pkmn_electric', 'pkmn_psychic', 'pkmn_dark', 'pkmn_fairy', 'pkmn_fighting', 'pkmn_ghost', 'pkmn_ice', 'pkmn_dragon')
+		field_list = ('dex_caught', 'dex_seen', 'gym_badges') + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
 		for k, v in obj.__dict__.items():
 			if k in field_list and v is not None:
 				changed_list.append(k)
@@ -29,7 +29,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Update
-		fields = ('uuid', 'trainer', 'update_time', 'xp', 'dex_caught', 'dex_seen', 'gym_badges', 'walk_dist', 'gen_1_dex', 'pkmn_caught', 'pkmn_evolved', 'eggs_hatched', 'pkstops_spun', 'big_magikarp', 'battles_won', 'legacy_gym_trained', 'tiny_rattata', 'pikachu_caught', 'gen_2_dex', 'unown_alphabet', 'berry_fed', 'gym_defended', 'raids_completed', 'leg_raids_completed', 'gen_3_dex', 'pkmn_normal', 'pkmn_flying', 'pkmn_poison', 'pkmn_ground', 'pkmn_rock', 'pkmn_bug', 'pkmn_steel', 'pkmn_fire', 'pkmn_water', 'pkmn_grass', 'pkmn_electric', 'pkmn_psychic', 'pkmn_dark', 'pkmn_fairy', 'pkmn_fighting', 'pkmn_ghost', 'pkmn_ice', 'pkmn_dragon', 'meta_source')
+		fields = ('uuid', 'trainer', 'update_time', 'xp', 'dex_caught', 'dex_seen', 'gym_badges', 'meta_source') + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
 
 class BriefTrainerSerializer(serializers.ModelSerializer):
 	update_set = BriefUpdateSerializer(read_only=True, many=True)

@@ -37,10 +37,10 @@ class TrainerAdmin(AjaxSelectAdmin):
 	date_hierarchy = 'start_date'
 	fieldsets = (
 		(None, {
-			'fields': ('owner', 'username', 'faction', 'start_date', 'statistics', 'daily_goal', 'total_goal', 'prefered')
+			'fields': ('owner', 'username', 'faction', 'start_date', 'statistics', 'daily_goal', 'total_goal',)
 		}),
 		(_('Reports'), {
-			'fields': ('has_cheated', 'last_cheated', 'currently_cheats', 'verified', 'active')
+			'fields': ('has_cheated', 'last_cheated', 'currently_cheats', 'verified', 'verification')
 		}),
 		(_('Events'), {
 			'fields': ('go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen')
