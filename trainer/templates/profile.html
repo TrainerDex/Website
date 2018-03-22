@@ -75,28 +75,6 @@
   </div>
 
   <div class="mdl-tabs__panel is-active" id="history-panel">
-    {% if trainer.owner == user %}
-    <div class="mdl-grid">
-      <div class="collapsible-card mdl-card mdl-shadow--2dp trainerdex-card-center ">
-        <header class="mdl-card__title mdlext-js-collapsible mdlext-collapsible {{trainer.faction.name.lower}}">
-          <h2 class="mdl-card__title-text">{% trans "Quick Update" %}</h2>
-        </header>
-        <form method="POST" action="{% url 'profile' %}" class="mdlext-collapsible-region">
-       {% csrf_token %}
-          <section class="mdl-card__supporting-text">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.xp.errors %} is-invalid{% endif %}">
-              {% render_field form.xp class+="mdl-textfield__input" min=%}
-              <label class="mdl-textfield__label" for="id_xp">{% trans "XP" %}</label>
-              <span class="mdl-textfield__error">{{form.xp.errors}}</span>
-            </div>
-          </section>
-          <footer class="mdl-card__actions mdl-card--border">
-            <button type="submit" name="action" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">{% trans "Submit" %}</button>
-          </footer>
-        </form>
-      </div>
-    </div>
-    {% endif %}
     <div class="mdl-grid table-responsive">
       <table class="mdl-cell mdl-data-table mdl-js-data-table mdl-shadow--2dp trainerdex-card-center">
         <thead>
@@ -113,7 +91,7 @@
         <tbody>
           {% for update in updates %}
           <tr id="{{update.uuid}}">
-            <td id="{{update.uuid}}-time" class="mdl-data-table__cell--non-numeric" onclick="location.href='{% url 'update_detail' uuid=update.uuid %}';">{{update.update_time|naturalday}}{% if update.meta_crowd_sourced %} <i class="material-icons">room_service</i>{% endif %}</td>
+            <td id="{{update.uuid}}-time" class="mdl-data-table__cell--non-numeric" onclick="location.href='{% url 'update_detail' uuid=update.uuid %}';">{{update.update_time|naturalday}}{% if update.meta_crowd_sourced %}*{% endif %}</td>
             <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-time">{{update.update_time}}</div>
             <td id="{{update.uuid}}-xp">{{update.xp|default_if_none:"---"|intword}}</td>
             <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-xp">{{update.xp|intcomma}}</div>
