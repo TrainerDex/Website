@@ -23,7 +23,7 @@ idna==2.6
 kombu==4.1.0
 psycopg2==2.7.4
 pycent==1.0
-python-dateutil==2.6.1
+python-dateutil==2.7.1
 pytz==2018.3
 requests==2.18.4
 six==1.10.0
