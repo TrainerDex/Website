@@ -16,7 +16,7 @@
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">{% trans "Update Stats" %}</h2>
     </div>
-    <form method="POST" action="{% url 'update_stats' %}" class="update_stats" id="form_update_stats">
+    <form method="POST" action="{{request.path}}" class="update_stats" enctype="multipart/form-data" id="form_update_stats">
       {% csrf_token %}
       <div class="mdl-card__supporting-text" style="text-align: center;">
       <span>{{ form.non_field_errors }}</span>

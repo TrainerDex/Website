@@ -35,6 +35,11 @@ logger = logging.getLogger('django.trainerdex')
 
 # RESTful API Views
 
+def recent(value):
+	if timezone.now()-timedelta(hours=1) <= value <= timezone.now():
+		return True
+	return False
+
 class UserViewSet(ModelViewSet):
 	serializer_class = UserSerializer
 	queryset = User.objects.all()
@@ -43,13 +48,13 @@ class UserViewSet(ModelViewSet):
 class TrainerListJSONView(APIView):
 	"""
 	GET - Accepts paramaters for Team (t) and Username (q)
-	POST - Register a Trainer, needs PK for User
+	POST - Register a Trainer, needs the Primary Key of the Owner, the User object which owns the Trainer
 	"""
 	
 	authentication_classes = (authentication.TokenAuthentication,)
 	
 	def get(self, request):
-		queryset = Trainer.objects.exclude(active=False)
+		queryset = Trainer.objects.exclude(owner__is_active=False)
 		if request.GET.get('q') or request.GET.get('t'):
 			if request.GET.get('q'):
 				queryset = queryset.filter(username__iexact=request.GET.get('q'))
@@ -64,7 +69,15 @@ class TrainerListJSONView(APIView):
 			return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
 	
 	def post(self, request):
-		serializer = DetailedTrainerSerializer(data=request.data)
+		"""
+		This used to work as a simple post, but since the beginning of transitioning to API v2 it would have always given Validation Errors if left the same.
+		Now it has a 30 minute open slot to work after the auth.User (owner) instance is created. After which, a PATCH request must be given. This is due to the nature of a Trainer being created automatically for all new auth.User
+		"""
+		
+		trainer = Trainer.objects.get(owner__pk=request.data['owner'])
+		if not recent(trainer.owner.date_joined):
+			return Response({"_error": "profile already exists, please use patch on trainer uri instead or check the owner pk is correct", "_profile_id": trainer.pk}, status=status.HTTP_400_BAD_REQUEST)
+		serializer = DetailedTrainerSerializer(trainer, data=request.data, partial=True)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -355,7 +368,7 @@ STATS = [
 def _check_if_trainer_valid(trainer):
 	logger.log(level=30 if trainer.profile_complete else 20, msg='Checking {username}: Completed profile: {status}'.format(username=trainer.username, status=trainer.profile_complete))
 	logger.log(level=30 if trainer.update_set.count() else 20, msg='Checking {username}: Update count: {count}'.format(username=trainer.username, count=trainer.update_set.count()))
-	if (not trainer.profile_complete and not trainer.verified) or not trainer.update_set.count():
+	if not trainer.profile_complete or not trainer.update_set.count():
 		raise Http404('{} has not completed their profile.'.format(trainer.owner.username))
 	return trainer
 
@@ -647,7 +660,7 @@ def UpdateInstanceHTMLView(request, uuid):
 @login_required
 def SetUpProfileViewStep2(request):
 	if request.user.is_authenticated() and _check_if_self_valid(request):
-		if len(trainer.update_set.all()) == 0:
+		if len(request.user.trainer.update_set.all()) == 0:
 			return redirect(SetUpProfileViewStep3, permanent=False)
 		return HttpResponseRedirect(reverse('profile'))
 	
@@ -667,7 +680,7 @@ def SetUpProfileViewStep2(request):
 
 @login_required
 def SetUpProfileViewStep3(request):
-	if request.user.is_authenticated() and _check_if_self_valid(request) and len(trainer.update_set.all()) > 0:
+	if request.user.is_authenticated() and _check_if_self_valid(request) and len(request.user.trainer.update_set.all()) > 0:
 		return redirect(CreateUpdateHTMLView, permanent=False)
 	
 	form = RegistrationFormUpdate(initial={'trainer':request.user.trainer})
