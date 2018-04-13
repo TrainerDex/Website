@@ -29,10 +29,14 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Update
-		fields = ('uuid', 'trainer', 'update_time', 'xp', 'dex_caught', 'dex_seen', 'gym_badges', 'meta_source') + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
+		fields = ('uuid', 'trainer', 'update_time', 'xp', 'dex_caught', 'dex_seen', 'gym_badges',) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('meta_source',)
 
 class BriefTrainerSerializer(serializers.ModelSerializer):
 	update_set = BriefUpdateSerializer(read_only=True, many=True)
+	prefered = serializers.SerializerMethodField()
+	
+	def get_prefered(self, obj):
+		return True
 	
 	class Meta:
 		model = Trainer
@@ -40,12 +44,20 @@ class BriefTrainerSerializer(serializers.ModelSerializer):
 
 class DetailedTrainerSerializer(serializers.ModelSerializer):
 	update_set = BriefUpdateSerializer(read_only=True, many=True)
+	prefered = serializers.SerializerMethodField()
+	
+	def get_prefered(self, obj):
+		return True
 	
 	class Meta:
 		model = Trainer
 		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen', 'update_set', 'prefered', 'verified')
 
 class UserSerializer(serializers.ModelSerializer):
+	profiles = serializers.SerializerMethodField()
+	
+	def get_profiles(self, obj):
+		return [obj.trainer.pk]
 	
 	def create(self, validated_data):
 		user = User.objects.create_user(**validated_data)

@@ -71,12 +71,12 @@ class Trainer(models.Model):
 	
 	@property
 	def active(self):
-		return self.owner.active
+		return self.owner.is_active
 	
 	@property
 	def profile_complete(self):
 		return bool(
-			bool(self.owner) and bool(self.username) and bool(self.verification)
+			bool(self.owner) and bool(self.username) and bool(bool(self.verification) or bool(self.verified))
 		)
 	
 	@property
@@ -171,7 +171,7 @@ class Update(models.Model):
 	pkmn_electric = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Electric"))
 	pkmn_psychic = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pychic"))
 	pkmn_dark = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Dark"))
-	pkmn_fairy = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Fary"))
+	pkmn_fairy = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Fairy"))
 	pkmn_fighting = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Fighting"))
 	pkmn_ghost = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Ghost"))
 	pkmn_ice = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Ice"))
