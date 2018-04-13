@@ -17,7 +17,7 @@
     </div>
     {% get_providers as socialaccount_providers %}
     <form class="login" method="POST" action="{% url 'account_login' %}">
-    <div class="mdl-card__supporting-text">
+    <div class="mdl-card__supporting-text" style="text-align: center;">
       {% if socialaccount_providers %}
         {% block signin_message %}{% blocktrans %}If you already have an account, you can login below or via a third party account. If not, <a href="{{ signup_url }}">sign up</a> for an account.{% endblocktrans %}{% endblock %}
         {% include "socialaccount/snippets/login_extra.html" %}
@@ -26,25 +26,66 @@
       {% endif %}
       <div id="form_login" class="mdl-textfield mdl-js-textfield">
         {% csrf_token %}
-        {% render_field form.login class+="mdl-textfield__input" %}<br>
-        {% render_field form.password class+="mdl-textfield__input" %}
-        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="id_remember">
-          {% render_field form.remember class+="mdl-checkbox__input" %}
-          <span class="mdl-checkbox__label">{% trans 'Remember me' %}</span>
-        </label>
-        <br>
-        <span><a href="{% url 'account_reset_password' %}">{% trans 'Forgotten password?' %}</a></span>
-        {% if redirect_field_value %}
+{% for hidden in form.hidden_fields %}
+           {{ hidden }}
+          {% endfor %}
+          
+          {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
+          {% endif %}
+          
+          {# Include the visible fields #}
+          
+          {% for field in form.visible_fields %}
+            {% if field.field.widget.input_type == 'text' or field.field.widget.input_type == 'number' or field.field.widget.input_type == 'password' %}
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if field.errors %} is-invalid{% endif %}">
+                {{ field|add_class:"mdl-textfield__input"}}
+                <label class="mdl-textfield__label" for="{{field.id_for_label}}">{{field.label}}</label>
+                {% for error in field.errors %}
+                  <span class="mdl-textfield__error">{{error}}</span>
+                {% endfor %}
+              </div><br>
+            {% elif field.field.widget.input_type == 'select'%}
+              <div class="mdlext-selectfield mdlext-js-selectfield mdlext-selectfield--floating-label{% if field.errors %} is-invalid{% endif %}">
+                {{ field|add_class:"mdlext-selectfield__select"}}
+                <label class="mdlext-selectfield__label" for="{{field.id_for_label}}">{{field.label}}</label>
+                {% for error in field.errors %}
+                  <span class="mdlext-selectfield__error">{{error}}</span>
+                {% endfor %}
+              </div><br>
+            {% elif field.field.widget.input_type == 'checkbox'%}
+              <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{field.id_for_label}}" >
+                {{ field|add_class:"mdl-checkbox__input"}}
+                <span class="mdl-checkbox__label">{{field.label}}</span>
+              </label><br>
+            {% elif field.field.widget.input_type == 'file'%}
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--file{% if field.errors %} is-invalid{% endif %}">
+                <input class="mdl-textfield__input" placeholder="{{field.label}}" type="text" id="text_{{field.id_for_label}}" readonly />
+                {% for error in field.errors %}
+                  <span class="mdl-textfield__error">{{error}}</span>
+                {% endfor %}
+                <div class="mdl-button mdl-button--icon mdl-button--file">
+                  <i class="material-icons">attach_file</i>
+                  <input type="file" name="{{field.html_name}}" id="{{field.id_for_label}}" onchange="document.getElementById('text_{{field.id_for_label}}').value=this.files[0].name;" />
+                </div>
+              </div><br>
+            {% else %}
+              {{field}}<br>
+              {{field.errors}}<br>
+            {% endif %}
+          
+          {% endfor %}
       </div>
     </div>
     <div class="mdl-card__actions mdl-card--border">
       <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit">{% trans "Sign In via Username and Password" %} &raquo;</button>
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'account_reset_password' %}">{% trans 'Forget/Reset Password' %}</a>
     </div>
+    {% if socialaccount_providers %}
     <div class="mdl-card__actions mdl-card--border">
-      {% if socialaccount_providers %}{% include "socialaccount/snippets/provider_list.html" with process="login" %}{% endif %}
+      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
     </div>
+    {% endif %}
     <div class="mdl-card__menu">
       <a class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" href="{% url 'account_reset_password' %}">
         <i class="material-icons">priority_high</i>
