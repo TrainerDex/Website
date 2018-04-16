@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'cities',
     'colorful',
     'cookielaw',
-#    'raids',
     'rosetta',
     'trainer',
     'website',
@@ -53,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.patreon',
     'allauth.socialaccount.providers.google',
     'widget_tweaks',
+    'admin_reorder',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'admin_reorder.middleware.ModelAdminReorder',
 ]
 
 LOCALE_PATHS = [
@@ -71,6 +72,15 @@ LOCALE_PATHS = [
 ]
 
 ROOT_URLCONF = 'ekpogo.urls'
+
+ADMIN_REORDER = (
+    {'app': 'auth', 'models': ('auth.User', 'auth.Group', 'account.EmailAddress', 'authtoken.Token')},
+    {'app': 'trainer', 'models': ('trainer.Trainer', 'trainer.Update', 'trainer.TrainerReport', 'trainer.Faction')},
+    'socialaccount',
+    'sites',
+    'cities',
+)
+    
 
 TEMPLATES = [
     {
@@ -166,6 +176,13 @@ REST_FRAMEWORK = {
 SITE_ID = 1
 
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_PRESERVE_USERNAME_CASING = True
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_USERNAME_VALIDATORS = 'trainer.validators.username_validator'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     # `allauth` specific authentication methods, such as login by e-mail
@@ -219,4 +236,3 @@ EMAIL_HOST_USER = 'jaynicholasturner@gmail.com'
 EMAIL_HOST_PASSWORD = 'vaxtomtayxewsqma'
 DEFAULT_FROM_EMAIL = 'TrainerDex Support <support@trainerdex.co.uk>'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
-SOCIALACCOUNT_AUTO_SIGNUP = False
