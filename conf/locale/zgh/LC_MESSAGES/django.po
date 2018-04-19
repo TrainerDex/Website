@@ -8,20 +8,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-19 19:53+0000\n"
-"PO-Revision-Date: 2018-01-21 12:39+0000\n"
-"Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
+"POT-Creation-Date: 2018-04-19 19:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Translated-Using: django-rosetta 0.8.1\n"
 
 #: support/templates/about.html:5 support/templates/about.html:6
 #: support/templates/about.html:13
 msgid "Welcome"
-msgstr "ようこそ"
+msgstr ""
 
 #: support/templates/about.html:17
 #, python-format
@@ -38,9 +37,8 @@ msgid ""
 msgstr ""
 
 #: support/templates/about.html:22
-#, fuzzy
 msgid "TrainerDex Web <em>beta</em> is here!"
-msgstr "TrainerDex <sub>オープンベータ</sub> はここにいる！"
+msgstr ""
 
 #: support/templates/about.html:22
 #, python-format
@@ -54,25 +52,21 @@ msgstr ""
 
 #: support/templates/about.html:27
 msgid "Let's go!"
-msgstr "行こう！"
+msgstr ""
 
 #: support/templates/help/faq.html:5 support/templates/help/faq.html:6
-#, fuzzy
 msgid "FAQ"
-msgstr "よくある質問"
+msgstr ""
 
 #: support/templates/help/faq.html:7
-#, fuzzy
 msgid "Frequently Asked Questions"
-msgstr "よくある質問"
+msgstr ""
 
 #: support/templates/help/faq.html:15
-#, fuzzy
 msgid "My total goal is missing!!!"
-msgstr "私の「Reach Goal」が欠落しています！"
+msgstr ""
 
 #: support/templates/help/faq.html:18
-#, fuzzy
 msgid ""
 "\n"
 "                      <p><i>This isn't a question. That's you complaining, "
@@ -92,28 +86,13 @@ msgid ""
 "user either, whereas set goals do.</p>\n"
 "                      "
 msgstr ""
-"\n"
-"<p><i>これは質問ではありません。 それはあなたの不平ですが、私はとにかく答えが"
-"あります。</i></p>\n"
-"\n"
-"<p>おそらくあなたは<em> ファントムゴール\"</ em>を持っています。これは Danny "
-"Phantom、幽霊、または誰も自分の目標にしたくないものとは関係ありません。 代わ"
-"りに、これはDiscordボットによって示された目標に関連しています。 12月22日以前"
-"は、目標に達するとボットはゼロにリセットされました。 レベル40以下の人とゼロの"
-"ゴールには、目標の推進としてファントムゴールが割り当てられました。</p>\n"
-"\n"
-"<p>それ以来、デフォルトの動作では、ゼロにリセットするのではなく、目標に到達し"
-"たときに目標を次のレベルに自動的に移動します。 ユーザに目標を持たない選択肢を"
-"与えること。 ファントム目標を削除しました。 ファントムの目標は、目標を達成す"
-"るのに対し、ユーザーにも祝福しませんでした。</p>"
 
 #: support/templates/help/faq.html:29
-#, fuzzy
 msgid "How do I set a goal?"
-msgstr "どのように目標を設定するのですか？"
+msgstr ""
 
 #: support/templates/help/faq.html:32
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "                      <p>Goals currently only work on the Discord bot, "
@@ -142,34 +121,10 @@ msgid ""
 "                      </ul>\n"
 "                      "
 msgstr ""
-"\n"
-"<p>現在目標はDiscordボットでしか動作していませんが、すぐにウェブに向かいます"
-"</p>\n"
-"\n"
-"<p>Discordボット<a href=\"%(discord_url)s\">TrainerDex#6280</a>に<code>."
-"update goal &lt;option&gt; &lt;value&gt;</code>とメッセージを送るだけで、</"
-"p>\n"
-"\n"
-"<p class=\"help-faq-question\">オプション</p>\n"
-"<ul>\n"
-"<li>\n"
-"<code>daily</code> - これはあなたの \"レート目標\"を設定します。 これは、あな"
-"たが進んでいるスピードを示す目標です。 これは、0〜3000000の範囲の数値をとりま"
-"す。\n"
-"</li>\n"
-"<li>\n"
-"<code>total</code> - これはあなたの「到達目標」を設定します。 これは、特定の"
-"ターゲットに到達するタイミングを把握するために使用する目標です。 これは現在の"
-"XPよりも少なくとも1つ多い数値をとります。\n"
-"<em>サイドノート: <code>.update goal total</code>には、現在のXPに基づいて目標"
-"を設定する追加オプション <code>auto</code>があります。</em>\n"
-"</li>\n"
-"</ul>"
 
 #: trainer/admin.py:42 trainer/models.py:265
-#, fuzzy
 msgid "Reports"
-msgstr "レポート"
+msgstr ""
 
 #: trainer/admin.py:45
 msgid "Events"
@@ -182,14 +137,12 @@ msgstr ""
 #: trainer/admin.py:51 trainer/templates/leaderboard.html:7
 #: trainer/templates/leaderboard.html:11 website/templates/base.html:87
 #: website/templates/base.html:133
-#, fuzzy
 msgid "Leaderboard"
-msgstr "リーダーボード"
+msgstr ""
 
 #: trainer/apps.py:7
-#, fuzzy
 msgid "TrainerDex Profiles"
-msgstr "TrainerDexプロファイル"
+msgstr ""
 
 #: trainer/errors.py:6
 msgid "Expected a Numeric ID, got gibberish."
@@ -200,24 +153,21 @@ msgid "Expected a UUID, got gibberish."
 msgstr ""
 
 #: trainer/models.py:32
-#, fuzzy
 msgid "User"
-msgstr "ユーザー"
+msgstr ""
 
 #: trainer/models.py:33 trainer/templates/leaderboard.html:74
-#, fuzzy
 msgid "Username"
-msgstr "ユーザー名"
+msgstr ""
 
 #: trainer/models.py:34
-#, fuzzy
 msgid "Start Date"
-msgstr "開始日"
+msgstr ""
 
 #: trainer/models.py:35 trainer/models.py:128
 #: trainer/templates/leaderboard.html:76
 msgid "Team"
-msgstr "派"
+msgstr ""
 
 #: trainer/models.py:36
 msgid "Historic Cheater"
@@ -228,14 +178,12 @@ msgid "Last Cheated"
 msgstr ""
 
 #: trainer/models.py:38
-#, fuzzy
 msgid "Cheater"
-msgstr "詐欺師"
+msgstr ""
 
 #: trainer/models.py:39
-#, fuzzy
 msgid "Statistics"
-msgstr "統計"
+msgstr ""
 
 #: trainer/models.py:40
 msgid "Rate Goal"
@@ -254,37 +202,34 @@ msgid "Pokémon GO Fest Chicago"
 msgstr ""
 
 #: trainer/models.py:45
-#, fuzzy
-#| msgid "Pikachu Outbreak"
 msgid "Pikachu Outbreak 2017"
-msgstr "ピカチュウだけじゃない ピカチュウ大量発生チュウ！"
+msgstr ""
 
 #: trainer/models.py:46 trainer/models.py:47 trainer/models.py:48
 #: trainer/models.py:49 trainer/models.py:50 trainer/models.py:51
 #: trainer/models.py:52
 msgid "Safari Zone"
-msgstr "サファリゾーン"
+msgstr ""
 
 #: trainer/models.py:54
 msgid "Country"
-msgstr "国"
+msgstr ""
 
 #: trainer/models.py:55
 msgid "Region"
-msgstr "地方"
+msgstr ""
 
 #: trainer/models.py:56
 msgid "Subregion"
-msgstr "小地方"
+msgstr ""
 
 #: trainer/models.py:57
 msgid "City"
-msgstr "都市"
+msgstr ""
 
 #: trainer/models.py:59
-#, fuzzy
 msgid "Verified"
-msgstr "検証済み"
+msgstr ""
 
 #: trainer/models.py:64 trainer/models.py:199
 msgid "Screenshot"
@@ -292,29 +237,27 @@ msgstr ""
 
 #: trainer/models.py:101 trainer/models.py:133 trainer/models.py:259
 msgid "Trainer"
-msgstr "ポケモントレーナー "
+msgstr ""
 
 #: trainer/models.py:102
 msgid "Trainers"
-msgstr "ポケモントレーナー "
+msgstr ""
 
 #: trainer/models.py:112
 msgid "Name"
-msgstr "名"
+msgstr ""
 
 #: trainer/models.py:113
 msgid "Colour"
-msgstr "色"
+msgstr ""
 
 #: trainer/models.py:114
-#, fuzzy
 msgid "Leader"
-msgstr "リーダー"
+msgstr ""
 
 #: trainer/models.py:129
-#, fuzzy
 msgid "Teams"
-msgstr "派"
+msgstr ""
 
 #: trainer/models.py:134
 msgid "Time Updated"
@@ -378,10 +321,8 @@ msgid "Youngster"
 msgstr ""
 
 #: trainer/models.py:150
-#, fuzzy
-#| msgid "Pikachu Outbreak"
 msgid "Pikachu Fan"
-msgstr "ピカチュウだけじゃない ピカチュウ大量発生チュウ！"
+msgstr ""
 
 #: trainer/models.py:151
 msgid "Johto"
@@ -396,9 +337,8 @@ msgid "Berry Master"
 msgstr ""
 
 #: trainer/models.py:154
-#, fuzzy
 msgid "Gym Leader"
-msgstr "リーダー"
+msgstr ""
 
 #: trainer/models.py:155
 msgid "Champion"
@@ -413,10 +353,8 @@ msgid "Hoenn"
 msgstr ""
 
 #: trainer/models.py:158
-#, fuzzy
-#| msgid "Pokémon"
 msgid "Pokémon Ranger"
-msgstr "ポケモン"
+msgstr ""
 
 #: trainer/models.py:161
 msgid "Normal"
@@ -546,9 +484,8 @@ msgstr ""
 
 #: trainer/templates/account/signup2.html:79
 #: trainer/templates/create_update.html:85
-#, fuzzy
 msgid "Submit"
-msgstr "提出する"
+msgstr ""
 
 #: trainer/templates/create_update.html:7
 #: trainer/templates/create_update.html:8
@@ -570,15 +507,15 @@ msgstr ""
 
 #: trainer/templates/leaderboard.html:23
 msgid "Mystic"
-msgstr "ミスティック"
+msgstr ""
 
 #: trainer/templates/leaderboard.html:25
 msgid "Valor"
-msgstr "ヴァーラー"
+msgstr ""
 
 #: trainer/templates/leaderboard.html:27
 msgid "Instinct"
-msgstr "インスティンクト"
+msgstr ""
 
 #: trainer/templates/leaderboard.html:29
 msgid "Spoofers"
@@ -592,7 +529,7 @@ msgstr ""
 #: trainer/templates/profile.html:50 trainer/templates/update.html:10
 #: trainer/templates/update.html:49
 msgid "TL"
-msgstr "レベル"
+msgstr ""
 
 #: trainer/templates/leaderboard.html:78
 msgid "Date Updated"
@@ -623,9 +560,8 @@ msgid "History"
 msgstr ""
 
 #: trainer/templates/profile.html:73
-#, fuzzy
 msgid "Medals"
-msgstr "メダル"
+msgstr ""
 
 #: trainer/templates/profile.html:74
 msgid "Type Medals"
@@ -637,7 +573,7 @@ msgstr ""
 
 #: trainer/templates/profile.html:84
 msgid "Pokémon"
-msgstr "ポケモン"
+msgstr ""
 
 #: trainer/templates/profile.html:85
 msgid "Evolved"
@@ -1106,7 +1042,7 @@ msgstr ""
 #. Translators: 'beta' should remain in lowercase
 #: website/templates/base.html:70 website/templates/base.html:92
 msgid "beta"
-msgstr "オープンベータ"
+msgstr ""
 
 #: website/templates/base.html:86
 msgid "About Us"
@@ -1241,30 +1177,3 @@ msgid ""
 "You are about to use your %(provider_name)s account to login to\n"
 "%(site_name)s. As a final step, please complete the following form:"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Profile Screenshot (Top)"
-#~ msgstr "プロフィールスクリーンショット（トップ）"
-
-#, fuzzy
-#~ msgid "Profile Screenshot (Bottom)"
-#~ msgstr "プロフィールスクリーンショット（下）"
-
-#, fuzzy
-#~ msgid "Active"
-#~ msgstr "アクティブ"
-
-#~ msgid "Required"
-#~ msgstr "必須"
-
-#, fuzzy
-#~ msgid ""
-#~ "If a trainer has a %(ss_ident)s next to their name, it means the "
-#~ "information was sourced from social media."
-#~ msgstr ""
-#~ "※トレーナーが自分の名前の隣に%(ss_ident)sがある場合は、情報がソーシャルメ"
-#~ "ディアから供給されたことを意味します。"
-
-#, fuzzy
-#~ msgid "[TrainerDex] Verification needed for {trainer}"
-#~ msgstr "[TrainerDex] {trainer}の検証が必要"
