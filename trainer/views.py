@@ -303,14 +303,12 @@ class DiscordLeaderboardAPIView(APIView):
 		if not status.is_success(members.status_code):
 			return Response({'error': '000 - Unknown', 'cause': 'unknown', 'solution':'forward this output to apisupport@trainerdex.co.uk', 'Discord API Responce': members.content}, status=members.status_code)
 		members = [x['user']['id'] for x in members.json() if not any([i in x['roles'] for i in opt_out_role_id])]
-		trainers = Trainer.objects.filter(owner__socialaccount__provider='discord', owner__socialaccount__uid__in=members)
+		trainers = Trainer.objects.select_related('faction').exclude(statistics=False).exclude(verified=False).filter(owner__socialaccount__provider='discord', owner__socialaccount__uid__in=members)
 		
-		leaderboard = trainers.annotate(Max('update__xp'), Max('update__update_time'))
-		leaderboard = cleanleaderboardqueryset(leaderboard, key=lambda x: x.update__xp__max, reverse=True)
+		leaderboard = trainers.annotate(Max('update__xp'), Max('update__update_time')).order_by('-update__xp__max')
 		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
 		output['leaderboard'] = serializer.data
 		return Response(output)
-		#return Response(serializer.data)
 	
 
 # Web-based views
