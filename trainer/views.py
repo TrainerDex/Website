@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins, EmailMessage
-from django.db.models import Max, Prefetch, Q
+from django.db.models import Max, Q
 from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest, Http404
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
@@ -387,11 +387,10 @@ def TrainerProfileHTMLView(request, username):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
 		return HttpResponseRedirect(reverse('profile_set_up'))
 	
-	trainer = _check_if_trainer_valid(get_object_or_404(Trainer, username__iexact=username))
-	updates = get_list_or_404(Update, trainer=trainer)
+	trainer = Trainer.objects.prefetch_related().get(username__iexact=username)
 	context = {
 		'trainer' : trainer,
-		'updates' : updates,
+		'updates' : trainer.update_set.all(),
 	}
 	badges = []
 	type_badges = []
@@ -401,7 +400,10 @@ def TrainerProfileHTMLView(request, username):
 			'readable_name':Update._meta.get_field(badge['name']).verbose_name,
 		}
 		try:
-			badge_dict['value'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge['name'] : None}).order_by('-'+badge['name']).first(), badge['name'])
+			_badge = sorted([x for x in context['updates'] if getattr(x, badge['name'])], key=lambda x: getattr(x, badge['name']))
+			if len(_badge) == 0:
+				continue
+			badge_dict['value'] = getattr(_badge[0], badge['name'])
 			if badge_dict['value'] < badge['bronze']:
 				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['bronze'],0))
 			elif badge_dict['value'] < badge['silver']:
@@ -410,7 +412,7 @@ def TrainerProfileHTMLView(request, username):
 				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['gold'],0))
 			else:
 				badge_dict['percent'] = 100
-			badge_dict['time'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge['name'] : None}).order_by('-'+badge['name']).first(), 'update_time')
+			badge_dict['time'] = getattr(_badge[0], 'update_time')
 		except AttributeError:
 			continue
 		badges.append(badge_dict)
@@ -420,7 +422,10 @@ def TrainerProfileHTMLView(request, username):
 			'readable_name':Update._meta.get_field(badge['name']).verbose_name,
 		}
 		try:
-			badge_dict['value'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge['name'] : None}).order_by('-'+badge['name']).first(), badge['name'])
+			_badge = sorted([x for x in context['updates'] if getattr(x, badge['name'])], key=lambda x: getattr(x, badge['name']))
+			if len(_badge) == 0:
+				continue
+			badge_dict['value'] = getattr(_badge[0], badge['name'])
 			if badge_dict['value'] < badge['bronze']:
 				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['bronze'],0))
 			elif badge_dict['value'] < badge['silver']:
@@ -429,14 +434,17 @@ def TrainerProfileHTMLView(request, username):
 				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['gold'],0))
 			else:
 				badge_dict['percent'] = 100
-			badge_dict['time'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge['name'] : None}).order_by('-'+badge['name']).first(), 'update_time')
+			badge_dict['time'] = getattr(_badge[0], 'update_time')
 		except AttributeError:
 			continue
 		type_badges.append(badge_dict)
 	for badge in STATS:
 		try:
-			context[badge] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge : None}).order_by('-'+badge).first(), badge)
-			context[badge+'-time'] = getattr(Update.objects.filter(trainer=trainer).exclude(**{badge : None}).order_by('-'+badge).first(), 'update_time')
+			_badge = sorted([x for x in context['updates'] if getattr(x, badge)], key=lambda x: getattr(x, badge))
+			if len(_badge) == 0:
+				continue
+			context[badge] = getattr(_badge[0], badge)
+			context[badge+'-time'] = getattr(_badge[0], 'update_time')
 		except AttributeError:
 			continue
 	context['level'] = level_parser(xp=context['xp'])
