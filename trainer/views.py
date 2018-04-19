@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from allauth.socialaccount.models import SocialAccount
 from annoying.functions import get_object_or_this
-from cities.models import Country, Region, Subregion, City
+from cities.models import Continent, Country, Region
 from datetime import datetime, timedelta
 from django import forms
 from django.conf import settings
@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins, EmailMessage
-from django.db.models import Max
+from django.db.models import Max, Prefetch, Q
 from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest, Http404
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
@@ -29,9 +29,12 @@ from rest_framework.response import Response
 from trainer.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
 from trainer.models import Trainer, Update
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
-from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser
+from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 logger = logging.getLogger('django.trainerdex')
+
+def _leaderboard_queryset_filter(queryset, spoofers=False):
+	return queryset.exclude(statistics=False).exclude(verified=False).exclude(currently_cheats = not spoofers).select_related('faction')
 
 # RESTful API Views
 
@@ -234,11 +237,11 @@ class UpdateDetailJSONView(APIView):
 class LeaderboardJSONView(APIView):
 	
 	def get(self, request):
-		query = Trainer.objects.exclude(statistics=False).exclude(currently_cheats=True).exclude(verified=False)
+		query = _leaderboard_queryset_filter(Trainer.objects)
 		if request.GET.get('users'):
 			query = query.filter(id__in=request.GET.get('users').split(','))
 		leaderboard = query.annotate(Max('update__xp'), Max('update__update_time'))
-		leaderboard = cleanleaderboardqueryset(leaderboard, key=lambda x: x.update__xp__max, reverse=True)
+		leaderboard = trainers.annotate(Max('update__xp'), Max('update__update_time')).order_by('-update__xp__max')
 		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
 		return Response(serializer.data)
 	
@@ -303,7 +306,7 @@ class DiscordLeaderboardAPIView(APIView):
 		if not status.is_success(members.status_code):
 			return Response({'error': '000 - Unknown', 'cause': 'unknown', 'solution':'forward this output to apisupport@trainerdex.co.uk', 'Discord API Responce': members.content}, status=members.status_code)
 		members = [x['user']['id'] for x in members.json() if not any([i in x['roles'] for i in opt_out_role_id])]
-		trainers = Trainer.objects.select_related('faction').exclude(statistics=False).exclude(verified=False).filter(owner__socialaccount__provider='discord', owner__socialaccount__uid__in=members)
+		trainers = _leaderboard_queryset_filter(Trainer.objects.filter(owner__socialaccount__provider='discord', owner__socialaccount__uid__in=members))
 		
 		leaderboard = trainers.annotate(Max('update__xp'), Max('update__update_time')).order_by('-update__xp__max')
 		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
@@ -333,28 +336,10 @@ BADGES = [
 	{'name':'leg_raids_completed', 'bronze':10, 'silver':100, 'gold':1000},
 	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90},
 	{'name':'quests', 'bronze':10, 'silver':100, 'gold':1000},
-	{'name':'mew_encountered', 'bronze':5, 'silver':10, 'gold':30},
+#	{'name':'mew_encountered', 'bronze':5, 'silver':10, 'gold':30},
 ]
 
-TYPE_BADGES = [
-	{'name':'pkmn_normal', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_flying', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_poison', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_ground', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_rock', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_bug', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_steel', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_fire', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_water', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_electric', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_psychic', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_dark', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_fairy', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_fighting', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_ghost', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_ice', 'bronze':10, 'silver':50, 'gold':200},
-	{'name':'pkmn_dragon', 'bronze':10, 'silver':50, 'gold':200},
-]
+TYPE_BADGES = [{'name':x, 'bronze':10, 'silver':50, 'gold':200} for x in UPDATE_FIELDS_TYPES]
 
 STATS = [
 	'dex_caught',
@@ -364,8 +349,9 @@ STATS = [
 ]
 
 def _check_if_trainer_valid(trainer):
-	logger.log(level=30 if trainer.profile_complete else 20, msg='Checking {username}: Completed profile: {status}'.format(username=trainer.username, status=trainer.profile_complete))
-	logger.log(level=30 if trainer.update_set.count() else 20, msg='Checking {username}: Update count: {count}'.format(username=trainer.username, count=trainer.update_set.count()))
+	if settings.DEBUG:
+		logger.log(level=30 if trainer.profile_complete else 20, msg='Checking {username}: Completed profile: {status}'.format(username=trainer.username, status=trainer.profile_complete))
+		logger.log(level=30 if trainer.update_set.count() else 20, msg='Checking {username}: Update count: {count}'.format(username=trainer.username, count=trainer.update_set.count()))
 	if not trainer.profile_complete or not trainer.update_set.count():
 		raise Http404('{} has not completed their profile.'.format(trainer.owner.username))
 	return trainer
@@ -488,7 +474,7 @@ def CreateUpdateHTMLView(request):
 	}
 	return render(request, 'create_update.html', context)
 
-def LeaderboardHTMLView(request, country=None, region=None, subregion=None, city=None):
+def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	if request.user.is_authenticated() and not _check_if_self_valid(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
 		return HttpResponseRedirect(reverse('profile_set_up'))
@@ -498,90 +484,36 @@ def LeaderboardHTMLView(request, country=None, region=None, subregion=None, city
 	showInstinct = {'param':'Instinct', 'value':nullbool(request.GET.get('instinct'), default=True)}
 	showSpoofers = {'param':'currently_cheats', 'value':nullbool(request.GET.get('spoofers'), default=False)}
 	
-	QuerySet = Trainer.objects.exclude(statistics=False).exclude(verified=False)
-	
-	if city:
-		QuerySet = QuerySet.filter(leaderboard_city = city)
-		rcontext = {
-			'countries' : Country.objects.all(),
-			'country' : City.objects.get(id=city).subregion.region.country,
-			'regions' : Region.objects.filter(country=City.objects.get(id=city).subregion.region.country),
-			'region' : City.objects.get(id=city).subregion.region,
-			'subregions' : Subregion.objects.filter(region=City.objects.get(id=city).subregion.region),
-			'subregion' : City.objects.get(id=city).subregion,
-			'cities' : City.objects.filter(subregion=City.objects.get(id=city).subregion),
-			'city' : City.objects.get(id=city),
-			'filtered_place' : City.objects.get(id=city),
-		}
-	elif subregion:
-		QuerySet = QuerySet.filter(leaderboard_subregion = subregion)
-		rcontext = {
-			'countries' : Country.objects.all(),
-			'country' : Subregion.objects.get(id=subregion).region.country,
-			'regions' : Region.objects.filter(country=Subregion.objects.get(id=subregion).region.country),
-			'region' : Subregion.objects.get(id=subregion).region,
-			'subregions' : Subregion.objects.filter(region=Subregion.objects.get(id=subregion).region),
-			'subregion' : Subregion.objects.get(id=subregion),
-			'cities' : City.objects.filter(subregion=subregion),
-			'city' : None,
-			'filtered_place' : Subregion.objects.get(id=subregion),
-		}
+	if continent:
+		continent = Continent.objects.prefetch_related('countries').get(code__iexact = continent)
+		countries_in_continent = continent.countries.all()
+		title = continent.name
+		QuerySet = Trainer.objects.filter(leaderboard_country__in=countries_in_continent)
+	elif country and region == None:
+		country = Country.objects.prefetch_related('leaderboard_trainers_country').get(code__iexact = country)
+		title = country.name
+		QuerySet = country.leaderboard_trainers_country
 	elif region:
-		QuerySet = QuerySet.filter(leaderboard_region = region)
-		rcontext = {
-			'countries' : Country.objects.all(),
-			'country' : Region.objects.get(id=region).country,
-			'regions' : Region.objects.filter(country=Region.objects.get(id=region).country),
-			'region' : Region.objects.get(id=region),
-			'subregions' : Subregion.objects.filter(region=region),
-			'subregion' : None,
-			'cities' : City.objects.none(),
-			'city' : None,
-			'filtered_place' : Region.objects.get(id=region),
-		}
-	elif country:
-		QuerySet = QuerySet.filter(leaderboard_country = country)
-		rcontext = {
-			'countries' : Country.objects.all(),
-			'country' : Country.objects.get(id=country),
-			'regions' : Region.objects.filter(country=country),
-			'region' : None,
-			'subregions' : Subregion.objects.none(),
-			'subregion' : None,
-			'cities' : City.objects.none(),
-			'city' : None,
-			'filtered_place' : Country.objects.get(id=country),
-		}
+		region = Region.objects.filter(country__code = country).get(code__iexact = region)
+		title = ', '.join([x.name for x in reversed(region.hierarchy)])
+		QuerySet = region.leaderboard_trainers_region
 	else:
-		rcontext = {
-			'countries' : Country.objects.all(),
-			'country' : None,
-			'regions' : Region.objects.none(),
-			'region' : None,
-			'subregions' : Subregion.objects.none(),
-			'subregion' : None,
-			'cities' : City.objects.none(),
-			'city' : None,
-			'filtered_place' : None,
-		}
+		title = None
+		QuerySet = Trainer.objects
 	
-	for param in (showValor, showMystic, showInstinct):
-		if param['value'] is False:
-			QuerySet = QuerySet.exclude(faction__name=param['param'])
+	QuerySet = QuerySet.select_related('faction').exclude(statistics=False).exclude(verified=False).exclude(currently_cheats = not nullbool(request.GET.get('spoofers'), default=False))
 	
-	QuerySetSpoofers = QuerySet.exclude(currently_cheats = False).annotate(Max('update__xp'), Max('update__update_time'), Max('update__pkmn_caught'), Max('update__gym_defended'), Max('update__eggs_hatched'), Max('update__walk_dist'), Max('update__pkstops_spun'))
-	QuerySetSpoofers = cleanleaderboardqueryset(QuerySetSpoofers, key=lambda x: x.update__xp__max, reverse=True)
 	
-	QuerySet = QuerySet.exclude(currently_cheats = True).annotate(Max('update__xp'), Max('update__update_time'), Max('update__pkmn_caught'), Max('update__gym_defended'), Max('update__eggs_hatched'), Max('update__walk_dist'), Max('update__pkstops_spun'))
-	QuerySet = cleanleaderboardqueryset(QuerySet, key=lambda x: x.update__xp__max, reverse=True)
+	QuerySet = QuerySet.exclude(faction__name__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
+	QuerySet = QuerySet.annotate(Max('update__xp'), Max('update__update_time'), Max('update__pkmn_caught'), Max('update__gym_defended'), Max('update__eggs_hatched'), Max('update__walk_dist'), Max('update__pkstops_spun')).order_by('-update__xp__max')
 	
 	Results = []
 	GRAND_TOTAL = 0
 	
-	for trainer in QuerySet:
+	for index, trainer in enumerate(QuerySet, 1):
 		GRAND_TOTAL += trainer.update__xp__max
 		Results.append({
-			'position' : QuerySet.index(trainer)+1,
+			'position' : index,
 			'trainer' : trainer,
 			'xp' : trainer.update__xp__max,
 			'pkmn_caught' : trainer.update__pkmn_caught__max,
@@ -593,25 +525,8 @@ def LeaderboardHTMLView(request, country=None, region=None, subregion=None, city
 			'level' : level_parser(xp=trainer.update__xp__max).level,
 		})
 	
-	if showSpoofers['value']:
-		for trainer in QuerySetSpoofers:
-			GRAND_TOTAL += trainer.update__xp__max
-			Results.append({
-				'position' : None,
-				'trainer' : trainer,
-				'xp' : trainer.update__xp__max,
-				'pkmn_caught' : trainer.update__pkmn_caught__max,
-				'gym_defended' : trainer.update__gym_defended__max,
-				'eggs_hatched' : trainer.update__eggs_hatched__max,
-				'walk_dist' : trainer.update__walk_dist__max,
-				'pkstops_spun' : trainer.update__pkstops_spun__max,
-				'time' : trainer.update__update_time__max,
-				'level' : level_parser(xp=trainer.update__xp__max).level,
-			})
-	
-	Results.sort(key = lambda x: x['xp'], reverse=True)
-	
 	context = {
+		'title': title,
 		'leaderboard' : Results,
 		'valor' : showValor,
 		'mystic' : showMystic,
@@ -619,7 +534,7 @@ def LeaderboardHTMLView(request, country=None, region=None, subregion=None, city
 		'spoofers' : showSpoofers,
 		'grand_total_xp' : GRAND_TOTAL,
 	}
-	context.update(rcontext)
+	
 	return render(request, 'leaderboard.html', context)
 
 def UpdateInstanceHTMLView(request, uuid):
