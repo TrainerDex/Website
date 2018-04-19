@@ -30,3 +30,5 @@ six==1.10.0
 urllib3==1.22
 vine==1.1.4
 django-modeladmin-reorder==0.3
+pillow
+django-debug-toolbar
