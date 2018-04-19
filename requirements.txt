@@ -15,7 +15,7 @@ django-model-changes==0.15
 django-rest-elasticsearch==0.3.1
 django-rosetta==0.8.1
 django-timezone-field==2.1
-django-widget-tweaks==1.4.1
+django-widget-tweaks==1.4.2
 django==1.11.4
 djangorestframework==3.6.3
 humanize==0.5.1
