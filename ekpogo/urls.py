@@ -18,18 +18,18 @@ api_v1_patterns = [
 ]
 
 urlpatterns = [
-    url(r'^api/v1/', include(api_v1_patterns, namespace="api_v1")),
-    url(r'^api/admin/', admin.site.urls),
-    url(r'^api-token-auth/', views.obtain_auth_token),
-    url(r'^ajax_select/', include(ajex_select_urls)),
-    url(r'^accounts/settings/$', SettingsView, name='account_settings'),
-    url(r'^accounts/profile/setup$', SetUpProfileViewStep2, name='profile_set_up'),
-    url(r'^accounts/profile/first_update$', SetUpProfileViewStep3, name='profile_first_post'),
-    url(r'^accounts/', include('allauth.urls')),
-    url(r'^tools/rosetta/', include('rosetta.urls')),
+    url(r'^api\/v1\/', include(api_v1_patterns, namespace="api_v1")),
+    url(r'^api\/admin\/', admin.site.urls),
+    url(r'^api-token-auth\/', views.obtain_auth_token),
+    url(r'^ajax_select\/', include(ajex_select_urls)),
+    url(r'^accounts\/settings\/?$', SettingsView, name='account_settings'),
+    url(r'^accounts\/profile/setup\/?$', SetUpProfileViewStep2, name='profile_set_up'),
+    url(r'^accounts\/profile/first_update\/?$', SetUpProfileViewStep3, name='profile_first_post'),
+    url(r'^accounts\/', include('allauth.urls')),
+    url(r'^tools\/rosetta\/', include('rosetta.urls')),
     url(r'^$', RedirectView.as_view(pattern_name='leaderboard', permanent=False), name='home'),
-    url(r'^communities/$', Status410),
-    url(r'^help/', include(SupportURLS, namespace='help')),
+    url(r'^communities\/?$', Status410),
+    url(r'^help\/', include(SupportURLS, namespace='help')),
     url('', include(TrainerURLS.HTML)),
 ]
 
