@@ -399,7 +399,7 @@ def TrainerProfileHTMLView(request, username):
 			'readable_name':Update._meta.get_field(badge['name']).verbose_name,
 		}
 		try:
-			_badge = sorted([x for x in context['updates'] if getattr(x, badge['name'])], key=lambda x: getattr(x, badge['name']))
+			_badge = sorted([x for x in context['updates'] if getattr(x, badge['name'])], key=lambda x: getattr(x, badge['name']), reverse=True)
 			if len(_badge) == 0:
 				continue
 			badge_dict['value'] = getattr(_badge[0], badge['name'])
@@ -421,7 +421,7 @@ def TrainerProfileHTMLView(request, username):
 			'readable_name':Update._meta.get_field(badge['name']).verbose_name,
 		}
 		try:
-			_badge = sorted([x for x in context['updates'] if getattr(x, badge['name'])], key=lambda x: getattr(x, badge['name']))
+			_badge = sorted([x for x in context['updates'] if getattr(x, badge['name'])], key=lambda x: getattr(x, badge['name']), reverse=True)
 			if len(_badge) == 0:
 				continue
 			badge_dict['value'] = getattr(_badge[0], badge['name'])
@@ -439,7 +439,7 @@ def TrainerProfileHTMLView(request, username):
 		type_badges.append(badge_dict)
 	for badge in STATS:
 		try:
-			_badge = sorted([x for x in context['updates'] if getattr(x, badge)], key=lambda x: getattr(x, badge))
+			_badge = sorted([x for x in context['updates'] if getattr(x, badge)], key=lambda x: getattr(x, badge), reverse=True)
 			if len(_badge) == 0:
 				continue
 			context[badge] = getattr(_badge[0], badge)
