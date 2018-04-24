@@ -15,7 +15,7 @@ class UpdateAdmin(AjaxSelectAdmin):
 	form = make_ajax_form(Update, {
 		'trainer' : 'trainer'
 	})
-	list_display = ('trainer', 'xp', 'update_time', 'meta_crowd_sourced','meta_source')
+	list_display = ('trainer', 'xp', 'update_time', 'meta_crowd_sourced','meta_source', 'modified_extra_fields')
 	search_fields = ('trainer__username', 'trainer__owner__username')
 	ordering = ('-update_time',)
 	date_hierarchy = 'update_time'
@@ -27,17 +27,15 @@ class TrainerAdmin(AjaxSelectAdmin):
 		'owner' : 'user',
 		'leaderboard_country' : 'countries',
 		'leaderboard_region': 'regions',
-		'leaderboard_subregion' : 'subregions',
-		'leaderboard_city' : 'cities',
 	})
-	list_display = ('username', 'faction', 'currently_cheats', 'statistics', 'verified')
-	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'verified')
-	search_fields = ('username', 'owner__username', 'owner__first_name')
+	list_display = ('username', 'level', 'faction', 'currently_cheats', 'is_on_leaderboard', 'is_verified', 'awaiting_verification')
+	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'verified',)
+	search_fields = ('username', 'owner__first_name')
 	ordering = ('username',)
-	date_hierarchy = 'start_date'
+	radio_fields = {'faction': admin.HORIZONTAL}
 	fieldsets = (
 		(None, {
-			'fields': ('owner', 'username', 'faction', 'start_date', 'statistics', 'daily_goal', 'total_goal',)
+			'fields': ('owner', 'username', 'faction', 'start_date', 'daily_goal', 'total_goal',)
 		}),
 		(_('Reports'), {
 			'fields': ('has_cheated', 'last_cheated', 'currently_cheats', 'verified', 'verification')
@@ -49,12 +47,12 @@ class TrainerAdmin(AjaxSelectAdmin):
 			'fields': ('event_10b','event_1k_users')
 		}),
 		(_('Leaderboard'), {
-			'fields': ('leaderboard_country', 'leaderboard_region', 'leaderboard_subregion', 'leaderboard_city')
+			'fields': ('leaderboard_country', 'leaderboard_region', 'statistics')
 		}),
 	)
 	
-	def get_readonly_fields(self, request, obj=None):
-		if obj: # editing an existing object
-			return self.readonly_fields + ('event_10b','event_1k_users')
-		return self.readonly_fields
+	readonly_fields = ('event_10b','event_1k_users')
+	
+	def get_queryset(self, request):
+		return super(TrainerAdmin,self).get_queryset(request).prefetch_related('update_set')
 	
