@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
+from cities.models import Country, Region
 from django.contrib.auth.models import User
 from trainer.models import *
 from trainer.shortcuts import level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
@@ -40,7 +41,7 @@ class BriefTrainerSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Trainer
-		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'update_set', 'prefered')
+		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'leaderboard_country', 'leaderboard_region', 'update_set', 'prefered')
 
 class DetailedTrainerSerializer(serializers.ModelSerializer):
 	update_set = BriefUpdateSerializer(read_only=True, many=True)
@@ -51,7 +52,19 @@ class DetailedTrainerSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Trainer
-		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen', 'update_set', 'prefered', 'verified')
+		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen', 'leaderboard_country', 'leaderboard_region', 'update_set', 'prefered', 'verified')
+
+class DetailedTrainerSerializerPATCH(serializers.ModelSerializer):
+	update_set = BriefUpdateSerializer(read_only=True, many=True)
+	prefered = serializers.SerializerMethodField()
+	
+	def get_prefered(self, obj):
+		return True
+	
+	class Meta:
+		model = Trainer
+		read_only_fields = ('id', 'owner', 'username', 'faction')
+		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen', 'leaderboard_country', 'leaderboard_region', 'update_set', 'prefered', 'verified')
 
 class UserSerializer(serializers.ModelSerializer):
 	profiles = serializers.SerializerMethodField()
