@@ -3,7 +3,7 @@ billiard==3.5.0.3
 certifi==2017.7.27.1
 chardet==3.0.4
 django-ajax-selects==1.7.0
-django-allauth==0.35.0
+django-allauth==0.36.0
 django-annoying==0.10.4
 django-cities==0.5.0.6
 django-colorful==1.2
