@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-19 19:53+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2018-05-06 09:49+0000\n"
+"Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.8.1\n"
 
 #: support/templates/about.html:5 support/templates/about.html:6
 #: support/templates/about.html:13
@@ -26,8 +27,8 @@ msgstr ""
 #, python-format
 msgid ""
 "TrainerDex is a service for tracking and updating your progress in Pokémon "
-"Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s"
-"\" id=\"faq\">FAQ</a>."
+"Go. Don't worry, there's no risk of ban! Check out our <a "
+"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
 msgstr ""
 
 #: support/templates/about.html:19
@@ -69,21 +70,11 @@ msgstr ""
 #: support/templates/help/faq.html:18
 msgid ""
 "\n"
-"                      <p><i>This isn't a question. That's you complaining, "
-"but I have an answer anyway.</i></p>\n"
+"                      <p><i>This isn't a question. That's you complaining, but I have an answer anyway.</i></p>\n"
 "                      \n"
-"                      <p>You most likely had a <em>phantom goal</em> This "
-"isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants "
-"to own up to. Instead, this related to goals shown by the Discord bot. "
-"Before the 22nd December, once you reached your goal the bot would reset it "
-"to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal "
-"as a promotion for goals.</p>\n"
+"                      <p>You most likely had a <em>phantom goal</em> This isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants to own up to. Instead, this related to goals shown by the Discord bot. Before the 22nd December, once you reached your goal the bot would reset it to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal as a promotion for goals.</p>\n"
 "                      \n"
-"                      <p>Since then, the default behaviour is to "
-"automatically move your goal on to the next level when you reach your goal, "
-"rather than resetting to zero. To give the user a choice <em>not</em> to "
-"have a goal. We removed phantom goals. Phantom goals didn't congratulate the "
-"user either, whereas set goals do.</p>\n"
+"                      <p>Since then, the default behaviour is to automatically move your goal on to the next level when you reach your goal, rather than resetting to zero. To give the user a choice <em>not</em> to have a goal. We removed phantom goals. Phantom goals didn't congratulate the user either, whereas set goals do.</p>\n"
 "                      "
 msgstr ""
 
@@ -95,28 +86,18 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"                      <p>Goals currently only work on the Discord bot, "
-"however, they're coming soon to web</p>\n"
+"                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>\n"
 "                      \n"
-"                      <p>Simply message the Discord Bot, <a href="
-"\"%(discord_url)s\">TrainerDex#8522</a> <code>.update goal &lt;option&gt; "
-"&lt;value&gt;</code></p>\n"
+"                      <p>Simply message the Discord Bot, <a href=\"%(discord_url)s\">TrainerDex#8522</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>\n"
 "                      \n"
 "                      <p class=\"help-faq-question\">Options</p>\n"
 "                      <ul>\n"
 "                        <li>\n"
-"                          <code>daily</code> - Sets your daily or 'rate' "
-"goal. This is the goal which shows you the speed at which you're "
-"progressing. This takes a numeric value ranging from 0 to 3000000.\n"
+"                          <code>daily</code> - Sets your daily or 'rate' goal. This is the goal which shows you the speed at which you're progressing. This takes a numeric value ranging from 0 to 3000000.\n"
 "                        </li>\n"
 "                        <li>\n"
-"                          <code>total</code> - Sets your total or 'reach' "
-"goal. This is the goal which you would use to get a grasp of when you're "
-"going to reach a specific point. This takes a numeric value which is at "
-"least one more than your current experience. \n"
-"                          <em>Sidenote - <code>.update goal total</code> has "
-"an additional option, <code>auto</code>, which sets a goal for you based on "
-"your current experince.</em>\n"
+"                          <code>total</code> - Sets your total or 'reach' goal. This is the goal which you would use to get a grasp of when you're going to reach a specific point. This takes a numeric value which is at least one more than your current experience. \n"
+"                          <em>Sidenote - <code>.update goal total</code> has an additional option, <code>auto</code>, which sets a goal for you based on your current experince.</em>\n"
 "                        </li>\n"
 "                      </ul>\n"
 "                      "
@@ -266,7 +247,7 @@ msgstr ""
 #: trainer/models.py:135 trainer/templates/leaderboard.html:77
 #: trainer/templates/profile.html:83
 msgid "XP"
-msgstr ""
+msgstr "EP"
 
 #: trainer/models.py:136
 msgid "Species Caught"
@@ -593,8 +574,8 @@ msgstr ""
 
 #: trainer/templates/profile.html:110
 msgid ""
-"It seems this trainer hasn't shared any of these medals. We only show medals "
-"with data to avoid showing a row of null values, that's kinda ugly."
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
 msgstr ""
 
 #: trainer/validators.py:9
@@ -629,8 +610,8 @@ msgstr ""
 #: trainer/views.py:598
 msgid ""
 "Thank you for filling out your profile. Your screenshots have been sent for "
-"verification. An admin will verify you within the next couple of days. Until "
-"then, you will not appear in the Global Leaderboard but you can still use "
+"verification. An admin will verify you within the next couple of days. Until"
+" then, you will not appear in the Global Leaderboard but you can still use "
 "Guild Leaderboards and and update your stats!"
 msgstr ""
 
@@ -711,7 +692,8 @@ msgstr ""
 #: website/templates/account/email.html:83
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
 
 #: website/templates/account/email.html:94
@@ -723,9 +705,7 @@ msgstr ""
 msgid ""
 "Hello from %(site_name)s!\n"
 "\n"
-"You're receiving this e-mail because user %(user_display)s has connected "
-"this e-mail address to their account. If this is not you, just ignore this "
-"email.\n"
+"You're receiving this e-mail because user %(user_display)s has connected this e-mail address to their account. If this is not you, just ignore this email.\n"
 "\n"
 "To confirm this is correct, go to %(activate_url)s\n"
 msgstr ""
@@ -746,10 +726,8 @@ msgstr ""
 msgid ""
 "Hello from %(site_name)s!\n"
 "\n"
-"You're receiving this e-mail because you or someone else has requested a "
-"password for your user account.\n"
-"It can be safely ignored if you did not request a password reset. Click the "
-"link below to reset your password."
+"You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
 msgstr ""
 
 #: website/templates/account/email/password_reset_key_message.txt:8
@@ -809,8 +787,8 @@ msgstr ""
 #: website/templates/account/login.html:25
 #, python-format
 msgid ""
-"If you have not created an account yet, then please <a href=\"%(signup_url)s"
-"\">sign up</a> first."
+"If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
 
 #: website/templates/account/login.html:81
@@ -901,8 +879,8 @@ msgstr ""
 
 #: website/templates/account/password_reset.html:29
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 
 #: website/templates/account/password_reset.html:30
@@ -987,7 +965,8 @@ msgid "Sign Up Closed"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:15
-msgid "We are sorry, but registrations via the website are currently disabled."
+msgid ""
+"We are sorry, but registrations via the website are currently disabled."
 msgstr ""
 
 #: website/templates/account/signup_closed.html:16

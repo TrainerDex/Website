@@ -519,7 +519,9 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	
 	for index, trainer in enumerate(QuerySet, 1):
 		GRAND_TOTAL += trainer.update__xp__max
-		Results.append({
+		print(trainer.update__xp__max)
+		try:
+			Results.append({
 			'position' : index,
 			'trainer' : trainer,
 			'xp' : trainer.update__xp__max,
@@ -530,7 +532,9 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 			'pkstops_spun' : trainer.update__pkstops_spun__max,
 			'time' : trainer.update__update_time__max,
 			'level' : level_parser(xp=trainer.update__xp__max).level,
-		})
+			})
+		except AttributeError:
+			continue
 	
 	context = {
 		'title': title,
