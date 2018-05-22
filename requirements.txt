@@ -20,7 +20,7 @@ django==1.11.4
 djangorestframework==3.6.3
 humanize==0.5.1
 idna==2.6
-kombu==4.1.0
+kombu==4.2.0
 psycopg2==2.7.4
 pycent==1.0
 python-dateutil==2.6.1
