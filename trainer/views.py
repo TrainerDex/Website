@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins, EmailMessage
-from django.db.models import Max, Q
+from django.db.models import Max, Q, Sum
 from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest, Http404
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
@@ -511,30 +511,35 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	QuerySet = QuerySet.select_related('faction').exclude(statistics=False).exclude(verified=False).exclude(currently_cheats = not nullbool(request.GET.get('spoofers'), default=False))
 	
 	
+	ORDER = request.GET.get('order') if request.GET.get('order') in list(UPDATE_FIELDS_BADGES)+list(UPDATE_FIELDS_TYPES) else 'xp'
+	FIELDS_TO_MAX = list(set(['xp', 'pkmn_caught', 'gym_defended', 'eggs_hatched', 'walk_dist', 'pkstops_spun', 'battles_won', 'update_time']+[ORDER]))
+	
 	QuerySet = QuerySet.exclude(faction__name__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
-	QuerySet = QuerySet.annotate(Max('update__xp'), Max('update__update_time'), Max('update__pkmn_caught'), Max('update__gym_defended'), Max('update__eggs_hatched'), Max('update__walk_dist'), Max('update__pkstops_spun')).order_by('-update__xp__max')
+	QuerySet = QuerySet.annotate(*[Max('update__'+str(x)) for x in FIELDS_TO_MAX]).extra(select={'null_order': '{order} IS NULL'.format(order=ORDER)}).order_by('null_order', '-update__{order}__max'.format(order=ORDER))
 	
 	Results = []
-	GRAND_TOTAL = 0
+	GRAND_TOTAL = QuerySet.aggregate(Sum('update__xp__max'))
 	
 	for index, trainer in enumerate(QuerySet, 1):
-		GRAND_TOTAL += trainer.update__xp__max
-		print(trainer.update__xp__max)
-		try:
-			Results.append({
+		trainer_stats = {
 			'position' : index,
 			'trainer' : trainer,
-			'xp' : trainer.update__xp__max,
-			'pkmn_caught' : trainer.update__pkmn_caught__max,
-			'gym_defended' : trainer.update__gym_defended__max,
-			'eggs_hatched' : trainer.update__eggs_hatched__max,
-			'walk_dist' : trainer.update__walk_dist__max,
-			'pkstops_spun' : trainer.update__pkstops_spun__max,
-			'time' : trainer.update__update_time__max,
 			'level' : level_parser(xp=trainer.update__xp__max).level,
-			})
-		except AttributeError:
-			continue
+			'xp' : trainer.update__xp__max, 
+			'update_time' : trainer.update__update_time__max, 
+		}
+		
+		FIELDS = []
+		for x in [x for x in FIELDS_TO_MAX if x not in ['xp', 'update_time']]:
+			FIELDS.append(
+				{
+					'name':x,
+					'readable_name':Update._meta.get_field(x).verbose_name,
+					'value':getattr(trainer, 'update__{field}__max'.format(field=x)),
+				},
+			)
+		trainer_stats['columns'] = FIELDS
+		Results.append(trainer_stats)
 	
 	context = {
 		'title': title,
@@ -543,7 +548,8 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		'mystic' : showMystic,
 		'instinct' : showInstinct,
 		'spoofers' : showSpoofers,
-		'grand_total_xp' : GRAND_TOTAL,
+		'grand_total_xp' : GRAND_TOTAL['update__xp__max__sum'],
+		'order_by' : ORDER,
 	}
 	
 	return render(request, 'leaderboard.html', context)
