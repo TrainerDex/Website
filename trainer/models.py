@@ -15,6 +15,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
 from trainer.validators import *
+from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 def factionImagePath(instance, filename):
 	return 'img/'+instance.name #remains for legacy reasons
@@ -41,7 +42,7 @@ class Trainer(models.Model):
 	total_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Reach Goal"))
 	last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last Modified"))
 	
-	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest Chicago"))
+	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2017"))
 	outbreak_2017 = models.BooleanField(default=False, verbose_name=_("Pikachu Outbreak 2017"))
 	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Oberhausen, Germany")
 	safari_zone_2017_paris = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Paris, France")
@@ -50,11 +51,10 @@ class Trainer(models.Model):
 	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Prague, Czechia")
 	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Stockholm, Sweden")
 	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Amstelveen, The Netherlands")
+	go_fest_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2018"))
 	
 	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country')
 	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region')
-	leaderboard_subregion = models.ForeignKey(Subregion, null=True, blank=True, verbose_name=_("Subregion"), related_name='leaderboard_trainers_subregion')
-	leaderboard_city = models.ForeignKey(City, null=True, blank=True, verbose_name=_("City"), related_name='leaderboard_trainers_city')
 	
 	verified = models.BooleanField(default=False, verbose_name=_("Verified"))
 	
@@ -64,10 +64,45 @@ class Trainer(models.Model):
 	verification = models.ImageField(upload_to=VerificationImagePath, null=True, blank=True, verbose_name=_("Screenshot"))
 	
 	def is_prefered(self):
-		return True if owner.prefered_profile == self else False
+		return True
+	
+	def submitted_picture(self):
+		return bool(self.verification)
+	submitted_picture.boolean = True
+	
+	def awaiting_verification(self):
+		if bool(self.verification) is True and bool(self.verified) is False:
+			return True
+		return False
+	awaiting_verification.boolean = True
+	
+	def is_verified(self):
+		return self.verified
+	is_verified.boolean = True
+	
+	def is_verified_and_saved(self):
+		return bool(bool(self.verified) and bool(self.verification))
+	is_verified_and_saved.boolean = True
+	
+	def is_on_leaderboard(self):
+		return bool(self.is_verified and self.statistics)
+	is_on_leaderboard.boolean = True
+	
+	def level(self):
+		update = list(self.update_set.all())
+		if update:
+			update.sort(key=lambda x: x.xp)
+			return level_parser(xp=update[-1].xp).level
+		return None
 	
 	def __str__(self):
 		return self.username
+	
+	def circled_level(self):
+		level = self.level()
+		if level:
+			return int_to_unicode(level).strip()
+		return None
 	
 	@property
 	def active(self):
@@ -87,11 +122,18 @@ class Trainer(models.Model):
 		)
 	
 	def clean(self):
+		# Cleanup functions
+		
+		# Cheating values
 		if (self.has_cheated is True or self.currently_cheats is True) and self.last_cheated is None:
 			self.has_cheated = True
 			self.last_cheated = date.today()
 		elif self.currently_cheats is True:
 			self.has_cheated = True
+		
+		# Leaderboard preference
+		if self.leaderboard_region.country != self.leaderboard_country:
+			self.leaderboard_region = None
 	
 	def get_absolute_url(self):
 		return reverse('profile', kwargs={'id':self.pk})
@@ -156,7 +198,9 @@ class Update(models.Model):
 	leg_raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Battle Legend"))
 	gen_3_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Hoenn"))
 	quests = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pokémon Ranger"))
-	mew_encountered = models.PositiveIntegerField(null=True, blank=True, verbose_name=_noop("Mew"))
+	max_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name="BADGE_MAX_LEVEL_FRIENDS")
+	trading = models.PositiveIntegerField(null=True, blank=True, verbose_name="BADGE_TRADING")
+	trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name="BADGE_TRADING_DISTANCE")
 	
 	pkmn_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Normal"))
 	pkmn_flying = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Flying"))
@@ -179,7 +223,7 @@ class Update(models.Model):
 	
 	meta_time_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Time Created"))
 	DATABASE_SOURCES = ( #cs crowd sourced # ts text sourced # ss screenshot
-		('?', _noop('undefined')),
+		('?', None),
 		('cs_social_twitter', _noop('Twitter (Found)')),
 		('cs_social_facebook', _noop('Facebook (Found)')),
 		('cs_social_youtube', _noop('YouTube (Found)')),
@@ -201,13 +245,18 @@ class Update(models.Model):
 	def meta_crowd_sourced(self):
 		if self.meta_source.startswith('cs'):
 			return True
+		elif self.meta_source == ('?'):
+			return None
 		return False
 	meta_crowd_sourced.boolean = True
 	meta_crowd_sourced.short_description = _("Crowd Sourced")
 	
+	def modified_extra_fields(self):
+		return bool([x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES) if getattr(self, x)])
+	modified_extra_fields.boolean = True
 	
 	def __str__(self):
-		return self.trainer.username+' '+str(self.xp)+' '+str(self.update_time)
+		return _("{username} - {xp:,}XP at {date}").format(username=self.trainer, xp=self.xp, date=self.update_time.isoformat(sep=' ', timespec='minutes'))
 	
 	def clean(self):
 		

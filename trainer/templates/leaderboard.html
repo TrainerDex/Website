@@ -67,38 +67,38 @@
 
 <div class="table-responsive">
   <table class="mdl-data-table mdl-js-data-table" style="width: 100%">
+  {% for trainer in leaderboard %}
+    {% if forloop.first %}
     <thead>
       <tr>
         <th>#</th>
         <th class="mdl-data-table__cell--non-numeric">{% trans "Username" %}</th>
         <th>{% trans "TL" %}</th>
         <th class="mdl-data-table__cell--non-numeric">{% trans "Team" %}</th>
-        <th>{% trans "XP" %}</th>
-        <th class="mdl-data-table__cell--non-numeric">{% trans "Date Updated" %}</th>
-        <th>{% trans "Pokémon Caught" %}</th>
-        <th>{% trans "Hours Defended" %}</th>
-        <th>{% trans "Eggs Hatched" %}</th>
-        <th>{% trans "KM Walked" %}</th>
-        <th>{% trans "Pokéstops Spun" %}</th>
+        <th {% if order_by == 'xp' %}class="mdl-data-table__header--sorted-descending"{% endif %}>{% trans "XP" %}</th>
+        <th class="mdl-data-table__cell--non-numeric">{% trans "Last Updated" %}</th>
+        {% for column in trainer.columns %}
+        <th {% if order_by == column.name %}class="mdl-data-table__header--sorted-descending"{% endif %}>{{column.readable_name}}</th>
+        {% endfor %}
       </tr>
     </thead>
     <tbody>
-      {% for trainer in leaderboard %}
+    {% endif %}
       <tr>
         <td>{{trainer.position|default_if_none:'<i class="material-icons">close</i>'}}</td>
         <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }}</a></td>
         <td>{{trainer.level}}</td>
         <td class="mdl-data-table__cell--non-numeric"><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'" alt="{{trainer.trainer.faction.name}}"/></td>
         <td>{{trainer.xp|intcomma}}</td>
-        <td class="mdl-data-table__cell--non-numeric">{{trainer.time|naturalday}}</td>
-        <td>{{trainer.pkmn_caught|default_if_none:""|intcomma}}</td>
-        <td>{{trainer.gym_defended|default_if_none:""|intcomma}}</td>
-        <td>{{trainer.eggs_hatched|default_if_none:""|intcomma}}</td>
-        <td>{{trainer.walk_dist|default_if_none:""|intcomma}}</td>
-        <td>{{trainer.pkstops_spun|default_if_none:""|intcomma}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{trainer.update_time|naturalday}}</td>
+        {% for column in trainer.columns %}
+        <td>{{column.value|default_if_none:"---"|intcomma}}</td>
+        {% endfor %}
       </tr>
-      {% endfor %}
+    {% if forloop.last %}
     </tbody>
+    {% endif %}
+  {% endfor %}
   </table>
 </div>
 {% endblock %}
