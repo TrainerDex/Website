@@ -96,7 +96,9 @@ UPDATE_FIELDS_BADGES = (
 	'leg_raids_completed',
 	'gen_3_dex',
 	'quests',
-	#'mew_encountered',
+	'max_friends',
+	'trading',
+	'trading_distance',
 )
 
 UPDATE_FIELDS_TYPES = (
