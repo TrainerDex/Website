@@ -42,7 +42,7 @@ class Trainer(models.Model):
 	total_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Reach Goal"))
 	last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last Modified"))
 	
-	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest Chicago"))
+	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2017"))
 	outbreak_2017 = models.BooleanField(default=False, verbose_name=_("Pikachu Outbreak 2017"))
 	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Oberhausen, Germany")
 	safari_zone_2017_paris = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Paris, France")
@@ -51,6 +51,7 @@ class Trainer(models.Model):
 	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Prague, Czechia")
 	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Stockholm, Sweden")
 	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Amstelveen, The Netherlands")
+	go_fest_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2018"))
 	
 	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country')
 	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region')
@@ -197,7 +198,9 @@ class Update(models.Model):
 	leg_raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Battle Legend"))
 	gen_3_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Hoenn"))
 	quests = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pokémon Ranger"))
-	mew_encountered = models.PositiveIntegerField(null=True, blank=True, verbose_name=_noop("Mew"))
+	max_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name="BADGE_MAX_LEVEL_FRIENDS")
+	trading = models.PositiveIntegerField(null=True, blank=True, verbose_name="BADGE_TRADING")
+	trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name="BADGE_TRADING_DISTANCE")
 	
 	pkmn_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Normal"))
 	pkmn_flying = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Flying"))
