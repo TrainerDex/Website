@@ -335,7 +335,9 @@ BADGES = [
 	{'name':'leg_raids_completed', 'bronze':10, 'silver':100, 'gold':1000},
 	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90},
 	{'name':'quests', 'bronze':10, 'silver':100, 'gold':1000},
-#	{'name':'mew_encountered', 'bronze':5, 'silver':10, 'gold':30},
+	{'name':'max_friends', 'bronze':1, 'silver':2, 'gold':3},
+	{'name':'trading', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'trading_distance', 'bronze':1000, 'silver':10000, 'gold':1000000},
 ]
 
 TYPE_BADGES = [{'name':x, 'bronze':10, 'silver':50, 'gold':200} for x in UPDATE_FIELDS_TYPES]

@@ -198,9 +198,9 @@ class Update(models.Model):
 	leg_raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Battle Legend"))
 	gen_3_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Hoenn"))
 	quests = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pokémon Ranger"))
-	max_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name="BADGE_MAX_LEVEL_FRIENDS")
-	trading = models.PositiveIntegerField(null=True, blank=True, verbose_name="BADGE_TRADING")
-	trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name="BADGE_TRADING_DISTANCE")
+	max_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Idol"))
+	trading = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Gentleman"))
+	trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Pilot"))
 	
 	pkmn_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Normal"))
 	pkmn_flying = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Flying"))
