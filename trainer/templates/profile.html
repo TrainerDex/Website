@@ -10,16 +10,20 @@
 {% block head_title %}{{trainer.username}} | {% trans "TL" %} {{level.level}}{% endblock %}
 {% block section_title %}{{trainer.username}}{% endblock %}
 
-{% block colour_scheme %}{% if trainer.faction.name == 'Valor' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-deep_orange.min.css" />{% elif trainer.faction.name == 'Mystic' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-deep_purple.min.css" />{% elif trainer.faction.name == 'Instinct' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.amber-yellow.min.css" />{% else %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css" />{% endif %}{% endblock %}
+{# {% block colour_scheme %}{% if trainer.faction.name == 'Valor' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-deep_orange.min.css" />{% elif trainer.faction.name == 'Mystic' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-deep_purple.min.css" />{% elif trainer.faction.name == 'Instinct' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.amber-yellow.min.css" />{% else %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css" />{% endif %}{% endblock %} #}
 
 
 {% block extra_head %}
+<meta name="twitter:card" content="summery"/>
+<meta name="twitter:site" content="@TrainerDexApp"/>
 <meta property="og:title" content="{{trainer.username}}" />
 <meta property="og:image" content="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}"/>
 <meta property="og:type" content="profile" />
+<meta property="og:ttl" content="86400" />
+<meta property="og:description" content="Team: {{trainer.faction.name}}
+Level: {{level.level}}
+XP: {{xp|intcomma}}" />
 <meta property="profile:username" content="{{trainer.username}}" />
-<meta name="twitter:title" content="{{trainer.username}}">
-<meta name="twitter:image" content="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}"/>
 <link rel="stylesheet" href="{% static '/css/collapsible.css' %}"/>
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 <link href="{% static 'node_modules/flag-icon-css/css/flag-icon.css' %}" media="all" rel="stylesheet" />
