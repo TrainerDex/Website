@@ -4,7 +4,7 @@
 {% load static %}
 {% load humanize %}
 
-{% block head_title %}{% trans "Leaderboard" %}{% endblock %}
+{% block head_title %}{{title|default:"International"}} {% trans "Leaderboard" %}{% endblock %}
 
 {% block content %}
 <header class="mdl-card__title mdl-color--primary-dark mdl-color-text--primary-contrast mdl-shadow--4dp">
