@@ -32,7 +32,6 @@ class TrainerAdmin(AjaxSelectAdmin):
 	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'verified',)
 	search_fields = ('username', 'owner__first_name')
 	ordering = ('username',)
-	radio_fields = {'faction': admin.HORIZONTAL}
 	fieldsets = (
 		(None, {
 			'fields': ('owner', 'username', 'faction', 'start_date', 'daily_goal', 'total_goal',)
@@ -40,10 +39,15 @@ class TrainerAdmin(AjaxSelectAdmin):
 		(_('Reports'), {
 			'fields': ('has_cheated', 'last_cheated', 'currently_cheats', 'verified', 'verification')
 		}),
-		(_('Events'), {
+		(_('2017 Events'), {
+			'classes': ('collapse',),
 			'fields': ('go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen')
 		}),
-		(_('Website Events'), {
+		(_('2018 Events'), {
+			'classes': ('collapse',),
+			'fields': ('go_fest_2018',)
+		}),
+		(_('Website Badges'), {
 			'fields': ('event_10b','event_1k_users')
 		}),
 		(_('Leaderboard'), {
@@ -51,7 +55,10 @@ class TrainerAdmin(AjaxSelectAdmin):
 		}),
 	)
 	
-	readonly_fields = ('event_10b','event_1k_users')
+  def get_readonly_fields(self, request, obj=None): 
+    if obj: # editing an existing object 
+      return self.readonly_fields + ('event_10b','event_1k_users') 
+    return self.readonly_fields
 	
 	def get_queryset(self, request):
 		return super(TrainerAdmin,self).get_queryset(request).prefetch_related('update_set')
