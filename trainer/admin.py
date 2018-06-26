@@ -55,10 +55,10 @@ class TrainerAdmin(AjaxSelectAdmin):
 		}),
 	)
 	
-  def get_readonly_fields(self, request, obj=None): 
-    if obj: # editing an existing object 
-      return self.readonly_fields + ('event_10b','event_1k_users') 
-    return self.readonly_fields
+	def get_readonly_fields(self, request, obj=None): 
+		if obj: # editing an existing object 
+			return self.readonly_fields + ('event_10b','event_1k_users') 
+		return self.readonly_fields
 	
 	def get_queryset(self, request):
 		return super(TrainerAdmin,self).get_queryset(request).prefetch_related('update_set')
