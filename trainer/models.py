@@ -15,7 +15,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
 from trainer.validators import *
-from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
+from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup
 
 def factionImagePath(instance, filename):
 	return 'img/'+instance.name #remains for legacy reasons
@@ -67,7 +67,6 @@ class Trainer(models.Model):
 		return True
 	
 	def flag_emoji(self):
-		from flags.lookup import lookup
 		if self.leaderboard_country:
 			return lookup(self.leaderboard_country.code)
 		else:
