@@ -33,36 +33,6 @@
 
 <div class="mdl-card__supporting-text mdl-color--primary mdl-color-text--primary-contrast" style="width: 100%">
   {% trans 'Grand Total XP' %}: {{ grand_total_xp | intword }}
-  <br>
-  {% comment %}
-  {% trans 'Filter' %}
-  <form>
-    <select name="{% trans 'Country' %}" onchange='if(this.value != 0) {location.href="{% url "leaderboard" %}country/"+this.value;} else {location.href="{% url "leaderboard" %}";}'>
-      <option value="0"{% if country == None %} selected="selected"{% endif %} disabled>{% trans 'Country' %}</option>
-      {% for option in countries %}
-      <option value="{{option.pk}}"{% if option == country %} selected="selected"{% endif %}>{{option.name}}</option>
-      {% endfor %}
-    </select>
-    <select name="{% trans 'Region' %}" onchange='location.href="{% url "leaderboard" %}region/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
-      <option value="0"{% if region == None %} selected="selected"{% endif %} disabled>{% trans 'Region' %}</option>
-      {% for option in regions %}
-      <option value="{{option.pk}}"{% if option == region %} selected="selected"{% endif %}>{{option.name}}</option>
-      {% endfor %}
-    </select>
-    <select name="{% trans 'Subregion' %}" onchange='location.href="{% url "leaderboard" %}subregion/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
-      <option value="0"{% if subregion == None %} selected="selected"{% endif %} disabled>{% trans 'Subregion' %}</option>
-      {% for option in subregions %}
-      <option value="{{option.pk}}"{% if option == subregion %} selected="selected"{% endif %}>{{option.name}}</option>
-      {% endfor %}
-    </select>
-    <select name="{% trans 'City' %}" onchange='location.href="{% url "leaderboard" %}city/"+this.value; else {location.href="{% url "leaderboard" %}";}'>
-      <option value="0"{% if city == None %} selected="selected"{% endif %} disabled>{% trans 'City' %}</option>
-      {% for option in cities %}
-      <option value="{{option.pk}}"{% if option == city %} selected="selected"{% endif %}>{{option.name}}</option>
-      {% endfor %}
-    </select>
-  </form>
-  {% endcomment %}
 </div>
 
 <div class="table-responsive">
@@ -85,8 +55,8 @@
     <tbody>
     {% endif %}
       <tr>
-        <td>{{trainer.position|default_if_none:'<i class="material-icons">close</i>'}}</td>
-        <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }}</a></td>
+        <td>{{trainer.position|default_if_none:''}}</td>
+        <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }} {{  trainer.trainer.flag_emoji }}</a></td>
         <td>{{trainer.level}}</td>
         <td class="mdl-data-table__cell--non-numeric"><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'" alt="{{trainer.trainer.faction.name}}"/></td>
         <td>{{trainer.xp|intcomma}}</td>
