@@ -15,11 +15,11 @@
 
 {% block extra_head %}
 <meta property="og:title" content="{{trainer.username}}" />
-<meta property="og:image" content="https://www.trainerdex.co.uk/{{trainer.faction.image}}"/>
+<meta property="og:image" content="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}"/>
 <meta property="og:type" content="profile" />
 <meta property="profile:username" content="{{trainer.username}}" />
 <meta name="twitter:title" content="{{trainer.username}}">
-<meta name="twitter:image" content="https://www.trainerdex.co.uk/{{trainer.faction.image}}"/>
+<meta name="twitter:image" content="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}"/>
 <link rel="stylesheet" href="{% static '/css/collapsible.css' %}"/>
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 <link href="{% static 'node_modules/flag-icon-css/css/flag-icon.css' %}" media="all" rel="stylesheet" />
@@ -27,21 +27,15 @@
 
 {%block content%}
 <div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top {{trainer.faction.name.lower}}">
-    <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="{% gravatar_url trainer.owner.email 140 %}" /></div>
+    <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}" /></div>
     <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
       <ul class="mdl-list">
-        <i class="mdl-card__title-text">{{trainer.username}}</i>
+        <i class="mdl-card__title-text">{{trainer.username}} {{trainer.flag_emoji}}</i>
         <li class="mdl-list__item">
           <span class="mdl-list__item-primary-content" id="start_date">
             <i class="material-icons mdl-list__item-icon">date_range</i>
             {{trainer.start_date|default_if_none:"July 2016?"}}
             {% if not trainer.start_date %}<div class="mdl-tooltip" data-mdl-for="start_date">Wild guess! Most trainers started in July 2016.</div>{% endif%}
-          </span>
-        </li>
-        <li class="mdl-list__item">
-          <span class="mdl-list__item-primary-content" id="faction">
-            <i class="material-icons mdl-list__item-icon">home</i>
-            {{trainer.faction}}
           </span>
         </li>
         <li class="mdl-list__item">
@@ -53,9 +47,6 @@
       </ul>
     </div>
     <div class="mdl-cell mdl-cell--1-col mdl-cell--5-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: right;">
-      {% if trainer.leaderboard_country %}
-        <span class="flag-icon flag-icon-{{trainer.leaderboard_country.code.lower}} flag-icon-squared flag-icon-circle mdl-shadow--4dp"></span>
-      {% endif %}
       {% if trainer.go_fest_2017 %}
         <img class="profile-medal" src="{% static 'img/go_fest_2017.png' %}" />
       {% endif %}

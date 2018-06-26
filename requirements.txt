@@ -32,3 +32,4 @@ vine==1.1.4
 django-modeladmin-reorder==0.3
 pillow
 django-debug-toolbar
+emoji-flags==0.1.0

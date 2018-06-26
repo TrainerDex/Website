@@ -17,10 +17,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
 from django.urls import resolve
-import logging
 from pycent import percentage
 from pytz import utc
-import requests
 from rest_framework import authentication, permissions, status
 from rest_framework.decorators import detail_route
 from rest_framework.views import APIView
@@ -30,6 +28,9 @@ from trainer.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormU
 from trainer.models import Trainer, Update
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
 from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
+import logging
+import requests
+
 
 logger = logging.getLogger('django.trainerdex')
 

@@ -66,6 +66,13 @@ class Trainer(models.Model):
 	def is_prefered(self):
 		return True
 	
+	def flag_emoji(self):
+		from flags.lookup import lookup
+		if self.leaderboard_country:
+			return lookup(self.leaderboard_country.code)
+		else:
+			return None
+	
 	def submitted_picture(self):
 		return bool(self.verification)
 	submitted_picture.boolean = True
