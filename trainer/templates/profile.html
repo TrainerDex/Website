@@ -30,7 +30,7 @@
     <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}" /></div>
     <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
       <ul class="mdl-list">
-        <i class="mdl-card__title-text">{{trainer.username}} {{trainer.flag_emoji}}</i>
+        <i class="mdl-card__title-text">{{trainer.username}} {{trainer.flag_emoji|default_if_none:''}}</i>
         <li class="mdl-list__item">
           <span class="mdl-list__item-primary-content" id="start_date">
             <i class="material-icons mdl-list__item-icon">date_range</i>

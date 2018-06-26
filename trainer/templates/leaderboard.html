@@ -56,7 +56,7 @@
     {% endif %}
       <tr>
         <td>{{trainer.position|default_if_none:''}}</td>
-        <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{ trainer.trainer.username }} {{  trainer.trainer.flag_emoji }}</a></td>
+        <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile' %}?id={{trainer.trainer.pk}}" class="leaderboard-link">{{trainer.trainer.username}} {{trainer.trainer.flag_emoji|default_if_none:''}}</a></td>
         <td>{{trainer.level}}</td>
         <td class="mdl-data-table__cell--non-numeric"><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'" alt="{{trainer.trainer.faction.name}}"/></td>
         <td>{{trainer.xp|intcomma}}</td>
