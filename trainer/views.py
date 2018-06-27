@@ -518,7 +518,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	FIELDS_TO_MAX = list(set(['xp', 'pkmn_caught', 'gym_defended', 'eggs_hatched', 'walk_dist', 'pkstops_spun', 'battles_won', 'update_time']+[ORDER]))
 	
 	QuerySet = QuerySet.exclude(faction__name__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
-	QuerySet = QuerySet.annotate(*[Max('update__'+str(x)) for x in FIELDS_TO_MAX]).extra(select={'null_order': '{order} IS NULL'.format(order=ORDER)}).order_by('null_order', '-update__{order}__max'.format(order=ORDER))
+	QuerySet = QuerySet.annotate(*[Max('update__'+str(x)) for x in FIELDS_TO_MAX]).extra(select={'null_order': '{order} IS NULL'.format(order=ORDER)}).order_by('null_order', '-update__{order}__max'.format(order=ORDER), '-update__xp__max', '-update__update_time__max')
 	
 	Results = []
 	GRAND_TOTAL = QuerySet.aggregate(Sum('update__xp__max'))
