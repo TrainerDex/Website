@@ -126,6 +126,11 @@ class LeaderboardSerializer(serializers.Serializer):
 
 class SocialAllAuthSerializer(serializers.ModelSerializer):
 	
+	trainer = serializers.SerializerMethodField()
+	
+	def get_trainer(self, obj):
+		return obj.user.trainer.pk
+	
 	class Meta:
 		model = SocialAccount
-		fields = ('user', 'provider', 'uid', 'extra_data')
+		fields = ('user', 'provider', 'uid', 'extra_data', 'trainer',)
