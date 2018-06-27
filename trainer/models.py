@@ -138,7 +138,7 @@ class Trainer(models.Model):
 			self.has_cheated = True
 		
 		# Leaderboard preference
-		if self.leaderboard_region.country != self.leaderboard_country:
+		if self.leaderboard_region and (self.leaderboard_region.country != self.leaderboard_country):
 			self.leaderboard_region = None
 	
 	def get_absolute_url(self):
