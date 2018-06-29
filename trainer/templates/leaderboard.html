@@ -13,8 +13,7 @@
 <meta property="og:image" content="https://www.trainerdex.co.uk/static/img/Harmony.png"/>
 <meta property="og:ttl" content="345600" />
 <meta property="og:description" content="{% for trainer in leaderboard|slice:'0:10' %}
-										 #{{trainer.position}}·{{trainer.trainer.username}}·{{trainer.trainer.flag_emoji|default_if_none:''}}·{{trainer.xp|intcomma}}·
-										 {% endfor %}" />
+#{{trainer.position}}·{{trainer.trainer.username}}·{{trainer.trainer.flag_emoji|default_if_none:''}}·{{trainer.xp|intcomma}}·{% endfor %}" />
 {% endblock %}
 
 {% block content %}
