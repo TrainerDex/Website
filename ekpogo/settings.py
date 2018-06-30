@@ -235,10 +235,10 @@ GRAVATAR_DEFAULT_RATING = 'g'
 # https://docs.djangoproject.com/en/1.11/topics/email/
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'jay@trainerdex.co.uk'
-EMAIL_HOST_PASSWORD = 'hpXOW#pU7p&&W*0K'
+EMAIL_HOST_USER = 'noreply@mg.trainerdex.co.uk'
+EMAIL_HOST_PASSWORD = 'Xgx7AEsAyBchdCtbuSdj9f69v'
 DEFAULT_FROM_EMAIL = 'TrainerDex Support <jay@trainerdex.co.uk>'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
