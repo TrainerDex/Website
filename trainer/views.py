@@ -495,16 +495,25 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	showSpoofers = {'param':'currently_cheats', 'value':nullbool(request.GET.get('spoofers'), default=False)}
 	
 	if continent:
-		continent = Continent.objects.prefetch_related('countries').get(code__iexact = continent)
+		try:
+			continent = Continent.objects.prefetch_related('countries').get(code__iexact = continent)
+		except DoesNotExist:
+			raise Http404('No continent found for code {}'.format(continent))
 		countries_in_continent = continent.countries.all()
 		title = continent.name
 		QuerySet = Trainer.objects.filter(leaderboard_country__in=countries_in_continent)
 	elif country and region == None:
-		country = Country.objects.prefetch_related('leaderboard_trainers_country').get(code__iexact = country)
+		try:
+			country = Country.objects.prefetch_related('leaderboard_trainers_country').get(code__iexact = country)
+		except DoesNotExist:
+			raise Http404('No country found for code {}'.format(country))
 		title = country.name
 		QuerySet = country.leaderboard_trainers_country
 	elif region:
-		region = Region.objects.filter(country__code = country).get(code__iexact = region)
+		try:
+			region = Region.objects.filter(country__code__iexact = country).get(code__iexact = region)
+		except DoesNotExist:
+			raise Http404('No region found for code {}/{}'.format(country, region))
 		title = ', '.join([x.name for x in reversed(region.hierarchy)])
 		QuerySet = region.leaderboard_trainers_region
 	else:
