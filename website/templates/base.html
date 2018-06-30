@@ -23,8 +23,10 @@
     <meta name="msapplication-TileImage" content="{% static 'img/touch/ms-touch-icon-144x144-precomposed.png' %}">
     <meta name="msapplication-TileColor" content="#448aff">
     <link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
+    {% block extra_head %}
+    {% endblock %}
     
-	<script src="//twemoji.maxcdn.com/twemoji.min.js?11.0"></script>
+    <script src="//twemoji.maxcdn.com/twemoji.min.js?11.0"></script>
     <link rel="stylesheet" href="{% static 'node_modules/material-design-lite/material.min.css' %}">
     <link rel="stylesheet" href="{% static 'node_modules/mdl-ext/lib/mdl-ext.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -36,17 +38,15 @@
     
     <link rel="stylesheet" type="text/css" href="{% static 'node_modules/dialog-polyfill/dialog-polyfill.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'cookielaw/css/cookielaw.css' %}" />
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({
-          google_ad_client: "ca-pub-2420889738442704",
-          enable_page_level_ads: true
-     });
-</script>
     
-    {% block extra_head %}
-    {% endblock %}
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-2420889738442704",
+              enable_page_level_ads: true
+         });
+    </script>
+    
   </head>
   <body>
     {% cookielaw_banner %}
