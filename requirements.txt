@@ -12,7 +12,7 @@ django-exclusivebooleanfield==0.3.0
 django-flat-responsive
 django-gravatar2==1.4.2
 django-model-changes==0.15
-django-rest-elasticsearch==0.3.1
+django-rest-elasticsearch==0.4.1
 django-rosetta==0.8.1
 django-timezone-field==2.1
 django-widget-tweaks==1.4.1
