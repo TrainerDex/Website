@@ -36,5 +36,4 @@ class HTML:
         url(r'^profile\/id\/(?P<id>[0-9]+)\/?$', CheckURLShortcut, name='profile'),
         url(r'^tools\/update_stats\/?$', CreateUpdateHTMLView, name='update_stats'),
         url(r'^(?P<username>[a-zA-Z0-9]+)\/?$', TrainerProfileHTMLView, name='profile_username'),
-        url(r'^update\/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})\/?$', UpdateInstanceHTMLView, name='update_detail'),
     ]
