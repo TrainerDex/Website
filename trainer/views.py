@@ -497,7 +497,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	if continent:
 		try:
 			continent = Continent.objects.prefetch_related('countries').get(code__iexact = continent)
-		except DoesNotExist:
+		except Continent.DoesNotExist:
 			raise Http404('No continent found for code {}'.format(continent))
 		countries_in_continent = continent.countries.all()
 		title = continent.name
@@ -505,14 +505,16 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	elif country and region == None:
 		try:
 			country = Country.objects.prefetch_related('leaderboard_trainers_country').get(code__iexact = country)
-		except DoesNotExist:
+		except Country.DoesNotExist:
 			raise Http404('No country found for code {}'.format(country))
 		title = country.name
 		QuerySet = country.leaderboard_trainers_country
 	elif region:
 		try:
 			region = Region.objects.filter(country__code__iexact = country).get(code__iexact = region)
-		except DoesNotExist:
+		except Country.DoesNotExist:
+			raise Http404('No country found for code {}'.format(country))
+		except Region.DoesNotExist:
 			raise Http404('No region found for code {}/{}'.format(country, region))
 		title = ', '.join([x.name for x in reversed(region.hierarchy)])
 		QuerySet = region.leaderboard_trainers_region
