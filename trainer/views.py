@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins, EmailMessage
 from django.db.models import Max, Q, Sum
-from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest, Http404
+from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -313,6 +313,10 @@ class DiscordLeaderboardAPIView(APIView):
 		output['leaderboard'] = serializer.data
 		return Response(output)
 	
+
+def fortyx(request, username):
+	trainer = get_object_or_404(Trainer, username__iexact=username)
+	return HttpResponse("40x{}".format(trainer.update_set.latest('update_time').xp/20000000))
 
 # Web-based views
 
