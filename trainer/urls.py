@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from django.conf.urls import url
 from trainer.views import TrainerListJSONView, TrainerDetailJSONView, UpdateListJSONView, LatestUpdateJSONView, UpdateDetailJSONView, UserViewSet, SocialLookupJSONView, LeaderboardJSONView, DiscordLeaderboardAPIView
-from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, UpdateInstanceHTMLView, CheckURLShortcut
+from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, UpdateInstanceHTMLView, CheckURLShortcut, fortyx
 from trainer.errors import ThrowMalformedPKError, ThrowMalformedUUIDError
 
 class REST:
@@ -36,4 +36,5 @@ class HTML:
         url(r'^profile\/id\/(?P<id>[0-9]+)\/?$', CheckURLShortcut, name='profile'),
         url(r'^tools\/update_stats\/?$', CreateUpdateHTMLView, name='update_stats'),
         url(r'^(?P<username>[a-zA-Z0-9]+)\/?$', TrainerProfileHTMLView, name='profile_username'),
+        url(r'^(?P<username>[a-zA-Z0-9]+)\/40x?$', fortyx, name='profile_40x'),
     ]
