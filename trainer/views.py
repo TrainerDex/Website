@@ -560,9 +560,16 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		trainer_stats['columns'] = FIELDS
 		Results.append(trainer_stats)
 	
+	try:
+		page = int(request.GET.get('page')) or 1
+	except ValueError:
+		page = 1
+	start=(page-1)*100
+	end=start+100
+	
 	context = {
 		'title': title,
-		'leaderboard' : Results,
+		'leaderboard' : Results[start:end],
 		'valor' : showValor,
 		'mystic' : showMystic,
 		'instinct' : showInstinct,
