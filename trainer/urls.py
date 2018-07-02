@@ -30,7 +30,7 @@ class HTML:
         url(r'^leaderboard\/?$', LeaderboardHTMLView, name='leaderboard'),
         url(r'^leaderboard\/continent\/(?P<continent>[a-zA-Z]+)\/?$', LeaderboardHTMLView, name='leaderboard'),
         url(r'^leaderboard\/country\/(?P<country>[a-zA-Z]+)\/?$', LeaderboardHTMLView, name='leaderboard'),
-        url(r'^leaderboard\/country\/(?P<country>[a-zA-Z]+)\/(?P<region>[a-zA-Z]+)\/?$', LeaderboardHTMLView, name='leaderboard'),
+        url(r'^leaderboard\/country\/(?P<country>[a-zA-Z]+)\/(?P<region>[a-zA-Z0-9]+)\/?$', LeaderboardHTMLView, name='leaderboard'),
         url(r'^profile\/?$', CheckURLShortcut, name='profile'),
         url(r'^profile\/username\/(?P<username>[a-zA-Z0-9]+)\/?$', CheckURLShortcut, name='profile'),
         url(r'^profile\/id\/(?P<id>[0-9]+)\/?$', CheckURLShortcut, name='profile'),
