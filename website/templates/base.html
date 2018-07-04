@@ -12,19 +12,21 @@
     {% load account %}
     
     <title>{% block head_title %}{% endblock %} | TrainerDex</title>
-    <meta name="description" content="{% trans 'Introducing TrainerDex, the social experience Pokemon Go is lacking!' %}">
-    
+    <meta name="description" content="{% trans 'TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!' %}">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" sizes="192x192" href="{% static 'img/android-desktop.png' %}">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="TrainerDex">
     <link rel="apple-touch-icon-precomposed" href="{% static 'img/ios-desktop.png' %}">
+    <link rel="fluid-icon" type="image/png" href="{% static 'img/ios-desktop.png' %}" />
     <meta name="msapplication-TileImage" content="{% static 'img/touch/ms-touch-icon-144x144-precomposed.png' %}">
     <meta name="msapplication-TileColor" content="#448aff">
     <link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
+    <meta property="og:site_name" content="TrainerDex" />
     {% block extra_head %}
     {% endblock %}
+    <meta name="fb:page_id" content="1683676791663912" />
     
     <script src="//twemoji.maxcdn.com/twemoji.min.js?11.0"></script>
     <link rel="stylesheet" href="{% static 'node_modules/material-design-lite/material.min.css' %}">
@@ -38,14 +40,6 @@
     
     <link rel="stylesheet" type="text/css" href="{% static 'node_modules/dialog-polyfill/dialog-polyfill.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'cookielaw/css/cookielaw.css' %}" />
-    
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({
-              google_ad_client: "ca-pub-2420889738442704",
-              enable_page_level_ads: true
-         });
-    </script>
     
   </head>
   <body>
