@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins, EmailMessage
 from django.db.models import Max, Q, Sum
-from django.http import HttpResponseRedirect, QueryDict, HttpResponseBadRequest, Http404, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict, HttpResponseBadRequest, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -369,7 +369,7 @@ def _check_if_self_valid(request):
 	except Http404:
 		return False
 
-def CheckURLShortcut(request, username=None, id=None):
+def TrainerRedirectorView(request, username=None, id=None):
 	if username:
 		trainer = get_object_or_404(Trainer, username__iexact=username)
 	elif id:
@@ -383,10 +383,7 @@ def CheckURLShortcut(request, username=None, id=None):
 	else:
 		trainer = request.user.trainer
 	
-	if resolve(reverse('profile_username', kwargs={'username':trainer.username})).func == TrainerProfileHTMLView:
-		return HttpResponseRedirect(reverse('profile_username', kwargs={'username':trainer.username}))
-	else:
-		return TrainerProfileHTMLView(request, username=trainer.username)
+	return HttpResponsePermanentRedirect(reverse('profile_username', kwargs={'username':trainer.username}))
 
 def TrainerProfileHTMLView(request, username):
 	if request.user.is_authenticated() and not _check_if_self_valid(request):

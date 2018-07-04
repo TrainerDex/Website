@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import uuid
 from os.path import splitext
-from cities.models import Country, Region, Subregion, City, District
+from cities.models import Country, Region
 from colorful.fields import RGBColorField
 from datetime import date, datetime
 from django.contrib.auth.models import User
@@ -142,7 +142,7 @@ class Trainer(models.Model):
 			self.leaderboard_region = None
 	
 	def get_absolute_url(self):
-		return reverse('profile', kwargs={'id':self.pk})
+		return reverse('profile_username', kwargs={'username':self.username})
 	
 	class Meta:
 		ordering = ['username']
@@ -299,9 +299,6 @@ class Update(models.Model):
 		
 		if error_dict != {}:
 			raise ValidationError(error_dict)
-	
-	def get_absolute_url(self):
-		return reverse('update_detail', kwargs={'uuid':self.uuid})
 	
 	class Meta:
 		get_latest_by = 'update_time'
