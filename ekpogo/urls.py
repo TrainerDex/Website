@@ -1,5 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
+from django.contrib.sitemaps.views import sitemap
 from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
@@ -12,12 +13,21 @@ from website.views import *
 from trainer import urls as TrainerURLS
 from support import urls as SupportURLS
 from trainer.views import SetUpProfileViewStep2, SetUpProfileViewStep3
+from trainer import sitemaps
 
 api_v1_patterns = [
     url('', include(TrainerURLS.REST, namespace="trainer_api")),
 ]
 
 urlpatterns = [
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': {
+        'base': sitemaps.BaseSitemap,
+        'continent':sitemaps.LeaderboardContinentSitemap,
+        'country':sitemaps.LeaderboardCountrySitemap,
+        'region':sitemaps.LeaderboardRegionSitemap,
+        'trainers':sitemaps.TrainerSitemap
+    }},
+    name='django.contrib.sitemaps.views.sitemap'),
     url(r'^api\/v1\/', include(api_v1_patterns, namespace="api_v1")),
     url(r'^api\/admin\/', admin.site.urls),
     url(r'^api-token-auth\/', views.obtain_auth_token),
