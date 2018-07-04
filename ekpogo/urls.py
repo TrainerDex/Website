@@ -27,8 +27,7 @@ urlpatterns = [
     url(r'^accounts\/profile/first_update\/?$', SetUpProfileViewStep3, name='profile_first_post'),
     url(r'^accounts\/', include('allauth.urls')),
     url(r'^tools\/rosetta\/', include('rosetta.urls')),
-    url(r'^$', RedirectView.as_view(pattern_name='leaderboard', permanent=False), name='home'),
-    url(r'^communities\/?$', Status410),
+    url(r'^$', RedirectView.as_view(pattern_name='leaderboard', permanent=True), name='home'),
     url(r'^help\/', include(SupportURLS, namespace='help')),
     url('', include(TrainerURLS.HTML)),
 ]
@@ -38,5 +37,5 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
 
-admin.site.site_header = "TrainerDex Admin"
-admin.site.site_title = "TrainerDex Admin"
+admin.site.site_title = "TrainerDex"
+admin.site.site_header = admin.site.site_title+" Admin"
