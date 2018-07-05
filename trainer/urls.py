@@ -4,6 +4,7 @@ from trainer.views import TrainerListJSONView, TrainerDetailJSONView, UpdateList
 from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, UpdateInstanceHTMLView, TrainerRedirectorView, fortyx
 from trainer.errors import ThrowMalformedPKError, ThrowMalformedUUIDError
 from django.views import defaults
+from ekpogo.views import *
 
 class REST:
     
@@ -36,6 +37,6 @@ class HTML:
         url(r'^tools\/update_stats\/?$', CreateUpdateHTMLView, name='update_stats'),
         url(r'^(?P<username>[a-zA-Z0-9]+)\/?$', TrainerRedirectorView),
         url(r'^u\/(?P<username>[a-zA-Z0-9]+)\/?$', TrainerProfileHTMLView, name='profile_username'),
-        url(r'^update\/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})\/?$', defaults.page_not_found),
+        url(r'^update\/([a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})\/?$', Raise404UpdateURL),
         url(r'^u\/(?P<username>[a-zA-Z0-9]+)\/40x?$', fortyx, name='profile_40x'),
     ]
