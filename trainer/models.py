@@ -4,8 +4,9 @@ from os.path import splitext
 from cities.models import Country, Region
 from colorful.fields import RGBColorField
 from datetime import date, datetime
+from django.conf import settings
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import CICharField
+from django.contrib.postgres import fields as postgres_fields
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import *
@@ -31,7 +32,7 @@ def VerificationUpdateImagePath(instance, filename):
 
 class Trainer(models.Model):
 	owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
-	username = CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], verbose_name=_("Username"), help_text=_("Your Trainer Username exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."))
+	username = postgres_fields.CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], verbose_name=_("Username"), help_text=_("Your Trainer Username exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."))
 	start_date = models.DateField(null=True, blank=True, validators=[StartDateValidator], verbose_name=_("Start Date"), help_text=_("The date you created your Pokémon Go account."))
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"), help_text=_("Mystic = Blue, Instinct = Yellow, Valor = Red.") )
 	has_cheated = models.BooleanField(default=False, verbose_name=_("Historic Cheater"), help_text=_("Have you cheated in the past?"))
@@ -317,3 +318,64 @@ class TrainerReport(models.Model):
 	class Meta:
 		verbose_name=_("Report")
 		verbose_name_plural=_("Reports")
+
+class DiscordGuild(models.Model):
+	id = models.BigIntegerField(primary_key=True)
+	cached_data = postgres_fields.JSONField(null=True, blank=True)
+	cached_date = models.DateTimeField(auto_now=True)
+	
+	setting_channels_ocr_enabled = postgres_fields.ArrayField(models.BigIntegerField())
+	setting_rename_users = models.BooleanField(default=False)
+	
+	def __str__(self):
+		return str(self.id)
+	
+
+class PrivateLeague(models.Model):
+	uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
+	language = models.CharField(max_length=7, choices=settings.LANGUAGES)
+	short_description = models.CharField(max_length=70)
+	description = models.TextField(null=True, blank=True)
+	vanity = models.SlugField()
+	
+	privacy_public = models.BooleanField(default=False)
+	
+	security_ban_sync = models.BooleanField(default=False)
+	security_kick_sync = models.BooleanField(default=False)
+	
+	memberships_personal = models.ManyToManyField(
+		Trainer,
+		through='PrivateLeagueMembershipPersonal',
+		through_fields=('league', 'trainer')
+	)
+	memberships_discord = models.ManyToManyField(
+		DiscordGuild,
+		through='PrivateLeagueMembershipDiscord',
+		through_fields=('league', 'discord')
+	)
+	
+	def __str__(self):
+		return self.short_description
+
+class PrivateLeagueMembershipPersonal(models.Model):
+	league = models.ForeignKey(PrivateLeague, on_delete=models.CASCADE)
+	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+	
+	primary = models.BooleanField(default=True)
+	
+	def __str__(self):
+		return "{league} - {trainer}".format(league=self.league, trainer=self.trainer)
+	
+
+class PrivateLeagueMembershipDiscord(models.Model):
+	league = models.ForeignKey(PrivateLeague, on_delete=models.CASCADE)
+	discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
+	
+	auto_import = models.BooleanField(default=True)
+	
+	security_ban_sync = models.NullBooleanField()
+	security_kick_sync = models.NullBooleanField()
+	
+	def __str__(self):
+		return "{league} - {guild}".format(league=self.league, trainer=self.discord)
+	
