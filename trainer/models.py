@@ -40,7 +40,8 @@ class Trainer(models.Model):
 	statistics = models.BooleanField(default=True, verbose_name=_("Statistics"))
 	daily_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Rate Goal"))
 	total_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Reach Goal"))
-	last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last Modified"))
+	
+	trainer_code = models.CharField(null=True, blank=True, validators=[TrainerCodeValidator], verbose_name=_("Trainer Code"), max_length=15)
 	
 	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2017"))
 	outbreak_2017 = models.BooleanField(default=False, verbose_name=_("Pikachu Outbreak 2017"))
@@ -57,6 +58,7 @@ class Trainer(models.Model):
 	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region')
 	
 	verified = models.BooleanField(default=False, verbose_name=_("Verified"))
+	last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last Modified"))
 	
 	event_10b = models.BooleanField(default=False)
 	event_1k_users = models.BooleanField(default=False)

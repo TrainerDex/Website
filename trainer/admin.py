@@ -34,7 +34,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 	ordering = ('username',)
 	fieldsets = (
 		(None, {
-			'fields': ('owner', 'username', 'faction', 'start_date', 'daily_goal', 'total_goal',)
+			'fields': ('owner', 'username', 'faction', 'start_date', 'daily_goal', 'total_goal','trainer_code')
 		}),
 		(_('Reports'), {
 			'fields': ('has_cheated', 'last_cheated', 'currently_cheats', 'verified', 'verification')

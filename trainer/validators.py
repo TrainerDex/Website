@@ -14,4 +14,9 @@ def PokemonGoUsernameValidator(value):
 	if not match:
 		raise ValidationError(_("The username you entered is not a valid Pokemon Go username."), params={'value': value})
 
+def TrainerCodeValidator(value):
+	match = re.match('(\d{4}\s?){3}', value)
+	if not match:
+		raise ValidationError(_("Trainer Code must be 12 digits long and contain only numbers and whitespace."), params={'value': value})
+
 username_validator = [PokemonGoUsernameValidator]
