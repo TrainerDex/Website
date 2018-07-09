@@ -31,7 +31,7 @@ def VerificationUpdateImagePath(instance, filename):
 
 class Trainer(models.Model):
 	owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
-	username = CICharField(max_length=30, unique=True, validators=[PokemonGoUsernameValidator], verbose_name=_("Username")) #CaseInsensitive
+	username = CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], verbose_name=_("Username")) #CaseInsensitive
 	start_date = models.DateField(null=True, blank=True, validators=[StartDateValidator], verbose_name=_("Start Date"))
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"))
 	has_cheated = models.BooleanField(default=False, verbose_name=_("Historic Cheater"))
