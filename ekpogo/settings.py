@@ -79,6 +79,7 @@ ROOT_URLCONF = 'ekpogo.urls'
 ADMIN_REORDER = (
     {'app': 'auth', 'models': ('auth.User', 'auth.Group', 'account.EmailAddress', 'authtoken.Token')},
     {'app': 'trainer', 'models': ('trainer.Trainer', 'trainer.Update', 'trainer.TrainerReport', 'trainer.Faction')},
+    'trainer',
     'socialaccount',
     'sites',
     'cities',
