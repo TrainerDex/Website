@@ -41,10 +41,12 @@
         {% if field.id_for_label == 'id_pkmn_normal' %}
         <h5>{% trans "Pokémon Type Medals" %}</h5>
         {% endif %}
+        <br>
         {% if field.field.widget.input_type == 'text' or field.field.widget.input_type == 'number' %}
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if field.errors %} is-invalid{% endif %}">
             {{ field|add_class:"mdl-textfield__input"}}
             <label class="mdl-textfield__label" for="{{field.id_for_label}}">{{field.label}}{% if field.field.required == True %}*{% endif %}</label>
+            <span>{{field.help_text}}</span>
             {% for error in field.errors %}
               <span class="mdl-textfield__error">{{error}}</span>
             {% endfor %}
@@ -53,6 +55,7 @@
           <div class="mdlext-selectfield mdlext-js-selectfield mdlext-selectfield--floating-label{% if field.errors %} is-invalid{% endif %}">
             {{ field|add_class:"mdlext-selectfield__select"}}
             <label class="mdlext-selectfield__label" for="{{field.id_for_label}}">{{field.label}}{% if field.field.required == True %}*{% endif %}</label>
+            <span>{{field.help_text}}</span>
             {% for error in field.errors %}
               <span class="mdlext-selectfield__error">{{error}}</span>
             {% endfor %}
@@ -60,12 +63,13 @@
         {% elif field.field.widget.input_type == 'checkbox'%}
           <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{field.id_for_label}}" >
             {{ field|add_class:"mdl-checkbox__input"}}
-            <span class="mdl-checkbox__label">{{field.label}}</span>
+            <span class="mdl-checkbox__label">{{field.label}} - {{field.help_text}}</span>
           </label><br>
         {% elif field.field.widget.input_type == 'file'%}
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--file{% if field.errors %} is-invalid{% endif %}">
             <input class="mdl-textfield__input" placeholder="{{field.label}}{% if field.field.required == True %}*{% endif %}" type="text" id="text_{{field.id_for_label}}" readonly />
             <label class="mdl-textfield__label" for="{{field.id_for_label}}">{{field.label}}{% if field.field.required == True %}*{% endif %}</label>
+            <span>{{field.help_text}}</span>
             {% for error in field.errors %}
               <span class="mdl-textfield__error">{{error}}</span>
             {% endfor %}
@@ -76,6 +80,7 @@
           </div><br>
         {% else %}
           {{field}}<br>
+          {{field.help_text}}<br>
           {{field.errors}}<br>
         {% endif %}
       
