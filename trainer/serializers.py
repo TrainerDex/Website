@@ -41,7 +41,7 @@ class BriefTrainerSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Trainer
-		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'leaderboard_country', 'leaderboard_region', 'update_set', 'prefered')
+		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'trainer_code', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'leaderboard_country', 'leaderboard_region', 'update_set', 'prefered')
 
 class DetailedTrainerSerializer(serializers.ModelSerializer):
 	update_set = BriefUpdateSerializer(read_only=True, many=True)
@@ -52,7 +52,7 @@ class DetailedTrainerSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Trainer
-		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen', 'leaderboard_country', 'leaderboard_region', 'update_set', 'prefered', 'verified')
+		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'trainer_code', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen', 'leaderboard_country', 'leaderboard_region', 'update_set', 'prefered', 'verified')
 
 class DetailedTrainerSerializerPATCH(serializers.ModelSerializer):
 	update_set = BriefUpdateSerializer(read_only=True, many=True)
@@ -64,7 +64,7 @@ class DetailedTrainerSerializerPATCH(serializers.ModelSerializer):
 	class Meta:
 		model = Trainer
 		read_only_fields = ('id', 'owner', 'username', 'faction')
-		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen', 'leaderboard_country', 'leaderboard_region', 'update_set', 'prefered', 'verified')
+		fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'trainer_code', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen', 'leaderboard_country', 'leaderboard_region', 'update_set', 'prefered', 'verified')
 
 class UserSerializer(serializers.ModelSerializer):
 	profiles = serializers.SerializerMethodField()
