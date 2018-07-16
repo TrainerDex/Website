@@ -2,7 +2,7 @@
 from allauth.socialaccount.models import SocialAccount
 from annoying.functions import get_object_or_this
 from cities.models import Continent, Country, Region
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from django import forms
 from django.conf import settings
 from django.contrib import messages
@@ -35,7 +35,10 @@ import requests
 logger = logging.getLogger('django.trainerdex')
 
 def _leaderboard_queryset_filter(queryset, spoofers=False):
-	return queryset.exclude(statistics=False).exclude(verified=False).exclude(currently_cheats = not spoofers).select_related('faction')
+	if spoofers is False:
+		return queryset.exclude(statistics=False).exclude(verified=False).exclude(currently_cheats = True).exclude(last_cheated__gt=date.today()-timedelta(weeks=26)).select_related('faction')
+	else:
+		return queryset.exclude(statistics=False).exclude(verified=False).exclude(currently_cheats = False).select_related('faction')
 
 # RESTful API Views
 
@@ -523,7 +526,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		title = None
 		QuerySet = Trainer.objects
 	
-	QuerySet = QuerySet.select_related('faction').exclude(statistics=False).exclude(verified=False).exclude(currently_cheats = not nullbool(request.GET.get('spoofers'), default=False))
+	QuerySet = _leaderboard_queryset_filter(QuerySet, spoofers=nullbool(request.GET.get('spoofers'), default=False))
 	
 	
 	ORDER = request.GET.get('order') if request.GET.get('order') in list(UPDATE_FIELDS_BADGES)+list(UPDATE_FIELDS_TYPES) else 'xp'
