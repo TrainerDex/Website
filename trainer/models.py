@@ -246,6 +246,10 @@ class Update(models.Model):
 		('ss_registration', _noop('Registration w/ Screenshot')),
 		('ss_generic', _noop('Generic Screenshot')),
 		('ss_ocr', _noop("OCR Screenshot")),
+		('com.nianticlabs.pokemongo.friends', _noop("In Game Friends")),
+		('com.pokeassistant.trainerstats', "Poké Assistant"),
+		('com.pokenavbot.profiles', "PokeNav"),
+		('tl40datateam.spreadsheet', "Tl40 Data Team"),
 	)
 	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
 	
