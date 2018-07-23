@@ -9,12 +9,13 @@ logger = logging.getLogger('django.trainerdex')
 from os.path import splitext
 from cities.models import Country, Region
 from colorful.fields import RGBColorField
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone, time
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.postgres import fields as postgres_fields
 from django.core.exceptions import ValidationError, ObjectDoesNotExist, PermissionDenied
 from django.db import models
+from django.db.models import Max
 from django.db.models.signals import *
 from django.dispatch import receiver
 from django.urls import reverse
@@ -22,7 +23,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext_noop, pgettext_lazy,to_locale, get_supported_language_variant, get_language
 from trainer.validators import *
-from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, lookup, numbers
+from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, lookup, numbers, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
 
 def factionImagePath(instance, filename):
 	return f'img/{instance.slug}'
@@ -314,7 +315,7 @@ class Faction(models.Model):
 			language=_('Brazilian Portuguese')
 		)
 	)
-	#colour = RGBColorField(default='#929292', null=True, blank=True, verbose_name=_("Colour"))
+	colour = RGBColorField(default='#929292', null=True, blank=True, verbose_name=_("Colour"))
 	
 	@property
 	def image(self):
@@ -409,7 +410,7 @@ class Update(models.Model):
 	uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
 	trainer = models.ForeignKey('Trainer', on_delete=models.CASCADE, verbose_name=_("Trainer"))
 	update_time = models.DateTimeField(default=timezone.now, verbose_name=_("Time Updated"))
-	xp = models.PositiveIntegerField(verbose_name=pgettext_lazy("PROFILE_TOTAL_XP", "Total XP"), help_text=_("Your Total XP can be found at the bottom of your Pokémon Go profile"))
+	xp = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("PROFILE_TOTAL_XP", "Total XP"), help_text=_("Your Total XP can be found at the bottom of your Pokémon Go profile"))
 	dex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokedex_page_caught", "Caught"), help_text=_("In your Pokédex, how many differnt species have you caught? It should say at the top."))
 	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokedex_page_seen", "Seen"), help_text=_("In your Pokédex, how many differnt species have you seen? It should say at the top."))
 	gym_badges = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Total Gym Badges"), help_text=_("Your gym badges map. Total number of gold, silver, bronze and blank combined. (This information is currently not used)"))
@@ -492,25 +493,105 @@ class Update(models.Model):
 	meta_crowd_sourced.short_description = _("Crowd Sourced")
 	
 	def modified_extra_fields(self):
-		return bool([x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES) if getattr(self, x)])
+		return bool([x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('dex_caught', 'dex_seen', 'gym_badges')) if getattr(self, x)])
 	modified_extra_fields.boolean = True
 	
 	def __str__(self):
-		return _("{username} - {xp:,}XP at {date}").format(username=self.trainer, xp=self.xp, date=self.update_time.isoformat(sep=' ', timespec='minutes'))
+		if self.xp:
+			if self.modified_extra_fields():
+				return _("{username} - {xp:,}XP and {stats_num} stats updated at {date}").format(username=self.trainer.username, xp=self.xp, stats_num=sum([bool(getattr(self, x)) for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('dex_caught', 'dex_seen', 'gym_badges'))]), date=self.update_time.isoformat(sep=' ', timespec='minutes'))
+			else:
+				return _("{username} - {xp:,}XP at {date}").format(username=self.trainer.username, xp=self.xp, date=self.update_time.isoformat(sep=' ', timespec='minutes'))
+		else:
+			return _("{username} - {stats_num} stats updated at {date}").format(username=self.trainer.username, stats_num=sum([bool(getattr(self, x)) for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('xp', 'dex_caught', 'dex_seen', 'gym_badges'))]), date=self.update_time.isoformat(sep=' ', timespec='minutes'))
 	
 	def clean(self):
 		
 		error_dict = {}
 		try: # Workaround for inital registrations
+			if self.update_time < datetime.combine(self.trainer.start_date, time(tzinfo=timezone.utc)):
+				error_dict['update_time'] = ValidationError(_("You can't post before your start date."))
+
 			for field in Update._meta.get_fields():
-				if type(field) == models.PositiveIntegerField or field.name == 'walk_dist':
-					largest = Update.objects.filter(trainer=self.trainer, update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name).first() # Gets updates, filters by same trainer, excludes updates where that field is empty, get update with highest value in that field - this should always be the correct update
-					if largest is not None and getattr(self, field.name) is not None and getattr(self, field.name) <= getattr(largest, field.name):
-						error_dict[field.name] = ValidationError(_("This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."))
+				if field.name in UPDATE_NON_REVERSEABLE_FIELDS and bool(getattr(self, field.name)):
+					# Get latest update with that field present, only get the important fields.
+					largest = self.trainer.update_set.filter(update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name).only(field.name, 'update_time').first()
+					if bool(largest) and bool(getattr(self, field.name)):
+						if getattr(self, field.name) < getattr(largest, field.name):
+							error_dict[field.name] = ValidationError(_("This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."))
+						elif getattr(self, field.name) == getattr(largest, field.name):
+							if field.name in ['gen_1_dex','gen_2_dex','gen_3_dex','unown_alphabet'] and getattr(self, field.name) >= {'gen_1_dex':151,'gen_2_dex':100,'gen_3_dex':135,'unown_alphabet':28}[field.name]:
+								# Field is max'd, empty value
+								setattr(self, field.name, None)
+							else:
+								# Field isn't maxable, let it be stored
+								pass
+						
+					# Field specific Validation
+					
+					# 1 - Ace Trainer
+					if field.name == 'legacy_gym_trained' and self.update_time > datetime(2016,6,19,20,00):
+						if bool(largest) and largest.update_time.date() == date(2016,6,19):
+							pass
+						else:
+							if self.trainer.start_date < date(2016,6,19):
+								self.trainer.update_set.create(update_time=datetime(2016,6,19,20,00), legacy_gym_trained=self.legacy_gym_trained)
+							self.legacy_gym_trained = None
+							
+					# 2 - berry_fed, gyms_defended, raids_completed
+					if field.name in ['berry_fed', 'gym_defended', 'raids_completed'] and self.update_time < datetime(2016,6,22,20,00):
+						setattr(self, field.name, None)
+					
+					# 3 - leg_raids_completed
+					# More validation needed - rest of world got it later
+					if field.name == 'leg_raids_completed' and self.update_time < datetime(2016,7,22,20,00):
+						setattr(self, field.name, None)
+					
+					# 4 - gen_1_dex
+					GEN_1_MAX = 151
+					if field.name == 'gen_1_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_1_MAX:
+						error_dict[field.name] = ValidationError(_(f"There are only {GEN_1_MAX} Pokémon in the Kanto region."))
+					
+					# 5 gen_2_dex
+					# More validation needed - how many and when?
+					GEN_2_MAX = 100
+					if field.name == 'gen_2_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_2_MAX:
+						error_dict[field.name] = ValidationError(_(f"There are only {GEN_2_MAX} Pokémon in the Johto region."))
+					if field.name == 'gen_2_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2016,12,12):
+						setattr(self, field.name, None)
+					
+					# 6 - gen_3_dex
+					# More validation needed - how many and when?
+					GEN_3_MAX = 135
+					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_3_MAX:
+						error_dict[field.name] = ValidationError(_(f"There are only {GEN_3_MAX} Pokémon in the Hoenn region."))
+					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and self.update_time < datetime(2016,10,20,20,00):
+						setattr(self, field.name, None)
+					
+					# 7 - quests
+					if field.name == 'quests' and self.update_time < datetime(2016,3,30,20,00):
+						setattr(self, field.name, None)
+				
+					# 8 - quests
+					if field.name in ['max_friends','trading','trading_distance'] and self.update_time < datetime(2016,6,21,20,00):
+						setattr(self, field.name, None)
+					
+					# 9 - unown_alphabet
+					UNOWN_MAX = 28
+					if field.name == 'unown_alphabet' and bool(getattr(self, field.name)) and getattr(self, field.name) > UNOWN_MAX:
+						error_dict[field.name] = ValidationError(_(f"There are only {UNOWN_MAX} different forms of Unown."))
+					
+						
 		except Exception as e:
 			if str(e) != 'Update has no trainer.':
 				raise e
 		
+		if (Update.objects.filter(trainer=self.trainer, xp__isnull=False).count() == 0 and self.xp is None) or (Update.objects.filter(trainer=self.trainer, xp__isnull=False).count() == 1 and self.xp is None and self.uuid == Update.objects.filter(trainer=self.trainer, xp__isnull=False)[0].uuid):
+			error_dict['xp'] = ValidationError('You need to enter an XP on your first update')
+		
+		if not any([getattr(self, x) for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('xp', 'dex_caught', 'dex_seen', 'gym_badges'))]):
+			raise ValidationError(_("No valid fields filled. If you only entered a field that is already max'd, this is why. We clear max'd fields."))
+
 		if error_dict != {}:
 			raise ValidationError(error_dict)
 	
@@ -541,7 +622,7 @@ class Update(models.Model):
 #						headers = {"Authorization": "Bot {token}".format(
 #							token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")}
 #					)
-#					
+#
 #					try:
 #						if check.json()['nick']:
 #							base_name = check.json()['nick']
@@ -549,18 +630,18 @@ class Update(models.Model):
 #							base_name = kwargs['instance'].trainer.username
 #					except KeyError:
 #						base_name = kwargs['instance'].trainer.username
-#					
+#
 #					if ord(base_name[-1]) in numbers:
 #						base_name = base_name[:-2]
-#					
+#
 #					new_name = base_name+" "+int_to_unicode(kwargs['instance'].trainer.level())
-#					
+#
 #					logger.info("Renaming {user} on Discord Guild #{guild_id} to {name}".format(
 #						user=kwargs['instance'].trainer.username,
 #						guild_id=guild.id,
 #						name=new_name
 #					))
-#					
+#
 #					edit = requests.patch(
 #						url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
 #							guild = guild.id,
@@ -569,14 +650,14 @@ class Update(models.Model):
 #						headers={"Authorization": "Bot {token}".format(
 #							token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")},
 #						json={"nick": new_name})
-#					
+#
 #					if edit.status_code != 204:
 #						logger.error("^ {code} ^ Failed to rename user, trying again \n {log}".format(
 #							code=edit.status_code,
 #							log=edit.content))
-#						
+#
 #						# I'm not 100% sure tryiing again will ever work. Maybe a workaround could be messaging the user via one of the set OCR channels and letting them know the bot in unable to rename them and they'll have to manage it themselves.
-#						
+#
 #						edit = requests.patch(
 #							url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
 #								guild = guild.id,
@@ -584,7 +665,7 @@ class Update(models.Model):
 #							),
 #							headers={"Authorization": "Bearer {oauth2_token}".format(oauth2_token=user.socialtoken_set.first().token)},
 #							json={"nick": new_name})
-#						
+#
 #						if edit.status_code != 204:
 #							logger.error("^ {code} ^ Failed to rename user again \n {log}".format(
 #								code=edit.status_code,
@@ -627,7 +708,6 @@ class DiscordGuild(models.Model):
 	class Meta:
 		verbose_name = _("Discord Guild")
 		verbose_name_plural = _("Discord Guilds")
-	
 
 class CommunityLeague(models.Model):
 	uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
@@ -671,7 +751,6 @@ class CommunityLeagueMembershipPersonal(models.Model):
 	class Meta:
 		verbose_name = _("Community League Membership")
 		verbose_name_plural = _("Community League Memberships")
-	
 
 class CommunityLeagueMembershipDiscord(models.Model):
 	league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
@@ -688,4 +767,3 @@ class CommunityLeagueMembershipDiscord(models.Model):
 	class Meta:
 		verbose_name = _("Community League Discord Connection")
 		verbose_name_plural = _("Community League Discord Connections")
-	
