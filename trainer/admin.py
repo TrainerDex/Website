@@ -49,7 +49,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 		}),
 		(_('2018 Events'), {
 			'classes': ('collapse',),
-			'fields': ('go_fest_2018',)
+			'fields': ('go_fest_2018','special_weekend_2018')
 		}),
 		(_('Website Badges'), {
 			'fields': ('event_10b','event_1k_users')

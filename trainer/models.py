@@ -54,6 +54,7 @@ class Trainer(models.Model):
 	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Stockholm, Sweden")
 	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Amstelveen, The Netherlands")
 	go_fest_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2018"))
+	special_weekend_2018 = models.BooleanField(default=False, verbose_name="Pokémon GO Special Weekend")
 	
 	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country', help_text=_("Where are you based?"))
 	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region', help_text=_("Where are you based?"))
