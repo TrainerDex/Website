@@ -27,7 +27,7 @@ from rest_framework.response import Response
 from trainer.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
 from trainer.models import Trainer, Update
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
-from trainer.shortcuts import nullbool, cleanleaderboardqueryset, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
+from trainer.shortcuts import strtoboolornone, cleanleaderboardqueryset, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, chunks
 import logging
 import requests
 
@@ -493,10 +493,9 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
 		return HttpResponseRedirect(reverse('profile_set_up'))
 	
-	showValor = {'param':'Valor', 'value':nullbool(request.GET.get('valor'), default=True)}
-	showMystic = {'param':'Mystic', 'value':nullbool(request.GET.get('mystic'), default=True)}
-	showInstinct = {'param':'Instinct', 'value':nullbool(request.GET.get('instinct'), default=True)}
-	showSpoofers = {'param':'currently_cheats', 'value':nullbool(request.GET.get('spoofers'), default=False)}
+	showValor = {'param':'Valor', 'value': strtoboolornone(request.GET.get('mystic')) or True}
+	showMystic = {'param':'Mystic', 'value': strtoboolornone(request.GET.get('mystic')) or True}
+	showInstinct = {'param':'Instinct', 'value': strtoboolornone(request.GET.get('instinct')) or True}
 	
 	if continent:
 		try:
@@ -526,15 +525,22 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		title = None
 		QuerySet = Trainer.objects
 	
-	QuerySet = _leaderboard_queryset_filter(QuerySet, spoofers=nullbool(request.GET.get('spoofers'), default=False))
+	QuerySet = _leaderboard_queryset_filter(QuerySet)
 	
-	
-	ORDER = request.GET.get('order') if request.GET.get('order') in list(UPDATE_FIELDS_BADGES)+list(UPDATE_FIELDS_TYPES) else 'xp'
-	FIELDS_TO_MAX = list(set(['xp', 'pkmn_caught', 'gym_defended', 'eggs_hatched', 'walk_dist', 'pkstops_spun', 'battles_won', 'update_time']+[ORDER]))
+	SORTABLE_FIELDS = ['update__'+x for x in UPDATE_SORTABLE_FIELDS]
+	fields_to_calculate_max = {'xp', 'pkmn_caught', 'gym_defended', 'eggs_hatched', 'walk_dist', 'pkstops_spun', 'battles_won', 'update_time'}
+	if request.GET.get('sort'):
+		if request.GET.get('sort') in UPDATE_SORTABLE_FIELDS:
+			fields_to_calculate_max.add(request.GET.get('sort'))
+			sort_by = request.GET.get('sort')
+		else:
+			sort_by = 'xp'
+	else:
+		sort_by = 'xp'
 	
 	QuerySet = QuerySet.exclude(faction__name__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
 	total_users = QuerySet.count()
-	QuerySet = QuerySet.annotate(*[Max('update__'+str(x)) for x in FIELDS_TO_MAX]).extra(select={'null_order': '{order} IS NULL'.format(order=ORDER)}).order_by('null_order', '-update__{order}__max'.format(order=ORDER), '-update__xp__max', '-update__update_time__max')
+	QuerySet = QuerySet.annotate(*[Max('update__'+x) for x in fields_to_calculate_max]).extra(select={'null_order': '{order} IS NULL'.format(order=sort_by)}).order_by('null_order', '-update__{order}__max'.format(order=sort_by), '-update__xp__max', '-update__update_time__max', 'faction',)
 	
 	Results = []
 	GRAND_TOTAL = QuerySet.aggregate(Sum('update__xp__max'))
@@ -549,7 +555,10 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		}
 		
 		FIELDS = []
-		for x in [x for x in FIELDS_TO_MAX if x not in ['xp', 'update_time']]:
+		FIELDS_TO_SORT = fields_to_calculate_max.copy()
+		FIELDS_TO_SORT.remove('update_time')
+		FIELDS_TO_SORT = [x for x in UPDATE_SORTABLE_FIELDS if x in FIELDS_TO_SORT]
+		for x in FIELDS_TO_SORT:
 			FIELDS.append(
 				{
 					'name':x,
@@ -573,10 +582,9 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		'valor' : showValor,
 		'mystic' : showMystic,
 		'instinct' : showInstinct,
-		'spoofers' : showSpoofers,
 		'grand_total_xp' : GRAND_TOTAL['update__xp__max__sum'],
 		'grand_total_users' : total_users,
-		'order_by' : ORDER,
+		'sort_by' : sort_by,
 	}
 	
 	return render(request, 'leaderboard.html', context)
