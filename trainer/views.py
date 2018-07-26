@@ -545,7 +545,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	Results = []
 	GRAND_TOTAL = QuerySet.aggregate(Sum('update__xp__max'))
 	
-	for index, trainer in enumerate(QuerySet, 1):
+	for index, trainer in enumerate(QuerySet.prefetch_related('leaderboard_country'), 1):
 		trainer_stats = {
 			'position' : index,
 			'trainer' : trainer,
@@ -570,21 +570,22 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		Results.append(trainer_stats)
 	
 	try:
-		page = request.GET.get('page') or 1
+		page = int(request.GET.get('page') or 1)
 	except ValueError:
 		page = 1
-	start=(int(page)-1)*100
-	end=start+100
+	pages = list(chunks(Results, 100))
 	
 	context = {
 		'title': title,
-		'leaderboard' : Results[start:end],
+		'leaderboard' : pages[page-1],
 		'valor' : showValor,
 		'mystic' : showMystic,
 		'instinct' : showInstinct,
 		'grand_total_xp' : GRAND_TOTAL['update__xp__max__sum'],
 		'grand_total_users' : total_users,
 		'sort_by' : sort_by,
+		'page': page,
+		'pages' : len(pages)
 	}
 	
 	return render(request, 'leaderboard.html', context)

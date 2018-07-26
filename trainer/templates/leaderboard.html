@@ -27,11 +27,13 @@ function setParam(uri, key, val) {
   <h2 class="mdl-card__title-text">{% block section_title %}{{title|default:"International"}} {% trans "Leaderboard" %}{% endblock %}</h2>
 </header>
 
+
 <div class="mdl-card__menu mdl-color-text--primary-contrast">
-  <button id="set-location" class="mdl-button mdl-js-button mdl-button--icon">
+  <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}-1);" {% if page == 1 %}disabled{% endif %}><i class="material-icons">navigate_before</i></button> {{page}}/{{pages}} <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}+1);"{% if page == pages %}disabled{% endif %}><i class="material-icons">navigate_next</i></button>
+  <button id="set-location" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" disabled>
     <i class="material-icons">pin_drop</i>
   </button>
-  <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon">
+  <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect">
     <i class="material-icons">filter_list</i>
   </button>
   
@@ -47,8 +49,6 @@ function setParam(uri, key, val) {
 
 <div class="mdl-card__supporting-text mdl-color--primary mdl-color-text--primary-contrast" style="width: 100%">
   {% trans 'Total XP' %}: {{ grand_total_xp | intword }} | {% trans 'Trainers Considered' %}: {{ grand_total_users }}
-  <br>
-  Change the page via using the page paramter in the url. Buttons coming soon. I'm lazy. (2nd July 2018)
 </div>
 
 <div class="table-responsive">
