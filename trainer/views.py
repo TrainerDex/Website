@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError, ObjectDoesNotExist, PermissionDenied
 from django.core.mail import mail_admins, EmailMessage
 from django.db.models import Max, Q, Sum
 from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict, HttpResponseBadRequest, Http404, HttpResponse
@@ -457,6 +458,12 @@ def TrainerProfileHTMLView(request, username):
 	context['level'] = level_parser(xp=context['xp'])
 	context['badges'] = badges
 	context['type_badges'] = type_badges
+	try:
+		trainer.get_silph_card()
+	except (ObjectDoesNotExist, PermissionDenied):
+		context['silph_card'] = False
+	else:
+		context['silph_card'] = True
 	
 	return render(request, 'profile.html', context)
 
