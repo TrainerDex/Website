@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-28 20:46+0000\n"
-"PO-Revision-Date: 2018-07-28 20:48+0000\n"
+"PO-Revision-Date: 2018-07-28 21:31+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -316,60 +316,57 @@ msgid ""
 msgstr ""
 
 #: trainer/models.py:48 trainer/templates/profile.html:55
-#, fuzzy
 #| msgid "Pokémon GO Fest Chicago"
 msgid "Pokémon GO Fest 2017"
-msgstr "Pokémon GO Fest en Chicago"
+msgstr "Festival de Pokémon GO"
 
 #: trainer/models.py:48 trainer/templates/profile.html:56
 msgid "Chicago, July 22, 2017"
-msgstr ""
+msgstr "Chicago, 22 de julio de 2017"
 
 #: trainer/models.py:49 trainer/templates/profile.html:62
-#, fuzzy
 #| msgid "Pokémon GO Fest Chicago"
 msgid "Pokémon GO STADIUM"
-msgstr "Pokémon GO Fest en Chicago"
+msgstr "Pokémon GO STADIUM"
 
 #: trainer/models.py:49 trainer/templates/profile.html:63
 msgid "Yokohama, August 2017"
-msgstr ""
+msgstr "Yokohama, agosto de 2017"
 
 #: trainer/models.py:50 trainer/models.py:51 trainer/models.py:52
 #: trainer/templates/profile.html:69 trainer/templates/profile.html:76
 #: trainer/templates/profile.html:83
 msgid "GO Safari Zone - Europe 2017"
-msgstr ""
+msgstr "Zona Safari GO - Europa 2017"
 
 #: trainer/models.py:50 trainer/templates/profile.html:70
 msgid "Europe, September 16, 2017"
-msgstr ""
+msgstr "Europa, 16 de septiembre de 2017"
 
 #: trainer/models.py:51 trainer/templates/profile.html:77
 msgid "Europe, October 7, 2017"
-msgstr ""
+msgstr "Europa, 7 de octubre de 2017"
 
 #: trainer/models.py:52 trainer/templates/profile.html:84
 msgid "Europe, October 14, 2017"
-msgstr ""
+msgstr "Europa, 14 de octubre de 2017"
 
 #: trainer/models.py:53 trainer/templates/profile.html:90
-#, fuzzy
 #| msgid "Pokémon GO Fest Chicago"
 msgid "Pokémon GO Fest 2018"
-msgstr "Pokémon GO Fest en Chicago"
+msgstr "Festival de Pokémon GO"
 
 #: trainer/models.py:53 trainer/templates/profile.html:91
 msgid "Chicago, July 14-15, 2018"
-msgstr ""
+msgstr "Chicago, 14 et 15 de julio de 2018"
 
 #: trainer/models.py:54 trainer/templates/profile.html:97
 msgid "Pokémon GO Special Weekend"
-msgstr ""
+msgstr "Fin de semana especial de Pokémon GO"
 
 #: trainer/models.py:54 trainer/templates/profile.html:98
 msgid "Japan, July 26-29, 2018"
-msgstr ""
+msgstr "Japón, 26-29 de julio de 2018"
 
 #: trainer/models.py:56
 msgid "Country"

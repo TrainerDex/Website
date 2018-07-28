@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-28 20:46+0000\n"
-"PO-Revision-Date: 2018-07-28 20:51+0000\n"
+"PO-Revision-Date: 2018-07-28 21:30+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -325,55 +325,54 @@ msgstr "この情報は公開されます"
 
 #: trainer/models.py:48 trainer/templates/profile.html:55
 msgid "Pokémon GO Fest 2017"
-msgstr "Pokémon GO Fest (2017年)"
+msgstr "Pokémon GO Fest"
 
 #: trainer/models.py:48 trainer/templates/profile.html:56
 msgid "Chicago, July 22, 2017"
-msgstr ""
+msgstr "2017年7月22日シカゴ"
 
 #: trainer/models.py:49 trainer/templates/profile.html:62
-#, fuzzy
 #| msgid "Pokémon GO Fest 2017"
 msgid "Pokémon GO STADIUM"
-msgstr "Pokémon GO Fest (2017年)"
+msgstr "Pokémon GO STADIUM"
 
 #: trainer/models.py:49 trainer/templates/profile.html:63
 msgid "Yokohama, August 2017"
-msgstr ""
+msgstr "2017年8月 横浜"
 
 #: trainer/models.py:50 trainer/models.py:51 trainer/models.py:52
 #: trainer/templates/profile.html:69 trainer/templates/profile.html:76
 #: trainer/templates/profile.html:83
 msgid "GO Safari Zone - Europe 2017"
-msgstr ""
+msgstr "GO Safari Zone - 2017年欧州"
 
 #: trainer/models.py:50 trainer/templates/profile.html:70
 msgid "Europe, September 16, 2017"
-msgstr ""
+msgstr "2017年9月16日 欧州"
 
 #: trainer/models.py:51 trainer/templates/profile.html:77
 msgid "Europe, October 7, 2017"
-msgstr ""
+msgstr "2017年10月7日 欧州"
 
 #: trainer/models.py:52 trainer/templates/profile.html:84
 msgid "Europe, October 14, 2017"
-msgstr ""
+msgstr "2017年10月14日 欧州"
 
 #: trainer/models.py:53 trainer/templates/profile.html:90
 msgid "Pokémon GO Fest 2018"
-msgstr "Pokémon GO Fest (2018年)"
+msgstr "Pokémon GO Fest"
 
 #: trainer/models.py:53 trainer/templates/profile.html:91
 msgid "Chicago, July 14-15, 2018"
-msgstr ""
+msgstr "シカゴ、2018年7月"
 
 #: trainer/models.py:54 trainer/templates/profile.html:97
 msgid "Pokémon GO Special Weekend"
-msgstr ""
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:54 trainer/templates/profile.html:98
 msgid "Japan, July 26-29, 2018"
-msgstr ""
+msgstr "日本 2018/7"
 
 #: trainer/models.py:56
 msgid "Country"
