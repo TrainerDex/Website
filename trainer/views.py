@@ -601,39 +601,6 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	
 	return render(request, 'leaderboard.html', context)
 
-def UpdateInstanceHTMLView(request, uuid):
-	if request.user.is_authenticated() and not _check_if_self_valid(request):
-		messages.warning(request, _("Please complete your profile to continue using the website."))
-		return HttpResponseRedirect(reverse('profile_set_up'))
-	
-	update = get_object_or_404(Update, uuid=uuid)
-	context = {
-		'update' : update,
-		'trainer' : update.trainer,
-		'level' : level_parser(xp=update.xp)
-	}
-	
-	badges = []
-	type_badges = []
-	for badge in BADGES+TYPE_BADGES:
-		badge_dict = {
-			'name':badge['name'],
-			'readable_name':badge['i18n_name'],
-		}
-		badge_dict['value'] = getattr(update, badge['name'])
-		if badge_dict['value']:
-			if badge_dict['value'] < badge['bronze']:
-				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['bronze'],0))
-			elif badge_dict['value'] < badge['silver']:
-				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['silver'],0))
-			elif badge_dict['value'] < badge['gold']:
-				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['gold'],0))
-			else:
-				badge_dict['percent'] = 100
-			badges.append(badge_dict)
-	context['badges'] = badges
-	return render(request, 'update.html', context)
-
 @login_required
 def SetUpProfileViewStep2(request):
 	if request.user.is_authenticated() and _check_if_self_valid(request):
