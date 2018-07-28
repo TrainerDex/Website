@@ -48,21 +48,64 @@ XP: {{xp|intcomma}}" />
         </li>
       </ul>
     </div>
-    <div class="mdl-cell mdl-cell--1-col mdl-cell--5-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: right;">
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: center;">
       {% if trainer.badge_chicago_fest_july_2017 %}
-        <img class="profile-medal" src="{% static 'img/go_fest_2017.png' %}" />
+        <img id="badge_chicago_fest_july_2017" class="profile-medal" src="{% static 'img/go_fest_2017.png' %}" />
+        <div class="mdl-tooltip" for="badge_chicago_fest_july_2017">
+            <b>{% trans "Pokémon GO Fest 2017" %}</b><br>
+            {% trans "Chicago, July 22, 2017" %}
+    </div>
       {% endif %}
       {% if trainer.badge_pikachu_outbreak_yokohama_2017 %}
-        <img class="profile-medal" src="{% static 'img/outbreak_2017.png' %}" />
+        <img id="badge_pikachu_outbreak_yokohama_2017" class="profile-medal" src="{% static 'img/outbreak_2017.png' %}" />
+        <div class="mdl-tooltip" for="badge_pikachu_outbreak_yokohama_2017">
+            <b>{% trans "Pokémon GO STADIUM" %}</b><br>
+            {% trans "Yokohama, August 2017" %}
+        </div>
       {% endif %}
-      {% if trainer.badge_safari_zone_europe_2017_09_16 or trainer.badge_safari_zone_europe_2017_10_07 %}
-        <img class="profile-medal" src="{% static 'img/safari_zone_2017.png' %}" />
+      {% if trainer.badge_safari_zone_europe_2017_09_16 %}
+        <img id="badge_safari_zone_europe_2017_09_16" class="profile-medal" src="{% static 'img/safari_zone_2017.png' %}" />
+        <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_09_16">
+            <b>{% trans "GO Safari Zone - Europe 2017" %}</b><br>
+            {% trans "Europe, September 16, 2017" %}
+        </div>
+      {% endif %}
+      {% if trainer.badge_safari_zone_europe_2017_10_07 %}
+        <img id="badge_safari_zone_europe_2017_10_07" class="profile-medal" src="{% static 'img/safari_zone_2017.png' %}" />
+        <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_10_07">
+            <b>{% trans "GO Safari Zone - Europe 2017" %}</b><br>
+            {% trans "Europe, October 7, 2017" %}
+        </div>
+      {% endif %}
+      {% if trainer.badge_safari_zone_europe_2017_10_14 %}
+        <img id="badge_safari_zone_europe_2017_10_14" class="profile-medal" src="{% static 'img/safari_zone_2017.png' %}" />
+        <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_10_14">
+            <b>{% trans "GO Safari Zone - Europe 2017" %}</b><br>
+            {% trans "Europe, October 14, 2017" %}
+        </div>
       {% endif %}
       {% if trainer.badge_chicago_fest_july_2018 %}
-        <img class="profile-medal" src="{% static 'img/go_fest_2018.png' %}" />
+        <img id="badge_chicago_fest_july_2018" class="profile-medal" src="{% static 'img/go_fest_2018.png' %}" />
+        <div class="mdl-tooltip" for="badge_chicago_fest_july_2018">
+            <b>{% trans "Pokémon GO Fest 2018" %}</b><br>
+            {% trans "Chicago, July 14-15, 2018" %}
+        </div>
       {% endif %}
       {% if trainer.badge_apac_partner_july_2018 %}
-        <img class="profile-medal" src="{% static 'img/special_weekend_2018.png' %}" />
+        <img id="badge_apac_partner_july_2018" class="profile-medal" src="{% static 'img/special_weekend_2018.png' %}" />
+        <div class="mdl-tooltip" for="badge_apac_partner_july_2018">
+            <b>{% trans "Pokémon GO Special Weekend" %}</b><br>
+            {% trans "Japan, July 26-29, 2018" %}
+        </div>
+      {% endif %}
+      {% if silph_card %}
+        {% for badge in trainer.get_silph_card_badges %}
+        <img id="silph_{{badge.slug}}" class="profile-medal" src="{{badge.image}}" />
+        <div class="mdl-tooltip" for="silph_{{badge.slug}}">
+            <b>{{badge.name}}</b><br>
+        {{badge.description}}
+        </div>
+        {% endfor %}
       {% endif %}
     </div>
 </div>

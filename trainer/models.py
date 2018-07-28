@@ -1,5 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import uuid
+import requests
 from os.path import splitext
 from cities.models import Country, Region
 from colorful.fields import RGBColorField
@@ -7,7 +8,7 @@ from datetime import date, datetime
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.postgres import fields as postgres_fields
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist, PermissionDenied
 from django.db import models
 from django.db.models.signals import *
 from django.dispatch import receiver
@@ -50,7 +51,7 @@ class Trainer(models.Model):
 	badge_safari_zone_europe_2017_10_07 = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017"), help_text=_("Europe, October 7, 2017"))
 	badge_safari_zone_europe_2017_10_14 = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017"), help_text=_("Europe, October 14, 2017"))
 	badge_chicago_fest_july_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2018"), help_text=_("Chicago, July 14-15, 2018"))
-	badge_apac_partner_july_2018 = models.BooleanField(default=False, verbose_name="Pokémon GO Special Weekend", help_text=_("Japan, July 26-29, 2018"))
+	badge_apac_partner_july_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Special Weekend"), help_text=_("Japan, July 26-29, 2018"))
 	
 	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country', help_text=_("Where are you based?"))
 	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region', help_text=_("Where are you based?"))
@@ -62,6 +63,8 @@ class Trainer(models.Model):
 	event_1k_users = models.BooleanField(default=False)
 	
 	verification = models.ImageField(upload_to=VerificationImagePath, null=True, blank=True, verbose_name=_("Username / Level / Team Screenshot"))
+	
+	thesilphroad_username = postgres_fields.CICharField(null=True, blank=True, max_length=30, verbose_name=_("The Silph Road Username"), help_text=_("The username you use on The Silph Road, if different from your Trainer Nickname.")) # max_length=15, unique=True, validators=[PokemonGoUsernameValidator]
 	
 	def is_prefered(self):
 		return True
@@ -110,6 +113,73 @@ class Trainer(models.Model):
 			return int_to_unicode(level).strip()
 		return None
 	
+	def get_silph_card(self, make_assumption=True):
+		if make_assumption:
+			name = self.thesilphroad_username or self.username
+		else:
+			if self.thesilphroad_username:
+				name = self.thesilphroad_username
+			else:
+				raise ObjectDoesNotExist
+		r = requests.get('https://sil.ph/{}.json'.format(self.thesilphroad_username or self.username))
+		if r.status_code != 200:
+			raise ObjectDoesNotExist
+		r = r.json()
+		if 'data' in r:
+			return r['data']
+		else:
+			raise PermissionDenied
+	
+	def get_silph_card_badges (self):
+		return [x['Badge'] for x in self.get_silph_card()['badges'] if x['Badge']['slug'] not in ['travler-card']]
+	
+	def get_silph_card_id (self):
+		return self.get_silph_card()['card_id']
+	
+	def get_silph_card_checkins (self):
+		return self.get_silph_card()['checkins']
+	
+	def get_silph_card_goal (self):
+		return self.get_silph_card()['goal']
+	
+	def get_silph_card_handshakes (self):
+		return self.get_silph_card()['handshakes']
+	
+	def get_silph_card_home_region (self):
+		return self.get_silph_card()['home_region']
+	
+	def get_silph_card_in_game_username (self):
+		return self.get_silph_card()['in_game_username']
+	
+	def get_silph_card_joined (self):
+		import pendulum
+		return pendulum.parse(self.get_silph_card()['joined'])
+	
+	def get_silph_card_nest_migrations(self):
+		return self.get_silph_card()['nest_migrations']
+	
+	def get_silph_card_playstyle(self):
+		return self.get_silph_card()['playstyle']
+	
+	def get_silph_card_pokedex_count(self):
+		return self.get_silph_card()['pokedex_count']
+	
+	def get_true_pokedex_count(self):
+		try:
+			silph_value = self.get_silph_card(make_assumption=False)['pokedex_count']
+		except (ObjectDoesNotExist,PermissionDenied):
+			silph_value = 0
+		return max(silph_value, self.update_set.exclude(dex_caught__isnull=True).aggregate(Max('dex_caught')))
+	
+	def get_silph_card_team(self):
+		return self.get_silph_card()['team']
+	
+	def get_silph_card_title(self):
+		return self.get_silph_card()['title']
+	
+	def get_silph_card_xp(self):
+		return self.get_silph_card()['xp']
+	
 	@property
 	def active(self):
 		return self.owner.is_active
@@ -128,18 +198,9 @@ class Trainer(models.Model):
 		)
 	
 	def clean(self):
-		# Cleanup functions
-		
-		# Cheating values
-		if (self.has_cheated is True or self.currently_cheats is True) and self.last_cheated is None:
-			self.has_cheated = True
-			self.last_cheated = date.today()
-		elif self.currently_cheats is True:
-			self.has_cheated = True
-		
-		# Leaderboard preference
-		if self.leaderboard_region and (self.leaderboard_region.country != self.leaderboard_country):
-			self.leaderboard_region = None
+		if self.thesilphroad_username:
+			if self.faction.name != self.get_silph_card_team():
+				raise ValidationError({'thesilphroad_username': _("The team of this Silph Card does not match that of your profile.")})
 	
 	def get_absolute_url(self):
 		return reverse('profile_username', kwargs={'username':self.username})
@@ -280,26 +341,6 @@ class Update(models.Model):
 		except Exception as e:
 			if str(e) != 'Update has no trainer.':
 				raise e
-		
-		if self.update_time.date() < date(2017,6,20):
-			self.raids_completed = None
-			self.leg_raids_completed = None
-			self.berry_fed = None
-			self.gym_defended = None
-		
-		if self.update_time.date() >= date(2017,6,20):
-			self.legacy_gym_trained = None
-		
-		if self.update_time.date() < date(201,3,30):
-			self.quests = None
-			self.mew_encountered = None
-		
-		if self.update_time.date() < date(2017,10,20):
-			self.gen_3_dex = None
-		
-		if self.update_time.date() < date(2016,12,1):
-			self.gen_2_dex = None
-			self.unown_alphabet = None
 		
 		if error_dict != {}:
 			raise ValidationError(error_dict)
