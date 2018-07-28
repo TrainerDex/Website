@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from django.conf.urls import url
 from trainer.views import TrainerListJSONView, TrainerDetailJSONView, UpdateListJSONView, LatestUpdateJSONView, UpdateDetailJSONView, UserViewSet, SocialLookupJSONView, LeaderboardJSONView, DiscordLeaderboardAPIView
-from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, UpdateInstanceHTMLView, TrainerRedirectorView, fortyx
+from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, TrainerRedirectorView, fortyx
 from trainer.errors import ThrowMalformedPKError, ThrowMalformedUUIDError
 from django.views import defaults
 from ekpogo.views import *
