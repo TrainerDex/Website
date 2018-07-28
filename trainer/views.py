@@ -503,9 +503,9 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	
 	context = {}
 	
-	context['mystic'] = showMystic = {'param':'Mystic', 'value': strtoboolornone(request.GET.get('mystic')) or True}
-	context['valor'] = showValor = {'param':'Valor', 'value': strtoboolornone(request.GET.get('mystic')) or True}
-	context['instinct'] = showInstinct = {'param':'Instinct', 'value': strtoboolornone(request.GET.get('instinct')) or True}
+	context['mystic'] = showMystic = {'param':'Mystic', 'value': strtoboolornone(request.GET.get('mystic'))}
+	context['valor'] = showValor = {'param':'Valor', 'value': strtoboolornone(request.GET.get('valor'))}
+	context['instinct'] = showInstinct = {'param':'Instinct', 'value': strtoboolornone(request.GET.get('instinct'))}
 	
 	if continent:
 		try:
@@ -578,7 +578,6 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		FIELDS_TO_SORT.remove('update_time')
 		FIELDS_TO_SORT = [x for x in UPDATE_SORTABLE_FIELDS if x in FIELDS_TO_SORT]
 		for x in FIELDS_TO_SORT:
-			print(Update._meta.get_field(x).help_text)
 			FIELDS.append(
 				{
 					'name':x,

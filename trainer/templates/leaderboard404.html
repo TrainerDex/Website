@@ -37,11 +37,11 @@ function setParam(uri, key, val) {
   </button>
   
   <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="leaderboard-options">
-    <li class="mdl-menu__item mdl-js-ripple-effect" id="mystic" class="button" onclick="location.href = setParam(window.location.href, 'mystic', '{{ mystic.value|yesno:'0,1' }}');">{% autoescape off %}{{ mystic.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Mystic' %}
+    <li class="mdl-menu__item mdl-js-ripple-effect" id="mystic" class="button" onclick="location.href = setParam(window.location.href, 'mystic', '{{ mystic.value|yesno:'0,1,0' }}');">{% autoescape off %}{{ mystic.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>,<i class="material-icons">remove_circle_outline</i>' }}{% endautoescape %}{% trans 'Mystic' %}
     </li>
-    <li class="mdl-menu__item mdl-js-ripple-effect" id="valor" class="button" onclick="location.href = setParam(window.location.href, 'valor', '{{ valor.value|yesno:'0,1' }}');">{% autoescape off %}{{ valor.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Valor' %}
+    <li class="mdl-menu__item mdl-js-ripple-effect" id="valor" class="button" onclick="location.href = setParam(window.location.href, 'valor', '{{ valor.value|yesno:'0,1,0' }}');">{% autoescape off %}{{ valor.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>,<i class="material-icons">remove_circle_outline</i>' }}{% endautoescape %}{% trans 'Valor' %}
     </li>
-    <li class="mdl-menu__item mdl-js-ripple-effect" id="instinct" class="button" onclick="location.href = setParam(window.location.href, 'instinct', '{{ instinct.value|yesno:'0,1' }}');">{% autoescape off %}{{ instinct.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>' }}{% endautoescape %}{% trans 'Instinct' %}
+    <li class="mdl-menu__item mdl-js-ripple-effect" id="instinct" class="button" onclick="location.href = setParam(window.location.href, 'instinct', '{{ instinct.value|yesno:'0,1,0' }}');">{% autoescape off %}{{ instinct.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>,<i class="material-icons">remove_circle_outline</i>' }}{% endautoescape %}{% trans 'Instinct' %}
     </li>
   </ul>
 </div>
