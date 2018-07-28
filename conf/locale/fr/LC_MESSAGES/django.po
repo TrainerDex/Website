@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-28 20:46+0000\n"
-"PO-Revision-Date: 2018-07-28 21:31+0000\n"
+"PO-Revision-Date: 2018-07-28 21:47+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -210,7 +210,7 @@ msgstr "Evènements Web"
 #: trainer/admin.py:57 website/templates/base.html:82
 #: website/templates/base.html:127
 msgid "Leaderboard"
-msgstr "Tableau des leaders"
+msgstr "Classement"
 
 #: trainer/apps.py:7
 msgid "TrainerDex Profiles"
