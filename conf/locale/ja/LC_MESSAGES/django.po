@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-28 17:03+0000\n"
+"POT-Creation-Date: 2018-07-28 18:29+0000\n"
 "PO-Revision-Date: 2018-07-23 17:49+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -203,7 +203,7 @@ msgstr ""
 "</li>\n"
 "</ul>"
 
-#: trainer/admin.py:43 trainer/models.py:325
+#: trainer/admin.py:43 trainer/models.py:321
 #, fuzzy
 msgid "Reports"
 msgstr "レポート"
@@ -275,7 +275,7 @@ msgstr "開始日"
 msgid "The date you created your Pokémon Go account."
 msgstr "ポケモンゴーアカウントを作成した日付。"
 
-#: trainer/models.py:37 trainer/models.py:180
+#: trainer/models.py:37 trainer/models.py:176
 #: trainer/templates/leaderboard.html:62
 msgid "Team"
 msgstr "所属"
@@ -387,497 +387,495 @@ msgid "Yokohama, August 2017"
 msgstr ""
 
 #: trainer/models.py:49 trainer/models.py:50 trainer/models.py:51
-#: trainer/models.py:52 trainer/models.py:53 trainer/models.py:54
-#: trainer/models.py:55
 msgid "GO Safari Zone - Europe 2017"
 msgstr ""
 
-#: trainer/models.py:49 trainer/models.py:50 trainer/models.py:51
+#: trainer/models.py:49
 msgid "Europe, September 16, 2017"
 msgstr ""
 
-#: trainer/models.py:52 trainer/models.py:53
+#: trainer/models.py:50
 msgid "Europe, October 7, 2017"
 msgstr ""
 
-#: trainer/models.py:54 trainer/models.py:55
+#: trainer/models.py:51
 msgid "Europe, October 14, 2017"
 msgstr ""
 
-#: trainer/models.py:56
+#: trainer/models.py:52
 msgid "Pokémon GO Fest 2018"
 msgstr "Pokémon GO Fest (2018年)"
 
-#: trainer/models.py:56
+#: trainer/models.py:52
 msgid "Chicago, July 14-15, 2018"
 msgstr ""
 
-#: trainer/models.py:57
+#: trainer/models.py:53
 msgid "Japan, July 26-29, 2018"
 msgstr ""
 
-#: trainer/models.py:59
+#: trainer/models.py:55
 msgid "Country"
 msgstr "国"
 
-#: trainer/models.py:59 trainer/models.py:60
+#: trainer/models.py:55 trainer/models.py:56
 msgid "Where are you based?"
 msgstr ""
 
-#: trainer/models.py:60
+#: trainer/models.py:56
 msgid "Region"
 msgstr "地方"
 
-#: trainer/models.py:62
+#: trainer/models.py:58
 #, fuzzy
 msgid "Verified"
 msgstr "検証済み"
 
-#: trainer/models.py:63
+#: trainer/models.py:59
 msgid "Last Modified"
 msgstr ""
 
-#: trainer/models.py:68
+#: trainer/models.py:64
 msgid "Username / Level / Team Screenshot"
 msgstr "ニックネーム"
 
-#: trainer/models.py:153 trainer/models.py:185 trainer/models.py:319
+#: trainer/models.py:149 trainer/models.py:181 trainer/models.py:315
 msgid "Trainer"
 msgstr "トレーナー"
 
-#: trainer/models.py:154
+#: trainer/models.py:150
 msgid "Trainers"
 msgstr "トレーナー"
 
-#: trainer/models.py:164
+#: trainer/models.py:160
 #, fuzzy
 msgid "Name"
 msgstr "名"
 
-#: trainer/models.py:165
+#: trainer/models.py:161
 #, fuzzy
 msgid "Colour"
 msgstr "色"
 
-#: trainer/models.py:166
+#: trainer/models.py:162
 #, fuzzy
 msgid "Leader"
 msgstr "リーダー"
 
-#: trainer/models.py:181
+#: trainer/models.py:177
 msgid "Teams"
 msgstr "所属"
 
-#: trainer/models.py:186
+#: trainer/models.py:182
 msgid "Time Updated"
 msgstr ""
 
-#: trainer/models.py:187 trainer/templates/profile.html:82
+#: trainer/models.py:183 trainer/templates/profile.html:82
 msgid "XP"
 msgstr "XP"
 
-#: trainer/models.py:187
+#: trainer/models.py:183
 #, fuzzy
 msgid "Your Total XP can be found at the bottom of your Pokémon Go profile"
 msgstr "TOTAL XPはあなたのプロフィールの一番下にあります"
 
-#: trainer/models.py:188
+#: trainer/models.py:184
 msgid "Species Caught"
 msgstr "捕まえた数"
 
-#: trainer/models.py:188
+#: trainer/models.py:184
 msgid ""
 "In your Pokédex, how many differnt species have you caught? It should say at "
 "the top."
 msgstr ""
 
-#: trainer/models.py:189
+#: trainer/models.py:185
 msgid "Species Seen"
 msgstr "見つけた数"
 
-#: trainer/models.py:189
+#: trainer/models.py:185
 msgid ""
 "In your Pokédex, how many differnt species have you seen? It should say at "
 "the top."
 msgstr ""
 
-#: trainer/models.py:190
+#: trainer/models.py:186
 msgid "Total Gym Badges"
 msgstr ""
 
-#: trainer/models.py:190
+#: trainer/models.py:186
 msgid ""
 "Your gym badges map. Total number of gold, silver, bronze and blank "
 "combined. (This information is currently not used)"
 msgstr ""
 
-#: trainer/models.py:192
+#: trainer/models.py:188
 msgid "Jogger"
 msgstr "ジョギング"
 
-#: trainer/models.py:192
+#: trainer/models.py:188
 msgid "Walk 1,000km"
 msgstr "1000km 歩いた！"
 
-#: trainer/models.py:193
+#: trainer/models.py:189
 msgid "Kanto"
 msgstr "カントー"
 
-#: trainer/models.py:193
+#: trainer/models.py:189
 msgid "Register 100 Kanto region Pokémon in the Pokédex."
 msgstr "ポケモン図鑑に 100 匹登録できた！"
 
-#: trainer/models.py:194
+#: trainer/models.py:190
 msgid "Collector"
 msgstr "コレクター"
 
-#: trainer/models.py:194
+#: trainer/models.py:190
 msgid "Catch 2,000 Pokémon."
 msgstr "ポケモンを 2000 匹捕まえた！"
 
-#: trainer/models.py:195
+#: trainer/models.py:191
 msgid "Scientist"
 msgstr "けんきゅういん"
 
-#: trainer/models.py:195
+#: trainer/models.py:191
 msgid "Evolve 200 Pokémon."
 msgstr "ポケモンを 200 匹進化できた！"
 
-#: trainer/models.py:196
+#: trainer/models.py:192
 msgid "Breeder"
 msgstr "ブリーダー"
 
-#: trainer/models.py:196
+#: trainer/models.py:192
 msgid "Hatch 500 eggs."
 msgstr "タマゴを 500 個かえした！"
 
-#: trainer/models.py:197
+#: trainer/models.py:193
 msgid "Backpacker"
 msgstr "バックパッカー"
 
-#: trainer/models.py:197
+#: trainer/models.py:193
 msgid "Visit 2,000 PokéStops."
 msgstr "ポケストップを 2000 回訪れた！"
 
-#: trainer/models.py:198
+#: trainer/models.py:194
 msgid "Battle Girl"
 msgstr "バトルガール"
 
-#: trainer/models.py:198
+#: trainer/models.py:194
 msgid "Win 1,000 Gym battles."
 msgstr "ジムで 1000 回バトルに勝った！"
 
-#: trainer/models.py:199
+#: trainer/models.py:195
 msgid "Fisherman"
 msgstr "つりびと"
 
-#: trainer/models.py:199
+#: trainer/models.py:195
 msgid "Catch 300 big Magikarp."
 msgstr "巨大なコイキングを 300 匹捕まえた！"
 
-#: trainer/models.py:200
+#: trainer/models.py:196
 msgid "Ace Trainer"
 msgstr "エリートトレーナー"
 
-#: trainer/models.py:200
+#: trainer/models.py:196
 msgid "Train 1,000 times."
 msgstr "ポケモンを 1000 匹トレーニングした！"
 
-#: trainer/models.py:201
+#: trainer/models.py:197
 msgid "Youngster"
 msgstr "たんパンこぞう"
 
-#: trainer/models.py:201
+#: trainer/models.py:197
 msgid "Catch 300 tiny Rattata."
 msgstr "小さいサイズのコラッタを 300 匹捕まえた！"
 
-#: trainer/models.py:202
+#: trainer/models.py:198
 #, fuzzy
 #| msgid "Pikachu Outbreak"
 msgid "Pikachu Fan"
 msgstr "ピカチュウ だいすきクラブ"
 
-#: trainer/models.py:202
+#: trainer/models.py:198
 msgid "Catch 300 Pikachu."
 msgstr "ピカチュウを 300 匹捕まえた！"
 
-#: trainer/models.py:203
+#: trainer/models.py:199
 msgid "Johto"
 msgstr "ジョウト"
 
-#: trainer/models.py:203
+#: trainer/models.py:199
 msgid ""
 "Register 70 Pokémon first discovered in the Johto region to the Pokédex."
 msgstr "ジョウト地方で発見されたポケモンを70匹ポケモン図鑑に登録できた！"
 
-#: trainer/models.py:204
+#: trainer/models.py:200
 msgid "Unown"
 msgstr "アンノーン"
 
-#: trainer/models.py:204
+#: trainer/models.py:200
 msgid "Catch 26 Unown."
 msgstr "アンノーンを26種類捕まえた！"
 
-#: trainer/models.py:205
+#: trainer/models.py:201
 msgid "Berry Master"
 msgstr "きのみ名人"
 
-#: trainer/models.py:205
+#: trainer/models.py:201
 msgid "Feed 1,000 Berries at Gyms."
 msgstr "ポケモンに 1000 個きのみをあげた！"
 
-#: trainer/models.py:206
+#: trainer/models.py:202
 #, fuzzy
 msgid "Gym Leader"
 msgstr "ジムリーダー"
 
-#: trainer/models.py:206
+#: trainer/models.py:202
 msgid "Defend Gyms for 1,000 hours."
 msgstr "ジムを 1000 時間防衛した！"
 
-#: trainer/models.py:207
+#: trainer/models.py:203
 msgid "Champion"
 msgstr "チャンピオン"
 
-#: trainer/models.py:207
+#: trainer/models.py:203
 msgid "Win 1,000 Raids."
 msgstr "レイドバトルで 1000 回勝利した！"
 
-#: trainer/models.py:208
+#: trainer/models.py:204
 msgid "Battle Legend"
 msgstr "バトルレジェンド"
 
-#: trainer/models.py:208
+#: trainer/models.py:204
 msgid "Win 1,000 Legendary Raids."
 msgstr "ジムで 1000 回伝説レイドバトルに勝った！"
 
-#: trainer/models.py:209
+#: trainer/models.py:205
 msgid "Hoenn"
 msgstr "ジョウト"
 
-#: trainer/models.py:209
+#: trainer/models.py:205
 msgid ""
 "Register 70 Pokémon first discovered in the Hoenn region to the Pokédex."
 msgstr "ジョウト地方で発見されたポケモンを70匹ポケモン図鑑に登録できた！"
 
-#: trainer/models.py:210
+#: trainer/models.py:206
 msgid "Pokémon Ranger"
 msgstr "ポケモンレンジャー"
 
-#: trainer/models.py:210
+#: trainer/models.py:206
 msgid "Complete 1,000 Field Research tasks."
 msgstr "フィールドリサーチを1000回達成した！"
 
-#: trainer/models.py:211
+#: trainer/models.py:207
 msgid "Idol"
 msgstr "アイドル"
 
-#: trainer/models.py:211
+#: trainer/models.py:207
 msgid "Become Best Friends with 3 Trainers."
 msgstr "トレーナー3人と「大親友」になれた！"
 
-#: trainer/models.py:212
+#: trainer/models.py:208
 msgid "Gentleman"
 msgstr "ジェントルマン"
 
-#: trainer/models.py:212
+#: trainer/models.py:208
 msgid "Trade 1,000 Pokémon."
 msgstr "1000 匹交換できた！"
 
-#: trainer/models.py:213
+#: trainer/models.py:209
 msgid "Pilot"
 msgstr "パイロット"
 
-#: trainer/models.py:213
+#: trainer/models.py:209
 msgid "Earn 1,000,000 km across the distance of all Pokémon trades."
 msgstr "交換したポケモン同士の距離が 1000000 km になった！"
 
-#: trainer/models.py:215
+#: trainer/models.py:211
 msgid "Schoolkid"
 msgstr "じゅくがえり"
 
-#: trainer/models.py:215
+#: trainer/models.py:211
 msgid "Catch 200 Normal-type Pokémon"
 msgstr "ノーマルタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:216
+#: trainer/models.py:212
 msgid "Black Belt"
 msgstr "カラテおう"
 
-#: trainer/models.py:216
+#: trainer/models.py:212
 msgid "Catch 200 Fighting-type Pokémon"
 msgstr "かくとうタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:217
+#: trainer/models.py:213
 msgid "Bird Keeper"
 msgstr "とりつかい"
 
-#: trainer/models.py:217
+#: trainer/models.py:213
 msgid "Catch 200 Flying-type Pokémon"
 msgstr "ひこうタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:218
+#: trainer/models.py:214
 msgid "Punk Girl"
 msgstr "バッドガール"
 
-#: trainer/models.py:218
+#: trainer/models.py:214
 msgid "Catch 200 Poison-type Pokémon"
 msgstr "どくタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:219
+#: trainer/models.py:215
 msgid "Ruin Maniac"
 msgstr "いせきマニア"
 
-#: trainer/models.py:219
+#: trainer/models.py:215
 msgid "Catch 200 Ground-type Pokémon"
 msgstr "じめんタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:220
+#: trainer/models.py:216
 msgid "Hiker"
 msgstr "やまおとこ"
 
-#: trainer/models.py:220
+#: trainer/models.py:216
 msgid "Catch 200 Rock-type Pokémon"
 msgstr "いわタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:221
+#: trainer/models.py:217
 msgid "Bug Catcher"
 msgstr "むしとりしょうねん"
 
-#: trainer/models.py:221
+#: trainer/models.py:217
 msgid "Catch 200 Bug-type Pokémon"
 msgstr "むしタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:222
+#: trainer/models.py:218
 msgid "Hex Maniac"
 msgstr "オカルトマニア"
 
-#: trainer/models.py:222
+#: trainer/models.py:218
 msgid "Catch 200 Ghost-type Pokémon"
 msgstr "ゴーストタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:223
+#: trainer/models.py:219
 msgid "Depot Agent"
 msgstr "てつどういん"
 
-#: trainer/models.py:223
+#: trainer/models.py:219
 msgid "Catch 200 Steel-type Pokémon"
 msgstr "はがねタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:224
+#: trainer/models.py:220
 msgid "Kindler"
 msgstr "キャンプファイヤー"
 
-#: trainer/models.py:224
+#: trainer/models.py:220
 msgid "Catch 200 Fire-type Pokémon"
 msgstr "ほのおタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:225
+#: trainer/models.py:221
 msgid "Swimmer"
 msgstr "かいパンやろう"
 
-#: trainer/models.py:225
+#: trainer/models.py:221
 msgid "Catch 200 Water-type Pokémon"
 msgstr "みずタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:226
+#: trainer/models.py:222
 msgid "Gardener"
 msgstr "にわし"
 
-#: trainer/models.py:226
+#: trainer/models.py:222
 msgid "Catch 200 Grass-type Pokémon"
 msgstr "くさタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:227
+#: trainer/models.py:223
 msgid "Rocker"
 msgstr "でんきグループ"
 
-#: trainer/models.py:227
+#: trainer/models.py:223
 msgid "Catch 200 Electric-type Pokémon"
 msgstr "でんきタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:228
+#: trainer/models.py:224
 msgid "Psychic"
 msgstr "サイキッカー"
 
-#: trainer/models.py:228
+#: trainer/models.py:224
 msgid "Catch 200 Pychic-type Pokémon"
 msgstr "エスパータイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:229
+#: trainer/models.py:225
 msgid "Skier"
 msgstr "スキーヤー"
 
-#: trainer/models.py:229
+#: trainer/models.py:225
 msgid "Catch 200 Ice-type Pokémon"
 msgstr "こおりタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:230
+#: trainer/models.py:226
 msgid "Dragon Tamer"
 msgstr "ドラゴンつかい"
 
-#: trainer/models.py:230
+#: trainer/models.py:226
 msgid "Catch 200 Dragon-type Pokémon"
 msgstr "ドラゴンタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:231
+#: trainer/models.py:227
 msgid "Delinquent"
 msgstr "こわいおねえさん"
 
-#: trainer/models.py:231
+#: trainer/models.py:227
 msgid "Catch 200 Dark-type Pokémon"
 msgstr "あくタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:232
+#: trainer/models.py:228
 msgid "Fairy Tale Girl"
 msgstr "メルヘンしょうじょ"
 
-#: trainer/models.py:232
+#: trainer/models.py:228
 msgid "Catch 200 Fairy-type Pokémon"
 msgstr "フェアリータイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:234
+#: trainer/models.py:230
 msgid "Time Created"
 msgstr "作成時間"
 
-#: trainer/models.py:255
+#: trainer/models.py:251
 msgid "Source"
 msgstr "情報元"
 
-#: trainer/models.py:257
+#: trainer/models.py:253
 #, fuzzy
 msgid "Total XP Screenshot"
 msgstr "TOTAL XPスクリーンショット"
 
-#: trainer/models.py:266
+#: trainer/models.py:262
 msgid "Crowd Sourced"
 msgstr "群集情報"
 
-#: trainer/models.py:273
+#: trainer/models.py:269
 #, fuzzy
 msgid "{username} - {xp:,}XP at {date}"
 msgstr "{username}は{date}に{xp}XPを獲得した"
 
-#: trainer/models.py:283
+#: trainer/models.py:279
 msgid ""
 "This value has previously been entered at a higher value. Please try again, "
 "ensuring you enter your Total XP."
 msgstr ""
 "この値は以前より高い値で入力されています。 最新の情報を入力してください。"
 
-#: trainer/models.py:314
+#: trainer/models.py:310
 msgid "Update"
 msgstr "統計情報の更新"
 
-#: trainer/models.py:315
+#: trainer/models.py:311
 msgid "Updates"
 msgstr "統計情報の更新"
 
-#: trainer/models.py:320
+#: trainer/models.py:316
 msgid "Reported by"
 msgstr "レポーター"
 
-#: trainer/models.py:321 trainer/models.py:324
+#: trainer/models.py:317 trainer/models.py:320
 msgid "Report"
 msgstr "記録"
 
@@ -1070,11 +1068,10 @@ msgid "There has been a request to delete {update} by {requester} at {ip}"
 msgstr "{requester}によって{update}を{ip}から削除する要求がありました"
 
 #: trainer/views.py:394 trainer/views.py:466 trainer/views.py:494
-#: trainer/views.py:606
 msgid "Please complete your profile to continue using the website."
 msgstr "ウェブサイトの使用を続けるには、プロフィールを記入してください。"
 
-#: trainer/views.py:654
+#: trainer/views.py:621
 #, fuzzy
 msgid ""
 "Thank you for filling out your profile. Your screenshots have been sent for "
@@ -1087,7 +1084,7 @@ msgstr ""
 "ます。 それまでは、グローバルリーダーには表示されませんが、Discord "
 "Leaderboardを使用して統計情報を更新することはできます。"
 
-#: trainer/views.py:676
+#: trainer/views.py:643
 msgid "Stats updated. Screenshot included."
 msgstr "更新された統計。 スクリーンショットがアップロードされました。"
 

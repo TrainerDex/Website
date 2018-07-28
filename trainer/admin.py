@@ -45,7 +45,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 		}),
 		(_('2017 Events'), {
 			'classes': ('collapse',),
-			'fields': ('go_fest_2017', 'outbreak_2017', 'safari_zone_2017_oberhausen', 'safari_zone_2017_paris', 'safari_zone_2017_barcelona', 'safari_zone_2017_copenhagen', 'safari_zone_2017_prague', 'safari_zone_2017_stockholm', 'safari_zone_2017_amstelveen')
+			'fields': ('go_fest_2017', 'outbreak_2017', 'badge_safari_zone_europe_2017_09_16', 'badge_safari_zone_europe_2017_10_07', 'badge_safari_zone_europe_2017_10_14')
 		}),
 		(_('2018 Events'), {
 			'classes': ('collapse',),

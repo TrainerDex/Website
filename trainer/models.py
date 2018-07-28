@@ -46,13 +46,9 @@ class Trainer(models.Model):
 	
 	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2017"), help_text=_("Chicago, July 22, 2017"))
 	outbreak_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO STADIUM"), help_text=_("Yokohama, August 2017"))
-	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Oberhausen, Germany", help_text=_("Europe, September 16, 2017"))
-	safari_zone_2017_paris = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Paris, France", help_text=_("Europe, September 16, 2017"))
-	safari_zone_2017_barcelona = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Barcelona, Spain", help_text=_("Europe, September 16, 2017"))
-	safari_zone_2017_copenhagen = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Copenhagen, Denmark", help_text=_("Europe, October 7, 2017"))
-	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Prague, Czechia", help_text=_("Europe, October 7, 2017"))
-	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Stockholm, Sweden", help_text=_("Europe, October 14, 2017"))
-	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Amstelveen, The Netherlands", help_text=_("Europe, October 14, 2017"))
+	badge_safari_zone_europe_2017_09_16 = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017"), help_text=_("Europe, September 16, 2017"))
+	badge_safari_zone_europe_2017_10_07 = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017"), help_text=_("Europe, October 7, 2017"))
+	badge_safari_zone_europe_2017_10_14 = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017"), help_text=_("Europe, October 14, 2017"))
 	go_fest_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2018"), help_text=_("Chicago, July 14-15, 2018"))
 	special_weekend_2018 = models.BooleanField(default=False, verbose_name="Pokémon GO Special Weekend", help_text=_("Japan, July 26-29, 2018"))
 	
