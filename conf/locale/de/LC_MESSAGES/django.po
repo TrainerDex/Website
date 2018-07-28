@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-28 19:44+0000\n"
+"POT-Creation-Date: 2018-07-28 20:46+0000\n"
 "PO-Revision-Date: 2018-07-28 17:09+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -428,7 +428,8 @@ msgstr "Teams"
 msgid "Time Updated"
 msgstr "Zeit aktualisiert"
 
-#: trainer/models.py:244 trainer/templates/profile.html:125
+#: trainer/models.py:244 trainer/templates/profile.html:45
+#: trainer/templates/profile.html:125
 msgid "XP"
 msgstr "EP"
 
@@ -1021,7 +1022,7 @@ msgstr ""
 msgid "Please complete your profile to continue using the website."
 msgstr ""
 
-#: trainer/views.py:628
+#: trainer/views.py:627
 msgid ""
 "Thank you for filling out your profile. Your screenshots have been sent for "
 "verification. An admin will verify you within the next couple of days. Until "
@@ -1029,7 +1030,7 @@ msgid ""
 "Guild Leaderboards and and update your stats!"
 msgstr ""
 
-#: trainer/views.py:650
+#: trainer/views.py:649
 msgid "Stats updated. Screenshot included."
 msgstr ""
 
