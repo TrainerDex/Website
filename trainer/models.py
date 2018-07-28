@@ -32,7 +32,7 @@ def VerificationUpdateImagePath(instance, filename):
 
 class Trainer(models.Model):
 	owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
-	username = postgres_fields.CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], verbose_name=_("Username"), help_text=_("Your Trainer Username exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."))
+	username = postgres_fields.CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], verbose_name=_("Nickname"), help_text=_("Your Trainer Nickname exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."))
 	start_date = models.DateField(null=True, blank=True, validators=[StartDateValidator], verbose_name=_("Start Date"), help_text=_("The date you created your Pokémon Go account."))
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"), help_text=_("Mystic = Blue, Instinct = Yellow, Valor = Red.") )
 	has_cheated = models.BooleanField(default=False, verbose_name=_("Historic Cheater"), help_text=_("Have you cheated in the past?"))
@@ -44,17 +44,17 @@ class Trainer(models.Model):
 	
 	trainer_code = models.CharField(null=True, blank=True, validators=[TrainerCodeValidator], verbose_name=_("Trainer Code"), max_length=15, help_text=_("Fancy sharing your trainer code? (Disclaimer: This information will be public)"))
 	
-	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2017"))
-	outbreak_2017 = models.BooleanField(default=False, verbose_name=_("Pikachu Outbreak 2017"))
-	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Oberhausen, Germany")
-	safari_zone_2017_paris = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Paris, France")
-	safari_zone_2017_barcelona = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Barcelona, Spain")
-	safari_zone_2017_copenhagen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Copenhagen, Denmark")
-	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Prague, Czechia")
-	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Stockholm, Sweden")
-	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("Safari Zone")+" - Amstelveen, The Netherlands")
-	go_fest_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2018"))
-	special_weekend_2018 = models.BooleanField(default=False, verbose_name="Pokémon GO Special Weekend")
+	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2017"), help_text=_("Chicago, July 22, 2017"))
+	outbreak_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO STADIUM"), help_text=_("Yokohama, August 2017"))
+	safari_zone_2017_oberhausen = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Oberhausen, Germany", help_text=_("Europe, September 16, 2017"))
+	safari_zone_2017_paris = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Paris, France", help_text=_("Europe, September 16, 2017"))
+	safari_zone_2017_barcelona = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Barcelona, Spain", help_text=_("Europe, September 16, 2017"))
+	safari_zone_2017_copenhagen = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Copenhagen, Denmark", help_text=_("Europe, October 7, 2017"))
+	safari_zone_2017_prague = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Prague, Czechia", help_text=_("Europe, October 7, 2017"))
+	safari_zone_2017_stockholm = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Stockholm, Sweden", help_text=_("Europe, October 14, 2017"))
+	safari_zone_2017_amstelveen = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017")+" - Amstelveen, The Netherlands", help_text=_("Europe, October 14, 2017"))
+	go_fest_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2018"), help_text=_("Chicago, July 14-15, 2018"))
+	special_weekend_2018 = models.BooleanField(default=False, verbose_name="Pokémon GO Special Weekend", help_text=_("Japan, July 26-29, 2018"))
 	
 	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country', help_text=_("Where are you based?"))
 	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region', help_text=_("Where are you based?"))

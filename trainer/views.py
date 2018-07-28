@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
 from django.urls import resolve
+from math import ceil
 from pycent import percentage
 from pytz import utc
 from rest_framework import authentication, permissions, status
@@ -493,9 +494,11 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
 		return HttpResponseRedirect(reverse('profile_set_up'))
 	
-	showValor = {'param':'Valor', 'value': strtoboolornone(request.GET.get('mystic')) or True}
-	showMystic = {'param':'Mystic', 'value': strtoboolornone(request.GET.get('mystic')) or True}
-	showInstinct = {'param':'Instinct', 'value': strtoboolornone(request.GET.get('instinct')) or True}
+	context = {}
+	
+	context['mystic'] = showMystic = {'param':'Mystic', 'value': strtoboolornone(request.GET.get('mystic')) or True}
+	context['valor'] = showValor = {'param':'Valor', 'value': strtoboolornone(request.GET.get('mystic')) or True}
+	context['instinct'] = showInstinct = {'param':'Instinct', 'value': strtoboolornone(request.GET.get('instinct')) or True}
 	
 	if continent:
 		try:
@@ -503,14 +506,14 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		except Continent.DoesNotExist:
 			raise Http404('No continent found for code {}'.format(continent))
 		countries_in_continent = continent.countries.all()
-		title = continent.name
+		context['title'] = continent.name
 		QuerySet = Trainer.objects.filter(leaderboard_country__in=countries_in_continent)
 	elif country and region == None:
 		try:
 			country = Country.objects.prefetch_related('leaderboard_trainers_country').get(code__iexact = country)
 		except Country.DoesNotExist:
 			raise Http404('No country found for code {}'.format(country))
-		title = country.name
+		context['title'] = country.name
 		QuerySet = country.leaderboard_trainers_country
 	elif region:
 		try:
@@ -519,16 +522,17 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 			raise Http404('No country found for code {}'.format(country))
 		except Region.DoesNotExist:
 			raise Http404('No region found for code {}/{}'.format(country, region))
-		title = ', '.join([x.name for x in reversed(region.hierarchy)])
+		context['title'] = ', '.join([x.name for x in reversed(region.hierarchy)])
 		QuerySet = region.leaderboard_trainers_region
 	else:
-		title = None
+		context['title'] = None
 		QuerySet = Trainer.objects
 	
 	QuerySet = _leaderboard_queryset_filter(QuerySet)
 	
 	SORTABLE_FIELDS = ['update__'+x for x in UPDATE_SORTABLE_FIELDS]
-	fields_to_calculate_max = {'xp', 'pkmn_caught', 'gym_defended', 'eggs_hatched', 'walk_dist', 'pkstops_spun', 'battles_won', 'update_time'}
+	fields_to_calculate_max = {'xp', 'pkmn_caught', 'gym_defended', 'eggs_hatched', 'walk_dist', 'pkstops_spun', 'battles_won', 'leg_raids_completed',
+'quests', 'update_time'}
 	if request.GET.get('sort'):
 		if request.GET.get('sort') in UPDATE_SORTABLE_FIELDS:
 			fields_to_calculate_max.add(request.GET.get('sort'))
@@ -537,13 +541,21 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 			sort_by = 'xp'
 	else:
 		sort_by = 'xp'
+	context['sort_by'] = sort_by
+	
 	
 	QuerySet = QuerySet.exclude(faction__name__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
-	total_users = QuerySet.count()
+	context['grand_total_users'] = total_users = QuerySet.count()
+	
+	if total_users == 0:
+		print(context)
+		return render(request, 'leaderboard404.html', context, status=404)
+	
 	QuerySet = QuerySet.annotate(*[Max('update__'+x) for x in fields_to_calculate_max]).extra(select={'null_order': '{order} IS NULL'.format(order=sort_by)}).order_by('null_order', '-update__{order}__max'.format(order=sort_by), '-update__xp__max', '-update__update_time__max', 'faction',)
 	
 	Results = []
 	GRAND_TOTAL = QuerySet.aggregate(Sum('update__xp__max'))
+	context['grand_total_xp'] = GRAND_TOTAL['update__xp__max__sum']
 	
 	for index, trainer in enumerate(QuerySet.prefetch_related('leaderboard_country'), 1):
 		trainer_stats = {
@@ -559,10 +571,12 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		FIELDS_TO_SORT.remove('update_time')
 		FIELDS_TO_SORT = [x for x in UPDATE_SORTABLE_FIELDS if x in FIELDS_TO_SORT]
 		for x in FIELDS_TO_SORT:
+			print(Update._meta.get_field(x).help_text)
 			FIELDS.append(
 				{
 					'name':x,
 					'readable_name':Update._meta.get_field(x).verbose_name,
+					'tooltip':Update._meta.get_field(x).help_text,
 					'value':getattr(trainer, 'update__{field}__max'.format(field=x)),
 				},
 			)
@@ -573,20 +587,17 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		page = int(request.GET.get('page') or 1)
 	except ValueError:
 		page = 1
-	pages = list(chunks(Results, 100))
+	context['page'] = page
+	context['pages'] = ceil(total_users/100)
+	pages = chunks(Results, 100)
 	
-	context = {
-		'title': title,
-		'leaderboard' : pages[page-1],
-		'valor' : showValor,
-		'mystic' : showMystic,
-		'instinct' : showInstinct,
-		'grand_total_xp' : GRAND_TOTAL['update__xp__max__sum'],
-		'grand_total_users' : total_users,
-		'sort_by' : sort_by,
-		'page': page,
-		'pages' : len(pages)
-	}
+	x = 0
+	for y in pages:
+		x += 1
+		if x == context['page']:
+			context['leaderboard'] = y
+			break
+	
 	
 	return render(request, 'leaderboard.html', context)
 

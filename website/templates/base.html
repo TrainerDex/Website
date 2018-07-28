@@ -12,7 +12,7 @@
     {% load account %}
     
     <title>{% block head_title %}{% endblock %} | TrainerDex</title>
-    <meta name="description" content="{% trans 'TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!' %}">
+    <meta name="description" content="{% trans 'TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!' context 'meta tag in head' %}">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" sizes="192x192" href="{% static 'img/android-desktop.png' %}">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -29,7 +29,6 @@
     <meta name="fb:page_id" content="1683676791663912" />
     <meta name="msvalidate.01" content="E7E20ABA1E037AC0B7E0116E01E3337A" />
     
-    <script src="//twemoji.maxcdn.com/twemoji.min.js?11.0"></script>
     <link rel="stylesheet" href="{% static 'node_modules/material-design-lite/material.min.css' %}">
     <link rel="stylesheet" href="{% static 'node_modules/mdl-ext/lib/mdl-ext.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -42,27 +41,30 @@
     <link rel="stylesheet" type="text/css" href="{% static 'node_modules/dialog-polyfill/dialog-polyfill.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'cookielaw/css/cookielaw.css' %}" />
     
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-5522637786617178",
-    enable_page_level_ads: true
-  });
-</script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-5522637786617178",
+        enable_page_level_ads: true
+      });
+    </script>
 
   </head>
   <body>
     {% cookielaw_banner %}
     {% block body %}
+    {# Translators: 'beta' should remain in lowercase and is superscripted #}
+    {% trans 'beta' as beta_text %}
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="trainerdex-header mdl-layout__header is-casting-shadow">
         <div class="mdl-layout__header-row">
           <span class="trainerdex-title mdl-layout__title">
-            {# Translators: 'beta' should remain in lowercase #}
-            {#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex<sup>{% trans 'beta' %}</sup>
+            {#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex<sup>{{ beta_text }}</sup>
           </span>
           {# Add spacer, to align navigation to the right in desktop #}
           <div class="mdl-layout-spacer"></div>
+          <!--
+           Search is coming soon!
           <div class="trainerdex-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
             <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
               <i class="material-icons">search</i>
@@ -71,6 +73,7 @@
               <input class="mdl-textfield__input" type="text" id="search-field">
             </div>
           </div>
+          -->
           {# Navigation #}
           <div class="trainerdex-header-navigation-container">
             <nav class="trainerdex-header-navigation mdl-navigation">
@@ -80,8 +83,7 @@
             </nav>
           </div>
           <span class="trainerdex-mobile-title mdl-layout-title">
-            {# Translators: 'beta' should remain in lowercase #}
-            {#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex<sup>{% trans 'beta' %}</sup>
+            {#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex<sup>{{ beta_text }}</sup>
           </span>
           <button class="trainerdex-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
             <i class="material-icons">more_vert</i>
@@ -102,7 +104,7 @@
           {% load account %}
           <a href="{% url 'profile' %}"><img src="{% gravatar_url user.email 64 %}" class="trainerdex-avatar"></a>
           <div class="trainerdex-avatar-dropdown">
-            <span>{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Anon" %}{% endif %}</span>
+            <span>{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Red" context "This is the display name for a user not logged in. Use local references if you like. In English, I've gone for Red, the protagonist in the Gen 1 games." %}{% endif %}</span>
             <div class="mdl-layout-spacer"></div>
             <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
               <i class="material-icons" role="presentation">arrow_drop_down</i>

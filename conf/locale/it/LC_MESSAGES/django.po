@@ -8,14 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-23 14:43+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2018-07-28 17:03+0000\n"
+"PO-Revision-Date: 2018-07-28 17:14+0000\n"
+"Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.8.1\n"
 
 #: ekpogo/settings.py:152
 msgid "German"
@@ -62,8 +63,8 @@ msgstr ""
 #, python-format
 msgid ""
 "TrainerDex is a service for tracking and updating your progress in Pokémon "
-"Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s"
-"\" id=\"faq\">FAQ</a>."
+"Go. Don't worry, there's no risk of ban! Check out our <a "
+"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
 msgstr ""
 
 #: support/templates/about.html:19
@@ -105,21 +106,11 @@ msgstr ""
 #: support/templates/help/faq.html:18
 msgid ""
 "\n"
-"                      <p><i>This isn't a question. That's you complaining, "
-"but I have an answer anyway.</i></p>\n"
+"                      <p><i>This isn't a question. That's you complaining, but I have an answer anyway.</i></p>\n"
 "                      \n"
-"                      <p>You most likely had a <em>phantom goal</em> This "
-"isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants "
-"to own up to. Instead, this related to goals shown by the Discord bot. "
-"Before the 22nd December, once you reached your goal the bot would reset it "
-"to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal "
-"as a promotion for goals.</p>\n"
+"                      <p>You most likely had a <em>phantom goal</em> This isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants to own up to. Instead, this related to goals shown by the Discord bot. Before the 22nd December, once you reached your goal the bot would reset it to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal as a promotion for goals.</p>\n"
 "                      \n"
-"                      <p>Since then, the default behaviour is to "
-"automatically move your goal on to the next level when you reach your goal, "
-"rather than resetting to zero. To give the user a choice <em>not</em> to "
-"have a goal. We removed phantom goals. Phantom goals didn't congratulate the "
-"user either, whereas set goals do.</p>\n"
+"                      <p>Since then, the default behaviour is to automatically move your goal on to the next level when you reach your goal, rather than resetting to zero. To give the user a choice <em>not</em> to have a goal. We removed phantom goals. Phantom goals didn't congratulate the user either, whereas set goals do.</p>\n"
 "                      "
 msgstr ""
 
@@ -131,28 +122,18 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"                      <p>Goals currently only work on the Discord bot, "
-"however, they're coming soon to web</p>\n"
+"                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>\n"
 "                      \n"
-"                      <p>Simply message the Discord Bot, <a href="
-"\"%(discord_url)s\">TrainerDex#8522</a> <code>.update goal &lt;option&gt; "
-"&lt;value&gt;</code></p>\n"
+"                      <p>Simply message the Discord Bot, <a href=\"%(discord_url)s\">TrainerDex#8522</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>\n"
 "                      \n"
 "                      <p class=\"help-faq-question\">Options</p>\n"
 "                      <ul>\n"
 "                        <li>\n"
-"                          <code>daily</code> - Sets your daily or 'rate' "
-"goal. This is the goal which shows you the speed at which you're "
-"progressing. This takes a numeric value ranging from 0 to 3000000.\n"
+"                          <code>daily</code> - Sets your daily or 'rate' goal. This is the goal which shows you the speed at which you're progressing. This takes a numeric value ranging from 0 to 3000000.\n"
 "                        </li>\n"
 "                        <li>\n"
-"                          <code>total</code> - Sets your total or 'reach' "
-"goal. This is the goal which you would use to get a grasp of when you're "
-"going to reach a specific point. This takes a numeric value which is at "
-"least one more than your current experience. \n"
-"                          <em>Sidenote - <code>.update goal total</code> has "
-"an additional option, <code>auto</code>, which sets a goal for you based on "
-"your current experince.</em>\n"
+"                          <code>total</code> - Sets your total or 'reach' goal. This is the goal which you would use to get a grasp of when you're going to reach a specific point. This takes a numeric value which is at least one more than your current experience. \n"
+"                          <em>Sidenote - <code>.update goal total</code> has an additional option, <code>auto</code>, which sets a goal for you based on your current experince.</em>\n"
 "                        </li>\n"
 "                      </ul>\n"
 "                      "
@@ -174,11 +155,10 @@ msgstr ""
 msgid "Website Badges"
 msgstr ""
 
-#: trainer/admin.py:57 trainer/templates/leaderboard.html:7
-#: trainer/templates/leaderboard.html:12 trainer/templates/leaderboard.html:21
-#: website/templates/base.html:71 website/templates/base.html:117
+#: trainer/admin.py:57 website/templates/base.html:82
+#: website/templates/base.html:127
 msgid "Leaderboard"
-msgstr ""
+msgstr "Classifica"
 
 #: trainer/apps.py:7
 msgid "TrainerDex Profiles"
@@ -196,13 +176,13 @@ msgstr ""
 msgid "User"
 msgstr ""
 
-#: trainer/models.py:35 trainer/templates/leaderboard.html:57
-msgid "Username"
-msgstr ""
+#: trainer/models.py:35 trainer/templates/leaderboard.html:61
+msgid "Nickname"
+msgstr "Soprannome"
 
 #: trainer/models.py:35
 msgid ""
-"Your Trainer Username exactly as is in game. You are free to change "
+"Your Trainer Nickname exactly as is in game. You are free to change "
 "capitalisation but removal or addition of digits may prevent other Trainers "
 "with similar usernames from using this service and is against the Terms of "
 "Service."
@@ -217,9 +197,9 @@ msgid "The date you created your Pokémon Go account."
 msgstr ""
 
 #: trainer/models.py:37 trainer/models.py:180
-#: trainer/templates/leaderboard.html:59
+#: trainer/templates/leaderboard.html:62
 msgid "Team"
-msgstr ""
+msgstr "Squadra"
 
 #: trainer/models.py:37
 msgid "Mystic = Blue, Instinct = Yellow, Valor = Red."
@@ -293,18 +273,46 @@ msgstr ""
 msgid "Pokémon GO Fest 2017"
 msgstr ""
 
+#: trainer/models.py:47
+msgid "Chicago, July 22, 2017"
+msgstr ""
+
 #: trainer/models.py:48
-msgid "Pikachu Outbreak 2017"
+msgid "Pokémon GO STADIUM"
+msgstr ""
+
+#: trainer/models.py:48
+msgid "Yokohama, August 2017"
 msgstr ""
 
 #: trainer/models.py:49 trainer/models.py:50 trainer/models.py:51
 #: trainer/models.py:52 trainer/models.py:53 trainer/models.py:54
 #: trainer/models.py:55
-msgid "Safari Zone"
+msgid "GO Safari Zone - Europe 2017"
+msgstr ""
+
+#: trainer/models.py:49 trainer/models.py:50 trainer/models.py:51
+msgid "Europe, September 16, 2017"
+msgstr ""
+
+#: trainer/models.py:52 trainer/models.py:53
+msgid "Europe, October 7, 2017"
+msgstr ""
+
+#: trainer/models.py:54 trainer/models.py:55
+msgid "Europe, October 14, 2017"
 msgstr ""
 
 #: trainer/models.py:56
 msgid "Pokémon GO Fest 2018"
+msgstr ""
+
+#: trainer/models.py:56
+msgid "Chicago, July 14-15, 2018"
+msgstr ""
+
+#: trainer/models.py:57
+msgid "Japan, July 26-29, 2018"
 msgstr ""
 
 #: trainer/models.py:59
@@ -359,8 +367,7 @@ msgstr ""
 msgid "Time Updated"
 msgstr ""
 
-#: trainer/models.py:187 trainer/templates/leaderboard.html:60
-#: trainer/templates/profile.html:82
+#: trainer/models.py:187 trainer/templates/profile.html:82
 msgid "XP"
 msgstr ""
 
@@ -374,8 +381,8 @@ msgstr ""
 
 #: trainer/models.py:188
 msgid ""
-"In your Pokédex, how many differnt species have you caught? It should say at "
-"the top."
+"In your Pokédex, how many differnt species have you caught? It should say at"
+" the top."
 msgstr ""
 
 #: trainer/models.py:189
@@ -773,8 +780,8 @@ msgstr ""
 
 #: trainer/templates/account/signup2.html:17
 #: website/templates/account/signup.html:21
-#: website/templates/account/signup.html:51 website/templates/base.html:87
-#: website/templates/base.html:109
+#: website/templates/account/signup.html:51 website/templates/base.html:97
+#: website/templates/base.html:119
 msgid "Register"
 msgstr ""
 
@@ -805,37 +812,74 @@ msgstr ""
 msgid "Pokémon Type Medals"
 msgstr ""
 
-#: trainer/templates/leaderboard.html:33
+#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
+#: trainer/templates/leaderboard.html:27
+#: trainer/templates/leaderboard404.html:7
+#: trainer/templates/leaderboard404.html:12
+#: trainer/templates/leaderboard404.html:26
+msgid "International"
+msgstr "internazionale"
+
+#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
+#: trainer/templates/leaderboard.html:27
+#: trainer/templates/leaderboard404.html:7
+#: trainer/templates/leaderboard404.html:12
+#: trainer/templates/leaderboard404.html:26
+#, python-format
+msgctxt ""
+"This is the title, loc is defined as the country/continent name, or the word"
+" International (which is translated seperately)."
+msgid "%(loc)s Leaderboard"
+msgstr "Classifica %(loc)s"
+
+#: trainer/templates/leaderboard.html:41
+#: trainer/templates/leaderboard404.html:40
 msgid "Mystic"
-msgstr ""
+msgstr "Saggezza"
 
-#: trainer/templates/leaderboard.html:35
+#: trainer/templates/leaderboard.html:43
+#: trainer/templates/leaderboard404.html:42
 msgid "Valor"
-msgstr ""
+msgstr "Coraggio"
 
-#: trainer/templates/leaderboard.html:37
+#: trainer/templates/leaderboard.html:45
+#: trainer/templates/leaderboard404.html:44
 msgid "Instinct"
-msgstr ""
+msgstr "Istinto"
 
-#: trainer/templates/leaderboard.html:39
-msgid "Spoofers"
-msgstr ""
-
-#: trainer/templates/leaderboard.html:45
+#: trainer/templates/leaderboard.html:51
+#: trainer/templates/leaderboard404.html:50
 msgid "Total XP"
-msgstr ""
+msgstr "Totale PE"
 
-#: trainer/templates/leaderboard.html:45
+#: trainer/templates/leaderboard.html:51
+#: trainer/templates/leaderboard404.html:50
 msgid "Trainers Considered"
 msgstr ""
 
-#: trainer/templates/leaderboard.html:58 trainer/templates/profile.html:10
+#: trainer/templates/leaderboard.html:61 trainer/templates/profile.html:10
 #: trainer/templates/profile.html:46
 msgid "TL"
+msgstr "Livello"
+
+#: trainer/templates/leaderboard.html:69
+msgid "Last Updated"
 msgstr ""
 
-#: trainer/templates/leaderboard.html:61
-msgid "Last Updated"
+#: trainer/templates/leaderboard404.html:15
+msgid "No results found."
+msgstr ""
+
+#: trainer/templates/leaderboard404.html:53
+msgid ""
+"There is no information to include in this leaderboard. Why not be the "
+"first?"
+msgstr ""
+
+#: trainer/templates/leaderboard404.html:54
+msgid ""
+"I've not finished the function to add yourself to the leaderboard. Please "
+"email jay@trainerdex.co.uk to set your location."
 msgstr ""
 
 #: trainer/templates/profile.html:71
@@ -876,8 +920,8 @@ msgstr ""
 
 #: trainer/templates/profile.html:109
 msgid ""
-"It seems this trainer hasn't shared any of these medals. We only show medals "
-"with data to avoid showing a row of null values, that's kinda ugly."
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
 msgstr ""
 
 #: trainer/validators.py:10
@@ -896,33 +940,33 @@ msgid ""
 "Trainer Code must be 12 digits long and contain only numbers and whitespace."
 msgstr ""
 
-#: trainer/views.py:144
+#: trainer/views.py:145
 msgid "Profile deactivated"
 msgstr ""
 
-#: trainer/views.py:234
+#: trainer/views.py:235
 msgid "Late Update Deletion Request"
 msgstr ""
 
-#: trainer/views.py:235
+#: trainer/views.py:236
 #, python-brace-format
 msgid "There has been a request to delete {update} by {requester} at {ip}"
 msgstr ""
 
-#: trainer/views.py:393 trainer/views.py:465 trainer/views.py:493
-#: trainer/views.py:586
+#: trainer/views.py:394 trainer/views.py:466 trainer/views.py:494
+#: trainer/views.py:606
 msgid "Please complete your profile to continue using the website."
 msgstr ""
 
-#: trainer/views.py:634
+#: trainer/views.py:654
 msgid ""
 "Thank you for filling out your profile. Your screenshots have been sent for "
-"verification. An admin will verify you within the next couple of days. Until "
-"then, you will not appear in the Global Leaderboard but you can still use "
+"verification. An admin will verify you within the next couple of days. Until"
+" then, you will not appear in the Global Leaderboard but you can still use "
 "Guild Leaderboards and and update your stats!"
 msgstr ""
 
-#: trainer/views.py:656
+#: trainer/views.py:676
 msgid "Stats updated. Screenshot included."
 msgstr ""
 
@@ -999,7 +1043,8 @@ msgstr ""
 #: website/templates/account/email.html:83
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
 
 #: website/templates/account/email.html:94
@@ -1011,9 +1056,7 @@ msgstr ""
 msgid ""
 "Hello from %(site_name)s!\n"
 "\n"
-"You're receiving this e-mail because user %(user_display)s has connected "
-"this e-mail address to their account. If this is not you, just ignore this "
-"email.\n"
+"You're receiving this e-mail because user %(user_display)s has connected this e-mail address to their account. If this is not you, just ignore this email.\n"
 "\n"
 "To confirm this is correct, go to %(activate_url)s\n"
 msgstr ""
@@ -1034,10 +1077,8 @@ msgstr ""
 msgid ""
 "Hello from %(site_name)s!\n"
 "\n"
-"You're receiving this e-mail because you or someone else has requested a "
-"password for your user account.\n"
-"It can be safely ignored if you did not request a password reset. Click the "
-"link below to reset your password."
+"You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
 msgstr ""
 
 #: website/templates/account/email/password_reset_key_message.txt:8
@@ -1097,8 +1138,8 @@ msgstr ""
 #: website/templates/account/login.html:25
 #, python-format
 msgid ""
-"If you have not created an account yet, then please <a href=\"%(signup_url)s"
-"\">sign up</a> first."
+"If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
 
 #: website/templates/account/login.html:81
@@ -1189,8 +1230,8 @@ msgstr ""
 
 #: website/templates/account/password_reset.html:29
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 
 #: website/templates/account/password_reset.html:30
@@ -1275,7 +1316,8 @@ msgid "Sign Up Closed"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:15
-msgid "We are sorry, but registrations via the website are currently disabled."
+msgid ""
+"We are sorry, but registrations via the website are currently disabled."
 msgstr ""
 
 #: website/templates/account/signup_closed.html:16
@@ -1324,63 +1366,67 @@ msgid ""
 msgstr ""
 
 #: website/templates/base.html:15
+msgctxt "meta tag in head"
 msgid ""
 "TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!"
 msgstr ""
 
-#. Translators: 'beta' should remain in lowercase
-#: website/templates/base.html:54 website/templates/base.html:76
+#. Translators: 'beta' should remain in lowercase and is superscripted
+#: website/templates/base.html:57
 msgid "beta"
 msgstr ""
 
-#: website/templates/base.html:70
+#: website/templates/base.html:81
 msgid "About Us"
 msgstr ""
 
-#: website/templates/base.html:83 website/templates/base.html:105
+#: website/templates/base.html:93 website/templates/base.html:115
 #: website/templates/help/account_settings.html:5
 #: website/templates/help/account_settings.html:6
 #: website/templates/help/account_settings.html:7
 msgid "Account Settings"
 msgstr ""
 
-#: website/templates/base.html:84 website/templates/base.html:106
+#: website/templates/base.html:94 website/templates/base.html:116
 msgid "Log out"
 msgstr ""
 
-#: website/templates/base.html:86 website/templates/base.html:108
+#: website/templates/base.html:96 website/templates/base.html:118
 msgid "Login"
 msgstr ""
 
-#: website/templates/base.html:97
-msgid "Anon"
+#: website/templates/base.html:107
+msgctxt ""
+"This is the display name for a user not logged in. Use local references if "
+"you like. In English, I've gone for Red, the protagonist in the Gen 1 games."
+msgid "Red"
 msgstr ""
 
-#: website/templates/base.html:101
+#: website/templates/base.html:111
 msgid "Account Control"
 msgstr ""
 
-#: website/templates/base.html:116
+#: website/templates/base.html:126
 msgid "My Profile"
 msgstr ""
 
-#: website/templates/base.html:116
+#: website/templates/base.html:126
 msgid "Home"
 msgstr ""
 
-#: website/templates/base.html:119 website/templates/base.html:153
+#: website/templates/base.html:129 website/templates/base.html:163
 msgid "Help"
 msgstr ""
 
-#: website/templates/base.html:152
+#: website/templates/base.html:162
 msgid "About"
 msgstr ""
 
-#: website/templates/base.html:154
+#: website/templates/base.html:164
 msgid "Privacy &amp; Terms"
 msgstr ""
 
-#: website/templates/base.html:155
+#: website/templates/base.html:165
 msgid "Admin Panel"
 msgstr ""
 
