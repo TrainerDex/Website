@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-23 14:43+0000\n"
-"PO-Revision-Date: 2018-01-21 13:23+0000\n"
-"Last-Translator: b'  <pfuentes1985@gmail.com>'\n"
+"POT-Creation-Date: 2018-07-28 17:03+0000\n"
+"PO-Revision-Date: 2018-07-28 17:09+0000\n"
+"Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -63,12 +63,12 @@ msgstr "Bienvenido/a"
 #, python-format
 msgid ""
 "TrainerDex is a service for tracking and updating your progress in Pokémon "
-"Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s"
-"\" id=\"faq\">FAQ</a>."
+"Go. Don't worry, there's no risk of ban! Check out our <a "
+"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
 msgstr ""
 "TrainerDex es un servicio para seguir y actualizar tu progreso en Pokémon "
-"Go. No te preocupes, no hay riesgo de ban!  Revisa aquí nuestras <a href="
-"\"%(faq_url)s\" id=\"faq\">Preguntas Frecuentes</a>."
+"Go. No te preocupes, no hay riesgo de ban!  Revisa aquí nuestras <a "
+"href=\"%(faq_url)s\" id=\"faq\">Preguntas Frecuentes</a>."
 
 #: support/templates/about.html:19
 msgid ""
@@ -112,40 +112,19 @@ msgstr "Mi objetivo total no se encuentra!!!"
 #: support/templates/help/faq.html:18
 msgid ""
 "\n"
-"                      <p><i>This isn't a question. That's you complaining, "
-"but I have an answer anyway.</i></p>\n"
+"                      <p><i>This isn't a question. That's you complaining, but I have an answer anyway.</i></p>\n"
 "                      \n"
-"                      <p>You most likely had a <em>phantom goal</em> This "
-"isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants "
-"to own up to. Instead, this related to goals shown by the Discord bot. "
-"Before the 22nd December, once you reached your goal the bot would reset it "
-"to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal "
-"as a promotion for goals.</p>\n"
+"                      <p>You most likely had a <em>phantom goal</em> This isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants to own up to. Instead, this related to goals shown by the Discord bot. Before the 22nd December, once you reached your goal the bot would reset it to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal as a promotion for goals.</p>\n"
 "                      \n"
-"                      <p>Since then, the default behaviour is to "
-"automatically move your goal on to the next level when you reach your goal, "
-"rather than resetting to zero. To give the user a choice <em>not</em> to "
-"have a goal. We removed phantom goals. Phantom goals didn't congratulate the "
-"user either, whereas set goals do.</p>\n"
+"                      <p>Since then, the default behaviour is to automatically move your goal on to the next level when you reach your goal, rather than resetting to zero. To give the user a choice <em>not</em> to have a goal. We removed phantom goals. Phantom goals didn't congratulate the user either, whereas set goals do.</p>\n"
 "                      "
 msgstr ""
 "\n"
-"<p><I>Esto no es una pregunta. Este es tu reclamo, pero tengo una respuesta "
-"de todos modos.</i></p>\n"
+"<p><I>Esto no es una pregunta. Este es tu reclamo, pero tengo una respuesta de todos modos.</i></p>\n"
 "\n"
-"<p> Lo más probable es que tengas un <em> objetivo fantasma </em> Esto no "
-"tiene nada que ver con Danny Phantom, fantasmas, o un objetivo propio que "
-"nadie quiere reconocer. En cambio, esto se relaciona con los objetivos "
-"mostrados por el bot de Discord. Antes del 22 de diciembre, una vez que "
-"alcanzas tu objetivo, el bot lo reiniciará a cero. Cualquiera que esté por "
-"debajo del nivel 40 y una meta cero se le asignó un objetivo fantasma como "
-"promoción de metas. </p>\n"
+"<p> Lo más probable es que tengas un <em> objetivo fantasma </em> Esto no tiene nada que ver con Danny Phantom, fantasmas, o un objetivo propio que nadie quiere reconocer. En cambio, esto se relaciona con los objetivos mostrados por el bot de Discord. Antes del 22 de diciembre, una vez que alcanzas tu objetivo, el bot lo reiniciará a cero. Cualquiera que esté por debajo del nivel 40 y una meta cero se le asignó un objetivo fantasma como promoción de metas. </p>\n"
 "\n"
-"<p> Desde entonces, el comportamiento predeterminado es mover "
-"automáticamente  tu objetivo al siguiente nivel cuando lo alcanzas, en lugar "
-"de volver a cero. Para darle al usuario la opción <em> no </ em> de tener un "
-"objetivo. Eliminamos objetivos fantasmas. Las metas fantasmas tampoco "
-"felicitan al usuario, mientras que las metas establecidas sí lo hacen. </p>"
+"<p> Desde entonces, el comportamiento predeterminado es mover automáticamente  tu objetivo al siguiente nivel cuando lo alcanzas, en lugar de volver a cero. Para darle al usuario la opción <em> no </ em> de tener un objetivo. Eliminamos objetivos fantasmas. Las metas fantasmas tampoco felicitan al usuario, mientras que las metas establecidas sí lo hacen. </p>"
 
 #: support/templates/help/faq.html:29
 msgid "How do I set a goal?"
@@ -155,82 +134,52 @@ msgstr "¿Cómo establezco una meta?"
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
-#| "                      <p>Goals currently only work on the Discord bot, "
-#| "however, they're coming soon to web</p>\n"
+#| "                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>\n"
 #| "                      \n"
-#| "                      <p>Simply message the Discord Bot, <a href="
-#| "\"%(discord_url)s\">TrainerDex#6280</a> <code>.update goal &lt;option&gt; "
-#| "&lt;value&gt;</code></p>\n"
+#| "                      <p>Simply message the Discord Bot, <a href=\"%(discord_url)s\">TrainerDex#6280</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>\n"
 #| "                      \n"
 #| "                      <p class=\"help-faq-question\">Options</p>\n"
 #| "                      <ul>\n"
 #| "                        <li>\n"
-#| "                          <code>daily</code> - Sets your daily or 'rate' "
-#| "goal. This is the goal which shows you the speed at which you're "
-#| "progressing. This takes a numeric value ranging from 0 to 3000000.\n"
+#| "                          <code>daily</code> - Sets your daily or 'rate' goal. This is the goal which shows you the speed at which you're progressing. This takes a numeric value ranging from 0 to 3000000.\n"
 #| "                        </li>\n"
 #| "                        <li>\n"
-#| "                          <code>total</code> - Sets your total or 'reach' "
-#| "goal. This is the goal which you would use to get a grasp of when you're "
-#| "going to reach a specific point. This takes a numeric value which is at "
-#| "least one more than your current experience. \n"
-#| "                          <em>Sidenote - <code>.update goal total</code> "
-#| "has an aditiinal option, <code>auto</code>, which sets a goal for you "
-#| "based on your current experince.</em>\n"
+#| "                          <code>total</code> - Sets your total or 'reach' goal. This is the goal which you would use to get a grasp of when you're going to reach a specific point. This takes a numeric value which is at least one more than your current experience. \n"
+#| "                          <em>Sidenote - <code>.update goal total</code> has an aditiinal option, <code>auto</code>, which sets a goal for you based on your current experince.</em>\n"
 #| "                        </li>\n"
 #| "                      </ul>\n"
 #| "                      "
 msgid ""
 "\n"
-"                      <p>Goals currently only work on the Discord bot, "
-"however, they're coming soon to web</p>\n"
+"                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>\n"
 "                      \n"
-"                      <p>Simply message the Discord Bot, <a href="
-"\"%(discord_url)s\">TrainerDex#8522</a> <code>.update goal &lt;option&gt; "
-"&lt;value&gt;</code></p>\n"
+"                      <p>Simply message the Discord Bot, <a href=\"%(discord_url)s\">TrainerDex#8522</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>\n"
 "                      \n"
 "                      <p class=\"help-faq-question\">Options</p>\n"
 "                      <ul>\n"
 "                        <li>\n"
-"                          <code>daily</code> - Sets your daily or 'rate' "
-"goal. This is the goal which shows you the speed at which you're "
-"progressing. This takes a numeric value ranging from 0 to 3000000.\n"
+"                          <code>daily</code> - Sets your daily or 'rate' goal. This is the goal which shows you the speed at which you're progressing. This takes a numeric value ranging from 0 to 3000000.\n"
 "                        </li>\n"
 "                        <li>\n"
-"                          <code>total</code> - Sets your total or 'reach' "
-"goal. This is the goal which you would use to get a grasp of when you're "
-"going to reach a specific point. This takes a numeric value which is at "
-"least one more than your current experience. \n"
-"                          <em>Sidenote - <code>.update goal total</code> has "
-"an additional option, <code>auto</code>, which sets a goal for you based on "
-"your current experince.</em>\n"
+"                          <code>total</code> - Sets your total or 'reach' goal. This is the goal which you would use to get a grasp of when you're going to reach a specific point. This takes a numeric value which is at least one more than your current experience. \n"
+"                          <em>Sidenote - <code>.update goal total</code> has an additional option, <code>auto</code>, which sets a goal for you based on your current experince.</em>\n"
 "                        </li>\n"
 "                      </ul>\n"
 "                      "
 msgstr ""
 "\n"
-"<p> Actualmente, las metas solo funcionan en el bot de Discord, sin embargo, "
-"pronto llegarán a la Web</p>\n"
+"<p> Actualmente, las metas solo funcionan en el bot de Discord, sin embargo, pronto llegarán a la Web</p>\n"
 "\n"
-"<p>Simplemente escribe este mensaje al Bot de Discord  <a href="
-"\"%(discord_url)s\">TrainerDex#6280</a> <code>.update goal &lt;option&gt; "
-"&lt;value&gt;</code></p>\n"
+"<p>Simplemente escribe este mensaje al Bot de Discord  <a href=\"%(discord_url)s\">TrainerDex#6280</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>\n"
 "\n"
 "<p class=\"help-faq-question\">Opciones</p>\n"
 "<ul>\n"
 "<li>\n"
-"<code>daily</code> - Establece tu objetivo diario o de 'ritmo'. Este "
-"objetivo te muestra la velocidad a la que progresas. Toma un valor numérico "
-"que va de 0 a 3.000.000.\n"
+"<code>daily</code> - Establece tu objetivo diario o de 'ritmo'. Este objetivo te muestra la velocidad a la que progresas. Toma un valor numérico que va de 0 a 3.000.000.\n"
 "</li>\n"
 "<li>\n"
-"<code>total</code> - Establece tu objetivo total o de \"alcance\". Este "
-"objetivo es el que usarías para obtener una idea de cuándo llegarás a un "
-"punto específico. Esto toma un valor numérico que es al menos uno más que su "
-"experiencia actual.\n"
-"<em>Nota al margen - <code>.update goal total</code> tiene una opción "
-"adicional<code>auto</code>, establece un objetivo basado en tu experiencia "
-"actual.</em>\n"
+"<code>total</code> - Establece tu objetivo total o de \"alcance\". Este objetivo es el que usarías para obtener una idea de cuándo llegarás a un punto específico. Esto toma un valor numérico que es al menos uno más que su experiencia actual.\n"
+"<em>Nota al margen - <code>.update goal total</code> tiene una opción adicional<code>auto</code>, establece un objetivo basado en tu experiencia actual.</em>\n"
 "</li>\n"
 "</ul>"
 
@@ -250,9 +199,8 @@ msgstr ""
 msgid "Website Badges"
 msgstr ""
 
-#: trainer/admin.py:57 trainer/templates/leaderboard.html:7
-#: trainer/templates/leaderboard.html:12 trainer/templates/leaderboard.html:21
-#: website/templates/base.html:71 website/templates/base.html:117
+#: trainer/admin.py:57 website/templates/base.html:82
+#: website/templates/base.html:127
 msgid "Leaderboard"
 msgstr "Tabla de clasificación"
 
@@ -272,13 +220,13 @@ msgstr "Se esperaba un UUID, pero no se encontró"
 msgid "User"
 msgstr "Usuario"
 
-#: trainer/models.py:35 trainer/templates/leaderboard.html:57
-msgid "Username"
-msgstr "Nombre de Usuario"
+#: trainer/models.py:35 trainer/templates/leaderboard.html:61
+msgid "Nickname"
+msgstr "Apodo"
 
 #: trainer/models.py:35
 msgid ""
-"Your Trainer Username exactly as is in game. You are free to change "
+"Your Trainer Nickname exactly as is in game. You are free to change "
 "capitalisation but removal or addition of digits may prevent other Trainers "
 "with similar usernames from using this service and is against the Terms of "
 "Service."
@@ -293,7 +241,7 @@ msgid "The date you created your Pokémon Go account."
 msgstr ""
 
 #: trainer/models.py:37 trainer/models.py:180
-#: trainer/templates/leaderboard.html:59
+#: trainer/templates/leaderboard.html:62
 msgid "Team"
 msgstr "Equipo"
 
@@ -373,23 +321,51 @@ msgstr ""
 msgid "Pokémon GO Fest 2017"
 msgstr "Pokémon GO Fest en Chicago"
 
+#: trainer/models.py:47
+msgid "Chicago, July 22, 2017"
+msgstr ""
+
 #: trainer/models.py:48
 #, fuzzy
-#| msgid "Pikachu Outbreak"
-msgid "Pikachu Outbreak 2017"
-msgstr "Estallido de Pikachus"
+#| msgid "Pokémon GO Fest Chicago"
+msgid "Pokémon GO STADIUM"
+msgstr "Pokémon GO Fest en Chicago"
+
+#: trainer/models.py:48
+msgid "Yokohama, August 2017"
+msgstr ""
 
 #: trainer/models.py:49 trainer/models.py:50 trainer/models.py:51
 #: trainer/models.py:52 trainer/models.py:53 trainer/models.py:54
 #: trainer/models.py:55
-msgid "Safari Zone"
-msgstr "Zona Safari"
+msgid "GO Safari Zone - Europe 2017"
+msgstr ""
+
+#: trainer/models.py:49 trainer/models.py:50 trainer/models.py:51
+msgid "Europe, September 16, 2017"
+msgstr ""
+
+#: trainer/models.py:52 trainer/models.py:53
+msgid "Europe, October 7, 2017"
+msgstr ""
+
+#: trainer/models.py:54 trainer/models.py:55
+msgid "Europe, October 14, 2017"
+msgstr ""
 
 #: trainer/models.py:56
 #, fuzzy
 #| msgid "Pokémon GO Fest Chicago"
 msgid "Pokémon GO Fest 2018"
 msgstr "Pokémon GO Fest en Chicago"
+
+#: trainer/models.py:56
+msgid "Chicago, July 14-15, 2018"
+msgstr ""
+
+#: trainer/models.py:57
+msgid "Japan, July 26-29, 2018"
+msgstr ""
 
 #: trainer/models.py:59
 msgid "Country"
@@ -443,8 +419,7 @@ msgstr "Equipo"
 msgid "Time Updated"
 msgstr "Tiempo Actualizado"
 
-#: trainer/models.py:187 trainer/templates/leaderboard.html:60
-#: trainer/templates/profile.html:82
+#: trainer/models.py:187 trainer/templates/profile.html:82
 msgid "XP"
 msgstr "Experiencia"
 
@@ -458,8 +433,8 @@ msgstr "Especies atrapadas"
 
 #: trainer/models.py:188
 msgid ""
-"In your Pokédex, how many differnt species have you caught? It should say at "
-"the top."
+"In your Pokédex, how many differnt species have you caught? It should say at"
+" the top."
 msgstr ""
 
 #: trainer/models.py:189
@@ -885,8 +860,8 @@ msgstr "Registrate "
 
 #: trainer/templates/account/signup2.html:17
 #: website/templates/account/signup.html:21
-#: website/templates/account/signup.html:51 website/templates/base.html:87
-#: website/templates/base.html:109
+#: website/templates/account/signup.html:51 website/templates/base.html:97
+#: website/templates/base.html:119
 msgid "Register"
 msgstr "Registrar"
 
@@ -917,42 +892,80 @@ msgstr "Insignias"
 msgid "Pokémon Type Medals"
 msgstr "Medallas de Pokémon por tipo"
 
-#: trainer/templates/leaderboard.html:33
+#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
+#: trainer/templates/leaderboard.html:27
+#: trainer/templates/leaderboard404.html:7
+#: trainer/templates/leaderboard404.html:12
+#: trainer/templates/leaderboard404.html:26
+msgid "International"
+msgstr "internacional"
+
+#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
+#: trainer/templates/leaderboard.html:27
+#: trainer/templates/leaderboard404.html:7
+#: trainer/templates/leaderboard404.html:12
+#: trainer/templates/leaderboard404.html:26
+#, fuzzy, python-format
+#| msgid "Leaderboard"
+msgctxt ""
+"This is the title, loc is defined as the country/continent name, or the word"
+" International (which is translated seperately)."
+msgid "%(loc)s Leaderboard"
+msgstr "Tabla de clasificación %(loc)s"
+
+#: trainer/templates/leaderboard.html:41
+#: trainer/templates/leaderboard404.html:40
 msgid "Mystic"
 msgstr "Sabiduría "
 
-#: trainer/templates/leaderboard.html:35
+#: trainer/templates/leaderboard.html:43
+#: trainer/templates/leaderboard404.html:42
 msgid "Valor"
 msgstr "Valor"
 
-#: trainer/templates/leaderboard.html:37
+#: trainer/templates/leaderboard.html:45
+#: trainer/templates/leaderboard404.html:44
 msgid "Instinct"
 msgstr "Instinto"
 
-#: trainer/templates/leaderboard.html:39
-msgid "Spoofers"
-msgstr "Spoofers"
-
-#: trainer/templates/leaderboard.html:45
+#: trainer/templates/leaderboard.html:51
+#: trainer/templates/leaderboard404.html:50
 #, fuzzy
 #| msgid "Grand Total XP"
 msgid "Total XP"
-msgstr "Total de experiencia"
+msgstr "Total de PX"
 
-#: trainer/templates/leaderboard.html:45
+#: trainer/templates/leaderboard.html:51
+#: trainer/templates/leaderboard404.html:50
 msgid "Trainers Considered"
 msgstr ""
 
-#: trainer/templates/leaderboard.html:58 trainer/templates/profile.html:10
+#: trainer/templates/leaderboard.html:61 trainer/templates/profile.html:10
 #: trainer/templates/profile.html:46
 msgid "TL"
-msgstr "Nivel de Entrenador"
+msgstr "Nivel"
 
-#: trainer/templates/leaderboard.html:61
+#: trainer/templates/leaderboard.html:69
 #, fuzzy
 #| msgid "Date Updated"
 msgid "Last Updated"
 msgstr "Fecha actualizada"
+
+#: trainer/templates/leaderboard404.html:15
+msgid "No results found."
+msgstr ""
+
+#: trainer/templates/leaderboard404.html:53
+msgid ""
+"There is no information to include in this leaderboard. Why not be the "
+"first?"
+msgstr ""
+
+#: trainer/templates/leaderboard404.html:54
+msgid ""
+"I've not finished the function to add yourself to the leaderboard. Please "
+"email jay@trainerdex.co.uk to set your location."
+msgstr ""
 
 #: trainer/templates/profile.html:71
 msgid "History"
@@ -992,8 +1005,8 @@ msgstr "Incursiones Legendarias"
 
 #: trainer/templates/profile.html:109
 msgid ""
-"It seems this trainer hasn't shared any of these medals. We only show medals "
-"with data to avoid showing a row of null values, that's kinda ugly."
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
 msgstr ""
 "Parece que este entrenador no ha compartido ninguna de sus medallas. Solo "
 "mostramos medallas con datos para evitar mostrar una fila de valores nulos, "
@@ -1016,34 +1029,34 @@ msgid ""
 "Trainer Code must be 12 digits long and contain only numbers and whitespace."
 msgstr ""
 
-#: trainer/views.py:144
+#: trainer/views.py:145
 msgid "Profile deactivated"
 msgstr "Perfil desactivado"
 
-#: trainer/views.py:234
+#: trainer/views.py:235
 msgid "Late Update Deletion Request"
 msgstr "Solicitud de eliminación tardía"
 
-#: trainer/views.py:235
+#: trainer/views.py:236
 #, python-brace-format
 msgid "There has been a request to delete {update} by {requester} at {ip}"
 msgstr ""
 "Ha habido una solicitud para eliminar {update} por {requester} por {ip}"
 
-#: trainer/views.py:393 trainer/views.py:465 trainer/views.py:493
-#: trainer/views.py:586
+#: trainer/views.py:394 trainer/views.py:466 trainer/views.py:494
+#: trainer/views.py:606
 msgid "Please complete your profile to continue using the website."
 msgstr ""
 
-#: trainer/views.py:634
+#: trainer/views.py:654
 msgid ""
 "Thank you for filling out your profile. Your screenshots have been sent for "
-"verification. An admin will verify you within the next couple of days. Until "
-"then, you will not appear in the Global Leaderboard but you can still use "
+"verification. An admin will verify you within the next couple of days. Until"
+" then, you will not appear in the Global Leaderboard but you can still use "
 "Guild Leaderboards and and update your stats!"
 msgstr ""
 
-#: trainer/views.py:656
+#: trainer/views.py:676
 msgid "Stats updated. Screenshot included."
 msgstr ""
 
@@ -1079,8 +1092,8 @@ msgid ""
 "password. Also, your primary email is used for gravatar generation."
 msgstr ""
 "Agregue una dirección de correo electrónico a su cuenta para volver a "
-"ingresar si olvida su contraseña. Además, su correo electrónico principal se "
-"usa para la generación de Gravatar."
+"ingresar si olvida su contraseña. Además, su correo electrónico principal se"
+" usa para la generación de Gravatar."
 
 #. Translators: This is shown in the email field when it is empty
 #: website/templates/account/email.html:30
@@ -1124,11 +1137,12 @@ msgstr "Advertencia:"
 #: website/templates/account/email.html:83
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
 "Actualmente no tienes ninguna dirección de correo electrónico configurada. "
-"Realmente debería agregar una dirección de correo electrónico para que pueda "
-"recibir notificaciones, restablecer su contraseña, etc."
+"Realmente debería agregar una dirección de correo electrónico para que pueda"
+" recibir notificaciones, restablecer su contraseña, etc."
 
 #: website/templates/account/email.html:94
 msgid "Do you really want to remove the selected e-mail address?"
@@ -1139,17 +1153,13 @@ msgstr "¿Realmente quires remover el correo electrónico seleccionado?"
 msgid ""
 "Hello from %(site_name)s!\n"
 "\n"
-"You're receiving this e-mail because user %(user_display)s has connected "
-"this e-mail address to their account. If this is not you, just ignore this "
-"email.\n"
+"You're receiving this e-mail because user %(user_display)s has connected this e-mail address to their account. If this is not you, just ignore this email.\n"
 "\n"
 "To confirm this is correct, go to %(activate_url)s\n"
 msgstr ""
 "Saludos desde %(site_name)s!\n"
 "\n"
-"Estas recibiendo este correo porque el usuario %(user_display)s a conectado "
-"este correo electrónico en su cuenta. Si no fuiste tu, por favor ignora este "
-"correo.\n"
+"Estas recibiendo este correo porque el usuario %(user_display)s a conectado este correo electrónico en su cuenta. Si no fuiste tu, por favor ignora este correo.\n"
 "\n"
 "Para confirmar que es correcto, vaya a  %(activate_url)s\n"
 
@@ -1174,17 +1184,13 @@ msgstr "Por favor, confirme su dirección de correo electrónico"
 msgid ""
 "Hello from %(site_name)s!\n"
 "\n"
-"You're receiving this e-mail because you or someone else has requested a "
-"password for your user account.\n"
-"It can be safely ignored if you did not request a password reset. Click the "
-"link below to reset your password."
+"You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
 msgstr ""
 "Saludos desde  %(site_name)s!\n"
 "\n"
-"Estas recibiendo este correo porque tu u otra persona ha solicitado una "
-"contraseña para su cuenta de usuario.\n"
-"Se puede ignorar de forma segura si no solicitó un restablecimiento de "
-"contraseña. Haga clic en el siguiente enlace para restablecer su contraseña."
+"Estas recibiendo este correo porque tu u otra persona ha solicitado una contraseña para su cuenta de usuario.\n"
+"Se puede ignorar de forma segura si no solicitó un restablecimiento de contraseña. Haga clic en el siguiente enlace para restablecer su contraseña."
 
 #: website/templates/account/email/password_reset_key_message.txt:8
 #, python-format
@@ -1244,15 +1250,15 @@ msgid ""
 "If you already have an account, you can login below or via a third party "
 "account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
 msgstr ""
-"Si tu ya tienes una cuenta, puedes iniciar sesión a continuación o utilizado "
-"una cuenta de terceros. Si no, <a href=\"%(signup_url)s\">crea</a> tu nueva "
-"cuenta."
+"Si tu ya tienes una cuenta, puedes iniciar sesión a continuación o utilizado"
+" una cuenta de terceros. Si no, <a href=\"%(signup_url)s\">crea</a> tu nueva"
+" cuenta."
 
 #: website/templates/account/login.html:25
 #, python-format
 msgid ""
-"If you have not created an account yet, then please <a href=\"%(signup_url)s"
-"\">sign up</a> first."
+"If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
 "Si no hay creado una cuenta aún,  por favor <a href=\"%(signup_url)s\">Crea "
 "una cuenta</a> primero."
@@ -1347,8 +1353,8 @@ msgstr "Resetear contraseña"
 
 #: website/templates/account/password_reset.html:29
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 "Haz olvidado tu contraseña? Introduce la dirección de correo electrónico a "
 "continuación y te enviaremos un correo electrónico que te permitirá "
@@ -1440,7 +1446,8 @@ msgid "Sign Up Closed"
 msgstr "Inscripción cerrada"
 
 #: website/templates/account/signup_closed.html:15
-msgid "We are sorry, but registrations via the website are currently disabled."
+msgid ""
+"We are sorry, but registrations via the website are currently disabled."
 msgstr "Lo sentimos, pero el registro vía este sitio están desactivadas"
 
 #: website/templates/account/signup_closed.html:16
@@ -1495,70 +1502,74 @@ msgid ""
 "inside this e-mail. Please contact us if you do not receive it within a few "
 "minutes."
 msgstr ""
-"Le hemos enviado un correo electrónico para su verificación. Haga clic en el "
-"enlace dentro de este correo. Por favor contáctenos si no lo recibe en unos "
-"minutos."
+"Le hemos enviado un correo electrónico para su verificación. Haga clic en el"
+" enlace dentro de este correo. Por favor contáctenos si no lo recibe en unos"
+" minutos."
 
 #: website/templates/base.html:15
+msgctxt "meta tag in head"
 msgid ""
 "TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!"
 msgstr ""
 
-#. Translators: 'beta' should remain in lowercase
-#: website/templates/base.html:54 website/templates/base.html:76
+#. Translators: 'beta' should remain in lowercase and is superscripted
+#: website/templates/base.html:57
 msgid "beta"
 msgstr "beta"
 
-#: website/templates/base.html:70
+#: website/templates/base.html:81
 #, fuzzy
 #| msgid "About"
 msgid "About Us"
 msgstr "Sobre"
 
-#: website/templates/base.html:83 website/templates/base.html:105
+#: website/templates/base.html:93 website/templates/base.html:115
 #: website/templates/help/account_settings.html:5
 #: website/templates/help/account_settings.html:6
 #: website/templates/help/account_settings.html:7
 msgid "Account Settings"
 msgstr "Configuración de cuenta"
 
-#: website/templates/base.html:84 website/templates/base.html:106
+#: website/templates/base.html:94 website/templates/base.html:116
 msgid "Log out"
 msgstr "Cerrar sesión"
 
-#: website/templates/base.html:86 website/templates/base.html:108
+#: website/templates/base.html:96 website/templates/base.html:118
 msgid "Login"
 msgstr "Iniciar sesión"
 
-#: website/templates/base.html:97
-msgid "Anon"
-msgstr "Anonimo "
+#: website/templates/base.html:107
+msgctxt ""
+"This is the display name for a user not logged in. Use local references if "
+"you like. In English, I've gone for Red, the protagonist in the Gen 1 games."
+msgid "Red"
+msgstr ""
 
-#: website/templates/base.html:101
+#: website/templates/base.html:111
 msgid "Account Control"
 msgstr "Control de cuenta"
 
-#: website/templates/base.html:116
+#: website/templates/base.html:126
 msgid "My Profile"
 msgstr "Mi perfil"
 
-#: website/templates/base.html:116
+#: website/templates/base.html:126
 msgid "Home"
 msgstr "Inicio"
 
-#: website/templates/base.html:119 website/templates/base.html:153
+#: website/templates/base.html:129 website/templates/base.html:163
 msgid "Help"
 msgstr "Ayuda"
 
-#: website/templates/base.html:152
+#: website/templates/base.html:162
 msgid "About"
 msgstr "Sobre"
 
-#: website/templates/base.html:154
+#: website/templates/base.html:164
 msgid "Privacy &amp; Terms"
 msgstr "Términos y Privacidad"
 
-#: website/templates/base.html:155
+#: website/templates/base.html:165
 msgid "Admin Panel"
 msgstr "Panel administrativo"
 
@@ -1651,7 +1662,24 @@ msgid ""
 "%(site_name)s. As a final step, please complete the following form:"
 msgstr ""
 "Estas a punto de utilizar tu cuenta  %(provider_name)s para iniciar sesión "
-"en %(site_name)s. Para finalizar, por favor completa el siguiente formulario:"
+"en %(site_name)s. Para finalizar, por favor completa el siguiente "
+"formulario:"
+
+#~ msgid "Username"
+#~ msgstr "Nombre de Usuario"
+
+#, fuzzy
+#~ msgid "Pikachu Outbreak 2017"
+#~ msgstr "Estallido de Pikachus"
+
+#~ msgid "Safari Zone"
+#~ msgstr "Zona Safari"
+
+#~ msgid "Spoofers"
+#~ msgstr "Spoofers"
+
+#~ msgid "Anon"
+#~ msgstr "Anonimo "
 
 #~ msgid "Subregion"
 #~ msgstr "Subregión"
@@ -1805,11 +1833,11 @@ msgstr ""
 #~ msgstr "*"
 
 #~ msgid ""
-#~ "If a trainer has a %(ss_ident)s next to their name, it means the "
-#~ "information was sourced from social media."
+#~ "If a trainer has a %(ss_ident)s next to their name, it means the information"
+#~ " was sourced from social media."
 #~ msgstr ""
-#~ "Si el entrenador tiene %(ss_ident)s cerca de su nombre, quiere decir que "
-#~ "la información a sido obtenida desde la red social."
+#~ "Si el entrenador tiene %(ss_ident)s cerca de su nombre, quiere decir que la "
+#~ "información a sido obtenida desde la red social."
 
 #~ msgid "Filter"
 #~ msgstr "Filtro"
@@ -1824,9 +1852,9 @@ msgstr ""
 #~ msgstr "[TrainerDex] Verificación necesaria para  {trainer}"
 
 #~ msgid ""
-#~ "Welcome {trainer}, please respond to this email with screenshots of the "
-#~ "top and bottom of your Pokemon Go profile for verification. Once "
-#~ "verified, you will appear in the leaderboards."
+#~ "Welcome {trainer}, please respond to this email with screenshots of the top "
+#~ "and bottom of your Pokemon Go profile for verification. Once verified, you "
+#~ "will appear in the leaderboards."
 #~ msgstr ""
 #~ "Bienvenido {trainer}, por favor responda a este correo con la captura de "
 #~ "pantalla de la parte superior e inferior de tu perfil en Pokémon Go con "
@@ -1843,8 +1871,8 @@ msgstr ""
 #~ "You would already have an account if you use the Discord bot, please <a "
 #~ "href=\"%(login_url)s\">sign in</a>."
 #~ msgstr ""
-#~ " tendrías una cuenta si usas el bot de Discord, por favor <a href="
-#~ "\"%(login_url)s\">registrarse</a>."
+#~ " tendrías una cuenta si usas el bot de Discord, por favor <a "
+#~ "href=\"%(login_url)s\">registrarse</a>."
 
 #~ msgid "Enter password"
 #~ msgstr "Ingrese su contraseña"
@@ -1924,6 +1952,5 @@ msgstr ""
 #~ "Your screeenshots have been sent for verification. This can take up to 48 "
 #~ "hours. You can start using the website immediately."
 #~ msgstr ""
-#~ "Tus capturas de pantalla han sido enviadas para ser verificadas. Esto "
-#~ "puede tomar hasta 48 horas. Puedes empezar a utilizar el sitio "
-#~ "inmediatamente."
+#~ "Tus capturas de pantalla han sido enviadas para ser verificadas. Esto puede "
+#~ "tomar hasta 48 horas. Puedes empezar a utilizar el sitio inmediatamente."

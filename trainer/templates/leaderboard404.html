@@ -10,10 +10,9 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:site" content="@TrainerDexApp"/>
 <meta property="og:title" content="{% blocktrans with title|default:_("International") as loc context "This is the title, loc is defined as the country/continent name, or the word International (which is translated seperately)." %}{{loc}} Leaderboard{% endblocktrans %}" />
-<meta property="og:image" content="{% static 'img/Harmony.png' %}"/>
+<meta property="og:image" content="{% static 'img/404.png' %}"/>
 <meta property="og:ttl" content="345600" />
-<meta property="og:description" content="{% for trainer in leaderboard|slice:'0:10' %}
-#{{trainer.position}}·{{trainer.trainer.username}}·{{trainer.trainer.flag_emoji|default_if_none:''}}·{{trainer.xp|intcomma}}·{% endfor %}" />
+<meta property="og:description" content="{% trans 'No results found.' %}" />
 <script>
 function setParam(uri, key, val) {
     return uri
@@ -29,7 +28,7 @@ function setParam(uri, key, val) {
 
 
 <div class="mdl-card__menu mdl-color-text--primary-contrast">
-  <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}-1);" {% if page == 1 %}disabled{% endif %}><i class="material-icons">navigate_before</i></button> {{page}}/{{pages}} <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}+1);" {% if page == pages %}disabled{% endif %}><i class="material-icons">navigate_next</i></button>
+  <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', 1);" disabled><i class="material-icons">navigate_before</i></button> 0/0 <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', 1);" disabled><i class="material-icons">navigate_next</i></button>
   <button id="set-location" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" disabled>
     <i class="material-icons">pin_drop</i>
   </button>
@@ -48,42 +47,9 @@ function setParam(uri, key, val) {
 </div>
 
 <div class="mdl-card__supporting-text mdl-color--primary mdl-color-text--primary-contrast" style="width: 100%">
-  {% trans 'Total XP' %}: {{ grand_total_xp | intword }} | {% trans 'Trainers Considered' %}: {{ grand_total_users | intcomma }}
+  {% trans 'Total XP' %}: {{ 0 | intword }} | {% trans 'Trainers Considered' %}: {{ grand_total_users }}
 </div>
 
-<div class="table-responsive">
-  <table class="mdl-data-table mdl-js-data-table" style="width: 100%">
-  {% for trainer in leaderboard %}
-    {% if forloop.first %}
-    <thead>
-      <tr>
-        <th></th>
-        <th class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;"><div id="trainer-nickname" class="trainer-nickname">{% trans "Nickname" %}</div> <div id="trainer-level" class="tl">{% trans "TL" %}</div></th>
-        <th id="faction" class="mdl-data-table__cell--non-numeric" style="width: 32px;">{% trans "Team" %}</th>
-        {% for column in trainer.columns %}
-        <th id="{{column.name}}" {% if sort_by == column.name %}class="mdl-data-table__header--sorted-descending"{% endif %} onclick="location.href = setParam(window.location.href, 'sort', '{{column.name}}');">{{column.readable_name}}</th>
-        <div class="mdl-tooltip" for="{{column.name}}">
-        {{column.tooltip}}
-        </div>
-        {% endfor %}
-        <th class="mdl-data-table__cell--non-numeric">{% trans "Last Updated" %}</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% endif %}
-      <tr>
-        <td>{{trainer.position|ordinal}}</td>
-        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'profile' %}?id={{trainer.trainer.pk}}'"><div class="trainer-nickname">{{trainer.trainer.username}} {{trainer.trainer.flag_emoji|default_if_none:''}}</div> <div class="tl">{{trainer.level}}</div></td>
-        <td class="mdl-data-table__cell--non-numeric" style="padding-top: 0px; padding-bottom: 0px; width: 32px;" ><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'" alt="{{trainer.trainer.faction.name}}"/></td>
-        {% for column in trainer.columns %}
-        <td>{{column.value|default_if_none:"---"|intcomma}}</td>
-        {% endfor %}
-        <td class="mdl-data-table__cell--non-numeric">{{trainer.update_time|naturalday}}</td>
-      </tr>
-    {% if forloop.last %}
-    </tbody>
-    {% endif %}
-  {% endfor %}
-  </table>
-</div>
+<span>{% trans "There is no information to include in this leaderboard. Why not be the first?" %}</span>
+<span>{% trans "I've not finished the function to add yourself to the leaderboard. Please email jay@trainerdex.co.uk to set your location." %} </span>
 {% endblock %}

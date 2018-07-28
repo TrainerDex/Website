@@ -625,3 +625,14 @@ iframe[scrolling='no'] { overflow: hidden; }
 .mdl-textfield--file .mdl-button--file {
   right: 0;
 }
+
+.tl {
+	float:right;
+	text-align:right;
+	width:50%;
+}
+.trainer-nickname {
+	float:left;
+	text-align:left;
+	width:50%;
+}
