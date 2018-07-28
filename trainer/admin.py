@@ -45,11 +45,11 @@ class TrainerAdmin(AjaxSelectAdmin):
 		}),
 		(_('2017 Events'), {
 			'classes': ('collapse',),
-			'fields': ('go_fest_2017', 'outbreak_2017', 'badge_safari_zone_europe_2017_09_16', 'badge_safari_zone_europe_2017_10_07', 'badge_safari_zone_europe_2017_10_14')
+			'fields': ('badge_chicago_fest_july_2017', 'badge_pikachu_outbreak_yokohama_2017', 'badge_safari_zone_europe_2017_09_16', 'badge_safari_zone_europe_2017_10_07', 'badge_safari_zone_europe_2017_10_14')
 		}),
 		(_('2018 Events'), {
 			'classes': ('collapse',),
-			'fields': ('go_fest_2018','special_weekend_2018')
+			'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018')
 		}),
 		(_('Website Badges'), {
 			'fields': ('event_10b','event_1k_users')

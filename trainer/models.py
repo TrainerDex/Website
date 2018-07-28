@@ -44,13 +44,13 @@ class Trainer(models.Model):
 	
 	trainer_code = models.CharField(null=True, blank=True, validators=[TrainerCodeValidator], verbose_name=_("Trainer Code"), max_length=15, help_text=_("Fancy sharing your trainer code? (Disclaimer: This information will be public)"))
 	
-	go_fest_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2017"), help_text=_("Chicago, July 22, 2017"))
-	outbreak_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO STADIUM"), help_text=_("Yokohama, August 2017"))
+	badge_chicago_fest_july_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2017"), help_text=_("Chicago, July 22, 2017"))
+	badge_pikachu_outbreak_yokohama_2017 = models.BooleanField(default=False, verbose_name=_("Pokémon GO STADIUM"), help_text=_("Yokohama, August 2017"))
 	badge_safari_zone_europe_2017_09_16 = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017"), help_text=_("Europe, September 16, 2017"))
 	badge_safari_zone_europe_2017_10_07 = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017"), help_text=_("Europe, October 7, 2017"))
 	badge_safari_zone_europe_2017_10_14 = models.BooleanField(default=False, verbose_name=_("GO Safari Zone - Europe 2017"), help_text=_("Europe, October 14, 2017"))
-	go_fest_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2018"), help_text=_("Chicago, July 14-15, 2018"))
-	special_weekend_2018 = models.BooleanField(default=False, verbose_name="Pokémon GO Special Weekend", help_text=_("Japan, July 26-29, 2018"))
+	badge_chicago_fest_july_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2018"), help_text=_("Chicago, July 14-15, 2018"))
+	badge_apac_partner_july_2018 = models.BooleanField(default=False, verbose_name="Pokémon GO Special Weekend", help_text=_("Japan, July 26-29, 2018"))
 	
 	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country', help_text=_("Where are you based?"))
 	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region', help_text=_("Where are you based?"))
