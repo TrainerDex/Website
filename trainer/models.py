@@ -132,8 +132,10 @@ class Trainer(models.Model):
 	
 	def get_silph_card_badges (self):
 		badges = self.get_silph_card()['badges']
-		if badges['count']:
+		try:
 			return [x['Badge'] for x in self.get_silph_card()['badges'] if x['Badge']['slug'] not in ['travler-card']]
+		except:
+			return None
 	
 	def get_silph_card_id (self):
 		return self.get_silph_card()['card_id']
