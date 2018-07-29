@@ -406,6 +406,7 @@ def TrainerProfileHTMLView(request, username):
 		badge_dict = {
 			'name':badge['name'],
 			'readable_name':Update._meta.get_field(badge['name']).verbose_name,
+			'tooltip':Update._meta.get_field(badge['name']).help_text,
 		}
 		try:
 			_badge = sorted([x for x in context['updates'] if getattr(x, badge['name'])], key=lambda x: getattr(x, badge['name']), reverse=True)
@@ -428,6 +429,7 @@ def TrainerProfileHTMLView(request, username):
 		badge_dict = {
 			'name':badge['name'],
 			'readable_name':Update._meta.get_field(badge['name']).verbose_name,
+			'tooltip':Update._meta.get_field(badge['name']).help_text,
 		}
 		try:
 			_badge = sorted([x for x in context['updates'] if getattr(x, badge['name'])], key=lambda x: getattr(x, badge['name']), reverse=True)
@@ -458,6 +460,23 @@ def TrainerProfileHTMLView(request, username):
 	context['level'] = level_parser(xp=context['xp'])
 	context['badges'] = badges
 	context['type_badges'] = type_badges
+	context['update_history'] = []
+	
+	for update in trainer.update_set.all():
+		update_obj = []
+		for x in Update._meta.get_fields():
+			if x.attname in ['dex_caught','dex_seen','gym_badges']:
+				continue
+			update_obj.append(
+				{
+					'attname':x.attname,
+					'readable_name':x.verbose_name,
+					'tooltip':x.help_text,
+					'value':getattr(update, x.column),
+				},
+			)
+		context['update_history'].append(update_obj)
+	
 	try:
 		trainer.get_silph_card()
 	except (ObjectDoesNotExist, PermissionDenied):
