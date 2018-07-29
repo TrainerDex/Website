@@ -131,7 +131,9 @@ class Trainer(models.Model):
 			raise PermissionDenied
 	
 	def get_silph_card_badges (self):
-		return [x['Badge'] for x in self.get_silph_card()['badges'] if x['Badge']['slug'] not in ['travler-card']]
+		badges = self.get_silph_card()['badges']
+		if badges['count']:
+			return [x['Badge'] for x in self.get_silph_card()['badges'] if x['Badge']['slug'] not in ['travler-card']]
 	
 	def get_silph_card_id (self):
 		return self.get_silph_card()['card_id']
