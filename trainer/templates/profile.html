@@ -3,7 +3,6 @@
 {% load i18n %}
 {% load account %}
 {% load static %}
-{% load gravatar %}
 {% load humanize %}
 {% load widget_tweaks %}
 
@@ -11,7 +10,6 @@
 {% block section_title %}{{trainer.username}}{% endblock %}
 
 {# {% block colour_scheme %}{% if trainer.faction.name == 'Valor' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-deep_orange.min.css" />{% elif trainer.faction.name == 'Mystic' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-deep_purple.min.css" />{% elif trainer.faction.name == 'Instinct' %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.amber-yellow.min.css" />{% else %}<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css" />{% endif %}{% endblock %} #}
-
 
 {% block extra_head %}
 <meta name="twitter:card" content="summary"/>
@@ -25,6 +23,36 @@ Level: {{level.level}}
 XP: {{xp|intcomma}}" />
 <meta property="profile:username" content="{{trainer.username}}" />
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
+
+<!-- Google Charts Data -->
+    <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+    <script type='text/javascript'>
+      google.charts.load('current', {'packages':['annotatedtimeline']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        {% for update in update_history %}
+          {% if forloop.first %}
+          {% for field in update|slice:"3:-21" %}
+              {% if field.attname == 'update_time' %}
+        data.addColumn('date', 'Date');
+              {% else %}
+        data.addColumn('number', '{{field.readable_name}}');
+              {% endif %}
+            {% endfor %}
+        data.addRows([
+            {% endif %}
+          [new {% for field in update|slice:"3:-21" %}{% if field.attname == 'update_time' %}Date({{ field.value|date:"Y, m, d, H, i" }})
+              {% else %}{{field.value|default_if_none:'undefined'}}{% endif %},{% if forloop.last %}]{% endif %}{% endfor %}{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]);
+
+        var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
+        chart.draw(data, {displayAnnotations: true});
+      }
+    </script>
+
+
 {% endblock %}
 
 {%block content%}
@@ -110,41 +138,41 @@ XP: {{xp|intcomma}}" />
     </div>
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-  <div class="mdl-tabs__tab-bar {# {{trainer.faction.name.lower}} #}">
-      <a href="#history-panel" class="mdl-tabs__tab is-active {# {{trainer.faction.name.lower}} #}">{% trans "History" %}</a>
-      <a href="#badges-panel" class="mdl-tabs__tab {# {{trainer.faction.name.lower}} #}">{% trans "Medals" %}</a>
-      <a href="#types-panel" class="mdl-tabs__tab {# {{trainer.faction.name.lower}} #}">{% trans "Type Medals" %}</a>
+  <div class="mdl-tabs__tab-bar">
+      <a href="#history-panel" class="mdl-tabs__tab is-active">{% trans "History" %}</a>
+      <a href="#badges-panel" class="mdl-tabs__tab">{% trans "Medals" %}</a>
+      <a href="#types-panel" class="mdl-tabs__tab">{% trans "Type Medals" %}</a>
+      <a href="#graph-panel" class="mdl-tabs__tab">{% trans "Graph" %}</a>
   </div>
 
   <div class="mdl-tabs__panel is-active" id="history-panel">
     <div class="mdl-grid table-responsive">
       <table class="mdl-cell mdl-data-table mdl-js-data-table mdl-shadow--2dp trainerdex-card-center">
+        {% for update in update_history %}
+          {% if forloop.first %}
         <thead>
           <tr>
-            <th class="mdl-data-table__cell--non-numeric">{% trans "Date" %}</th>
-            <th>{% trans "XP" %}</th>
-            <th>{% trans "Pokémon" %}</th>
-            <th>{% trans "Evolved" %}</th>
-            <th>{% trans "Eggs" %}</th>
-            <th>{% trans "Raids" %}</th>
-            <th>{% trans "Legendary Raids" %}</th>
+            {% for field in update|slice:"3:-21" %}
+            <th id="{{field.attname}}">{{field.readable_name}}</th>
+            {% endfor %}
           </tr>
         </thead>
         <tbody>
-          {% for update in updates %}
-          <tr id="{{update.uuid}}">
-            <td id="{{update.uuid}}-time" class="mdl-data-table__cell--non-numeric">{{update.update_time|naturalday}}</td>
-            <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-time">{{update.update_time}}</div>
-            <td id="{{update.uuid}}-xp">{{update.xp|default_if_none:"---"|intword}}</td>
-            <div class="mdl-tooltip" data-mdl-for="{{update.uuid}}-xp">{{update.xp|intcomma}}</div>
-            <td id="{{update.uuid}}-pkmn_caught">{{update.pkmn_caught|default_if_none:"---"|intcomma}}</td>
-            <td id="{{update.uuid}}-pkmn_evolved">{{update.pkmn_evolved|default_if_none:"---"|intcomma}}</td>
-            <td id="{{update.uuid}}-eggs_hatched">{{update.eggs_hatched|default_if_none:"---"|intcomma}}</td>
-            <td id="{{update.uuid}}-raids_completed">{{update.raids_completed|default_if_none:"---"|intcomma}}</td>
-            <td id="{{update.uuid}}-leg_raids_completed">{{update.leg_raids_completed|default_if_none:"---"|intcomma}}</td>
+          {% endif %}
+          
+          <tr id="{{update.1.value}}">
+            {% for field in update|slice:"3:-21" %}
+              {% if field.attname == 'update_time' %}
+            <td id="{{update.1.value}}.{{field.attname}}">{{field.value|default_if_none:"---"|naturalday}}</td>
+              {% else %}
+            <td id="{{update.1.value}}.{{field.attname}}">{{field.value|default_if_none:"---"|intcomma}}</td>
+              {% endif %}
+            {% endfor %}
           </tr>
-          {% endfor %}
+          {% if forloop.last %}
         </tbody>
+          {% endif %}
+        {% endfor %}
       </table>
     </div>
   </div>
@@ -208,6 +236,9 @@ XP: {{xp|intcomma}}" />
       </div>
     </div>
     {% endif %}
+</div>
+  <div class="mdl-tabs__panel" id="graph-panel">
+    <div id='chart_div' style='width: 100%; height: 550px;'></div>
 </div>
 {% endblock %}
 
