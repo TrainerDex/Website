@@ -399,6 +399,7 @@ def TrainerProfileHTMLView(request, username):
 	context = {
 		'trainer' : trainer,
 		'updates' : trainer.update_set.all(),
+		'sponsorships' : trainer.sponsorships.all(),
 	}
 	badges = []
 	type_badges = []
