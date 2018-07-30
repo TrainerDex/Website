@@ -365,6 +365,16 @@ class TrainerReport(models.Model):
 		verbose_name=_("Report")
 		verbose_name_plural=_("Reports")
 
+class Sponsorship(models.Model):
+	slug = models.SlugField(db_index=True, primary_key=True)
+	title = models.CharField(db_index=True, max_length=20)
+	description = models.CharField(db_index=True, max_length=240)
+	icon = models.ImageField(upload_to='spon/')
+	members = models.ManyToManyField(Trainer, related_name='sponsorships')
+	
+	def __str__(self):
+		return self.title
+
 class DiscordGuild(models.Model):
 	id = models.BigIntegerField(primary_key=True)
 	cached_data = postgres_fields.JSONField(null=True, blank=True)

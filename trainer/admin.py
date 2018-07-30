@@ -7,11 +7,24 @@ from ajax_select import make_ajax_form
 from trainer.models import *
 
 admin.site.register(Faction)
-admin.site.register(TrainerReport)
 admin.site.register(DiscordGuild)
 admin.site.register(PrivateLeague)
 admin.site.register(PrivateLeagueMembershipPersonal)
 admin.site.register(PrivateLeagueMembershipDiscord)
+
+@admin.register(TrainerReport)
+class TrainerReportAdmin(AjaxSelectAdmin):
+	
+	form = make_ajax_form(TrainerReport, {
+		'trainer' : 'trainer'
+	})
+
+@admin.register(Sponsorship)
+class SponsorshipAdmin(AjaxSelectAdmin):
+	
+	form = make_ajax_form(Sponsorship, {
+		'members' : 'trainer'
+	})
 
 @admin.register(Update)
 class UpdateAdmin(AjaxSelectAdmin):
