@@ -46,7 +46,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 		'leaderboard_region': 'regions',
 	})
 	list_display = ('username', 'level', 'faction', 'currently_cheats', 'is_on_leaderboard', 'is_verified', 'awaiting_verification')
-	list_filter = ('faction', 'has_cheated', 'currently_cheats', 'statistics', 'verified',)
+	list_filter = ('faction', 'last_cheated', 'statistics', 'verified',)
 	search_fields = ('username', 'owner__first_name')
 	ordering = ('username',)
 	fieldsets = (
@@ -54,7 +54,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 			'fields': ('owner', 'username', 'faction', 'start_date', 'daily_goal', 'total_goal','trainer_code', 'thesilphroad_username')
 		}),
 		(_('Reports'), {
-			'fields': ('has_cheated', 'last_cheated', 'currently_cheats', 'verified', 'verification')
+			'fields': ('last_cheated', 'verified', 'verification')
 		}),
 		(_('2017 Events'), {
 			'classes': ('collapse',),
@@ -65,6 +65,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 			'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018')
 		}),
 		(_('Website Badges'), {
+			'classes': ('collapse',),
 			'fields': ('event_10b','event_1k_users')
 		}),
 		(_('Leaderboard'), {
