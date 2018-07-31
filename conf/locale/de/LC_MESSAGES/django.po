@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-29 13:28+0000\n"
-"PO-Revision-Date: 2018-07-28 21:31+0000\n"
+"PO-Revision-Date: 2018-07-30 16:12+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -57,19 +57,19 @@ msgstr "Chinesische"
 #: support/templates/about.html:5 support/templates/about.html:6
 #: support/templates/about.html:13
 msgid "Welcome"
-msgstr ""
+msgstr "Willkommen"
 
 #: support/templates/about.html:17
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "TrainerDex is a service for tracking and updating your progress in Pokémon "
-"Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s"
-"\" id=\"faq\">FAQ</a>."
+"Go. Don't worry, there's no risk of ban! Check out our <a "
+"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
 msgstr ""
 "TrainerDex ist ein Dienst zum Verfolgen und Aktualisieren deines "
-"Fortschritts in Pokémon Go. Keine Sorge, es besteht kein Verbot! Schauen Sie "
-"sich unsere Seite mit <a href=\"%(faq_url)s\" id=\"faq\">häufig gestellten "
-"Fragen an</a>."
+"Fortschritts in Pokémon Go. Mach dir keine Sorgen, es besteht kein Risiko, "
+"verboten zu werden. Kein Einloggen in dein Pokemon-Konto. Schauen Sie sich "
+"unsere <a href=\"%(faq_url)s\" id=\"faq\"> F.A.Q </a> an."
 
 #: support/templates/about.html:19
 msgid ""
@@ -110,21 +110,11 @@ msgstr ""
 #: support/templates/help/faq.html:18
 msgid ""
 "\n"
-"                      <p><i>This isn't a question. That's you complaining, "
-"but I have an answer anyway.</i></p>\n"
+"                      <p><i>This isn't a question. That's you complaining, but I have an answer anyway.</i></p>\n"
 "                      \n"
-"                      <p>You most likely had a <em>phantom goal</em> This "
-"isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants "
-"to own up to. Instead, this related to goals shown by the Discord bot. "
-"Before the 22nd December, once you reached your goal the bot would reset it "
-"to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal "
-"as a promotion for goals.</p>\n"
+"                      <p>You most likely had a <em>phantom goal</em> This isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants to own up to. Instead, this related to goals shown by the Discord bot. Before the 22nd December, once you reached your goal the bot would reset it to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal as a promotion for goals.</p>\n"
 "                      \n"
-"                      <p>Since then, the default behaviour is to "
-"automatically move your goal on to the next level when you reach your goal, "
-"rather than resetting to zero. To give the user a choice <em>not</em> to "
-"have a goal. We removed phantom goals. Phantom goals didn't congratulate the "
-"user either, whereas set goals do.</p>\n"
+"                      <p>Since then, the default behaviour is to automatically move your goal on to the next level when you reach your goal, rather than resetting to zero. To give the user a choice <em>not</em> to have a goal. We removed phantom goals. Phantom goals didn't congratulate the user either, whereas set goals do.</p>\n"
 "                      "
 msgstr ""
 
@@ -136,28 +126,18 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"                      <p>Goals currently only work on the Discord bot, "
-"however, they're coming soon to web</p>\n"
+"                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>\n"
 "                      \n"
-"                      <p>Simply message the Discord Bot, <a href="
-"\"%(discord_url)s\">TrainerDex#8522</a> <code>.update goal &lt;option&gt; "
-"&lt;value&gt;</code></p>\n"
+"                      <p>Simply message the Discord Bot, <a href=\"%(discord_url)s\">TrainerDex#8522</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>\n"
 "                      \n"
 "                      <p class=\"help-faq-question\">Options</p>\n"
 "                      <ul>\n"
 "                        <li>\n"
-"                          <code>daily</code> - Sets your daily or 'rate' "
-"goal. This is the goal which shows you the speed at which you're "
-"progressing. This takes a numeric value ranging from 0 to 3000000.\n"
+"                          <code>daily</code> - Sets your daily or 'rate' goal. This is the goal which shows you the speed at which you're progressing. This takes a numeric value ranging from 0 to 3000000.\n"
 "                        </li>\n"
 "                        <li>\n"
-"                          <code>total</code> - Sets your total or 'reach' "
-"goal. This is the goal which you would use to get a grasp of when you're "
-"going to reach a specific point. This takes a numeric value which is at "
-"least one more than your current experience. \n"
-"                          <em>Sidenote - <code>.update goal total</code> has "
-"an additional option, <code>auto</code>, which sets a goal for you based on "
-"your current experince.</em>\n"
+"                          <code>total</code> - Sets your total or 'reach' goal. This is the goal which you would use to get a grasp of when you're going to reach a specific point. This takes a numeric value which is at least one more than your current experience. \n"
+"                          <em>Sidenote - <code>.update goal total</code> has an additional option, <code>auto</code>, which sets a goal for you based on your current experince.</em>\n"
 "                        </li>\n"
 "                      </ul>\n"
 "                      "
@@ -205,12 +185,11 @@ msgid "Nickname"
 msgstr "Spitzname"
 
 #: trainer/models.py:36
-#, fuzzy
 #| msgid ""
 #| "Your Trainer Username exactly as is in game. You are free to change "
-#| "capitalisation but removal or addition of digits may prevent other "
-#| "Trainers with similar usernames from using this service and is against "
-#| "the Terms of Service."
+#| "capitalisation but removal or addition of digits may prevent other Trainers "
+#| "with similar usernames from using this service and is against the Terms of "
+#| "Service."
 msgid ""
 "Your Trainer Nickname exactly as is in game. You are free to change "
 "capitalisation but removal or addition of digits may prevent other Trainers "
@@ -238,9 +217,9 @@ msgstr "Team"
 #: trainer/models.py:38
 msgid "Mystic = Blue, Instinct = Yellow, Valor = Red."
 msgstr ""
-"Weisheit = Blau\n"
-"Intuition = Gelb\n"
-"Wagemut = Rot"
+"Mystic = Weisheit = Blau\n"
+"Instinct = Intuition = Gelb\n"
+"Valor = Wagemut = Rot"
 
 #: trainer/models.py:39
 msgid "Historic Cheater"
@@ -382,21 +361,23 @@ msgstr "Zuletzt geändertes Datum"
 
 #: trainer/models.py:65
 msgid "Username / Level / Team Screenshot"
-msgstr ""
+msgstr "Screenshot deines Spitznamens und Levels"
 
 #: trainer/models.py:67
 msgid "The Silph Road Username"
-msgstr ""
+msgstr "The Silph Road Spitname"
 
 #: trainer/models.py:67
 msgid ""
 "The username you use on The Silph Road, if different from your Trainer "
 "Nickname."
 msgstr ""
+"Der Nickname, den du bei The Silph Road benutzt, wenn er sich von deinem "
+"Trainer Nickname unterscheidet."
 
 #: trainer/models.py:205
 msgid "The team of this Silph Card does not match that of your profile."
-msgstr ""
+msgstr "Das Team dieser Silph Card passt nicht zu deinem Profil."
 
 #: trainer/models.py:212 trainer/models.py:244 trainer/models.py:358
 msgid "Trainer"
@@ -440,8 +421,8 @@ msgstr "GEFANGEN"
 
 #: trainer/models.py:247
 msgid ""
-"In your Pokédex, how many differnt species have you caught? It should say at "
-"the top."
+"In your Pokédex, how many differnt species have you caught? It should say at"
+" the top."
 msgstr ""
 
 #: trainer/models.py:248
@@ -838,41 +819,41 @@ msgstr ""
 #: website/templates/socialaccount/signup.html:5
 #: website/templates/socialaccount/signup.html:6
 msgid "Signup"
-msgstr ""
+msgstr "Sich Einschreiben"
 
 #: trainer/templates/account/signup2.html:17
 #: website/templates/account/signup.html:21
 #: website/templates/account/signup.html:51 website/templates/base.html:97
 #: website/templates/base.html:119
 msgid "Register"
-msgstr ""
+msgstr "Sich Einschreiben"
 
 #: trainer/templates/account/signup2.html:17
 msgid "Step 2"
-msgstr ""
+msgstr "Schritt 2"
 
 #: trainer/templates/account/signup2.html:82
 #: trainer/templates/create_update.html:90
 msgid "Submit"
-msgstr ""
+msgstr "Einsenden"
 
 #: trainer/templates/create_update.html:7
 #: trainer/templates/create_update.html:8
 #: trainer/templates/create_update.html:17
 msgid "Update Stats"
-msgstr ""
+msgstr "Statistiken aktualisieren"
 
 #: trainer/templates/create_update.html:13
 msgid "Input must be a positive number!"
-msgstr ""
+msgstr "Eingabe muss eine positive Zahl sein!"
 
 #: trainer/templates/create_update.html:39
 msgid "Profile Medals"
-msgstr ""
+msgstr "Medaillen"
 
 #: trainer/templates/create_update.html:42
 msgid "Pokémon Type Medals"
-msgstr ""
+msgstr "Typ Medaillen"
 
 #: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
 #: trainer/templates/leaderboard.html:27
@@ -887,11 +868,11 @@ msgstr "Internationale"
 #: trainer/templates/leaderboard404.html:7
 #: trainer/templates/leaderboard404.html:12
 #: trainer/templates/leaderboard404.html:26
-#, fuzzy, python-format
+#, python-format
 #| msgid "Leaderboard"
 msgctxt ""
-"This is the title, loc is defined as the country/continent name, or the word "
-"International (which is translated seperately)."
+"This is the title, loc is defined as the country/continent name, or the word"
+" International (which is translated seperately)."
 msgid "%(loc)s Leaderboard"
 msgstr "%(loc)s Bestenliste"
 
@@ -923,7 +904,7 @@ msgstr ""
 #: trainer/templates/leaderboard.html:61 trainer/templates/profile.html:9
 #: trainer/templates/profile.html:74
 msgid "TL"
-msgstr ""
+msgstr "Level"
 
 #: trainer/templates/leaderboard.html:69
 msgid "Last Updated"
@@ -931,40 +912,45 @@ msgstr ""
 
 #: trainer/templates/leaderboard404.html:15
 msgid "No results found."
-msgstr ""
+msgstr "Keine Ergebnisse gefunden."
 
 #: trainer/templates/leaderboard404.html:53
 msgid ""
-"There is no information to include in this leaderboard. Why not be the first?"
+"There is no information to include in this leaderboard. Why not be the "
+"first?"
 msgstr ""
+"Es sind keine Informationen in dieser Bestenliste enthalten. Warum nicht der"
+" Erste sein?"
 
 #: trainer/templates/leaderboard404.html:54
 msgid ""
 "I've not finished the function to add yourself to the leaderboard. Please "
 "email jay@trainerdex.co.uk to set your location."
 msgstr ""
+"E-Mail jay@trainerdex.co.uk Ihren Standort angeben. Die Funktion wird bald "
+"auf der Website erscheinen."
 
 #: trainer/templates/profile.html:142
 msgid "History"
-msgstr ""
+msgstr "Geschichte"
 
 #: trainer/templates/profile.html:143
 msgid "Medals"
-msgstr ""
+msgstr "Medaillen"
 
 #: trainer/templates/profile.html:144
 msgid "Type Medals"
-msgstr ""
+msgstr "Typ Medaillen"
 
 #: trainer/templates/profile.html:145
 msgid "Graph"
-msgstr ""
+msgstr "Diagramm"
 
 #: trainer/templates/profile.html:180
 msgid ""
-"It seems this trainer hasn't shared any of these medals. We only show medals "
-"with data to avoid showing a row of null values, that's kinda ugly."
-msgstr ""
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
+msgstr "Dieser Trainer hat keine dieser Medaillen geteilt."
 
 #: trainer/validators.py:10
 #, python-brace-format
@@ -972,19 +958,24 @@ msgid ""
 "The date you entered was before launch date of {launch_date} or in the "
 "future."
 msgstr ""
+"Das eingegebene Datum lag vor dem Startdatum von {launch_date} oder in der "
+"Zukunft."
 
 #: trainer/validators.py:15
 msgid "The username you entered is not a valid Pokemon Go username."
 msgstr ""
+"Der Spitzname von Ihnen eingegebene ist keine gültige Pokemon Go Spitznamen."
 
 #: trainer/validators.py:20
 msgid ""
 "Trainer Code must be 12 digits long and contain only numbers and whitespace."
 msgstr ""
+"Der Trainer-Code muss 12 Ziffern lang sein und darf nur Zahlen und "
+"Leerzeichen enthalten."
 
 #: trainer/views.py:146
 msgid "Profile deactivated"
-msgstr ""
+msgstr "Profil deaktiviert"
 
 #: trainer/views.py:236
 msgid "Late Update Deletion Request"
@@ -998,44 +989,50 @@ msgstr ""
 #: trainer/views.py:395 trainer/views.py:492 trainer/views.py:520
 msgid "Please complete your profile to continue using the website."
 msgstr ""
+"Bitte füllen Sie Ihr Profil aus, um die Website weiterhin nutzen zu können."
 
 #: trainer/views.py:646
 msgid ""
 "Thank you for filling out your profile. Your screenshots have been sent for "
-"verification. An admin will verify you within the next couple of days. Until "
-"then, you will not appear in the Global Leaderboard but you can still use "
+"verification. An admin will verify you within the next couple of days. Until"
+" then, you will not appear in the Global Leaderboard but you can still use "
 "Guild Leaderboards and and update your stats!"
 msgstr ""
+"Danke, dass Sie Ihr Profil ausgefüllt haben. Ihre Screenshots wurden zur "
+"Überprüfung gesendet. Ein Administrator wird Sie innerhalb der nächsten Tage"
+" überprüfen. Bis dahin werden Sie nicht im globalen Leaderboard erscheinen, "
+"aber Sie können Discord Leaderboards weiterhin verwenden und Ihre "
+"Statistiken aktualisieren!"
 
 #: trainer/views.py:668
 msgid "Stats updated. Screenshot included."
-msgstr ""
+msgstr "Statistiken aktualisiert. Screenshot enthalten."
 
 #: website/templates/account/account_inactive.html:5
 #: website/templates/account/account_inactive.html:6
 #: website/templates/account/account_inactive.html:12
 msgid "Account Inactive"
-msgstr ""
+msgstr "Konto Inaktiv"
 
 #: website/templates/account/account_inactive.html:15
 msgid "This account is inactive."
-msgstr ""
+msgstr "Dieses Konto ist inaktiv."
 
 #: website/templates/account/account_inactive.html:19
 #: website/templates/account/password_reset_from_key.html:45
 #: website/templates/socialaccount/authentication_error.html:19
 #: website/templates/socialaccount/login_cancelled.html:19
 msgid "Return to login page"
-msgstr ""
+msgstr "Zurück zur Anmeldeseite"
 
 #: website/templates/account/email.html:6
 #: website/templates/account/email.html:7
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 #: website/templates/account/email.html:22
 msgid "Add E-mail Address"
-msgstr ""
+msgstr "E-Mail-Adresse hinzufügen"
 
 #: website/templates/account/email.html:26
 msgid ""
@@ -1050,11 +1047,11 @@ msgstr ""
 
 #: website/templates/account/email.html:36
 msgid "Add E-mail"
-msgstr ""
+msgstr "E-Mail-Adresse hinzufügen"
 
 #: website/templates/account/email.html:44
 msgid "E-mail Addresses"
-msgstr ""
+msgstr "E-Mail-Adresse"
 
 #: website/templates/account/email.html:51
 msgid "The following e-mail addresses are associated with your account:"
@@ -1084,7 +1081,8 @@ msgstr ""
 #: website/templates/account/email.html:83
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
 
 #: website/templates/account/email.html:94
@@ -1096,12 +1094,15 @@ msgstr ""
 msgid ""
 "Hello from %(site_name)s!\n"
 "\n"
-"You're receiving this e-mail because user %(user_display)s has connected "
-"this e-mail address to their account. If this is not you, just ignore this "
-"email.\n"
+"You're receiving this e-mail because user %(user_display)s has connected this e-mail address to their account. If this is not you, just ignore this email.\n"
 "\n"
 "To confirm this is correct, go to %(activate_url)s\n"
 msgstr ""
+"Hallo von %(site_name)s!\n"
+"\n"
+"Sie erhalten diese E-Mail, weil der Benutzer %(user_display)s diese E-Mail-Adresse mit ihrem Konto verknüpft hat. Wenn dies nicht Sie sind, ignorieren Sie einfach diese E-Mail.\n"
+"\n"
+"Um zu bestätigen, dass dies korrekt ist, gehen Sie zu %(activate_url)s\n"
 
 #: website/templates/account/email/email_confirmation_message.txt:12
 #, python-format
@@ -1109,6 +1110,8 @@ msgid ""
 "Thank you from %(site_name)s!\n"
 "%(site_domain)s\n"
 msgstr ""
+"Danke von %(site_name)s!\n"
+"%(site_domain)s\n"
 
 #: website/templates/account/email/email_confirmation_subject.txt:3
 msgid "Please confirm your E-mail Address"
@@ -1119,10 +1122,8 @@ msgstr ""
 msgid ""
 "Hello from %(site_name)s!\n"
 "\n"
-"You're receiving this e-mail because you or someone else has requested a "
-"password for your user account.\n"
-"It can be safely ignored if you did not request a password reset. Click the "
-"link below to reset your password."
+"You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
 msgstr ""
 
 #: website/templates/account/email/password_reset_key_message.txt:8
@@ -1182,8 +1183,8 @@ msgstr ""
 #: website/templates/account/login.html:25
 #, python-format
 msgid ""
-"If you have not created an account yet, then please <a href=\"%(signup_url)s"
-"\">sign up</a> first."
+"If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
 
 #: website/templates/account/login.html:81
@@ -1236,11 +1237,11 @@ msgstr ""
 
 #: website/templates/account/messages/password_changed.txt:3
 msgid "Password successfully changed to hunter2."
-msgstr ""
+msgstr "Passwort erfolgreich geändert"
 
 #: website/templates/account/messages/password_set.txt:2
 msgid "Password successfully set."
-msgstr ""
+msgstr "Passwort erfolgreich gesetzt."
 
 #: website/templates/account/messages/primary_email_set.txt:2
 msgid "Primary e-mail address set."
@@ -1261,7 +1262,7 @@ msgstr ""
 #: website/templates/account/password_reset_from_key_done.html:5
 #: website/templates/account/password_reset_from_key_done.html:11
 msgid "Change Password"
-msgstr ""
+msgstr "Ändern Sie Ihr Passwort"
 
 #: website/templates/account/password_reset.html:7
 #: website/templates/account/password_reset.html:8
@@ -1270,12 +1271,12 @@ msgstr ""
 #: website/templates/account/password_reset_done.html:7
 #: website/templates/account/password_reset_done.html:13
 msgid "Password Reset"
-msgstr ""
+msgstr "Setze dein Passwort zurück"
 
 #: website/templates/account/password_reset.html:29
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 
 #: website/templates/account/password_reset.html:30
@@ -1288,7 +1289,7 @@ msgstr ""
 
 #: website/templates/account/password_reset.html:37
 msgid "Reset My Password"
-msgstr ""
+msgstr "Setze dein Passwort zurück"
 
 #: website/templates/account/password_reset_done.html:17
 msgid ""
@@ -1306,13 +1307,15 @@ msgstr ""
 
 #: website/templates/account/password_reset_from_key.html:13
 msgid "Bad Token"
-msgstr ""
+msgstr "Schlechtes Zeichen"
 
 #: website/templates/account/password_reset_from_key.html:18
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used."
 msgstr ""
+"Der Link zum Zurücksetzen des Passworts war ungültig, möglicherweise weil er"
+" bereits verwendet wurde."
 
 #: website/templates/account/password_reset_from_key.html:22
 msgid "New password reset key"
@@ -1320,7 +1323,7 @@ msgstr ""
 
 #: website/templates/account/password_reset_from_key.html:36
 msgid "change password"
-msgstr ""
+msgstr "Passwort ändern"
 
 #: website/templates/account/password_reset_from_key.html:41
 msgid "Your password has now been changed."
@@ -1335,7 +1338,7 @@ msgstr ""
 #: website/templates/account/password_set.html:13
 #: website/templates/account/password_set.html:27
 msgid "Set Password"
-msgstr ""
+msgstr "Passwort festlegen"
 
 #: website/templates/account/password_set.html:18
 msgid "Please set a password! They're quite important you know."
@@ -1343,7 +1346,7 @@ msgstr ""
 
 #: website/templates/account/signup.html:21
 msgid "Step 1"
-msgstr ""
+msgstr "Schritt 1"
 
 #: website/templates/account/signup.html:25
 #, python-format
@@ -1352,6 +1355,9 @@ msgid ""
 "Twitter, you would already have an account. Please %(login_link_start)ssign "
 "in%(login_link_end)s instead."
 msgstr ""
+"Wenn Sie in einer Discord Guild Leaderboard sind oder von uns über Twitter "
+"kontaktiert wurden, haben Sie bereits ein Konto. Bitte "
+"%(login_link_start)smelden Sie sich stattdessen%(login_link_end)s an."
 
 #: website/templates/account/signup_closed.html:5
 #: website/templates/account/signup_closed.html:6
@@ -1360,7 +1366,8 @@ msgid "Sign Up Closed"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:15
-msgid "We are sorry, but registrations via the website are currently disabled."
+msgid ""
+"We are sorry, but registrations via the website are currently disabled."
 msgstr ""
 
 #: website/templates/account/signup_closed.html:16
@@ -1417,77 +1424,77 @@ msgstr ""
 #. Translators: 'beta' should remain in lowercase and is superscripted
 #: website/templates/base.html:57
 msgid "beta"
-msgstr ""
+msgstr "beta"
 
 #: website/templates/base.html:81
 msgid "About Us"
-msgstr ""
+msgstr "Über uns"
 
 #: website/templates/base.html:93 website/templates/base.html:115
 #: website/templates/help/account_settings.html:5
 #: website/templates/help/account_settings.html:6
 #: website/templates/help/account_settings.html:7
 msgid "Account Settings"
-msgstr ""
+msgstr "Kontoeinstellungen"
 
 #: website/templates/base.html:94 website/templates/base.html:116
 msgid "Log out"
-msgstr ""
+msgstr "Ausloggen"
 
 #: website/templates/base.html:96 website/templates/base.html:118
 msgid "Login"
-msgstr ""
+msgstr "Einloggen"
 
 #: website/templates/base.html:107
 msgctxt ""
 "This is the display name for a user not logged in. Use local references if "
 "you like. In English, I've gone for Red, the protagonist in the Gen 1 games."
 msgid "Red"
-msgstr ""
+msgstr "Nicht Eingeloggt"
 
 #: website/templates/base.html:111
 msgid "Account Control"
-msgstr ""
+msgstr "Kontoverwaltung"
 
 #: website/templates/base.html:126
 msgid "My Profile"
-msgstr ""
+msgstr "Mein Profil"
 
 #: website/templates/base.html:126
 msgid "Home"
-msgstr ""
+msgstr "Startseite"
 
 #: website/templates/base.html:129 website/templates/base.html:163
 msgid "Help"
-msgstr ""
+msgstr "Hilfeseiten"
 
 #: website/templates/base.html:162
 msgid "About"
-msgstr ""
+msgstr "Über uns"
 
 #: website/templates/base.html:164
 msgid "Privacy &amp; Terms"
-msgstr ""
+msgstr "Datenschutz"
 
 #: website/templates/base.html:165
 msgid "Admin Panel"
-msgstr ""
+msgstr "Administrationsmenü"
 
 #: website/templates/help/account_settings.html:14
 msgid "Set/Change Password"
-msgstr ""
+msgstr "Passwortverwaltung"
 
 #: website/templates/help/account_settings.html:17
 msgid "Email Management"
-msgstr ""
+msgstr "E-Mail-Verwaltung"
 
 #: website/templates/help/account_settings.html:20
 msgid "Link Social Accounts"
-msgstr ""
+msgstr "Kontoverbindungen von Drittanbietern"
 
 #: website/templates/help/account_settings.html:23
 msgid "Set Goal"
-msgstr ""
+msgstr "Ziele setzen"
 
 #: website/templates/socialaccount/authentication_error.html:5
 #: website/templates/socialaccount/authentication_error.html:6
@@ -1495,59 +1502,67 @@ msgstr ""
 #: website/templates/socialaccount/login_cancelled.html:5
 #: website/templates/socialaccount/login_cancelled.html:6
 msgid "Social Network Login Failure"
-msgstr ""
+msgstr "Anmeldefehler für das soziale Netzwerk"
 
 #: website/templates/socialaccount/authentication_error.html:15
 msgid ""
 "An error occurred while attempting to login via your social network account."
 msgstr ""
+"Beim Versuch, sich über Ihr soziales Netzwerkkonto anzumelden, ist ein "
+"Fehler aufgetreten."
 
 #: website/templates/socialaccount/connections.html:5
 #: website/templates/socialaccount/connections.html:6
 #: website/templates/socialaccount/connections.html:30
 msgid "Account Connections"
-msgstr ""
+msgstr "Kontoverbindungen"
 
 #: website/templates/socialaccount/connections.html:12
 msgid "Log in via Social Media"
-msgstr ""
+msgstr "Einloggen über Soziale Medien"
 
 #: website/templates/socialaccount/connections.html:15
 msgid ""
 "You can sign in to your account using any of the following third party "
 "accounts"
 msgstr ""
+"Sie können sich mit einem der folgenden Drittanbieterkonten bei Ihrem Konto "
+"anmelden"
 
 #: website/templates/socialaccount/connections.html:33
 msgid ""
 "You can sign in to your account using any of the following third party "
 "accounts:"
 msgstr ""
+"Sie können sich mit einem der folgenden Drittanbieterkonten bei Ihrem Konto "
+"anmelden;"
 
 #: website/templates/socialaccount/login_cancelled.html:12
 msgid "Login Cancelled"
-msgstr ""
+msgstr "Anmeldung abgebrochen"
 
 #: website/templates/socialaccount/login_cancelled.html:15
 msgid "Login was cancelled."
-msgstr ""
+msgstr "Anmeldung abgebrochen"
 
 #: website/templates/socialaccount/messages/account_connected.txt:2
 msgid "The social account has been connected."
-msgstr ""
+msgstr "Das soziale Konto wurde verbunden."
 
 #: website/templates/socialaccount/messages/account_connected_other.txt:2
 msgid "The social account is already connected to a different account."
 msgstr ""
+"Das soziale Konto kann nicht verbunden werden, da es bereits mit einem "
+"anderen Konto verbunden ist."
 
 #: website/templates/socialaccount/messages/account_disconnected.txt:2
 msgid "The social account has been disconnected."
-msgstr ""
+msgstr "Das soziale Konto wurde getrennt."
 
 #: website/templates/socialaccount/signup.html:12
 #: website/templates/socialaccount/signup.html:24
 msgid "Sign Up"
-msgstr ""
+msgstr "Einschreiben"
 
 #: website/templates/socialaccount/signup.html:14
 #, python-format
