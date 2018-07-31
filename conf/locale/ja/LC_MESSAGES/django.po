@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-29 13:28+0000\n"
-"PO-Revision-Date: 2018-07-28 21:30+0000\n"
+"PO-Revision-Date: 2018-07-30 12:59+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -63,8 +63,8 @@ msgstr "ようこそ"
 #, python-format
 msgid ""
 "TrainerDex is a service for tracking and updating your progress in Pokémon "
-"Go. Don't worry, there's no risk of ban! Check out our <a href=\"%(faq_url)s"
-"\" id=\"faq\">FAQ</a>."
+"Go. Don't worry, there's no risk of ban! Check out our <a "
+"href=\"%(faq_url)s\" id=\"faq\">FAQ</a>."
 msgstr ""
 
 #: support/templates/about.html:19
@@ -74,20 +74,18 @@ msgid ""
 msgstr ""
 
 #: support/templates/about.html:22
-#, fuzzy
 msgid "TrainerDex Web <em>beta</em> is here!"
 msgstr "TrainerDex <sub>オープンベータ</sub> はここにいる！"
 
 #: support/templates/about.html:22
-#, fuzzy, python-format
+#, python-format
 msgid "Click <a href=\"%(account_signup)s\">here</a> to register. "
 msgstr "<a href=\"%(account_signup)s\">登録するにはここをクリック</a>"
 
 #: support/templates/about.html:22
-#, fuzzy, python-format
+#, python-format
 msgid "<a href=\"%(donation_url)s\">Donations</a> help a lot with development!"
-msgstr ""
-"<a href=\"%(donation_url)s\">開発支援のために寄付を検討してください。</a>"
+msgstr "<a href=\"%(donation_url)s\">開発支援のために寄付を検討してください。</a>"
 
 #: support/templates/about.html:27
 msgid "Let's go!"
@@ -104,107 +102,67 @@ msgid "Frequently Asked Questions"
 msgstr "よくある質問"
 
 #: support/templates/help/faq.html:15
-#, fuzzy
 msgid "My total goal is missing!!!"
 msgstr "私の「Reach Goal」が欠落しています！"
 
 #: support/templates/help/faq.html:18
-#, fuzzy
 msgid ""
 "\n"
-"                      <p><i>This isn't a question. That's you complaining, "
-"but I have an answer anyway.</i></p>\n"
+"                      <p><i>This isn't a question. That's you complaining, but I have an answer anyway.</i></p>\n"
 "                      \n"
-"                      <p>You most likely had a <em>phantom goal</em> This "
-"isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants "
-"to own up to. Instead, this related to goals shown by the Discord bot. "
-"Before the 22nd December, once you reached your goal the bot would reset it "
-"to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal "
-"as a promotion for goals.</p>\n"
+"                      <p>You most likely had a <em>phantom goal</em> This isn't anything to do with Danny Phantom, ghosts or an own goal nobody wants to own up to. Instead, this related to goals shown by the Discord bot. Before the 22nd December, once you reached your goal the bot would reset it to zero. Anybody below Level 40 and a zero goal was assigned a phantom goal as a promotion for goals.</p>\n"
 "                      \n"
-"                      <p>Since then, the default behaviour is to "
-"automatically move your goal on to the next level when you reach your goal, "
-"rather than resetting to zero. To give the user a choice <em>not</em> to "
-"have a goal. We removed phantom goals. Phantom goals didn't congratulate the "
-"user either, whereas set goals do.</p>\n"
+"                      <p>Since then, the default behaviour is to automatically move your goal on to the next level when you reach your goal, rather than resetting to zero. To give the user a choice <em>not</em> to have a goal. We removed phantom goals. Phantom goals didn't congratulate the user either, whereas set goals do.</p>\n"
 "                      "
 msgstr ""
 "\n"
-"<p><i>これは質問ではありません。 それはあなたの不平ですが、私はとにかく答えが"
-"あります。</i></p>\n"
+"<p><i>これは質問ではありません。 それはあなたの不平ですが、私はとにかく答えがあります。</i></p>\n"
 "\n"
-"<p>おそらくあなたは<em> ファントムゴール\"</ em>を持っています。これは Danny "
-"Phantom、幽霊、または誰も自分の目標にしたくないものとは関係ありません。 代わ"
-"りに、これはDiscordボットによって示された目標に関連しています。 12月22日以前"
-"は、目標に達するとボットはゼロにリセットされました。 レベル40以下の人とゼロの"
-"ゴールには、目標の推進としてファントムゴールが割り当てられました。</p>\n"
+"<p>おそらくあなたは<em> ファントムゴール\"</ em>を持っています。これは Danny Phantom、幽霊、または誰も自分の目標にしたくないものとは関係ありません。 代わりに、これはDiscordボットによって示された目標に関連しています。 12月22日以前は、目標に達するとボットはゼロにリセットされました。 レベル40以下の人とゼロのゴールには、目標の推進としてファントムゴールが割り当てられました。</p>\n"
 "\n"
-"<p>それ以来、デフォルトの動作では、ゼロにリセットするのではなく、目標に到達し"
-"たときに目標を次のレベルに自動的に移動します。 ユーザに目標を持たない選択肢を"
-"与えること。 ファントム目標を削除しました。 ファントムの目標は、目標を達成す"
-"るのに対し、ユーザーにも祝福しませんでした。</p>"
+"<p>それ以来、デフォルトの動作では、ゼロにリセットするのではなく、目標に到達したときに目標を次のレベルに自動的に移動します。 ユーザに目標を持たない選択肢を与えること。 ファントム目標を削除しました。 ファントムの目標は、目標を達成するのに対し、ユーザーにも祝福しませんでした。</p>"
 
 #: support/templates/help/faq.html:29
-#, fuzzy
 msgid "How do I set a goal?"
 msgstr "どのように目標を設定するのですか？"
 
 #: support/templates/help/faq.html:32
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
-"                      <p>Goals currently only work on the Discord bot, "
-"however, they're coming soon to web</p>\n"
+"                      <p>Goals currently only work on the Discord bot, however, they're coming soon to web</p>\n"
 "                      \n"
-"                      <p>Simply message the Discord Bot, <a href="
-"\"%(discord_url)s\">TrainerDex#8522</a> <code>.update goal &lt;option&gt; "
-"&lt;value&gt;</code></p>\n"
+"                      <p>Simply message the Discord Bot, <a href=\"%(discord_url)s\">TrainerDex#8522</a> <code>.update goal &lt;option&gt; &lt;value&gt;</code></p>\n"
 "                      \n"
 "                      <p class=\"help-faq-question\">Options</p>\n"
 "                      <ul>\n"
 "                        <li>\n"
-"                          <code>daily</code> - Sets your daily or 'rate' "
-"goal. This is the goal which shows you the speed at which you're "
-"progressing. This takes a numeric value ranging from 0 to 3000000.\n"
+"                          <code>daily</code> - Sets your daily or 'rate' goal. This is the goal which shows you the speed at which you're progressing. This takes a numeric value ranging from 0 to 3000000.\n"
 "                        </li>\n"
 "                        <li>\n"
-"                          <code>total</code> - Sets your total or 'reach' "
-"goal. This is the goal which you would use to get a grasp of when you're "
-"going to reach a specific point. This takes a numeric value which is at "
-"least one more than your current experience. \n"
-"                          <em>Sidenote - <code>.update goal total</code> has "
-"an additional option, <code>auto</code>, which sets a goal for you based on "
-"your current experince.</em>\n"
+"                          <code>total</code> - Sets your total or 'reach' goal. This is the goal which you would use to get a grasp of when you're going to reach a specific point. This takes a numeric value which is at least one more than your current experience. \n"
+"                          <em>Sidenote - <code>.update goal total</code> has an additional option, <code>auto</code>, which sets a goal for you based on your current experince.</em>\n"
 "                        </li>\n"
 "                      </ul>\n"
 "                      "
 msgstr ""
 "\n"
-"<p>現在目標はDiscordボットでしか動作していませんが、すぐにウェブに向かいます"
-"</p>\n"
+"<p>現在目標はDiscordボットでしか動作していませんが、すぐにウェブに向かいます</p>\n"
 "\n"
-"<p>Discordボット<a href=\"%(discord_url)s\">TrainerDex#6280</a>に<code>."
-"update goal &lt;option&gt; &lt;value&gt;</code>とメッセージを送るだけで、</"
-"p>\n"
+"<p>Discordボット<a href=\"%(discord_url)s\">TrainerDex#6280</a>に<code>.update goal &lt;option&gt; &lt;value&gt;</code>とメッセージを送るだけで、</p>\n"
 "\n"
 "<p class=\"help-faq-question\">オプション</p>\n"
 "<ul>\n"
 "<li>\n"
-"<code>daily</code> - これはあなたの \"レート目標\"を設定します。 これは、あな"
-"たが進んでいるスピードを示す目標です。 これは、0〜3000000の範囲の数値をとりま"
-"す。\n"
+"<code>daily</code> - これはあなたの \"レート目標\"を設定します。 これは、あなたが進んでいるスピードを示す目標です。 これは、0〜3000000の範囲の数値をとります。\n"
 "</li>\n"
 "<li>\n"
-"<code>total</code> - これはあなたの「到達目標」を設定します。 これは、特定の"
-"ターゲットに到達するタイミングを把握するために使用する目標です。 これは現在の"
-"XPよりも少なくとも1つ多い数値をとります。\n"
-"<em>サイドノート: <code>.update goal total</code>には、現在のXPに基づいて目標"
-"を設定する追加オプション <code>auto</code>があります。</em>\n"
+"<code>total</code> - これはあなたの「到達目標」を設定します。 これは、特定のターゲットに到達するタイミングを把握するために使用する目標です。 これは現在のXPよりも少なくとも1つ多い数値をとります。\n"
+"<em>サイドノート: <code>.update goal total</code>には、現在のXPに基づいて目標を設定する追加オプション <code>auto</code>があります。</em>\n"
 "</li>\n"
 "</ul>"
 
 #: trainer/admin.py:43 trainer/models.py:364
-#, fuzzy
 msgid "Reports"
 msgstr "レポート"
 
@@ -226,12 +184,10 @@ msgstr ""
 
 #: trainer/admin.py:57 website/templates/base.html:82
 #: website/templates/base.html:127
-#, fuzzy
 msgid "Leaderboard"
-msgstr "リーダーボード"
+msgstr "リーグ"
 
 #: trainer/apps.py:7
-#, fuzzy
 msgid "TrainerDex Profiles"
 msgstr "TrainerDexプロファイル"
 
@@ -244,7 +200,6 @@ msgid "Expected a UUID, got gibberish."
 msgstr ""
 
 #: trainer/models.py:35
-#, fuzzy
 msgid "User"
 msgstr "ユーザー"
 
@@ -260,15 +215,12 @@ msgid ""
 "with similar usernames from using this service and is against the Terms of "
 "Service."
 msgstr ""
-"あなたのトレーナーのユーザー名はゲームのものとまったく同じです。 大文字/小文"
-"字を自由に変更できますが、数字を削除または追加すると、同様のユーザー名を持つ"
-"他のトレーナーがこのサービスを使用できなくなり、利用規約に違反する可能性があ"
-"ります。"
+"あなたのトレーナーのユーザー名はゲームのものとまったく同じです。 "
+"大文字/小文字を自由に変更できますが、数字を削除または追加すると、同様のユーザー名を持つ他のトレーナーがこのサービスを使用できなくなり、利用規約に違反する可能性があります。"
 
 #: trainer/models.py:37
-#, fuzzy
 msgid "Start Date"
-msgstr "開始日"
+msgstr "始めた日"
 
 #: trainer/models.py:37
 #, fuzzy
@@ -288,7 +240,6 @@ msgstr ""
 "Valor=チーム ヴァーラー=赤色。"
 
 #: trainer/models.py:39
-#, fuzzy
 msgid "Historic Cheater"
 msgstr "歴史的な詐欺師"
 
@@ -298,7 +249,6 @@ msgid "Have you cheated in the past?"
 msgstr "あなたは過去に騙されましたか？"
 
 #: trainer/models.py:40
-#, fuzzy
 msgid "Last Cheated"
 msgstr "最後の不正行為"
 
@@ -308,7 +258,6 @@ msgid "When did you last cheat?"
 msgstr "いつあなたは最後に騙されましたか？"
 
 #: trainer/models.py:41
-#, fuzzy
 msgid "Cheater"
 msgstr "詐欺師"
 
@@ -318,7 +267,6 @@ msgid "Do you still cheat?"
 msgstr "あなたはまだチートをしますか？"
 
 #: trainer/models.py:42
-#, fuzzy
 msgid "Statistics"
 msgstr "統計"
 
@@ -327,9 +275,7 @@ msgstr "統計"
 msgid ""
 "Would you like to be shown on the leaderboard? Ticking this box gives us "
 "permission to process your data."
-msgstr ""
-"リーダーボードに表示しますか？ このボックスにチェックを入れると、データを処理"
-"する権限が与えられます。"
+msgstr "リーダーボードに表示しますか？ このボックスにチェックを入れると、データを処理する権限が与えられます。"
 
 #: trainer/models.py:43
 msgid "Rate Goal"
@@ -340,9 +286,7 @@ msgstr ""
 msgid ""
 "Our Discord bot lets you know if you've reached you goals or not: How much "
 "XP do you aim to gain a day?"
-msgstr ""
-"私たちのDiscordボットでは、あなたが目標に達したかどうかを知ることができます："
-"どれくらいのXPで一日を目指しますか？"
+msgstr "私たちのDiscordボットでは、あなたが目標に達したかどうかを知ることができます：どれくらいのXPで一日を目指しますか？"
 
 #: trainer/models.py:44
 msgid "Reach Goal"
@@ -353,9 +297,7 @@ msgstr ""
 msgid ""
 "Our Discord bot lets you know if you've reached you goals or not: How much "
 "XP are you aiming for next?"
-msgstr ""
-"私たちのDiscordボットでは、あなたが目標に達したかどうかを知ることができます："
-"どれくらいのXPを次の目標に向かっていますか？"
+msgstr "私たちのDiscordボットでは、あなたが目標に達したかどうかを知ることができます：どれくらいのXPを次の目標に向かっていますか？"
 
 #: trainer/models.py:46
 msgid "Trainer Code"
@@ -428,10 +370,9 @@ msgstr ""
 
 #: trainer/models.py:57
 msgid "Region"
-msgstr "地方"
+msgstr "一次管理部門"
 
 #: trainer/models.py:59
-#, fuzzy
 msgid "Verified"
 msgstr "検証済み"
 
@@ -441,11 +382,11 @@ msgstr ""
 
 #: trainer/models.py:65
 msgid "Username / Level / Team Screenshot"
-msgstr "ニックネーム"
+msgstr "スクリーンショット"
 
 #: trainer/models.py:67
 msgid "The Silph Road Username"
-msgstr ""
+msgstr "TheSilphRoadユーザー名"
 
 #: trainer/models.py:67
 msgid ""
@@ -466,17 +407,14 @@ msgid "Trainers"
 msgstr "トレーナー"
 
 #: trainer/models.py:223
-#, fuzzy
 msgid "Name"
 msgstr "名"
 
 #: trainer/models.py:224
-#, fuzzy
 msgid "Colour"
 msgstr "色"
 
 #: trainer/models.py:225
-#, fuzzy
 msgid "Leader"
 msgstr "リーダー"
 
@@ -493,7 +431,6 @@ msgid "XP"
 msgstr "XP"
 
 #: trainer/models.py:246
-#, fuzzy
 msgid "Your Total XP can be found at the bottom of your Pokémon Go profile"
 msgstr "TOTAL XPはあなたのプロフィールの一番下にあります"
 
@@ -503,8 +440,8 @@ msgstr "捕まえた数"
 
 #: trainer/models.py:247
 msgid ""
-"In your Pokédex, how many differnt species have you caught? It should say at "
-"the top."
+"In your Pokédex, how many differnt species have you caught? It should say at"
+" the top."
 msgstr ""
 
 #: trainer/models.py:248
@@ -608,7 +545,6 @@ msgid "Catch 300 tiny Rattata."
 msgstr "小さいサイズのコラッタを 300 匹捕まえた！"
 
 #: trainer/models.py:261
-#, fuzzy
 #| msgid "Pikachu Outbreak"
 msgid "Pikachu Fan"
 msgstr "ピカチュウ だいすきクラブ"
@@ -643,7 +579,6 @@ msgid "Feed 1,000 Berries at Gyms."
 msgstr "ポケモンに 1000 個きのみをあげた！"
 
 #: trainer/models.py:265
-#, fuzzy
 msgid "Gym Leader"
 msgstr "ジムリーダー"
 
@@ -876,8 +811,7 @@ msgstr "{username}は{date}に{xp}XPを獲得した"
 msgid ""
 "This value has previously been entered at a higher value. Please try again, "
 "ensuring you enter your Total XP."
-msgstr ""
-"この値は以前より高い値で入力されています。 最新の情報を入力してください。"
+msgstr "この値は以前より高い値で入力されています。 最新の情報を入力してください。"
 
 #: trainer/models.py:353
 msgid "Update"
@@ -912,7 +846,6 @@ msgid "Register"
 msgstr "登録"
 
 #: trainer/templates/account/signup2.html:17
-#, fuzzy
 msgid "Step 2"
 msgstr "ステップ2"
 
@@ -936,7 +869,6 @@ msgid "Profile Medals"
 msgstr "メダル"
 
 #: trainer/templates/create_update.html:42
-#, fuzzy
 msgid "Pokémon Type Medals"
 msgstr "TYPEメダル"
 
@@ -946,19 +878,19 @@ msgstr "TYPEメダル"
 #: trainer/templates/leaderboard404.html:12
 #: trainer/templates/leaderboard404.html:26
 msgid "International"
-msgstr ""
+msgstr "国際"
 
 #: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
 #: trainer/templates/leaderboard.html:27
 #: trainer/templates/leaderboard404.html:7
 #: trainer/templates/leaderboard404.html:12
 #: trainer/templates/leaderboard404.html:26
-#, fuzzy, python-format
+#, python-format
 msgctxt ""
-"This is the title, loc is defined as the country/continent name, or the word "
-"International (which is translated seperately)."
+"This is the title, loc is defined as the country/continent name, or the word"
+" International (which is translated seperately)."
 msgid "%(loc)s Leaderboard"
-msgstr "リーダーボード"
+msgstr "%(loc)sリーグ"
 
 #: trainer/templates/leaderboard.html:41
 #: trainer/templates/leaderboard404.html:40
@@ -982,7 +914,6 @@ msgstr "TOTAL XP"
 
 #: trainer/templates/leaderboard.html:51
 #: trainer/templates/leaderboard404.html:50
-#, fuzzy
 msgid "Trainers Considered"
 msgstr "考慮されるトレーナーの数"
 
@@ -1001,7 +932,8 @@ msgstr ""
 
 #: trainer/templates/leaderboard404.html:53
 msgid ""
-"There is no information to include in this leaderboard. Why not be the first?"
+"There is no information to include in this leaderboard. Why not be the "
+"first?"
 msgstr ""
 
 #: trainer/templates/leaderboard404.html:54
@@ -1019,7 +951,6 @@ msgid "Medals"
 msgstr "メダル"
 
 #: trainer/templates/profile.html:144
-#, fuzzy
 msgid "Type Medals"
 msgstr "TYPEメダル"
 
@@ -1029,8 +960,8 @@ msgstr ""
 
 #: trainer/templates/profile.html:180
 msgid ""
-"It seems this trainer hasn't shared any of these medals. We only show medals "
-"with data to avoid showing a row of null values, that's kinda ugly."
+"It seems this trainer hasn't shared any of these medals. We only show medals"
+" with data to avoid showing a row of null values, that's kinda ugly."
 msgstr "まだ情報がありません"
 
 #: trainer/validators.py:10
@@ -1038,8 +969,7 @@ msgstr "まだ情報がありません"
 msgid ""
 "The date you entered was before launch date of {launch_date} or in the "
 "future."
-msgstr ""
-"それは無効な日付です。 {launch_date}から今日までの日付を選択してください！"
+msgstr "それは無効な日付です。 {launch_date}から今日までの日付を選択してください！"
 
 #: trainer/validators.py:15
 msgid "The username you entered is not a valid Pokemon Go username."
@@ -1068,16 +998,14 @@ msgid "Please complete your profile to continue using the website."
 msgstr "ウェブサイトの使用を続けるには、プロフィールを記入してください。"
 
 #: trainer/views.py:646
-#, fuzzy
 msgid ""
 "Thank you for filling out your profile. Your screenshots have been sent for "
-"verification. An admin will verify you within the next couple of days. Until "
-"then, you will not appear in the Global Leaderboard but you can still use "
+"verification. An admin will verify you within the next couple of days. Until"
+" then, you will not appear in the Global Leaderboard but you can still use "
 "Guild Leaderboards and and update your stats!"
 msgstr ""
-"あなたのプロフィールを記入していただきありがとうございます。 あなたのスクリー"
-"ンショットが検証のために送信されました。 管理者が次の数日以内にあなたを確認し"
-"ます。 それまでは、グローバルリーダーには表示されませんが、Discord "
+"あなたのプロフィールを記入していただきありがとうございます。 あなたのスクリーンショットが検証のために送信されました。 "
+"管理者が次の数日以内にあなたを確認します。 それまでは、グローバルリーダーには表示されませんが、Discord "
 "Leaderboardを使用して統計情報を更新することはできます。"
 
 #: trainer/views.py:668
@@ -1114,9 +1042,7 @@ msgstr "電子メールアドレスを追加"
 msgid ""
 "Add an email address to your account to get back in if you forget your "
 "password. Also, your primary email is used for gravatar generation."
-msgstr ""
-"パスワードを忘れた場合には、アカウントにメールアドレスを追加してログインして"
-"ください。"
+msgstr "パスワードを忘れた場合には、アカウントにメールアドレスを追加してログインしてください。"
 
 #. Translators: This is shown in the email field when it is empty
 #: website/templates/account/email.html:30
@@ -1161,11 +1087,11 @@ msgstr "警告："
 #: website/templates/account/email.html:83
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
+"an e-mail address so you can receive notifications, reset your password, "
+"etc."
 msgstr ""
-"現在、電子メールアドレスは設定されていません。 通知を受信したり、パスワードを"
-"リセットしたりできるように、実際に電子メールアドレスを追加する必要がありま"
-"す。"
+"現在、電子メールアドレスは設定されていません。 "
+"通知を受信したり、パスワードをリセットしたりできるように、実際に電子メールアドレスを追加する必要があります。"
 
 #: website/templates/account/email.html:94
 msgid "Do you really want to remove the selected e-mail address?"
@@ -1176,17 +1102,13 @@ msgstr "あなたは本当に選択した電子メールアドレスを削除し
 msgid ""
 "Hello from %(site_name)s!\n"
 "\n"
-"You're receiving this e-mail because user %(user_display)s has connected "
-"this e-mail address to their account. If this is not you, just ignore this "
-"email.\n"
+"You're receiving this e-mail because user %(user_display)s has connected this e-mail address to their account. If this is not you, just ignore this email.\n"
 "\n"
 "To confirm this is correct, go to %(activate_url)s\n"
 msgstr ""
 "%(site_name)sからのこんにちは！\n"
 "\n"
-"この電子メールは、ユーザー%(user_display)sがこの電子メールアドレスを自分のア"
-"カウントに接続しているため受信しています。 これがあなたでない場合は、このメー"
-"ルを無視してください。\n"
+"この電子メールは、ユーザー%(user_display)sがこの電子メールアドレスを自分のアカウントに接続しているため受信しています。 これがあなたでない場合は、このメールを無視してください。\n"
 "\n"
 "これが正しいことを確認するには、%(activate_url)s\n"
 
@@ -1208,17 +1130,13 @@ msgstr "あなたのメールアドレスを確認してください"
 msgid ""
 "Hello from %(site_name)s!\n"
 "\n"
-"You're receiving this e-mail because you or someone else has requested a "
-"password for your user account.\n"
-"It can be safely ignored if you did not request a password reset. Click the "
-"link below to reset your password."
+"You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
 msgstr ""
 "%(site_name)sからのこんにちは！\n"
 "\n"
-"あなたまたは他の誰かがあなたのユーザーアカウントのパスワードを要求したため、"
-"この電子メールが届いています。\n"
-"パスワードのリセットを要求していない場合は、無視しても問題ありません。 パス"
-"ワードをリセットするには、下のリンクをクリックしてください。"
+"あなたまたは他の誰かがあなたのユーザーアカウントのパスワードを要求したため、この電子メールが届いています。\n"
+"パスワードのリセットを要求していない場合は、無視しても問題ありません。 パスワードをリセットするには、下のリンクをクリックしてください。"
 
 #: website/templates/account/email/password_reset_key_message.txt:8
 #, python-format
@@ -1250,8 +1168,8 @@ msgid ""
 "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
 "address for user %(user_display)s."
 msgstr ""
-"<a href=\"mailto:%(email)s\">%(email)s</a>が%(user_display)sのメールアドレス"
-"であることをご確認ください。"
+"<a "
+"href=\"mailto:%(email)s\">%(email)s</a>が%(user_display)sのメールアドレスであることをご確認ください。"
 
 #: website/templates/account/email_confirm.html:23
 msgid "Confirm"
@@ -1277,18 +1195,15 @@ msgid ""
 "If you already have an account, you can login below or via a third party "
 "account. If not, <a href=\"%(signup_url)s\">sign up</a> for an account."
 msgstr ""
-"すでにアカウントをお持ちの場合は、下またはサードパーティのアカウントからログ"
-"インできます。 そうでない場合は、アカウントに<a href=\"%(signup_url)s\">サイ"
-"ンアップ</a>します。"
+"すでにアカウントをお持ちの場合は、下またはサードパーティのアカウントからログインできます。 そうでない場合は、アカウントに<a "
+"href=\"%(signup_url)s\">サインアップ</a>します。"
 
 #: website/templates/account/login.html:25
 #, python-format
 msgid ""
-"If you have not created an account yet, then please <a href=\"%(signup_url)s"
-"\">sign up</a> first."
-msgstr ""
-"まだアカウントを作成していない場合は、まず<a href=\"%(signup_url)s\">サイン"
-"アップ</a>してください。"
+"If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first."
+msgstr "まだアカウントを作成していない場合は、まず<a href=\"%(signup_url)s\">サインアップ</a>してください。"
 
 #: website/templates/account/login.html:81
 msgid "Sign In via Username and Password"
@@ -1378,8 +1293,8 @@ msgstr ""
 
 #: website/templates/account/password_reset.html:29
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you"
+" an e-mail allowing you to reset it."
 msgstr ""
 
 #: website/templates/account/password_reset.html:30
@@ -1464,7 +1379,8 @@ msgid "Sign Up Closed"
 msgstr ""
 
 #: website/templates/account/signup_closed.html:15
-msgid "We are sorry, but registrations via the website are currently disabled."
+msgid ""
+"We are sorry, but registrations via the website are currently disabled."
 msgstr ""
 
 #: website/templates/account/signup_closed.html:16
@@ -1515,14 +1431,11 @@ msgstr ""
 #: website/templates/base.html:15
 #, fuzzy
 #| msgid ""
-#| "TrainerDex provides leaderboards and stats related to Pokemon Go. Join "
-#| "now!"
+#| "TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!"
 msgctxt "meta tag in head"
 msgid ""
 "TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!"
-msgstr ""
-"TrainerDexはPokémon GOに関連するリーダーボードと統計情報を提供します。 今すぐ"
-"参加！"
+msgstr "TrainerDexはPokémon GOに関連するリーダーボードと統計情報を提供します。 今すぐ参加！"
 
 #. Translators: 'beta' should remain in lowercase and is superscripted
 #: website/templates/base.html:57
@@ -1717,11 +1630,9 @@ msgstr ""
 
 #, fuzzy
 #~ msgid ""
-#~ "If a trainer has a %(ss_ident)s next to their name, it means the "
-#~ "information was sourced from social media."
-#~ msgstr ""
-#~ "※トレーナーが自分の名前の隣に%(ss_ident)sがある場合は、情報がソーシャルメ"
-#~ "ディアから供給されたことを意味します。"
+#~ "If a trainer has a %(ss_ident)s next to their name, it means the information"
+#~ " was sourced from social media."
+#~ msgstr "※トレーナーが自分の名前の隣に%(ss_ident)sがある場合は、情報がソーシャルメディアから供給されたことを意味します。"
 
 #, fuzzy
 #~ msgid "[TrainerDex] Verification needed for {trainer}"
