@@ -36,11 +36,8 @@ import requests
 
 logger = logging.getLogger('django.trainerdex')
 
-def _leaderboard_queryset_filter(queryset, spoofers=False):
-	if spoofers is False:
-		return queryset.exclude(statistics=False).exclude(verified=False).exclude(currently_cheats = True).exclude(last_cheated__gt=date.today()-timedelta(weeks=26)).select_related('faction')
-	else:
-		return queryset.exclude(statistics=False).exclude(verified=False).exclude(currently_cheats = False).select_related('faction')
+def _leaderboard_queryset_filter(queryset):
+	return queryset.exclude(statistics=False).exclude(verified=False).exclude(last_cheated__gt=date.today()-timedelta(weeks=26)).select_related('faction')
 
 # RESTful API Views
 

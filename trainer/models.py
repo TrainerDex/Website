@@ -4,7 +4,7 @@ import requests
 from os.path import splitext
 from cities.models import Country, Region
 from colorful.fields import RGBColorField
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.postgres import fields as postgres_fields
@@ -32,13 +32,12 @@ def VerificationUpdateImagePath(instance, filename):
 	return 'v_{0}/v_{1}_{2}{ext}'.format(instance.trainer.owner.id, instance.trainer.id, instance.meta_time_created.timestamp(), ext=splitext(filename)[1])
 
 class Trainer(models.Model):
+	
 	owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
 	username = postgres_fields.CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], db_index=True, verbose_name=_("Nickname"), help_text=_("Your Trainer Nickname exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."))
 	start_date = models.DateField(null=True, blank=True, validators=[StartDateValidator], verbose_name=_("Start Date"), help_text=_("The date you created your Pokémon Go account."))
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"), help_text=_("Mystic = Blue, Instinct = Yellow, Valor = Red.") )
-	has_cheated = models.BooleanField(default=False, verbose_name=_("Historic Cheater"), help_text=_("Have you cheated in the past?"))
 	last_cheated = models.DateField(null=True, blank=True, verbose_name=_("Last Cheated"), help_text=_("When did you last cheat?"))
-	currently_cheats = models.BooleanField(default=False, verbose_name=_("Cheater"), help_text=_("Do you still cheat?"))
 	statistics = models.BooleanField(default=True, verbose_name=_("Statistics"), help_text=_("Would you like to be shown on the leaderboard? Ticking this box gives us permission to process your data."))
 	daily_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Rate Goal"), help_text=_("Our Discord bot lets you know if you've reached you goals or not: How much XP do you aim to gain a day?"))
 	total_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Reach Goal"), help_text=_("Our Discord bot lets you know if you've reached you goals or not: How much XP are you aiming for next?"))
@@ -65,6 +64,19 @@ class Trainer(models.Model):
 	verification = models.ImageField(upload_to=VerificationImagePath, null=True, blank=True, verbose_name=_("Username / Level / Team Screenshot"))
 	
 	thesilphroad_username = postgres_fields.CICharField(null=True, blank=True, max_length=30, verbose_name=_("The Silph Road Username"), help_text=_("The username you use on The Silph Road, if different from your Trainer Nickname.")) # max_length=15, unique=True, validators=[PokemonGoUsernameValidator]
+	
+	def has_cheated(self):
+		return bool(self.last_cheated)
+	has_cheated.boolean = True
+	has_cheated.short_description = _("Historic Cheater")
+	
+	def currently_cheats(self):
+		if self.last_cheated and self.last_cheated+timedelta(weeks=26) > timezone.now().date():
+			return True
+		else:
+			return False
+	currently_cheats.boolean = True
+	currently_cheats.short_description = _("Cheater")
 	
 	def is_prefered(self):
 		return True
@@ -94,14 +106,13 @@ class Trainer(models.Model):
 	is_verified_and_saved.boolean = True
 	
 	def is_on_leaderboard(self):
-		return bool(self.is_verified and self.statistics)
+		return bool(self.is_verified and self.statistics and not self.currently_cheats())
 	is_on_leaderboard.boolean = True
 	
 	def level(self):
-		update = list(self.update_set.all())
-		if update:
-			update.sort(key=lambda x: x.xp)
-			return level_parser(xp=update[-1].xp).level
+		update = self.update_set
+		if update.exists():
+			return level_parser(xp=update.aggregate(models.Max('xp'))['xp__max']).level
 		return None
 	
 	def __str__(self):
