@@ -312,6 +312,7 @@ class Update(models.Model):
 		('com.pokeassistant.trainerstats', "Poké Assistant"),
 		('com.pokenavbot.profiles', "PokeNav"),
 		('tl40datateam.spreadsheet', "Tl40 Data Team"),
+		('com.pkmngots.import', "Third Saturday"),
 	)
 	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
 	
