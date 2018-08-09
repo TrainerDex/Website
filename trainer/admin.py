@@ -62,7 +62,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 		}),
 		(_('2018 Events'), {
 			'classes': ('collapse',),
-			'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018')
+			'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018_japan','badge_apac_partner_july_2018_south_korea')
 		}),
 		(_('Website Badges'), {
 			'classes': ('collapse',),

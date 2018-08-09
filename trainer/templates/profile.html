@@ -18,9 +18,9 @@
 <meta property="og:image" content="{% get_static_prefix %}{{trainer.faction.image}}"/>
 <meta property="og:type" content="profile" />
 <meta property="og:ttl" content="345600" />
-<meta property="og:description" content="Team: {{trainer.faction.name}}
-Level: {{level.level}}
-XP: {{xp|intcomma}}" />
+<meta property="og:description" content="{% trans 'Team' %}: {{trainer.faction.name}}
+{% trans 'Level' %}: {{level.level}}
+{% trans 'XP' context 'Short form of XP' %}: {{xp|intcomma}}" />
 <meta property="profile:username" content="{{trainer.username}}" />
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 
@@ -69,8 +69,8 @@ XP: {{xp|intcomma}}" />
         </li>
         <li class="mdl-list__item">
           <span class="mdl-list__item-primary-content" id="xp">
-            <i class="mdl-list__item-icon">{% trans "XP" %}</i>
-            {{xp|intcomma}} | {% trans "TL" %} {{level.level}}
+            <i class="mdl-list__item-icon">{% trans "XP" context 'Short form of XP'  %}</i>
+            {{xp|intcomma}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level.level}}
           </span>
         </li>
       </ul>
@@ -79,50 +79,57 @@ XP: {{xp|intcomma}}" />
       {% if trainer.badge_chicago_fest_july_2017 %}
         <img id="badge_chicago_fest_july_2017" class="profile-medal" src="{% static 'img/go_fest_2017.png' %}" />
         <div class="mdl-tooltip" for="badge_chicago_fest_july_2017">
-            <b>{% trans "Pokémon GO Fest 2017" %}</b><br>
-            {% trans "Chicago, July 22, 2017" %}
+            <b>{% trans "Pokémon GO Fest 2017" context "badge_chicago_fest_july_2017_title" %}</b><br>
+            {% trans "Chicago, July 22, 2017" context "badge_chicago_fest_july_2017" %}
     </div>
       {% endif %}
       {% if trainer.badge_pikachu_outbreak_yokohama_2017 %}
         <img id="badge_pikachu_outbreak_yokohama_2017" class="profile-medal" src="{% static 'img/outbreak_2017.png' %}" />
         <div class="mdl-tooltip" for="badge_pikachu_outbreak_yokohama_2017">
-            <b>{% trans "Pokémon GO STADIUM" %}</b><br>
-            {% trans "Yokohama, August 2017" %}
+            <b>{% trans "Pokémon GO STADIUM" context "pikachu_outbreak_yokohama_title" %}</b><br>
+            {% trans "Yokohama, August 2017" context "pikachu_outbreak_yokohama" %}
         </div>
       {% endif %}
       {% if trainer.badge_safari_zone_europe_2017_09_16 %}
         <img id="badge_safari_zone_europe_2017_09_16" class="profile-medal" src="{% static 'img/safari_zone_2017.png' %}" />
         <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_09_16">
-            <b>{% trans "GO Safari Zone - Europe 2017" %}</b><br>
-            {% trans "Europe, September 16, 2017" %}
+            <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_title" %}</b><br>
+            {% trans "Europe, September 16, 2017" context "badge_safari_zone_europe_2017" %}
         </div>
       {% endif %}
       {% if trainer.badge_safari_zone_europe_2017_10_07 %}
         <img id="badge_safari_zone_europe_2017_10_07" class="profile-medal" src="{% static 'img/safari_zone_2017.png' %}" />
         <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_10_07">
-            <b>{% trans "GO Safari Zone - Europe 2017" %}</b><br>
-            {% trans "Europe, October 7, 2017" %}
+            <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_10_07_title" %}</b><br>
+            {% trans "Europe, October 7, 2017" context "badge_safari_zone_europe_2017_10_07" %}
         </div>
       {% endif %}
       {% if trainer.badge_safari_zone_europe_2017_10_14 %}
         <img id="badge_safari_zone_europe_2017_10_14" class="profile-medal" src="{% static 'img/safari_zone_2017.png' %}" />
         <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_10_14">
-            <b>{% trans "GO Safari Zone - Europe 2017" %}</b><br>
-            {% trans "Europe, October 14, 2017" %}
+            <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_10_07_title" %}</b><br>
+            {% trans "Europe, October 14, 2017" context "badge_safari_zone_europe_2017_10_07" %}
         </div>
       {% endif %}
       {% if trainer.badge_chicago_fest_july_2018 %}
         <img id="badge_chicago_fest_july_2018" class="profile-medal" src="{% static 'img/go_fest_2018.png' %}" />
         <div class="mdl-tooltip" for="badge_chicago_fest_july_2018">
-            <b>{% trans "Pokémon GO Fest 2018" %}</b><br>
-            {% trans "Chicago, July 14-15, 2018" %}
+            <b>{% trans "Pokémon GO Fest 2018" context "badge_chicago_fest_july_2018_*_*_title" %}</b><br>
+            {% trans "Chicago, July 14-15, 2018" context "badge_chicago_fest_july_2018_*_*" %}
         </div>
       {% endif %}
-      {% if trainer.badge_apac_partner_july_2018 %}
-        <img id="badge_apac_partner_july_2018" class="profile-medal" src="{% static 'img/special_weekend_2018.png' %}" />
-        <div class="mdl-tooltip" for="badge_apac_partner_july_2018">
-            <b>{% trans "Pokémon GO Special Weekend" %}</b><br>
-            {% trans "Japan, July 26-29, 2018" %}
+      {% if trainer.badge_apac_partner_july_2018_japan %}
+        <img id="badge_apac_partner_july_2018_japan" class="profile-medal" src="{% static 'img/special_weekend_2018.png' %}" />
+        <div class="mdl-tooltip" for="badge_apac_partner_july_2018_japan">
+            <b>{% trans "Pokémon GO Special Weekend" context "badge_apac_partner_july_2018_*_title" %}</b><br>
+            {% trans "Japan, July 26-29, 2018" context "badge_apac_partner_july_2018_*" %}
+        </div>
+      {% endif %}
+      {% if trainer.badge_apac_partner_july_2018_south_korea %}
+        <img id="badge_apac_partner_july_2018_south_korea" class="profile-medal" src="{% static 'img/special_weekend_2018.png' %}" />
+        <div class="mdl-tooltip" for="badge_apac_partner_july_2018_south_korea">
+            <b>{% trans "Pokémon GO Special Weekend" context "badge_apac_partner_july_2018_5_title" %}</b><br>
+            {% trans "South Korea, July 29, 2018" context "badge_apac_partner_july_2018_5" %}
         </div>
       {% endif %}
       {% for spon in sponsorships %}
@@ -145,10 +152,9 @@ XP: {{xp|intcomma}}" />
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
   <div class="mdl-tabs__tab-bar">
-      <a href="#history-panel" class="mdl-tabs__tab is-active">{% trans "History" %}</a>
-      <a href="#badges-panel" class="mdl-tabs__tab">{% trans "Medals" %}</a>
-      <a href="#types-panel" class="mdl-tabs__tab">{% trans "Type Medals" %}</a>
-      <a href="#graph-panel" class="mdl-tabs__tab">{% trans "Graph" %}</a>
+      <a href="#history-panel" class="mdl-tabs__tab is-active">{% trans "History" context "profile_category_history" %}</a>
+      <a href="#badges-panel" class="mdl-tabs__tab">{% trans "Medals" context "profile_category_medals" %}</a>
+      <a href="#graph-panel" class="mdl-tabs__tab">{% trans "Graph" context "profile_category_graph" %}</a>
   </div>
 
   <div class="mdl-tabs__panel is-active" id="history-panel">
@@ -183,10 +189,10 @@ XP: {{xp|intcomma}}" />
     </div>
   </div>
   <div class="mdl-tabs__panel" id="badges-panel">
-    {% trans "It seems this trainer hasn't shared any of these medals. We only show medals with data to avoid showing a row of null values, that's kinda ugly." as no_medals %}
-    {% if badges %}
+    {% for badge in badges|add:type_badges %}
+      {% if forloop.first %}
     <div class="mdl-grid mdl-grid--no-spacing">
-      {% for badge in badges %}
+      {% endif %}
       <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
         <div class="progress-circle {# {{trainer.faction.name.lower}} #} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
           <div class="mdl-tooltip" data-mdl-for="{{ badge.name }}">{{badge.time|naturalday}}</div>
@@ -198,51 +204,22 @@ XP: {{xp|intcomma}}" />
         </div>
       <span>{{ badge.readable_name }}</span>
       </div>
-      {% endfor %}
+      {% if forloop.last %}
     </div>
-    {% else %}
+    {% endif %}
+    {% empty %}
     <div class="mdl-grid">
       <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
         <div class="mdl-card__title">
           <h2 class="mdl-card__title-text">Oh no!</h2>
         </div>
         <div class="mdl-card__supporting-text">
-          {{no_medals}}
+          {% trans "It seems this trainer hasn't shared any of their medals." %}
         </div>
       </div>
     </div>
-    {% endif %}
+    {% endfor %}
   </div>
-  <div class="mdl-tabs__panel" id="types-panel">
-    {% if type_badges %}
-    <div class="mdl-grid mdl-grid--no-spacing">
-      {% for badge in type_badges %}
-      <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
-        <div class="progress-circle {# {{trainer.faction.name.lower}} #} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
-          <div class="mdl-tooltip" data-mdl-for="{{ badge.name }}">{{badge.time|naturalday}}</div>
-          <span>{{ badge.value }}</span>
-          <div class="left-half-clipper">
-            <div class="first50-bar {# {{trainer.faction.name.lower}} #}"></div>
-            <div class="value-bar {# {{trainer.faction.name.lower}} #}"></div>
-          </div>
-        </div>
-      <span>{{ badge.readable_name }}</span>
-      </div>
-      {% endfor %}
-    </div>
-    {% else %}
-    <div class="mdl-grid">
-      <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
-        <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">Oh no!</h2>
-        </div>
-        <div class="mdl-card__supporting-text">
-          {{no_medals}}
-        </div>
-      </div>
-    </div>
-    {% endif %}
-</div>
   <div class="mdl-tabs__panel" id="graph-panel">
     <div id='chart_div' style='width: 100%; height: 550px;'></div>
 </div>
