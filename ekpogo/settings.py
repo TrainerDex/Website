@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'django_gravatar',
     'debug_toolbar',
+    'django_unused_media',
     'rest_framework',
     'rest_framework.authtoken',
     'ajax_select',

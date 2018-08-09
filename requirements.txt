@@ -32,3 +32,5 @@ django-modeladmin-reorder==0.3
 pendulum
 pillow
 django-debug-toolbar
+django-unused-media
+
