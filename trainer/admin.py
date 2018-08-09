@@ -8,9 +8,9 @@ from trainer.models import *
 
 admin.site.register(Faction)
 admin.site.register(DiscordGuild)
-admin.site.register(PrivateLeague)
-admin.site.register(PrivateLeagueMembershipPersonal)
-admin.site.register(PrivateLeagueMembershipDiscord)
+admin.site.register(CommunityLeague)
+admin.site.register(CommunityLeagueMembershipPersonal)
+admin.site.register(CommunityLeagueMembershipDiscord)
 
 @admin.register(TrainerReport)
 class TrainerReportAdmin(AjaxSelectAdmin):
