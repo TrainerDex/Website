@@ -24,7 +24,7 @@ psycopg2==2.7.4
 pycent==1.0
 python-dateutil==2.6.1
 pytz==2018.3
-requests==2.18.4
+requests==2.19.1
 six==1.10.0
 urllib3==1.22
 vine==1.1.4
