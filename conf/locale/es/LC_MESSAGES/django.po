@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-29 13:28+0000\n"
-"PO-Revision-Date: 2018-08-03 09:50+0000\n"
-"Last-Translator: b'  <pfuentes1985@gmail.com>'\n"
+"PO-Revision-Date: 2018-08-06 18:06+0000\n"
+"Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -263,7 +263,7 @@ msgstr "¿Haz hecho trama en el pasado?"
 
 #: trainer/models.py:40
 msgid "Last Cheated"
-msgstr "Último tramposo"
+msgstr "Último vez que hiciste trampa"
 
 #: trainer/models.py:40
 msgid "When did you last cheat?"
@@ -341,7 +341,7 @@ msgstr "Pokémon GO STADIUM"
 
 #: trainer/models.py:49 trainer/templates/profile.html:91
 msgid "Yokohama, August 2017"
-msgstr "Yokohama, agosto de 2017"
+msgstr "Yokohama, Agosto de 2017"
 
 #: trainer/models.py:50 trainer/models.py:51 trainer/models.py:52
 #: trainer/templates/profile.html:97 trainer/templates/profile.html:104
@@ -351,15 +351,15 @@ msgstr "Zona Safari GO - Europa 2017"
 
 #: trainer/models.py:50 trainer/templates/profile.html:98
 msgid "Europe, September 16, 2017"
-msgstr "Europa, 16 de septiembre de 2017"
+msgstr "Europa, 16 de Septiembre de 2017"
 
 #: trainer/models.py:51 trainer/templates/profile.html:105
 msgid "Europe, October 7, 2017"
-msgstr "Europa, 7 de octubre de 2017"
+msgstr "Europa, 7 de Octubre de 2017"
 
 #: trainer/models.py:52 trainer/templates/profile.html:112
 msgid "Europe, October 14, 2017"
-msgstr "Europa, 14 de octubre de 2017"
+msgstr "Europa, 14 de Octubre de 2017"
 
 #: trainer/models.py:53 trainer/templates/profile.html:118
 msgid "Pokémon GO Fest 2018"
@@ -367,7 +367,7 @@ msgstr "Festival de Pokémon GO"
 
 #: trainer/models.py:53 trainer/templates/profile.html:119
 msgid "Chicago, July 14-15, 2018"
-msgstr "Chicago, 14 et 15 de julio de 2018"
+msgstr "Chicago, 14-15 de Julio de 2018"
 
 #: trainer/models.py:54 trainer/templates/profile.html:125
 msgid "Pokémon GO Special Weekend"
@@ -375,7 +375,7 @@ msgstr "Fin de semana especial de Pokémon GO"
 
 #: trainer/models.py:54 trainer/templates/profile.html:126
 msgid "Japan, July 26-29, 2018"
-msgstr "Japón, 26-29 de julio de 2018"
+msgstr "Japón, 26-29 de Julio de 2018"
 
 #: trainer/models.py:56
 msgid "Country"
@@ -410,10 +410,12 @@ msgid ""
 "The username you use on The Silph Road, if different from your Trainer "
 "Nickname."
 msgstr ""
+"El nombre de usuario que usas en The Silph Road, si es diferente a tu Nombre"
+" de Entrenador."
 
 #: trainer/models.py:205
 msgid "The team of this Silph Card does not match that of your profile."
-msgstr ""
+msgstr "El equipo de esta tarjeta de Silph no coincide con tu perfil."
 
 #: trainer/models.py:212 trainer/models.py:244 trainer/models.py:358
 msgid "Trainer"
@@ -445,11 +447,13 @@ msgstr "Tiempo Actualizado"
 
 #: trainer/models.py:246 trainer/templates/profile.html:73
 msgid "XP"
-msgstr "PX"
+msgstr "XP"
 
 #: trainer/models.py:246
 msgid "Your Total XP can be found at the bottom of your Pokémon Go profile"
 msgstr ""
+"Tu experiencia total la puedes encontrar al final de tu perfil en Pokémon "
+"Go."
 
 #: trainer/models.py:247
 msgid "Species Caught"
@@ -460,6 +464,8 @@ msgid ""
 "In your Pokédex, how many differnt species have you caught? It should say at"
 " the top."
 msgstr ""
+"En tu Pokédex, ¿cuántas especies diferentes has atrapado?, va a estar en la "
+"parte superior."
 
 #: trainer/models.py:248
 msgid "Species Seen"
@@ -470,24 +476,28 @@ msgid ""
 "In your Pokédex, how many differnt species have you seen? It should say at "
 "the top."
 msgstr ""
+"En tu Pokédex, ¿cuántas especies diferentes has visto?, va a estar en la "
+"parte superior."
 
 #: trainer/models.py:249
 msgid "Total Gym Badges"
-msgstr "Total medallas de gimnasios"
+msgstr "Total medallas de Gimnasios"
 
 #: trainer/models.py:249
 msgid ""
 "Your gym badges map. Total number of gold, silver, bronze and blank "
 "combined. (This information is currently not used)"
 msgstr ""
+"Medallas de Gimnasio. Número total de oro, plata, bronce y blanco combinado."
+" (Esta información no se utiliza)"
 
 #: trainer/models.py:251
 msgid "Jogger"
-msgstr ""
+msgstr "Corredor"
 
 #: trainer/models.py:251
 msgid "Walk 1,000km"
-msgstr ""
+msgstr "Camina 1.000km"
 
 #: trainer/models.py:252
 msgid "Kanto"
@@ -523,7 +533,7 @@ msgstr "Eclosiona 500 huevos."
 
 #: trainer/models.py:256
 msgid "Backpacker"
-msgstr ""
+msgstr "Mochilero"
 
 #: trainer/models.py:256
 msgid "Visit 2,000 PokéStops."
@@ -537,11 +547,11 @@ msgstr "Luchador"
 
 #: trainer/models.py:257
 msgid "Win 1,000 Gym battles."
-msgstr ""
+msgstr "Gana 1.000 batallas en gimnasios"
 
 #: trainer/models.py:258
 msgid "Fisherman"
-msgstr ""
+msgstr "Pescador"
 
 #: trainer/models.py:258
 #, fuzzy
@@ -555,11 +565,11 @@ msgstr "Esquiador"
 
 #: trainer/models.py:259
 msgid "Train 1,000 times."
-msgstr ""
+msgstr "Entrena 1.000 veces."
 
 #: trainer/models.py:260
 msgid "Youngster"
-msgstr ""
+msgstr "Joven"
 
 #: trainer/models.py:260
 #, fuzzy
@@ -575,16 +585,16 @@ msgstr "Fan de Pikachu"
 
 #: trainer/models.py:261
 msgid "Catch 300 Pikachu."
-msgstr ""
+msgstr "Captura 300 Pikachu"
 
 #: trainer/models.py:262
 msgid "Johto"
-msgstr ""
+msgstr "Johto"
 
 #: trainer/models.py:262
 msgid ""
 "Register 70 Pokémon first discovered in the Johto region to the Pokédex."
-msgstr ""
+msgstr "Registra 70 Pokémon originalmente de la región Johto en la Pokédex."
 
 #: trainer/models.py:263
 msgid "Unown"
@@ -592,15 +602,15 @@ msgstr "Unown"
 
 #: trainer/models.py:263
 msgid "Catch 26 Unown."
-msgstr ""
+msgstr "Atrapa 26 Unown."
 
 #: trainer/models.py:264
 msgid "Berry Master"
-msgstr ""
+msgstr "Maestro de bayas"
 
 #: trainer/models.py:264
 msgid "Feed 1,000 Berries at Gyms."
-msgstr "Dar 1,000 Bayas en Gimnasios."
+msgstr "Dar 1.000 Bayas en Gimnasios."
 
 #: trainer/models.py:265
 #, fuzzy
@@ -610,7 +620,7 @@ msgstr "Líder"
 
 #: trainer/models.py:265
 msgid "Defend Gyms for 1,000 hours."
-msgstr "Defender Gimnasios por 1,000 horas."
+msgstr "Defender Gimnasios por 1.000 horas."
 
 #: trainer/models.py:266
 msgid "Champion"
@@ -618,7 +628,7 @@ msgstr "Campeón."
 
 #: trainer/models.py:266
 msgid "Win 1,000 Raids."
-msgstr "Ganar 1,000 Incursiones."
+msgstr "Ganar 1.000 Incursiones."
 
 #: trainer/models.py:267
 #, fuzzy
@@ -649,11 +659,11 @@ msgstr "Pokécolector"
 
 #: trainer/models.py:269
 msgid "Complete 1,000 Field Research tasks."
-msgstr "Completar 1,000 Tareas de investigación de campo."
+msgstr "Completar 1.000 Tareas de investigación de campo."
 
 #: trainer/models.py:270
 msgid "Idol"
-msgstr "Idolo"
+msgstr "Ídolo"
 
 #: trainer/models.py:270
 msgid "Become Best Friends with 3 Trainers."
@@ -665,19 +675,21 @@ msgstr "Caballero"
 
 #: trainer/models.py:271
 msgid "Trade 1,000 Pokémon."
-msgstr ""
+msgstr "Intercambia 1.000 Pokémon."
 
 #: trainer/models.py:272
 msgid "Pilot"
-msgstr ""
+msgstr "Piloto"
 
 #: trainer/models.py:272
 msgid "Earn 1,000,000 km across the distance of all Pokémon trades."
 msgstr ""
+"Llega a  1.000.000 kilómetros de distancia entre todos los Pokémon "
+"intercambiados."
 
 #: trainer/models.py:274
 msgid "Schoolkid"
-msgstr ""
+msgstr "Escolar"
 
 #: trainer/models.py:274
 msgid "Catch 200 Normal-type Pokémon"
@@ -685,7 +697,7 @@ msgstr "Captura 200 Pokémon de  Tipo Normal "
 
 #: trainer/models.py:275
 msgid "Black Belt"
-msgstr ""
+msgstr "Karateka"
 
 #: trainer/models.py:275
 msgid "Catch 200 Fighting-type Pokémon"
@@ -693,7 +705,7 @@ msgstr "Captura 200 Pokémon de  Tipo Lucha "
 
 #: trainer/models.py:276
 msgid "Bird Keeper"
-msgstr ""
+msgstr "Ornitólogo "
 
 #: trainer/models.py:276
 msgid "Catch 200 Flying-type Pokémon"
@@ -701,7 +713,7 @@ msgstr "Captura 200 Pokémon de  Tipo Volador "
 
 #: trainer/models.py:277
 msgid "Punk Girl"
-msgstr ""
+msgstr "Chica Mala"
 
 #: trainer/models.py:277
 msgid "Catch 200 Poison-type Pokémon"
@@ -709,7 +721,7 @@ msgstr "Captura 200 Pokémon de  Tipo Veneno "
 
 #: trainer/models.py:278
 msgid "Ruin Maniac"
-msgstr ""
+msgstr "Ruinmaníaco"
 
 #: trainer/models.py:278
 msgid "Catch 200 Ground-type Pokémon"
@@ -717,7 +729,7 @@ msgstr "Captura 200 Pokémon de  Tipo Planta "
 
 #: trainer/models.py:279
 msgid "Hiker"
-msgstr ""
+msgstr "Montañero"
 
 #: trainer/models.py:279
 msgid "Catch 200 Rock-type Pokémon"
@@ -735,7 +747,7 @@ msgstr "Captura 200 Pokémon de  Tipo Bicho "
 
 #: trainer/models.py:281
 msgid "Hex Maniac"
-msgstr ""
+msgstr "Bruja"
 
 #: trainer/models.py:281
 msgid "Catch 200 Ghost-type Pokémon"
@@ -743,7 +755,7 @@ msgstr "Captura 200 Pokémon de  Tipo Fantasma"
 
 #: trainer/models.py:282
 msgid "Depot Agent"
-msgstr ""
+msgstr "Ferroviario "
 
 #: trainer/models.py:282
 msgid "Catch 200 Steel-type Pokémon"
@@ -751,7 +763,7 @@ msgstr "Captura 200 Pokémon de  Tipo Acero "
 
 #: trainer/models.py:283
 msgid "Kindler"
-msgstr ""
+msgstr "Prendefuegos"
 
 #: trainer/models.py:283
 msgid "Catch 200 Fire-type Pokémon"
@@ -759,7 +771,7 @@ msgstr "Captura 200 Pokémon de  Tipo Fuego "
 
 #: trainer/models.py:284
 msgid "Swimmer"
-msgstr ""
+msgstr "Nadador"
 
 #: trainer/models.py:284
 msgid "Catch 200 Water-type Pokémon"
@@ -767,7 +779,7 @@ msgstr "Captura 200 Pokémon de  Tipo Agua "
 
 #: trainer/models.py:285
 msgid "Gardener"
-msgstr ""
+msgstr "Jardinero"
 
 #: trainer/models.py:285
 msgid "Catch 200 Grass-type Pokémon"
@@ -793,7 +805,7 @@ msgstr "Captura 200 Pokémon de  Tipo Psíquico   "
 
 #: trainer/models.py:288
 msgid "Skier"
-msgstr ""
+msgstr "Esquiador"
 
 #: trainer/models.py:288
 msgid "Catch 200 Ice-type Pokémon"
@@ -811,7 +823,7 @@ msgstr "Captura 200 Pokémon de  Tipo Dragón "
 
 #: trainer/models.py:290
 msgid "Delinquent"
-msgstr ""
+msgstr "Macarra"
 
 #: trainer/models.py:290
 msgid "Catch 200 Dark-type Pokémon"
@@ -845,7 +857,7 @@ msgstr "Fuente de origen "
 
 #: trainer/models.py:332
 msgid "{username} - {xp:,}XP at {date}"
-msgstr "{username} - {xp:,}Experiencia a {date}"
+msgstr "{username} - {xp:,}Experiencia al día {date}"
 
 #: trainer/models.py:342
 msgid ""
@@ -878,7 +890,7 @@ msgstr "Reporte"
 #: website/templates/socialaccount/signup.html:5
 #: website/templates/socialaccount/signup.html:6
 msgid "Signup"
-msgstr "Registrate "
+msgstr "Regístrate "
 
 #: trainer/templates/account/signup2.html:17
 #: website/templates/account/signup.html:21
@@ -900,11 +912,11 @@ msgstr "Enviar"
 #: trainer/templates/create_update.html:8
 #: trainer/templates/create_update.html:17
 msgid "Update Stats"
-msgstr "Actualizar estadisticas "
+msgstr "Actualizar estadísticas "
 
 #: trainer/templates/create_update.html:13
 msgid "Input must be a positive number!"
-msgstr "La entrada debe ser un numero positivo !"
+msgstr "La entrada debe ser un número positivo !"
 
 #: trainer/templates/create_update.html:39
 msgid "Profile Medals"
@@ -920,7 +932,7 @@ msgstr "Medallas de Pokémon por tipo"
 #: trainer/templates/leaderboard404.html:12
 #: trainer/templates/leaderboard404.html:26
 msgid "International"
-msgstr "internacional"
+msgstr "Internacional"
 
 #: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
 #: trainer/templates/leaderboard.html:27
@@ -1007,7 +1019,7 @@ msgstr "Tipo de medallas"
 
 #: trainer/templates/profile.html:145
 msgid "Graph"
-msgstr "Grafico "
+msgstr "Gráfico "
 
 #: trainer/templates/profile.html:180
 msgid ""
@@ -1065,11 +1077,11 @@ msgstr ""
 "Gracias por completar tu perfil. Tus capturas de pantallas han sido enviadas"
 " para verificación. Un administrador verificará en las próximos días. Hasta "
 "entonces, no aparecerás en la Tabla Global pero aún así puedes seguir "
-"utilizando tu tabla y seguir actualizando tus estadísticas!."
+"utilizando tu tabla y actualizando tus estadísticas!."
 
 #: trainer/views.py:668
 msgid "Stats updated. Screenshot included."
-msgstr "Estadísticas actualizadas. Capturas de pantallas incluidas. "
+msgstr "Estadísticas actualizadas. Capturas de pantallas incluídas. "
 
 #: website/templates/account/account_inactive.html:5
 #: website/templates/account/account_inactive.html:6
@@ -1122,7 +1134,7 @@ msgstr "Direcciones de correo electrónico"
 #: website/templates/account/email.html:51
 msgid "The following e-mail addresses are associated with your account:"
 msgstr ""
-"La siguiente dirección de correo electrónico esta asociada con tu cuenta:"
+"La siguiente dirección de correo electrónico está asociada con tu cuenta:"
 
 #: website/templates/account/email.html:59
 msgid "Primary"
@@ -1134,7 +1146,7 @@ msgstr "Hacer Primario"
 
 #: website/templates/account/email.html:72
 msgid "Re-send Verification"
-msgstr "Re enviar verificación"
+msgstr "Re-enviar verificación"
 
 #: website/templates/account/email.html:73
 #: website/templates/socialaccount/connections.html:51
@@ -1152,8 +1164,8 @@ msgid ""
 "etc."
 msgstr ""
 "Actualmente no tienes ninguna dirección de correo electrónico configurada. "
-"Realmente debería agregar una dirección de correo electrónico para que pueda"
-" recibir notificaciones, restablecer su contraseña, etc."
+"Realmente deberías agregar una dirección de correo electrónico para que "
+"puedas recibir notificaciones, restablecer tu contraseña, etc."
 
 #: website/templates/account/email.html:94
 msgid "Do you really want to remove the selected e-mail address?"
@@ -1172,7 +1184,7 @@ msgstr ""
 "\n"
 "Estas recibiendo este correo porque el usuario %(user_display)s a conectado este correo electrónico en su cuenta. Si no fuiste tu, por favor ignora este correo.\n"
 "\n"
-"Para confirmar que es correcto, vaya a  %(activate_url)s\n"
+"Para confirmar que es correcto, en la siguiente dirección   %(activate_url)s\n"
 
 #: website/templates/account/email/email_confirmation_message.txt:12
 #, fuzzy, python-format
@@ -1200,7 +1212,7 @@ msgid ""
 msgstr ""
 "Saludos desde  %(site_name)s!\n"
 "\n"
-"Estas recibiendo este correo porque tu u otra persona ha solicitado una contraseña para su cuenta de usuario.\n"
+"Estas recibiendo este correo porque tu u otra persona ha solicitado una contraseña para tu cuenta de usuario.\n"
 "Se puede ignorar de forma segura si no solicitó un restablecimiento de contraseña. Haga clic en el siguiente enlace para restablecer su contraseña."
 
 #: website/templates/account/email/password_reset_key_message.txt:8
@@ -1318,11 +1330,11 @@ msgstr "Remover dirección de correo electrónico %(email)s."
 #: website/templates/account/messages/logged_in.txt:4
 #, python-format
 msgid "Successfully signed in as %(name)s."
-msgstr "Inicio de sesiono correcto como %(name)s."
+msgstr "Inicio de sesión correcto como %(name)s."
 
 #: website/templates/account/messages/logged_out.txt:2
 msgid "You have signed out."
-msgstr "Tu haz cerrado sesión."
+msgstr "Tu has cerrado sesión."
 
 #: website/templates/account/messages/password_changed.txt:3
 msgid "Password successfully changed to hunter2."
@@ -1367,9 +1379,9 @@ msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you"
 " an e-mail allowing you to reset it."
 msgstr ""
-"Haz olvidado tu contraseña? Introduce la dirección de correo electrónico a "
+"¿Haz olvidado tu contraseña? Introduce la dirección de correo electrónico a "
 "continuación y te enviaremos un correo electrónico que te permitirá "
-"resetearla."
+"reestablecerla."
 
 #: website/templates/account/password_reset.html:30
 msgid "Please contact us if you have any trouble resetting your password."
@@ -1401,7 +1413,7 @@ msgstr "Volver al Inicio"
 
 #: website/templates/account/password_reset_from_key.html:13
 msgid "Bad Token"
-msgstr "Token malo"
+msgstr "Token inválido"
 
 #: website/templates/account/password_reset_from_key.html:18
 msgid ""
