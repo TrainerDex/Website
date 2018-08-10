@@ -1,6 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
 from allauth.socialaccount.models import SocialAccount
-from annoying.functions import get_object_or_this
 from cities.models import Continent, Country, Region
 from datetime import datetime, timedelta, date
 from django import forms
@@ -19,7 +18,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
 from django.urls import resolve
 from math import ceil
-from pycent import percentage
 from pytz import utc
 from rest_framework import authentication, permissions, status
 from rest_framework.decorators import detail_route
@@ -380,17 +378,17 @@ def TrainerRedirectorView(request, username=None, id=None):
 		trainer = get_object_or_404(Trainer, username__iexact=request.GET.get('username'))
 	elif request.GET.get('id'):
 		trainer = get_object_or_404(Trainer, pk=request.GET.get('id'))
-	elif not request.user.is_authenticated():
+	elif not request.user.is_authenticated:
 		return redirect('home')
 	else:
 		trainer = request.user.trainer
 	
-	return HttpResponsePermanentRedirect(reverse('profile_username', kwargs={'username':trainer.username}))
+	return HttpResponsePermanentRedirect(reverse('trainerdex_web:profile_username', kwargs={'username':trainer.username}))
 
 def TrainerProfileHTMLView(request, username):
-	if request.user.is_authenticated() and not _check_if_self_valid(request):
+	if request.user.is_authenticated and not _check_if_self_valid(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
-		return HttpResponseRedirect(reverse('profile_set_up'))
+		return HttpResponseRedirect(reverse('trainerdex_web:profile_set_up'))
 	
 	trainer = Trainer.objects.prefetch_related().get(username__iexact=username)
 	context = {
@@ -411,12 +409,8 @@ def TrainerProfileHTMLView(request, username):
 			if len(_badge) == 0:
 				continue
 			badge_dict['value'] = getattr(_badge[0], badge['name'])
-			if badge_dict['value'] < badge['bronze']:
-				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['bronze'],0))
-			elif badge_dict['value'] < badge['silver']:
-				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['silver'],0))
-			elif badge_dict['value'] < badge['gold']:
-				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['gold'],0))
+			if badge_dict['value'] < badge['gold']:
+				badge_dict['percent'] = int((badge_dict['value']/badge['gold'])*100)
 			else:
 				badge_dict['percent'] = 100
 			badge_dict['time'] = getattr(_badge[0], 'update_time')
@@ -434,12 +428,8 @@ def TrainerProfileHTMLView(request, username):
 			if len(_badge) == 0:
 				continue
 			badge_dict['value'] = getattr(_badge[0], badge['name'])
-			if badge_dict['value'] < badge['bronze']:
-				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['bronze'],0))
-			elif badge_dict['value'] < badge['silver']:
-				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['silver'],0))
-			elif badge_dict['value'] < badge['gold']:
-				badge_dict['percent'] = int(percentage(badge_dict['value'],badge['gold'],0))
+			if badge_dict['value'] < badge['gold']:
+				badge_dict['percent'] = int((badge_dict['value']/badge['gold'])*100)
 			else:
 				badge_dict['percent'] = 100
 			badge_dict['time'] = getattr(_badge[0], 'update_time')
@@ -486,9 +476,9 @@ def TrainerProfileHTMLView(request, username):
 
 @login_required
 def CreateUpdateHTMLView(request):
-	if request.user.is_authenticated() and not _check_if_self_valid(request):
+	if request.user.is_authenticated and not _check_if_self_valid(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
-		return HttpResponseRedirect(reverse('profile_set_up'))
+		return HttpResponseRedirect(reverse('trainerdex_web:profile_set_up'))
 	
 	if request.POST:
 		form_data = request.POST.copy()
@@ -504,7 +494,7 @@ def CreateUpdateHTMLView(request):
 	if form.is_valid():
 		update = form.save()
 		messages.success(request, 'Statistics updated')
-		return HttpResponseRedirect(reverse('profile_username', kwargs={'username':request.user.trainer.username}))
+		return HttpResponseRedirect(reverse('trainerdex_web:profile_username', kwargs={'username':request.user.trainer.username}))
 	form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
 	if request.method == 'GET':
 		form.fields['trainer'].initial = request.user.trainer
@@ -514,9 +504,9 @@ def CreateUpdateHTMLView(request):
 	return render(request, 'create_update.html', context)
 
 def LeaderboardHTMLView(request, continent=None, country=None, region=None):
-	if request.user.is_authenticated() and not _check_if_self_valid(request):
+	if request.user.is_authenticated and not _check_if_self_valid(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
-		return HttpResponseRedirect(reverse('profile_set_up'))
+		return HttpResponseRedirect(reverse('trainerdex_web:profile_set_up'))
 	
 	context = {}
 	
@@ -572,8 +562,10 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	context['grand_total_users'] = total_users = QuerySet.count()
 	
 	if total_users == 0:
-		print(context)
-		return render(request, 'leaderboard404.html', context, status=404)
+		context['page'] = 0
+		context['pages'] = 0
+		context['leaderboard'] = None
+		return render(request, 'leaderboard.html', context, status=404)
 	
 	QuerySet = QuerySet.annotate(*[Max('update__'+x) for x in fields_to_calculate_max]).extra(select={'null_order': '{order} IS NULL'.format(order=sort_by)}).order_by('null_order', '-update__{order}__max'.format(order=sort_by), '-update__xp__max', '-update__update_time__max', 'faction',)
 	
@@ -626,10 +618,10 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 
 @login_required
 def SetUpProfileViewStep2(request):
-	if request.user.is_authenticated() and _check_if_self_valid(request):
+	if request.user.is_authenticated and _check_if_self_valid(request):
 		if len(request.user.trainer.update_set.all()) == 0:
 			return redirect(SetUpProfileViewStep3, permanent=False)
-		return HttpResponseRedirect(reverse('profile'))
+		return HttpResponseRedirect(reverse('trainerdex_web:profile'))
 	
 	form = RegistrationFormTrainer(instance=request.user.trainer)
 	form.fields['verification'].required = True
@@ -647,7 +639,7 @@ def SetUpProfileViewStep2(request):
 
 @login_required
 def SetUpProfileViewStep3(request):
-	if request.user.is_authenticated() and _check_if_self_valid(request) and len(request.user.trainer.update_set.all()) > 0:
+	if request.user.is_authenticated and _check_if_self_valid(request) and len(request.user.trainer.update_set.all()) > 0:
 		return redirect(CreateUpdateHTMLView, permanent=False)
 	
 	form = RegistrationFormUpdate(initial={'trainer':request.user.trainer})
@@ -664,7 +656,7 @@ def SetUpProfileViewStep3(request):
 		if form.is_valid():
 			form.save()
 			messages.success(request, _("Stats updated. Screenshot included."))
-			return HttpResponseRedirect(reverse('profile_username', kwargs={'username':request.user.trainer.username}))
+			return HttpResponseRedirect(reverse('trainerdex_web:profile_username', kwargs={'username':request.user.trainer.username}))
 		logger.info(form.cleaned_data)
 		logger.error(form.errors)
 	form.fields['update_time'].widget = forms.HiddenInput()

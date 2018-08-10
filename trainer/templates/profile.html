@@ -55,7 +55,7 @@ XP: {{xp|intcomma}}" />
 {% endblock %}
 
 {%block content%}
-<div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top {# {{trainer.faction.name.lower}} #}">
+<div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top ">
     <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}" /></div>
     <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
       <ul class="mdl-list">
@@ -188,12 +188,12 @@ XP: {{xp|intcomma}}" />
     <div class="mdl-grid mdl-grid--no-spacing">
       {% for badge in badges %}
       <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
-        <div class="progress-circle {# {{trainer.faction.name.lower}} #} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
+        <div class="progress-circle  {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
           <div class="mdl-tooltip" data-mdl-for="{{ badge.name }}">{{badge.time|naturalday}}</div>
           <span>{{ badge.value }}</span>
           <div class="left-half-clipper">
-            <div class="first50-bar {# {{trainer.faction.name.lower}} #}"></div>
-            <div class="value-bar {# {{trainer.faction.name.lower}} #}"></div>
+            <div class="first50-bar"></div>
+            <div class="value-bar"></div>
           </div>
         </div>
       <span>{{ badge.readable_name }}</span>
@@ -218,12 +218,12 @@ XP: {{xp|intcomma}}" />
     <div class="mdl-grid mdl-grid--no-spacing">
       {% for badge in type_badges %}
       <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
-        <div class="progress-circle {# {{trainer.faction.name.lower}} #} {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
+        <div class="progress-circle  {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
           <div class="mdl-tooltip" data-mdl-for="{{ badge.name }}">{{badge.time|naturalday}}</div>
           <span>{{ badge.value }}</span>
           <div class="left-half-clipper">
-            <div class="first50-bar {# {{trainer.faction.name.lower}} #}"></div>
-            <div class="value-bar {# {{trainer.faction.name.lower}} #}"></div>
+            <div class="first50-bar "></div>
+            <div class="value-bar "></div>
           </div>
         </div>
       <span>{{ badge.readable_name }}</span>

@@ -2,49 +2,54 @@
 from django import forms
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
-from ajax_select.admin import AjaxSelectAdmin
-from ajax_select import make_ajax_form
 from trainer.models import *
 
 admin.site.register(Faction)
-admin.site.register(DiscordGuild)
-admin.site.register(PrivateLeague)
-admin.site.register(PrivateLeagueMembershipPersonal)
-admin.site.register(PrivateLeagueMembershipDiscord)
+
+@admin.register(DiscordGuild)
+class DiscordGuildAdmin(admin.ModelAdmin):
+	
+	search_fields = ('id',)
+	
+@admin.register(PrivateLeague)
+class PrivateLeagueAdmin(admin.ModelAdmin):
+	
+	search_fields = ('uuid','short_description', 'vanity')
+	
+@admin.register(PrivateLeagueMembershipPersonal)
+class PrivateLeagueMembershipPersonalAdmin(admin.ModelAdmin):
+	
+	autocomplete_fields = ['league', 'trainer']
+
+@admin.register(PrivateLeagueMembershipDiscord)
+class PrivateLeagueMembershipDiscordAdmin(admin.ModelAdmin):
+	
+	autocomplete_fields = ['league', 'discord']
 
 @admin.register(TrainerReport)
-class TrainerReportAdmin(AjaxSelectAdmin):
+class TrainerReportAdmin(admin.ModelAdmin):
 	
-	form = make_ajax_form(TrainerReport, {
-		'trainer' : 'trainer'
-	})
+	autocomplete_fields = ['trainer']
 
 @admin.register(Sponsorship)
-class SponsorshipAdmin(AjaxSelectAdmin):
+class SponsorshipAdmin(admin.ModelAdmin):
 	
-	form = make_ajax_form(Sponsorship, {
-		'members' : 'trainer'
-	})
+	autocomplete_fields = ['members']
+	search_fields = ('title',)
 
 @admin.register(Update)
-class UpdateAdmin(AjaxSelectAdmin):
+class UpdateAdmin(admin.ModelAdmin):
 	
-	form = make_ajax_form(Update, {
-		'trainer' : 'trainer'
-	})
+	autocomplete_fields = ['trainer']
 	list_display = ('trainer', 'xp', 'update_time', 'meta_crowd_sourced','meta_source', 'modified_extra_fields')
 	search_fields = ('trainer__username', 'trainer__owner__username')
 	ordering = ('-update_time',)
 	date_hierarchy = 'update_time'
 
 @admin.register(Trainer)
-class TrainerAdmin(AjaxSelectAdmin):
+class TrainerAdmin(admin.ModelAdmin):
 	
-	form = make_ajax_form(Trainer, {
-		'owner' : 'user',
-		'leaderboard_country' : 'countries',
-		'leaderboard_region': 'regions',
-	})
+	autocomplete_fields = ['owner','leaderboard_country','leaderboard_region']
 	list_display = ('username', 'level', 'faction', 'currently_cheats', 'is_on_leaderboard', 'is_verified', 'awaiting_verification')
 	list_filter = ('faction', 'last_cheated', 'statistics', 'verified',)
 	search_fields = ('username', 'owner__first_name')
@@ -62,7 +67,7 @@ class TrainerAdmin(AjaxSelectAdmin):
 		}),
 		(_('2018 Events'), {
 			'classes': ('collapse',),
-			'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018')
+			'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018_japan')
 		}),
 		(_('Website Badges'), {
 			'classes': ('collapse',),
