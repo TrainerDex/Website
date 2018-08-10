@@ -1,5 +1,5 @@
 amqp==2.3.2
-billiard==3.5.0.3
+billiard==3.5.0.4
 certifi==2017.7.27.1
 chardet==3.0.4
 django-allauth==0.36.0
