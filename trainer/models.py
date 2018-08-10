@@ -398,8 +398,12 @@ class DiscordGuild(models.Model):
 	def __str__(self):
 		return str(self.id)
 	
+	class Meta:
+		verbose_name = _("Discord Guild")
+		verbose_name_plural = _("Discord Guilds")
+	
 
-class PrivateLeague(models.Model):
+class CommunityLeague(models.Model):
 	uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
 	language = models.CharField(max_length=7, choices=settings.LANGUAGES)
 	short_description = models.CharField(max_length=70)
@@ -413,20 +417,24 @@ class PrivateLeague(models.Model):
 	
 	memberships_personal = models.ManyToManyField(
 		Trainer,
-		through='PrivateLeagueMembershipPersonal',
+		through='CommunityLeagueMembershipPersonal',
 		through_fields=('league', 'trainer')
 	)
 	memberships_discord = models.ManyToManyField(
 		DiscordGuild,
-		through='PrivateLeagueMembershipDiscord',
+		through='CommunityLeagueMembershipDiscord',
 		through_fields=('league', 'discord')
 	)
 	
 	def __str__(self):
 		return self.short_description
+	
+	class Meta:
+		verbose_name = _("Community League")
+		verbose_name_plural = _("Community Leagues")
 
-class PrivateLeagueMembershipPersonal(models.Model):
-	league = models.ForeignKey(PrivateLeague, on_delete=models.CASCADE)
+class CommunityLeagueMembershipPersonal(models.Model):
+	league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
 	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
 	
 	primary = models.BooleanField(default=True)
@@ -434,9 +442,13 @@ class PrivateLeagueMembershipPersonal(models.Model):
 	def __str__(self):
 		return "{league} - {trainer}".format(league=self.league, trainer=self.trainer)
 	
+	class Meta:
+		verbose_name = _("Community League Membership")
+		verbose_name_plural = _("Community League Memberships")
+	
 
-class PrivateLeagueMembershipDiscord(models.Model):
-	league = models.ForeignKey(PrivateLeague, on_delete=models.CASCADE)
+class CommunityLeagueMembershipDiscord(models.Model):
+	league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
 	discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
 	
 	auto_import = models.BooleanField(default=True)
@@ -446,4 +458,8 @@ class PrivateLeagueMembershipDiscord(models.Model):
 	
 	def __str__(self):
 		return "{league} - {guild}".format(league=self.league, trainer=self.discord)
+	
+	class Meta:
+		verbose_name = _("Community League Discord Connection")
+		verbose_name_plural = _("Community League Discord Connections")
 	
