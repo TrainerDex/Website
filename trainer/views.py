@@ -15,7 +15,7 @@ from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, Que
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext_noop as _noop
+from django.utils.translation import ugettext_noop, pgettext_lazy
 from django.urls import resolve
 from math import ceil
 from pytz import utc
@@ -138,7 +138,7 @@ class TrainerDetailJSONView(APIView):
 			trainer.save()
 			response = {
 				'code': 1,
-				'reason': _('Profile deactivated'),
+				'reason': 'Profile deactivated',
 				'profile': {
 					'id': trainer.pk,
 					'faction': trainer.faction.id,
@@ -228,8 +228,8 @@ class UpdateDetailJSONView(APIView):
 			update.delete()
 			return Response(status=status.HTTP_204_NO_CONTENT)
 		else:
-			SUBJECT = _('Late Update Deletion Request')
-			MESSAGE = _('There has been a request to delete {update} by {requester} at {ip}').format(update=request.build_absolute_uri(), requester=request.user, ip=request.get_host())
+			SUBJECT = 'Late Update Deletion Request'
+			MESSAGE = 'There has been a request to delete {update} by {requester} at {ip}'.format(update=request.build_absolute_uri(), requester=request.user, ip=request.get_host())
 			mail_admins(SUBJECT, MESSAGE)
 			return Response({'request_made': True, 'subject': SUBJECT, 'message': MESSAGE}, status=status.HTTP_202_ACCEPTED)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -316,7 +316,7 @@ class DiscordLeaderboardAPIView(APIView):
 
 def fortyx(request, username):
 	trainer = get_object_or_404(Trainer, username__iexact=username)
-	return HttpResponse("40x{}".format(trainer.update_set.latest('update_time').xp/20000000))
+	return HttpResponse(pgettext_lazy("localized string of 40x2, 40x3 etc", "{0}x{1.0,g}".format(40, trainer.update_set.latest('update_time').xp/20000000)))
 
 # Web-based views
 
@@ -359,7 +359,7 @@ def _check_if_trainer_valid(trainer):
 		logger.log(level=30 if trainer.profile_complete else 20, msg='Checking {username}: Completed profile: {status}'.format(username=trainer.username, status=trainer.profile_complete))
 		logger.log(level=30 if trainer.update_set.count() else 20, msg='Checking {username}: Update count: {count}'.format(username=trainer.username, count=trainer.update_set.count()))
 	if not trainer.profile_complete or not trainer.update_set.count():
-		raise Http404('{} has not completed their profile.'.format(trainer.owner.username))
+		raise Http404(_('{0} has not completed their profile.').format(trainer.owner.username))
 	return trainer
 
 def _check_if_self_valid(request):
@@ -518,7 +518,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		try:
 			continent = Continent.objects.prefetch_related('countries').get(code__iexact = continent)
 		except Continent.DoesNotExist:
-			raise Http404('No continent found for code {}'.format(continent))
+			raise Http404(_('No continent found for code {}').format(continent))
 		countries_in_continent = continent.countries.all()
 		context['title'] = continent.name
 		QuerySet = Trainer.objects.filter(leaderboard_country__in=countries_in_continent)
@@ -526,16 +526,16 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		try:
 			country = Country.objects.prefetch_related('leaderboard_trainers_country').get(code__iexact = country)
 		except Country.DoesNotExist:
-			raise Http404('No country found for code {}'.format(country))
+			raise Http404(_('No country found for code {}').format(country))
 		context['title'] = country.name
 		QuerySet = country.leaderboard_trainers_country
 	elif region:
 		try:
 			region = Region.objects.filter(country__code__iexact = country).get(code__iexact = region)
 		except Country.DoesNotExist:
-			raise Http404('No country found for code {}'.format(country))
+			raise Http404(_('No country found for code {}').format(country))
 		except Region.DoesNotExist:
-			raise Http404('No region found for code {}/{}'.format(country, region))
+			raise Http404(_('No region found for code {}/{}').format(country, region))
 		context['title'] = ', '.join([x.name for x in reversed(region.hierarchy)])
 		QuerySet = region.leaderboard_trainers_region
 	else:

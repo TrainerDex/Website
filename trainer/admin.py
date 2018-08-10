@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+
 from django import forms
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
@@ -67,7 +67,7 @@ class TrainerAdmin(admin.ModelAdmin):
 		}),
 		(_('2018 Events'), {
 			'classes': ('collapse',),
-			'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018_japan')
+			'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018_japan','badge_apac_partner_july_2018_south_korea')
 		}),
 		(_('Website Badges'), {
 			'classes': ('collapse',),

@@ -1,0 +1,11 @@
+{
+  "name": "trainerdex.co.uk",
+  "version": "0.0.1",
+  "author": "TrainerDex",
+  "homepage": "https://www.trainerdex.co.uk/",
+  "private": true,
+  "dependencies": {
+    "material-design-lite":  "1.3.0",
+    "mdl-ext": "0.17.1"
+  }
+}
