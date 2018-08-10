@@ -11,18 +11,18 @@ class DiscordGuildAdmin(admin.ModelAdmin):
 	
 	search_fields = ('id',)
 	
-@admin.register(PrivateLeague)
-class PrivateLeagueAdmin(admin.ModelAdmin):
+@admin.register(CommunityLeague)
+class CommunityLeagueAdmin(admin.ModelAdmin):
 	
 	search_fields = ('uuid','short_description', 'vanity')
 	
-@admin.register(PrivateLeagueMembershipPersonal)
-class PrivateLeagueMembershipPersonalAdmin(admin.ModelAdmin):
+@admin.register(CommunityLeagueMembershipPersonal)
+class CommunityLeagueMembershipPersonalAdmin(admin.ModelAdmin):
 	
 	autocomplete_fields = ['league', 'trainer']
 
-@admin.register(PrivateLeagueMembershipDiscord)
-class PrivateLeagueMembershipDiscordAdmin(admin.ModelAdmin):
+@admin.register(CommunityLeagueMembershipDiscord)
+class CommunityLeagueMembershipDiscordAdmin(admin.ModelAdmin):
 	
 	autocomplete_fields = ['league', 'discord']
 

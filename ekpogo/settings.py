@@ -77,12 +77,41 @@ LOCALE_PATHS = [
 ROOT_URLCONF = 'ekpogo.urls'
 
 ADMIN_REORDER = (
-    {'app': 'auth', 'models': ('auth.User', 'auth.Group', 'account.EmailAddress', 'authtoken.Token')},
-    {'app': 'trainer', 'models': ('trainer.Trainer', 'trainer.Update', 'trainer.TrainerReport', 'trainer.Faction')},
-    'trainer',
+    {
+        'app': 'auth',
+        'models': (
+            'auth.User',
+            'auth.Group',
+            'account.EmailAddress',
+            'authtoken.Token'
+        )},
+    {
+        'app': 'trainer',
+        'models': (
+            'trainer.Trainer',
+            'trainer.Update',
+            'trainer.TrainerReport',
+            'trainer.Sponsorship',
+            'trainer.Faction'
+        )},
+    {
+        'app': 'trainer',
+        'label': 'Community Leagues',
+        'models': (
+            'trainer.DiscordGuild',
+            'trainer.CommunityLeague',
+            'trainer.CommunityLeagueMembershipPersonal',
+            'trainer.CommunityLeagueMembershipDiscord'
+        )},
+    {
+        'app': 'cities',
+        'models': (
+            'cities.country',
+            'cities.region',
+            'cities.alternativename'
+        )},
     'socialaccount',
     'sites',
-    'cities',
 )
 
 INTERNAL_IPS = [
