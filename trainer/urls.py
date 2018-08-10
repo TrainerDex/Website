@@ -8,6 +8,8 @@ from ekpogo.views import *
 
 class REST:
     
+    app_name = "trainerdex_rest.1"
+    
     urlpatterns = [
         # /
         url(r'^leaderboard\/discord\/(?P<guild>[0-9]+)\/$', DiscordLeaderboardAPIView.as_view()),
@@ -25,6 +27,8 @@ class REST:
     ]
 
 class HTML:
+    
+    app_name = "trainerdex_web"
     
     urlpatterns = [
         url(r'^leaderboard\/?$', LeaderboardHTMLView, name='leaderboard'),

@@ -22,7 +22,6 @@ ADMINS = [('Jay Turner', 'jaynicholasturner@gmail.com')]
 # Application definition
 
 INSTALLED_APPS = [
-    'flat_responsive',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,12 +32,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.gis',
-    'django_gravatar',
     'debug_toolbar',
     'django_unused_media',
     'rest_framework',
     'rest_framework.authtoken',
-    'ajax_select',
     'cities',
     'colorful',
     'cookielaw',
@@ -53,6 +50,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.reddit',
     'allauth.socialaccount.providers.twitter',
+#    'allauth.socialaccount.providers.telegram',
     'allauth.socialaccount.providers.patreon',
     'allauth.socialaccount.providers.google',
     'widget_tweaks',
@@ -169,6 +167,11 @@ USE_L10N = True
 
 USE_TZ = True
 
+ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS = True
+YANDEX_TRANSLATE_KEY = 'trnsl.1.1.20180810T220137Z.fc1ed7f844d35593.7750326807792ffa52d9d97276c6fab1cf66e178'
+ROSETTA_POFILE_WRAP_WIDTH = 0
+ROSETTA_SHOW_AT_ADMIN_PANEL = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -225,6 +228,9 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         }
+#    },
+#    'telegram': {
+#        'TOKEN': '605108342:AAHK_8-ezXE07yQqdJCAePEIcQzLP1EsBvs'
     }
 }
 SOCIALACCOUNT_QUERY_EMAIL= True
@@ -239,12 +245,6 @@ GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-110066146-1'
 
 CITIES_LOCALES = ['en', 'da', 'de', 'es', 'fr', 'ja', 'nl', 'no', 'pl', 'sv']
 CITIES_POSTAL_CODES = []
-
-# Django Gravatar 2
-# https://github.com/twaddington/django-gravatar/#configuring
-
-GRAVATAR_DEFAULT_IMAGE = 'retro'
-GRAVATAR_DEFAULT_RATING = 'g'
 
 # Email
 # https://docs.djangoproject.com/en/1.11/topics/email/

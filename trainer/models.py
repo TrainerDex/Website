@@ -52,8 +52,8 @@ class Trainer(models.Model):
 	badge_chicago_fest_july_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Fest 2018"), help_text=_("Chicago, July 14-15, 2018"))
 	badge_apac_partner_july_2018 = models.BooleanField(default=False, verbose_name=_("Pokémon GO Special Weekend"), help_text=_("Japan, July 26-29, 2018"))
 	
-	leaderboard_country = models.ForeignKey(Country, null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country', help_text=_("Where are you based?"))
-	leaderboard_region = models.ForeignKey(Region, null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region', help_text=_("Where are you based?"))
+	leaderboard_country = models.ForeignKey(Country, on_delete=models.SET_NULL , null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country', help_text=_("Where are you based?"))
+	leaderboard_region = models.ForeignKey(Region, on_delete=models.SET_NULL , null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region', help_text=_("Where are you based?"))
 	
 	verified = models.BooleanField(default=False, verbose_name=_("Verified"))
 	last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last Modified"))
@@ -61,7 +61,7 @@ class Trainer(models.Model):
 	event_10b = models.BooleanField(default=False)
 	event_1k_users = models.BooleanField(default=False)
 	
-	verification = models.ImageField(upload_to=VerificationImagePath, null=True, blank=True, verbose_name=_("Username / Level / Team Screenshot"))
+	verification = models.ImageField(upload_to=VerificationImagePath, blank=True, verbose_name=_("Username / Level / Team Screenshot"))
 	
 	thesilphroad_username = postgres_fields.CICharField(null=True, blank=True, max_length=30, verbose_name=_("The Silph Road Username"), help_text=_("The username you use on The Silph Road, if different from your Trainer Nickname.")) # max_length=15, unique=True, validators=[PokemonGoUsernameValidator]
 	
@@ -327,7 +327,7 @@ class Update(models.Model):
 	)
 	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
 	
-	image_proof = models.ImageField(upload_to=VerificationUpdateImagePath, null=True, blank=True, verbose_name=_("Total XP Screenshot"))
+	image_proof = models.ImageField(upload_to=VerificationUpdateImagePath, blank=True, verbose_name=_("Total XP Screenshot"))
 	
 	def meta_crowd_sourced(self):
 		if self.meta_source.startswith('cs'):

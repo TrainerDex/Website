@@ -60,10 +60,10 @@ li.mdl-menu__item > i.material-icons {
   width: auto;
 }
 .trainerdex-card__alert > .mdl-card__title {
-  color: #fff;
+  color: #f2f2f2;
   height: 176px;
-  background-image: url('/static/img/alert.jpg');
-  background-position: center top 28%;
+  background-image: url('/static/img/alert.png');
+  background-position: center top 15%;
   background-size: cover;
   background-repeat: no-repeat;
   
@@ -97,25 +97,34 @@ li.mdl-menu__item > i.material-icons {
 
 .trainerdex-logo-image {
   height: 28px;
-  width: 140px;
+}
+
+.trainerdex-drawer-header {
+  background-color: #ca3755!important;
+  color: #f2f2f2!important;
+}
+
+.trainerdex-navigation {
+  background-color: #f2f2f2!important;
+  color: #332e20!important;
 }
 
 .trainerdex-header {
   overflow: visible;
-/*  background-color: white;*/
+  background-color: #ca3755;
 }
-/*
+
   .trainerdex-header .material-icons {
-    color: #767777 !important;
+    color: #f2f2f2 !important;
   }
-*/
+
   .trainerdex-header .mdl-layout__drawer-button {
     background: transparent;
-/*    color: #767777;*/
+    color: #767777;
   }
 
   .trainerdex-header .mdl-navigation__link {
-/*    color: #757575;*/
+    color: #f2f2f2;
     font-weight: 700;
     font-size: 14px;
   }
@@ -155,7 +164,7 @@ li.mdl-menu__item > i.material-icons {
   }
 
     .trainerdex-header-navigation .mdl-navigation__link:hover {
-      border-bottom: 4px solid #8bc34a;
+      border-bottom: 4px solid #f2f2f2;
     }
 
   .trainerdex-search-box {
@@ -172,6 +181,21 @@ li.mdl-menu__item > i.material-icons {
             order: 3;
   }
 
+  .trainerdex-title {
+    font-family: 'Raleway', sans-serif;
+  }
+
+  .tdx-lb__title {
+    background-color: #ca3755!important;
+    color: #f2f2f2!important;
+}
+  .tdx-lb__menu {
+    color: #f2f2f2!important;
+}
+  .tdx-lb__supporting-text {
+    color: #f2f2f2!important;
+}
+
 /**** Mobile layout ****/
 @media (max-width: 900px) {
   .trainerdex-header-navigation-container {
@@ -184,9 +208,9 @@ li.mdl-menu__item > i.material-icons {
 
   .trainerdex-mobile-title {
     display: block !important;
+    font-family: 'Raleway', sans-serif;
     position: absolute;
-    left: calc(50% - 70px);
-    top: 12px;
+    left: calc(50% - 14px);
     transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -283,16 +307,17 @@ li.mdl-menu__item > i.material-icons {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  color: rgba(255, 255, 255, 0.56);
+  color: #332e20!important;
   font-weight: 500;
+  -webkit-tap-highlight-color: #ca3755!important;
 }
 .trainerdex-layout .trainerdex-navigation .mdl-navigation__link:hover {
-  background-color: #00BCD4;
-  color: #37474F;
+  background-color: #ca3755!important;
+  color: #f2f2f2!important;
 }
 .trainerdex-navigation .mdl-navigation__link .material-icons {
   font-size: 24px;
-  color: rgba(255, 255, 255, 0.56);
+  color: #332e20!important;
   margin-right: 32px;
 }
 
@@ -428,15 +453,6 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
   border-radius: 0px;
   width: 100%;
 }
-.trainerdex--profile-top.valor {
-  background: #e57373; /* Red 300 */
-}
-.trainerdex--profile-top.mystic {
-  background: #7986cb; /* Blue 300 */
-}
-.trainerdex--profile-top.instinct {
-  background: #ffd54f; /* Yellow 300 */
-}
 .trainerdex--profile__badges-individual {
   min-width:140px;
 }
@@ -446,34 +462,6 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 .trainerdex--profile__badges-individual span{
   text-align: center;
   margin-bottom: 20px;
-}
-
-.progress-circle.valor span{
-  color: #D32F2F;
-}
-.progress-circle.over50 .first50-bar.valor {
-  background-color: #D32F2F;
-}
-.value-bar.valor{
-  border-color: #D32F2F;
-}
-.progress-circle.mystic span{
-  color: #303F9F;
-}
-.progress-circle.over50 .first50-bar.mystic {
-  background-color: #303F9F;
-}
-.value-bar.mystic{
-  border-color: #303F9F;
-}
-.progress-circle.instinct span{
-  color: #FBC02D;
-}
-.progress-circle.over50 .first50-bar.instinct {
-  background-color: #FBC02D;
-}
-.value-bar.instinct{
-  border-color: #FBC02D;
 }
 
 .social-btn {
@@ -510,25 +498,6 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 u.dotted {
   border-bottom: 1px dashed #999;
   text-decoration: none;
-}
-
-.mdl-tabs__tab-bar.valor {
-  background: #F44336;
-}
-.mdl-tabs__tab.is-active.valor {
-  background: #D32F2F;
-}
-.mdl-tabs__tab-bar.mystic {
-  background: #3F51B5;
-}
-.mdl-tabs__tab.is-active.mystic {
-  background: #303F9F;
-}
-.mdl-tabs__tab-bar.instinct {
-  background: #FFC107;
-}
-.mdl-tabs__tab.is-active.instinct {
-  background: #FBC02D;
 }
 
 #trainerdex__update-button {

@@ -8,7 +8,6 @@
     {% load cookielaw_tags %}
     {% load static %}
     {% load i18n %}
-    {% load gravatar %}
     {% load account %}
     
     <title>{% block head_title %}{% endblock %} | TrainerDex</title>
@@ -20,9 +19,10 @@
     <meta name="apple-mobile-web-app-title" content="TrainerDex">
     <link rel="apple-touch-icon-precomposed" href="{% static 'img/ios-desktop.png' %}">
     <link rel="fluid-icon" type="image/png" href="{% static 'img/ios-desktop.png' %}" />
-    <meta name="msapplication-TileImage" content="{% static 'img/touch/ms-touch-icon-144x144-precomposed.png' %}">
-    <meta name="msapplication-TileColor" content="#448aff">
+    <meta name="msapplication-TileImage" content="{% static 'img/ms-touch-icon.png' %}">
+    <meta name="msapplication-TileColor" content="#f2f2f2">
     <link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
     <meta property="og:site_name" content="TrainerDex" />
     {% block extra_head %}
     {% endblock %}
@@ -32,8 +32,9 @@
     <link rel="stylesheet" href="{% static 'node_modules/material-design-lite/material.min.css' %}">
     <link rel="stylesheet" href="{% static 'node_modules/mdl-ext/lib/mdl-ext.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,800&amp;subset=latin-ext" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css" />
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-pink.min.css" />
     
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -59,11 +60,13 @@
     {% block body %}
     {# Translators: 'beta' should remain in lowercase and is superscripted #}
     {% trans 'beta' as beta_text %}
+    {# Translators: 'β' should remain in lowercase and is superscripted, it's the short form of 'beta' and is used on mobile #}
+    {% trans 'β' as beta_short %}
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="trainerdex-header mdl-layout__header is-casting-shadow">
         <div class="mdl-layout__header-row">
           <span class="trainerdex-title mdl-layout__title">
-            {#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex<sup>{{ beta_text }}</sup>
+            <img class="trainerdex-logo-image" src="{% static 'img/logo-white-text.png' %}"><sup>{{ beta_text }}</sup>
           </span>
           {# Add spacer, to align navigation to the right in desktop #}
           <div class="mdl-layout-spacer"></div>
@@ -82,13 +85,13 @@
           <div class="trainerdex-header-navigation-container">
             <nav class="trainerdex-header-navigation mdl-navigation">
               {%if user.is_authenticated %}
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'profile' %}">{% user_display user %}</a>{% else %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'help:about' %}">{% trans "About Us" %}</a>{% endif %}
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'leaderboard' %}">{% trans "Leaderboard" %}</a>
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex_web:profile' %}">{% user_display user %}</a>{% else %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'help:about' %}">{% trans "About Us" %}</a>{% endif %}
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex_web:leaderboard' %}">{% trans "Leaderboard" %}</a>
             </nav>
           </div>
-          <span class="trainerdex-mobile-title mdl-layout-title">
-            {#<img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">#}TrainerDex<sup>{{ beta_text }}</sup>
-          </span>
+          <div class="trainerdex-mobile-title mdl-layout-title">
+            <img class="trainerdex-logo-image" src="{% static 'img/logo-white.png' %}"><sup>{{ beta_short }}</sup>
+          </div>
           <button class="trainerdex-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
             <i class="material-icons">more_vert</i>
           </button>
@@ -106,7 +109,7 @@
       <div class="trainerdex-drawer mdl-layout__drawer mdl-color--primary-dark mdl-color-text--primary-contrast">
         <header class="trainerdex-drawer-header">
           {% load account %}
-          <a href="{% url 'profile' %}"><img src="{% get_static_prefix %}{{user.trainer.faction.image}}" class="trainerdex-avatar"></a>
+          <a href="{% url 'trainerdex_web:profile' %}"><img src="{% get_static_prefix %}{{user.trainer.faction.image}}" class="trainerdex-avatar"></a>
           <div class="trainerdex-avatar-dropdown">
             <span>{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Red" context "This is the display name for a user not logged in. Use local references if you like. In English, I've gone for Red, the protagonist in the Gen 1 games." %}{% endif %}</span>
             <div class="mdl-layout-spacer"></div>
@@ -127,10 +130,10 @@
         </header>
         <nav class="trainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
           {%if user.is_authenticated %}
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'profile' %}"><i class="material-icons">person</i>{% trans "My Profile" %}</a>{% else %}<a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}"><i class="material-icons">home</i>{% trans "Home" %}</a>{% endif %}
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'leaderboard' %}"><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
+          <a class="mdl-navigation__link" href="{% url 'trainerdex_web:profile' %}"><i class="material-icons">person</i>{% trans "My Profile" %}</a>{% else %}<a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}"><i class="material-icons">home</i>{% trans "Home" %}</a>{% endif %}
+          <a class="mdl-navigation__link" href="{% url 'trainerdex_web:leaderboard' %}"><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
           <div class="mdl-layout-spacer"></div>
-          <a class="mdl-navigation__link mdl-color-text--primary-contrast mdl-button--disabled"><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">{% trans 'Help' %}</span></a>
+          <a class="mdl-navigation__link mdl-button--disabled"><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">{% trans 'Help' %}</span></a>
         </nav>
       </div>
       
@@ -174,7 +177,7 @@
     
     {% block update_stats_button %}
     {% if user.is_authenticated %}
-    <a id="trainerdex__update-button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored  mdl-shadow--2dp" href="{% url 'update_stats' %}"><i class="material-icons">add</i></a>
+    <a id="trainerdex__update-button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored  mdl-shadow--2dp" href="{% url 'trainerdex_web:update_stats' %}"><i class="material-icons">add</i></a>
     {% endif %}
     {% endblock %}
     

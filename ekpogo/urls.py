@@ -15,10 +15,6 @@ from support import urls as SupportURLS
 from trainer.views import SetUpProfileViewStep2, SetUpProfileViewStep3
 from trainer import sitemaps
 
-api_v1_patterns = [
-    url('', include(TrainerURLS.REST, namespace="trainer_api")),
-]
-
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': {
         'base': sitemaps.BaseSitemap,
@@ -28,7 +24,7 @@ urlpatterns = [
         'trainers':sitemaps.TrainerSitemap
     }},
     name='django.contrib.sitemaps.views.sitemap'),
-    url(r'^api\/v1\/', include(api_v1_patterns, namespace="api_v1")),
+    url(r'^api\/v1\/', include(TrainerURLS.REST)),
     url(r'^api\/admin\/', admin.site.urls),
     url(r'^api-token-auth\/', views.obtain_auth_token),
     url(r'^ajax_select\/', include(ajex_select_urls)),
@@ -37,8 +33,8 @@ urlpatterns = [
     url(r'^accounts\/profile/first_update\/?$', SetUpProfileViewStep3, name='profile_first_post'),
     url(r'^accounts\/', include('allauth.urls')),
     url(r'^tools\/rosetta\/', include('rosetta.urls')),
-    url(r'^$', RedirectView.as_view(pattern_name='leaderboard', permanent=True), name='home'),
-    url(r'^help\/', include(SupportURLS, namespace='help')),
+    url(r'^$', RedirectView.as_view(pattern_name='trainerdex_web:leaderboard', permanent=True), name='home'),
+    url(r'^help\/', include(SupportURLS)),
     url('', include(TrainerURLS.HTML)),
 ]
 

@@ -23,16 +23,16 @@ function setParam(uri, key, val) {
 {% endblock %}
 
 {% block content %}
-<header class="mdl-card__title mdl-color--primary-dark mdl-color-text--primary-contrast mdl-shadow--4dp">
+<header class="tdx-lb__title mdl-card__title mdl-shadow--4dp">
   <h2 class="mdl-card__title-text">{% blocktrans with title|default:_("International") as loc context "This is the title, loc is defined as the country/continent name, or the word International (which is translated seperately)." %}{{loc}} Leaderboard{% endblocktrans %}</h2>
 </header>
 
 
-<div class="mdl-card__menu mdl-color-text--primary-contrast">
+<div class="tdx-lb__menu mdl-card__menu mdl-color-text--primary-contrast">
   <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}-1);" {% if page == 1 %}disabled{% endif %}><i class="material-icons">navigate_before</i></button> {{page}}/{{pages}} <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}+1);" {% if page == pages %}disabled{% endif %}><i class="material-icons">navigate_next</i></button>
-  <button id="set-location" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" disabled>
+  <!--<button id="set-location" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" disabled>
     <i class="material-icons">pin_drop</i>
-  </button>
+  </button>-->
   <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect">
     <i class="material-icons">filter_list</i>
   </button>
@@ -47,14 +47,16 @@ function setParam(uri, key, val) {
   </ul>
 </div>
 
-<div class="mdl-card__supporting-text mdl-color--primary mdl-color-text--primary-contrast" style="width: 100%">
+{% for trainer in leaderboard %}
+{% if forloop.first %}
+<div class="tdx-lb__title" style="width: 100%">
+    <div class="tdx-lb__supporting-text mdl-card__supporting-text">
   {% trans 'Total XP' %}: {{ grand_total_xp | intword }} | {% trans 'Trainers Considered' %}: {{ grand_total_users | intcomma }}
+    </div>
 </div>
 
 <div class="table-responsive">
   <table class="mdl-data-table mdl-js-data-table" style="width: 100%">
-  {% for trainer in leaderboard %}
-    {% if forloop.first %}
     <thead>
       <tr>
         <th></th>
@@ -73,7 +75,7 @@ function setParam(uri, key, val) {
     {% endif %}
       <tr>
         <td>{{trainer.position|ordinal}}</td>
-        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'profile' %}?id={{trainer.trainer.pk}}'"><div class="trainer-nickname">{{trainer.trainer.username}} {{trainer.trainer.flag_emoji|default_if_none:''}}</div> <div class="tl">{{trainer.level}}</div></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'trainerdex_web:profile' %}?id={{trainer.trainer.pk}}'"><div class="trainer-nickname">{{trainer.trainer.username}} {{trainer.trainer.flag_emoji|default_if_none:''}}</div> <div class="tl">{{trainer.level}}</div></td>
         <td class="mdl-data-table__cell--non-numeric" style="padding-top: 0px; padding-bottom: 0px; width: 32px;" ><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'" alt="{{trainer.trainer.faction.name}}"/></td>
         {% for column in trainer.columns %}
         <td>{{column.value|default_if_none:"---"|intcomma}}</td>
@@ -82,8 +84,19 @@ function setParam(uri, key, val) {
       </tr>
     {% if forloop.last %}
     </tbody>
-    {% endif %}
-  {% endfor %}
   </table>
 </div>
+{% endif %}
+{% empty %}
+<div class="tdx-lb__title" style="width: 100%">
+    <div class="tdx-lb__supporting-text mdl-card__supporting-text">
+        {% trans "There is no information to include in this leaderboard. Why not be the first?" %}
+    </div>
+</div>
+<img style="
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 25px;" src="{% static 'img/404.png' %}" />
+{% endfor %}
 {% endblock %}
