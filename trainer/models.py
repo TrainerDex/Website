@@ -45,10 +45,10 @@ class Trainer(models.Model):
 	trainer_code = models.CharField(null=True, blank=True, validators=[TrainerCodeValidator], verbose_name=pgettext_lazy("friend_code_title", "Trainer Code"), max_length=15, help_text=_("Fancy sharing your trainer code? (Disclaimer: This information will be public)"))
 	
 	badge_chicago_fest_july_2017 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_chicago_fest_july_2017_title", "Pokémon GO Fest 2017"), help_text=pgettext_lazy("badge_chicago_fest_july_2017", "Chicago, July 22, 2017"))
-	badge_pikachu_outbreak_yokohama_2017 = models.BooleanField(default=False, verbose_name=pgettext_lazy("pikachu_outbreak_yokohama_title", "Pokémon GO STADIUM"), help_text=pgettext_lazy("pikachu_outbreak_yokohama", "Yokohama, August 2017"))
+	badge_pikachu_outbreak_yokohama_2017 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_pikachu_outbreak_yokohama_2017_title", "Pikachu Outbreak 2017"), help_text=pgettext_lazy("badge_pikachu_outbreak_yokohama_2017", "Yokohama, August 2017"))
 	badge_safari_zone_europe_2017_09_16 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_safari_zone_europe_2017_title", "GO Safari Zone - Europe 2017"), help_text=pgettext_lazy("badge_safari_zone_europe_2017", "Europe, September 16, 2017"))
 	badge_safari_zone_europe_2017_10_07 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_safari_zone_europe_2017_10_07_title", "GO Safari Zone - Europe 2017"), help_text=pgettext_lazy("badge_safari_zone_europe_2017_10_07", "Europe, October 7, 2017"))
-	badge_safari_zone_europe_2017_10_14 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_safari_zone_europe_2017_10_07_title", "GO Safari Zone - Europe 2017"), help_text=pgettext_lazy("badge_safari_zone_europe_2017_10_07", "Europe, October 14, 2017"))
+	badge_safari_zone_europe_2017_10_14 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_safari_zone_europe_2017_10_14_title", "GO Safari Zone - Europe 2017"), help_text=pgettext_lazy("badge_safari_zone_europe_2017_10_14", "Europe, October 14, 2017"))
 	badge_chicago_fest_july_2018 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_chicago_fest_july_2018_*_*_title", "Pokémon GO Fest 2018"), help_text=pgettext_lazy("badge_chicago_fest_july_2018_*_*", "Chicago, July 14-15, 2018"))
 	badge_apac_partner_july_2018_japan = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_apac_partner_july_2018_*_title", "Pokémon GO Special Weekend"), help_text=pgettext_lazy("badge_apac_partner_july_2018_*", "Japan, July 26-29, 2018"))
 	badge_apac_partner_july_2018_south_korea = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_apac_partner_july_2018_5_title", "Pokémon GO Special Weekend"), help_text=pgettext_lazy("badge_apac_partner_july_2018_5", "South Korea, July 29, 2018"))
@@ -64,7 +64,7 @@ class Trainer(models.Model):
 	
 	verification = models.ImageField(upload_to=VerificationImagePath, blank=True, verbose_name=_("Username / Level / Team Screenshot"))
 	
-	thesilphroad_username = postgres_fields.CICharField(null=True, blank=True, max_length=30, verbose_name=_("The Silph Road Username"), help_text=_("The username you use on The Silph Road, if different from your Trainer Nickname.")) # max_length=15, unique=True, validators=[PokemonGoUsernameValidator]
+	thesilphroad_username = postgres_fields.CICharField(null=True, blank=True, max_length=30, verbose_name=_("TheSilphRoad Trainer Name"), help_text=_("The username you use on The Silph Road, if different from your Trainer Nickname.")) # max_length=15, unique=True, validators=[PokemonGoUsernameValidator]
 	
 	def has_cheated(self):
 		return bool(self.last_cheated)

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-10 22:17+0000\n"
-"PO-Revision-Date: 2018-07-30 16:25+0000\n"
+"POT-Creation-Date: 2018-08-13 01:19+0000\n"
+"PO-Revision-Date: 2018-08-13 01:13+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -195,8 +195,6 @@ msgid "User"
 msgstr "Utilisateur"
 
 #: trainer/models.py:37 trainer/templates/leaderboard.html:63
-#, fuzzy
-#| msgid "Nickname"
 msgctxt "onboard_enter_name_hint"
 msgid "Nickname"
 msgstr "Nom"
@@ -206,8 +204,6 @@ msgid "Your Trainer Nickname exactly as is in game. You are free to change capit
 msgstr ""
 
 #: trainer/models.py:38
-#, fuzzy
-#| msgid "Start Date"
 msgctxt "profile_start_date"
 msgid "Start Date"
 msgstr "Date de début"
@@ -234,8 +230,6 @@ msgid "When did this Trainer last cheat?"
 msgstr ""
 
 #: trainer/models.py:41
-#, fuzzy
-#| msgid "Statistics"
 msgctxt "Profile_Category_Stats"
 msgid "Statistics"
 msgstr "Statistiques"
@@ -261,8 +255,6 @@ msgid "Our Discord bot lets you know if you've reached you goals or not: How muc
 msgstr ""
 
 #: trainer/models.py:45
-#, fuzzy
-#| msgid "Trainer Code"
 msgctxt "friend_code_title"
 msgid "Trainer Code"
 msgstr "Code de Dresseur"
@@ -272,110 +264,85 @@ msgid "Fancy sharing your trainer code? (Disclaimer: This information will be pu
 msgstr ""
 
 #: trainer/models.py:47 trainer/templates/profile.html:82
-#, fuzzy
-#| msgid "Pokémon GO Fest 2017"
 msgctxt "badge_chicago_fest_july_2017_title"
 msgid "Pokémon GO Fest 2017"
 msgstr "Festival Pokémon GO"
 
 #: trainer/models.py:47 trainer/templates/profile.html:83
-#, fuzzy
-#| msgid "Chicago, July 22, 2017"
 msgctxt "badge_chicago_fest_july_2017"
 msgid "Chicago, July 22, 2017"
 msgstr "Chicago, 22 juillet 2017"
 
 #: trainer/models.py:48 trainer/templates/profile.html:89
-#, fuzzy
-#| msgid "Pokémon GO STADIUM"
-msgctxt "pikachu_outbreak_yokohama_title"
-msgid "Pokémon GO STADIUM"
-msgstr "Stade Pokémon GO"
+msgctxt "badge_pikachu_outbreak_yokohama_2017_title"
+msgid "Pikachu Outbreak 2017"
+msgstr ""
 
 #: trainer/models.py:48 trainer/templates/profile.html:90
-#, fuzzy
-#| msgid "Yokohama, August 2017"
-msgctxt "pikachu_outbreak_yokohama"
+msgctxt "badge_pikachu_outbreak_yokohama_2017"
 msgid "Yokohama, August 2017"
-msgstr "Yokohama, août 2017"
+msgstr "Yokohama, Août 2017"
 
 #: trainer/models.py:49 trainer/templates/profile.html:96
-#, fuzzy
-#| msgid "GO Safari Zone - Europe 2017"
 msgctxt "badge_safari_zone_europe_2017_title"
 msgid "GO Safari Zone - Europe 2017"
 msgstr "Zone Safari GO - Europe 2017"
 
 #: trainer/models.py:49 trainer/templates/profile.html:97
-#, fuzzy
-#| msgid "Europe, September 16, 2017"
 msgctxt "badge_safari_zone_europe_2017"
 msgid "Europe, September 16, 2017"
 msgstr "Europe, 16 septembre 2017"
 
-#: trainer/models.py:50 trainer/models.py:51 trainer/templates/profile.html:103
+#: trainer/models.py:50 trainer/templates/profile.html:103
 #: trainer/templates/profile.html:110
-#, fuzzy
-#| msgid "GO Safari Zone - Europe 2017"
 msgctxt "badge_safari_zone_europe_2017_10_07_title"
 msgid "GO Safari Zone - Europe 2017"
 msgstr "Zone Safari GO - Europe 2017"
 
 #: trainer/models.py:50 trainer/templates/profile.html:104
-#, fuzzy
-#| msgid "Europe, October 7, 2017"
 msgctxt "badge_safari_zone_europe_2017_10_07"
 msgid "Europe, October 7, 2017"
 msgstr "Europe, 7 octobre 2017"
 
-#: trainer/models.py:51 trainer/templates/profile.html:111
-#, fuzzy
-#| msgid "Europe, October 14, 2017"
-msgctxt "badge_safari_zone_europe_2017_10_07"
+#: trainer/models.py:51
+msgctxt "badge_safari_zone_europe_2017_10_14_title"
+msgid "GO Safari Zone - Europe 2017"
+msgstr "Zone Safari GO - Europe 2017"
+
+#: trainer/models.py:51
+msgctxt "badge_safari_zone_europe_2017_10_14"
 msgid "Europe, October 14, 2017"
 msgstr "Europe, 14 octobre 2017\""
 
 #: trainer/models.py:52 trainer/templates/profile.html:117
-#, fuzzy
-#| msgid "Pokémon GO Fest 2018"
 msgctxt "badge_chicago_fest_july_2018_*_*_title"
 msgid "Pokémon GO Fest 2018"
 msgstr "Festival Pokémon GO"
 
 #: trainer/models.py:52 trainer/templates/profile.html:118
-#, fuzzy
-#| msgid "Chicago, July 14-15, 2018"
 msgctxt "badge_chicago_fest_july_2018_*_*"
 msgid "Chicago, July 14-15, 2018"
 msgstr "Chicago, 14-15 juillet 2018"
 
 #: trainer/models.py:53 trainer/templates/profile.html:124
-#, fuzzy
-#| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_apac_partner_july_2018_*_title"
 msgid "Pokémon GO Special Weekend"
 msgstr "Week-end spécial Pokémon GO"
 
 #: trainer/models.py:53 trainer/templates/profile.html:125
-#, fuzzy
-#| msgid "Japan, July 26-29, 2018"
 msgctxt "badge_apac_partner_july_2018_*"
 msgid "Japan, July 26-29, 2018"
 msgstr "Japon 26-29 juillet 2018"
 
 #: trainer/models.py:54 trainer/templates/profile.html:131
-#, fuzzy
-#| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_apac_partner_july_2018_5_title"
 msgid "Pokémon GO Special Weekend"
 msgstr "Week-end spécial Pokémon GO"
 
 #: trainer/models.py:54 trainer/templates/profile.html:132
-#, fuzzy
-#| msgid "Japan, July 26-29, 2018"
 msgctxt "badge_apac_partner_july_2018_5"
 msgid "South Korea, July 29, 2018"
-msgstr "Japon 26-29 juillet 2018"
+msgstr "Corée du sud, 29 juillet 2018"
 
 #: trainer/models.py:56
 msgid "Country"
@@ -402,7 +369,7 @@ msgid "Username / Level / Team Screenshot"
 msgstr ""
 
 #: trainer/models.py:67
-msgid "The Silph Road Username"
+msgid "TheSilphRoad Trainer Name"
 msgstr ""
 
 #: trainer/models.py:67
@@ -454,8 +421,6 @@ msgid "Time Updated"
 msgstr "Heure de mise à jour"
 
 #: trainer/models.py:262
-#, fuzzy
-#| msgid "Total XP"
 msgctxt "PROFILE_TOTAL_XP"
 msgid "Total XP"
 msgstr "Total de PX"
@@ -465,11 +430,9 @@ msgid "Your Total XP can be found at the bottom of your Pokémon Go profile"
 msgstr ""
 
 #: trainer/models.py:263
-#, fuzzy
-#| msgid "Species Caught"
 msgctxt "pokedex_page_caught"
 msgid "Caught"
-msgstr "Espéces attrapées"
+msgstr "Attrapés"
 
 #: trainer/models.py:263
 msgid "In your Pokédex, how many differnt species have you caught? It should say at the top."
@@ -1146,6 +1109,13 @@ msgctxt "Short form of Trainer Level"
 msgid "TL"
 msgstr "Niveau"
 
+#: trainer/templates/profile.html:111
+#, fuzzy
+#| msgid "Europe, October 14, 2017"
+msgctxt "badge_safari_zone_europe_2017_10_07"
+msgid "Europe, October 14, 2017"
+msgstr "Europe, 14 octobre 2017\""
+
 #: trainer/templates/profile.html:155
 #, fuzzy
 #| msgid "History"
@@ -1201,21 +1171,26 @@ msgstr "Nous vous prions de complèter votre profile afin de pouvoir utiliser ce
 msgid "No continent found for code {}"
 msgstr ""
 
-#: trainer/views.py:529 trainer/views.py:536
+#: trainer/views.py:528 trainer/views.py:535
 msgid "No country found for code {}"
 msgstr ""
 
-#: trainer/views.py:538
+#: trainer/views.py:537
 msgid "No region found for code {}/{}"
 msgstr ""
 
-#: trainer/views.py:636
+#: trainer/views.py:540
+#, python-brace-format
+msgid "{region}, {country}"
+msgstr ""
+
+#: trainer/views.py:640
 msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. An admin will verify you within the next couple of days. Until then, you will not appear in the Global Leaderboard but you can still use Guild Leaderboards and and update your stats!"
 msgstr ""
 "Nous vous remercions d'avoir renseigné votre profile. Vos captures d'écran sont en cours de vérification. Un Admin validera votre compte d'ici 48h.\n"
 "Jusque-là, vous n'apparaîtrez pas sur le Global Leaderboard mais vous pourrez utiliser le Guild Leaderboard et mettre à jour vos statistiques."
 
-#: trainer/views.py:658
+#: trainer/views.py:662
 msgid "Stats updated. Screenshot included."
 msgstr "Statistiques mises à jour. Capture d'écran incluse."
 
@@ -1752,3 +1727,11 @@ msgid ""
 msgstr ""
 "Vous êtes sur le point d'utiliser votre compte %(provider_name)s pour accéder à %(site_name)s. \n"
 "Afin de finaliser votre accés, veuillez renseigner les champs ci-dessous:"
+
+#~ msgctxt "pikachu_outbreak_yokohama_title"
+#~ msgid "Pokémon GO STADIUM"
+#~ msgstr "Stade Pokémon GO"
+
+#~ msgctxt "pikachu_outbreak_yokohama"
+#~ msgid "Yokohama, August 2017"
+#~ msgstr "Yokohama, août 2017"

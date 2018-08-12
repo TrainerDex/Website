@@ -272,7 +272,7 @@ GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-110066146-1'
 # Django Cities
 # https://github.com/coderholic/django-cities#configuration
 
-CITIES_LOCALES = ['en', 'da', 'de', 'es', 'fr', 'ja', 'nl', 'no', 'pl', 'sv']
+CITIES_LOCALES = ['LANGUAGES']
 CITIES_POSTAL_CODES = []
 
 # Email

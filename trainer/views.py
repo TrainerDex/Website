@@ -15,7 +15,7 @@ from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, Que
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext_noop, pgettext_lazy
+from django.utils.translation import ugettext_noop, pgettext_lazy, get_language_from_request
 from django.urls import resolve
 from math import ceil
 from pytz import utc
@@ -516,18 +516,17 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	
 	if continent:
 		try:
-			continent = Continent.objects.prefetch_related('countries').get(code__iexact = continent)
+			continent = Continent.objects.get(code__iexact = continent)
 		except Continent.DoesNotExist:
 			raise Http404(_('No continent found for code {}').format(continent))
-		countries_in_continent = continent.countries.all()
-		context['title'] = continent.name
-		QuerySet = Trainer.objects.filter(leaderboard_country__in=countries_in_continent)
+		context['title'] = (continent.alt_names.filter(language_code=get_language_from_request(request)).first() or continent).name
+		QuerySet = Trainer.objects.filter(leaderboard_country__continent__code__iexact=continent)
 	elif country and region == None:
 		try:
 			country = Country.objects.prefetch_related('leaderboard_trainers_country').get(code__iexact = country)
 		except Country.DoesNotExist:
 			raise Http404(_('No country found for code {}').format(country))
-		context['title'] = country.name
+		context['title'] = (country.alt_names.filter(language_code=get_language_from_request(request)).first() or country).name
 		QuerySet = country.leaderboard_trainers_country
 	elif region:
 		try:
@@ -536,7 +535,12 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 			raise Http404(_('No country found for code {}').format(country))
 		except Region.DoesNotExist:
 			raise Http404(_('No region found for code {}/{}').format(country, region))
-		context['title'] = ', '.join([x.name for x in reversed(region.hierarchy)])
+			
+		
+		context['title'] = _('{region}, {country}').format(
+			region=(region.alt_names.filter(language_code=get_language_from_request(request)).first() or region).name,
+			country=(country.alt_names.filter(language_code=get_language_from_request(request)).first() or country).name
+		)
 		QuerySet = region.leaderboard_trainers_region
 	else:
 		context['title'] = None
