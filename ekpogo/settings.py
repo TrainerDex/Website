@@ -241,7 +241,7 @@ AUTHENTICATION_BACKENDS = (
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-LOGIN_REDIRECT_URL = 'profile'
+LOGIN_REDIRECT_URL = 'trainerdex_web:profile'
 SOCIALACCOUNT_AUTO_SIGNUP = False
 SOCIALACCOUNT_PROVIDERS = {
     'reddit': {
