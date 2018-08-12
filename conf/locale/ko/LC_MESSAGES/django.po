@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-10 22:17+0000\n"
+"POT-Creation-Date: 2018-08-13 01:19+0000\n"
 "PO-Revision-Date: 2018-07-28 21:31+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -257,16 +257,14 @@ msgid "Chicago, July 22, 2017"
 msgstr "2017년 7월 22일 시카고"
 
 #: trainer/models.py:48 trainer/templates/profile.html:89
-#, fuzzy
-#| msgid "Pokémon GO STADIUM"
-msgctxt "pikachu_outbreak_yokohama_title"
-msgid "Pokémon GO STADIUM"
-msgstr "Pokémon GO STADIUM"
+msgctxt "badge_pikachu_outbreak_yokohama_2017_title"
+msgid "Pikachu Outbreak 2017"
+msgstr ""
 
 #: trainer/models.py:48 trainer/templates/profile.html:90
 #, fuzzy
 #| msgid "Yokohama, August 2017"
-msgctxt "pikachu_outbreak_yokohama"
+msgctxt "badge_pikachu_outbreak_yokohama_2017"
 msgid "Yokohama, August 2017"
 msgstr "2017년 8월 요코하마"
 
@@ -284,7 +282,7 @@ msgctxt "badge_safari_zone_europe_2017"
 msgid "Europe, September 16, 2017"
 msgstr "2017년 9월 16일 유럽"
 
-#: trainer/models.py:50 trainer/models.py:51 trainer/templates/profile.html:103
+#: trainer/models.py:50 trainer/templates/profile.html:103
 #: trainer/templates/profile.html:110
 #, fuzzy
 #| msgid "GO Safari Zone - Europe 2017"
@@ -299,10 +297,17 @@ msgctxt "badge_safari_zone_europe_2017_10_07"
 msgid "Europe, October 7, 2017"
 msgstr "2017년 10월 7일 호주"
 
-#: trainer/models.py:51 trainer/templates/profile.html:111
+#: trainer/models.py:51
+#, fuzzy
+#| msgid "GO Safari Zone - Europe 2017"
+msgctxt "badge_safari_zone_europe_2017_10_14_title"
+msgid "GO Safari Zone - Europe 2017"
+msgstr "GO Safari Zone - 2017년 호주"
+
+#: trainer/models.py:51
 #, fuzzy
 #| msgid "Europe, October 14, 2017"
-msgctxt "badge_safari_zone_europe_2017_10_07"
+msgctxt "badge_safari_zone_europe_2017_10_14"
 msgid "Europe, October 14, 2017"
 msgstr "2017년 10월 14일 호주"
 
@@ -373,7 +378,7 @@ msgid "Username / Level / Team Screenshot"
 msgstr ""
 
 #: trainer/models.py:67
-msgid "The Silph Road Username"
+msgid "TheSilphRoad Trainer Name"
 msgstr ""
 
 #: trainer/models.py:67
@@ -1049,6 +1054,13 @@ msgctxt "Short form of Trainer Level"
 msgid "TL"
 msgstr "레벨"
 
+#: trainer/templates/profile.html:111
+#, fuzzy
+#| msgid "Europe, October 14, 2017"
+msgctxt "badge_safari_zone_europe_2017_10_07"
+msgid "Europe, October 14, 2017"
+msgstr "2017년 10월 14일 호주"
+
 #: trainer/templates/profile.html:155
 msgctxt "profile_category_history"
 msgid "History"
@@ -1099,19 +1111,24 @@ msgstr ""
 msgid "No continent found for code {}"
 msgstr ""
 
-#: trainer/views.py:529 trainer/views.py:536
+#: trainer/views.py:528 trainer/views.py:535
 msgid "No country found for code {}"
 msgstr ""
 
-#: trainer/views.py:538
+#: trainer/views.py:537
 msgid "No region found for code {}/{}"
 msgstr ""
 
-#: trainer/views.py:636
+#: trainer/views.py:540
+#, python-brace-format
+msgid "{region}, {country}"
+msgstr ""
+
+#: trainer/views.py:640
 msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. An admin will verify you within the next couple of days. Until then, you will not appear in the Global Leaderboard but you can still use Guild Leaderboards and and update your stats!"
 msgstr ""
 
-#: trainer/views.py:658
+#: trainer/views.py:662
 msgid "Stats updated. Screenshot included."
 msgstr ""
 
@@ -1622,3 +1639,15 @@ msgid ""
 "You are about to use your %(provider_name)s account to login to\n"
 "%(site_name)s. As a final step, please complete the following form:"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Pokémon GO STADIUM"
+#~ msgctxt "pikachu_outbreak_yokohama_title"
+#~ msgid "Pokémon GO STADIUM"
+#~ msgstr "Pokémon GO STADIUM"
+
+#, fuzzy
+#~| msgid "Yokohama, August 2017"
+#~ msgctxt "pikachu_outbreak_yokohama"
+#~ msgid "Yokohama, August 2017"
+#~ msgstr "2017년 8월 요코하마"
