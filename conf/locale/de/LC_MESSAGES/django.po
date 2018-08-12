@@ -9,26 +9,26 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-08-10 22:17+0000\n"
-"PO-Revision-Date: 2018-07-30 16:12+0000\n"
+"PO-Revision-Date: 2018-08-12 19:30+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Translated-Using: django-rosetta 0.8.1\n"
+"X-Translated-Using: django-rosetta 0.8.3\n"
 
 #: ekpogo/settings.py:180
 msgid "German"
-msgstr "Deutsche"
+msgstr "Deutsch"
 
 #: ekpogo/settings.py:181
 msgid "English"
-msgstr "Englische"
+msgstr "Englisch"
 
 #: ekpogo/settings.py:182
 msgid "Spanish"
-msgstr "Spanische"
+msgstr "Spanisch"
 
 #: ekpogo/settings.py:183
 msgid "French"
@@ -36,26 +36,25 @@ msgstr "Französisch"
 
 #: ekpogo/settings.py:184
 msgid "Italian"
-msgstr "Italienische"
+msgstr "Italienisch"
 
 #: ekpogo/settings.py:185
 msgid "Japanese"
-msgstr "Japanische"
+msgstr "Japanisch"
 
 #: ekpogo/settings.py:186
 msgid "Korean"
-msgstr "Koreanische"
+msgstr "Koreanisch"
 
 #: ekpogo/settings.py:187
 msgid "Brazilian Portuguese"
-msgstr "Brasilianische Portugiesische"
+msgstr "Brasilianisches Portugiesisch"
 
 #: ekpogo/settings.py:188
 msgid "Traditional Chinese"
-msgstr "Chinesische"
+msgstr "Traditionelle Chinesische"
 
-#: support/templates/about.html:5 support/templates/about.html:6
-#: support/templates/about.html:13
+#: support/templates/about.html:5 support/templates/about.html:6 support/templates/about.html:13
 msgid "Welcome"
 msgstr "Willkommen"
 
@@ -88,7 +87,7 @@ msgstr "Lass uns gehen!"
 
 #: support/templates/help/faq.html:5 support/templates/help/faq.html:6
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: support/templates/help/faq.html:7
 msgid "Frequently Asked Questions"
@@ -96,7 +95,7 @@ msgstr "Häufig gestellte Fragen"
 
 #: support/templates/help/faq.html:15
 msgid "My total goal is missing!!!"
-msgstr ""
+msgstr "Mein Gesamt Ziel fehlt!!!"
 
 #: support/templates/help/faq.html:18
 msgid ""
@@ -111,7 +110,7 @@ msgstr ""
 
 #: support/templates/help/faq.html:29
 msgid "How do I set a goal?"
-msgstr ""
+msgstr "Wie setze ich ein Ziel?"
 
 #: support/templates/help/faq.html:32
 #, python-format
@@ -140,18 +139,17 @@ msgstr "Berichte"
 
 #: trainer/admin.py:64
 msgid "2017 Events"
-msgstr "Veranstaltungen von 2017"
+msgstr "2017 Veranstaltungen"
 
 #: trainer/admin.py:68
 msgid "2018 Events"
-msgstr "Veranstaltungen von 2018"
+msgstr "2018 Veranstaltungen"
 
 #: trainer/admin.py:72
 msgid "Website Badges"
 msgstr "Inhouse-Veranstaltungen"
 
-#: trainer/admin.py:76 website/templates/base.html:89
-#: website/templates/base.html:134
+#: trainer/admin.py:76 website/templates/base.html:89 website/templates/base.html:134
 msgid "Leaderboard"
 msgstr "Bestenliste"
 
@@ -189,8 +187,7 @@ msgstr "Startdatum"
 msgid "The date you created your Pokémon Go account."
 msgstr ""
 
-#: trainer/models.py:39 trainer/models.py:255
-#: trainer/templates/leaderboard.html:64 trainer/templates/profile.html:21
+#: trainer/models.py:39 trainer/models.py:255 trainer/templates/leaderboard.html:64 trainer/templates/profile.html:21
 msgid "Team"
 msgstr "Team"
 
@@ -273,8 +270,7 @@ msgctxt "badge_safari_zone_europe_2017"
 msgid "Europe, September 16, 2017"
 msgstr "Europa, 16. September 2017"
 
-#: trainer/models.py:50 trainer/models.py:51 trainer/templates/profile.html:103
-#: trainer/templates/profile.html:110
+#: trainer/models.py:50 trainer/models.py:51 trainer/templates/profile.html:103 trainer/templates/profile.html:110
 msgctxt "badge_safari_zone_europe_2017_10_07_title"
 msgid "GO Safari Zone - Europe 2017"
 msgstr "GO-Safari-Zone: Europa 2017"
@@ -310,34 +306,32 @@ msgid "Japan, July 26-29, 2018"
 msgstr "Japan, 26-29. Juli 2018"
 
 #: trainer/models.py:54 trainer/templates/profile.html:131
-#, fuzzy
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_apac_partner_july_2018_5_title"
 msgid "Pokémon GO Special Weekend"
 msgstr "Pokémon GO-Spezialwochenende"
 
 #: trainer/models.py:54 trainer/templates/profile.html:132
-#, fuzzy
 #| msgid "Japan, July 26-29, 2018"
 msgctxt "badge_apac_partner_july_2018_5"
 msgid "South Korea, July 29, 2018"
-msgstr "Japan, 26-29. Juli 2018"
+msgstr "Südkorea, 29. Juli 2018"
 
 #: trainer/models.py:56
 msgid "Country"
-msgstr "Ursprungsland"
+msgstr "Land"
 
 #: trainer/models.py:56 trainer/models.py:57
 msgid "Where are you based?"
-msgstr ""
+msgstr "Wo sind Sie basiert?"
 
 #: trainer/models.py:57
 msgid "Region"
-msgstr "Staat"
+msgstr "Region"
 
 #: trainer/models.py:59 trainer/models.py:105
 msgid "Verified"
-msgstr "Überprüft"
+msgstr "Verifiziert"
 
 #: trainer/models.py:60
 msgid "Last Modified"
@@ -365,7 +359,7 @@ msgstr "Betrüger"
 
 #: trainer/models.py:100
 msgid "Ready to be verified!"
-msgstr ""
+msgstr "Bereit, verifiziert zu werden!"
 
 #: trainer/models.py:221
 msgid "The team of this Silph Card does not match that of your profile."
@@ -373,11 +367,11 @@ msgstr "Das Team dieser Silph Card passt nicht zu deinem Profil."
 
 #: trainer/models.py:228 trainer/models.py:260 trainer/models.py:375
 msgid "Trainer"
-msgstr ""
+msgstr "Trainer"
 
 #: trainer/models.py:229
 msgid "Trainers"
-msgstr ""
+msgstr "Trainer"
 
 #: trainer/models.py:239
 msgid "Name"
@@ -411,20 +405,20 @@ msgstr "Deine Gesamt-EP findest du am Ende deines Profils."
 #: trainer/models.py:263
 msgctxt "pokedex_page_caught"
 msgid "Caught"
-msgstr "GEFANGEN"
+msgstr "Gefangen"
 
 #: trainer/models.py:263
 msgid "In your Pokédex, how many differnt species have you caught? It should say at the top."
-msgstr ""
+msgstr "In Ihrem Pokédex, wie viele differnt Arten haben Sie gefangen? Es sollte sagen, an der Spitze."
 
 #: trainer/models.py:264
 msgctxt "pokedex_page_seen"
 msgid "Seen"
-msgstr "AUSGEBRÜTET"
+msgstr "Gesehen"
 
 #: trainer/models.py:264
 msgid "In your Pokédex, how many differnt species have you seen? It should say at the top."
-msgstr ""
+msgstr "In Ihrem Pokédex, wie viele differnt Arten haben Sie gesehen? Es sollte sagen, an der Spitze."
 
 #: trainer/models.py:265
 msgid "Total Gym Badges"
@@ -442,7 +436,7 @@ msgstr "Jogger"
 #: trainer/models.py:267
 msgctxt "badge_travel_km"
 msgid "Walk {0:0,g} km"
-msgstr ""
+msgstr "Laufe {0:0.#} km."
 
 #: trainer/models.py:268
 msgctxt "badge_pokedex_entries_title"
@@ -452,7 +446,7 @@ msgstr "Kanto"
 #: trainer/models.py:268
 msgctxt "badge_pokedex_entries"
 msgid "Register {0:0,} Kanto region Pokémon in the Pokédex."
-msgstr ""
+msgstr "Trage {0:0,} Pokémon im Pokédex ein."
 
 #: trainer/models.py:269
 msgctxt "badge_capture_total_title"
@@ -462,7 +456,7 @@ msgstr "Sammler"
 #: trainer/models.py:269
 msgctxt "badge_capture_total"
 msgid "Catch {0:0,} Pokémon."
-msgstr ""
+msgstr "Fange {0:0,} Pokémon."
 
 #: trainer/models.py:270
 msgctxt "badge_evolved_total_title"
@@ -472,7 +466,7 @@ msgstr "Forscher"
 #: trainer/models.py:270
 msgctxt "badge_evolved_total"
 msgid "Evolve {0:0,} Pokémon."
-msgstr ""
+msgstr "Entwickle {0:0,} Pokémon."
 
 #: trainer/models.py:271
 msgctxt "badge_hatched_total_title"
@@ -482,7 +476,7 @@ msgstr "Züchter"
 #: trainer/models.py:271
 msgctxt "badge_hatched_total"
 msgid "Hatch {0:0,} eggs."
-msgstr ""
+msgstr "Brüte {0:0,} Eier aus."
 
 #: trainer/models.py:272
 msgctxt "badge_pokestops_visited_title"
@@ -492,7 +486,7 @@ msgstr "Backpacker"
 #: trainer/models.py:272
 msgctxt "badge_pokestops_visited"
 msgid "Visit {0:0,} PokéStops."
-msgstr ""
+msgstr "Besuche {0:0,} PokéStops."
 
 #: trainer/models.py:273
 msgctxt "badge_battle_attack_won_title"
@@ -502,7 +496,7 @@ msgstr "Kämpferin"
 #: trainer/models.py:273
 msgctxt "badge_battle_attack_won"
 msgid "Win {0:0,} Gym battles."
-msgstr ""
+msgstr "Gewinne {0:0,} Arenakämpfe."
 
 #: trainer/models.py:274
 msgctxt "badge_big_magikarp_title"
@@ -512,7 +506,7 @@ msgstr "Angler"
 #: trainer/models.py:274
 msgctxt "badge_big_magikarp"
 msgid "Catch {0:0,} big Magikarp."
-msgstr ""
+msgstr "Fange {0:0,} große Karpador."
 
 #: trainer/models.py:275
 msgctxt "badge_battle_training_won_title"
@@ -522,7 +516,7 @@ msgstr "Ass-Trainer"
 #: trainer/models.py:275
 msgctxt "badge_battle_training_won"
 msgid "Train {0:0,} times."
-msgstr ""
+msgstr "Trainiere {0:0,}-mal."
 
 #: trainer/models.py:276
 msgctxt "badge_small_rattata_title"
@@ -532,7 +526,7 @@ msgstr "Teenager"
 #: trainer/models.py:276
 msgctxt "badge_small_rattata"
 msgid "Catch {0:0,} tiny Rattata."
-msgstr ""
+msgstr "Fange {0:0,} winzige Rattfratz."
 
 #: trainer/models.py:277
 msgctxt "badge_pikachu_title"
@@ -542,7 +536,7 @@ msgstr "Pikachu-Fan"
 #: trainer/models.py:277
 msgctxt "badge_pikachu"
 msgid "Catch {0:0,} Pikachu."
-msgstr ""
+msgstr "Fange {0:0,} Pikachu."
 
 #: trainer/models.py:278
 msgctxt "badge_pokedex_entries_gen2_title"
@@ -552,7 +546,7 @@ msgstr "Johto"
 #: trainer/models.py:278
 msgctxt "badge_pokedex_entries_gen2"
 msgid "Register {0:0,} Pokémon first discovered in the Johto region to the Pokédex."
-msgstr ""
+msgstr "Registriere {0:0,} Pokémon im Pokédex, die zuerst in der Johto-Region entdeckt wurden."
 
 #: trainer/models.py:279
 msgctxt "badge_unown_title"
@@ -562,7 +556,7 @@ msgstr "Icognito"
 #: trainer/models.py:279
 msgctxt "badge_unown"
 msgid "Catch {0:0,} Unown."
-msgstr ""
+msgstr "Fange {0:0,} Icognito."
 
 #: trainer/models.py:280
 msgctxt "badge_berries_fed_title"
@@ -570,7 +564,7 @@ msgid "Berry Master"
 msgstr "Beerenmeister"
 
 msgid "Feed {0:0,} Berries at Gyms."
-msgstr ""
+msgstr "Verteile in Arenen {0:0,} Beeren."
 
 #: trainer/models.py:281
 msgctxt "badge_hours_defended_title"
@@ -580,7 +574,7 @@ msgstr "Arenaleiter"
 #: trainer/models.py:281
 msgctxt "badge_hours_defended"
 msgid "Defend Gyms for {0:0,} hours."
-msgstr ""
+msgstr "Verteidige Arenen für {0:0,} Stunden."
 
 #: trainer/models.py:282
 msgctxt "badge_raid_battle_won_title"
@@ -590,7 +584,7 @@ msgstr "Champion"
 #: trainer/models.py:282
 msgctxt "badge_raid_battle_won"
 msgid "Win {0:0,} Raids."
-msgstr ""
+msgstr "Gewinne {0:0,} Raids."
 
 #: trainer/models.py:283
 msgctxt "badge_legendary_battle_won_title"
@@ -600,7 +594,7 @@ msgstr "Kampflegende"
 #: trainer/models.py:283
 msgctxt "badge_legendary_battle_won"
 msgid "Win {0:0,} Legendary Raids."
-msgstr ""
+msgstr "Gewinne {0:0,} Legendäre Raids."
 
 #: trainer/models.py:284
 msgctxt "badge_pokedex_entries_gen3_title"
@@ -610,7 +604,7 @@ msgstr "Hoenn"
 #: trainer/models.py:284
 msgctxt "badge_pokedex_entries_gen3"
 msgid "Register {0:0,} Pokémon first discovered in the Hoenn region to the Pokédex."
-msgstr ""
+msgstr "Registriere {0:0,} Pokémon im Pokédex, die zuerst in der Hoenn-Region entdeckt wurden."
 
 #: trainer/models.py:285
 msgctxt "badge_challenge_quests_title"
@@ -620,7 +614,7 @@ msgstr "Pokémon Ranger"
 #: trainer/models.py:285
 msgctxt "badge_challenge_quests"
 msgid "Complete {0:0,} Field Research tasks."
-msgstr ""
+msgstr "Führe {0:0,} Feldforschungsaufgaben aus."
 
 #: trainer/models.py:286
 msgctxt "badge_max_level_friends_title"
@@ -630,7 +624,7 @@ msgstr "Bühnenstar"
 #: trainer/models.py:286
 msgctxt "badge_max_level_friends"
 msgid "Become Best Friends with {0:0,} Trainers."
-msgstr ""
+msgstr "Werde Beste Freunde mit {0:0,} Trainern."
 
 #: trainer/models.py:287
 msgctxt "badge_trading_title"
@@ -640,7 +634,7 @@ msgstr "Gentleman"
 #: trainer/models.py:287
 msgctxt "badge_trading"
 msgid "Trade {0:0,} Pokémon."
-msgstr ""
+msgstr "Tausche {0:0,} Pokémon."
 
 #: trainer/models.py:288
 msgctxt "badge_trading_distance_title"
@@ -650,7 +644,7 @@ msgstr "Pilot"
 #: trainer/models.py:288
 msgctxt "badge_trading_distance"
 msgid "Earn {0:0,} km across the distance of all Pokémon trades."
-msgstr ""
+msgstr "Tausche Pokémon über insgesamt {0:0,} Kilometer Distanz."
 
 #: trainer/models.py:290
 msgctxt "badge_type_normal_title"
@@ -660,10 +654,9 @@ msgstr "Schulkind"
 #: trainer/models.py:290
 msgctxt "badge_type_normal"
 msgid "Catch {0:0,} Normal-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Normal."
 
 #: trainer/models.py:291
-#, fuzzy
 #| msgid "Black Belt"
 msgctxt "badge_type_fighting_title"
 msgid "Black Belt"
@@ -672,10 +665,9 @@ msgstr "Schwarzgurt"
 #: trainer/models.py:291
 msgctxt "badge_type_fighting"
 msgid "Catch {0:0,} Fighting-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Kampf."
 
 #: trainer/models.py:292
-#, fuzzy
 #| msgid "Bird Keeper"
 msgctxt "badge_type_flying_title"
 msgid "Bird Keeper"
@@ -684,10 +676,9 @@ msgstr "Vogelfänger"
 #: trainer/models.py:292
 msgctxt "badge_type_flying"
 msgid "Catch {0:0,} Flying-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Flug."
 
 #: trainer/models.py:293
-#, fuzzy
 #| msgid "Punk Girl"
 msgctxt "badge_type_poison_title"
 msgid "Punk Girl"
@@ -696,10 +687,9 @@ msgstr "Punker"
 #: trainer/models.py:293
 msgctxt "badge_type_poison"
 msgid "Catch {0:0,} Poison-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Gift."
 
 #: trainer/models.py:294
-#, fuzzy
 #| msgid "Ruin Maniac"
 msgctxt "badge_type_ground_title"
 msgid "Ruin Maniac"
@@ -708,10 +698,9 @@ msgstr "Ruinenmaniac"
 #: trainer/models.py:294
 msgctxt "badge_type_ground"
 msgid "Catch {0:0,} Ground-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Boden."
 
 #: trainer/models.py:295
-#, fuzzy
 #| msgid "Hiker"
 msgctxt "badge_type_rock_title"
 msgid "Hiker"
@@ -720,10 +709,9 @@ msgstr "Wanderer"
 #: trainer/models.py:295
 msgctxt "badge_type_rock"
 msgid "Catch {0:0,} Rock-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Gestein."
 
 #: trainer/models.py:296
-#, fuzzy
 #| msgid "Bug Catcher"
 msgctxt "badge_type_bug_title"
 msgid "Bug Catcher"
@@ -732,10 +720,9 @@ msgstr "Käfersammler"
 #: trainer/models.py:296
 msgctxt "badge_type_bug"
 msgid "Catch {0:0,} Bug-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Käfer."
 
 #: trainer/models.py:297
-#, fuzzy
 #| msgid "Hex Maniac"
 msgctxt "badge_type_ghost_title"
 msgid "Hex Maniac"
@@ -744,10 +731,9 @@ msgstr "Hexe"
 #: trainer/models.py:297
 msgctxt "badge_type_ghost"
 msgid "Catch {0:0,} Ghost-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Geist."
 
 #: trainer/models.py:298
-#, fuzzy
 #| msgid "Depot Agent"
 msgctxt "badge_type_steel_title"
 msgid "Depot Agent"
@@ -756,10 +742,9 @@ msgstr "Eisenbahner"
 #: trainer/models.py:298
 msgctxt "badge_type_steel"
 msgid "Catch {0:0,} Steel-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Stahl."
 
 #: trainer/models.py:299
-#, fuzzy
 #| msgid "Kindler"
 msgctxt "badge_type_fire_title"
 msgid "Kindler"
@@ -768,10 +753,9 @@ msgstr "Hitzkopf"
 #: trainer/models.py:299
 msgctxt "badge_type_fire"
 msgid "Catch {0:0,} Fire-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Feuer."
 
 #: trainer/models.py:300
-#, fuzzy
 #| msgid "Swimmer"
 msgctxt "badge_type_water_title"
 msgid "Swimmer"
@@ -780,10 +764,9 @@ msgstr "Schwimmer"
 #: trainer/models.py:300
 msgctxt "badge_type_water"
 msgid "Catch {0:0,} Water-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Wasser."
 
 #: trainer/models.py:301
-#, fuzzy
 #| msgid "Gardener"
 msgctxt "badge_type_grass_title"
 msgid "Gardener"
@@ -792,10 +775,9 @@ msgstr "Gärtner"
 #: trainer/models.py:301
 msgctxt "badge_type_grass"
 msgid "Catch {0:0,} Grass-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Pflanze."
 
 #: trainer/models.py:302
-#, fuzzy
 #| msgid "Rocker"
 msgctxt "badge_type_electric_title"
 msgid "Rocker"
@@ -804,10 +786,9 @@ msgstr "Rocker"
 #: trainer/models.py:302
 msgctxt "badge_type_electric"
 msgid "Catch {0:0,} Electric-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Elektro."
 
 #: trainer/models.py:303
-#, fuzzy
 #| msgid "Psychic"
 msgctxt "badge_type_psychic_title"
 msgid "Psychic"
@@ -816,10 +797,9 @@ msgstr "Psycho"
 #: trainer/models.py:303
 msgctxt "badge_type_psychic"
 msgid "Catch {0:0,} Pychic-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Psycho."
 
 #: trainer/models.py:304
-#, fuzzy
 #| msgid "Skier"
 msgctxt "badge_type_ice_title"
 msgid "Skier"
@@ -828,10 +808,9 @@ msgstr "Skifahrer"
 #: trainer/models.py:304
 msgctxt "badge_type_ice"
 msgid "Catch {0:0,} Ice-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Eis."
 
 #: trainer/models.py:305
-#, fuzzy
 #| msgid "Dragon Tamer"
 msgctxt "badge_type_dragon_title"
 msgid "Dragon Tamer"
@@ -840,10 +819,9 @@ msgstr "Drachenprofi"
 #: trainer/models.py:305
 msgctxt "badge_type_dragon"
 msgid "Catch {0:0,} Dragon-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Drache."
 
 #: trainer/models.py:306
-#, fuzzy
 #| msgid "Delinquent"
 msgctxt "badge_type_dark_title"
 msgid "Delinquent"
@@ -852,10 +830,9 @@ msgstr "Halbstarke"
 #: trainer/models.py:306
 msgctxt "badge_type_dark"
 msgid "Catch {0:0,} Dark-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Unlicht."
 
 #: trainer/models.py:307
-#, fuzzy
 #| msgid "Fairy Tale Girl"
 msgctxt "badge_type_fairy_title"
 msgid "Fairy Tale Girl"
@@ -864,7 +841,7 @@ msgstr "Träumerin"
 #: trainer/models.py:307
 msgctxt "badge_type_fairy"
 msgid "Catch {0:0,} Fairy-type Pokémon"
-msgstr ""
+msgstr "Fange {0:0,} Pokémon vom Typ Fee."
 
 #: trainer/models.py:309
 msgid "Time Created"
@@ -884,19 +861,19 @@ msgstr "Menschenmenge"
 
 #: trainer/models.py:349
 msgid "{username} - {xp:,}XP at {date}"
-msgstr ""
+msgstr "{username} - {xp:,}EP {date}"
 
 #: trainer/models.py:359
 msgid "This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."
-msgstr ""
+msgstr "Dieser Wert wurde bisher eingetragen, bei einem höheren Wert. Bitte versuchen Sie es erneut die Gewährleistung der Wert, den Sie eingegeben haben, war richtig."
 
 #: trainer/models.py:370
 msgid "Update"
-msgstr ""
+msgstr "Update"
 
 #: trainer/models.py:371
 msgid "Updates"
-msgstr ""
+msgstr "Updates"
 
 #: trainer/models.py:376
 msgid "Reported by"
@@ -946,19 +923,11 @@ msgstr ""
 msgid "Community League Discord Connections"
 msgstr ""
 
-#: trainer/templates/account/signup2.html:7
-#: trainer/templates/account/signup2.html:8
-#: website/templates/account/signup.html:7
-#: website/templates/account/signup.html:8
-#: website/templates/socialaccount/signup.html:5
-#: website/templates/socialaccount/signup.html:6
+#: trainer/templates/account/signup2.html:7 trainer/templates/account/signup2.html:8 website/templates/account/signup.html:7 website/templates/account/signup.html:8 website/templates/socialaccount/signup.html:5 website/templates/socialaccount/signup.html:6
 msgid "Signup"
 msgstr "Sich Einschreiben"
 
-#: trainer/templates/account/signup2.html:17
-#: website/templates/account/signup.html:21
-#: website/templates/account/signup.html:51 website/templates/base.html:104
-#: website/templates/base.html:126
+#: trainer/templates/account/signup2.html:17 website/templates/account/signup.html:21 website/templates/account/signup.html:51 website/templates/base.html:104 website/templates/base.html:126
 msgid "Register"
 msgstr "Sich Einschreiben"
 
@@ -966,14 +935,11 @@ msgstr "Sich Einschreiben"
 msgid "Step 2"
 msgstr "Schritt 2"
 
-#: trainer/templates/account/signup2.html:82
-#: trainer/templates/create_update.html:90
+#: trainer/templates/account/signup2.html:82 trainer/templates/create_update.html:90
 msgid "Submit"
 msgstr "Einsenden"
 
-#: trainer/templates/create_update.html:7
-#: trainer/templates/create_update.html:8
-#: trainer/templates/create_update.html:17
+#: trainer/templates/create_update.html:7 trainer/templates/create_update.html:8 trainer/templates/create_update.html:17
 msgid "Update Stats"
 msgstr "Statistiken aktualisieren"
 
@@ -989,13 +955,11 @@ msgstr "Medaillen"
 msgid "Pokémon Type Medals"
 msgstr "Typ Medaillen"
 
-#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
-#: trainer/templates/leaderboard.html:27
+#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12 trainer/templates/leaderboard.html:27
 msgid "International"
 msgstr "Internationale"
 
-#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
-#: trainer/templates/leaderboard.html:27
+#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12 trainer/templates/leaderboard.html:27
 #, python-format
 msgctxt "This is the title, loc is defined as the country/continent name, or the word International (which is translated seperately)."
 msgid "%(loc)s Leaderboard"
@@ -1100,7 +1064,7 @@ msgstr ""
 #: trainer/views.py:362
 #, python-brace-format
 msgid "{0} has not completed their profile."
-msgstr ""
+msgstr "{0} ist nicht abgeschlossen, Ihr Profil."
 
 #: trainer/views.py:390 trainer/views.py:480 trainer/views.py:508
 msgid "Please complete your profile to continue using the website."
@@ -1108,15 +1072,15 @@ msgstr "Bitte füllen Sie Ihr Profil aus, um die Website weiterhin nutzen zu kö
 
 #: trainer/views.py:521
 msgid "No continent found for code {}"
-msgstr ""
+msgstr "Kein Kontinent gefunden für code {}"
 
 #: trainer/views.py:529 trainer/views.py:536
 msgid "No country found for code {}"
-msgstr ""
+msgstr "Kein Land gefunden, die für die code {}"
 
 #: trainer/views.py:538
 msgid "No region found for code {}/{}"
-msgstr ""
+msgstr "Keine region gefunden, die für die code {}/{}"
 
 #: trainer/views.py:636
 msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. An admin will verify you within the next couple of days. Until then, you will not appear in the Global Leaderboard but you can still use Guild Leaderboards and and update your stats!"
@@ -1126,9 +1090,7 @@ msgstr "Danke, dass Sie Ihr Profil ausgefüllt haben. Ihre Screenshots wurden zu
 msgid "Stats updated. Screenshot included."
 msgstr "Statistiken aktualisiert. Screenshot enthalten."
 
-#: website/templates/account/account_inactive.html:5
-#: website/templates/account/account_inactive.html:6
-#: website/templates/account/account_inactive.html:12
+#: website/templates/account/account_inactive.html:5 website/templates/account/account_inactive.html:6 website/templates/account/account_inactive.html:12
 msgid "Account Inactive"
 msgstr "Konto Inaktiv"
 
@@ -1136,15 +1098,11 @@ msgstr "Konto Inaktiv"
 msgid "This account is inactive."
 msgstr "Dieses Konto ist inaktiv."
 
-#: website/templates/account/account_inactive.html:19
-#: website/templates/account/password_reset_from_key.html:45
-#: website/templates/socialaccount/authentication_error.html:19
-#: website/templates/socialaccount/login_cancelled.html:19
+#: website/templates/account/account_inactive.html:19 website/templates/account/password_reset_from_key.html:45 website/templates/socialaccount/authentication_error.html:19 website/templates/socialaccount/login_cancelled.html:19
 msgid "Return to login page"
 msgstr "Zurück zur Anmeldeseite"
 
-#: website/templates/account/email.html:6
-#: website/templates/account/email.html:7
+#: website/templates/account/email.html:6 website/templates/account/email.html:7
 msgid "Account"
 msgstr "Konto"
 
@@ -1159,7 +1117,7 @@ msgstr ""
 #. Translators: This is shown in the email field when it is empty
 #: website/templates/account/email.html:30
 msgid "Enter email..."
-msgstr ""
+msgstr "Geben Sie E-Mail..."
 
 #: website/templates/account/email.html:36
 msgid "Add E-mail"
@@ -1185,8 +1143,7 @@ msgstr ""
 msgid "Re-send Verification"
 msgstr ""
 
-#: website/templates/account/email.html:73
-#: website/templates/socialaccount/connections.html:51
+#: website/templates/account/email.html:73 website/templates/socialaccount/connections.html:51
 msgid "Remove"
 msgstr ""
 
@@ -1228,7 +1185,7 @@ msgstr ""
 
 #: website/templates/account/email/email_confirmation_subject.txt:3
 msgid "Please confirm your E-mail Address"
-msgstr ""
+msgstr "Bitte bestätigen Sie Ihre E-mail-Adresse"
 
 #: website/templates/account/email/password_reset_key_message.txt:1
 #, python-format
@@ -1250,14 +1207,14 @@ msgid ""
 "Thank you for using %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
+"Danke für die Verwendung von %(site_name)s!\n"
+"%(site_domain)s"
 
 #: website/templates/account/email/password_reset_key_subject.txt:3
 msgid "Password Reset E-mail"
 msgstr ""
 
-#: website/templates/account/email_confirm.html:6
-#: website/templates/account/email_confirm.html:7
-#: website/templates/account/email_confirm.html:13
+#: website/templates/account/email_confirm.html:6 website/templates/account/email_confirm.html:7 website/templates/account/email_confirm.html:13
 msgid "Confirm E-mail Address"
 msgstr ""
 
@@ -1278,9 +1235,7 @@ msgstr ""
 msgid "Resend confirmation email"
 msgstr ""
 
-#: website/templates/account/login.html:7
-#: website/templates/account/login.html:8
-#: website/templates/account/login.html:16
+#: website/templates/account/login.html:7 website/templates/account/login.html:8 website/templates/account/login.html:16
 msgid "Sign In"
 msgstr ""
 
@@ -1302,10 +1257,7 @@ msgstr ""
 msgid "Forget/Reset Password"
 msgstr ""
 
-#: website/templates/account/logout.html:5
-#: website/templates/account/logout.html:6
-#: website/templates/account/logout.html:12
-#: website/templates/account/logout.html:23
+#: website/templates/account/logout.html:5 website/templates/account/logout.html:6 website/templates/account/logout.html:12 website/templates/account/logout.html:23
 msgid "Sign Out"
 msgstr ""
 
@@ -1358,25 +1310,11 @@ msgstr ""
 msgid "Your primary e-mail address must be verified."
 msgstr ""
 
-#: website/templates/account/password_change.html:6
-#: website/templates/account/password_change.html:7
-#: website/templates/account/password_change.html:13
-#: website/templates/account/password_change.html:25
-#: website/templates/account/password_reset_from_key.html:6
-#: website/templates/account/password_reset_from_key.html:7
-#: website/templates/account/password_reset_from_key.html:13
-#: website/templates/account/password_reset_from_key_done.html:4
-#: website/templates/account/password_reset_from_key_done.html:5
-#: website/templates/account/password_reset_from_key_done.html:11
+#: website/templates/account/password_change.html:6 website/templates/account/password_change.html:7 website/templates/account/password_change.html:13 website/templates/account/password_change.html:25 website/templates/account/password_reset_from_key.html:6 website/templates/account/password_reset_from_key.html:7 website/templates/account/password_reset_from_key.html:13 website/templates/account/password_reset_from_key_done.html:4 website/templates/account/password_reset_from_key_done.html:5 website/templates/account/password_reset_from_key_done.html:11
 msgid "Change Password"
 msgstr "Ändern Sie Ihr Passwort"
 
-#: website/templates/account/password_reset.html:7
-#: website/templates/account/password_reset.html:8
-#: website/templates/account/password_reset.html:23
-#: website/templates/account/password_reset_done.html:6
-#: website/templates/account/password_reset_done.html:7
-#: website/templates/account/password_reset_done.html:13
+#: website/templates/account/password_reset.html:7 website/templates/account/password_reset.html:8 website/templates/account/password_reset.html:23 website/templates/account/password_reset_done.html:6 website/templates/account/password_reset_done.html:7 website/templates/account/password_reset_done.html:13
 msgid "Password Reset"
 msgstr "Setze dein Passwort zurück"
 
@@ -1400,11 +1338,7 @@ msgstr "Setze dein Passwort zurück"
 msgid "We have sent you an e-mail. Please contact us if you do not receive it within a few minutes."
 msgstr ""
 
-#: website/templates/account/password_reset_done.html:21
-#: website/templates/account/password_reset_from_key_done.html:18
-#: website/templates/account/signup_closed.html:20
-#: website/templates/account/verification_sent.html:18
-#: website/templates/socialaccount/login_cancelled.html:22
+#: website/templates/account/password_reset_done.html:21 website/templates/account/password_reset_from_key_done.html:18 website/templates/account/signup_closed.html:20 website/templates/account/verification_sent.html:18 website/templates/socialaccount/login_cancelled.html:22
 msgid "Return to homepage"
 msgstr ""
 
@@ -1432,10 +1366,7 @@ msgstr ""
 msgid "Your password is now changed."
 msgstr ""
 
-#: website/templates/account/password_set.html:6
-#: website/templates/account/password_set.html:7
-#: website/templates/account/password_set.html:13
-#: website/templates/account/password_set.html:27
+#: website/templates/account/password_set.html:6 website/templates/account/password_set.html:7 website/templates/account/password_set.html:13 website/templates/account/password_set.html:27
 msgid "Set Password"
 msgstr "Passwort festlegen"
 
@@ -1452,9 +1383,7 @@ msgstr "Schritt 1"
 msgid "If you are in a Discord Guild Leaderboard or have been contacted by us via Twitter, you would already have an account. Please %(login_link_start)ssign in%(login_link_end)s instead."
 msgstr "Wenn Sie in einer Discord Guild Leaderboard sind oder von uns über Twitter kontaktiert wurden, haben Sie bereits ein Konto. Bitte %(login_link_start)smelden Sie sich stattdessen%(login_link_end)s an."
 
-#: website/templates/account/signup_closed.html:5
-#: website/templates/account/signup_closed.html:6
-#: website/templates/account/signup_closed.html:12
+#: website/templates/account/signup_closed.html:5 website/templates/account/signup_closed.html:6 website/templates/account/signup_closed.html:12
 msgid "Sign Up Closed"
 msgstr ""
 
@@ -1475,12 +1404,7 @@ msgstr ""
 msgid "you are already logged in as %(user_display)s."
 msgstr ""
 
-#: website/templates/account/verification_sent.html:5
-#: website/templates/account/verification_sent.html:6
-#: website/templates/account/verification_sent.html:12
-#: website/templates/account/verified_email_required.html:5
-#: website/templates/account/verified_email_required.html:6
-#: website/templates/account/verified_email_required.html:12
+#: website/templates/account/verification_sent.html:5 website/templates/account/verification_sent.html:6 website/templates/account/verification_sent.html:12 website/templates/account/verified_email_required.html:5 website/templates/account/verified_email_required.html:6 website/templates/account/verified_email_required.html:12
 msgid "Verify Your E-mail Address"
 msgstr ""
 
@@ -1499,7 +1423,7 @@ msgstr ""
 #: website/templates/base.html:14
 msgctxt "meta tag in head"
 msgid "TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!"
-msgstr ""
+msgstr "TrainerDex bietet Ranglisten und Statistiken mit Bezug zu Pokemon Gehen. Jetzt mitmachen!"
 
 #. Translators: 'beta' should remain in lowercase and is superscripted
 #: website/templates/base.html:62
@@ -1509,16 +1433,13 @@ msgstr "beta"
 #. Translators: 'β' should remain in lowercase and is superscripted, it's the short form of 'beta' and is used on mobile
 #: website/templates/base.html:64
 msgid "β"
-msgstr ""
+msgstr "β"
 
 #: website/templates/base.html:88
 msgid "About Us"
 msgstr "Über uns"
 
-#: website/templates/base.html:100 website/templates/base.html:122
-#: website/templates/help/account_settings.html:5
-#: website/templates/help/account_settings.html:6
-#: website/templates/help/account_settings.html:7
+#: website/templates/base.html:100 website/templates/base.html:122 website/templates/help/account_settings.html:5 website/templates/help/account_settings.html:6 website/templates/help/account_settings.html:7
 msgid "Account Settings"
 msgstr "Kontoeinstellungen"
 
@@ -1533,7 +1454,7 @@ msgstr "Einloggen"
 #: website/templates/base.html:114
 msgctxt "This is the display name for a user not logged in. Use local references if you like. In English, I've gone for Red, the protagonist in the Gen 1 games."
 msgid "Red"
-msgstr "Nicht Eingeloggt"
+msgstr "Unbekannt"
 
 #: website/templates/base.html:118
 msgid "Account Control"
@@ -1579,11 +1500,7 @@ msgstr "Kontoverbindungen von Drittanbietern"
 msgid "Set Goal"
 msgstr "Ziele setzen"
 
-#: website/templates/socialaccount/authentication_error.html:5
-#: website/templates/socialaccount/authentication_error.html:6
-#: website/templates/socialaccount/authentication_error.html:12
-#: website/templates/socialaccount/login_cancelled.html:5
-#: website/templates/socialaccount/login_cancelled.html:6
+#: website/templates/socialaccount/authentication_error.html:5 website/templates/socialaccount/authentication_error.html:6 website/templates/socialaccount/authentication_error.html:12 website/templates/socialaccount/login_cancelled.html:5 website/templates/socialaccount/login_cancelled.html:6
 msgid "Social Network Login Failure"
 msgstr "Anmeldefehler für das soziale Netzwerk"
 
@@ -1591,9 +1508,7 @@ msgstr "Anmeldefehler für das soziale Netzwerk"
 msgid "An error occurred while attempting to login via your social network account."
 msgstr "Beim Versuch, sich über Ihr soziales Netzwerkkonto anzumelden, ist ein Fehler aufgetreten."
 
-#: website/templates/socialaccount/connections.html:5
-#: website/templates/socialaccount/connections.html:6
-#: website/templates/socialaccount/connections.html:30
+#: website/templates/socialaccount/connections.html:5 website/templates/socialaccount/connections.html:6 website/templates/socialaccount/connections.html:30
 msgid "Account Connections"
 msgstr "Kontoverbindungen"
 
@@ -1629,8 +1544,7 @@ msgstr "Das soziale Konto kann nicht verbunden werden, da es bereits mit einem a
 msgid "The social account has been disconnected."
 msgstr "Das soziale Konto wurde getrennt."
 
-#: website/templates/socialaccount/signup.html:12
-#: website/templates/socialaccount/signup.html:24
+#: website/templates/socialaccount/signup.html:12 website/templates/socialaccount/signup.html:24
 msgid "Sign Up"
 msgstr "Einschreiben"
 
