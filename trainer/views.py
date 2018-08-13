@@ -388,7 +388,7 @@ def TrainerRedirectorView(request, username=None, id=None):
 def TrainerProfileHTMLView(request, username):
 	if request.user.is_authenticated and not _check_if_self_valid(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
-		return HttpResponseRedirect(reverse('trainerdex_web:profile_set_up'))
+		return HttpResponseRedirect(reverse('profile_set_up'))
 	
 	trainer = Trainer.objects.prefetch_related().get(username__iexact=username)
 	context = {
@@ -478,7 +478,7 @@ def TrainerProfileHTMLView(request, username):
 def CreateUpdateHTMLView(request):
 	if request.user.is_authenticated and not _check_if_self_valid(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
-		return HttpResponseRedirect(reverse('trainerdex_web:profile_set_up'))
+		return HttpResponseRedirect(reverse('profile_set_up'))
 	
 	if request.POST:
 		form_data = request.POST.copy()
@@ -506,7 +506,7 @@ def CreateUpdateHTMLView(request):
 def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	if request.user.is_authenticated and not _check_if_self_valid(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
-		return HttpResponseRedirect(reverse('trainerdex_web:profile_set_up'))
+		return HttpResponseRedirect(reverse('profile_set_up'))
 	
 	context = {}
 	
