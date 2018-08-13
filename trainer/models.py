@@ -1,5 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import uuid
+import json
 import requests
 from os.path import splitext
 from cities.models import Country, Region
@@ -135,10 +136,13 @@ class Trainer(models.Model):
 				name = self.thesilphroad_username
 			else:
 				raise ObjectDoesNotExist
-		r = requests.get('https://sil.ph/{}.json'.format(self.thesilphroad_username or self.username))
+		r = requests.get('https://sil.ph/{}.json'.format(name))
 		if r.status_code != 200:
 			raise ObjectDoesNotExist
-		r = r.json()
+		try:
+			r = r.json()
+		except json.JSONDecodeError:
+			raise ObjectDoesNotExist
 		if 'data' in r:
 			return r['data']
 		else:
@@ -221,7 +225,7 @@ class Trainer(models.Model):
 				raise ValidationError({'thesilphroad_username': _("The team of this Silph Card does not match that of your profile.")})
 	
 	def get_absolute_url(self):
-		return reverse('profile_username', kwargs={'username':self.username})
+		return reverse('trainerdex_web:profile_username', kwargs={'username':self.username})
 	
 	class Meta:
 		ordering = ['username']
