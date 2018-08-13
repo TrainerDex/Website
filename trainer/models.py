@@ -1,7 +1,11 @@
 ﻿# -*- coding: utf-8 -*-
 import uuid
 import json
+import logging
 import requests
+
+logger = logging.getLogger('django.trainerdex')
+
 from os.path import splitext
 from cities.models import Country, Region
 from colorful.fields import RGBColorField
@@ -18,7 +22,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop, pgettext_lazy
 from trainer.validators import *
-from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup
+from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, lookup, numbers
 
 def factionImagePath(instance, filename):
 	return 'img/'+instance.name #remains for legacy reasons
@@ -374,6 +378,74 @@ class Update(models.Model):
 		verbose_name = _("Update")
 		verbose_name_plural = _("Updates")
 	
+
+@receiver(post_save, sender=Update)
+def update_discord_level(sender, **kwargs):
+	if kwargs['created'] and kwargs['instance'].xp:
+		if kwargs['instance'].trainer.owner.socialaccount_set.filter(provider='discord').exists():
+			for user in kwargs['instance'].trainer.owner.socialaccount_set.filter(provider='discord'):
+				r = requests.get(
+					url="https://discordapp.com/api/v6/users/@me/guilds",
+					headers={"Authorization": "Bearer {oauth2_token}".format(
+						oauth2_token=user.socialtoken_set.first().token
+					)})
+				if 'code' in r.json():
+					return
+				for guild in DiscordGuild.objects.filter(id__in=[x['id'] for x in r.json()], setting_rename_users=True):
+					check = requests.get(
+						url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
+							guild = guild.id,
+							user = user.uid
+						),
+						headers = {"Authorization": "Bot {token}".format(
+							token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")}
+					)
+					
+					try:
+						if check.json()['nick']:
+							base_name = check.json()['nick']
+						else:
+							base_name = kwargs['instance'].trainer.username
+					except KeyError:
+						base_name = kwargs['instance'].trainer.username
+					
+					if ord(base_name[-1]) in numbers:
+						base_name = base_name[:-2]
+					
+					new_name = base_name+" "+int_to_unicode(kwargs['instance'].trainer.level())
+					
+					logger.info("Renaming {user} on Discord Guild #{guild_id} to {name}".format(
+						user=kwargs['instance'].trainer.username,
+						guild_id=guild.id,
+						name=new_name
+					))
+					
+					edit = requests.patch(
+						url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
+							guild = guild.id,
+							user = user.uid
+						),
+						headers={"Authorization": "Bot {token}".format(
+							token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")},
+						json={"nick": new_name})
+					if edit.status_code != 204:
+						logger.error("^ {code} ^ Failed to rename user, trying again \n {log}".format(
+							code=edit.status_code,
+							log=edit.content))
+						
+						edit = requests.patch(
+							url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
+								guild = guild.id,
+								user = user.uid
+							),
+							headers={"Authorization": "Bearer {oauth2_token}".format(oauth2_token=user.socialtoken_set.first().token)},
+							json={"nick": new_name})
+						
+						if edit.status_code != 204:
+							logger.error("^ {code} ^ Failed to rename user again \n {log}".format(
+								code=edit.status_code,
+								log=edit.content))
+				
 
 class TrainerReport(models.Model):
 	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
