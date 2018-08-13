@@ -537,9 +537,9 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 			raise Http404(_('No region found for code {}/{}').format(country, region))
 			
 		
-		context['title'] = _('{region}, {country}').format(
-			region=(region.alt_names.filter(language_code=get_language_from_request(request)).first() or region).name,
-			country=(country.alt_names.filter(language_code=get_language_from_request(request)).first() or country).name
+		context['title'] = _('{region_str}, {country_str}').format(
+			region_str=(region.alt_names.filter(language_code=get_language_from_request(request)).first() or region).name,
+			country_str=(region.country.alt_names.filter(language_code=get_language_from_request(request)).first() or region.country).name
 		)
 		QuerySet = region.leaderboard_trainers_region
 	else:
