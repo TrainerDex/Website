@@ -9,55 +9,54 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-08-13 01:19+0000\n"
-"PO-Revision-Date: 2018-07-28 21:31+0000\n"
+"PO-Revision-Date: 2018-08-13 01:41+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Translated-Using: django-rosetta 0.8.1\n"
+"X-Translated-Using: django-rosetta 0.8.3\n"
 
 #: ekpogo/settings.py:180
 msgid "German"
-msgstr ""
+msgstr "德"
 
 #: ekpogo/settings.py:181
 msgid "English"
-msgstr ""
+msgstr "英语"
 
 #: ekpogo/settings.py:182
 msgid "Spanish"
-msgstr ""
+msgstr "西班牙语"
 
 #: ekpogo/settings.py:183
 msgid "French"
-msgstr ""
+msgstr "法语"
 
 #: ekpogo/settings.py:184
 msgid "Italian"
-msgstr ""
+msgstr "意大利语"
 
 #: ekpogo/settings.py:185
 msgid "Japanese"
-msgstr ""
+msgstr "日本"
 
 #: ekpogo/settings.py:186
 msgid "Korean"
-msgstr ""
+msgstr "韩国"
 
 #: ekpogo/settings.py:187
 msgid "Brazilian Portuguese"
-msgstr ""
+msgstr "巴西葡萄牙语"
 
 #: ekpogo/settings.py:188
 msgid "Traditional Chinese"
-msgstr ""
+msgstr "中国传统"
 
-#: support/templates/about.html:5 support/templates/about.html:6
-#: support/templates/about.html:13
+#: support/templates/about.html:5 support/templates/about.html:6 support/templates/about.html:13
 msgid "Welcome"
-msgstr ""
+msgstr "欢迎光临"
 
 #: support/templates/about.html:17
 #, python-format
@@ -150,8 +149,7 @@ msgstr ""
 msgid "Website Badges"
 msgstr ""
 
-#: trainer/admin.py:76 website/templates/base.html:89
-#: website/templates/base.html:134
+#: trainer/admin.py:76 website/templates/base.html:89 website/templates/base.html:134
 msgid "Leaderboard"
 msgstr "排行榜"
 
@@ -172,7 +170,6 @@ msgid "User"
 msgstr ""
 
 #: trainer/models.py:37 trainer/templates/leaderboard.html:63
-#, fuzzy
 #| msgid "Nickname"
 msgctxt "onboard_enter_name_hint"
 msgid "Nickname"
@@ -191,8 +188,7 @@ msgstr ""
 msgid "The date you created your Pokémon Go account."
 msgstr ""
 
-#: trainer/models.py:39 trainer/models.py:255
-#: trainer/templates/leaderboard.html:64 trainer/templates/profile.html:21
+#: trainer/models.py:39 trainer/models.py:255 trainer/templates/leaderboard.html:64 trainer/templates/profile.html:21
 msgid "Team"
 msgstr "隊"
 
@@ -282,8 +278,7 @@ msgctxt "badge_safari_zone_europe_2017"
 msgid "Europe, September 16, 2017"
 msgstr "2017年9月16日 歐洲"
 
-#: trainer/models.py:50 trainer/templates/profile.html:103
-#: trainer/templates/profile.html:110
+#: trainer/models.py:50 trainer/templates/profile.html:103 trainer/templates/profile.html:110
 #, fuzzy
 #| msgid "GO Safari Zone - Europe 2017"
 msgctxt "badge_safari_zone_europe_2017_10_07_title"
@@ -946,19 +941,11 @@ msgstr ""
 msgid "Community League Discord Connections"
 msgstr ""
 
-#: trainer/templates/account/signup2.html:7
-#: trainer/templates/account/signup2.html:8
-#: website/templates/account/signup.html:7
-#: website/templates/account/signup.html:8
-#: website/templates/socialaccount/signup.html:5
-#: website/templates/socialaccount/signup.html:6
+#: trainer/templates/account/signup2.html:7 trainer/templates/account/signup2.html:8 website/templates/account/signup.html:7 website/templates/account/signup.html:8 website/templates/socialaccount/signup.html:5 website/templates/socialaccount/signup.html:6
 msgid "Signup"
 msgstr ""
 
-#: trainer/templates/account/signup2.html:17
-#: website/templates/account/signup.html:21
-#: website/templates/account/signup.html:51 website/templates/base.html:104
-#: website/templates/base.html:126
+#: trainer/templates/account/signup2.html:17 website/templates/account/signup.html:21 website/templates/account/signup.html:51 website/templates/base.html:104 website/templates/base.html:126
 msgid "Register"
 msgstr ""
 
@@ -966,14 +953,11 @@ msgstr ""
 msgid "Step 2"
 msgstr ""
 
-#: trainer/templates/account/signup2.html:82
-#: trainer/templates/create_update.html:90
+#: trainer/templates/account/signup2.html:82 trainer/templates/create_update.html:90
 msgid "Submit"
 msgstr ""
 
-#: trainer/templates/create_update.html:7
-#: trainer/templates/create_update.html:8
-#: trainer/templates/create_update.html:17
+#: trainer/templates/create_update.html:7 trainer/templates/create_update.html:8 trainer/templates/create_update.html:17
 msgid "Update Stats"
 msgstr ""
 
@@ -989,13 +973,11 @@ msgstr ""
 msgid "Pokémon Type Medals"
 msgstr ""
 
-#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
-#: trainer/templates/leaderboard.html:27
+#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12 trainer/templates/leaderboard.html:27
 msgid "International"
 msgstr "國際"
 
-#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
-#: trainer/templates/leaderboard.html:27
+#: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12 trainer/templates/leaderboard.html:27
 #, python-format
 msgctxt "This is the title, loc is defined as the country/continent name, or the word International (which is translated seperately)."
 msgid "%(loc)s Leaderboard"
@@ -1132,9 +1114,7 @@ msgstr ""
 msgid "Stats updated. Screenshot included."
 msgstr ""
 
-#: website/templates/account/account_inactive.html:5
-#: website/templates/account/account_inactive.html:6
-#: website/templates/account/account_inactive.html:12
+#: website/templates/account/account_inactive.html:5 website/templates/account/account_inactive.html:6 website/templates/account/account_inactive.html:12
 msgid "Account Inactive"
 msgstr ""
 
@@ -1142,15 +1122,11 @@ msgstr ""
 msgid "This account is inactive."
 msgstr ""
 
-#: website/templates/account/account_inactive.html:19
-#: website/templates/account/password_reset_from_key.html:45
-#: website/templates/socialaccount/authentication_error.html:19
-#: website/templates/socialaccount/login_cancelled.html:19
+#: website/templates/account/account_inactive.html:19 website/templates/account/password_reset_from_key.html:45 website/templates/socialaccount/authentication_error.html:19 website/templates/socialaccount/login_cancelled.html:19
 msgid "Return to login page"
 msgstr ""
 
-#: website/templates/account/email.html:6
-#: website/templates/account/email.html:7
+#: website/templates/account/email.html:6 website/templates/account/email.html:7
 msgid "Account"
 msgstr ""
 
@@ -1191,8 +1167,7 @@ msgstr ""
 msgid "Re-send Verification"
 msgstr ""
 
-#: website/templates/account/email.html:73
-#: website/templates/socialaccount/connections.html:51
+#: website/templates/account/email.html:73 website/templates/socialaccount/connections.html:51
 msgid "Remove"
 msgstr ""
 
@@ -1254,9 +1229,7 @@ msgstr ""
 msgid "Password Reset E-mail"
 msgstr ""
 
-#: website/templates/account/email_confirm.html:6
-#: website/templates/account/email_confirm.html:7
-#: website/templates/account/email_confirm.html:13
+#: website/templates/account/email_confirm.html:6 website/templates/account/email_confirm.html:7 website/templates/account/email_confirm.html:13
 msgid "Confirm E-mail Address"
 msgstr ""
 
@@ -1277,9 +1250,7 @@ msgstr ""
 msgid "Resend confirmation email"
 msgstr ""
 
-#: website/templates/account/login.html:7
-#: website/templates/account/login.html:8
-#: website/templates/account/login.html:16
+#: website/templates/account/login.html:7 website/templates/account/login.html:8 website/templates/account/login.html:16
 msgid "Sign In"
 msgstr ""
 
@@ -1301,10 +1272,7 @@ msgstr ""
 msgid "Forget/Reset Password"
 msgstr ""
 
-#: website/templates/account/logout.html:5
-#: website/templates/account/logout.html:6
-#: website/templates/account/logout.html:12
-#: website/templates/account/logout.html:23
+#: website/templates/account/logout.html:5 website/templates/account/logout.html:6 website/templates/account/logout.html:12 website/templates/account/logout.html:23
 msgid "Sign Out"
 msgstr ""
 
@@ -1357,25 +1325,11 @@ msgstr ""
 msgid "Your primary e-mail address must be verified."
 msgstr ""
 
-#: website/templates/account/password_change.html:6
-#: website/templates/account/password_change.html:7
-#: website/templates/account/password_change.html:13
-#: website/templates/account/password_change.html:25
-#: website/templates/account/password_reset_from_key.html:6
-#: website/templates/account/password_reset_from_key.html:7
-#: website/templates/account/password_reset_from_key.html:13
-#: website/templates/account/password_reset_from_key_done.html:4
-#: website/templates/account/password_reset_from_key_done.html:5
-#: website/templates/account/password_reset_from_key_done.html:11
+#: website/templates/account/password_change.html:6 website/templates/account/password_change.html:7 website/templates/account/password_change.html:13 website/templates/account/password_change.html:25 website/templates/account/password_reset_from_key.html:6 website/templates/account/password_reset_from_key.html:7 website/templates/account/password_reset_from_key.html:13 website/templates/account/password_reset_from_key_done.html:4 website/templates/account/password_reset_from_key_done.html:5 website/templates/account/password_reset_from_key_done.html:11
 msgid "Change Password"
 msgstr ""
 
-#: website/templates/account/password_reset.html:7
-#: website/templates/account/password_reset.html:8
-#: website/templates/account/password_reset.html:23
-#: website/templates/account/password_reset_done.html:6
-#: website/templates/account/password_reset_done.html:7
-#: website/templates/account/password_reset_done.html:13
+#: website/templates/account/password_reset.html:7 website/templates/account/password_reset.html:8 website/templates/account/password_reset.html:23 website/templates/account/password_reset_done.html:6 website/templates/account/password_reset_done.html:7 website/templates/account/password_reset_done.html:13
 msgid "Password Reset"
 msgstr ""
 
@@ -1399,11 +1353,7 @@ msgstr ""
 msgid "We have sent you an e-mail. Please contact us if you do not receive it within a few minutes."
 msgstr ""
 
-#: website/templates/account/password_reset_done.html:21
-#: website/templates/account/password_reset_from_key_done.html:18
-#: website/templates/account/signup_closed.html:20
-#: website/templates/account/verification_sent.html:18
-#: website/templates/socialaccount/login_cancelled.html:22
+#: website/templates/account/password_reset_done.html:21 website/templates/account/password_reset_from_key_done.html:18 website/templates/account/signup_closed.html:20 website/templates/account/verification_sent.html:18 website/templates/socialaccount/login_cancelled.html:22
 msgid "Return to homepage"
 msgstr ""
 
@@ -1431,10 +1381,7 @@ msgstr ""
 msgid "Your password is now changed."
 msgstr ""
 
-#: website/templates/account/password_set.html:6
-#: website/templates/account/password_set.html:7
-#: website/templates/account/password_set.html:13
-#: website/templates/account/password_set.html:27
+#: website/templates/account/password_set.html:6 website/templates/account/password_set.html:7 website/templates/account/password_set.html:13 website/templates/account/password_set.html:27
 msgid "Set Password"
 msgstr ""
 
@@ -1451,9 +1398,7 @@ msgstr ""
 msgid "If you are in a Discord Guild Leaderboard or have been contacted by us via Twitter, you would already have an account. Please %(login_link_start)ssign in%(login_link_end)s instead."
 msgstr ""
 
-#: website/templates/account/signup_closed.html:5
-#: website/templates/account/signup_closed.html:6
-#: website/templates/account/signup_closed.html:12
+#: website/templates/account/signup_closed.html:5 website/templates/account/signup_closed.html:6 website/templates/account/signup_closed.html:12
 msgid "Sign Up Closed"
 msgstr ""
 
@@ -1474,12 +1419,7 @@ msgstr ""
 msgid "you are already logged in as %(user_display)s."
 msgstr ""
 
-#: website/templates/account/verification_sent.html:5
-#: website/templates/account/verification_sent.html:6
-#: website/templates/account/verification_sent.html:12
-#: website/templates/account/verified_email_required.html:5
-#: website/templates/account/verified_email_required.html:6
-#: website/templates/account/verified_email_required.html:12
+#: website/templates/account/verification_sent.html:5 website/templates/account/verification_sent.html:6 website/templates/account/verification_sent.html:12 website/templates/account/verified_email_required.html:5 website/templates/account/verified_email_required.html:6 website/templates/account/verified_email_required.html:12
 msgid "Verify Your E-mail Address"
 msgstr ""
 
@@ -1514,10 +1454,7 @@ msgstr ""
 msgid "About Us"
 msgstr ""
 
-#: website/templates/base.html:100 website/templates/base.html:122
-#: website/templates/help/account_settings.html:5
-#: website/templates/help/account_settings.html:6
-#: website/templates/help/account_settings.html:7
+#: website/templates/base.html:100 website/templates/base.html:122 website/templates/help/account_settings.html:5 website/templates/help/account_settings.html:6 website/templates/help/account_settings.html:7
 msgid "Account Settings"
 msgstr ""
 
@@ -1578,11 +1515,7 @@ msgstr ""
 msgid "Set Goal"
 msgstr ""
 
-#: website/templates/socialaccount/authentication_error.html:5
-#: website/templates/socialaccount/authentication_error.html:6
-#: website/templates/socialaccount/authentication_error.html:12
-#: website/templates/socialaccount/login_cancelled.html:5
-#: website/templates/socialaccount/login_cancelled.html:6
+#: website/templates/socialaccount/authentication_error.html:5 website/templates/socialaccount/authentication_error.html:6 website/templates/socialaccount/authentication_error.html:12 website/templates/socialaccount/login_cancelled.html:5 website/templates/socialaccount/login_cancelled.html:6
 msgid "Social Network Login Failure"
 msgstr ""
 
@@ -1590,9 +1523,7 @@ msgstr ""
 msgid "An error occurred while attempting to login via your social network account."
 msgstr ""
 
-#: website/templates/socialaccount/connections.html:5
-#: website/templates/socialaccount/connections.html:6
-#: website/templates/socialaccount/connections.html:30
+#: website/templates/socialaccount/connections.html:5 website/templates/socialaccount/connections.html:6 website/templates/socialaccount/connections.html:30
 msgid "Account Connections"
 msgstr ""
 
@@ -1628,8 +1559,7 @@ msgstr ""
 msgid "The social account has been disconnected."
 msgstr ""
 
-#: website/templates/socialaccount/signup.html:12
-#: website/templates/socialaccount/signup.html:24
+#: website/templates/socialaccount/signup.html:12 website/templates/socialaccount/signup.html:24
 msgid "Sign Up"
 msgstr ""
 
@@ -1641,13 +1571,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
-#~| msgid "Pokémon GO STADIUM"
 #~ msgctxt "pikachu_outbreak_yokohama_title"
 #~ msgid "Pokémon GO STADIUM"
 #~ msgstr "Pokémon GO STADIUM"
 
 #, fuzzy
-#~| msgid "Yokohama, August 2017"
 #~ msgctxt "pikachu_outbreak_yokohama"
 #~ msgid "Yokohama, August 2017"
 #~ msgstr "2017/8 @ 横浜"
