@@ -54,9 +54,9 @@ class TrainerListJSONView(APIView):
 	GET - Accepts paramaters for Team (t) and Username (q)
 	POST - Register a Trainer, needs the Primary Key of the Owner, the User object which owns the Trainer
 	"""
-	
+
 	authentication_classes = (authentication.TokenAuthentication,)
-	
+
 	def get(self, request):
 		queryset = Trainer.objects.exclude(owner__is_active=False)
 		if request.GET.get('q') or request.GET.get('t'):
@@ -64,20 +64,20 @@ class TrainerListJSONView(APIView):
 				queryset = queryset.filter(username__iexact=request.GET.get('q'))
 			if request.GET.get('t'):
 				queryset = queryset.filter(faction=request.GET.get('t'))
-		
+
 		if request.GET.get('detail') == '1':
 			serializer = DetailedTrainerSerializer(queryset, many=True)
 			return Response(serializer.data)
 		else:
 			serializer = BriefTrainerSerializer(queryset, many=True)
 			return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
-	
+
 	def post(self, request):
 		"""
 		This used to work as a simple post, but since the beginning of transitioning to API v2 it would have always given Validation Errors if left the same.
 		Now it has a 30 minute open slot to work after the auth.User (owner) instance is created. After which, a PATCH request must be given. This is due to the nature of a Trainer being created automatically for all new auth.User
 		"""
-		
+
 		trainer = Trainer.objects.get(owner__pk=request.data['owner'])
 		if not recent(trainer.owner.date_joined):
 			return Response({"_error": "profile already exists, please use patch on trainer uri instead or check the owner pk is correct", "_profile_id": trainer.pk}, status=status.HTTP_400_BAD_REQUEST)
@@ -86,7 +86,7 @@ class TrainerListJSONView(APIView):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	
+
 
 class TrainerDetailJSONView(APIView):
 	"""
@@ -94,12 +94,12 @@ class TrainerDetailJSONView(APIView):
 	PATCH - Update a trainer
 	DELETE - Archives a trainer
 	"""
-	
+
 	authentication_classes = (authentication.TokenAuthentication,)
-	
+
 	def get_object(self, pk):
 		return get_object_or_404(Trainer, pk=pk)
-	
+
 	def get(self, request, pk):
 		trainer = self.get_object(pk)
 		if trainer.active is True:
@@ -122,7 +122,7 @@ class TrainerDetailJSONView(APIView):
 			}
 			return Response(response, status=status.HTTP_423_LOCKED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	
+
 	def patch(self, request, pk):
 		trainer = self.get_object(pk)
 		serializer = DetailedTrainerSerializer(trainer, data=request.data, partial=True)
@@ -130,7 +130,7 @@ class TrainerDetailJSONView(APIView):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_200_OK)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	
+
 	def delete(self, request, pk):
 		trainer = self.get_object(pk)
 		if trainer.active:
@@ -146,45 +146,45 @@ class TrainerDetailJSONView(APIView):
 			}
 			return Response(response, status=status.HTTP_204_NO_CONTENT)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
-	
+
 
 class UpdateListJSONView(APIView):
 	"""
 	GET - Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
 	POST/PATCH - Create a update
 	"""
-	
+
 	authentication_classes = (authentication.TokenAuthentication,)
-	
+
 	def get(self, request, pk):
 		updates = Update.objects.filter(trainer=pk)
 		serializer = BriefUpdateSerializer(updates, many=True) if request.GET.get('detail') != "1" else DetailedUpdateSerializer(updates, many=True)
 		return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
-	
+
 	def post(self, request, pk):
 		serializer = DetailedUpdateSerializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save(trainer=get_object_or_404(Trainer, pk=pk))
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	
+
 	def patch(self, request, pk):
 		return self.post(self, request, pk)
-	
+
 
 class LatestUpdateJSONView(APIView):
 	"""
 	GET - Gets detailed view of the latest update
 	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked.
 	"""
-	
+
 	authentication_classes = (authentication.TokenAuthentication,)
-	
+
 	def get(self, request, pk):
 		update = Update.objects.filter(trainer=pk).latest('update_time')
 		serializer = DetailedUpdateSerializer(update)
 		return Response(serializer.data)
-	
+
 	def patch(self, request, pk):
 		update = Update.objects.filter(trainer=pk).latest('update_time')
 		if update.meta_time_created > datetime.now(utc)-timedelta(minutes=32):
@@ -194,7 +194,7 @@ class LatestUpdateJSONView(APIView):
 				serializer.save(trainer=update.trainer,uuid=update.uuid,pk=update.pk)
 				return Response(serializer.data)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	
+
 
 class UpdateDetailJSONView(APIView):
 	"""
@@ -202,16 +202,16 @@ class UpdateDetailJSONView(APIView):
 	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked.
 	DELETE - Delete an update, works within first 48 hours of creation, otherwise, an email request for deletion is sent to admin
 	"""
-	
+
 	authentication_classes = (authentication.TokenAuthentication,)
-	
+
 	def get(self, request, uuid, pk):
 		update = get_object_or_404(Update, trainer=pk, uuid=uuid)
 		serializer = DetailedUpdateSerializer(update)
 		if update.trainer.id != int(pk):
 			return Response(serializer.errors, status=400)
 		return Response(serializer.data)
-	
+
 	def patch(self, request, uuid, pk):
 		update = get_object_or_404(Update, trainer=pk, uuid=uuid)
 		if update.meta_time_created > datetime.now(utc)-timedelta(minutes=32):
@@ -221,7 +221,7 @@ class UpdateDetailJSONView(APIView):
 				serializer.save(trainer=update.trainer,uuid=update.uuid,pk=update.pk)
 				return Response(serializer.data)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	
+
 	def delete(self, request, uuid, pk):
 		update = get_object_or_404(Update, trainer=pk, uuid=uuid)
 		if update.meta_time_created > datetime.now(utc)-timedelta(days=2):
@@ -233,10 +233,10 @@ class UpdateDetailJSONView(APIView):
 			mail_admins(SUBJECT, MESSAGE)
 			return Response({'request_made': True, 'subject': SUBJECT, 'message': MESSAGE}, status=status.HTTP_202_ACCEPTED)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
-	
+
 
 class LeaderboardJSONView(APIView):
-	
+
 	def get(self, request):
 		query = _leaderboard_queryset_filter(Trainer.objects)
 		if request.GET.get('users'):
@@ -244,20 +244,20 @@ class LeaderboardJSONView(APIView):
 		leaderboard = query.annotate(Max('update__xp'), Max('update__update_time')).order_by('-update__xp__max')
 		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
 		return Response(serializer.data)
-	
+
 
 class SocialLookupJSONView(APIView):
 	"""
 	GET args:
 		provider (requiered) - platform, options are 'facebook', 'twitter', 'discord', 'google', 'patreon'
-		
+
 		One of the below, they're checked in this order so if you provide more than one, only the first would be processed.
 		uid - Social ID, supports a comma seperated list. Could be useful for passing a list of users in a server to retrieve a list of UserIDs, which could then be passed to api/v1/leaderboard/
 		user - TrainerDex User ID, supports a comma seperated list
 		trainer - TrainerDex Trainer ID
 	PUT: Register a SocialAccount. Patch if exists, post if not.
 	"""
-	
+
 	def get(self, request):
 		query = SocialAccount.objects.filter(provider=request.GET.get('provider'))
 		if request.GET.get('uid'):
@@ -270,7 +270,7 @@ class SocialLookupJSONView(APIView):
 			return Response(status=status.HTTP_400_BAD_REQUEST)
 		serializer = SocialAllAuthSerializer(query, many=True)
 		return Response(serializer.data)
-		
+
 	def put(self, request):
 		try:
 			query = SocialAccount.objects.get(provider=request.data['provider'], uid=request.data['uid'])
@@ -288,31 +288,31 @@ class DiscordLeaderboardAPIView(APIView):
 		discord_base_url = 'https://discordapp.com/api'
 		headers = {}
 		output = {'generated':datetime.utcnow()}
-		
+
 		if request.GET.get('DiscordAuthorization'):
 			headers['Authorization'] = request.GET.get('DiscordAuthorization')
 		else:
 			headers['Authorization'] = 'Bot Mzc3NTU5OTAyNTEzNzkwOTc3.DYhWdw.tBGXI2g8RqH3EbDDdypSaQLXYLU'
-		
+
 		_guild = requests.get('{base_url}/guilds/{param}'.format(base_url=discord_base_url, param=guild), headers=headers)
 		if not status.is_success(_guild.status_code):
 			return Response({'error': '003 - Bad Guild ID', 'cause': "Most likely, the bot parameter provided doesn't have access to that guild", 'solution': "If I have to lay this out to you, you shouldn't be here"}, status=status.HTTP_400_BAD_REQUEST)
 		_guild = _guild.json()
-		
+
 		output['title'] = '{guild_name} Leaderboard'.format(guild_name=_guild['name'])
 		opt_out_role_id = [x['id'] for x in _guild['roles'] if x['name'] in ('NoLB,')]
-		
+
 		members = requests.get('{base_url}/guilds/{param}/members'.format(base_url=discord_base_url, param=guild), headers=headers, params={'limit':1000})
 		if not status.is_success(members.status_code):
 			return Response({'error': '000 - Unknown', 'cause': 'unknown', 'solution':'forward this output to apisupport@trainerdex.co.uk', 'Discord API Responce': members.content}, status=members.status_code)
 		members = [x['user']['id'] for x in members.json() if not any([i in x['roles'] for i in opt_out_role_id])]
 		trainers = _leaderboard_queryset_filter(Trainer.objects.filter(owner__socialaccount__provider='discord', owner__socialaccount__uid__in=members))
-		
+
 		leaderboard = trainers.annotate(Max('update__xp'), Max('update__update_time')).order_by('-update__xp__max')
 		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
 		output['leaderboard'] = serializer.data
 		return Response(output)
-	
+
 
 def fortyx(request, username):
 	trainer = get_object_or_404(Trainer, username__iexact=username)
@@ -382,14 +382,14 @@ def TrainerRedirectorView(request, username=None, id=None):
 		return redirect('home')
 	else:
 		trainer = request.user.trainer
-	
+
 	return HttpResponsePermanentRedirect(reverse('trainerdex_web:profile_username', kwargs={'username':trainer.username}))
 
 def TrainerProfileHTMLView(request, username):
 	if request.user.is_authenticated and not _check_if_self_valid(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
 		return HttpResponseRedirect(reverse('profile_set_up'))
-	
+
 	trainer = Trainer.objects.prefetch_related().get(username__iexact=username)
 	context = {
 		'trainer' : trainer,
@@ -449,7 +449,7 @@ def TrainerProfileHTMLView(request, username):
 	context['badges'] = badges
 	context['type_badges'] = type_badges
 	context['update_history'] = []
-	
+
 	for update in trainer.update_set.all():
 		update_obj = []
 		for x in Update._meta.get_fields():
@@ -464,14 +464,14 @@ def TrainerProfileHTMLView(request, username):
 				},
 			)
 		context['update_history'].append(update_obj)
-	
+
 	try:
 		trainer.get_silph_card()
 	except (ObjectDoesNotExist, PermissionDenied):
 		context['silph_card'] = False
 	else:
 		context['silph_card'] = True
-	
+
 	return render(request, 'profile.html', context)
 
 @login_required
@@ -479,7 +479,7 @@ def CreateUpdateHTMLView(request):
 	if request.user.is_authenticated and not _check_if_self_valid(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
 		return HttpResponseRedirect(reverse('profile_set_up'))
-	
+
 	if request.POST:
 		form_data = request.POST.copy()
 		form_data['meta_source'] = 'web_detailed'
@@ -507,36 +507,36 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	if request.user.is_authenticated and not _check_if_self_valid(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
 		return HttpResponseRedirect(reverse('profile_set_up'))
-	
+
 	context = {}
-	
+
 	context['mystic'] = showMystic = {'param':'Mystic', 'value': strtoboolornone(request.GET.get('mystic'))}
 	context['valor'] = showValor = {'param':'Valor', 'value': strtoboolornone(request.GET.get('valor'))}
 	context['instinct'] = showInstinct = {'param':'Instinct', 'value': strtoboolornone(request.GET.get('instinct'))}
-	
+
 	if continent:
 		try:
 			continent = Continent.objects.get(code__iexact = continent)
 		except Continent.DoesNotExist:
-			raise Http404(_('No continent found for code {}').format(continent))
+			raise Http404(_('No continent found for code {continent}').format(continent=continent))
 		context['title'] = (continent.alt_names.filter(language_code=get_language_from_request(request)).first() or continent).name
 		QuerySet = Trainer.objects.filter(leaderboard_country__continent__code__iexact=continent)
 	elif country and region == None:
 		try:
 			country = Country.objects.prefetch_related('leaderboard_trainers_country').get(code__iexact = country)
 		except Country.DoesNotExist:
-			raise Http404(_('No country found for code {}').format(country))
+			raise Http404(_('No country found for code {country}').format(country=country))
 		context['title'] = (country.alt_names.filter(language_code=get_language_from_request(request)).first() or country).name
 		QuerySet = country.leaderboard_trainers_country
 	elif region:
 		try:
 			region = Region.objects.filter(country__code__iexact = country).get(code__iexact = region)
 		except Country.DoesNotExist:
-			raise Http404(_('No country found for code {}').format(country))
+			raise Http404(_('No country found for code {country}').format(country = country))
 		except Region.DoesNotExist:
-			raise Http404(_('No region found for code {}/{}').format(country, region))
-			
-		
+			raise Http404(_('No region found for code {country}/{region}').format(country = country, region = region))
+
+
 		context['title'] = _('{region_str}, {country_str}').format(
 			region_str=(region.alt_names.filter(language_code=get_language_from_request(request)).first() or region).name,
 			country_str=(region.country.alt_names.filter(language_code=get_language_from_request(request)).first() or region.country).name
@@ -545,9 +545,9 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	else:
 		context['title'] = None
 		QuerySet = Trainer.objects
-	
+
 	QuerySet = _leaderboard_queryset_filter(QuerySet)
-	
+
 	SORTABLE_FIELDS = ['update__'+x for x in UPDATE_SORTABLE_FIELDS]
 	fields_to_calculate_max = {'xp', 'pkmn_caught', 'gym_defended', 'eggs_hatched', 'walk_dist', 'pkstops_spun', 'battles_won', 'leg_raids_completed',
 'quests', 'update_time'}
@@ -560,32 +560,32 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	else:
 		sort_by = 'xp'
 	context['sort_by'] = sort_by
-	
-	
+
+
 	QuerySet = QuerySet.exclude(faction__name__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
 	context['grand_total_users'] = total_users = QuerySet.count()
-	
+
 	if total_users == 0:
 		context['page'] = 0
 		context['pages'] = 0
 		context['leaderboard'] = None
 		return render(request, 'leaderboard.html', context, status=404)
-	
+
 	QuerySet = QuerySet.annotate(*[Max('update__'+x) for x in fields_to_calculate_max]).extra(select={'null_order': '{order} IS NULL'.format(order=sort_by)}).order_by('null_order', '-update__{order}__max'.format(order=sort_by), '-update__xp__max', '-update__update_time__max', 'faction',)
-	
+
 	Results = []
 	GRAND_TOTAL = QuerySet.aggregate(Sum('update__xp__max'))
 	context['grand_total_xp'] = GRAND_TOTAL['update__xp__max__sum']
-	
+
 	for index, trainer in enumerate(QuerySet.prefetch_related('leaderboard_country'), 1):
 		trainer_stats = {
 			'position' : index,
 			'trainer' : trainer,
 			'level' : level_parser(xp=trainer.update__xp__max).level,
-			'xp' : trainer.update__xp__max, 
-			'update_time' : trainer.update__update_time__max, 
+			'xp' : trainer.update__xp__max,
+			'update_time' : trainer.update__update_time__max,
 		}
-		
+
 		FIELDS = []
 		FIELDS_TO_SORT = fields_to_calculate_max.copy()
 		FIELDS_TO_SORT.remove('update_time')
@@ -601,7 +601,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 			)
 		trainer_stats['columns'] = FIELDS
 		Results.append(trainer_stats)
-	
+
 	try:
 		page = int(request.GET.get('page') or 1)
 	except ValueError:
@@ -609,15 +609,15 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	context['page'] = page
 	context['pages'] = ceil(total_users/100)
 	pages = chunks(Results, 100)
-	
+
 	x = 0
 	for y in pages:
 		x += 1
 		if x == context['page']:
 			context['leaderboard'] = y
 			break
-	
-	
+
+
 	return render(request, 'leaderboard.html', context)
 
 @login_required
@@ -626,10 +626,10 @@ def SetUpProfileViewStep2(request):
 		if len(request.user.trainer.update_set.all()) == 0:
 			return redirect(SetUpProfileViewStep3, permanent=False)
 		return HttpResponseRedirect(reverse('trainerdex_web:profile'))
-	
+
 	form = RegistrationFormTrainer(instance=request.user.trainer)
 	form.fields['verification'].required = True
-	
+
 	if request.method == 'POST':
 		form = RegistrationFormTrainer(request.POST, request.FILES, instance=request.user.trainer)
 		form.fields['verification'].required = True
@@ -645,10 +645,10 @@ def SetUpProfileViewStep2(request):
 def SetUpProfileViewStep3(request):
 	if request.user.is_authenticated and _check_if_self_valid(request) and len(request.user.trainer.update_set.all()) > 0:
 		return redirect(CreateUpdateHTMLView, permanent=False)
-	
+
 	form = RegistrationFormUpdate(initial={'trainer':request.user.trainer})
 	form.fields['image_proof'].required = True
-	
+
 	if request.method == 'POST':
 		logger.info(request.FILES)
 		form_data = request.POST.copy()

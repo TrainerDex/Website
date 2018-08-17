@@ -36,7 +36,7 @@ function setParam(uri, key, val) {
   <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect">
     <i class="material-icons">filter_list</i>
   </button>
-  
+
   <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="leaderboard-options">
     <li class="mdl-menu__item mdl-js-ripple-effect" id="mystic" class="button" onclick="location.href = setParam(window.location.href, 'mystic', '{{ mystic.value|yesno:'0,1,0' }}');">{% autoescape off %}{{ mystic.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>,<i class="material-icons">remove_circle_outline</i>' }}{% endautoescape %}{% trans 'Mystic' %}
     </li>
@@ -60,7 +60,7 @@ function setParam(uri, key, val) {
     <thead>
       <tr>
         <th></th>
-        <th class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;"><div id="trainer-nickname" class="trainer-nickname">{% trans "Nickname" context "onboard_enter_name_hint" %}</div> <div id="trainer-level" class="tl">{% trans "TL" %}</div></th>
+        <th class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;"><div id="trainer-nickname" class="trainer-nickname">{% trans "Nickname" context "onboard_enter_name_hint" %}</div> <div id="trainer-level" class="tl">{% trans "TL" context 'Short form of Trainer Level'  %}</div></th>
         <th id="faction" class="mdl-data-table__cell--non-numeric" style="width: 32px;">{% trans "Team" %}</th>
         {% for column in trainer.columns %}
         <th id="{{column.name}}" {% if sort_by == column.name %}class="mdl-data-table__header--sorted-descending"{% endif %} onclick="location.href = setParam(window.location.href, 'sort', '{{column.name}}');">{{column.readable_name}}</th>
