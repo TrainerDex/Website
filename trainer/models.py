@@ -37,7 +37,7 @@ def VerificationUpdateImagePath(instance, filename):
 	return 'v_{0}/v_{1}_{2}{ext}'.format(instance.trainer.owner.id, instance.trainer.id, instance.meta_time_created.timestamp(), ext=splitext(filename)[1])
 
 class Trainer(models.Model):
-	
+
 	owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
 	username = postgres_fields.CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], db_index=True, verbose_name=pgettext_lazy("onboard_enter_name_hint", "Nickname"), help_text=_("Your Trainer Nickname exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."))
 	start_date = models.DateField(null=True, blank=True, validators=[StartDateValidator], verbose_name=pgettext_lazy("profile_start_date", "Start Date"), help_text=_("The date you created your Pokémon Go account."))
@@ -46,9 +46,9 @@ class Trainer(models.Model):
 	statistics = models.BooleanField(default=True, verbose_name=pgettext_lazy("Profile_Category_Stats", "Statistics"), help_text=_("Would you like to be shown on the leaderboard? Ticking this box gives us permission to process your data."))
 	daily_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Rate Goal"), help_text=_("Our Discord bot lets you know if you've reached you goals or not: How much XP do you aim to gain a day?"))
 	total_goal = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Reach Goal"), help_text=_("Our Discord bot lets you know if you've reached you goals or not: How much XP are you aiming for next?"))
-	
+
 	trainer_code = models.CharField(null=True, blank=True, validators=[TrainerCodeValidator], verbose_name=pgettext_lazy("friend_code_title", "Trainer Code"), max_length=15, help_text=_("Fancy sharing your trainer code? (Disclaimer: This information will be public)"))
-	
+
 	badge_chicago_fest_july_2017 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_chicago_fest_july_2017_title", "Pokémon GO Fest 2017"), help_text=pgettext_lazy("badge_chicago_fest_july_2017", "Chicago, July 22, 2017"))
 	badge_pikachu_outbreak_yokohama_2017 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_pikachu_outbreak_yokohama_2017_title", "Pikachu Outbreak 2017"), help_text=pgettext_lazy("badge_pikachu_outbreak_yokohama_2017", "Yokohama, August 2017"))
 	badge_safari_zone_europe_2017_09_16 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_safari_zone_europe_2017_title", "GO Safari Zone - Europe 2017"), help_text=pgettext_lazy("badge_safari_zone_europe_2017", "Europe, September 16, 2017"))
@@ -57,25 +57,40 @@ class Trainer(models.Model):
 	badge_chicago_fest_july_2018 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_chicago_fest_july_2018_*_*_title", "Pokémon GO Fest 2018"), help_text=pgettext_lazy("badge_chicago_fest_july_2018_*_*", "Chicago, July 14-15, 2018"))
 	badge_apac_partner_july_2018_japan = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_apac_partner_july_2018_*_title", "Pokémon GO Special Weekend"), help_text=pgettext_lazy("badge_apac_partner_july_2018_*", "Japan, July 26-29, 2018"))
 	badge_apac_partner_july_2018_south_korea = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_apac_partner_july_2018_5_title", "Pokémon GO Special Weekend"), help_text=pgettext_lazy("badge_apac_partner_july_2018_5", "South Korea, July 29, 2018"))
-	
+	badge_yokosuka_29_aug_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_29_aug_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_29_aug_2018_mikasa", "Yokosuka, Aug 29, 2018-MIKASA"))
+	badge_yokosuka_29_aug_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_29_aug_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_29_aug_2018_verny", "Yokosuka, Aug 29, 2018-VERNY"))
+	badge_yokosuka_29_aug_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_29_aug_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_29_aug_2018_kurihama", "Yokosuka, Aug 29, 2018-KURIHAM"))
+	badge_yokosuka_30_aug_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_30_aug_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_30_aug_2018_mikasa", "Yokosuka, Aug 30, 2018-MIKASA"))
+	badge_yokosuka_30_aug_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_30_aug_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_30_aug_2018_verny", "Yokosuka, Aug 30, 2018-VERNY"))
+	badge_yokosuka_30_aug_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_30_aug_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_30_aug_2018_kurihama", "Yokosuka, Aug 30, 2018-KURIHAMA"))
+	badge_yokosuka_31_aug_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_31_aug_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_31_aug_2018_mikasa", "Yokosuka, Aug 31, 2018-MIKASA"))
+	badge_yokosuka_31_aug_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_31_aug_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_31_aug_2018_verny", "Yokosuka, Aug 31, 2018-VERNY"))
+	badge_yokosuka_31_aug_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_31_aug_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_31_aug_2018_kurihama", "Yokosuka, Aug 31, 2018-KURIHAMA"))
+	badge_yokosuka_1_sep_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_1_sep_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_1_sep_2018_mikasa", "Yokosuka, Sep 1, 2018-MIKASA"))
+	badge_yokosuka_1_sep_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_1_sep_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_1_sep_2018_verny", "Yokosuka, Sep 1, 2018-VERNY"))
+	badge_yokosuka_1_sep_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_1_sep_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_1_sep_2018_kurihama", "Yokosuka, Sep 1, 2018-KURIHAMA"))
+	badge_yokosuka_2_sep_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_mikasa", "Yokosuka, Sep 2, 2018-MIKASA"))
+	badge_yokosuka_2_sep_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_verny", "Yokosuka, Sep 2, 2018-VERNY"))
+	badge_yokosuka_2_sep_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_kurihama", "Yokosuka, Sep 2, 2018-KURIHAMA"))
+
 	leaderboard_country = models.ForeignKey(Country, on_delete=models.SET_NULL , null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country', help_text=_("Where are you based?"))
 	leaderboard_region = models.ForeignKey(Region, on_delete=models.SET_NULL , null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region', help_text=_("Where are you based?"))
-	
+
 	verified = models.BooleanField(default=False, verbose_name=_("Verified"))
 	last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last Modified"))
-	
+
 	event_10b = models.BooleanField(default=False)
 	event_1k_users = models.BooleanField(default=False)
-	
+
 	verification = models.ImageField(upload_to=VerificationImagePath, blank=True, verbose_name=_("Username / Level / Team Screenshot"))
-	
+
 	thesilphroad_username = postgres_fields.CICharField(null=True, blank=True, max_length=30, verbose_name=_("TheSilphRoad Trainer Name"), help_text=_("The username you use on The Silph Road, if different from your Trainer Nickname.")) # max_length=15, unique=True, validators=[PokemonGoUsernameValidator]
-	
+
 	def has_cheated(self):
 		return bool(self.last_cheated)
 	has_cheated.boolean = True
 	has_cheated.short_description = _("Historic Cheater")
-	
+
 	def currently_cheats(self):
 		if self.last_cheated and self.last_cheated+timedelta(weeks=26) > timezone.now().date():
 			return True
@@ -83,55 +98,55 @@ class Trainer(models.Model):
 			return False
 	currently_cheats.boolean = True
 	currently_cheats.short_description = _("Cheater")
-	
+
 	def is_prefered(self):
 		return True
-	
+
 	def flag_emoji(self):
 		if self.leaderboard_country:
 			return lookup(self.leaderboard_country.code)
 		else:
 			return None
-	
+
 	def submitted_picture(self):
 		return bool(self.verification)
 	submitted_picture.boolean = True
-	
+
 	def awaiting_verification(self):
 		if bool(self.verification) is True and bool(self.verified) is False:
 			return True
 		return False
 	awaiting_verification.boolean = True
 	awaiting_verification.short_description = _("Ready to be verified!")
-	
+
 	def is_verified(self):
 		return self.verified
 	is_verified.boolean = True
 	is_verified.short_description = _("Verified")
-	
+
 	def is_verified_and_saved(self):
 		return bool(bool(self.verified) and bool(self.verification))
 	is_verified_and_saved.boolean = True
-	
+
 	def is_on_leaderboard(self):
 		return bool(self.is_verified and self.statistics and not self.currently_cheats())
 	is_on_leaderboard.boolean = True
-	
+
 	def level(self):
 		update = self.update_set
 		if update.exists():
 			return level_parser(xp=update.aggregate(models.Max('xp'))['xp__max']).level
 		return None
-	
+
 	def __str__(self):
 		return self.username
-	
+
 	def circled_level(self):
 		level = self.level()
 		if level:
 			return int_to_unicode(level).strip()
 		return None
-	
+
 	def get_silph_card(self, make_assumption=True):
 		if make_assumption:
 			name = self.thesilphroad_username or self.username
@@ -151,86 +166,86 @@ class Trainer(models.Model):
 			return r['data']
 		else:
 			raise PermissionDenied
-	
+
 	def get_silph_card_badges (self):
 		badges = self.get_silph_card()['badges']
 		try:
 			return [x['Badge'] for x in self.get_silph_card()['badges'] if x['Badge']['slug'] not in ['travler-card']]
 		except:
 			return None
-	
+
 	def get_silph_card_id (self):
 		return self.get_silph_card()['card_id']
-	
+
 	def get_silph_card_checkins (self):
 		return self.get_silph_card()['checkins']
-	
+
 	def get_silph_card_goal (self):
 		return self.get_silph_card()['goal']
-	
+
 	def get_silph_card_handshakes (self):
 		return self.get_silph_card()['handshakes']
-	
+
 	def get_silph_card_home_region (self):
 		return self.get_silph_card()['home_region']
-	
+
 	def get_silph_card_in_game_username (self):
 		return self.get_silph_card()['in_game_username']
-	
+
 	def get_silph_card_joined (self):
 		import pendulum
 		return pendulum.parse(self.get_silph_card()['joined'])
-	
+
 	def get_silph_card_nest_migrations(self):
 		return self.get_silph_card()['nest_migrations']
-	
+
 	def get_silph_card_playstyle(self):
 		return self.get_silph_card()['playstyle']
-	
+
 	def get_silph_card_pokedex_count(self):
 		return self.get_silph_card()['pokedex_count']
-	
+
 	def get_true_pokedex_count(self):
 		try:
 			silph_value = self.get_silph_card(make_assumption=False)['pokedex_count']
 		except (ObjectDoesNotExist,PermissionDenied):
 			silph_value = 0
 		return max(silph_value, self.update_set.exclude(dex_caught__isnull=True).aggregate(Max('dex_caught')))
-	
+
 	def get_silph_card_team(self):
 		return self.get_silph_card()['team']
-	
+
 	def get_silph_card_title(self):
 		return self.get_silph_card()['title']
-	
+
 	def get_silph_card_xp(self):
 		return self.get_silph_card()['xp']
-	
+
 	@property
 	def active(self):
 		return self.owner.is_active
-	
+
 	@property
 	def profile_complete(self):
 		return bool(
 			bool(self.owner) and bool(self.username) and bool(bool(self.verification) or bool(self.verified))
 		)
-	
+
 	@property
 	def profile_completed_optional(self):
 		return bool(
 			bool(self.profile_complete) and
 			bool(self.start_date)
 		)
-	
+
 	def clean(self):
 		if self.thesilphroad_username:
 			if self.faction.name != self.get_silph_card_team():
 				raise ValidationError({'thesilphroad_username': _("The team of this Silph Card does not match that of your profile.")})
-	
+
 	def get_absolute_url(self):
 		return reverse('trainerdex_web:profile_username', kwargs={'username':self.username})
-	
+
 	class Meta:
 		ordering = ['username']
 		verbose_name = _("Trainer")
@@ -247,18 +262,18 @@ class Faction(models.Model):
 	name = models.CharField(max_length=140, verbose_name=_("Name"))
 	colour = RGBColorField(default='#929292', null=True, blank=True, verbose_name=_("Colour"))
 	leader_name = models.CharField(max_length=140, null=True, blank=True, verbose_name=_("Leader"))
-	
+
 	@property
 	def image(self):
 		return 'img/'+self.name+'.png'
-	
+
 	@property
 	def vector_image(self):
 		return 'img/'+self.name+'.svg'
-	
+
 	def __str__(self):
 		return self.name
-	
+
 	class Meta:
 		verbose_name = _("Team")
 		verbose_name_plural = _("Teams")
@@ -271,7 +286,7 @@ class Update(models.Model):
 	dex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokedex_page_caught", "Caught"), help_text=_("In your Pokédex, how many differnt species have you caught? It should say at the top."))
 	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokedex_page_seen", "Seen"), help_text=_("In your Pokédex, how many differnt species have you seen? It should say at the top."))
 	gym_badges = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Total Gym Badges"), help_text=_("Your gym badges map. Total number of gold, silver, bronze and blank combined. (This information is currently not used)"))
-	
+
 	walk_dist = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True, verbose_name=pgettext_lazy("badge_travel_km_title", "Jogger"), help_text=pgettext_lazy("badge_travel_km", "Walk {0:0,g} km").format(1000.0))
 	gen_1_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_title", "Kanto"), help_text=pgettext_lazy("badge_pokedex_entries", "Register {0:0,} Kanto region Pokémon in the Pokédex.").format(100))
 	pkmn_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_capture_total_title", "Collector"), help_text=pgettext_lazy("badge_capture_total", "Catch {0:0,} Pokémon.").format(2000))
@@ -294,7 +309,7 @@ class Update(models.Model):
 	max_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"), help_text=pgettext_lazy("badge_max_level_friends", "Become Best Friends with {0:0,} Trainers.").format(3))
 	trading = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_title", "Gentleman"), help_text=pgettext_lazy("badge_trading", "Trade {0:0,} Pokémon.").format(1000))
 	trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_distance_title", "Pilot"), help_text=pgettext_lazy("badge_trading_distance", "Earn {0:0,} km across the distance of all Pokémon trades.").format(1000000))
-	
+
 	pkmn_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_normal_title", "Schoolkid"), help_text=pgettext_lazy("badge_type_normal", "Catch {0:0,} Normal-type Pokémon").format(200))
 	pkmn_fighting = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fighting_title", "Black Belt"), help_text=pgettext_lazy("badge_type_fighting", "Catch {0:0,} Fighting-type Pokémon").format(200))
 	pkmn_flying = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_flying_title", "Bird Keeper"), help_text=pgettext_lazy("badge_type_flying", "Catch {0:0,} Flying-type Pokémon").format(200))
@@ -313,7 +328,7 @@ class Update(models.Model):
 	pkmn_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_dragon_title", "Dragon Tamer"), help_text=pgettext_lazy("badge_type_dragon", "Catch {0:0,} Dragon-type Pokémon").format(200))
 	pkmn_dark = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_dark_title", "Delinquent"), help_text=pgettext_lazy("badge_type_dark", "Catch {0:0,} Dark-type Pokémon").format(200))
 	pkmn_fairy = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fairy_title", "Fairy Tale Girl"), help_text=pgettext_lazy("badge_type_fairy", "Catch {0:0,} Fairy-type Pokémon").format(200))
-	
+
 	meta_time_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Time Created"))
 	DATABASE_SOURCES = (
 		('?', None),
@@ -337,9 +352,9 @@ class Update(models.Model):
 		('com.pkmngots.import', "Third Saturday"),
 	)
 	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
-	
+
 	image_proof = models.ImageField(upload_to=VerificationUpdateImagePath, blank=True, verbose_name=_("Total XP Screenshot"))
-	
+
 	def meta_crowd_sourced(self):
 		if self.meta_source.startswith('cs'):
 			return True
@@ -348,16 +363,16 @@ class Update(models.Model):
 		return False
 	meta_crowd_sourced.boolean = True
 	meta_crowd_sourced.short_description = _("Crowd Sourced")
-	
+
 	def modified_extra_fields(self):
 		return bool([x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES) if getattr(self, x)])
 	modified_extra_fields.boolean = True
-	
+
 	def __str__(self):
 		return _("{username} - {xp:,}XP at {date}").format(username=self.trainer, xp=self.xp, date=self.update_time.isoformat(sep=' ', timespec='minutes'))
-	
+
 	def clean(self):
-		
+
 		error_dict = {}
 		try: # Workaround for inital registrations
 			for field in Update._meta.get_fields():
@@ -368,10 +383,10 @@ class Update(models.Model):
 		except Exception as e:
 			if str(e) != 'Update has no trainer.':
 				raise e
-		
+
 		if error_dict != {}:
 			raise ValidationError(error_dict)
-	
+
 	class Meta:
 		get_latest_by = 'update_time'
 		ordering = ['-update_time']
@@ -382,7 +397,7 @@ class TrainerReport(models.Model):
 	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
 	reporter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_("Reported by"))
 	report = models.TextField(verbose_name=_("Report"))
-	
+
 	class Meta:
 		verbose_name=_("Report")
 		verbose_name_plural=_("Reports")
@@ -393,10 +408,10 @@ class Sponsorship(models.Model):
 	description = models.CharField(db_index=True, max_length=240)
 	icon = models.ImageField(upload_to='spon/')
 	members = models.ManyToManyField(Trainer, related_name='sponsorships')
-	
+
 	def __str__(self):
 		return self.title
-	
+
 	class Meta:
 		verbose_name = _("Special Relationship (Sponsorship)")
 		verbose_name_plural = _("Special Relationships (Sponsorships)")
@@ -405,17 +420,17 @@ class DiscordGuild(models.Model):
 	id = models.BigIntegerField(primary_key=True)
 	cached_data = postgres_fields.JSONField(null=True, blank=True)
 	cached_date = models.DateTimeField(auto_now=True)
-	
+
 	setting_channels_ocr_enabled = postgres_fields.ArrayField(models.BigIntegerField())
 	setting_rename_users = models.BooleanField(default=False)
-	
+
 	def __str__(self):
 		return str(self.id)
-	
+
 	class Meta:
 		verbose_name = _("Discord Guild")
 		verbose_name_plural = _("Discord Guilds")
-	
+
 
 class CommunityLeague(models.Model):
 	uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
@@ -423,12 +438,12 @@ class CommunityLeague(models.Model):
 	short_description = models.CharField(max_length=70)
 	description = models.TextField(null=True, blank=True)
 	vanity = models.SlugField()
-	
+
 	privacy_public = models.BooleanField(default=False)
-	
+
 	security_ban_sync = models.BooleanField(default=False)
 	security_kick_sync = models.BooleanField(default=False)
-	
+
 	memberships_personal = models.ManyToManyField(
 		Trainer,
 		through='CommunityLeagueMembershipPersonal',
@@ -439,10 +454,10 @@ class CommunityLeague(models.Model):
 		through='CommunityLeagueMembershipDiscord',
 		through_fields=('league', 'discord')
 	)
-	
+
 	def __str__(self):
 		return self.short_description
-	
+
 	class Meta:
 		verbose_name = _("Community League")
 		verbose_name_plural = _("Community Leagues")
@@ -450,30 +465,29 @@ class CommunityLeague(models.Model):
 class CommunityLeagueMembershipPersonal(models.Model):
 	league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
 	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-	
+
 	primary = models.BooleanField(default=True)
-	
+
 	def __str__(self):
 		return "{league} - {trainer}".format(league=self.league, trainer=self.trainer)
-	
+
 	class Meta:
 		verbose_name = _("Community League Membership")
 		verbose_name_plural = _("Community League Memberships")
-	
+
 
 class CommunityLeagueMembershipDiscord(models.Model):
 	league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
 	discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
-	
+
 	auto_import = models.BooleanField(default=True)
-	
+
 	security_ban_sync = models.NullBooleanField()
 	security_kick_sync = models.NullBooleanField()
-	
+
 	def __str__(self):
 		return "{league} - {guild}".format(league=self.league, trainer=self.discord)
-	
+
 	class Meta:
 		verbose_name = _("Community League Discord Connection")
 		verbose_name_plural = _("Community League Discord Connections")
-	
