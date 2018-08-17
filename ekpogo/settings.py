@@ -257,6 +257,13 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         }
+    },
+    'discord': {
+        'SCOPE': [
+            'identify',
+            'email',
+            'guilds',
+        ]
 #    },
 #    'telegram': {
 #        'TOKEN': '605108342:AAHK_8-ezXE07yQqdJCAePEIcQzLP1EsBvs'
