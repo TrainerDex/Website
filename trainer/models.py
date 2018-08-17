@@ -428,10 +428,13 @@ def update_discord_level(sender, **kwargs):
 						headers={"Authorization": "Bot {token}".format(
 							token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")},
 						json={"nick": new_name})
+					
 					if edit.status_code != 204:
 						logger.error("^ {code} ^ Failed to rename user, trying again \n {log}".format(
 							code=edit.status_code,
 							log=edit.content))
+						
+						# I'm not 100% sure tryiing again will ever work. Maybe a workaround could be messaging the user via one of the set OCR channels and letting them know the bot in unable to rename them and they'll have to manage it themselves.
 						
 						edit = requests.patch(
 							url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
