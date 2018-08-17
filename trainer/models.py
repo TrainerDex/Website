@@ -1,7 +1,11 @@
 ﻿# -*- coding: utf-8 -*-
 import uuid
 import json
+import logging
 import requests
+
+logger = logging.getLogger('django.trainerdex')
+
 from os.path import splitext
 from cities.models import Country, Region
 from colorful.fields import RGBColorField
@@ -18,7 +22,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop, pgettext_lazy
 from trainer.validators import *
-from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup
+from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, lookup, numbers
 
 def factionImagePath(instance, filename):
 	return 'img/'+instance.name #remains for legacy reasons
@@ -373,7 +377,6 @@ class Update(models.Model):
 		ordering = ['-update_time']
 		verbose_name = _("Update")
 		verbose_name_plural = _("Updates")
-	
 
 class TrainerReport(models.Model):
 	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
