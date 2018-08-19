@@ -14,8 +14,8 @@ from django.db.models import Max, Q, Sum
 from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict, HttpResponseBadRequest, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext_noop, pgettext_lazy, get_language_from_request
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop, pgettext_lazy, get_language_from_request
 from django.urls import resolve
 from math import ceil
 from pytz import utc
@@ -25,7 +25,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from trainer.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
-from trainer.models import Trainer, Update
+from trainer.models import Trainer, Update, Faction
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
 from trainer.shortcuts import strtoboolornone, cleanleaderboardqueryset, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, chunks
 import logging
@@ -513,6 +513,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	context['mystic'] = showMystic = {'param':'Mystic', 'value': strtoboolornone(request.GET.get('mystic'))}
 	context['valor'] = showValor = {'param':'Valor', 'value': strtoboolornone(request.GET.get('valor'))}
 	context['instinct'] = showInstinct = {'param':'Instinct', 'value': strtoboolornone(request.GET.get('instinct'))}
+	context['factions'] = Faction.objects.all()
 	
 	if continent:
 		try:
@@ -561,7 +562,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	context['sort_by'] = sort_by
 	
 	
-	QuerySet = QuerySet.exclude(faction__name__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
+	QuerySet = QuerySet.exclude(faction__slug__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
 	context['grand_total_users'] = total_users = QuerySet.count()
 	
 	if total_users == 0:

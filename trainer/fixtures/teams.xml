@@ -1,31 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <django-objects version="1.0">
-	<object model="trainer.faction" pk="0">
-		<field name="name" type="CharField">Teamless</field>
-		<field name="colour" type="CharField">#929292</field>
-		<field name="image" type="FileField">static/img/Teamless.png</field>
-		<field name="leader_name" type="CharField"><None></None></field>
-		<field name="leader_image" type="FileField"></field>
-	</object>
-	<object model="trainer.faction" pk="1">
-		<field name="name" type="CharField">Mystic</field>
-		<field name="colour" type="CharField">#0005ff</field>
-		<field name="image" type="FileField">static/img/Mystic.png</field>
-		<field name="leader_name" type="CharField">Blanche</field>
-		<field name="leader_image" type="FileField"></field>
-	</object>
-	<object model="trainer.faction" pk="2">
-		<field name="name" type="CharField">Valor</field>
-		<field name="colour" type="CharField">#ff0000</field>
-		<field name="image" type="FileField">static/img/Valor.png</field>
-		<field name="leader_name" type="CharField">Candela</field>
-		<field name="leader_image" type="FileField"></field>
-	</object>
-	<object model="trainer.faction" pk="3">
-		<field name="name" type="CharField">Instinct</field>
-		<field name="colour" type="CharField">#fff600</field>
-		<field name="image" type="FileField">static/img/Instinct.png</field>
-		<field name="leader_name" type="CharField">Spark</field>
-		<field name="leader_image" type="FileField"></field>
-	</object>
+ <object model="trainer.faction" pk="0">
+  <field name="slug" type="SlugField">Teamless</field>
+  <field name="name_en" type="CharField">No Team</field>
+  <field name="name_ja" type="CharField">所属なし</field>
+  <field name="name_fr" type="CharField">Pas d'équipe</field>
+  <field name="name_es" type="CharField">Sin equipo</field>
+  <field name="name_de" type="CharField">Ohne Team</field>
+  <field name="name_it" type="CharField">Senza squadra</field>
+  <field name="name_ko" type="CharField">소속없음</field>
+  <field name="name_zh_Hant" type="CharField">未選擇隊伍</field>
+  <field name="name_pt_BR" type="CharField">Sem equipe</field>
+ </object>
+ <object model="trainer.faction" pk="1">
+  <field name="slug" type="SlugField">Mystic</field>
+  <field name="name_en" type="CharField">Team Mystic</field>
+  <field name="name_ja" type="CharField">チーム ミスティック</field>
+  <field name="name_fr" type="CharField">Sagesse</field>
+  <field name="name_es" type="CharField">Equipo Sabiduría</field>
+  <field name="name_de" type="CharField">Team Weisheit</field>
+  <field name="name_it" type="CharField">Squadra Saggezza</field>
+  <field name="name_ko" type="CharField">팀 미스틱</field>
+  <field name="name_zh_Hant" type="CharField">叡智隊</field>
+  <field name="name_pt_BR" type="CharField">Equipe Sabedoria</field>
+ </object>
+ <object model="trainer.faction" pk="2">
+  <field name="slug" type="SlugField">Valor</field>
+  <field name="name_en" type="CharField">Team Valor</field>
+  <field name="name_ja" type="CharField">チーム ヴァーラー</field>
+  <field name="name_fr" type="CharField">Bravoure</field>
+  <field name="name_es" type="CharField">Equipo Valor</field>
+  <field name="name_de" type="CharField">Team Wagemut</field>
+  <field name="name_it" type="CharField">Squadra Coraggio</field>
+  <field name="name_ko" type="CharField">팀 발로</field>
+  <field name="name_zh_Hant" type="CharField">武勇隊</field>
+  <field name="name_pt_BR" type="CharField">Equipe Valor</field>
+ </object>
+ <object model="trainer.faction" pk="3">
+  <field name="slug" type="SlugField">Instinct</field>
+  <field name="name_en" type="CharField">Team Instinct</field>
+  <field name="name_ja" type="CharField">チーム インスティンクト</field>
+  <field name="name_fr" type="CharField">Intuition</field>
+  <field name="name_es" type="CharField">Equipo Instinto</field>
+  <field name="name_de" type="CharField">Team Intuition</field>
+  <field name="name_it" type="CharField">Squadra Istinto</field>
+  <field name="name_ko" type="CharField">팀 인스팅트</field>
+  <field name="name_zh_Hant" type="CharField">靈犀隊</field>
+  <field name="name_pt_BR" type="CharField">Equipe Instinto</field>
+ </object>
+ <object model="trainer.factionleader" pk="1">
+  <field name="name_en" type="CharField">Blanche</field>
+  <field name="name_ja" type="CharField">ブランシェ</field>
+  <field name="name_fr" type="CharField">Blanche</field>
+  <field name="name_es" type="CharField">Blanche</field>
+  <field name="name_de" type="CharField">Blanche</field>
+  <field name="name_it" type="CharField">Blanche</field>
+  <field name="name_ko" type="CharField">블랑쉬야</field>
+  <field name="name_zh_Hant" type="CharField">布蘭雪</field>
+  <field name="name_pt_BR" type="CharField">Blanche</field>
+ </object>
+ <object model="trainer.factionleader" pk="2">
+  <field name="name_en" type="CharField">Candela</field>
+  <field name="name_ja" type="CharField">キャンデラ</field>
+  <field name="name_fr" type="CharField">Candela</field>
+  <field name="name_es" type="CharField">Candela</field>
+  <field name="name_de" type="CharField">Candela</field>
+  <field name="name_it" type="CharField">Candela</field>
+  <field name="name_ko" type="CharField">칸델라</field>
+  <field name="name_zh_Hant" type="CharField">坎迪拉</field>
+  <field name="name_pt_BR" type="CharField">Candela</field>
+ </object>
+ <object model="trainer.factionleader" pk="3">
+  <field name="name_en" type="CharField">Spark</field>
+  <field name="name_ja" type="CharField">スパーク</field>
+  <field name="name_fr" type="CharField">Spark</field>
+  <field name="name_es" type="CharField">Spark</field>
+  <field name="name_de" type="CharField">Spark</field>
+  <field name="name_it" type="CharField">Spark</field>
+  <field name="name_ko" type="CharField">스파크</field>
+  <field name="name_zh_Hant" type="CharField">史帕克</field>
+  <field name="name_pt_BR" type="CharField">Spark</field>
+ </object>
 </django-objects>

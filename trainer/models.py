@@ -19,16 +19,16 @@ from django.db.models.signals import *
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext_noop, pgettext_lazy
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop, pgettext_lazy,to_locale, get_supported_language_variant, get_language
 from trainer.validators import *
 from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, lookup, numbers
 
 def factionImagePath(instance, filename):
-	return 'img/'+instance.name #remains for legacy reasons
+	return f'img/{instance.slug}'
 
 def leaderImagePath(instance, filename):
-	return 'img/'+instance.name+'-leader' #remains for legacy reasons
+	return f'img/{instance.faction.slug}.leader' #remains for legacy reasons
 
 def VerificationImagePath(instance, filename):
 	return 'v_{0}_{1}{ext}'.format(instance.owner.id, datetime.utcnow().timestamp(), ext=splitext(filename)[1])
@@ -259,24 +259,151 @@ def create_profile(sender, **kwargs):
 	return None
 
 class Faction(models.Model):
-	name = models.CharField(max_length=140, verbose_name=_("Name"))
-	colour = RGBColorField(default='#929292', null=True, blank=True, verbose_name=_("Colour"))
-	leader_name = models.CharField(max_length=140, null=True, blank=True, verbose_name=_("Leader"))
+	slug = models.SlugField()
+	name_en = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('English')
+		)
+	)
+	name_ja = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Japanese')
+		)
+	)
+	name_fr = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('French')
+		)
+	)
+	name_es = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Spanish')
+		)
+	)
+	name_de = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('German')
+		)
+	)
+	name_it = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Italian')
+		)
+	)
+	name_ko = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Korean')
+		)
+	)
+	name_zh_Hant = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Traditional Chinese')
+		)
+	)
+	name_pt_BR = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Brazilian Portuguese')
+		)
+	)
+	#colour = RGBColorField(default='#929292', null=True, blank=True, verbose_name=_("Colour"))
 	
 	@property
 	def image(self):
-		return 'img/'+self.name+'.png'
+		return f'img/{self.slug}.png'
 	
 	@property
 	def vector_image(self):
-		return 'img/'+self.name+'.svg'
+		return f'img/{self.slug}.svg'
+	
+	@property
+	def localized_name(self):
+		lng_cd = to_locale(get_supported_language_variant(get_language()))
+		return getattr(self, f'name_{lng_cd}')
 	
 	def __str__(self):
-		return self.name
+		return f'{self.localized_name}'
 	
 	class Meta:
 		verbose_name = _("Team")
 		verbose_name_plural = _("Teams")
+		
+class FactionLeader(models.Model):
+	faction = models.OneToOneField(Faction, on_delete=models.CASCADE, related_name='leader', verbose_name=_("Team"), primary_key=True)
+	name_en = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('English')
+		)
+	)
+	name_ja = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Japanese')
+		)
+	)
+	name_fr = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('French')
+		)
+	)
+	name_es = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Spanish')
+		)
+	)
+	name_de = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('German')
+		)
+	)
+	name_it = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Italian')
+		)
+	)
+	name_ko = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Korean')
+		)
+	)
+	name_zh_Hant = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Traditional Chinese')
+		)
+	)
+	name_pt_BR = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Brazilian Portuguese')
+		)
+	)
+	
+	@property
+	def localized_name(self):
+		lng_cd = to_locale(get_supported_language_variant(get_language()))
+		return getattr(self, f'name_{lng_cd}')
+	
+	def __str__(self):
+		return f'{self.localized_name}, Leader of {self.faction}'
+		
+	class Meta:
+		verbose_name = _("Team Leader")
+		verbose_name_plural = _("Team Leaders")
 
 class Update(models.Model):
 	uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
