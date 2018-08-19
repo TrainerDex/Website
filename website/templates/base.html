@@ -109,7 +109,7 @@
       <div class="trainerdex-drawer mdl-layout__drawer mdl-color--primary-dark mdl-color-text--primary-contrast">
         <header class="trainerdex-drawer-header">
           {% load account %}
-          <a href="{% url 'trainerdex_web:profile' %}"><img src="{% get_static_prefix %}{{user.trainer.faction.image|default_if_none='img/generic_avatar_male.png'}}" class="trainerdex-avatar"></a>
+          <a href="{% url 'trainerdex_web:profile' %}">{#<img src="{% get_static_prefix %}{{user.trainer.faction.image|default_if_none: 'img/generic_avatar_male.png'}}" class="trainerdex-avatar">#}</a>
           <div class="trainerdex-avatar-dropdown">
             <span>{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Red" context "This is the display name for a user not logged in. Use local references if you like. In English, I've gone for Red, the protagonist in the Gen 1 games." %}{% endif %}</span>
             <div class="mdl-layout-spacer"></div>

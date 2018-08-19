@@ -92,7 +92,8 @@ ADMIN_REORDER = (
             'trainer.Update',
             'trainer.TrainerReport',
             'trainer.Sponsorship',
-            'trainer.Faction'
+            'trainer.Faction',
+            'trainer.FactionLeader'
         )},
     {
         'app': 'trainer',
@@ -177,8 +178,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en'
 LANGUAGES = [
-    ('de', _('German')),
     ('en', _('English')),
+    ('de', _('German')),
     ('es', _('Spanish')),
     ('fr', _('French')),
     ('it', _('Italian')),

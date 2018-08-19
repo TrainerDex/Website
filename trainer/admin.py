@@ -1,10 +1,14 @@
 
 from django import forms
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from trainer.models import *
 
-admin.site.register(Faction)
+admin.site.register(FactionLeader)
+
+@admin.register(Faction)
+class FactionAdmin(admin.ModelAdmin):
+	prepopulated_fields = {"slug": ("name_en",)}
 
 @admin.register(DiscordGuild)
 class DiscordGuildAdmin(admin.ModelAdmin):
