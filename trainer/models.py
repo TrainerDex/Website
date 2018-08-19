@@ -19,16 +19,16 @@ from django.db.models.signals import *
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext_noop, pgettext_lazy
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop, pgettext_lazy,to_locale, get_supported_language_variant, get_language
 from trainer.validators import *
 from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, lookup, numbers
 
 def factionImagePath(instance, filename):
-	return 'img/'+instance.name #remains for legacy reasons
+	return f'img/{instance.slug}'
 
 def leaderImagePath(instance, filename):
-	return 'img/'+instance.name+'-leader' #remains for legacy reasons
+	return f'img/{instance.faction.slug}.leader' #remains for legacy reasons
 
 def VerificationImagePath(instance, filename):
 	return 'v_{0}_{1}{ext}'.format(instance.owner.id, datetime.utcnow().timestamp(), ext=splitext(filename)[1])
@@ -57,6 +57,21 @@ class Trainer(models.Model):
 	badge_chicago_fest_july_2018 = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_chicago_fest_july_2018_*_*_title", "Pokémon GO Fest 2018"), help_text=pgettext_lazy("badge_chicago_fest_july_2018_*_*", "Chicago, July 14-15, 2018"))
 	badge_apac_partner_july_2018_japan = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_apac_partner_july_2018_*_title", "Pokémon GO Special Weekend"), help_text=pgettext_lazy("badge_apac_partner_july_2018_*", "Japan, July 26-29, 2018"))
 	badge_apac_partner_july_2018_south_korea = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_apac_partner_july_2018_5_title", "Pokémon GO Special Weekend"), help_text=pgettext_lazy("badge_apac_partner_july_2018_5", "South Korea, July 29, 2018"))
+	badge_yokosuka_29_aug_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_29_aug_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_29_aug_2018_mikasa", "Yokosuka, Aug 29, 2018-MIKASA"))
+	badge_yokosuka_29_aug_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_29_aug_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_29_aug_2018_verny", "Yokosuka, Aug 29, 2018-VERNY"))
+	badge_yokosuka_29_aug_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_29_aug_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_29_aug_2018_kurihama", "Yokosuka, Aug 29, 2018-KURIHAM"))
+	badge_yokosuka_30_aug_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_30_aug_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_30_aug_2018_mikasa", "Yokosuka, Aug 30, 2018-MIKASA"))
+	badge_yokosuka_30_aug_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_30_aug_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_30_aug_2018_verny", "Yokosuka, Aug 30, 2018-VERNY"))
+	badge_yokosuka_30_aug_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_30_aug_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_30_aug_2018_kurihama", "Yokosuka, Aug 30, 2018-KURIHAMA"))
+	badge_yokosuka_31_aug_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_31_aug_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_31_aug_2018_mikasa", "Yokosuka, Aug 31, 2018-MIKASA"))
+	badge_yokosuka_31_aug_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_31_aug_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_31_aug_2018_verny", "Yokosuka, Aug 31, 2018-VERNY"))
+	badge_yokosuka_31_aug_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_31_aug_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_31_aug_2018_kurihama", "Yokosuka, Aug 31, 2018-KURIHAMA"))
+	badge_yokosuka_1_sep_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_1_sep_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_1_sep_2018_mikasa", "Yokosuka, Sep 1, 2018-MIKASA"))
+	badge_yokosuka_1_sep_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_1_sep_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_1_sep_2018_verny", "Yokosuka, Sep 1, 2018-VERNY"))
+	badge_yokosuka_1_sep_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_1_sep_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_1_sep_2018_kurihama", "Yokosuka, Sep 1, 2018-KURIHAMA"))
+	badge_yokosuka_2_sep_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_mikasa", "Yokosuka, Sep 2, 2018-MIKASA"))
+	badge_yokosuka_2_sep_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_verny", "Yokosuka, Sep 2, 2018-VERNY"))
+	badge_yokosuka_2_sep_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_kurihama", "Yokosuka, Sep 2, 2018-KURIHAMA"))
 	
 	leaderboard_country = models.ForeignKey(Country, on_delete=models.SET_NULL , null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country', help_text=_("Where are you based?"))
 	leaderboard_region = models.ForeignKey(Region, on_delete=models.SET_NULL , null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region', help_text=_("Where are you based?"))
@@ -244,24 +259,151 @@ def create_profile(sender, **kwargs):
 	return None
 
 class Faction(models.Model):
-	name = models.CharField(max_length=140, verbose_name=_("Name"))
-	colour = RGBColorField(default='#929292', null=True, blank=True, verbose_name=_("Colour"))
-	leader_name = models.CharField(max_length=140, null=True, blank=True, verbose_name=_("Leader"))
+	slug = models.SlugField()
+	name_en = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('English')
+		)
+	)
+	name_ja = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Japanese')
+		)
+	)
+	name_fr = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('French')
+		)
+	)
+	name_es = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Spanish')
+		)
+	)
+	name_de = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('German')
+		)
+	)
+	name_it = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Italian')
+		)
+	)
+	name_ko = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Korean')
+		)
+	)
+	name_zh_Hant = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Traditional Chinese')
+		)
+	)
+	name_pt_BR = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Brazilian Portuguese')
+		)
+	)
+	#colour = RGBColorField(default='#929292', null=True, blank=True, verbose_name=_("Colour"))
 	
 	@property
 	def image(self):
-		return 'img/'+self.name+'.png'
+		return f'img/{self.slug}.png'
 	
 	@property
 	def vector_image(self):
-		return 'img/'+self.name+'.svg'
+		return f'img/{self.slug}.svg'
+	
+	@property
+	def localized_name(self):
+		lng_cd = to_locale(get_supported_language_variant(get_language()))
+		return getattr(self, f'name_{lng_cd}')
 	
 	def __str__(self):
-		return self.name
+		return f'{self.localized_name}'
 	
 	class Meta:
 		verbose_name = _("Team")
 		verbose_name_plural = _("Teams")
+		
+class FactionLeader(models.Model):
+	faction = models.OneToOneField(Faction, on_delete=models.CASCADE, related_name='leader', verbose_name=_("Team"), primary_key=True)
+	name_en = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('English')
+		)
+	)
+	name_ja = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Japanese')
+		)
+	)
+	name_fr = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('French')
+		)
+	)
+	name_es = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Spanish')
+		)
+	)
+	name_de = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('German')
+		)
+	)
+	name_it = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Italian')
+		)
+	)
+	name_ko = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Korean')
+		)
+	)
+	name_zh_Hant = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Traditional Chinese')
+		)
+	)
+	name_pt_BR = models.CharField(
+		max_length=50,
+		verbose_name=_("Name ({language})").format(
+			language=_('Brazilian Portuguese')
+		)
+	)
+	
+	@property
+	def localized_name(self):
+		lng_cd = to_locale(get_supported_language_variant(get_language()))
+		return getattr(self, f'name_{lng_cd}')
+	
+	def __str__(self):
+		return f'{self.localized_name}, Leader of {self.faction}'
+		
+	class Meta:
+		verbose_name = _("Team Leader")
+		verbose_name_plural = _("Team Leaders")
 
 class Update(models.Model):
 	uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
@@ -289,7 +431,7 @@ class Update(models.Model):
 	gym_defended = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_hours_defended_title", "Gym Leader"), help_text=pgettext_lazy("badge_hours_defended", "Defend Gyms for {0:0,} hours.").format(1000))
 	raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_raid_battle_won_title", "Champion"), help_text=pgettext_lazy("badge_raid_battle_won", "Win {0:0,} Raids.").format(1000))
 	leg_raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_legendary_battle_won_title", "Battle Legend"), help_text=pgettext_lazy("badge_legendary_battle_won", "Win {0:0,} Legendary Raids.").format(1000))
-	gen_3_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen3_title", "Hoenn"), help_text=pgettext_lazy("badge_pokedex_entries_gen3", "Register {0:0,} Pokémon first discovered in the Hoenn region to the Pokédex.").format(70))
+	gen_3_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen3_title", "Hoenn"), help_text=pgettext_lazy("badge_pokedex_entries_gen3", "Register {0:0,} Pokémon first discovered in the Hoenn region to the Pokédex.").format(90))
 	quests = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_challenge_quests_title", "Pokémon Ranger"), help_text=pgettext_lazy("badge_challenge_quests", "Complete {0:0,} Field Research tasks.").format(1000))
 	max_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"), help_text=pgettext_lazy("badge_max_level_friends", "Become Best Friends with {0:0,} Trainers.").format(3))
 	trading = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_title", "Gentleman"), help_text=pgettext_lazy("badge_trading", "Trade {0:0,} Pokémon.").format(1000))
@@ -377,78 +519,76 @@ class Update(models.Model):
 		ordering = ['-update_time']
 		verbose_name = _("Update")
 		verbose_name_plural = _("Updates")
-	
 
-@receiver(post_save, sender=Update)
-def update_discord_level(sender, **kwargs):
-	if kwargs['created'] and kwargs['instance'].xp:
-		if kwargs['instance'].trainer.owner.socialaccount_set.filter(provider='discord').exists():
-			for user in kwargs['instance'].trainer.owner.socialaccount_set.filter(provider='discord'):
-				r = requests.get(
-					url="https://discordapp.com/api/v6/users/@me/guilds",
-					headers={"Authorization": "Bearer {oauth2_token}".format(
-						oauth2_token=user.socialtoken_set.first().token
-					)})
-				if 'code' in r.json():
-					return
-				for guild in DiscordGuild.objects.filter(id__in=[x['id'] for x in r.json()], setting_rename_users=True):
-					check = requests.get(
-						url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
-							guild = guild.id,
-							user = user.uid
-						),
-						headers = {"Authorization": "Bot {token}".format(
-							token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")}
-					)
-					
-					try:
-						if check.json()['nick']:
-							base_name = check.json()['nick']
-						else:
-							base_name = kwargs['instance'].trainer.username
-					except KeyError:
-						base_name = kwargs['instance'].trainer.username
-					
-					if ord(base_name[-1]) in numbers:
-						base_name = base_name[:-2]
-					
-					new_name = base_name+" "+int_to_unicode(kwargs['instance'].trainer.level())
-					
-					logger.info("Renaming {user} on Discord Guild #{guild_id} to {name}".format(
-						user=kwargs['instance'].trainer.username,
-						guild_id=guild.id,
-						name=new_name
-					))
-					
-					edit = requests.patch(
-						url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
-							guild = guild.id,
-							user = user.uid
-						),
-						headers={"Authorization": "Bot {token}".format(
-							token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")},
-						json={"nick": new_name})
-					
-					if edit.status_code != 204:
-						logger.error("^ {code} ^ Failed to rename user, trying again \n {log}".format(
-							code=edit.status_code,
-							log=edit.content))
-						
-						# I'm not 100% sure tryiing again will ever work. Maybe a workaround could be messaging the user via one of the set OCR channels and letting them know the bot in unable to rename them and they'll have to manage it themselves.
-						
-						edit = requests.patch(
-							url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
-								guild = guild.id,
-								user = user.uid
-							),
-							headers={"Authorization": "Bearer {oauth2_token}".format(oauth2_token=user.socialtoken_set.first().token)},
-							json={"nick": new_name})
-						
-						if edit.status_code != 204:
-							logger.error("^ {code} ^ Failed to rename user again \n {log}".format(
-								code=edit.status_code,
-								log=edit.content))
-				
+#@receiver(post_save, sender=Update)
+#def update_discord_level(sender, **kwargs):
+#	if kwargs['created'] and kwargs['instance'].xp:
+#		if kwargs['instance'].trainer.owner.socialaccount_set.filter(provider='discord').exists():
+#			for user in kwargs['instance'].trainer.owner.socialaccount_set.filter(provider='discord'):
+#				r = requests.get(
+#					url="https://discordapp.com/api/v6/users/@me/guilds",
+#					headers={"Authorization": "Bearer {oauth2_token}".format(
+#						oauth2_token=user.socialtoken_set.first().token
+#					)})
+#				if 'code' in r.json():
+#					return
+#				for guild in DiscordGuild.objects.filter(id__in=[x['id'] for x in r.json()], setting_rename_users=True):
+#					check = requests.get(
+#						url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
+#							guild = guild.id,
+#							user = user.uid
+#						),
+#						headers = {"Authorization": "Bot {token}".format(
+#							token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")}
+#					)
+#					
+#					try:
+#						if check.json()['nick']:
+#							base_name = check.json()['nick']
+#						else:
+#							base_name = kwargs['instance'].trainer.username
+#					except KeyError:
+#						base_name = kwargs['instance'].trainer.username
+#					
+#					if ord(base_name[-1]) in numbers:
+#						base_name = base_name[:-2]
+#					
+#					new_name = base_name+" "+int_to_unicode(kwargs['instance'].trainer.level())
+#					
+#					logger.info("Renaming {user} on Discord Guild #{guild_id} to {name}".format(
+#						user=kwargs['instance'].trainer.username,
+#						guild_id=guild.id,
+#						name=new_name
+#					))
+#					
+#					edit = requests.patch(
+#						url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
+#							guild = guild.id,
+#							user = user.uid
+#						),
+#						headers={"Authorization": "Bot {token}".format(
+#							token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")},
+#						json={"nick": new_name})
+#					
+#					if edit.status_code != 204:
+#						logger.error("^ {code} ^ Failed to rename user, trying again \n {log}".format(
+#							code=edit.status_code,
+#							log=edit.content))
+#						
+#						# I'm not 100% sure tryiing again will ever work. Maybe a workaround could be messaging the user via one of the set OCR channels and letting them know the bot in unable to rename them and they'll have to manage it themselves.
+#						
+#						edit = requests.patch(
+#							url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
+#								guild = guild.id,
+#								user = user.uid
+#							),
+#							headers={"Authorization": "Bearer {oauth2_token}".format(oauth2_token=user.socialtoken_set.first().token)},
+#							json={"nick": new_name})
+#						
+#						if edit.status_code != 204:
+#							logger.error("^ {code} ^ Failed to rename user again \n {log}".format(
+#								code=edit.status_code,
+#								log=edit.content))
 
 class TrainerReport(models.Model):
 	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))

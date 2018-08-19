@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from datetime import date, timedelta
 from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 import re
 
 def StartDateValidator(value):
