@@ -14,8 +14,8 @@ from django.db.models import Max, Q, Sum
 from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict, HttpResponseBadRequest, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext_noop, pgettext_lazy, get_language_from_request
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop, pgettext_lazy, get_language_from_request
 from django.urls import resolve
 from math import ceil
 from pytz import utc
@@ -25,7 +25,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from trainer.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
-from trainer.models import Trainer, Update
+from trainer.models import Trainer, Update, Faction
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
 from trainer.shortcuts import strtoboolornone, cleanleaderboardqueryset, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, chunks
 import logging
@@ -513,30 +513,30 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	context['mystic'] = showMystic = {'param':'Mystic', 'value': strtoboolornone(request.GET.get('mystic'))}
 	context['valor'] = showValor = {'param':'Valor', 'value': strtoboolornone(request.GET.get('valor'))}
 	context['instinct'] = showInstinct = {'param':'Instinct', 'value': strtoboolornone(request.GET.get('instinct'))}
+	context['factions'] = Faction.objects.all()
 	
 	if continent:
 		try:
 			continent = Continent.objects.get(code__iexact = continent)
 		except Continent.DoesNotExist:
-			raise Http404(_('No continent found for code {}').format(continent))
+			raise Http404(_('No continent found for code {continent}').format(continent=continent))
 		context['title'] = (continent.alt_names.filter(language_code=get_language_from_request(request)).first() or continent).name
 		QuerySet = Trainer.objects.filter(leaderboard_country__continent__code__iexact=continent)
 	elif country and region == None:
 		try:
 			country = Country.objects.prefetch_related('leaderboard_trainers_country').get(code__iexact = country)
 		except Country.DoesNotExist:
-			raise Http404(_('No country found for code {}').format(country))
+			raise Http404(_('No country found for code {country}').format(country=country))
 		context['title'] = (country.alt_names.filter(language_code=get_language_from_request(request)).first() or country).name
 		QuerySet = country.leaderboard_trainers_country
 	elif region:
 		try:
 			region = Region.objects.filter(country__code__iexact = country).get(code__iexact = region)
 		except Country.DoesNotExist:
-			raise Http404(_('No country found for code {}').format(country))
+			raise Http404(_('No country found for code {country}').format(country = country))
 		except Region.DoesNotExist:
-			raise Http404(_('No region found for code {}/{}').format(country, region))
+			raise Http404(_('No region found for code {country}/{region}').format(country = country, region = region))
 			
-		
 		context['title'] = _('{region_str}, {country_str}').format(
 			region_str=(region.alt_names.filter(language_code=get_language_from_request(request)).first() or region).name,
 			country_str=(region.country.alt_names.filter(language_code=get_language_from_request(request)).first() or region.country).name
@@ -562,7 +562,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	context['sort_by'] = sort_by
 	
 	
-	QuerySet = QuerySet.exclude(faction__name__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
+	QuerySet = QuerySet.exclude(faction__slug__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
 	context['grand_total_users'] = total_users = QuerySet.count()
 	
 	if total_users == 0:
@@ -582,8 +582,8 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 			'position' : index,
 			'trainer' : trainer,
 			'level' : level_parser(xp=trainer.update__xp__max).level,
-			'xp' : trainer.update__xp__max, 
-			'update_time' : trainer.update__update_time__max, 
+			'xp' : trainer.update__xp__max,
+			'update_time' : trainer.update__update_time__max,
 		}
 		
 		FIELDS = []

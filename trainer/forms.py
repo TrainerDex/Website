@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 from django.forms import ModelForm, CharField, ModelChoiceField, HiddenInput
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from trainer.models import Update, Trainer
 from trainer.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
