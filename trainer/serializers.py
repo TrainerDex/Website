@@ -84,7 +84,7 @@ class UserSerializer(serializers.ModelSerializer):
 class FactionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Faction
-		fields = ('id', 'name', 'colour')
+		fields = ('id', 'name_en',)
 
 class LeaderboardSerializer(serializers.Serializer):
 	level = serializers.SerializerMethodField()
