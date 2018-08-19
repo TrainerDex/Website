@@ -505,7 +505,7 @@ class Update(models.Model):
 			for field in Update._meta.get_fields():
 				if type(field) == models.PositiveIntegerField or field.name == 'walk_dist':
 					largest = Update.objects.filter(trainer=self.trainer, update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name).first() # Gets updates, filters by same trainer, excludes updates where that field is empty, get update with highest value in that field - this should always be the correct update
-					if largest is not None and getattr(self, field.name) is not None and getattr(self, field.name) < getattr(largest, field.name):
+					if largest is not None and getattr(self, field.name) is not None and getattr(self, field.name) <= getattr(largest, field.name):
 						error_dict[field.name] = ValidationError(_("This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."))
 		except Exception as e:
 			if str(e) != 'Update has no trainer.':
