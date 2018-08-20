@@ -128,6 +128,33 @@ UPDATE_SORTABLE_FIELDS = (
 	'gym_badges',
 ) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
 
+UPDATE_NON_REVERSEABLE_FIELDS = ('xp', 'dex_caught', 'dex_seen', 'gym_badges',) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
+
+BADGES = [
+	{'name':'walk_dist', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'gen_1_dex', 'bronze':5, 'silver':50, 'gold':100},
+	{'name':'pkmn_caught', 'bronze':30, 'silver':500, 'gold':2000},
+	{'name':'pkmn_evolved', 'bronze':3, 'silver':20, 'gold':200},
+	{'name':'eggs_hatched', 'bronze':10, 'silver':100, 'gold':500},
+	{'name':'pkstops_spun', 'bronze':100, 'silver':1000, 'gold':2000},
+	{'name':'big_magikarp', 'bronze':3, 'silver':50, 'gold':300},
+	{'name':'battles_won', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'legacy_gym_trained', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'tiny_rattata', 'bronze':3, 'silver':50, 'gold':300},
+	{'name':'pikachu_caught', 'bronze':3, 'silver':50, 'gold':300},
+	{'name':'gen_2_dex', 'bronze':5, 'silver':30, 'gold':70},
+	{'name':'unown_alphabet', 'bronze':3, 'silver':10, 'gold':26},
+	{'name':'berry_fed', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'gym_defended', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'raids_completed', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'leg_raids_completed', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90},
+	{'name':'quests', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'max_friends', 'bronze':1, 'silver':2, 'gold':3},
+	{'name':'trading', 'bronze':10, 'silver':100, 'gold':1000},
+	{'name':'trading_distance', 'bronze':1000, 'silver':10000, 'gold':1000000},
+] +  [{'name':x, 'bronze':10, 'silver':50, 'gold':200} for x in UPDATE_FIELDS_TYPES]
+
 numbers = [9312,9313,9314,9315,9316,9317,9318,9319,9320,9321,9322,9323,9324,9325,9326,9327,9328,9329,9330,9331,12881,12882,12883,12884,12885,12886,12887,12888,12889,12890,12891,12892,12893,12894,12895,12977,12978,12979,12980,12981,12982,12983,12984,12985,12986,12987,12988,12989,12990,12991]
 
 def int_to_unicode(i):
