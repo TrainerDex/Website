@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-19 18:27+0000\n"
+"POT-Creation-Date: 2018-08-20 15:16+0000\n"
 "PO-Revision-Date: 2018-08-13 01:20+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Translated-Using: django-rosetta 0.8.1\n"
 
-#: ekpogo/settings.py:181 trainer/models.py:266 trainer/models.py:344
+#: ekpogo/settings.py:181 trainer/models.py:267 trainer/models.py:345
 msgid "English"
 msgstr "英語"
 
-#: ekpogo/settings.py:182 trainer/models.py:290 trainer/models.py:368
+#: ekpogo/settings.py:182 trainer/models.py:291 trainer/models.py:369
 msgid "German"
 msgstr "ドイツ語"
 
-#: ekpogo/settings.py:183 trainer/models.py:284 trainer/models.py:362
+#: ekpogo/settings.py:183 trainer/models.py:285 trainer/models.py:363
 msgid "Spanish"
 msgstr "スペイン語"
 
-#: ekpogo/settings.py:184 trainer/models.py:278 trainer/models.py:356
+#: ekpogo/settings.py:184 trainer/models.py:279 trainer/models.py:357
 msgid "French"
 msgstr "フランス語"
 
-#: ekpogo/settings.py:185 trainer/models.py:296 trainer/models.py:374
+#: ekpogo/settings.py:185 trainer/models.py:297 trainer/models.py:375
 msgid "Italian"
 msgstr "イタリア語"
 
-#: ekpogo/settings.py:186 trainer/models.py:272 trainer/models.py:350
+#: ekpogo/settings.py:186 trainer/models.py:273 trainer/models.py:351
 msgid "Japanese"
 msgstr "日本語"
 
-#: ekpogo/settings.py:187 trainer/models.py:302 trainer/models.py:380
+#: ekpogo/settings.py:187 trainer/models.py:303 trainer/models.py:381
 msgid "Korean"
 msgstr "韓国語"
 
-#: ekpogo/settings.py:188 trainer/models.py:314 trainer/models.py:392
+#: ekpogo/settings.py:188 trainer/models.py:315 trainer/models.py:393
 msgid "Brazilian Portuguese"
 msgstr "ブラジルポルトガル語"
 
-#: ekpogo/settings.py:189 trainer/models.py:308 trainer/models.py:386
+#: ekpogo/settings.py:189 trainer/models.py:309 trainer/models.py:387
 msgid "Traditional Chinese"
 msgstr "繁体字中国語"
 
@@ -155,7 +155,7 @@ msgstr ""
 "</li>\n"
 "</ul>"
 
-#: trainer/admin.py:65 trainer/models.py:600
+#: trainer/admin.py:65 trainer/models.py:681
 msgid "Reports"
 msgstr "レポート"
 
@@ -191,165 +191,165 @@ msgstr ""
 msgid "Expected a UUID, got gibberish."
 msgstr ""
 
-#: trainer/models.py:41
+#: trainer/models.py:42
 msgid "User"
 msgstr "ユーザー"
 
-#: trainer/models.py:42 trainer/templates/leaderboard.html:63
+#: trainer/models.py:43 trainer/templates/leaderboard.html:63
 msgctxt "onboard_enter_name_hint"
 msgid "Nickname"
 msgstr "ニックネーム"
 
-#: trainer/models.py:42
+#: trainer/models.py:43
 #, fuzzy
 msgid "Your Trainer Nickname exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."
 msgstr "あなたのトレーナーのユーザー名はゲームのものとまったく同じです。 大文字/小文字を自由に変更できますが、数字を削除または追加すると、同様のユーザー名を持つ他のトレーナーがこのサービスを使用できなくなり、利用規約に違反する可能性があります。"
 
-#: trainer/models.py:43
+#: trainer/models.py:44
 msgctxt "profile_start_date"
 msgid "Start Date"
 msgstr "始めた日"
 
-#: trainer/models.py:43
+#: trainer/models.py:44
 msgid "The date you created your Pokémon Go account."
 msgstr "ポケモンゴーアカウントを作成した日付。"
 
-#: trainer/models.py:44 trainer/models.py:336 trainer/models.py:340
+#: trainer/models.py:45 trainer/models.py:337 trainer/models.py:341
 #: trainer/templates/leaderboard.html:64 trainer/templates/profile.html:19
 msgid "Team"
 msgstr "所属"
 
-#: trainer/models.py:44
+#: trainer/models.py:45
 msgid "Mystic = Blue, Instinct = Yellow, Valor = Red."
 msgstr ""
 "Mystic=チーム ミスティック=青色。\n"
 "Instinct=チーム インスティンクト=黄色。\n"
 "Valor=チーム ヴァーラー=赤色。"
 
-#: trainer/models.py:45
+#: trainer/models.py:46
 msgid "Last Cheated"
 msgstr "最後の不正行為"
 
-#: trainer/models.py:45
+#: trainer/models.py:46
 msgid "When did this Trainer last cheat?"
 msgstr "いつあなたは最後に騙されましたか？"
 
-#: trainer/models.py:46
+#: trainer/models.py:47
 msgctxt "Profile_Category_Stats"
 msgid "Statistics"
 msgstr "データ"
 
-#: trainer/models.py:46
+#: trainer/models.py:47
 msgid "Would you like to be shown on the leaderboard? Ticking this box gives us permission to process your data."
 msgstr "リーダーボードに表示しますか？ このボックスにチェックを入れると、データを処理する権限が与えられます。"
 
-#: trainer/models.py:47
+#: trainer/models.py:48
 msgid "Rate Goal"
 msgstr ""
 
-#: trainer/models.py:47
+#: trainer/models.py:48
 msgid "Our Discord bot lets you know if you've reached you goals or not: How much XP do you aim to gain a day?"
 msgstr "私たちのDiscordボットでは、あなたが目標に達したかどうかを知ることができます：どれくらいのXPで一日を目指しますか？"
 
-#: trainer/models.py:48
+#: trainer/models.py:49
 msgid "Reach Goal"
 msgstr ""
 
-#: trainer/models.py:48
+#: trainer/models.py:49
 msgid "Our Discord bot lets you know if you've reached you goals or not: How much XP are you aiming for next?"
 msgstr "私たちのDiscordボットでは、あなたが目標に達したかどうかを知ることができます：どれくらいのXPを次の目標に向かっていますか？"
 
-#: trainer/models.py:50
+#: trainer/models.py:51
 msgctxt "friend_code_title"
 msgid "Trainer Code"
 msgstr "トレーナーコード"
 
-#: trainer/models.py:50
+#: trainer/models.py:51
 msgid "Fancy sharing your trainer code? (Disclaimer: This information will be public)"
 msgstr "この情報は公開されます"
 
-#: trainer/models.py:52 trainer/templates/profile.html:81
+#: trainer/models.py:53 trainer/templates/profile.html:81
 msgctxt "badge_chicago_fest_july_2017_title"
 msgid "Pokémon GO Fest 2017"
 msgstr "Pokémon GO Fest"
 
-#: trainer/models.py:52 trainer/templates/profile.html:82
+#: trainer/models.py:53 trainer/templates/profile.html:82
 msgctxt "badge_chicago_fest_july_2017"
 msgid "Chicago, July 22, 2017"
 msgstr "2017年7月22日シカゴ"
 
-#: trainer/models.py:53 trainer/templates/profile.html:88
+#: trainer/models.py:54 trainer/templates/profile.html:88
 msgctxt "badge_pikachu_outbreak_yokohama_2017_title"
 msgid "Pikachu Outbreak 2017"
 msgstr "ピカチュウ大量発生チュウ2017"
 
-#: trainer/models.py:53 trainer/templates/profile.html:89
+#: trainer/models.py:54 trainer/templates/profile.html:89
 msgctxt "badge_pikachu_outbreak_yokohama_2017"
 msgid "Yokohama, August 2017"
 msgstr "2017年8月 横浜"
 
-#: trainer/models.py:54 trainer/templates/profile.html:95
+#: trainer/models.py:55 trainer/templates/profile.html:95
 msgctxt "badge_safari_zone_europe_2017_title"
 msgid "GO Safari Zone - Europe 2017"
 msgstr "GO Safari Zone - 2017年欧州"
 
-#: trainer/models.py:54 trainer/templates/profile.html:96
+#: trainer/models.py:55 trainer/templates/profile.html:96
 msgctxt "badge_safari_zone_europe_2017"
 msgid "Europe, September 16, 2017"
 msgstr "2017年9月16日 欧州"
 
-#: trainer/models.py:55 trainer/templates/profile.html:102
+#: trainer/models.py:56 trainer/templates/profile.html:102
 #: trainer/templates/profile.html:109
 msgctxt "badge_safari_zone_europe_2017_10_07_title"
 msgid "GO Safari Zone - Europe 2017"
 msgstr "GO Safari Zone - 2017年欧州"
 
-#: trainer/models.py:55 trainer/templates/profile.html:103
+#: trainer/models.py:56 trainer/templates/profile.html:103
 msgctxt "badge_safari_zone_europe_2017_10_07"
 msgid "Europe, October 7, 2017"
 msgstr "2017年10月7日 欧州"
 
-#: trainer/models.py:56
+#: trainer/models.py:57
 msgctxt "badge_safari_zone_europe_2017_10_14_title"
 msgid "GO Safari Zone - Europe 2017"
 msgstr "GO Safari Zone - 2017年欧州"
 
-#: trainer/models.py:56
+#: trainer/models.py:57
 msgctxt "badge_safari_zone_europe_2017_10_14"
 msgid "Europe, October 14, 2017"
 msgstr "2017年10月14日 欧州"
 
-#: trainer/models.py:57 trainer/templates/profile.html:116
+#: trainer/models.py:58 trainer/templates/profile.html:116
 msgctxt "badge_chicago_fest_july_2018_*_*_title"
 msgid "Pokémon GO Fest 2018"
 msgstr "Pokémon GO Fest"
 
-#: trainer/models.py:57 trainer/templates/profile.html:117
+#: trainer/models.py:58 trainer/templates/profile.html:117
 msgctxt "badge_chicago_fest_july_2018_*_*"
 msgid "Chicago, July 14-15, 2018"
 msgstr "シカゴ、2018年7月"
 
-#: trainer/models.py:58 trainer/templates/profile.html:123
+#: trainer/models.py:59 trainer/templates/profile.html:123
 msgctxt "badge_apac_partner_july_2018_*_title"
 msgid "Pokémon GO Special Weekend"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:58 trainer/templates/profile.html:124
+#: trainer/models.py:59 trainer/templates/profile.html:124
 msgctxt "badge_apac_partner_july_2018_*"
 msgid "Japan, July 26-29, 2018"
 msgstr "日本 2018/7"
 
-#: trainer/models.py:59 trainer/templates/profile.html:130
+#: trainer/models.py:60 trainer/templates/profile.html:130
 msgctxt "badge_apac_partner_july_2018_5_title"
 msgid "Pokémon GO Special Weekend"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:59 trainer/templates/profile.html:131
+#: trainer/models.py:60 trainer/templates/profile.html:131
 msgctxt "badge_apac_partner_july_2018_5"
 msgid "South Korea, July 29, 2018"
 msgstr "韓国 2018/7/29"
 
-#: trainer/models.py:60
+#: trainer/models.py:61
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -357,12 +357,12 @@ msgctxt "badge_yokosuka_29_aug_2018_mikasa_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:60
+#: trainer/models.py:61
 msgctxt "badge_yokosuka_29_aug_2018_mikasa"
 msgid "Yokosuka, Aug 29, 2018-MIKASA"
 msgstr ""
 
-#: trainer/models.py:61
+#: trainer/models.py:62
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -370,12 +370,12 @@ msgctxt "badge_yokosuka_29_aug_2018_verny_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:61
+#: trainer/models.py:62
 msgctxt "badge_yokosuka_29_aug_2018_verny"
 msgid "Yokosuka, Aug 29, 2018-VERNY"
 msgstr ""
 
-#: trainer/models.py:62
+#: trainer/models.py:63
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -383,12 +383,12 @@ msgctxt "badge_yokosuka_29_aug_2018_kurihama_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:62
+#: trainer/models.py:63
 msgctxt "badge_yokosuka_29_aug_2018_kurihama"
 msgid "Yokosuka, Aug 29, 2018-KURIHAM"
 msgstr ""
 
-#: trainer/models.py:63
+#: trainer/models.py:64
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -396,12 +396,12 @@ msgctxt "badge_yokosuka_30_aug_2018_mikasa_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:63
+#: trainer/models.py:64
 msgctxt "badge_yokosuka_30_aug_2018_mikasa"
 msgid "Yokosuka, Aug 30, 2018-MIKASA"
 msgstr ""
 
-#: trainer/models.py:64
+#: trainer/models.py:65
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -409,12 +409,12 @@ msgctxt "badge_yokosuka_30_aug_2018_verny_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:64
+#: trainer/models.py:65
 msgctxt "badge_yokosuka_30_aug_2018_verny"
 msgid "Yokosuka, Aug 30, 2018-VERNY"
 msgstr ""
 
-#: trainer/models.py:65
+#: trainer/models.py:66
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -422,12 +422,12 @@ msgctxt "badge_yokosuka_30_aug_2018_kurihama_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:65
+#: trainer/models.py:66
 msgctxt "badge_yokosuka_30_aug_2018_kurihama"
 msgid "Yokosuka, Aug 30, 2018-KURIHAMA"
 msgstr ""
 
-#: trainer/models.py:66
+#: trainer/models.py:67
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -435,12 +435,12 @@ msgctxt "badge_yokosuka_31_aug_2018_mikasa_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:66
+#: trainer/models.py:67
 msgctxt "badge_yokosuka_31_aug_2018_mikasa"
 msgid "Yokosuka, Aug 31, 2018-MIKASA"
 msgstr ""
 
-#: trainer/models.py:67
+#: trainer/models.py:68
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -448,12 +448,12 @@ msgctxt "badge_yokosuka_31_aug_2018_verny_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:67
+#: trainer/models.py:68
 msgctxt "badge_yokosuka_31_aug_2018_verny"
 msgid "Yokosuka, Aug 31, 2018-VERNY"
 msgstr ""
 
-#: trainer/models.py:68
+#: trainer/models.py:69
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -461,12 +461,12 @@ msgctxt "badge_yokosuka_31_aug_2018_kurihama_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:68
+#: trainer/models.py:69
 msgctxt "badge_yokosuka_31_aug_2018_kurihama"
 msgid "Yokosuka, Aug 31, 2018-KURIHAMA"
 msgstr ""
 
-#: trainer/models.py:69
+#: trainer/models.py:70
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -474,12 +474,12 @@ msgctxt "badge_yokosuka_1_sep_2018_mikasa_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:69
+#: trainer/models.py:70
 msgctxt "badge_yokosuka_1_sep_2018_mikasa"
 msgid "Yokosuka, Sep 1, 2018-MIKASA"
 msgstr ""
 
-#: trainer/models.py:70
+#: trainer/models.py:71
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -487,12 +487,12 @@ msgctxt "badge_yokosuka_1_sep_2018_verny_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:70
+#: trainer/models.py:71
 msgctxt "badge_yokosuka_1_sep_2018_verny"
 msgid "Yokosuka, Sep 1, 2018-VERNY"
 msgstr ""
 
-#: trainer/models.py:71
+#: trainer/models.py:72
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -500,12 +500,12 @@ msgctxt "badge_yokosuka_1_sep_2018_kurihama_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:71
+#: trainer/models.py:72
 msgctxt "badge_yokosuka_1_sep_2018_kurihama"
 msgid "Yokosuka, Sep 1, 2018-KURIHAMA"
 msgstr ""
 
-#: trainer/models.py:72
+#: trainer/models.py:73
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -513,12 +513,12 @@ msgctxt "badge_yokosuka_2_sep_2018_mikasa_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:72
+#: trainer/models.py:73
 msgctxt "badge_yokosuka_2_sep_2018_mikasa"
 msgid "Yokosuka, Sep 2, 2018-MIKASA"
 msgstr ""
 
-#: trainer/models.py:73
+#: trainer/models.py:74
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -526,12 +526,12 @@ msgctxt "badge_yokosuka_2_sep_2018_verny_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:73
+#: trainer/models.py:74
 msgctxt "badge_yokosuka_2_sep_2018_verny"
 msgid "Yokosuka, Sep 2, 2018-VERNY"
 msgstr ""
 
-#: trainer/models.py:74
+#: trainer/models.py:75
 #, fuzzy
 #| msgctxt "badge_apac_partner_july_2018_*_title"
 #| msgid "Pokémon GO Special Weekend"
@@ -539,775 +539,819 @@ msgctxt "badge_yokosuka_2_sep_2018_kurihama_title"
 msgid "Pokémon GO Safari Zone"
 msgstr "Pokémon GO Special Weekend"
 
-#: trainer/models.py:74
+#: trainer/models.py:75
 msgctxt "badge_yokosuka_2_sep_2018_kurihama"
 msgid "Yokosuka, Sep 2, 2018-KURIHAMA"
 msgstr ""
 
-#: trainer/models.py:76
+#: trainer/models.py:77
 msgid "Country"
 msgstr "国"
 
-#: trainer/models.py:76 trainer/models.py:77
+#: trainer/models.py:77 trainer/models.py:78
 msgid "Where are you based?"
 msgstr ""
 
-#: trainer/models.py:77
+#: trainer/models.py:78
 msgid "Region"
 msgstr "一次管理部門"
 
-#: trainer/models.py:79 trainer/models.py:125
+#: trainer/models.py:80 trainer/models.py:126
 msgid "Verified"
 msgstr "検証済み"
 
-#: trainer/models.py:80
+#: trainer/models.py:81
 msgid "Last Modified"
 msgstr ""
 
-#: trainer/models.py:85
+#: trainer/models.py:86
 msgid "Username / Level / Team Screenshot"
 msgstr "スクリーンショット"
 
-#: trainer/models.py:87
+#: trainer/models.py:88
 msgid "TheSilphRoad Trainer Name"
 msgstr ""
 
-#: trainer/models.py:87
+#: trainer/models.py:88
 msgid "The username you use on The Silph Road, if different from your Trainer Nickname."
 msgstr ""
 
-#: trainer/models.py:92
+#: trainer/models.py:93
 msgid "Historic Cheater"
 msgstr "歴史的な詐欺師"
 
-#: trainer/models.py:100
+#: trainer/models.py:101
 msgid "Cheater"
 msgstr "詐欺師"
 
-#: trainer/models.py:120
+#: trainer/models.py:121
 msgid "Ready to be verified!"
 msgstr ""
 
-#: trainer/models.py:244
+#: trainer/models.py:245
 msgid "The team of this Silph Card does not match that of your profile."
 msgstr ""
 
-#: trainer/models.py:251 trainer/models.py:410 trainer/models.py:594
+#: trainer/models.py:252 trainer/models.py:411 trainer/models.py:675
 msgid "Trainer"
 msgstr "トレーナー"
 
-#: trainer/models.py:252
+#: trainer/models.py:253
 msgid "Trainers"
 msgstr "トレーナー"
 
-#: trainer/models.py:265 trainer/models.py:271 trainer/models.py:277
-#: trainer/models.py:283 trainer/models.py:289 trainer/models.py:295
-#: trainer/models.py:301 trainer/models.py:307 trainer/models.py:313
-#: trainer/models.py:343 trainer/models.py:349 trainer/models.py:355
-#: trainer/models.py:361 trainer/models.py:367 trainer/models.py:373
-#: trainer/models.py:379 trainer/models.py:385 trainer/models.py:391
+#: trainer/models.py:266 trainer/models.py:272 trainer/models.py:278
+#: trainer/models.py:284 trainer/models.py:290 trainer/models.py:296
+#: trainer/models.py:302 trainer/models.py:308 trainer/models.py:314
+#: trainer/models.py:344 trainer/models.py:350 trainer/models.py:356
+#: trainer/models.py:362 trainer/models.py:368 trainer/models.py:374
+#: trainer/models.py:380 trainer/models.py:386 trainer/models.py:392
 #, python-brace-format
 msgid "Name ({language})"
 msgstr ""
 
-#: trainer/models.py:337
+#: trainer/models.py:318
+msgid "Colour"
+msgstr "色"
+
+#: trainer/models.py:338
 msgid "Teams"
 msgstr "所属"
 
-#: trainer/models.py:405
+#: trainer/models.py:406
 #, fuzzy
 #| msgid "Gym Leader"
 msgid "Team Leader"
 msgstr "ジムリーダー"
 
-#: trainer/models.py:406
+#: trainer/models.py:407
 #, fuzzy
 #| msgid "Gym Leader"
 msgid "Team Leaders"
 msgstr "ジムリーダー"
 
-#: trainer/models.py:411
+#: trainer/models.py:412
 msgid "Time Updated"
 msgstr ""
 
-#: trainer/models.py:412
+#: trainer/models.py:413
 #, fuzzy
 #| msgid "Total XP"
 msgctxt "PROFILE_TOTAL_XP"
 msgid "Total XP"
 msgstr "TOTAL XP"
 
-#: trainer/models.py:412
+#: trainer/models.py:413
 msgid "Your Total XP can be found at the bottom of your Pokémon Go profile"
 msgstr "TOTAL XPはあなたのプロフィールの一番下にあります"
 
-#: trainer/models.py:413
+#: trainer/models.py:414
 #, fuzzy
 #| msgid "Species Caught"
 msgctxt "pokedex_page_caught"
 msgid "Caught"
 msgstr "捕まえた数"
 
-#: trainer/models.py:413
+#: trainer/models.py:414
 msgid "In your Pokédex, how many differnt species have you caught? It should say at the top."
 msgstr ""
 
-#: trainer/models.py:414
+#: trainer/models.py:415
 msgctxt "pokedex_page_seen"
 msgid "Seen"
 msgstr ""
 
-#: trainer/models.py:414
+#: trainer/models.py:415
 msgid "In your Pokédex, how many differnt species have you seen? It should say at the top."
 msgstr ""
 
-#: trainer/models.py:415
+#: trainer/models.py:416
 msgid "Total Gym Badges"
 msgstr ""
 
-#: trainer/models.py:415
+#: trainer/models.py:416
 msgid "Your gym badges map. Total number of gold, silver, bronze and blank combined. (This information is currently not used)"
 msgstr ""
 
-#: trainer/models.py:417
+#: trainer/models.py:418
 #, fuzzy
 #| msgid "Jogger"
 msgctxt "badge_travel_km_title"
 msgid "Jogger"
 msgstr "ジョギング"
 
-#: trainer/models.py:417
+#: trainer/models.py:418
 #, fuzzy
 #| msgid "Walk 1,000km"
 msgctxt "badge_travel_km"
 msgid "Walk {0:0,g} km"
 msgstr "1000km 歩いた！"
 
-#: trainer/models.py:418
+#: trainer/models.py:419
 #, fuzzy
 #| msgid "Kanto"
 msgctxt "badge_pokedex_entries_title"
 msgid "Kanto"
 msgstr "カントー"
 
-#: trainer/models.py:418
+#: trainer/models.py:419
 #, fuzzy
 #| msgid "Register 100 Kanto region Pokémon in the Pokédex."
 msgctxt "badge_pokedex_entries"
 msgid "Register {0:0,} Kanto region Pokémon in the Pokédex."
 msgstr "ポケモン図鑑に 100 匹登録できた！"
 
-#: trainer/models.py:419
+#: trainer/models.py:420
 #, fuzzy
 #| msgid "Collector"
 msgctxt "badge_capture_total_title"
 msgid "Collector"
 msgstr "コレクター"
 
-#: trainer/models.py:419
+#: trainer/models.py:420
 #, fuzzy
 #| msgid "Catch 2,000 Pokémon."
 msgctxt "badge_capture_total"
 msgid "Catch {0:0,} Pokémon."
 msgstr "ポケモンを 2000 匹捕まえた！"
 
-#: trainer/models.py:420
+#: trainer/models.py:421
 #, fuzzy
 #| msgid "Scientist"
 msgctxt "badge_evolved_total_title"
 msgid "Scientist"
 msgstr "けんきゅういん"
 
-#: trainer/models.py:420
+#: trainer/models.py:421
 #, fuzzy
 #| msgid "Evolve 200 Pokémon."
 msgctxt "badge_evolved_total"
 msgid "Evolve {0:0,} Pokémon."
 msgstr "ポケモンを 200 匹進化できた！"
 
-#: trainer/models.py:421
+#: trainer/models.py:422
 #, fuzzy
 #| msgid "Breeder"
 msgctxt "badge_hatched_total_title"
 msgid "Breeder"
 msgstr "ブリーダー"
 
-#: trainer/models.py:421
+#: trainer/models.py:422
 #, fuzzy
 #| msgid "Hatch 500 eggs."
 msgctxt "badge_hatched_total"
 msgid "Hatch {0:0,} eggs."
 msgstr "タマゴを 500 個かえした！"
 
-#: trainer/models.py:422
+#: trainer/models.py:423
 #, fuzzy
 #| msgid "Backpacker"
 msgctxt "badge_pokestops_visited_title"
 msgid "Backpacker"
 msgstr "バックパッカー"
 
-#: trainer/models.py:422
+#: trainer/models.py:423
 #, fuzzy
 #| msgid "Visit 2,000 PokéStops."
 msgctxt "badge_pokestops_visited"
 msgid "Visit {0:0,} PokéStops."
 msgstr "ポケストップを 2000 回訪れた！"
 
-#: trainer/models.py:423
+#: trainer/models.py:424
 #, fuzzy
 #| msgid "Battle Girl"
 msgctxt "badge_battle_attack_won_title"
 msgid "Battle Girl"
 msgstr "バトルガール"
 
-#: trainer/models.py:423
+#: trainer/models.py:424
 #, fuzzy
 #| msgid "Win 1,000 Gym battles."
 msgctxt "badge_battle_attack_won"
 msgid "Win {0:0,} Gym battles."
 msgstr "ジムで 1000 回バトルに勝った！"
 
-#: trainer/models.py:424
+#: trainer/models.py:425
 #, fuzzy
 #| msgid "Fisherman"
 msgctxt "badge_big_magikarp_title"
 msgid "Fisherman"
 msgstr "つりびと"
 
-#: trainer/models.py:424
+#: trainer/models.py:425
 #, fuzzy
 #| msgid "Catch 300 big Magikarp."
 msgctxt "badge_big_magikarp"
 msgid "Catch {0:0,} big Magikarp."
 msgstr "巨大なコイキングを 300 匹捕まえた！"
 
-#: trainer/models.py:425
+#: trainer/models.py:426
 #, fuzzy
 #| msgid "Ace Trainer"
 msgctxt "badge_battle_training_won_title"
 msgid "Ace Trainer"
 msgstr "エリートトレーナー"
 
-#: trainer/models.py:425
+#: trainer/models.py:426
 #, fuzzy
 #| msgid "Train 1,000 times."
 msgctxt "badge_battle_training_won"
 msgid "Train {0:0,} times."
 msgstr "ポケモンを 1000 匹トレーニングした！"
 
-#: trainer/models.py:426
+#: trainer/models.py:427
 #, fuzzy
 #| msgid "Youngster"
 msgctxt "badge_small_rattata_title"
 msgid "Youngster"
 msgstr "たんパンこぞう"
 
-#: trainer/models.py:426
+#: trainer/models.py:427
 #, fuzzy
 #| msgid "Catch 300 tiny Rattata."
 msgctxt "badge_small_rattata"
 msgid "Catch {0:0,} tiny Rattata."
 msgstr "小さいサイズのコラッタを 300 匹捕まえた！"
 
-#: trainer/models.py:427
+#: trainer/models.py:428
 #, fuzzy
 #| msgid "Pikachu Fan"
 msgctxt "badge_pikachu_title"
 msgid "Pikachu Fan"
 msgstr "ピカチュウ だいすきクラブ"
 
-#: trainer/models.py:427
+#: trainer/models.py:428
 #, fuzzy
 #| msgid "Catch 300 Pikachu."
 msgctxt "badge_pikachu"
 msgid "Catch {0:0,} Pikachu."
 msgstr "ピカチュウを 300 匹捕まえた！"
 
-#: trainer/models.py:428
+#: trainer/models.py:429
 #, fuzzy
 #| msgid "Johto"
 msgctxt "badge_pokedex_entries_gen2_title"
 msgid "Johto"
 msgstr "ジョウト"
 
-#: trainer/models.py:428
+#: trainer/models.py:429
 #, fuzzy
 #| msgid "Register 70 Pokémon first discovered in the Johto region to the Pokédex."
 msgctxt "badge_pokedex_entries_gen2"
 msgid "Register {0:0,} Pokémon first discovered in the Johto region to the Pokédex."
 msgstr "ジョウト地方で発見されたポケモンを70匹ポケモン図鑑に登録できた！"
 
-#: trainer/models.py:429
+#: trainer/models.py:430
 #, fuzzy
 #| msgid "Unown"
 msgctxt "badge_unown_title"
 msgid "Unown"
 msgstr "アンノーン"
 
-#: trainer/models.py:429
+#: trainer/models.py:430
 #, fuzzy
 #| msgid "Catch 26 Unown."
 msgctxt "badge_unown"
 msgid "Catch {0:0,} Unown."
 msgstr "アンノーンを26種類捕まえた！"
 
-#: trainer/models.py:430
+#: trainer/models.py:431
 #, fuzzy
 #| msgid "Berry Master"
 msgctxt "badge_berries_fed_title"
 msgid "Berry Master"
 msgstr "きのみ名人"
 
-#: trainer/models.py:430
+#: trainer/models.py:431
 #, fuzzy
 #| msgid "Feed 1,000 Berries at Gyms."
 msgctxt "badge_berries_fed"
 msgid "Feed {0:0,} Berries at Gyms."
 msgstr "ポケモンに 1000 個きのみをあげた！"
 
-#: trainer/models.py:431
+#: trainer/models.py:432
 #, fuzzy
 #| msgid "Gym Leader"
 msgctxt "badge_hours_defended_title"
 msgid "Gym Leader"
 msgstr "ジムリーダー"
 
-#: trainer/models.py:431
+#: trainer/models.py:432
 #, fuzzy
 #| msgid "Defend Gyms for 1,000 hours."
 msgctxt "badge_hours_defended"
 msgid "Defend Gyms for {0:0,} hours."
 msgstr "ジムを 1000 時間防衛した！"
 
-#: trainer/models.py:432
+#: trainer/models.py:433
 #, fuzzy
 #| msgid "Champion"
 msgctxt "badge_raid_battle_won_title"
 msgid "Champion"
 msgstr "チャンピオン"
 
-#: trainer/models.py:432
+#: trainer/models.py:433
 #, fuzzy
 #| msgid "Win 1,000 Raids."
 msgctxt "badge_raid_battle_won"
 msgid "Win {0:0,} Raids."
 msgstr "レイドバトルで 1000 回勝利した！"
 
-#: trainer/models.py:433
+#: trainer/models.py:434
 #, fuzzy
 #| msgid "Battle Legend"
 msgctxt "badge_legendary_battle_won_title"
 msgid "Battle Legend"
 msgstr "バトルレジェンド"
 
-#: trainer/models.py:433
+#: trainer/models.py:434
 #, fuzzy
 #| msgid "Win 1,000 Legendary Raids."
 msgctxt "badge_legendary_battle_won"
 msgid "Win {0:0,} Legendary Raids."
 msgstr "ジムで 1000 回伝説レイドバトルに勝った！"
 
-#: trainer/models.py:434
+#: trainer/models.py:435
 #, fuzzy
 #| msgid "Hoenn"
 msgctxt "badge_pokedex_entries_gen3_title"
 msgid "Hoenn"
 msgstr "ジョウト"
 
-#: trainer/models.py:434
+#: trainer/models.py:435
 #, fuzzy
 #| msgid "Register 70 Pokémon first discovered in the Hoenn region to the Pokédex."
 msgctxt "badge_pokedex_entries_gen3"
 msgid "Register {0:0,} Pokémon first discovered in the Hoenn region to the Pokédex."
 msgstr "ジョウト地方で発見されたポケモンを70匹ポケモン図鑑に登録できた！"
 
-#: trainer/models.py:435
+#: trainer/models.py:436
 #, fuzzy
 #| msgid "Pokémon Ranger"
 msgctxt "badge_challenge_quests_title"
 msgid "Pokémon Ranger"
 msgstr "ポケモンレンジャー"
 
-#: trainer/models.py:435
+#: trainer/models.py:436
 #, fuzzy
 #| msgid "Complete 1,000 Field Research tasks."
 msgctxt "badge_challenge_quests"
 msgid "Complete {0:0,} Field Research tasks."
 msgstr "フィールドリサーチを1000回達成した！"
 
-#: trainer/models.py:436
+#: trainer/models.py:437
 #, fuzzy
 #| msgid "Idol"
 msgctxt "badge_max_level_friends_title"
 msgid "Idol"
 msgstr "アイドル"
 
-#: trainer/models.py:436
+#: trainer/models.py:437
 #, fuzzy
 #| msgid "Become Best Friends with 3 Trainers."
 msgctxt "badge_max_level_friends"
 msgid "Become Best Friends with {0:0,} Trainers."
 msgstr "トレーナー3人と「大親友」になれた！"
 
-#: trainer/models.py:437
+#: trainer/models.py:438
 #, fuzzy
 #| msgid "Gentleman"
 msgctxt "badge_trading_title"
 msgid "Gentleman"
 msgstr "ジェントルマン"
 
-#: trainer/models.py:437
+#: trainer/models.py:438
 #, fuzzy
 #| msgid "Trade 1,000 Pokémon."
 msgctxt "badge_trading"
 msgid "Trade {0:0,} Pokémon."
 msgstr "1000 匹交換できた！"
 
-#: trainer/models.py:438
+#: trainer/models.py:439
 #, fuzzy
 #| msgid "Pilot"
 msgctxt "badge_trading_distance_title"
 msgid "Pilot"
 msgstr "パイロット"
 
-#: trainer/models.py:438
+#: trainer/models.py:439
 #, fuzzy
 #| msgid "Earn 1,000,000 km across the distance of all Pokémon trades."
 msgctxt "badge_trading_distance"
 msgid "Earn {0:0,} km across the distance of all Pokémon trades."
 msgstr "交換したポケモン同士の距離が 1000000 km になった！"
 
-#: trainer/models.py:440
+#: trainer/models.py:441
 #, fuzzy
 #| msgid "Schoolkid"
 msgctxt "badge_type_normal_title"
 msgid "Schoolkid"
 msgstr "じゅくがえり"
 
-#: trainer/models.py:440
+#: trainer/models.py:441
 #, fuzzy
 #| msgid "Catch 200 Normal-type Pokémon"
 msgctxt "badge_type_normal"
 msgid "Catch {0:0,} Normal-type Pokémon"
 msgstr "ノーマルタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:441
+#: trainer/models.py:442
 #, fuzzy
 #| msgid "Black Belt"
 msgctxt "badge_type_fighting_title"
 msgid "Black Belt"
 msgstr "カラテおう"
 
-#: trainer/models.py:441
+#: trainer/models.py:442
 #, fuzzy
 #| msgid "Catch 200 Fighting-type Pokémon"
 msgctxt "badge_type_fighting"
 msgid "Catch {0:0,} Fighting-type Pokémon"
 msgstr "かくとうタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:442
+#: trainer/models.py:443
 #, fuzzy
 #| msgid "Bird Keeper"
 msgctxt "badge_type_flying_title"
 msgid "Bird Keeper"
 msgstr "とりつかい"
 
-#: trainer/models.py:442
+#: trainer/models.py:443
 #, fuzzy
 #| msgid "Catch 200 Flying-type Pokémon"
 msgctxt "badge_type_flying"
 msgid "Catch {0:0,} Flying-type Pokémon"
 msgstr "ひこうタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:443
+#: trainer/models.py:444
 #, fuzzy
 #| msgid "Punk Girl"
 msgctxt "badge_type_poison_title"
 msgid "Punk Girl"
 msgstr "バッドガール"
 
-#: trainer/models.py:443
+#: trainer/models.py:444
 #, fuzzy
 #| msgid "Catch 200 Poison-type Pokémon"
 msgctxt "badge_type_poison"
 msgid "Catch {0:0,} Poison-type Pokémon"
 msgstr "どくタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:444
+#: trainer/models.py:445
 #, fuzzy
 #| msgid "Ruin Maniac"
 msgctxt "badge_type_ground_title"
 msgid "Ruin Maniac"
 msgstr "いせきマニア"
 
-#: trainer/models.py:444
+#: trainer/models.py:445
 #, fuzzy
 #| msgid "Catch 200 Ground-type Pokémon"
 msgctxt "badge_type_ground"
 msgid "Catch {0:0,} Ground-type Pokémon"
 msgstr "じめんタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:445
+#: trainer/models.py:446
 #, fuzzy
 #| msgid "Hiker"
 msgctxt "badge_type_rock_title"
 msgid "Hiker"
 msgstr "やまおとこ"
 
-#: trainer/models.py:445
+#: trainer/models.py:446
 #, fuzzy
 #| msgid "Catch 200 Rock-type Pokémon"
 msgctxt "badge_type_rock"
 msgid "Catch {0:0,} Rock-type Pokémon"
 msgstr "いわタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:446
+#: trainer/models.py:447
 #, fuzzy
 #| msgid "Bug Catcher"
 msgctxt "badge_type_bug_title"
 msgid "Bug Catcher"
 msgstr "むしとりしょうねん"
 
-#: trainer/models.py:446
+#: trainer/models.py:447
 #, fuzzy
 #| msgid "Catch 200 Bug-type Pokémon"
 msgctxt "badge_type_bug"
 msgid "Catch {0:0,} Bug-type Pokémon"
 msgstr "むしタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:447
+#: trainer/models.py:448
 #, fuzzy
 #| msgid "Hex Maniac"
 msgctxt "badge_type_ghost_title"
 msgid "Hex Maniac"
 msgstr "オカルトマニア"
 
-#: trainer/models.py:447
+#: trainer/models.py:448
 #, fuzzy
 #| msgid "Catch 200 Ghost-type Pokémon"
 msgctxt "badge_type_ghost"
 msgid "Catch {0:0,} Ghost-type Pokémon"
 msgstr "ゴーストタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:448
+#: trainer/models.py:449
 #, fuzzy
 #| msgid "Depot Agent"
 msgctxt "badge_type_steel_title"
 msgid "Depot Agent"
 msgstr "てつどういん"
 
-#: trainer/models.py:448
+#: trainer/models.py:449
 #, fuzzy
 #| msgid "Catch 200 Steel-type Pokémon"
 msgctxt "badge_type_steel"
 msgid "Catch {0:0,} Steel-type Pokémon"
 msgstr "はがねタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:449
+#: trainer/models.py:450
 #, fuzzy
 #| msgid "Kindler"
 msgctxt "badge_type_fire_title"
 msgid "Kindler"
 msgstr "キャンプファイヤー"
 
-#: trainer/models.py:449
+#: trainer/models.py:450
 #, fuzzy
 #| msgid "Catch 200 Fire-type Pokémon"
 msgctxt "badge_type_fire"
 msgid "Catch {0:0,} Fire-type Pokémon"
 msgstr "ほのおタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:450
+#: trainer/models.py:451
 #, fuzzy
 #| msgid "Swimmer"
 msgctxt "badge_type_water_title"
 msgid "Swimmer"
 msgstr "かいパンやろう"
 
-#: trainer/models.py:450
+#: trainer/models.py:451
 #, fuzzy
 #| msgid "Catch 200 Water-type Pokémon"
 msgctxt "badge_type_water"
 msgid "Catch {0:0,} Water-type Pokémon"
 msgstr "みずタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:451
+#: trainer/models.py:452
 #, fuzzy
 #| msgid "Gardener"
 msgctxt "badge_type_grass_title"
 msgid "Gardener"
 msgstr "にわし"
 
-#: trainer/models.py:451
+#: trainer/models.py:452
 #, fuzzy
 #| msgid "Catch 200 Grass-type Pokémon"
 msgctxt "badge_type_grass"
 msgid "Catch {0:0,} Grass-type Pokémon"
 msgstr "くさタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:452
+#: trainer/models.py:453
 #, fuzzy
 #| msgid "Rocker"
 msgctxt "badge_type_electric_title"
 msgid "Rocker"
 msgstr "でんきグループ"
 
-#: trainer/models.py:452
+#: trainer/models.py:453
 #, fuzzy
 #| msgid "Catch 200 Electric-type Pokémon"
 msgctxt "badge_type_electric"
 msgid "Catch {0:0,} Electric-type Pokémon"
 msgstr "でんきタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:453
+#: trainer/models.py:454
 #, fuzzy
 #| msgid "Psychic"
 msgctxt "badge_type_psychic_title"
 msgid "Psychic"
 msgstr "サイキッカー"
 
-#: trainer/models.py:453
+#: trainer/models.py:454
 #, fuzzy
 #| msgid "Catch 200 Pychic-type Pokémon"
 msgctxt "badge_type_psychic"
 msgid "Catch {0:0,} Pychic-type Pokémon"
 msgstr "エスパータイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:454
+#: trainer/models.py:455
 #, fuzzy
 #| msgid "Skier"
 msgctxt "badge_type_ice_title"
 msgid "Skier"
 msgstr "スキーヤー"
 
-#: trainer/models.py:454
+#: trainer/models.py:455
 #, fuzzy
 #| msgid "Catch 200 Ice-type Pokémon"
 msgctxt "badge_type_ice"
 msgid "Catch {0:0,} Ice-type Pokémon"
 msgstr "こおりタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:455
+#: trainer/models.py:456
 #, fuzzy
 #| msgid "Dragon Tamer"
 msgctxt "badge_type_dragon_title"
 msgid "Dragon Tamer"
 msgstr "ドラゴンつかい"
 
-#: trainer/models.py:455
+#: trainer/models.py:456
 #, fuzzy
 #| msgid "Catch 200 Dragon-type Pokémon"
 msgctxt "badge_type_dragon"
 msgid "Catch {0:0,} Dragon-type Pokémon"
 msgstr "ドラゴンタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:456
+#: trainer/models.py:457
 #, fuzzy
 #| msgid "Delinquent"
 msgctxt "badge_type_dark_title"
 msgid "Delinquent"
 msgstr "こわいおねえさん"
 
-#: trainer/models.py:456
+#: trainer/models.py:457
 #, fuzzy
 #| msgid "Catch 200 Dark-type Pokémon"
 msgctxt "badge_type_dark"
 msgid "Catch {0:0,} Dark-type Pokémon"
 msgstr "あくタイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:457
+#: trainer/models.py:458
 #, fuzzy
 #| msgid "Fairy Tale Girl"
 msgctxt "badge_type_fairy_title"
 msgid "Fairy Tale Girl"
 msgstr "メルヘンしょうじょ"
 
-#: trainer/models.py:457
+#: trainer/models.py:458
 #, fuzzy
 #| msgid "Catch 200 Fairy-type Pokémon"
 msgctxt "badge_type_fairy"
 msgid "Catch {0:0,} Fairy-type Pokémon"
 msgstr "フェアリータイプのポケモンを 200 匹捕まえた！"
 
-#: trainer/models.py:459
+#: trainer/models.py:460
 msgid "Time Created"
 msgstr "作成時間"
 
-#: trainer/models.py:481
+#: trainer/models.py:482
 msgid "Source"
 msgstr "情報元"
 
-#: trainer/models.py:483
+#: trainer/models.py:484
 msgid "Total XP Screenshot"
 msgstr "TOTAL XPスクリーンショット"
 
-#: trainer/models.py:492
+#: trainer/models.py:493
 msgid "Crowd Sourced"
 msgstr "群集情報"
 
-#: trainer/models.py:499
+#: trainer/models.py:502
+#, fuzzy
+#| msgid "{username} - {xp:,}XP at {date}"
+msgid "{username} - {xp:,}XP and {stats_num} stats updated at {date}"
+msgstr "{username}は{date}に{xp}XPを獲得した"
+
+#: trainer/models.py:504
 msgid "{username} - {xp:,}XP at {date}"
 msgstr "{username}は{date}に{xp}XPを獲得した"
 
-#: trainer/models.py:509
+#: trainer/models.py:506
+#, fuzzy, python-brace-format
+#| msgid "{username} - {xp:,}XP at {date}"
+msgid "{username} - {stats_num} stats updated at {date}"
+msgstr "{username}は{date}に{xp}XPを獲得した"
+
+#: trainer/models.py:513
+msgid "You can't post before your start date."
+msgstr ""
+
+#: trainer/models.py:521
 #, fuzzy
 #| msgid "This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."
 msgid "This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."
 msgstr "この値は以前より高い値で入力されています。 最新の情報を入力してください。"
 
-#: trainer/models.py:520
+#: trainer/models.py:553
+#, python-brace-format
+msgid "There are only {GEN_1_MAX} Pokémon in the Kanto region."
+msgstr ""
+
+#: trainer/models.py:559
+#, python-brace-format
+msgid "There are only {GEN_2_MAX} Pokémon in the Johto region."
+msgstr ""
+
+#: trainer/models.py:567
+#, python-brace-format
+msgid "There are only {GEN_3_MAX} Pokémon in the Hoenn region."
+msgstr ""
+
+#: trainer/models.py:582
+#, python-brace-format
+msgid "There are only {UNOWN_MAX} different forms of Unown."
+msgstr ""
+
+#: trainer/models.py:593
+msgid "No valid fields filled. If you only entered a field that is already max'd, this is why. We clear max'd fields."
+msgstr ""
+
+#: trainer/models.py:601
 msgid "Update"
 msgstr "統計情報の更新"
 
-#: trainer/models.py:521
+#: trainer/models.py:602
 msgid "Updates"
 msgstr "統計情報の更新"
 
-#: trainer/models.py:595
+#: trainer/models.py:676
 msgid "Reported by"
 msgstr "レポーター"
 
-#: trainer/models.py:596 trainer/models.py:599
+#: trainer/models.py:677 trainer/models.py:680
 msgid "Report"
 msgstr "記録"
 
-#: trainer/models.py:613
+#: trainer/models.py:694
 msgid "Special Relationship (Sponsorship)"
 msgstr ""
 
-#: trainer/models.py:614
+#: trainer/models.py:695
 msgid "Special Relationships (Sponsorships)"
 msgstr ""
 
-#: trainer/models.py:628
+#: trainer/models.py:709
 msgid "Discord Guild"
 msgstr ""
 
-#: trainer/models.py:629
+#: trainer/models.py:710
 msgid "Discord Guilds"
 msgstr ""
 
-#: trainer/models.py:659
+#: trainer/models.py:739
 msgid "Community League"
 msgstr ""
 
-#: trainer/models.py:660
+#: trainer/models.py:740
 msgid "Community Leagues"
 msgstr ""
 
-#: trainer/models.py:672
+#: trainer/models.py:752
 msgid "Community League Membership"
 msgstr ""
 
-#: trainer/models.py:673
+#: trainer/models.py:753
 msgid "Community League Memberships"
 msgstr ""
 
-#: trainer/models.py:689
+#: trainer/models.py:768
 msgid "Community League Discord Connection"
 msgstr ""
 
-#: trainer/models.py:690
+#: trainer/models.py:769
 msgid "Community League Discord Connections"
 msgstr ""
 
@@ -2016,9 +2060,6 @@ msgstr ""
 
 #~ msgid "Name"
 #~ msgstr "名"
-
-#~ msgid "Colour"
-#~ msgstr "色"
 
 #~ msgid "Leader"
 #~ msgstr "リーダー"
