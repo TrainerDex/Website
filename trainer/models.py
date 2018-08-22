@@ -509,7 +509,7 @@ class Update(models.Model):
 		
 		error_dict = {}
 		try: # Workaround for inital registrations
-			if self.update_time < datetime.combine(self.trainer.start_date, time(tzinfo=timezone.utc)):
+			if bool(self.trainer.start_date) and (self.update_time.date() < self.trainer.start_date):
 				error_dict['update_time'] = ValidationError(_("You can't post before your start date."))
 
 			for field in Update._meta.get_fields():
