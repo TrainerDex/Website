@@ -530,21 +530,21 @@ class Update(models.Model):
 					# Field specific Validation
 					
 					# 1 - Ace Trainer
-					if field.name == 'legacy_gym_trained' and self.update_time > datetime(2016,6,19,20,00):
+					if field.name == 'legacy_gym_trained' and self.update_time.date() > date(2016,6,19):
 						if bool(largest) and largest.update_time.date() == date(2016,6,19):
 							pass
 						else:
-							if self.trainer.start_date < date(2016,6,19):
+							if bool(self.trainer.start_date) and self.trainer.start_date < date(2016,6,19):
 								self.trainer.update_set.create(update_time=datetime(2016,6,19,20,00), legacy_gym_trained=self.legacy_gym_trained)
 							self.legacy_gym_trained = None
 							
 					# 2 - berry_fed, gyms_defended, raids_completed
-					if field.name in ['berry_fed', 'gym_defended', 'raids_completed'] and self.update_time < datetime(2016,6,22,20,00):
+					if field.name in ['berry_fed', 'gym_defended', 'raids_completed'] and self.update_time.date() < date(2016,6,22):
 						setattr(self, field.name, None)
 					
 					# 3 - leg_raids_completed
 					# More validation needed - rest of world got it later
-					if field.name == 'leg_raids_completed' and self.update_time < datetime(2016,7,22,20,00):
+					if field.name == 'leg_raids_completed' and self.update_time.date() < date(2016,7,22):
 						setattr(self, field.name, None)
 					
 					# 4 - gen_1_dex
@@ -565,15 +565,15 @@ class Update(models.Model):
 					GEN_3_MAX = 135
 					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_3_MAX:
 						error_dict[field.name] = ValidationError(_(f"There are only {GEN_3_MAX} Pokémon in the Hoenn region."))
-					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and self.update_time < datetime(2016,10,20,20,00):
+					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2016,10,20):
 						setattr(self, field.name, None)
 					
 					# 7 - quests
-					if field.name == 'quests' and self.update_time < datetime(2016,3,30,20,00):
+					if field.name == 'quests' and self.update_time.date() < date(2016,3,30):
 						setattr(self, field.name, None)
 				
 					# 8 - quests
-					if field.name in ['max_friends','trading','trading_distance'] and self.update_time < datetime(2016,6,21,20,00):
+					if field.name in ['max_friends','trading','trading_distance'] and self.update_time.date() < date(2016,6,21):
 						setattr(self, field.name, None)
 					
 					# 9 - unown_alphabet
