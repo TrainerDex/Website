@@ -188,13 +188,13 @@
     </div>
   </div>
   <div class="mdl-tabs__panel" id="badges-panel">
-    {% for badge in badges|add:type_badges %}
+    {% for badge in badges %}
       {% if forloop.first %}
     <div class="mdl-grid mdl-grid--no-spacing">
       {% endif %}
       <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
         <div class="progress-circle  {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
-          <div class="mdl-tooltip" data-mdl-for="{{ badge.name }}">{{badge.time|naturalday}}</div>
+          <div class="mdl-tooltip" data-mdl-for="{{ badge.name }}">{{badge.tooltip}}</div>
           <span>{{ badge.value }}</span>
           <div class="left-half-clipper">
             <div class="first50-bar"></div>
