@@ -343,16 +343,7 @@ BADGES = [
 	{'name':'max_friends', 'bronze':1, 'silver':2, 'gold':3},
 	{'name':'trading', 'bronze':10, 'silver':100, 'gold':1000},
 	{'name':'trading_distance', 'bronze':1000, 'silver':10000, 'gold':1000000},
-]
-
-TYPE_BADGES = [{'name':x, 'bronze':10, 'silver':50, 'gold':200} for x in UPDATE_FIELDS_TYPES]
-
-STATS = [
-	'dex_caught',
-	'dex_seen',
-	'gym_badges',
-	'xp'
-]
+] + [{'name':x, 'bronze':10, 'silver':50, 'gold':200} for x in UPDATE_FIELDS_TYPES]
 
 def _check_if_trainer_valid(trainer):
 	if settings.DEBUG:
@@ -396,63 +387,34 @@ def TrainerProfileHTMLView(request, username):
 		'updates' : trainer.update_set.all(),
 		'sponsorships' : trainer.sponsorships.all(),
 	}
+	_badges = context['updates'].aggregate(*[Max(x) for x in UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES])
 	badges = []
-	type_badges = []
-	for badge in BADGES:
-		badge_dict = {
-			'name':badge['name'],
-			'readable_name':Update._meta.get_field(badge['name']).verbose_name,
-			'tooltip':Update._meta.get_field(badge['name']).help_text,
-		}
-		try:
-			_badge = sorted([x for x in context['updates'] if getattr(x, badge['name'])], key=lambda x: getattr(x, badge['name']), reverse=True)
-			if len(_badge) == 0:
-				continue
-			badge_dict['value'] = getattr(_badge[0], badge['name'])
-			if badge_dict['value'] < badge['gold']:
-				badge_dict['percent'] = int((badge_dict['value']/badge['gold'])*100)
-			else:
-				badge_dict['percent'] = 100
-			badge_dict['time'] = getattr(_badge[0], 'update_time')
-		except AttributeError:
+	for badge in _badges:
+		if not bool(_badges[badge]):
 			continue
+		badge_dict = {
+			'name':badge,
+			'readable_name':Update._meta.get_field(badge[:-5]).verbose_name,
+			'tooltip':Update._meta.get_field(badge[:-5]).help_text,
+			'value':_badges[badge]
+		}
+		badge_info = [x for x in BADGES if x['name'] == badge[:-5]][0]
+		if badge_dict['value'] < badge_info['gold']:
+			badge_dict['percent'] = int((badge_dict['value']/badge_info['gold'])*100)
+		else:
+			badge_dict['percent'] = 100
 		badges.append(badge_dict)
-	for badge in TYPE_BADGES:
-		badge_dict = {
-			'name':badge['name'],
-			'readable_name':Update._meta.get_field(badge['name']).verbose_name,
-			'tooltip':Update._meta.get_field(badge['name']).help_text,
-		}
-		try:
-			_badge = sorted([x for x in context['updates'] if getattr(x, badge['name'])], key=lambda x: getattr(x, badge['name']), reverse=True)
-			if len(_badge) == 0:
-				continue
-			badge_dict['value'] = getattr(_badge[0], badge['name'])
-			if badge_dict['value'] < badge['gold']:
-				badge_dict['percent'] = int((badge_dict['value']/badge['gold'])*100)
-			else:
-				badge_dict['percent'] = 100
-			badge_dict['time'] = getattr(_badge[0], 'update_time')
-		except AttributeError:
-			continue
-		type_badges.append(badge_dict)
-	for badge in STATS:
-		try:
-			_badge = sorted([x for x in context['updates'] if getattr(x, badge)], key=lambda x: getattr(x, badge), reverse=True)
-			if len(_badge) == 0:
-				continue
-			context[badge] = getattr(_badge[0], badge)
-			context[badge+'-time'] = getattr(_badge[0], 'update_time')
-		except AttributeError:
-			continue
+	_values = context['updates'].aggregate(*[Max(x) for x in ('xp','dex_caught','dex_seen','gym_badges',)])
+	for value in _values:
+		context[value[:-5]] = _values[value]
 	context['level'] = level_parser(xp=context['xp'])
 	context['badges'] = badges
-	context['type_badges'] = type_badges
 	context['update_history'] = []
 	
+	UPDATE_FIELDS = Update._meta.get_fields()
 	for update in trainer.update_set.all():
 		update_obj = []
-		for x in Update._meta.get_fields():
+		for x in UPDATE_FIELDS:
 			if x.attname in ['dex_caught','dex_seen','gym_badges']:
 				continue
 			update_obj.append(
