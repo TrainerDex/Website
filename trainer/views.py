@@ -540,7 +540,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	context['grand_total_xp'] = GRAND_TOTAL['update__xp__max__sum']
 	
 	for index, trainer in enumerate(QuerySet.prefetch_related('leaderboard_country'), 1):
-		if not trainer.update__xp__max or (trainer in [x['trainer'] for x in Results]):
+		if not trainer.update__xp__max:
 			continue
 		trainer_stats = {
 			'position' : index,
