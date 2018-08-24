@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-20 15:16+0000\n"
+"POT-Creation-Date: 2018-08-24 15:43+0000\n"
 "PO-Revision-Date: 2018-08-13 01:13+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Translated-Using: django-rosetta 0.8.1\n"
 
-#: ekpogo/settings.py:181 trainer/models.py:267 trainer/models.py:345
+#: ekpogo/settings.py:180 trainer/models.py:267 trainer/models.py:345
 msgid "English"
 msgstr "Anglais"
 
-#: ekpogo/settings.py:182 trainer/models.py:291 trainer/models.py:369
+#: ekpogo/settings.py:181 trainer/models.py:291 trainer/models.py:369
 msgid "German"
 msgstr "Allemand"
 
-#: ekpogo/settings.py:183 trainer/models.py:285 trainer/models.py:363
+#: ekpogo/settings.py:182 trainer/models.py:285 trainer/models.py:363
 msgid "Spanish"
 msgstr "Espanol"
 
-#: ekpogo/settings.py:184 trainer/models.py:279 trainer/models.py:357
+#: ekpogo/settings.py:183 trainer/models.py:279 trainer/models.py:357
 msgid "French"
 msgstr "Français"
 
-#: ekpogo/settings.py:185 trainer/models.py:297 trainer/models.py:375
+#: ekpogo/settings.py:184 trainer/models.py:297 trainer/models.py:375
 msgid "Italian"
 msgstr "Italien"
 
-#: ekpogo/settings.py:186 trainer/models.py:273 trainer/models.py:351
+#: ekpogo/settings.py:185 trainer/models.py:273 trainer/models.py:351
 msgid "Japanese"
 msgstr "Japonais"
 
-#: ekpogo/settings.py:187 trainer/models.py:303 trainer/models.py:381
+#: ekpogo/settings.py:186 trainer/models.py:303 trainer/models.py:381
 msgid "Korean"
 msgstr "Coréen"
 
-#: ekpogo/settings.py:188 trainer/models.py:315 trainer/models.py:393
+#: ekpogo/settings.py:187 trainer/models.py:315 trainer/models.py:393
 msgid "Brazilian Portuguese"
 msgstr "Portugais Brésilien"
 
-#: ekpogo/settings.py:189 trainer/models.py:309 trainer/models.py:387
+#: ekpogo/settings.py:188 trainer/models.py:309 trainer/models.py:387
 msgid "Traditional Chinese"
 msgstr "Chinois traditionnel"
 
@@ -157,7 +157,7 @@ msgstr ""
 "</li>\n"
 "</ul>"
 
-#: trainer/admin.py:65 trainer/models.py:681
+#: trainer/admin.py:65 trainer/models.py:683
 msgid "Reports"
 msgstr "Rapports"
 
@@ -587,7 +587,7 @@ msgstr ""
 msgid "The team of this Silph Card does not match that of your profile."
 msgstr ""
 
-#: trainer/models.py:252 trainer/models.py:411 trainer/models.py:675
+#: trainer/models.py:252 trainer/models.py:411 trainer/models.py:677
 msgid "Trainer"
 msgstr "Dresseur"
 
@@ -657,7 +657,10 @@ msgid "In your Pokédex, how many differnt species have you seen? It should say 
 msgstr ""
 
 #: trainer/models.py:416
-msgid "Total Gym Badges"
+#, fuzzy
+#| msgid "Total Gym Badges"
+msgctxt "profile_category_gymbadges"
+msgid "Gym Badges"
 msgstr "Total de badges d'arénes"
 
 #: trainer/models.py:416
@@ -1127,121 +1130,125 @@ msgid "Catch {0:0,} Fairy-type Pokémon"
 msgstr ""
 
 #: trainer/models.py:460
+msgid "Stardust"
+msgstr ""
+
+#: trainer/models.py:462
 msgid "Time Created"
 msgstr "Heure créée"
 
-#: trainer/models.py:482
+#: trainer/models.py:484
 msgid "Source"
 msgstr "Source"
 
-#: trainer/models.py:484
+#: trainer/models.py:486
 msgid "Total XP Screenshot"
 msgstr "Captures d'Total de PX"
 
-#: trainer/models.py:493
+#: trainer/models.py:495
 msgid "Crowd Sourced"
 msgstr "Origine Crowdsource"
 
-#: trainer/models.py:502
+#: trainer/models.py:504
 msgid "{username} - {xp:,}XP and {stats_num} stats updated at {date}"
 msgstr ""
 
-#: trainer/models.py:504
+#: trainer/models.py:506
 msgid "{username} - {xp:,}XP at {date}"
 msgstr ""
 
-#: trainer/models.py:506
+#: trainer/models.py:508
 #, python-brace-format
 msgid "{username} - {stats_num} stats updated at {date}"
 msgstr ""
 
-#: trainer/models.py:513
+#: trainer/models.py:515
 msgid "You can't post before your start date."
 msgstr ""
 
-#: trainer/models.py:521
+#: trainer/models.py:523
 #, fuzzy
 #| msgid "This value has previously been entered at a higher value. Please try again, ensuring you enter your Total XP."
 msgid "This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."
 msgstr "Ce champs a déjà été renseigné avec une plus haute valeur. Veuillez réessayer en vérifiant votre Total de PX"
 
-#: trainer/models.py:553
+#: trainer/models.py:555
 #, python-brace-format
 msgid "There are only {GEN_1_MAX} Pokémon in the Kanto region."
 msgstr ""
 
-#: trainer/models.py:559
+#: trainer/models.py:561
 #, python-brace-format
 msgid "There are only {GEN_2_MAX} Pokémon in the Johto region."
 msgstr ""
 
-#: trainer/models.py:567
+#: trainer/models.py:569
 #, python-brace-format
 msgid "There are only {GEN_3_MAX} Pokémon in the Hoenn region."
 msgstr ""
 
-#: trainer/models.py:582
+#: trainer/models.py:584
 #, python-brace-format
 msgid "There are only {UNOWN_MAX} different forms of Unown."
 msgstr ""
 
-#: trainer/models.py:593
+#: trainer/models.py:595
 msgid "No valid fields filled. If you only entered a field that is already max'd, this is why. We clear max'd fields."
 msgstr ""
 
-#: trainer/models.py:601
+#: trainer/models.py:603
 msgid "Update"
 msgstr "Mise à jour"
 
-#: trainer/models.py:602
+#: trainer/models.py:604
 msgid "Updates"
 msgstr "Mises à jour"
 
-#: trainer/models.py:676
+#: trainer/models.py:678
 msgid "Reported by"
 msgstr "Soumis par"
 
-#: trainer/models.py:677 trainer/models.py:680
+#: trainer/models.py:679 trainer/models.py:682
 msgid "Report"
 msgstr "Rapport"
 
-#: trainer/models.py:694
+#: trainer/models.py:696
 msgid "Special Relationship (Sponsorship)"
 msgstr ""
 
-#: trainer/models.py:695
+#: trainer/models.py:697
 msgid "Special Relationships (Sponsorships)"
 msgstr ""
 
-#: trainer/models.py:709
+#: trainer/models.py:711
 msgid "Discord Guild"
 msgstr ""
 
-#: trainer/models.py:710
+#: trainer/models.py:712
 msgid "Discord Guilds"
 msgstr ""
 
-#: trainer/models.py:739
+#: trainer/models.py:741
 msgid "Community League"
 msgstr ""
 
-#: trainer/models.py:740
+#: trainer/models.py:742
 msgid "Community Leagues"
 msgstr ""
 
-#: trainer/models.py:752
+#: trainer/models.py:754
 msgid "Community League Membership"
 msgstr ""
 
-#: trainer/models.py:753
+#: trainer/models.py:755
 msgid "Community League Memberships"
 msgstr ""
 
-#: trainer/models.py:768
+#: trainer/models.py:770
 msgid "Community League Discord Connection"
 msgstr ""
 
-#: trainer/models.py:769
+#: trainer/models.py:771
 msgid "Community League Discord Connections"
 msgstr ""
 
@@ -1389,42 +1396,42 @@ msgctxt "localized string of 40x2, 40x3 etc"
 msgid "{0}x{1.0,g}"
 msgstr ""
 
-#: trainer/views.py:362
+#: trainer/views.py:353
 #, python-brace-format
 msgid "{0} has not completed their profile."
 msgstr ""
 
-#: trainer/views.py:390 trainer/views.py:480 trainer/views.py:508
+#: trainer/views.py:381 trainer/views.py:442 trainer/views.py:470
 msgid "Please complete your profile to continue using the website."
 msgstr "Nous vous prions de complèter votre profile afin de pouvoir utiliser ce site web."
 
-#: trainer/views.py:522
+#: trainer/views.py:484
 #, python-brace-format
 msgid "No continent found for code {continent}"
 msgstr ""
 
-#: trainer/views.py:529 trainer/views.py:536
+#: trainer/views.py:491 trainer/views.py:498
 #, python-brace-format
 msgid "No country found for code {country}"
 msgstr ""
 
-#: trainer/views.py:538
+#: trainer/views.py:500
 #, python-brace-format
 msgid "No region found for code {country}/{region}"
 msgstr ""
 
-#: trainer/views.py:540
+#: trainer/views.py:502
 #, python-brace-format
 msgid "{region_str}, {country_str}"
 msgstr ""
 
-#: trainer/views.py:640
+#: trainer/views.py:604
 msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. An admin will verify you within the next couple of days. Until then, you will not appear in the Global Leaderboard but you can still use Guild Leaderboards and and update your stats!"
 msgstr ""
 "Nous vous remercions d'avoir renseigné votre profile. Vos captures d'écran sont en cours de vérification. Un Admin validera votre compte d'ici 48h.\n"
 "Jusque-là, vous n'apparaîtrez pas sur le Global Leaderboard mais vous pourrez utiliser le Guild Leaderboard et mettre à jour vos statistiques."
 
-#: trainer/views.py:662
+#: trainer/views.py:626
 msgid "Stats updated. Screenshot included."
 msgstr "Statistiques mises à jour. Capture d'écran incluse."
 
