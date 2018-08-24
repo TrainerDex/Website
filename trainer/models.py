@@ -413,7 +413,7 @@ class Update(models.Model):
 	xp = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("PROFILE_TOTAL_XP", "Total XP"), help_text=_("Your Total XP can be found at the bottom of your Pokémon Go profile"))
 	dex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokedex_page_caught", "Caught"), help_text=_("In your Pokédex, how many differnt species have you caught? It should say at the top."))
 	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokedex_page_seen", "Seen"), help_text=_("In your Pokédex, how many differnt species have you seen? It should say at the top."))
-	gym_badges = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Total Gym Badges"), help_text=_("Your gym badges map. Total number of gold, silver, bronze and blank combined. (This information is currently not used)"))
+	gym_badges = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("profile_category_gymbadges", "Gym Badges"), help_text=_("Your gym badges map. Total number of gold, silver, bronze and blank combined. (This information is currently not used)"))
 	
 	walk_dist = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True, verbose_name=pgettext_lazy("badge_travel_km_title", "Jogger"), help_text=pgettext_lazy("badge_travel_km", "Walk {0:0,g} km").format(1000.0))
 	gen_1_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_title", "Kanto"), help_text=pgettext_lazy("badge_pokedex_entries", "Register {0:0,} Kanto region Pokémon in the Pokédex.").format(100))
@@ -456,6 +456,8 @@ class Update(models.Model):
 	pkmn_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_dragon_title", "Dragon Tamer"), help_text=pgettext_lazy("badge_type_dragon", "Catch {0:0,} Dragon-type Pokémon").format(200))
 	pkmn_dark = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_dark_title", "Delinquent"), help_text=pgettext_lazy("badge_type_dark", "Catch {0:0,} Dark-type Pokémon").format(200))
 	pkmn_fairy = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fairy_title", "Fairy Tale Girl"), help_text=pgettext_lazy("badge_type_fairy", "Catch {0:0,} Fairy-type Pokémon").format(200))
+	
+	stardust = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Stardust"))
 	
 	meta_time_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Time Created"))
 	DATABASE_SOURCES = (
