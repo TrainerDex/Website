@@ -35,7 +35,7 @@ import requests
 logger = logging.getLogger('django.trainerdex')
 
 def _leaderboard_queryset_filter(queryset):
-	return queryset.exclude(statistics=False).exclude(verified=False).exclude(last_cheated__gt=date.today()-timedelta(weeks=26)).select_related('faction')
+	return queryset.exclude(statistics=False).exclude(verified=False).exclude(last_cheated__lt=date(2018,9,1)-timedelta(weeks=26)).exclude(last_cheated__gt=date(2018,9,1)).exclude(last_cheated__gt=date.today()-timedelta(weeks=26)).select_related('faction')
 
 # RESTful API Views
 
