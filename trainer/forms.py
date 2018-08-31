@@ -2,7 +2,7 @@
 from django.forms import ModelForm, CharField, ModelChoiceField, HiddenInput
 from django.utils.translation import gettext_lazy as _
 from trainer.models import Update, Trainer
-from trainer.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
+from trainer.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS
 
 class UpdateForm(ModelForm):
 	
@@ -16,14 +16,10 @@ class UpdateForm(ModelForm):
 			'dex_seen',
 			'gym_badges',
 			'update_time',
+			'stardust',
 		) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
 	
-	field_order = (
-		'xp',
-		'dex_caught',
-		'dex_seen',
-		'gym_badges',
-	) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
+	field_order = UPDATE_SORTABLE_FIELDS
 	
 
 class RegistrationFormTrainer(ModelForm):
@@ -54,12 +50,9 @@ class RegistrationFormUpdate(UpdateForm):
 			'gym_badges',
 			'image_proof',
 			'update_time',
+			'stardust',
 		) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
 	
 	field_order = (
 		'image_proof',
-		'xp',
-		'dex_caught',
-		'dex_seen',
-		'gym_badges',
-	) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
+		) + UPDATE_SORTABLE_FIELDS
