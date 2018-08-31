@@ -126,6 +126,7 @@ UPDATE_SORTABLE_FIELDS = (
 	'dex_caught',
 	'dex_seen',
 	'gym_badges',
+	'stardust',
 ) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
 
 UPDATE_NON_REVERSEABLE_FIELDS = ('xp', 'dex_caught', 'dex_seen', 'gym_badges',) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
