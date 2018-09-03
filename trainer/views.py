@@ -588,7 +588,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 def SetUpProfileViewStep2(request):
 	if request.user.is_authenticated and _check_if_self_valid(request):
 		if len(request.user.trainer.update_set.all()) == 0:
-			return redirect(SetUpProfileViewStep3, permanent=False)
+			return HttpResponseRedirect(reverse('profile_first_post'))
 		return HttpResponseRedirect(reverse('trainerdex_web:profile'))
 	
 	form = RegistrationFormTrainer(instance=request.user.trainer)
@@ -602,13 +602,13 @@ def SetUpProfileViewStep2(request):
 			request.user.save()
 			form.save()
 			messages.success(request, _("Thank you for filling out your profile. Your screenshots have been sent for verification. An admin will verify you within the next couple of days. Until then, you will not appear in the Global Leaderboard but you can still use Guild Leaderboards and and update your stats!"))
-			return redirect(SetUpProfileViewStep3, permanent=False)
+			return HttpResponseRedirect(reverse('profile_first_post'))
 	return render(request, 'account/signup2.html', {'form': form})
 
 @login_required
 def SetUpProfileViewStep3(request):
 	if request.user.is_authenticated and _check_if_self_valid(request) and len(request.user.trainer.update_set.all()) > 0:
-		return redirect(CreateUpdateHTMLView, permanent=False)
+		return HttpResponseRedirect(reverse('trainerdex_web:update_stats'))
 	
 	form = RegistrationFormUpdate(initial={'trainer':request.user.trainer})
 	form.fields['image_proof'].required = True
