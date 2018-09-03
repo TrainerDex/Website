@@ -8,7 +8,7 @@ django-colorful==1.3
 django-cookie-law==2.0.1
 django-rosetta==0.9.0
 django-widget-tweaks==1.4.2
-django==2.1
+django==2.1.1
 djangorestframework==3.8.2
 humanize==0.5.1
 idna==2.7
