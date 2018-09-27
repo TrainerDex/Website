@@ -571,7 +571,7 @@ class Update(models.Model):
 						setattr(self, field.name, None)
 					
 					# 7 - quests
-					if field.name == 'quests' and self.update_time.date() < date(2016,3,30):
+					if field.name == 'quests' and self.update_time.date() < date(2018,3,30):
 						setattr(self, field.name, None)
 				
 					# 8 - quests
