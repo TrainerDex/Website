@@ -1,5 +1,9 @@
 img.emoji {
-  // Override any img styles to ensure Emojis are displayed inline
+  /* Override any img styles to ensure Emojis are displayed inline */
   margin: 0px !important;
   display: inline !important;
+  height: 1em !important;
+  width: 1em !important;
+  margin: 0 .05em 0 .1em;
+  vertical-align: -0.1em;
 }
