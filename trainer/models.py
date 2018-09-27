@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import uuid
 import json
 import logging
@@ -533,7 +533,7 @@ class Update(models.Model):
 					
 					# 1 - Ace Trainer
 					if field.name == 'legacy_gym_trained' and self.update_time.date() > date(2017,6,19):
-						if bool(largest) and largest.update_time.date() == date(2016,6,19):
+						if bool(largest) and largest.update_time.date() == date(2017,6,19):
 							pass
 						else:
 							if bool(self.trainer.start_date) and self.trainer.start_date <= date(2017,6,19):
@@ -546,7 +546,7 @@ class Update(models.Model):
 					
 					# 3 - leg_raids_completed
 					# More validation needed - rest of world got it later
-					if field.name == 'leg_raids_completed' and self.update_time.date() < date(2016,7,22):
+					if field.name == 'leg_raids_completed' and self.update_time.date() < date(2017,7,22):
 						setattr(self, field.name, None)
 					
 					# 4 - gen_1_dex
@@ -559,7 +559,7 @@ class Update(models.Model):
 					GEN_2_MAX = 100
 					if field.name == 'gen_2_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_2_MAX:
 						error_dict[field.name] = ValidationError(_(f"There are only {GEN_2_MAX} Pokémon in the Johto region."))
-					if field.name == 'gen_2_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2016,12,12):
+					if field.name == 'gen_2_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2017,2,10):
 						setattr(self, field.name, None)
 					
 					# 6 - gen_3_dex
@@ -567,7 +567,7 @@ class Update(models.Model):
 					GEN_3_MAX = 135
 					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_3_MAX:
 						error_dict[field.name] = ValidationError(_(f"There are only {GEN_3_MAX} Pokémon in the Hoenn region."))
-					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2016,10,20):
+					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2017,10,20):
 						setattr(self, field.name, None)
 					
 					# 7 - quests
@@ -575,7 +575,7 @@ class Update(models.Model):
 						setattr(self, field.name, None)
 				
 					# 8 - quests
-					if field.name in ['max_friends','trading','trading_distance'] and self.update_time.date() < date(2016,6,21):
+					if field.name in ['max_friends','trading','trading_distance'] and self.update_time.date() < date(2018,6,21):
 						setattr(self, field.name, None)
 					
 					# 9 - unown_alphabet
