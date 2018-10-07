@@ -6,7 +6,7 @@
 {% load humanize %}
 {% load widget_tweaks %}
 
-{% block head_title %}{{trainer.username}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level.level}}{% endblock %}
+{% block head_title %}{{trainer.username}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}{% endblock %}
 {% block section_title %}{{trainer.username}}{% endblock %}
 
 {% block extra_head %}
@@ -17,7 +17,7 @@
 <meta property="og:type" content="profile" />
 <meta property="og:ttl" content="345600" />
 <meta property="og:description" content="{% trans 'Team' %}: {{trainer.faction}}
-{% trans 'Level' %}: {{level.level}}
+{% trans 'Level' %}: {{level}}
 {% trans 'XP' context 'Short form of XP' %}: {{xp|intcomma}}" />
 <meta property="profile:username" content="{{trainer.username}}" />
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
@@ -69,7 +69,7 @@
         <li class="mdl-list__item">
           <span class="mdl-list__item-primary-content" id="xp">
             <i class="mdl-list__item-icon">{% trans "XP" context 'Short form of XP'  %}</i>
-            {{xp|intcomma}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level.level}}
+            {{xp|intcomma}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}
           </span>
         </li>
       </ul>

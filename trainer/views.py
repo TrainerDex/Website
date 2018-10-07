@@ -348,8 +348,8 @@ BADGES = [
 def _check_if_trainer_valid(trainer):
 	if settings.DEBUG:
 		logger.log(level=30 if trainer.profile_complete else 20, msg='Checking {username}: Completed profile: {status}'.format(username=trainer.username, status=trainer.profile_complete))
-		logger.log(level=30 if trainer.update_set.count() else 20, msg='Checking {username}: Update count: {count}'.format(username=trainer.username, count=trainer.update_set.count()))
-	if not trainer.profile_complete or not trainer.update_set.count():
+		logger.log(level=30 if trainer.update_set.exclude(xp__isnull=True).count() else 20, msg='Checking {username}: Update count: {count}'.format(username=trainer.username, count=trainer.update_set.count()))
+	if not trainer.profile_complete or not trainer.update_set.exclude(xp__isnull=True).exists():
 		raise Http404(_('{0} has not completed their profile.').format(trainer.owner.username))
 	return trainer
 
@@ -407,7 +407,7 @@ def TrainerProfileHTMLView(request, username):
 	_values = context['updates'].aggregate(*[Max(x) for x in ('xp','dex_caught','dex_seen','gym_badges',)])
 	for value in _values:
 		context[value[:-5]] = _values[value]
-	context['level'] = level_parser(xp=context['xp'])
+	context['level'] = trainer.level()
 	context['badges'] = badges
 	context['update_history'] = []
 	
