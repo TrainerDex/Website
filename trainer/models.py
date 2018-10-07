@@ -531,17 +531,6 @@ class Update(models.Model):
 						
 					# Field specific Validation
 					
-					# 1 - Ace Trainer
-					if field.name == 'legacy_gym_trained' and self.update_time.date() > date(2017,6,19):
-						if bool(largest) and largest.update_time.date() == date(2017,6,19):
-							pass
-						else:
-							if bool(self.trainer.start_date) and self.trainer.start_date <= date(2017,6,19):
-								maybe_create = Update(trainer=self.trainer, update_time=datetime(2017,6,19,20,00), legacy_gym_trained=self.legacy_gym_trained)
-							else:
-								maybe_create = None
-							self.legacy_gym_trained = None
-							
 					# 2 - berry_fed, gyms_defended, raids_completed
 					if field.name in ['berry_fed', 'gym_defended', 'raids_completed'] and self.update_time.date() < date(2016,6,22):
 						setattr(self, field.name, None)
@@ -585,6 +574,12 @@ class Update(models.Model):
 					if field.name == 'unown_alphabet' and bool(getattr(self, field.name)) and getattr(self, field.name) > UNOWN_MAX:
 						error_dict[field.name] = ValidationError(_(f"There are only {UNOWN_MAX} different forms of Unown."))
 					
+					# -1 - Ace Trainer
+					if field.name == 'legacy_gym_trained' and self.update_time.date() > date(2017,6,19):
+						if not largest:
+							if bool(self.trainer.start_date) and self.trainer.start_date <= date(2017,6,19) and :
+								self.trainer.update_set.create(update_time=datetime(2017,6,19,20,00), legacy_gym_trained=self.legacy_gym_trained)
+							self.legacy_gym_trained = None
 						
 		except Exception as e:
 			if str(e) != 'Update has no trainer.':
@@ -598,8 +593,6 @@ class Update(models.Model):
 
 		if error_dict != {}:
 			raise ValidationError(error_dict)
-		elif maybe_create:
-			maybe_create.save()
 	
 	class Meta:
 		get_latest_by = 'update_time'
