@@ -47,12 +47,12 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.discord',
-    'allauth.socialaccount.providers.facebook',
+#    'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.reddit',
     'allauth.socialaccount.providers.twitter',
 #    'allauth.socialaccount.providers.telegram',
-    'allauth.socialaccount.providers.patreon',
-    'allauth.socialaccount.providers.google',
+#    'allauth.socialaccount.providers.patreon',
+#    'allauth.socialaccount.providers.google',
     'widget_tweaks',
     'admin_reorder',
 ]
@@ -300,3 +300,5 @@ EMAIL_HOST_USER = 'noreply@mg.trainerdex.co.uk'
 EMAIL_HOST_PASSWORD = '***REMOVED***'
 DEFAULT_FROM_EMAIL = 'TrainerDex Support <jay@trainerdex.co.uk>'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+FILE_UPLOAD_PERMISSIONS = 0x775
