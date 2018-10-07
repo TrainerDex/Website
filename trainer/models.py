@@ -134,7 +134,7 @@ class Trainer(models.Model):
 	is_on_leaderboard.boolean = True
 	
 	def level(self):
-		update = self.update_set
+		update = self.update_set.exclude(xp__isnull=True)
 		if update.exists():
 			return level_parser(xp=update.aggregate(models.Max('xp'))['xp__max']).level
 		return None
@@ -241,7 +241,7 @@ class Trainer(models.Model):
 	
 	def clean(self):
 		if self.thesilphroad_username:
-			if self.faction.name != self.get_silph_card_team():
+			if self.faction.slug.casefold() != self.get_silph_card_team().casefold():
 				raise ValidationError({'thesilphroad_username': _("The team of this Silph Card does not match that of your profile.")})
 	
 	def get_absolute_url(self):
