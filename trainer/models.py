@@ -577,7 +577,7 @@ class Update(models.Model):
 					# -1 - Ace Trainer
 					if field.name == 'legacy_gym_trained' and self.update_time.date() > date(2017,6,19):
 						if not largest:
-							if bool(self.trainer.start_date) and self.trainer.start_date <= date(2017,6,19) and :
+							if bool(self.trainer.start_date) and self.trainer.start_date <= date(2017,6,19):
 								self.trainer.update_set.create(update_time=datetime(2017,6,19,20,00), legacy_gym_trained=self.legacy_gym_trained)
 							self.legacy_gym_trained = None
 						
