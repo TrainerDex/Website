@@ -537,7 +537,9 @@ class Update(models.Model):
 							pass
 						else:
 							if bool(self.trainer.start_date) and self.trainer.start_date <= date(2017,6,19):
-								self.trainer.update_set.create(update_time=datetime(2017,6,19,20,00), legacy_gym_trained=self.legacy_gym_trained)
+								maybe_create = Update(trainer=self.trainer, update_time=datetime(2017,6,19,20,00), legacy_gym_trained=self.legacy_gym_trained)
+							else:
+								maybe_create = None
 							self.legacy_gym_trained = None
 							
 					# 2 - berry_fed, gyms_defended, raids_completed
@@ -596,6 +598,8 @@ class Update(models.Model):
 
 		if error_dict != {}:
 			raise ValidationError(error_dict)
+		elif maybe_create:
+			maybe_create.save()
 	
 	class Meta:
 		get_latest_by = 'update_time'

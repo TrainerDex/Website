@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-24 15:43+0000\n"
+"POT-Creation-Date: 2018-10-07 13:36+0000\n"
 "PO-Revision-Date: 2018-08-13 01:13+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Translated-Using: django-rosetta 0.8.1\n"
 
-#: ekpogo/settings.py:180 trainer/models.py:267 trainer/models.py:345
+#: ekpogo/settings.py:182 trainer/models.py:267 trainer/models.py:345
 msgid "English"
 msgstr "Anglais"
 
-#: ekpogo/settings.py:181 trainer/models.py:291 trainer/models.py:369
+#: ekpogo/settings.py:183 trainer/models.py:291 trainer/models.py:369
 msgid "German"
 msgstr "Allemand"
 
-#: ekpogo/settings.py:182 trainer/models.py:285 trainer/models.py:363
+#: ekpogo/settings.py:184 trainer/models.py:285 trainer/models.py:363
 msgid "Spanish"
 msgstr "Espanol"
 
-#: ekpogo/settings.py:183 trainer/models.py:279 trainer/models.py:357
+#: ekpogo/settings.py:185 trainer/models.py:279 trainer/models.py:357
 msgid "French"
 msgstr "Français"
 
-#: ekpogo/settings.py:184 trainer/models.py:297 trainer/models.py:375
+#: ekpogo/settings.py:186 trainer/models.py:297 trainer/models.py:375
 msgid "Italian"
 msgstr "Italien"
 
-#: ekpogo/settings.py:185 trainer/models.py:273 trainer/models.py:351
+#: ekpogo/settings.py:187 trainer/models.py:273 trainer/models.py:351
 msgid "Japanese"
 msgstr "Japonais"
 
-#: ekpogo/settings.py:186 trainer/models.py:303 trainer/models.py:381
+#: ekpogo/settings.py:188 trainer/models.py:303 trainer/models.py:381
 msgid "Korean"
 msgstr "Coréen"
 
-#: ekpogo/settings.py:187 trainer/models.py:315 trainer/models.py:393
+#: ekpogo/settings.py:189 trainer/models.py:315 trainer/models.py:393
 msgid "Brazilian Portuguese"
 msgstr "Portugais Brésilien"
 
-#: ekpogo/settings.py:188 trainer/models.py:309 trainer/models.py:387
+#: ekpogo/settings.py:190 trainer/models.py:309 trainer/models.py:387
 msgid "Traditional Chinese"
 msgstr "Chinois traditionnel"
 
@@ -173,8 +173,8 @@ msgstr "Événements de 2018"
 msgid "Website Badges"
 msgstr "Badges de TrainerDex"
 
-#: trainer/admin.py:80 website/templates/base.html:89
-#: website/templates/base.html:134
+#: trainer/admin.py:80 website/templates/base.html:88
+#: website/templates/base.html:133
 msgid "Leaderboard"
 msgstr "Classement"
 
@@ -1263,8 +1263,8 @@ msgstr "Inscription"
 
 #: trainer/templates/account/signup2.html:17
 #: website/templates/account/signup.html:21
-#: website/templates/account/signup.html:51 website/templates/base.html:104
-#: website/templates/base.html:126
+#: website/templates/account/signup.html:51 website/templates/base.html:103
+#: website/templates/base.html:125
 msgid "Register"
 msgstr "Enregistrement"
 
@@ -1826,66 +1826,66 @@ msgid "TrainerDex provides leaderboards and stats related to Pokemon Go. Join no
 msgstr ""
 
 #. Translators: 'beta' should remain in lowercase and is superscripted
-#: website/templates/base.html:62
+#: website/templates/base.html:61
 msgid "beta"
 msgstr "beta"
 
 #. Translators: 'β' should remain in lowercase and is superscripted, it's the short form of 'beta' and is used on mobile
-#: website/templates/base.html:64
+#: website/templates/base.html:63
 msgid "β"
 msgstr ""
 
-#: website/templates/base.html:88
+#: website/templates/base.html:87
 #, fuzzy
 #| msgid "About"
 msgid "About Us"
 msgstr "A propos"
 
-#: website/templates/base.html:100 website/templates/base.html:122
+#: website/templates/base.html:99 website/templates/base.html:121
 #: website/templates/help/account_settings.html:5
 #: website/templates/help/account_settings.html:6
 #: website/templates/help/account_settings.html:7
 msgid "Account Settings"
 msgstr "Paramétres du compte"
 
-#: website/templates/base.html:101 website/templates/base.html:123
+#: website/templates/base.html:100 website/templates/base.html:122
 msgid "Log out"
 msgstr "Déconnexion"
 
-#: website/templates/base.html:103 website/templates/base.html:125
+#: website/templates/base.html:102 website/templates/base.html:124
 msgid "Login"
 msgstr "Connexion"
 
-#: website/templates/base.html:114
+#: website/templates/base.html:113
 msgctxt "This is the display name for a user not logged in. Use local references if you like. In English, I've gone for Red, the protagonist in the Gen 1 games."
 msgid "Red"
 msgstr ""
 
-#: website/templates/base.html:118
+#: website/templates/base.html:117
 msgid "Account Control"
 msgstr "Tableau de bord"
 
-#: website/templates/base.html:133
+#: website/templates/base.html:132
 msgid "My Profile"
 msgstr "Mon Profile"
 
-#: website/templates/base.html:133
+#: website/templates/base.html:132
 msgid "Home"
 msgstr "Page de garde"
 
-#: website/templates/base.html:136 website/templates/base.html:170
+#: website/templates/base.html:135 website/templates/base.html:169
 msgid "Help"
 msgstr "Aide"
 
-#: website/templates/base.html:169
+#: website/templates/base.html:168
 msgid "About"
 msgstr "A propos"
 
-#: website/templates/base.html:171
+#: website/templates/base.html:170
 msgid "Privacy &amp; Terms"
 msgstr "Vie privée & Termes"
 
-#: website/templates/base.html:172
+#: website/templates/base.html:171
 msgid "Admin Panel"
 msgstr "Panneau d'administration"
 
