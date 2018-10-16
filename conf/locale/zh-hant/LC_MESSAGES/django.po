@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-07 13:36+0000\n"
+"POT-Creation-Date: 2018-10-16 14:47+0000\n"
 "PO-Revision-Date: 2018-08-13 01:41+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -134,7 +134,7 @@ msgid ""
 "                      "
 msgstr ""
 
-#: trainer/admin.py:65 trainer/models.py:683
+#: trainer/admin.py:65 trainer/models.py:687
 msgid "Reports"
 msgstr ""
 
@@ -579,7 +579,7 @@ msgstr ""
 msgid "The team of this Silph Card does not match that of your profile."
 msgstr ""
 
-#: trainer/models.py:252 trainer/models.py:411 trainer/models.py:677
+#: trainer/models.py:252 trainer/models.py:411 trainer/models.py:681
 msgid "Trainer"
 msgstr ""
 
@@ -875,304 +875,319 @@ msgctxt "badge_trading_distance"
 msgid "Earn {0:0,} km across the distance of all Pokémon trades."
 msgstr ""
 
-#: trainer/models.py:441
+#: trainer/models.py:440
+msgctxt "badge_pokedex_entries_gen4_title"
+msgid "Sinnoh"
+msgstr ""
+
+#: trainer/models.py:440
+msgctxt "badge_pokedex_entries_gen4"
+msgid "Register {0:0,} Pokémon first discovered in the Sinnoh region to the Pokédex."
+msgstr ""
+
+#: trainer/models.py:442
 msgctxt "badge_type_normal_title"
 msgid "Schoolkid"
 msgstr ""
 
-#: trainer/models.py:441
+#: trainer/models.py:442
 msgctxt "badge_type_normal"
 msgid "Catch {0:0,} Normal-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:442
+#: trainer/models.py:443
 msgctxt "badge_type_fighting_title"
 msgid "Black Belt"
 msgstr ""
 
-#: trainer/models.py:442
+#: trainer/models.py:443
 msgctxt "badge_type_fighting"
 msgid "Catch {0:0,} Fighting-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:443
+#: trainer/models.py:444
 msgctxt "badge_type_flying_title"
 msgid "Bird Keeper"
 msgstr ""
 
-#: trainer/models.py:443
+#: trainer/models.py:444
 msgctxt "badge_type_flying"
 msgid "Catch {0:0,} Flying-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:444
+#: trainer/models.py:445
 msgctxt "badge_type_poison_title"
 msgid "Punk Girl"
 msgstr ""
 
-#: trainer/models.py:444
+#: trainer/models.py:445
 msgctxt "badge_type_poison"
 msgid "Catch {0:0,} Poison-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:445
+#: trainer/models.py:446
 msgctxt "badge_type_ground_title"
 msgid "Ruin Maniac"
 msgstr ""
 
-#: trainer/models.py:445
+#: trainer/models.py:446
 msgctxt "badge_type_ground"
 msgid "Catch {0:0,} Ground-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:446
+#: trainer/models.py:447
 msgctxt "badge_type_rock_title"
 msgid "Hiker"
 msgstr ""
 
-#: trainer/models.py:446
+#: trainer/models.py:447
 msgctxt "badge_type_rock"
 msgid "Catch {0:0,} Rock-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:447
+#: trainer/models.py:448
 msgctxt "badge_type_bug_title"
 msgid "Bug Catcher"
 msgstr ""
 
-#: trainer/models.py:447
+#: trainer/models.py:448
 msgctxt "badge_type_bug"
 msgid "Catch {0:0,} Bug-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:448
+#: trainer/models.py:449
 msgctxt "badge_type_ghost_title"
 msgid "Hex Maniac"
 msgstr ""
 
-#: trainer/models.py:448
+#: trainer/models.py:449
 msgctxt "badge_type_ghost"
 msgid "Catch {0:0,} Ghost-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:449
+#: trainer/models.py:450
 msgctxt "badge_type_steel_title"
 msgid "Depot Agent"
 msgstr ""
 
-#: trainer/models.py:449
+#: trainer/models.py:450
 msgctxt "badge_type_steel"
 msgid "Catch {0:0,} Steel-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:450
+#: trainer/models.py:451
 msgctxt "badge_type_fire_title"
 msgid "Kindler"
 msgstr ""
 
-#: trainer/models.py:450
+#: trainer/models.py:451
 msgctxt "badge_type_fire"
 msgid "Catch {0:0,} Fire-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:451
+#: trainer/models.py:452
 msgctxt "badge_type_water_title"
 msgid "Swimmer"
 msgstr ""
 
-#: trainer/models.py:451
+#: trainer/models.py:452
 msgctxt "badge_type_water"
 msgid "Catch {0:0,} Water-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:452
+#: trainer/models.py:453
 msgctxt "badge_type_grass_title"
 msgid "Gardener"
 msgstr ""
 
-#: trainer/models.py:452
+#: trainer/models.py:453
 msgctxt "badge_type_grass"
 msgid "Catch {0:0,} Grass-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:453
+#: trainer/models.py:454
 msgctxt "badge_type_electric_title"
 msgid "Rocker"
 msgstr ""
 
-#: trainer/models.py:453
+#: trainer/models.py:454
 msgctxt "badge_type_electric"
 msgid "Catch {0:0,} Electric-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:454
+#: trainer/models.py:455
 msgctxt "badge_type_psychic_title"
 msgid "Psychic"
 msgstr ""
 
-#: trainer/models.py:454
+#: trainer/models.py:455
 msgctxt "badge_type_psychic"
 msgid "Catch {0:0,} Pychic-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:455
+#: trainer/models.py:456
 msgctxt "badge_type_ice_title"
 msgid "Skier"
 msgstr ""
 
-#: trainer/models.py:455
+#: trainer/models.py:456
 msgctxt "badge_type_ice"
 msgid "Catch {0:0,} Ice-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:456
+#: trainer/models.py:457
 msgctxt "badge_type_dragon_title"
 msgid "Dragon Tamer"
 msgstr ""
 
-#: trainer/models.py:456
+#: trainer/models.py:457
 msgctxt "badge_type_dragon"
 msgid "Catch {0:0,} Dragon-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:457
+#: trainer/models.py:458
 msgctxt "badge_type_dark_title"
 msgid "Delinquent"
 msgstr ""
 
-#: trainer/models.py:457
+#: trainer/models.py:458
 msgctxt "badge_type_dark"
 msgid "Catch {0:0,} Dark-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:458
+#: trainer/models.py:459
 msgctxt "badge_type_fairy_title"
 msgid "Fairy Tale Girl"
 msgstr ""
 
-#: trainer/models.py:458
+#: trainer/models.py:459
 msgctxt "badge_type_fairy"
 msgid "Catch {0:0,} Fairy-type Pokémon"
 msgstr ""
 
-#: trainer/models.py:460
+#: trainer/models.py:461
 msgid "Stardust"
 msgstr ""
 
-#: trainer/models.py:462
+#: trainer/models.py:463
 msgid "Time Created"
 msgstr ""
 
-#: trainer/models.py:484
+#: trainer/models.py:485
 msgid "Source"
 msgstr ""
 
-#: trainer/models.py:486
+#: trainer/models.py:487
 msgid "Total XP Screenshot"
 msgstr "總XP截圖"
 
-#: trainer/models.py:495
+#: trainer/models.py:496
 msgid "Crowd Sourced"
 msgstr ""
 
-#: trainer/models.py:504
+#: trainer/models.py:505
 msgid "{username} - {xp:,}XP and {stats_num} stats updated at {date}"
 msgstr ""
 
-#: trainer/models.py:506
+#: trainer/models.py:507
 msgid "{username} - {xp:,}XP at {date}"
 msgstr ""
 
-#: trainer/models.py:508
+#: trainer/models.py:509
 #, python-brace-format
 msgid "{username} - {stats_num} stats updated at {date}"
 msgstr ""
 
-#: trainer/models.py:515
+#: trainer/models.py:516
 msgid "You can't post before your start date."
 msgstr ""
 
-#: trainer/models.py:523
+#: trainer/models.py:524
 msgid "This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."
 msgstr ""
 
-#: trainer/models.py:555
+#: trainer/models.py:547
 #, python-brace-format
 msgid "There are only {GEN_1_MAX} Pokémon in the Kanto region."
 msgstr ""
 
-#: trainer/models.py:561
+#: trainer/models.py:553
 #, python-brace-format
 msgid "There are only {GEN_2_MAX} Pokémon in the Johto region."
 msgstr ""
 
-#: trainer/models.py:569
+#: trainer/models.py:560
 #, python-brace-format
 msgid "There are only {GEN_3_MAX} Pokémon in the Hoenn region."
 msgstr ""
 
-#: trainer/models.py:584
+#: trainer/models.py:567
+#, python-brace-format
+msgid "There are only {GEN_4_MAX} Pokémon in the Hoenn region."
+msgstr ""
+
+#: trainer/models.py:582
 #, python-brace-format
 msgid "There are only {UNOWN_MAX} different forms of Unown."
 msgstr ""
 
-#: trainer/models.py:595
+#: trainer/models.py:599
 msgid "No valid fields filled. If you only entered a field that is already max'd, this is why. We clear max'd fields."
 msgstr ""
 
-#: trainer/models.py:603
+#: trainer/models.py:607
 msgid "Update"
 msgstr ""
 
-#: trainer/models.py:604
+#: trainer/models.py:608
 msgid "Updates"
 msgstr ""
 
-#: trainer/models.py:678
+#: trainer/models.py:682
 msgid "Reported by"
 msgstr ""
 
-#: trainer/models.py:679 trainer/models.py:682
+#: trainer/models.py:683 trainer/models.py:686
 msgid "Report"
 msgstr ""
 
-#: trainer/models.py:696
+#: trainer/models.py:700
 msgid "Special Relationship (Sponsorship)"
 msgstr ""
 
-#: trainer/models.py:697
+#: trainer/models.py:701
 msgid "Special Relationships (Sponsorships)"
 msgstr ""
 
-#: trainer/models.py:711
+#: trainer/models.py:715
 msgid "Discord Guild"
 msgstr ""
 
-#: trainer/models.py:712
+#: trainer/models.py:716
 msgid "Discord Guilds"
 msgstr ""
 
-#: trainer/models.py:741
+#: trainer/models.py:745
 msgid "Community League"
 msgstr ""
 
-#: trainer/models.py:742
+#: trainer/models.py:746
 msgid "Community Leagues"
 msgstr ""
 
-#: trainer/models.py:754
+#: trainer/models.py:758
 msgid "Community League Membership"
 msgstr ""
 
-#: trainer/models.py:755
+#: trainer/models.py:759
 msgid "Community League Memberships"
 msgstr ""
 
-#: trainer/models.py:770
+#: trainer/models.py:774
 msgid "Community League Discord Connection"
 msgstr ""
 
-#: trainer/models.py:771
+#: trainer/models.py:775
 msgid "Community League Discord Connections"
 msgstr ""
 
@@ -1313,40 +1328,40 @@ msgctxt "localized string of 40x2, 40x3 etc"
 msgid "{0}x{1.0,g}"
 msgstr ""
 
-#: trainer/views.py:353
+#: trainer/views.py:354
 #, python-brace-format
 msgid "{0} has not completed their profile."
 msgstr ""
 
-#: trainer/views.py:381 trainer/views.py:442 trainer/views.py:470
+#: trainer/views.py:382 trainer/views.py:443 trainer/views.py:471
 msgid "Please complete your profile to continue using the website."
 msgstr ""
 
-#: trainer/views.py:484
+#: trainer/views.py:485
 #, python-brace-format
 msgid "No continent found for code {continent}"
 msgstr ""
 
-#: trainer/views.py:491 trainer/views.py:498
+#: trainer/views.py:492 trainer/views.py:499
 #, python-brace-format
 msgid "No country found for code {country}"
 msgstr ""
 
-#: trainer/views.py:500
+#: trainer/views.py:501
 #, python-brace-format
 msgid "No region found for code {country}/{region}"
 msgstr ""
 
-#: trainer/views.py:502
+#: trainer/views.py:503
 #, python-brace-format
 msgid "{region_str}, {country_str}"
 msgstr ""
 
-#: trainer/views.py:604
+#: trainer/views.py:605
 msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. An admin will verify you within the next couple of days. Until then, you will not appear in the Global Leaderboard but you can still use Guild Leaderboards and and update your stats!"
 msgstr ""
 
-#: trainer/views.py:626
+#: trainer/views.py:627
 msgid "Stats updated. Screenshot included."
 msgstr ""
 
