@@ -437,6 +437,7 @@ class Update(models.Model):
 	max_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"), help_text=pgettext_lazy("badge_max_level_friends", "Become Best Friends with {0:0,} Trainers.").format(3))
 	trading = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_title", "Gentleman"), help_text=pgettext_lazy("badge_trading", "Trade {0:0,} Pokémon.").format(1000))
 	trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_distance_title", "Pilot"), help_text=pgettext_lazy("badge_trading_distance", "Earn {0:0,} km across the distance of all Pokémon trades.").format(1000000))
+	gen_4_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen4_title", "Sinnoh"), help_text=pgettext_lazy("badge_pokedex_entries_gen4", "Register {0:0,} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(0))
 	
 	pkmn_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_normal_title", "Schoolkid"), help_text=pgettext_lazy("badge_type_normal", "Catch {0:0,} Normal-type Pokémon").format(200))
 	pkmn_fighting = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fighting_title", "Black Belt"), help_text=pgettext_lazy("badge_type_fighting", "Catch {0:0,} Fighting-type Pokémon").format(200))
@@ -531,21 +532,21 @@ class Update(models.Model):
 						
 					# Field specific Validation
 					
-					# 2 - berry_fed, gyms_defended, raids_completed
+					# 1 - berry_fed, gyms_defended, raids_completed
 					if field.name in ['berry_fed', 'gym_defended', 'raids_completed'] and self.update_time.date() < date(2016,6,22):
 						setattr(self, field.name, None)
 					
-					# 3 - leg_raids_completed
+					# 2 - leg_raids_completed
 					# More validation needed - rest of world got it later
 					if field.name == 'leg_raids_completed' and self.update_time.date() < date(2017,7,22):
 						setattr(self, field.name, None)
 					
-					# 4 - gen_1_dex
+					# 3 - gen_1_dex
 					GEN_1_MAX = 151
 					if field.name == 'gen_1_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_1_MAX:
 						error_dict[field.name] = ValidationError(_(f"There are only {GEN_1_MAX} Pokémon in the Kanto region."))
 					
-					# 5 gen_2_dex
+					# 4 gen_2_dex
 					# More validation needed - how many and when?
 					GEN_2_MAX = 100
 					if field.name == 'gen_2_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_2_MAX:
@@ -553,12 +554,18 @@ class Update(models.Model):
 					if field.name == 'gen_2_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2017,2,10):
 						setattr(self, field.name, None)
 					
-					# 6 - gen_3_dex
-					# More validation needed - how many and when?
+					# 5 - gen_3_dex
 					GEN_3_MAX = 135
 					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_3_MAX:
 						error_dict[field.name] = ValidationError(_(f"There are only {GEN_3_MAX} Pokémon in the Hoenn region."))
 					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2017,10,20):
+						setattr(self, field.name, None)
+					
+					# 6 - gen_4_dex
+					GEN_4_MAX = 107
+					if field.name == 'gen_4_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_4_MAX:
+						error_dict[field.name] = ValidationError(_(f"There are only {GEN_4_MAX} Pokémon in the Hoenn region."))
+					if field.name == 'gen_4_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2018,10,16):
 						setattr(self, field.name, None)
 					
 					# 7 - quests
