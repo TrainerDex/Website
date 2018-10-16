@@ -343,7 +343,8 @@ BADGES = [
 	{'name':'max_friends', 'bronze':1, 'silver':2, 'gold':3},
 	{'name':'trading', 'bronze':10, 'silver':100, 'gold':1000},
 	{'name':'trading_distance', 'bronze':1000, 'silver':10000, 'gold':1000000},
-] + [{'name':x, 'bronze':10, 'silver':50, 'gold':200} for x in UPDATE_FIELDS_TYPES]
+	{'name':'gen_4_dex', 'bronze':10, 'silver':50, 'gold':70}, # Guessimate
+] +  [{'name':x, 'bronze':10, 'silver':50, 'gold':200} for x in UPDATE_FIELDS_TYPES]
 
 def _check_if_trainer_valid(trainer):
 	if settings.DEBUG:
