@@ -567,12 +567,13 @@ class Update(models.Model):
 					# DailyLimit = 1M
 					DailyLimit = 1000000
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -590,12 +591,13 @@ class Update(models.Model):
 					# DailyLimit = 60
 					DailyLimit = Decimal('60.0')
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / Decimal(str(_timedelta.total_seconds()/86400))
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / Decimal(str(_timedelta.total_seconds()/86400))
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -620,12 +622,13 @@ class Update(models.Model):
 					# DailyLimit = 800
 					DailyLimit = 800
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -643,12 +646,13 @@ class Update(models.Model):
 					# DailyLimit = 250
 					DailyLimit = 250
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -666,12 +670,13 @@ class Update(models.Model):
 					# DailyLimit = 60
 					DailyLimit = 60
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -689,12 +694,13 @@ class Update(models.Model):
 					# DailyLimit = 500
 					DailyLimit = 500
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -712,12 +718,13 @@ class Update(models.Model):
 					# DailyLimit = 25
 					DailyLimit = 25
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -735,12 +742,13 @@ class Update(models.Model):
 					# DailyLimit = 500
 					DailyLimit = 500
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -775,12 +783,13 @@ class Update(models.Model):
 					# DailyLimit = 25
 					DailyLimit = 25
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -798,12 +807,13 @@ class Update(models.Model):
 					# DailyLimit = 100
 					DailyLimit = 100
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -821,12 +831,13 @@ class Update(models.Model):
 					# DailyLimit = 3200
 					DailyLimit = 3200
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -858,12 +869,13 @@ class Update(models.Model):
 					# DailyLimit = 480
 					DailyLimit = 480
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -895,12 +907,13 @@ class Update(models.Model):
 					# DailyLimit = 100
 					DailyLimit = 100
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -922,12 +935,13 @@ class Update(models.Model):
 					# DailyLimit = 100
 					DailyLimit = 100
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -989,12 +1003,13 @@ class Update(models.Model):
 					# DailyLimit = 500
 					DailyLimit = 500
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -1026,12 +1041,13 @@ class Update(models.Model):
 					# DailyLimit = 100
 					DailyLimit = 100
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
@@ -1053,12 +1069,13 @@ class Update(models.Model):
 					# DailyLimit = 1.92M
 					DailyLimit = 1920000
 					
-					# Checks Daily Limit between now and last_update
-					_timedelta = self.update_time.date()-InterestDate
-					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
-					if _xdelta >= DailyLimit:
-						# Failed Verification, raise error!
-						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					# Checks Daily Limit between now and InterestDate
+					if InterestDate:
+						_timedelta = self.update_time.date()-InterestDate
+						_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+						if _xdelta >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
 					
 					# Checks Daily Limit between now and last_update
 					if bool(last_update):
