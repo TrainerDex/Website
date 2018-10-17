@@ -36,7 +36,7 @@ from trainer.shortcuts import strtoboolornone, cleanleaderboardqueryset, level_p
 
 
 def _leaderboard_queryset_filter(queryset):
-	return queryset.exclude(statistics=False).exclude(verified=False).exclude(last_cheated__lt=date(2018,9,1)-timedelta(weeks=26)).exclude(last_cheated__gt=date(2018,9,1)).exclude(last_cheated__gt=date.today()-timedelta(weeks=26)).select_related('faction')
+	return queryset.exclude(update__isnull=True).exclude(statistics=False).exclude(verified=False).exclude(last_cheated__lt=date(2018,9,1)-timedelta(weeks=26)).exclude(last_cheated__gt=date(2018,9,1)).exclude(last_cheated__gt=date.today()-timedelta(weeks=26)).select_related('faction')
 
 # RESTful API Views
 
@@ -256,13 +256,16 @@ class UpdateDetailJSONView(APIView):
 	
 
 class LeaderboardJSONView(APIView):
+	"""
+	Limited to 5000
+	"""
 	
 	def get(self, request):
 		query = _leaderboard_queryset_filter(Trainer.objects)
 		if request.GET.get('users'):
 			query = Trainer.objects.filter(id__in=request.GET.get('users').split(','))
-		leaderboard = query.annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).order_by('-update__total_xp__max')
-		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
+		leaderboard = query.prefetch_related('faction').prefetch_related('update_set').prefetch_related('owner').annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())).order_by('rank')
+		serializer = LeaderboardSerializer(leaderboard[:5000], many=True)
 		return Response(serializer.data)
 	
 
@@ -330,8 +333,8 @@ class DiscordLeaderboardAPIView(APIView):
 		members = [x['user']['id'] for x in members.json() if not any([i in x['roles'] for i in opt_out_role_id])]
 		trainers = _leaderboard_queryset_filter(Trainer.objects.filter(owner__socialaccount__provider='discord', owner__socialaccount__uid__in=members))
 		
-		leaderboard = trainers.annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).order_by('-update__total_xp__max')
-		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
+		leaderboard = trainers.prefetch_related('faction').prefetch_related('update_set').prefetch_related('owner').annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())).order_by('rank')
+		serializer = LeaderboardSerializer(leaderboard, many=True)
 		output['leaderboard'] = serializer.data
 		return Response(output)
 	
