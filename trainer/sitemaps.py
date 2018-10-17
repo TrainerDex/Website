@@ -30,7 +30,7 @@ class TrainerSitemap(Sitemap):
 		return obj.last_modified
 	
 	def priority(self, obj):
-		return min((min(obj.update_set.order_by('-xp')[0].xp/20000000, 1.0)*(5/11))+0.5, 0.9)
+		return min((min(obj.update_set.order_by('-total_xp')[0].total_xp/20000000, 1.0)*(5/11))+0.5, 0.9)
 
 class LeaderboardContinentSitemap(Sitemap):
 	changefreq = "daily"
