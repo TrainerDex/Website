@@ -99,7 +99,10 @@ class LeaderboardSerializer(serializers.Serializer):
 		return obj[0]
 	
 	def get_level(self, obj):
-		return obj[1].level()
+		try:
+			return obj[1].level()
+		except:
+			return 0
 	
 	def get_id(self, obj):
 		return obj[1].id
