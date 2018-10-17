@@ -7,19 +7,10 @@ from trainer.models import *
 from trainer.shortcuts import level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 class BriefUpdateSerializer(serializers.ModelSerializer):
-	altered_fields = serializers.SerializerMethodField()
-	
-	def get_altered_fields(self, obj):
-		changed_list = []
-		field_list = ('dex_caught', 'dex_seen', 'gym_badges') + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
-		for k, v in obj.__dict__.items():
-			if k in field_list and v is not None:
-				changed_list.append(k)
-		return changed_list
 	
 	class Meta:
 		model = Update
-		fields = ('uuid', 'trainer', 'update_time', 'xp', 'altered_fields')
+		fields = ('uuid', 'trainer', 'update_time', 'xp', 'modified_extra_fields')
 
 class DetailedUpdateSerializer(serializers.ModelSerializer):
 	
@@ -30,7 +21,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Update
-		fields = ('uuid', 'trainer', 'update_time', 'xp', 'dex_caught', 'dex_seen', 'gym_badges',) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('meta_source',)
+		fields = ('uuid', 'trainer', 'update_time', 'total_xp', 'pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust',) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('data_source',)
 
 class BriefTrainerSerializer(serializers.ModelSerializer):
 	update_set = BriefUpdateSerializer(read_only=True, many=True)
@@ -100,7 +91,7 @@ class LeaderboardSerializer(serializers.Serializer):
 		return obj[0]
 	
 	def get_level(self, obj):
-		return level_parser(xp=obj[1].update__xp__max).level
+		return level_parser(xp=obj[1].update__total_xp__max).level
 	
 	def get_id(self, obj):
 		return obj[1].id
@@ -112,7 +103,7 @@ class LeaderboardSerializer(serializers.Serializer):
 		return FactionSerializer(obj[1].faction).data
 	
 	def get_xp(self, obj):
-		return obj[1].update__xp__max
+		return obj[1].update__total_xp__max
 	
 	def get_last_updated(self, obj):
 		return obj[1].update__update_time__max

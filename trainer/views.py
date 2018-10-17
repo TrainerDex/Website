@@ -1,4 +1,8 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+import logging
+logger = logging.getLogger('django.trainerdex')
+import requests
+
 from allauth.socialaccount.models import SocialAccount
 from cities.models import Continent, Country, Region
 from datetime import datetime, timedelta, date
@@ -10,7 +14,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, ObjectDoesNotExist, PermissionDenied
 from django.core.mail import mail_admins, EmailMessage
-from django.db.models import Max, Q, Sum
+from django.db.models import Max, Q, Sum, F, Window
+from django.db.models.functions import Rank
 from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, QueryDict, HttpResponseBadRequest, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect, reverse
 from django.utils import timezone
@@ -27,12 +32,8 @@ from rest_framework.response import Response
 from trainer.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
 from trainer.models import Trainer, Update, Faction
 from trainer.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
-from trainer.shortcuts import strtoboolornone, cleanleaderboardqueryset, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, chunks
-import logging
-import requests
+from trainer.shortcuts import strtoboolornone, cleanleaderboardqueryset, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, BADGES, chunks
 
-
-logger = logging.getLogger('django.trainerdex')
 
 def _leaderboard_queryset_filter(queryset):
 	return queryset.exclude(statistics=False).exclude(verified=False).exclude(last_cheated__lt=date(2018,9,1)-timedelta(weeks=26)).exclude(last_cheated__gt=date(2018,9,1)).exclude(last_cheated__gt=date.today()-timedelta(weeks=26)).select_related('faction')
@@ -51,8 +52,11 @@ class UserViewSet(ModelViewSet):
 
 class TrainerListJSONView(APIView):
 	"""
-	GET - Accepts paramaters for Team (t) and Username (q)
-	POST - Register a Trainer, needs the Primary Key of the Owner, the User object which owns the Trainer
+	get:
+	Accepts paramaters for Team (t) and Username (q)
+	
+	post:
+	Register a Trainer, needs the Primary Key of the Owner, the User object which owns the Trainer
 	"""
 	
 	authentication_classes = (authentication.TokenAuthentication,)
@@ -75,7 +79,7 @@ class TrainerListJSONView(APIView):
 	def post(self, request):
 		"""
 		This used to work as a simple post, but since the beginning of transitioning to API v2 it would have always given Validation Errors if left the same.
-		Now it has a 30 minute open slot to work after the auth.User (owner) instance is created. After which, a PATCH request must be given. This is due to the nature of a Trainer being created automatically for all new auth.User
+		Now it has a 60 minute open slot to work after the auth.User (owner) instance is created. After which, a PATCH request must be given. This is due to the nature of a Trainer being created automatically for all new auth.User
 		"""
 		
 		trainer = Trainer.objects.get(owner__pk=request.data['owner'])
@@ -90,9 +94,14 @@ class TrainerListJSONView(APIView):
 
 class TrainerDetailJSONView(APIView):
 	"""
-	GET - Trainer detail
-	PATCH - Update a trainer
-	DELETE - Archives a trainer
+	get:
+	Trainer detail
+	
+	patch:
+	Update a trainer
+	
+	delete:
+	Archives a trainer
 	"""
 	
 	authentication_classes = (authentication.TokenAuthentication,)
@@ -150,8 +159,11 @@ class TrainerDetailJSONView(APIView):
 
 class UpdateListJSONView(APIView):
 	"""
-	GET - Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
-	POST/PATCH - Create a update
+	get:
+	Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
+	
+	post:
+	Create a update
 	"""
 	
 	authentication_classes = (authentication.TokenAuthentication,)
@@ -174,8 +186,11 @@ class UpdateListJSONView(APIView):
 
 class LatestUpdateJSONView(APIView):
 	"""
-	GET - Gets detailed view of the latest update
-	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked.
+	get:
+	Gets detailed view of the latest update
+	
+	patch:
+	Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked.
 	"""
 	
 	authentication_classes = (authentication.TokenAuthentication,)
@@ -198,9 +213,14 @@ class LatestUpdateJSONView(APIView):
 
 class UpdateDetailJSONView(APIView):
 	"""
-	GET - Gets detailed view
-	PATCH - Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked.
-	DELETE - Delete an update, works within first 48 hours of creation, otherwise, an email request for deletion is sent to admin
+	get:
+	Gets detailed view
+	
+	patch:
+	Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked
+	
+	delete:
+	Delete an update, works within first 48 hours of creation, otherwise, an email request for deletion is sent to admin
 	"""
 	
 	authentication_classes = (authentication.TokenAuthentication,)
@@ -241,21 +261,23 @@ class LeaderboardJSONView(APIView):
 		query = _leaderboard_queryset_filter(Trainer.objects)
 		if request.GET.get('users'):
 			query = Trainer.objects.filter(id__in=request.GET.get('users').split(','))
-		leaderboard = query.annotate(Max('update__xp'), Max('update__update_time')).order_by('-update__xp__max')
+		leaderboard = query.annotate(Max('update__total_xp'), Max('update__update_time')).order_by('-update__total_xp__max')
 		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
 		return Response(serializer.data)
 	
 
 class SocialLookupJSONView(APIView):
 	"""
-	GET args:
-		provider (requiered) - platform, options are 'facebook', 'twitter', 'discord', 'google', 'patreon'
+	get:
+		kwargs:
+			provider (requiered) - platform, options are 'facebook', 'twitter', 'discord', 'google', 'patreon'
 		
-		One of the below, they're checked in this order so if you provide more than one, only the first would be processed.
-		uid - Social ID, supports a comma seperated list. Could be useful for passing a list of users in a server to retrieve a list of UserIDs, which could then be passed to api/v1/leaderboard/
-		user - TrainerDex User ID, supports a comma seperated list
-		trainer - TrainerDex Trainer ID
-	PUT: Register a SocialAccount. Patch if exists, post if not.
+			uid - Social ID, supports a comma seperated list. Could be useful for passing a list of users in a server to retrieve a list of UserIDs, which could then be passed to api/v1/leaderboard/
+			user - TrainerDex User ID, supports a comma seperated list
+			trainer - TrainerDex Trainer ID
+	
+	patch:
+	Register a SocialAccount. Patch if exists, post if not.
 	"""
 	
 	def get(self, request):
@@ -308,49 +330,18 @@ class DiscordLeaderboardAPIView(APIView):
 		members = [x['user']['id'] for x in members.json() if not any([i in x['roles'] for i in opt_out_role_id])]
 		trainers = _leaderboard_queryset_filter(Trainer.objects.filter(owner__socialaccount__provider='discord', owner__socialaccount__uid__in=members))
 		
-		leaderboard = trainers.annotate(Max('update__xp'), Max('update__update_time')).order_by('-update__xp__max')
+		leaderboard = trainers.annotate(Max('update__total_xp'), Max('update__update_time')).order_by('-update__total_xp__max')
 		serializer = LeaderboardSerializer(enumerate(leaderboard, 1), many=True)
 		output['leaderboard'] = serializer.data
 		return Response(output)
 	
-
-def fortyx(request, username):
-	trainer = get_object_or_404(Trainer, username__iexact=username)
-	return HttpResponse(pgettext_lazy("localized string of 40x2, 40x3 etc", "{0}x{1.0,g}".format(40, trainer.update_set.latest('update_time').xp/20000000)))
-
 # Web-based views
-
-BADGES = [
-	{'name':'walk_dist', 'bronze':10, 'silver':100, 'gold':1000},
-	{'name':'gen_1_dex', 'bronze':5, 'silver':50, 'gold':100},
-	{'name':'pkmn_caught', 'bronze':30, 'silver':500, 'gold':2000},
-	{'name':'pkmn_evolved', 'bronze':3, 'silver':20, 'gold':200},
-	{'name':'eggs_hatched', 'bronze':10, 'silver':100, 'gold':500},
-	{'name':'pkstops_spun', 'bronze':100, 'silver':1000, 'gold':2000},
-	{'name':'big_magikarp', 'bronze':3, 'silver':50, 'gold':300},
-	{'name':'battles_won', 'bronze':10, 'silver':100, 'gold':1000},
-	{'name':'legacy_gym_trained', 'bronze':10, 'silver':100, 'gold':1000},
-	{'name':'tiny_rattata', 'bronze':3, 'silver':50, 'gold':300},
-	{'name':'pikachu_caught', 'bronze':3, 'silver':50, 'gold':300},
-	{'name':'gen_2_dex', 'bronze':5, 'silver':30, 'gold':70},
-	{'name':'unown_alphabet', 'bronze':3, 'silver':10, 'gold':26},
-	{'name':'berry_fed', 'bronze':10, 'silver':100, 'gold':1000},
-	{'name':'gym_defended', 'bronze':10, 'silver':100, 'gold':1000},
-	{'name':'raids_completed', 'bronze':10, 'silver':100, 'gold':1000},
-	{'name':'leg_raids_completed', 'bronze':10, 'silver':100, 'gold':1000},
-	{'name':'gen_3_dex', 'bronze':5, 'silver':40, 'gold':90},
-	{'name':'quests', 'bronze':10, 'silver':100, 'gold':1000},
-	{'name':'max_friends', 'bronze':1, 'silver':2, 'gold':3},
-	{'name':'trading', 'bronze':10, 'silver':100, 'gold':1000},
-	{'name':'trading_distance', 'bronze':1000, 'silver':10000, 'gold':1000000},
-	{'name':'gen_4_dex', 'bronze':10, 'silver':50, 'gold':70}, # Guessimate
-] +  [{'name':x, 'bronze':10, 'silver':50, 'gold':200} for x in UPDATE_FIELDS_TYPES]
 
 def _check_if_trainer_valid(trainer):
 	if settings.DEBUG:
 		logger.log(level=30 if trainer.profile_complete else 20, msg='Checking {username}: Completed profile: {status}'.format(username=trainer.username, status=trainer.profile_complete))
-		logger.log(level=30 if trainer.update_set.exclude(xp__isnull=True).count() else 20, msg='Checking {username}: Update count: {count}'.format(username=trainer.username, count=trainer.update_set.count()))
-	if not trainer.profile_complete or not trainer.update_set.exclude(xp__isnull=True).exists():
+		logger.log(level=30 if trainer.update_set.exclude(total_xp__isnull=True).count() else 20, msg='Checking {username}: Update count: {count}'.format(username=trainer.username, count=trainer.update_set.count()))
+	if not trainer.profile_complete or not trainer.update_set.exclude(total_xp__isnull=True).exists():
 		raise Http404(_('{0} has not completed their profile.').format(trainer.owner.username))
 	return trainer
 
@@ -405,19 +396,17 @@ def TrainerProfileHTMLView(request, username):
 		else:
 			badge_dict['percent'] = 100
 		badges.append(badge_dict)
-	_values = context['updates'].aggregate(*[Max(x) for x in ('xp','dex_caught','dex_seen','gym_badges',)])
+	_values = context['updates'].aggregate(*[Max(x) for x in ('total_xp', 'pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold',)])
 	for value in _values:
 		context[value[:-5]] = _values[value]
 	context['level'] = trainer.level()
 	context['badges'] = badges
 	context['update_history'] = []
 	
-	UPDATE_FIELDS = Update._meta.get_fields()
+	UPDATE_FIELDS = [x for x in Update._meta.get_fields() if x.name not in ['id', 'uuid', 'trainer','submission_date', 'data_source', 'screenshot', 'double_check_confirmation']]
 	for update in trainer.update_set.all():
 		update_obj = []
 		for x in UPDATE_FIELDS:
-			if x.attname in ['dex_caught','dex_seen','gym_badges']:
-				continue
 			update_obj.append(
 				{
 					'attname':x.attname,
@@ -443,24 +432,27 @@ def CreateUpdateHTMLView(request):
 		messages.warning(request, _("Please complete your profile to continue using the website."))
 		return HttpResponseRedirect(reverse('profile_set_up'))
 	
-	if request.POST:
-		form_data = request.POST.copy()
-		form_data['meta_source'] = 'web_detailed'
-	else:
-		form_data = None
-	form = UpdateForm(form_data or None, initial={'trainer':request.user.trainer, 'meta_source': 'web_detailed'})
+	form = UpdateForm(initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
 	form.fields['update_time'].widget = forms.HiddenInput()
-	form.fields['meta_source'].widget = forms.HiddenInput()
-	form.fields['meta_source'].disabled = True
+	form.fields['data_source'].widget = forms.HiddenInput()
+	form.fields['data_source'].disabled = True
 	form.fields['trainer'].widget = forms.HiddenInput()
+	form.fields['double_check_confirmation'].widget = forms.HiddenInput()
 	form.trainer = request.user.trainer
-	if form.is_valid():
-		update = form.save()
-		messages.success(request, 'Statistics updated')
-		return HttpResponseRedirect(reverse('trainerdex_web:profile_username', kwargs={'username':request.user.trainer.username}))
-	form.fields['trainer'].queryset = Trainer.objects.filter(owner=request.user)
-	if request.method == 'GET':
-		form.fields['trainer'].initial = request.user.trainer
+	if request.method == 'POST':
+		form = UpdateForm(request.POST, initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
+		form.fields['update_time'].widget = forms.HiddenInput()
+		form.fields['data_source'].widget = forms.HiddenInput()
+		form.fields['data_source'].disabled = True
+		form.fields['trainer'].widget = forms.HiddenInput()
+		form.fields['double_check_confirmation'].required = True
+		form.data_source = 'web_detailed'
+		form.trainer = request.user.trainer
+		if form.is_valid():
+			update = form.save()
+			messages.success(request, 'Statistics updated')
+			return HttpResponseRedirect(reverse('trainerdex_web:profile_username', kwargs={'username':request.user.trainer.username}))
+	
 	context = {
 		'form': form
 	}
@@ -512,16 +504,16 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 	QuerySet = _leaderboard_queryset_filter(QuerySet)
 	
 	SORTABLE_FIELDS = ['update__'+x for x in UPDATE_SORTABLE_FIELDS]
-	fields_to_calculate_max = {'xp', 'pkmn_caught', 'gym_defended', 'eggs_hatched', 'walk_dist', 'pkstops_spun', 'battles_won', 'leg_raids_completed',
-'quests', 'update_time'}
+	fields_to_calculate_max = {'total_xp', 'badge_capture_total', 'badge_travel_km', 'badge_evolved_total', 'badge_hatched_total', 'badge_pokestops_visited', 'badge_raid_battle_won', 'badge_legendary_battle_won',
+'badge_hours_defended','badge_challenge_quests', 'badge_pokedex_entries_gen4', 'update_time'} # Gen 4 in there temp.
 	if request.GET.get('sort'):
 		if request.GET.get('sort') in UPDATE_SORTABLE_FIELDS:
 			fields_to_calculate_max.add(request.GET.get('sort'))
 			sort_by = request.GET.get('sort')
 		else:
-			sort_by = 'xp'
+			sort_by = 'total_xp'
 	else:
-		sort_by = 'xp'
+		sort_by = 'total_xp'
 	context['sort_by'] = sort_by
 	
 	
@@ -534,20 +526,20 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		context['leaderboard'] = None
 		return render(request, 'leaderboard.html', context, status=404)
 	
-	QuerySet = QuerySet.annotate(*[Max('update__'+x) for x in fields_to_calculate_max]).extra(select={'null_order': '{order} IS NULL'.format(order=sort_by)}).order_by('null_order', '-update__{order}__max'.format(order=sort_by), '-update__xp__max', '-update__update_time__max', 'faction',)
+	QuerySet = QuerySet.exclude(**{f'update__{sort_by}__isnull': True}).annotate(*[Max('update__'+x) for x in fields_to_calculate_max]).order_by(f'-update__{sort_by}__max', '-update__total_xp__max', '-update__update_time__max', 'faction',)
 	
 	Results = []
-	GRAND_TOTAL = QuerySet.aggregate(Sum('update__xp__max'))
-	context['grand_total_xp'] = GRAND_TOTAL['update__xp__max__sum']
+	GRAND_TOTAL = QuerySet.aggregate(Sum('update__total_xp__max'))
+	context['grand_total_xp'] = GRAND_TOTAL['update__total_xp__max__sum']
 	
-	for index, trainer in enumerate(QuerySet.prefetch_related('leaderboard_country'), 1):
-		if not trainer.update__xp__max:
+	for trainer in QuerySet.annotate(rank=Window(expression=Rank(), order_by=F(f'update__{sort_by}__max').desc())).prefetch_related('leaderboard_country'):
+		if not trainer.update__total_xp__max:
 			continue
 		trainer_stats = {
-			'position' : index,
+			'position' : trainer.rank,
 			'trainer' : trainer,
-			'level' : level_parser(xp=trainer.update__xp__max).level,
-			'xp' : trainer.update__xp__max,
+			'level' : level_parser(xp=trainer.update__total_xp__max).level,
+			'xp' : trainer.update__total_xp__max,
 			'update_time' : trainer.update__update_time__max,
 		}
 		
