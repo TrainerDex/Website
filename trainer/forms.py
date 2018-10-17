@@ -10,16 +10,20 @@ class UpdateForm(ModelForm):
 		model = Update
 		fields = (
 			'trainer',
-			'xp',
-			'meta_source',
-			'dex_caught',
-			'dex_seen',
-			'gym_badges',
 			'update_time',
-			'stardust',
+			'total_xp',
+			'data_source',
+			'pokedex_caught',
+			'pokedex_seen',
+			'gymbadges_total',
+			'gymbadges_gold',
+			'pokemon_info_stardust',
+			'double_check_confirmation',
 		) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
 	
-	field_order = UPDATE_SORTABLE_FIELDS
+	field_order = (
+		'double_check_confirmation',
+		) + UPDATE_SORTABLE_FIELDS
 	
 
 class RegistrationFormTrainer(ModelForm):
@@ -43,16 +47,19 @@ class RegistrationFormUpdate(UpdateForm):
 		model = Update
 		fields = (
 			'trainer',
-			'xp',
-			'meta_source',
-			'dex_caught',
-			'dex_seen',
-			'gym_badges',
-			'image_proof',
 			'update_time',
-			'stardust',
+			'total_xp',
+			'data_source',
+			'pokedex_caught',
+			'pokedex_seen',
+			'gymbadges_total',
+			'gymbadges_gold',
+			'pokemon_info_stardust',
+			'screenshot',
+			'double_check_confirmation',
 		) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES
 	
 	field_order = (
 		'image_proof',
+		'double_check_confirmation',
 		) + UPDATE_SORTABLE_FIELDS
