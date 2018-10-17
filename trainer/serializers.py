@@ -96,31 +96,31 @@ class LeaderboardSerializer(serializers.Serializer):
 	user_id = serializers.SerializerMethodField()
 	
 	def get_position(self, obj):
-		return obj[0]
+		return obj.rank
 	
 	def get_level(self, obj):
 		try:
-			return obj[1].level()
-		except:
-			return 0
+			level_parser(xp=obj.update__total_xp__max).level
+		except ValueError:
+			return None
 	
 	def get_id(self, obj):
-		return obj[1].id
+		return obj.id
 	
 	def get_username(self, obj):
-		return obj[1].username
+		return obj.username
 	
 	def get_faction(self, obj):
-		return FactionSerializer(obj[1].faction).data
+		return FactionSerializer(obj.faction).data
 	
 	def get_xp(self, obj):
-		return obj[1].update__total_xp__max
+		return obj.update__total_xp__max
 	
 	def get_last_updated(self, obj):
-		return obj[1].update__update_time__max
+		return obj.update__update_time__max
 	
 	def get_user_id(self, obj):
-		return obj[1].owner.pk if obj[1].owner else None
+		return obj.owner.pk if obj.owner else None
 	
 	class Meta:
 		model = Trainer
