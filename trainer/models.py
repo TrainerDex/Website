@@ -1091,7 +1091,7 @@ class Update(models.Model):
 				
 		# Raise Soft Errors
 		soft_error_override = self.double_check_confirmation
-		if soft_error_dict != {} and soft_error_override == False:
+		if soft_error_dict != {} and soft_error_override != True:
 			raise ValidationError(soft_error_dict)
 		
 		# Raise Hard Errors
