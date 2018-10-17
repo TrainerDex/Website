@@ -510,7 +510,6 @@ class Update(models.Model):
 		return [x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust')) if getattr(self, x)]
 	
 	def clean(self):
-		
 		if not self.trainer:
 			return
 		
@@ -536,21 +535,21 @@ class Update(models.Model):
 		#if not bool(self.trainer.start_date):
 		#	raise ValidationError(_("You can't post if you haven't set your start date."))
 			
-		for field in Survey._meta.get_fields():
+		for field in Update._meta.get_fields():
 			if bool(getattr(self, field.name)):
 				# Get latest update with that field present, only get the important fields.
-				last_update = self.trainer.survey_set.filter(update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name, '-update_time').only(field.name, 'update_time').first()
+				last_update = self.trainer.update_set.filter(update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name, '-update_time').only(field.name, 'update_time').first()
 				
 				# Overall Rules
 				
 				# 1 - Value must be higher than or equal to than previous value
-				if bool(last_update) and field.name in NON_REVERSEABLE_FIELDS:
+				if bool(last_update) and field.name in UPDATE_NON_REVERSEABLE_FIELDS:
 					if getattr(self, field.name) < getattr(last_update, field.name):
 						hard_error_dict[field.name].append(ValidationError(_("This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct.")))
 				
 				# 2 - Value should less than 1.5 times higher than the leader
-				if bool(last_update) and field.name in NON_REVERSEABLE_FIELDS:
-					leading_value = getattr(Survey.objects.order_by(f'-{field.name}').only(field.name).first(), field.name)
+				if bool(last_update) and field.name in UPDATE_NON_REVERSEABLE_FIELDS:
+					leading_value = getattr(Update.objects.order_by(f'-{field.name}').only(field.name).first(), field.name)
 					if bool(leading_value):
 						print('comparing', field.name, getattr(self, field.name), leading_value)
 						if getattr(self, field.name) > (leading_value * Decimal('1.5')):
@@ -948,7 +947,7 @@ class Update(models.Model):
 					# Max Value = 1000
 					# Handled at field level
 					
-					_xcompare = self.gymbadges_total or self.trainer.survey_set.filter(update_time__lt=self.update_time).exclude(**{'gymbadges_total' : None}).order_by('-gymbadges_total', '-update_time').only('gymbadges_total', 'update_time').first().gymbadges_total
+					_xcompare = self.gymbadges_total or self.trainer.update_set.filter(update_time__lt=self.update_time).exclude(**{'gymbadges_total' : None}).order_by('-gymbadges_total', '-update_time').only('gymbadges_total', 'update_time').first().gymbadges_total
 					# Check if gymbadges_total is filled in, or has been filled in in the past
 					if _xcompare:
 						# GoldGyms < GymsSeen
@@ -956,7 +955,7 @@ class Update(models.Model):
 						if getattr(self,field.name) > _xcompare:
 							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is too high. Please check for typos and other mistakes. You can't have more gold gyms than gyms in Total. {value:,}/{expected:,}").format(badge=field.verbose_name, value=getattr(self,field.name), expected=_xcompare)))
 					else:
-						hard_error_dict[field.name].append(ValidationError(_("You must fill in {other_badge} if filling in {this_badge}.").format(this_badge=field.verbose_name, other_badge=Survey._meta.get_field('gymbadges_total').verbose_name)))
+						hard_error_dict[field.name].append(ValidationError(_("You must fill in {other_badge} if filling in {this_badge}.").format(this_badge=field.verbose_name, other_badge=Update._meta.get_field('gymbadges_total').verbose_name)))
 				
 					# Handle Early Updates
 					if self.update_time.date() < GymReworkDate:
@@ -1069,7 +1068,7 @@ class Update(models.Model):
 							# Failed Verification, raise error!
 							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
 							
-					_xcompare = self.badge_trading or self.trainer.survey_set.filter(update_time__lt=self.update_time).exclude(**{'badge_trading' : None}).order_by('-badge_trading', '-update_time').only('badge_trading', 'update_time').first().badge_trading
+					_xcompare = self.badge_trading or self.trainer.update_set.filter(update_time__lt=self.update_time).exclude(**{'badge_trading' : None}).order_by('-badge_trading', '-update_time').only('badge_trading', 'update_time').first().badge_trading
 					# Check if gymbadges_total is filled in, or has been filled in in the past
 					if _xcompare:
 						# Pilot / Gentleman < 19200
@@ -1080,31 +1079,7 @@ class Update(models.Model):
 					if self.update_time.date() < FriendReleaseDate:
 						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=FriendReleaseDate)))
 				
-				# 25 - pokemon_ditto_caught - Ditto Caught
-				if field.name == 'pokemon_ditto_caught':
-					
-					_xcompare = self.pokemon_ditto_seen or self.trainer.survey_set.filter(update_time__lt=self.update_time).exclude(**{'pokemon_ditto_seen' : None}).order_by('-pokemon_ditto_seen', '-update_time').only('pokemon_ditto_seen', 'update_time').first().pokemon_ditto_seen
-					# Check if pokemon_ditto_seen is filled in, or has been filled in in the past
-					if _xcompare:
-						# Ditto Caught < Ditto Seen
-						# Check if pokemon_ditto_caught is more of less than pokemon_ditto_seen
-						if getattr(self,field.name) > _xcompare:
-							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is too high. Please check for typos and other mistakes. You can't have caught more Ditto than you've seen. {value:,}/{expected:,}").format(badge=field.verbose_name, value=getattr(self,field.name), expected=_xcompare)))
-					else:
-						hard_error_dict[field.name].append(ValidationError(_("You must fill in {other_badge} if filling in {this_badge}.").format(this_badge=field.verbose_name, other_badge=Survey._meta.get_field('pokemon_ditto_seen').verbose_name)))
-				
-					# Handle Early Updates
-					if self.update_time.date() < DittoDate:
-						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=DittoDate)))
-					
-				# 26 - pokemon_ditto_seen - Ditto Seen
-				if field.name == 'pokemon_ditto_seen':
-					
-					# Handle Early Updates
-					if self.update_time.date() < DittoDate:
-						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=DittoDate)))
-				
-				# 21 - badge_pokedex_entries_gen4 - Sinnoh
+				# 25 - badge_pokedex_entries_gen4 - Sinnoh
 				if field.name == 'badge_pokedex_entries_gen4':
 					
 					# Max Value = 107

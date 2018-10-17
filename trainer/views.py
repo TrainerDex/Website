@@ -526,7 +526,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		context['leaderboard'] = None
 		return render(request, 'leaderboard.html', context, status=404)
 	
-	QuerySet = QuerySet.exclude(**{f'update__{sort_by}__isnull': True}).annotate(*[Max('update__'+x) for x in fields_to_calculate_max]).order_by(f'-update__{sort_by}__max', '-update__total_xp__max', '-update__update_time__max', 'faction',)
+	QuerySet = QuerySet.annotate(*[Max('update__'+x) for x in fields_to_calculate_max]).exclude(**{f'update__{sort_by}__max__isnull': True}).order_by(f'-update__{sort_by}__max', '-update__total_xp__max', '-update__update_time__max', 'faction',)
 	
 	Results = []
 	GRAND_TOTAL = QuerySet.aggregate(Sum('update__total_xp__max'))
