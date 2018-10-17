@@ -2,14 +2,16 @@
 import uuid
 import json
 import logging
-import requests
-
 logger = logging.getLogger('django.trainerdex')
+import requests
 
 from os.path import splitext
 from cities.models import Country, Region
+from collections import defaultdict
 from colorful.fields import RGBColorField
 from datetime import date, datetime, timedelta, timezone, time
+from decimal import Decimal
+from django.core.validators import MaxValueValidator
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.postgres import fields as postgres_fields
@@ -134,9 +136,9 @@ class Trainer(models.Model):
 	is_on_leaderboard.boolean = True
 	
 	def level(self):
-		update = self.update_set.exclude(xp__isnull=True)
+		update = self.update_set.exclude(total_xp__isnull=True)
 		if update.exists():
-			return level_parser(xp=update.aggregate(models.Max('xp'))['xp__max']).level
+			return level_parser(xp=update.aggregate(models.Max('total_xp'))['total_xp__max']).level
 		return None
 	
 	def __str__(self):
@@ -408,59 +410,9 @@ class FactionLeader(models.Model):
 
 class Update(models.Model):
 	uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
-	trainer = models.ForeignKey('Trainer', on_delete=models.CASCADE, verbose_name=_("Trainer"))
+	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
 	update_time = models.DateTimeField(default=timezone.now, verbose_name=_("Time Updated"))
-	xp = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("PROFILE_TOTAL_XP", "Total XP"), help_text=_("Your Total XP can be found at the bottom of your Pokémon Go profile"))
-	dex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokedex_page_caught", "Caught"), help_text=_("In your Pokédex, how many differnt species have you caught? It should say at the top."))
-	dex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokedex_page_seen", "Seen"), help_text=_("In your Pokédex, how many differnt species have you seen? It should say at the top."))
-	gym_badges = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("profile_category_gymbadges", "Gym Badges"), help_text=_("Your gym badges map. Total number of gold, silver, bronze and blank combined. (This information is currently not used)"))
 	
-	walk_dist = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True, verbose_name=pgettext_lazy("badge_travel_km_title", "Jogger"), help_text=pgettext_lazy("badge_travel_km", "Walk {0:0,g} km").format(1000.0))
-	gen_1_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_title", "Kanto"), help_text=pgettext_lazy("badge_pokedex_entries", "Register {0:0,} Kanto region Pokémon in the Pokédex.").format(100))
-	pkmn_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_capture_total_title", "Collector"), help_text=pgettext_lazy("badge_capture_total", "Catch {0:0,} Pokémon.").format(2000))
-	pkmn_evolved = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_evolved_total_title", "Scientist"), help_text=pgettext_lazy("badge_evolved_total", "Evolve {0:0,} Pokémon.").format(200))
-	eggs_hatched = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_hatched_total_title", "Breeder"), help_text=pgettext_lazy("badge_hatched_total", "Hatch {0:0,} eggs.").format(500))
-	pkstops_spun = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokestops_visited_title", "Backpacker"), help_text=pgettext_lazy("badge_pokestops_visited", "Visit {0:0,} PokéStops.").format(2000))
-	battles_won = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_battle_attack_won_title", "Battle Girl"), help_text=pgettext_lazy("badge_battle_attack_won", "Win {0:0,} Gym battles.").format(1000))
-	big_magikarp = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_big_magikarp_title", "Fisherman"), help_text=pgettext_lazy("badge_big_magikarp", "Catch {0:0,} big Magikarp.").format(300))
-	legacy_gym_trained = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_battle_training_won_title", "Ace Trainer"), help_text=pgettext_lazy("badge_battle_training_won", "Train {0:0,} times.").format(1000))
-	tiny_rattata = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_small_rattata_title", "Youngster"), help_text=pgettext_lazy("badge_small_rattata", "Catch {0:0,} tiny Rattata.").format(300))
-	pikachu_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pikachu_title", "Pikachu Fan"), help_text=pgettext_lazy("badge_pikachu", "Catch {0:0,} Pikachu.").format(300))
-	gen_2_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen2_title", "Johto"), help_text=pgettext_lazy("badge_pokedex_entries_gen2", "Register {0:0,} Pokémon first discovered in the Johto region to the Pokédex.").format(70))
-	unown_alphabet = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_unown_title", "Unown"), help_text=pgettext_lazy("badge_unown", "Catch {0:0,} Unown.").format(26))
-	berry_fed = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_berries_fed_title", "Berry Master"), help_text=pgettext_lazy("badge_berries_fed", "Feed {0:0,} Berries at Gyms.").format(1000))
-	gym_defended = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_hours_defended_title", "Gym Leader"), help_text=pgettext_lazy("badge_hours_defended", "Defend Gyms for {0:0,} hours.").format(1000))
-	raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_raid_battle_won_title", "Champion"), help_text=pgettext_lazy("badge_raid_battle_won", "Win {0:0,} Raids.").format(1000))
-	leg_raids_completed = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_legendary_battle_won_title", "Battle Legend"), help_text=pgettext_lazy("badge_legendary_battle_won", "Win {0:0,} Legendary Raids.").format(1000))
-	gen_3_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen3_title", "Hoenn"), help_text=pgettext_lazy("badge_pokedex_entries_gen3", "Register {0:0,} Pokémon first discovered in the Hoenn region to the Pokédex.").format(90))
-	quests = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_challenge_quests_title", "Pokémon Ranger"), help_text=pgettext_lazy("badge_challenge_quests", "Complete {0:0,} Field Research tasks.").format(1000))
-	max_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"), help_text=pgettext_lazy("badge_max_level_friends", "Become Best Friends with {0:0,} Trainers.").format(3))
-	trading = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_title", "Gentleman"), help_text=pgettext_lazy("badge_trading", "Trade {0:0,} Pokémon.").format(1000))
-	trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_distance_title", "Pilot"), help_text=pgettext_lazy("badge_trading_distance", "Earn {0:0,} km across the distance of all Pokémon trades.").format(1000000))
-	gen_4_dex = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen4_title", "Sinnoh"), help_text=pgettext_lazy("badge_pokedex_entries_gen4", "Register {0:0,} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(0))
-	
-	pkmn_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_normal_title", "Schoolkid"), help_text=pgettext_lazy("badge_type_normal", "Catch {0:0,} Normal-type Pokémon").format(200))
-	pkmn_fighting = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fighting_title", "Black Belt"), help_text=pgettext_lazy("badge_type_fighting", "Catch {0:0,} Fighting-type Pokémon").format(200))
-	pkmn_flying = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_flying_title", "Bird Keeper"), help_text=pgettext_lazy("badge_type_flying", "Catch {0:0,} Flying-type Pokémon").format(200))
-	pkmn_poison = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_poison_title", "Punk Girl"), help_text=pgettext_lazy("badge_type_poison", "Catch {0:0,} Poison-type Pokémon").format(200))
-	pkmn_ground = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_ground_title", "Ruin Maniac"), help_text=pgettext_lazy("badge_type_ground", "Catch {0:0,} Ground-type Pokémon").format(200))
-	pkmn_rock = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_rock_title", "Hiker"), help_text=pgettext_lazy("badge_type_rock", "Catch {0:0,} Rock-type Pokémon").format(200))
-	pkmn_bug = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_bug_title", "Bug Catcher"), help_text=pgettext_lazy("badge_type_bug", "Catch {0:0,} Bug-type Pokémon").format(200))
-	pkmn_ghost = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_ghost_title", "Hex Maniac"), help_text=pgettext_lazy("badge_type_ghost", "Catch {0:0,} Ghost-type Pokémon").format(200))
-	pkmn_steel = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_steel_title", "Depot Agent"), help_text=pgettext_lazy("badge_type_steel", "Catch {0:0,} Steel-type Pokémon").format(200))
-	pkmn_fire = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fire_title", "Kindler"), help_text=pgettext_lazy("badge_type_fire", "Catch {0:0,} Fire-type Pokémon").format(200))
-	pkmn_water = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_water_title", "Swimmer"), help_text=pgettext_lazy("badge_type_water", "Catch {0:0,} Water-type Pokémon").format(200))
-	pkmn_grass = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_grass_title", "Gardener"), help_text=pgettext_lazy("badge_type_grass", "Catch {0:0,} Grass-type Pokémon").format(200))
-	pkmn_electric = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_electric_title", "Rocker"), help_text=pgettext_lazy("badge_type_electric", "Catch {0:0,} Electric-type Pokémon").format(200))
-	pkmn_psychic = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_psychic_title", "Psychic"), help_text=pgettext_lazy("badge_type_psychic", "Catch {0:0,} Pychic-type Pokémon").format(200))
-	pkmn_ice = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_ice_title", "Skier"), help_text=pgettext_lazy("badge_type_ice", "Catch {0:0,} Ice-type Pokémon").format(200))
-	pkmn_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_dragon_title", "Dragon Tamer"), help_text=pgettext_lazy("badge_type_dragon", "Catch {0:0,} Dragon-type Pokémon").format(200))
-	pkmn_dark = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_dark_title", "Delinquent"), help_text=pgettext_lazy("badge_type_dark", "Catch {0:0,} Dark-type Pokémon").format(200))
-	pkmn_fairy = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fairy_title", "Fairy Tale Girl"), help_text=pgettext_lazy("badge_type_fairy", "Catch {0:0,} Fairy-type Pokémon").format(200))
-	
-	stardust = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Stardust"))
-	
-	meta_time_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Time Created"))
 	DATABASE_SOURCES = (
 		('?', None),
 		('cs_social_twitter', 'Twitter (Found)'),
@@ -479,127 +431,701 @@ class Update(models.Model):
 		('com.nianticlabs.pokemongo.friends', "In Game Friends"),
 		('com.pokeassistant.trainerstats', "Poké Assistant"),
 		('com.pokenavbot.profiles', "PokeNav"),
-		('tl40datateam.spreadsheet', "Tl40 Data Team"),
+		('tl40datateam.spreadsheet', "Tl40 Data Team (Legacy)"),
+		('com.tl40data.website', "Tl40 Data Team"),
 		('com.pkmngots.import', "Third Saturday"),
 	)
-	meta_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
 	
-	image_proof = models.ImageField(upload_to=VerificationUpdateImagePath, blank=True, verbose_name=_("Total XP Screenshot"))
+	submission_date = models.DateTimeField(auto_now_add=True, verbose_name=_("Submission Datetime"))
+	data_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
+	screenshot = models.ImageField(upload_to=VerificationUpdateImagePath, blank=True, verbose_name=_("Screenshot"))
 	
-	def meta_crowd_sourced(self):
-		if self.meta_source.startswith('cs'):
-			return True
-		elif self.meta_source == ('?'):
-			return None
-		return False
-	meta_crowd_sourced.boolean = True
-	meta_crowd_sourced.short_description = _("Crowd Sourced")
+	# Error Override Checks
+	double_check_confirmation = models.BooleanField(default=False, verbose_name=_("I have double checked this information and it is correct."), help_text=_("This will silence some errors."))
 	
-	def modified_extra_fields(self):
-		return bool([x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('dex_caught', 'dex_seen', 'gym_badges')) if getattr(self, x)])
-	modified_extra_fields.boolean = True
+	# Can be seen on main profile
+	total_xp = models.PositiveIntegerField(null=True, verbose_name=pgettext_lazy("PROFILE_TOTAL_XP", "Total XP"))
+	
+	# Pokedex Figures
+	pokedex_caught = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokedex_page_caught", "Unique Species Caught"))
+	pokedex_seen = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokedex_page_seen", "Unique Species Seen"))
+	
+	# Medals
+	badge_travel_km = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True, verbose_name=pgettext_lazy("badge_travel_km_title", "Jogger"), help_text=pgettext_lazy("badge_travel_km", "Walk {0:0,g} km").format(1000.0))
+	badge_pokedex_entries = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_title", "Kanto"), help_text=pgettext_lazy("badge_pokedex_entries", "Register {0} Kanto region Pokémon in the Pokédex.").format(100), validators=[MaxValueValidator(151)])
+	badge_capture_total = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_capture_total_title", "Collector"), help_text=pgettext_lazy("badge_capture_total", "Catch {0} Pokémon.").format(2000))
+	badge_evolved_total = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_evolved_total_title", "Scientist"), help_text=pgettext_lazy("badge_evolved_total", "Evolve {0} Pokémon.").format(200))
+	badge_hatched_total = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_hatched_total_title", "Breeder"), help_text=pgettext_lazy("badge_hatched_total", "Hatch {0} eggs.").format(500))
+	badge_pokestops_visited = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokestops_visited_title", "Backpacker"), help_text=pgettext_lazy("badge_pokestops_visited", "Visit {0} PokéStops.").format(2000))
+	badge_big_magikarp = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_big_magikarp_title", "Fisherman"), help_text=pgettext_lazy("badge_big_magikarp", "Catch {0} big Magikarp.").format(300))
+	badge_battle_attack_won = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_battle_attack_won_title", "Battle Girl"), help_text=pgettext_lazy("badge_battle_attack_won", "Win {0} Gym battles.").format(1000))
+	badge_battle_training_won = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_battle_training_won_title", "Ace Trainer"), help_text=pgettext_lazy("badge_battle_training_won", "Train {0} times.").format(1000))
+	badge_small_rattata = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_small_rattata_title", "Youngster"), help_text=pgettext_lazy("badge_small_rattata", "Catch {0} tiny Rattata.").format(300))
+	badge_pikachu = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pikachu_title", "Pikachu Fan"), help_text=pgettext_lazy("badge_pikachu", "Catch {0} Pikachu.").format(300))
+	badge_unown = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_unown_title", "Unown"), help_text=pgettext_lazy("badge_unown", "Catch {0} Unown.").format(26), validators=[MaxValueValidator(28)])
+	badge_pokedex_entries_gen2 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen2_title", "Johto"), help_text=pgettext_lazy("badge_pokedex_entries_gen2", "Register {0} Pokémon first discovered in the Johto region to the Pokédex.").format(70), validators=[MaxValueValidator(99)])
+	badge_raid_battle_won = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_raid_battle_won_title", "Champion"), help_text=pgettext_lazy("badge_raid_battle_won", "Win {0} Raids.").format(1000))
+	badge_legendary_battle_won = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_legendary_battle_won_title", "Battle Legend"), help_text=pgettext_lazy("badge_legendary_battle_won", "Win {0} Legendary Raids.").format(1000))
+	badge_berries_fed = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_berries_fed_title", "Berry Master"), help_text=pgettext_lazy("badge_berries_fed", "Feed {0} Berries at Gyms.").format(1000))
+	badge_hours_defended = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_hours_defended_title", "Gym Leader"), help_text=pgettext_lazy("badge_hours_defended", "Defend Gyms for {0} hours.").format(1000))
+	badge_pokedex_entries_gen3 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen3_title", "Hoenn"), help_text=pgettext_lazy("badge_pokedex_entries_gen3", "Register {0} Pokémon first discovered in the Hoenn region to the Pokédex.").format(90), validators=[MaxValueValidator(126)])
+	badge_challenge_quests = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_challenge_quests_title", "Pokémon Ranger"), help_text=pgettext_lazy("badge_challenge_quests", "Complete {0} Field Research tasks.").format(1000))
+	badge_max_level_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"), help_text=pgettext_lazy("badge_max_level_friends", "Become Best Friends with {0} Trainers.").format(3), validators=[MaxValueValidator(200)])
+	badge_trading = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_title", "Gentleman"), help_text=pgettext_lazy("badge_trading", "Trade {0} Pokémon.").format(1000))
+	badge_trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_distance_title", "Pilot"), help_text=pgettext_lazy("badge_trading_distance", "Earn {0} km across the distance of all Pokémon trades.").format(1000000))
+	badge_pokedex_entries_gen4 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen4_title", "Sinnoh"), help_text=pgettext_lazy("badge_pokedex_entries_gen4", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80), validators=[MaxValueValidator(107)])
+	
+	badge_type_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_normal_title", "Schoolkid"), help_text=pgettext_lazy("badge_type_normal", "Catch {0} Normal-type Pokémon").format(200))
+	badge_type_fighting = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fighting_title", "Black Belt"), help_text=pgettext_lazy("badge_type_fighting", "Catch {0} Fighting-type Pokémon").format(200))
+	badge_type_flying = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_flying_title", "Bird Keeper"), help_text=pgettext_lazy("badge_type_flying", "Catch {0} Flying-type Pokémon").format(200))
+	badge_type_poison = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_poison_title", "Punk Girl"), help_text=pgettext_lazy("badge_type_poison", "Catch {0} Poison-type Pokémon").format(200))
+	badge_type_ground = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_ground_title", "Ruin Maniac"), help_text=pgettext_lazy("badge_type_ground", "Catch {0} Ground-type Pokémon").format(200))
+	badge_type_rock = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_rock_title", "Hiker"), help_text=pgettext_lazy("badge_type_rock", "Catch {0} Rock-type Pokémon").format(200))
+	badge_type_bug = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_bug_title", "Bug Catcher"), help_text=pgettext_lazy("badge_type_bug", "Catch {0} Bug-type Pokémon").format(200))
+	badge_type_ghost = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_ghost_title", "Hex Maniac"), help_text=pgettext_lazy("badge_type_ghost", "Catch {0} Ghost-type Pokémon").format(200))
+	badge_type_steel = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_steel_title", "Depot Agent"), help_text=pgettext_lazy("badge_type_steel", "Catch {0} Steel-type Pokémon").format(200))
+	badge_type_fire = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fire_title", "Kindler"), help_text=pgettext_lazy("badge_type_fire", "Catch {0} Fire-type Pokémon").format(200))
+	badge_type_water = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_water_title", "Swimmer"), help_text=pgettext_lazy("badge_type_water", "Catch {0} Water-type Pokémon").format(200))
+	badge_type_grass = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_grass_title", "Gardener"), help_text=pgettext_lazy("badge_type_grass", "Catch {0} Grass-type Pokémon").format(200))
+	badge_type_electric = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_electric_title", "Rocker"), help_text=pgettext_lazy("badge_type_electric", "Catch {0} Electric-type Pokémon").format(200))
+	badge_type_psychic = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_psychic_title", "Psychic"), help_text=pgettext_lazy("badge_type_psychic", "Catch {0} Pychic-type Pokémon").format(200))
+	badge_type_ice = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_ice_title", "Skier"), help_text=pgettext_lazy("badge_type_ice", "Catch {0} Ice-type Pokémon").format(200))
+	badge_type_dragon = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_dragon_title", "Dragon Tamer"), help_text=pgettext_lazy("badge_type_dragon", "Catch {0} Dragon-type Pokémon").format(200))
+	badge_type_dark = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_dark_title", "Delinquent"), help_text=pgettext_lazy("badge_type_dark", "Catch {0} Dark-type Pokémon").format(200))
+	badge_type_fairy = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fairy_title", "Fairy Tale Girl"), help_text=pgettext_lazy("badge_type_fairy", "Catch {0} Fairy-type Pokémon").format(200))
+	
+	# Extra Questions
+	gymbadges_total = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("gymbadges_total", "Gym Badges"), validators=[MaxValueValidator(1000)])
+	gymbadges_gold = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("gymbadges_gold", "Gold Gym Badges"), validators=[MaxValueValidator(1000)])
+	pokemon_info_stardust = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokemon_info_stardust_label", "Stardust"))
 	
 	def __str__(self):
-		if self.xp:
-			if self.modified_extra_fields():
-				return _("{username} - {xp:,}XP and {stats_num} stats updated at {date}").format(username=self.trainer.username, xp=self.xp, stats_num=sum([bool(getattr(self, x)) for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('dex_caught', 'dex_seen', 'gym_badges'))]), date=self.update_time.isoformat(sep=' ', timespec='minutes'))
-			else:
-				return _("{username} - {xp:,}XP at {date}").format(username=self.trainer.username, xp=self.xp, date=self.update_time.isoformat(sep=' ', timespec='minutes'))
-		else:
-			return _("{username} - {stats_num} stats updated at {date}").format(username=self.trainer.username, stats_num=sum([bool(getattr(self, x)) for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('xp', 'dex_caught', 'dex_seen', 'gym_badges'))]), date=self.update_time.isoformat(sep=' ', timespec='minutes'))
+		return _("Update by {trainer}").format(trainer=self.trainer)
+	
+	def has_modified_extra_fields(self):
+		return bool([x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust')) if getattr(self, x)])
+	has_modified_extra_fields.boolean = True
+	
+	def modified_extra_fields(self):
+		return [x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust')) if getattr(self, x)]
 	
 	def clean(self):
 		
-		error_dict = {}
-		try: # Workaround for inital registrations
-			if bool(self.trainer.start_date) and (self.update_time.date() < self.trainer.start_date):
-				error_dict['update_time'] = ValidationError(_("You can't post before your start date."))
-
-			for field in Update._meta.get_fields():
-				if field.name in UPDATE_NON_REVERSEABLE_FIELDS and bool(getattr(self, field.name)):
-					# Get latest update with that field present, only get the important fields.
-					largest = self.trainer.update_set.filter(update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name).only(field.name, 'update_time').first()
-					if bool(largest) and bool(getattr(self, field.name)):
-						if getattr(self, field.name) < getattr(largest, field.name):
-							error_dict[field.name] = ValidationError(_("This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."))
-						elif getattr(self, field.name) == getattr(largest, field.name):
-							if field.name in ['gen_1_dex','gen_2_dex','gen_3_dex','unown_alphabet'] and getattr(self, field.name) >= {'gen_1_dex':151,'gen_2_dex':100,'gen_3_dex':135,'unown_alphabet':28}[field.name]:
-								# Field is max'd, empty value
-								setattr(self, field.name, None)
-							else:
-								# Field isn't maxable, let it be stored
-								pass
-						
-					# Field specific Validation
-					
-					# 1 - berry_fed, gyms_defended, raids_completed
-					if field.name in ['berry_fed', 'gym_defended', 'raids_completed'] and self.update_time.date() < date(2016,6,22):
-						setattr(self, field.name, None)
-					
-					# 2 - leg_raids_completed
-					# More validation needed - rest of world got it later
-					if field.name == 'leg_raids_completed' and self.update_time.date() < date(2017,7,22):
-						setattr(self, field.name, None)
-					
-					# 3 - gen_1_dex
-					GEN_1_MAX = 151
-					if field.name == 'gen_1_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_1_MAX:
-						error_dict[field.name] = ValidationError(_(f"There are only {GEN_1_MAX} Pokémon in the Kanto region."))
-					
-					# 4 gen_2_dex
-					# More validation needed - how many and when?
-					GEN_2_MAX = 100
-					if field.name == 'gen_2_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_2_MAX:
-						error_dict[field.name] = ValidationError(_(f"There are only {GEN_2_MAX} Pokémon in the Johto region."))
-					if field.name == 'gen_2_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2017,2,10):
-						setattr(self, field.name, None)
-					
-					# 5 - gen_3_dex
-					GEN_3_MAX = 135
-					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_3_MAX:
-						error_dict[field.name] = ValidationError(_(f"There are only {GEN_3_MAX} Pokémon in the Hoenn region."))
-					if field.name == 'gen_3_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2017,10,20):
-						setattr(self, field.name, None)
-					
-					# 6 - gen_4_dex
-					GEN_4_MAX = 107
-					if field.name == 'gen_4_dex' and bool(getattr(self, field.name)) and getattr(self, field.name) > GEN_4_MAX:
-						error_dict[field.name] = ValidationError(_(f"There are only {GEN_4_MAX} Pokémon in the Hoenn region."))
-					if field.name == 'gen_4_dex' and bool(getattr(self, field.name)) and self.update_time.date() < date(2018,10,16):
-						setattr(self, field.name, None)
-					
-					# 7 - quests
-					if field.name == 'quests' and self.update_time.date() < date(2018,3,30):
-						setattr(self, field.name, None)
+		if not self.trainer:
+			return
+		
+		hard_error_dict = defaultdict(list)
+		soft_error_dict = defaultdict(list)
+		
+		# Hard Coded Dates
+		LaunchDate = date(2016,7,6)
+		DittoDate = date(2016,11,22)
+		Gen2Date = date(2017,2,10)
+		Gen3Date = date(2017,10,20)
+		GymCloseDate = date(2017,6,19)
+		GymReworkDate = date(2017,6,22)
+		RaidReleaseDate = date(2017,6,26)
+		LegendaryReleaseDate = date(2017,7,22)
+		ShinyReleaseDate = date(2017,3,25)
+		QuestReleaseDate = date(2018,3,30)
+		FriendReleaseDate = date(2018,6,21)
+		Gen4Date = date(2018,10,16)
+		
+		
+		# Deny if No Start Date or TL40 Date
+		#if not bool(self.trainer.start_date):
+		#	raise ValidationError(_("You can't post if you haven't set your start date."))
+			
+		for field in Survey._meta.get_fields():
+			if bool(getattr(self, field.name)):
+				# Get latest update with that field present, only get the important fields.
+				last_update = self.trainer.survey_set.filter(update_time__lt=self.update_time).exclude(**{field.name : None}).order_by('-'+field.name, '-update_time').only(field.name, 'update_time').first()
 				
-					# 8 - quests
-					if field.name in ['max_friends','trading','trading_distance'] and self.update_time.date() < date(2018,6,21):
-						setattr(self, field.name, None)
+				# Overall Rules
+				
+				# 1 - Value must be higher than or equal to than previous value
+				if bool(last_update) and field.name in NON_REVERSEABLE_FIELDS:
+					if getattr(self, field.name) < getattr(last_update, field.name):
+						hard_error_dict[field.name].append(ValidationError(_("This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct.")))
+				
+				# 2 - Value should less than 1.5 times higher than the leader
+				if bool(last_update) and field.name in NON_REVERSEABLE_FIELDS:
+					leading_value = getattr(Survey.objects.order_by(f'-{field.name}').only(field.name).first(), field.name)
+					if bool(leading_value):
+						print('comparing', field.name, getattr(self, field.name), leading_value)
+						if getattr(self, field.name) > (leading_value * Decimal('1.5')):
+							soft_error_dict[field.name].append(ValidationError(_("This value will make you the leader. Are you sure what you entered is correct?")))
+					else:
+						pass
+				
+				# Field specific Validation
+				
+				# 1 - total_xp - Total XP
+				if field.name == 'total_xp':
 					
-					# 9 - unown_alphabet
-					UNOWN_MAX = 28
-					if field.name == 'unown_alphabet' and bool(getattr(self, field.name)) and getattr(self, field.name) > UNOWN_MAX:
-						error_dict[field.name] = ValidationError(_(f"There are only {UNOWN_MAX} different forms of Unown."))
+					# InterestDate = StartDate
+					InterestDate = self.trainer.start_date
+					# DailyLimit = 1M
+					DailyLimit = 1000000
 					
-					# -1 - Ace Trainer
-					if field.name == 'legacy_gym_trained' and self.update_time.date() > date(2017,6,19):
-						if not largest:
-							if bool(self.trainer.start_date) and self.trainer.start_date <= date(2017,6,19):
-								self.trainer.update_set.create(update_time=datetime(2017,6,19,20,00), legacy_gym_trained=self.legacy_gym_trained)
-							self.legacy_gym_trained = None
-						
-		except Exception as e:
-			if str(e) != 'Update has no trainer.':
-				raise e
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+				
+				# 2 - badge_travel_km - Jogger
+				if field.name == 'badge_travel_km':
+					
+					# InterestDate = StartDate
+					InterestDate = self.trainer.start_date
+					# DailyLimit = 60
+					DailyLimit = Decimal('60.0')
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / Decimal(str(_timedelta.total_seconds()/86400))
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / Decimal(str(_timedelta.total_seconds()/86400)) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+				
+				# 3 - badge_pokedex_entries - Kanto
+				if field.name == 'badge_pokedex_entries':
+					
+					# Max Value = 151
+					# Handled at field level
+					pass
+				
+				# 4 - badge_capture_total - Collector
+				if field.name == 'badge_capture_total':
+					
+					# InterestDate = StartDate
+					InterestDate = self.trainer.start_date
+					# DailyLimit = 800
+					DailyLimit = 800
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+				
+				# 5 - badge_evolved_total - Scientist
+				if field.name == 'badge_evolved_total':
+					
+					# InterestDate = StartDate
+					InterestDate = self.trainer.start_date
+					# DailyLimit = 250
+					DailyLimit = 250
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+				
+				# 6 - badge_hatched_total - Breeder
+				if field.name == 'badge_hatched_total':
+					
+					# InterestDate = StartDate
+					InterestDate = self.trainer.start_date
+					# DailyLimit = 60
+					DailyLimit = 60
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+				
+				# 7 - badge_pokestops_visited - Backpacker
+				if field.name == 'badge_pokestops_visited':
+					
+					# InterestDate = StartDate
+					InterestDate = self.trainer.start_date
+					# DailyLimit = 500
+					DailyLimit = 500
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+				
+				# 8 - badge_big_magikarp - Fisherman
+				if field.name == 'badge_big_magikarp':
+					
+					# InterestDate = StartDate
+					InterestDate = self.trainer.start_date
+					# DailyLimit = 25
+					DailyLimit = 25
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+				
+				# 9 - badge_battle_attack_won - Battle Girl
+				if field.name == 'badge_battle_attack_won':
+					
+					# InterestDate = StartDate
+					InterestDate = self.trainer.start_date
+					# DailyLimit = 500
+					DailyLimit = 500
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+				
+				# 10 - badge_battle_training_won - Ace Trainer
+				if field.name == 'badge_battle_training_won':
+					
+					# Closed Badge
+					
+					SET_ACE = False
+					if self.trainer.start_date: # If Trainer has not got start_date set, blank
+						if self.update_time.date() > GymCloseDate: # If update is before close date, let it through
+							if not bool(last_update): # If the user has posted before, clear it.
+								if self.trainer.start_date <= GymCloseDate: # If the user is old enough, hasn't got it set, let it be set later.
+									SET_ACE = int(getattr(self,field.name))
+							setattr(self,field.name, None)
+						else:
+							pass
+					else:
+						setattr(self,field.name, None)
+				
+				# 11 - badge_small_rattata - Youngster
+				if field.name == 'badge_small_rattata':
+					
+					# InterestDate = StartDate
+					InterestDate = self.trainer.start_date
+					# DailyLimit = 25
+					DailyLimit = 25
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+				
+				# 12 - badge_pikachu - Pikachu Fan
+				if field.name == 'badge_pikachu':
+					
+					# InterestDate = StartDate
+					InterestDate = self.trainer.start_date
+					# DailyLimit = 100
+					DailyLimit = 100
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+				
+				# 13 - badge_berries_fed - Berry Master
+				if field.name == 'badge_berries_fed':
+					
+					# InterestDate = Max(GymReworkDate, StartDate)
+					InterestDate = max(GymReworkDate, self.trainer.start_date)
+					# DailyLimit = 3200
+					DailyLimit = 3200
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+							
+					# Handle Early Updates
+					if self.update_time.date() < GymReworkDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=GymReworkDate)))
+				
+				# 14 - badge_pokedex_entries_gen2 - Johto
+				if field.name == 'badge_pokedex_entries_gen2':
+					
+					# Max Value = 28
+					# Handled at field level
+					
+					# Handle Early Updates
+					if self.update_time.date() < Gen2Date:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=Gen2Date)))
+				
+				# 15 - badge_hours_defended - Gym Leader
+				if field.name == 'badge_hours_defended':
+					
+					# InterestDate = Max(GymReworkDate, StartDate)
+					InterestDate = max(GymReworkDate, self.trainer.start_date)
+					# DailyLimit = 480
+					DailyLimit = 480
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+							
+					# Handle Early Updates
+					if self.update_time.date() < GymReworkDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=GymReworkDate)))
+				
+				# 16 - badge_unown - Unown
+				if field.name == 'badge_unown':
+					
+					# Max Value = 28
+					# Handled at field level
+					
+					# Handle Early Updates
+					if self.update_time.date() < Gen2Date:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=Gen2Date)))
+				
+				# 17 - badge_raid_battle_won - Champion
+				if field.name == 'badge_raid_battle_won':
+					
+					# InterestDate = Max(RaidReleaseDate, StartDate)
+					InterestDate = max(RaidReleaseDate, self.trainer.start_date)
+					# DailyLimit = 100
+					DailyLimit = 100
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+							
+					# Handle Early Updates
+					if self.update_time.date() < RaidReleaseDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=RaidReleaseDate)))
+				
+				# 17 - badge_legendary_battle_won - Champion
+				if field.name == 'badge_legendary_battle_won':
+					
+					# InterestDate = Max(LegendaryReleaseDate, StartDate)
+					InterestDate = max(LegendaryReleaseDate, self.trainer.start_date)
+					# DailyLimit = 100
+					DailyLimit = 100
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+							
+					# Handle Early Updates
+					if self.update_time.date() < LegendaryReleaseDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=LegendaryReleaseDate)))
+				
+				# 19 - gymbadges_gold - Gold Gyms
+				if field.name == 'gymbadges_gold':
+					
+					# Max Value = 1000
+					# Handled at field level
+					
+					_xcompare = self.gymbadges_total or self.trainer.survey_set.filter(update_time__lt=self.update_time).exclude(**{'gymbadges_total' : None}).order_by('-gymbadges_total', '-update_time').only('gymbadges_total', 'update_time').first().gymbadges_total
+					# Check if gymbadges_total is filled in, or has been filled in in the past
+					if _xcompare:
+						# GoldGyms < GymsSeen
+						# Check if gymbadges_gold is more of less than gymbadges_total
+						if getattr(self,field.name) > _xcompare:
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is too high. Please check for typos and other mistakes. You can't have more gold gyms than gyms in Total. {value:,}/{expected:,}").format(badge=field.verbose_name, value=getattr(self,field.name), expected=_xcompare)))
+					else:
+						hard_error_dict[field.name].append(ValidationError(_("You must fill in {other_badge} if filling in {this_badge}.").format(this_badge=field.verbose_name, other_badge=Survey._meta.get_field('gymbadges_total').verbose_name)))
+				
+					# Handle Early Updates
+					if self.update_time.date() < GymReworkDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=GymReworkDate)))
+					
+				# 20 - gymbadges_total - Gyms Seen
+				if field.name == 'gymbadges_total':
+					
+					# Max Value = 1000
+					# Handled at field level
+					
+					# Handle Early Updates
+					if self.update_time.date() < GymReworkDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=GymReworkDate)))
+				
+				# 21 - badge_pokedex_entries_gen3 - Hoenn
+				if field.name == 'badge_pokedex_entries_gen3':
+					
+					# Max Value = 126
+					# Handled at field level
+					
+					# Handle Early Updates
+					if self.update_time.date() < Gen3Date:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=Gen3Date)))
+				
+				# 22 - badge_challenge_quests - Ranger
+				if field.name == 'badge_challenge_quests':
+					
+					# InterestDate = Max(QuestReleaseDate, StartDate)
+					InterestDate = max(QuestReleaseDate, self.trainer.start_date)
+					# DailyLimit = 500
+					DailyLimit = 500
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+							
+					# Handle Early Updates
+					if self.update_time.date() < QuestReleaseDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=QuestReleaseDate)))
+				
+				# 23 - badge_max_level_friends - Idol
+				if field.name == 'badge_max_level_friends':
+					
+					# Max Value = 200
+					# Handled at field level
+					
+					# Handle Early Updates
+					if self.update_time.date() < FriendReleaseDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=FriendReleaseDate)))
+				
+				# 24 - badge_trading - Gentleman
+				if field.name == 'badge_trading':
+					
+					# InterestDate = Max(FriendReleaseDate, StartDate)
+					InterestDate = max(FriendReleaseDate, self.trainer.start_date)
+					# DailyLimit = 100
+					DailyLimit = 100
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+							
+					# Handle Early Updates
+					if self.update_time.date() < FriendReleaseDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=FriendReleaseDate)))
+				
+				#24 - badge_trading_distance - Pilot
+				if field.name == 'badge_trading_distance':
+					
+					# InterestDate = Max(FriendReleaseDate, StartDate)
+					InterestDate = max(FriendReleaseDate, self.trainer.start_date)
+					# DailyLimit = 1.92M
+					DailyLimit = 1920000
+					
+					# Checks Daily Limit between now and last_update
+					_timedelta = self.update_time.date()-InterestDate
+					_xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+					if _xdelta >= DailyLimit:
+						# Failed Verification, raise error!
+						soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+					
+					# Checks Daily Limit between now and last_update
+					if bool(last_update):
+						_xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+						_timedelta = self.update_time-last_update.update_time
+						if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+							# Failed Verification, raise error!
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+							
+					_xcompare = self.badge_trading or self.trainer.survey_set.filter(update_time__lt=self.update_time).exclude(**{'badge_trading' : None}).order_by('-badge_trading', '-update_time').only('badge_trading', 'update_time').first().badge_trading
+					# Check if gymbadges_total is filled in, or has been filled in in the past
+					if _xcompare:
+						# Pilot / Gentleman < 19200
+						if (getattr(self,field.name) / _xcompare) >= 19200:
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is too high. Please check for typos and other mistakes. You can only gain so much in a day. {value:,}/{expected:,}").format(badge=field.verbose_name, value=getattr(self,field.name), expected=19200)))
+				
+					# Handle Early Updates
+					if self.update_time.date() < FriendReleaseDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=FriendReleaseDate)))
+				
+				# 25 - pokemon_ditto_caught - Ditto Caught
+				if field.name == 'pokemon_ditto_caught':
+					
+					_xcompare = self.pokemon_ditto_seen or self.trainer.survey_set.filter(update_time__lt=self.update_time).exclude(**{'pokemon_ditto_seen' : None}).order_by('-pokemon_ditto_seen', '-update_time').only('pokemon_ditto_seen', 'update_time').first().pokemon_ditto_seen
+					# Check if pokemon_ditto_seen is filled in, or has been filled in in the past
+					if _xcompare:
+						# Ditto Caught < Ditto Seen
+						# Check if pokemon_ditto_caught is more of less than pokemon_ditto_seen
+						if getattr(self,field.name) > _xcompare:
+							soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is too high. Please check for typos and other mistakes. You can't have caught more Ditto than you've seen. {value:,}/{expected:,}").format(badge=field.verbose_name, value=getattr(self,field.name), expected=_xcompare)))
+					else:
+						hard_error_dict[field.name].append(ValidationError(_("You must fill in {other_badge} if filling in {this_badge}.").format(this_badge=field.verbose_name, other_badge=Survey._meta.get_field('pokemon_ditto_seen').verbose_name)))
+				
+					# Handle Early Updates
+					if self.update_time.date() < DittoDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=DittoDate)))
+					
+				# 26 - pokemon_ditto_seen - Ditto Seen
+				if field.name == 'pokemon_ditto_seen':
+					
+					# Handle Early Updates
+					if self.update_time.date() < DittoDate:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=DittoDate)))
+				
+				# 21 - badge_pokedex_entries_gen4 - Sinnoh
+				if field.name == 'badge_pokedex_entries_gen4':
+					
+					# Max Value = 107
+					# Handled at field level
+					
+					# Handle Early Updates
+					if self.update_time.date() < Gen3Date:
+						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=Gen4Date)))
+				
+		# Raise Soft Errors
+		soft_error_override = self.double_check_confirmation
+		if soft_error_dict != {} and soft_error_override == False:
+			raise ValidationError(soft_error_dict)
 		
-		if (Update.objects.filter(trainer=self.trainer, xp__isnull=False).count() == 0 and self.xp is None) or (Update.objects.filter(trainer=self.trainer, xp__isnull=False).count() == 1 and self.xp is None and self.uuid == Update.objects.filter(trainer=self.trainer, xp__isnull=False)[0].uuid):
-			error_dict['xp'] = ValidationError('You need to enter an XP on your first update')
-		
-		if not any([getattr(self, x) for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('xp', 'dex_caught', 'dex_seen', 'gym_badges'))]):
-			raise ValidationError(_("No valid fields filled. If you only entered a field that is already max'd, this is why. We clear max'd fields."))
-
-		if error_dict != {}:
-			raise ValidationError(error_dict)
+		# Raise Hard Errors
+		if hard_error_dict:
+			raise ValidationError(hard_error_dict)
+			
+		# No Errors Thrown!
+		if SET_ACE:
+			self.trainer.update_set.create(update_time=datetime(2017,6,19,20,00), legacy_gym_trained=SET_ACE)
 	
 	class Meta:
 		get_latest_by = 'update_time'

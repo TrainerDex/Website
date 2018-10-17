@@ -67,9 +67,27 @@
           </span>
         </li>
         <li class="mdl-list__item">
-          <span class="mdl-list__item-primary-content" id="xp">
+          <span class="mdl-list__item-primary-content" id="total_xp">
             <i class="mdl-list__item-icon">{% trans "XP" context 'Short form of XP'  %}</i>
-            {{xp|intcomma}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}
+            {{total_xp|intcomma}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}
+          </span>
+        </li>
+        <li class="mdl-list__item">
+          <span class="mdl-list__item-primary-content" id="pokemon_info_stardust">
+            <i class="mdl-list__item-icon">✨</i>
+            {{pokemon_info_stardust|intcomma}}
+          </span>
+        </li>
+        <li class="mdl-list__item">
+          <span class="mdl-list__item-primary-content" id="gymbadges_total">
+            <i class="material-icons mdl-list__item-icon">security</i>
+            {{gymbadges_total|intcomma}}
+          </span>
+        </li>
+        <li class="mdl-list__item">
+          <span class="mdl-list__item-primary-content" id="gymbadges_gold">
+            <i class="material-icons mdl-list__item-icon" style="color: #FFD700;">security</i>
+            {{gymbadges_gold|intcomma}}
           </span>
         </li>
       </ul>
@@ -163,7 +181,7 @@
           {% if forloop.first %}
         <thead>
           <tr>
-            {% for field in update|slice:"3:-3" %}
+            {% for field in update %}
             <th id="{{field.attname}}">{{field.readable_name}}</th>
             {% endfor %}
           </tr>
@@ -172,7 +190,7 @@
           {% endif %}
           
           <tr id="{{update.1.value}}">
-            {% for field in update|slice:"3:-3" %}
+            {% for field in update %}
               {% if field.attname == 'update_time' %}
             <td id="{{update.1.value}}.{{field.attname}}">{{field.value|default_if_none:"---"|naturalday}}</td>
               {% else %}

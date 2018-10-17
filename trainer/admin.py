@@ -45,7 +45,7 @@ class SponsorshipAdmin(admin.ModelAdmin):
 class UpdateAdmin(admin.ModelAdmin):
 	
 	autocomplete_fields = ['trainer']
-	list_display = ('trainer', 'xp', 'update_time', 'meta_crowd_sourced','meta_source', 'modified_extra_fields')
+	list_display = ('trainer', 'total_xp', 'update_time', 'submission_date', 'has_modified_extra_fields')
 	search_fields = ('trainer__username', 'trainer__owner__username')
 	ordering = ('-update_time',)
 	date_hierarchy = 'update_time'
@@ -73,19 +73,10 @@ class TrainerAdmin(admin.ModelAdmin):
 			'classes': ('collapse',),
 			'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018_japan','badge_apac_partner_july_2018_south_korea')
 		}),
-		(_('Website Badges'), {
-			'classes': ('collapse',),
-			'fields': ('event_10b','event_1k_users')
-		}),
 		(_('Leaderboard'), {
 			'fields': ('leaderboard_country', 'leaderboard_region', 'statistics')
 		}),
 	)
-	
-	def get_readonly_fields(self, request, obj=None): 
-		if obj: # editing an existing object 
-			return self.readonly_fields + ('event_10b','event_1k_users') 
-		return self.readonly_fields
 	
 	def get_queryset(self, request):
 		return super(TrainerAdmin,self).get_queryset(request).prefetch_related('update_set')

@@ -1,10 +1,10 @@
 ﻿# -*- coding: utf-8 -*-
 from django.conf.urls import url
 from trainer.views import TrainerListJSONView, TrainerDetailJSONView, UpdateListJSONView, LatestUpdateJSONView, UpdateDetailJSONView, UserViewSet, SocialLookupJSONView, LeaderboardJSONView, DiscordLeaderboardAPIView
-from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, TrainerRedirectorView, fortyx
+from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, TrainerRedirectorView
 from trainer.errors import ThrowMalformedPKError, ThrowMalformedUUIDError
 from django.views import defaults
-from ekpogo.views import *
+from trainerdex.views import *
 
 class REST:
     
@@ -18,7 +18,7 @@ class REST:
         url(r'^trainers\/$', TrainerListJSONView.as_view()),
         url(r'^trainers\/(?P<pk>[0-9]+)\/$', TrainerDetailJSONView.as_view()),
         url(r'^trainers\/(?P<pk>[0-9]+)\/updates\/$', UpdateListJSONView.as_view()),
-        url(r'^trainers\/(?P<pk>[0-9]+)\/updates\/latest\/$', LatestUpdateJSONView.as_view()),
+        url(r'^trainers\/(?P<pk>[0-9]+)\/updates\/latest\/$', LatestUpdateJSONView.as_view(), name='latest_update'),
         url(r'^trainers\/(?P<pk>[0-9]+)\/updates\/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})\/$', UpdateDetailJSONView.as_view()),
         # /users/
         url(r'^users\/$', UserViewSet.as_view({'get':'list','post':'create'})),
@@ -41,6 +41,4 @@ class HTML:
         url(r'^tools\/update_stats\/?$', CreateUpdateHTMLView, name='update_stats'),
         url(r'^(?P<username>[A-Za-z0-9]{3,15})\/?$', TrainerRedirectorView),
         url(r'^u\/(?P<username>[A-Za-z0-9]{3,15})\/?$', TrainerProfileHTMLView, name='profile_username'),
-        url(r'^update\/([a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})\/?$', Raise404UpdateURL),
-        url(r'^u\/(?P<username>[A-Za-z0-9]{3,15})\/40x?$', fortyx, name='profile_40x'),
     ]
