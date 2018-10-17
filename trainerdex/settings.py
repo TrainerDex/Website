@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.gis',
-    'debug_toolbar',
     'django_unused_media',
     'rest_framework',
     'rest_framework.authtoken',
@@ -47,12 +46,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.discord',
-#    'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.reddit',
     'allauth.socialaccount.providers.twitter',
-#    'allauth.socialaccount.providers.telegram',
-#    'allauth.socialaccount.providers.patreon',
-#    'allauth.socialaccount.providers.google',
     'widget_tweaks',
     'admin_reorder',
 ]
@@ -60,7 +55,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 	'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,10 +66,10 @@ MIDDLEWARE = [
 ]
 
 LOCALE_PATHS = [
-    'conf/locale',
+    'trainerdex/locale',
 ]
 
-ROOT_URLCONF = 'ekpogo.urls'
+ROOT_URLCONF = 'trainerdex.urls'
 
 ADMIN_REORDER = (
     {
@@ -116,9 +110,11 @@ ADMIN_REORDER = (
     'sites',
 )
 
-INTERNAL_IPS = [
-    '127.0.0.1'
-]
+# DjangoDebugToolbar
+if DEBUG==True:
+	INSTALLED_APPS.append('debug_toolbar')
+	MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+	INTERNAL_IPS = ['127.0.0.1']
 
 TEMPLATES = [
     {
@@ -137,7 +133,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ekpogo.wsgi.application'
+WSGI_APPLICATION = 'trainerdex.wsgi.application'
 
 
 # Database
@@ -226,7 +222,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'ekpogo.permissions.IsAdminUserOrReadOnly',
+        'trainerdex.permissions.IsAdminUserOrReadOnly',
         ),
 }
 
@@ -245,7 +241,6 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_USERNAME_VALIDATORS = 'trainer.validators.username_validator'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 LOGIN_REDIRECT_URL = 'trainerdex_web:profile'
@@ -271,9 +266,6 @@ SOCIALACCOUNT_PROVIDERS = {
             'email',
             'guilds',
         ]
-#    },
-#    'telegram': {
-#        'TOKEN': '605108342:AAHK_8-ezXE07yQqdJCAePEIcQzLP1EsBvs'
     }
 }
 SOCIALACCOUNT_QUERY_EMAIL= True

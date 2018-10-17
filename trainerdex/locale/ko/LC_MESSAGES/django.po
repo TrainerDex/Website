@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-16 14:47+0000\n"
+"POT-Creation-Date: 2018-10-17 08:59+0000\n"
 "PO-Revision-Date: 2018-07-28 21:31+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Translated-Using: django-rosetta 0.8.1\n"
-
-#: ekpogo/settings.py:182 trainer/models.py:267 trainer/models.py:345
-msgid "English"
-msgstr ""
-
-#: ekpogo/settings.py:183 trainer/models.py:291 trainer/models.py:369
-msgid "German"
-msgstr ""
-
-#: ekpogo/settings.py:184 trainer/models.py:285 trainer/models.py:363
-msgid "Spanish"
-msgstr ""
-
-#: ekpogo/settings.py:185 trainer/models.py:279 trainer/models.py:357
-msgid "French"
-msgstr ""
-
-#: ekpogo/settings.py:186 trainer/models.py:297 trainer/models.py:375
-msgid "Italian"
-msgstr ""
-
-#: ekpogo/settings.py:187 trainer/models.py:273 trainer/models.py:351
-msgid "Japanese"
-msgstr ""
-
-#: ekpogo/settings.py:188 trainer/models.py:303 trainer/models.py:381
-msgid "Korean"
-msgstr ""
-
-#: ekpogo/settings.py:189 trainer/models.py:315 trainer/models.py:393
-msgid "Brazilian Portuguese"
-msgstr ""
-
-#: ekpogo/settings.py:190 trainer/models.py:309 trainer/models.py:387
-msgid "Traditional Chinese"
-msgstr ""
 
 #: support/templates/about.html:5 support/templates/about.html:6
 #: support/templates/about.html:13
@@ -153,7 +117,7 @@ msgstr ""
 #: trainer/admin.py:80 website/templates/base.html:88
 #: website/templates/base.html:133
 msgid "Leaderboard"
-msgstr "Classificação"
+msgstr "리더 보드"
 
 #: trainer/apps.py:7
 msgid "TrainerDex Profiles"
@@ -176,7 +140,7 @@ msgstr ""
 #| msgid "Nickname"
 msgctxt "onboard_enter_name_hint"
 msgid "Nickname"
-msgstr "Apelido"
+msgstr "닉네임"
 
 #: trainer/models.py:43
 msgid "Your Trainer Nickname exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."
@@ -194,7 +158,7 @@ msgstr ""
 #: trainer/models.py:45 trainer/models.py:337 trainer/models.py:341
 #: trainer/templates/leaderboard.html:64 trainer/templates/profile.html:19
 msgid "Team"
-msgstr "Equipe"
+msgstr "팀"
 
 #: trainer/models.py:45
 msgid "Mystic = Blue, Instinct = Yellow, Valor = Red."
@@ -247,14 +211,14 @@ msgstr ""
 #| msgid "Pokémon GO Fest 2017"
 msgctxt "badge_chicago_fest_july_2017_title"
 msgid "Pokémon GO Fest 2017"
-msgstr "Festival de Pokémon GO"
+msgstr "Pokémon GO Fest"
 
 #: trainer/models.py:53 trainer/templates/profile.html:82
 #, fuzzy
 #| msgid "Chicago, July 22, 2017"
 msgctxt "badge_chicago_fest_july_2017"
 msgid "Chicago, July 22, 2017"
-msgstr "Chicago, 22 de julho de 2017"
+msgstr "2017년 7월 22일 시카고"
 
 #: trainer/models.py:54 trainer/templates/profile.html:88
 msgctxt "badge_pikachu_outbreak_yokohama_2017_title"
@@ -266,21 +230,21 @@ msgstr ""
 #| msgid "Yokohama, August 2017"
 msgctxt "badge_pikachu_outbreak_yokohama_2017"
 msgid "Yokohama, August 2017"
-msgstr "Yokohama, agosto de 2017"
+msgstr "2017년 8월 요코하마"
 
 #: trainer/models.py:55 trainer/templates/profile.html:95
 #, fuzzy
 #| msgid "GO Safari Zone - Europe 2017"
 msgctxt "badge_safari_zone_europe_2017_title"
 msgid "GO Safari Zone - Europe 2017"
-msgstr "Safári Pokémon GO: Europa 2017"
+msgstr "GO Safari Zone - 2017년 호주"
 
 #: trainer/models.py:55 trainer/templates/profile.html:96
 #, fuzzy
 #| msgid "Europe, September 16, 2017"
 msgctxt "badge_safari_zone_europe_2017"
 msgid "Europe, September 16, 2017"
-msgstr "Europa, 16 de setembro de 2017"
+msgstr "2017년 9월 16일 유럽"
 
 #: trainer/models.py:56 trainer/templates/profile.html:102
 #: trainer/templates/profile.html:109
@@ -288,77 +252,77 @@ msgstr "Europa, 16 de setembro de 2017"
 #| msgid "GO Safari Zone - Europe 2017"
 msgctxt "badge_safari_zone_europe_2017_10_07_title"
 msgid "GO Safari Zone - Europe 2017"
-msgstr "Safári Pokémon GO: Europa 2017"
+msgstr "GO Safari Zone - 2017년 호주"
 
 #: trainer/models.py:56 trainer/templates/profile.html:103
 #, fuzzy
 #| msgid "Europe, October 7, 2017"
 msgctxt "badge_safari_zone_europe_2017_10_07"
 msgid "Europe, October 7, 2017"
-msgstr "Europa, 7 de outubro de 2017"
+msgstr "2017년 10월 7일 호주"
 
 #: trainer/models.py:57
 #, fuzzy
 #| msgid "GO Safari Zone - Europe 2017"
 msgctxt "badge_safari_zone_europe_2017_10_14_title"
 msgid "GO Safari Zone - Europe 2017"
-msgstr "Safári Pokémon GO: Europa 2017"
+msgstr "GO Safari Zone - 2017년 호주"
 
 #: trainer/models.py:57
 #, fuzzy
 #| msgid "Europe, October 14, 2017"
 msgctxt "badge_safari_zone_europe_2017_10_14"
 msgid "Europe, October 14, 2017"
-msgstr "Europa, 14 de outubro de 2017"
+msgstr "2017년 10월 14일 호주"
 
 #: trainer/models.py:58 trainer/templates/profile.html:116
 #, fuzzy
 #| msgid "Pokémon GO Fest 2018"
 msgctxt "badge_chicago_fest_july_2018_*_*_title"
 msgid "Pokémon GO Fest 2018"
-msgstr "Festival de Pokémon GO"
+msgstr "Pokémon GO Fest"
 
 #: trainer/models.py:58 trainer/templates/profile.html:117
 #, fuzzy
 #| msgid "Chicago, July 14-15, 2018"
 msgctxt "badge_chicago_fest_july_2018_*_*"
 msgid "Chicago, July 14-15, 2018"
-msgstr "Chicago, 14-15 de julho de 2018"
+msgstr "시카고, 2018년 7월"
 
 #: trainer/models.py:59 trainer/templates/profile.html:123
 #, fuzzy
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_apac_partner_july_2018_*_title"
 msgid "Pokémon GO Special Weekend"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:59 trainer/templates/profile.html:124
 #, fuzzy
 #| msgid "Japan, July 26-29, 2018"
 msgctxt "badge_apac_partner_july_2018_*"
 msgid "Japan, July 26-29, 2018"
-msgstr "Japão, 26-29 de julho de 2018"
+msgstr "일본 2018년7월"
 
 #: trainer/models.py:60 trainer/templates/profile.html:130
 #, fuzzy
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_apac_partner_july_2018_5_title"
 msgid "Pokémon GO Special Weekend"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:60 trainer/templates/profile.html:131
 #, fuzzy
 #| msgid "Japan, July 26-29, 2018"
 msgctxt "badge_apac_partner_july_2018_5"
 msgid "South Korea, July 29, 2018"
-msgstr "Japão, 26-29 de julho de 2018"
+msgstr "일본 2018년7월"
 
 #: trainer/models.py:61
 #, fuzzy
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_29_aug_2018_mikasa_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:61
 msgctxt "badge_yokosuka_29_aug_2018_mikasa"
@@ -370,7 +334,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_29_aug_2018_verny_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:62
 msgctxt "badge_yokosuka_29_aug_2018_verny"
@@ -382,7 +346,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_29_aug_2018_kurihama_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:63
 msgctxt "badge_yokosuka_29_aug_2018_kurihama"
@@ -394,7 +358,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_30_aug_2018_mikasa_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:64
 msgctxt "badge_yokosuka_30_aug_2018_mikasa"
@@ -406,7 +370,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_30_aug_2018_verny_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:65
 msgctxt "badge_yokosuka_30_aug_2018_verny"
@@ -418,7 +382,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_30_aug_2018_kurihama_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:66
 msgctxt "badge_yokosuka_30_aug_2018_kurihama"
@@ -430,7 +394,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_31_aug_2018_mikasa_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:67
 msgctxt "badge_yokosuka_31_aug_2018_mikasa"
@@ -442,7 +406,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_31_aug_2018_verny_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:68
 msgctxt "badge_yokosuka_31_aug_2018_verny"
@@ -454,7 +418,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_31_aug_2018_kurihama_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:69
 msgctxt "badge_yokosuka_31_aug_2018_kurihama"
@@ -466,7 +430,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_1_sep_2018_mikasa_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:70
 msgctxt "badge_yokosuka_1_sep_2018_mikasa"
@@ -478,7 +442,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_1_sep_2018_verny_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:71
 msgctxt "badge_yokosuka_1_sep_2018_verny"
@@ -490,7 +454,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_1_sep_2018_kurihama_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:72
 msgctxt "badge_yokosuka_1_sep_2018_kurihama"
@@ -502,7 +466,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_2_sep_2018_mikasa_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:73
 msgctxt "badge_yokosuka_2_sep_2018_mikasa"
@@ -514,7 +478,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_2_sep_2018_verny_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:74
 msgctxt "badge_yokosuka_2_sep_2018_verny"
@@ -526,7 +490,7 @@ msgstr ""
 #| msgid "Pokémon GO Special Weekend"
 msgctxt "badge_yokosuka_2_sep_2018_kurihama_title"
 msgid "Pokémon GO Safari Zone"
-msgstr "Fim de semana especial de Pokémon GO"
+msgstr "Pokémon GO Special Weekend"
 
 #: trainer/models.py:75
 msgctxt "badge_yokosuka_2_sep_2018_kurihama"
@@ -599,6 +563,42 @@ msgstr ""
 msgid "Name ({language})"
 msgstr ""
 
+#: trainer/models.py:267 trainer/models.py:345 trainerdex/settings.py:178
+msgid "English"
+msgstr ""
+
+#: trainer/models.py:273 trainer/models.py:351 trainerdex/settings.py:183
+msgid "Japanese"
+msgstr ""
+
+#: trainer/models.py:279 trainer/models.py:357 trainerdex/settings.py:181
+msgid "French"
+msgstr ""
+
+#: trainer/models.py:285 trainer/models.py:363 trainerdex/settings.py:180
+msgid "Spanish"
+msgstr ""
+
+#: trainer/models.py:291 trainer/models.py:369 trainerdex/settings.py:179
+msgid "German"
+msgstr ""
+
+#: trainer/models.py:297 trainer/models.py:375 trainerdex/settings.py:182
+msgid "Italian"
+msgstr ""
+
+#: trainer/models.py:303 trainer/models.py:381 trainerdex/settings.py:184
+msgid "Korean"
+msgstr ""
+
+#: trainer/models.py:309 trainer/models.py:387 trainerdex/settings.py:186
+msgid "Traditional Chinese"
+msgstr ""
+
+#: trainer/models.py:315 trainer/models.py:393 trainerdex/settings.py:185
+msgid "Brazilian Portuguese"
+msgstr ""
+
 #: trainer/models.py:318
 msgid "Colour"
 msgstr ""
@@ -624,7 +624,7 @@ msgstr ""
 #| msgid "Total XP"
 msgctxt "PROFILE_TOTAL_XP"
 msgid "Total XP"
-msgstr "Total de PE"
+msgstr "Total XP"
 
 #: trainer/models.py:413
 msgid "Your Total XP can be found at the bottom of your Pokémon Go profile"
@@ -1081,7 +1081,7 @@ msgstr ""
 
 #: trainer/models.py:487
 msgid "Total XP Screenshot"
-msgstr "Captura de tela Total de PE"
+msgstr "Total XP스크린 샷"
 
 #: trainer/models.py:496
 msgid "Crowd Sourced"
@@ -1239,21 +1239,21 @@ msgstr ""
 #: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
 #: trainer/templates/leaderboard.html:27
 msgid "International"
-msgstr "Internacional"
+msgstr "국제"
 
 #: trainer/templates/leaderboard.html:7 trainer/templates/leaderboard.html:12
 #: trainer/templates/leaderboard.html:27
 #, python-format
 msgctxt "This is the title, loc is defined as the country/continent name, or the word International (which is translated seperately)."
 msgid "%(loc)s Leaderboard"
-msgstr "Classificação %(loc)s"
+msgstr "%(loc)s 리더 보드"
 
 #: trainer/templates/leaderboard.html:54
 #, fuzzy
 #| msgid "Total XP"
 msgctxt "Total XP of all Trainers on leaderboard"
 msgid "Total XP"
-msgstr "Total de PE"
+msgstr "Total XP"
 
 #: trainer/templates/leaderboard.html:54
 msgid "Trainers Considered"
@@ -1265,7 +1265,7 @@ msgstr ""
 #| msgid "TL"
 msgctxt "Short form of Trainer Level"
 msgid "TL"
-msgstr "Nível"
+msgstr "레벨"
 
 #: trainer/templates/leaderboard.html:71
 msgid "Last Updated"
@@ -1284,14 +1284,14 @@ msgstr ""
 #| msgid "XP"
 msgctxt "Short form of XP"
 msgid "XP"
-msgstr "PE"
+msgstr "XP"
 
 #: trainer/templates/profile.html:110
 #, fuzzy
 #| msgid "Europe, October 14, 2017"
 msgctxt "badge_safari_zone_europe_2017_10_07"
 msgid "Europe, October 14, 2017"
-msgstr "Europa, 14 de outubro de 2017"
+msgstr "2017년 10월 14일 호주"
 
 #: trainer/templates/profile.html:154
 msgctxt "profile_category_history"
@@ -1876,16 +1876,16 @@ msgid ""
 msgstr ""
 
 #~ msgid "Mystic"
-#~ msgstr "Sabedoria"
+#~ msgstr "미스틱"
 
 #~ msgid "Valor"
-#~ msgstr "Valor"
+#~ msgstr "발로"
 
 #~ msgid "Instinct"
-#~ msgstr "Instinto"
+#~ msgstr "인스팅트"
 
 #~ msgid "TL"
-#~ msgstr "Nível"
+#~ msgstr "레벨"
 
 #, fuzzy
 #~| msgid "Pokémon GO STADIUM"
@@ -1897,4 +1897,4 @@ msgstr ""
 #~| msgid "Yokohama, August 2017"
 #~ msgctxt "pikachu_outbreak_yokohama"
 #~ msgid "Yokohama, August 2017"
-#~ msgstr "Yokohama, agosto de 2017"
+#~ msgstr "2017년 8월 요코하마"
