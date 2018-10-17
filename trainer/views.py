@@ -604,14 +604,14 @@ def SetUpProfileViewStep3(request):
 		return HttpResponseRedirect(reverse('trainerdex_web:update_stats'))
 	
 	form = RegistrationFormUpdate(initial={'trainer':request.user.trainer})
-	form.fields['image_proof'].required = True
+	form.fields['screenshot'].required = True
 	
 	if request.method == 'POST':
 		logger.info(request.FILES)
 		form_data = request.POST.copy()
-		form_data['meta_source'] = 'ss_registration'
+		form_data['data_source'] = 'ss_registration'
 		form = RegistrationFormUpdate(form_data, request.FILES)
-		form.fields['image_proof'].required = True
+		form.fields['screenshot'].required = True
 		form.trainer = request.user.trainer
 		logger.info(form.is_valid())
 		if form.is_valid():
@@ -621,6 +621,6 @@ def SetUpProfileViewStep3(request):
 		logger.info(form.cleaned_data)
 		logger.error(form.errors)
 	form.fields['update_time'].widget = forms.HiddenInput()
-	form.fields['meta_source'].widget = forms.HiddenInput()
+	form.fields['data_source'].widget = forms.HiddenInput()
 	form.fields['trainer'].widget = forms.HiddenInput()
 	return render(request, 'create_update.html', {'form': form})
