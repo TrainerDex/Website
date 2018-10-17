@@ -399,7 +399,7 @@ def TrainerProfileHTMLView(request, username):
 		else:
 			badge_dict['percent'] = 100
 		badges.append(badge_dict)
-	_values = context['updates'].aggregate(*[Max(x) for x in ('total_xp', 'pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold',)])
+	_values = context['updates'].aggregate(*[Max(x) for x in ('total_xp', 'pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust',)])
 	for value in _values:
 		context[value[:-5]] = _values[value]
 	context['level'] = trainer.level()
