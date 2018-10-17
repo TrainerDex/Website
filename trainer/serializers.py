@@ -7,12 +7,20 @@ from trainer.models import *
 from trainer.shortcuts import level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 class BriefUpdateSerializer(serializers.ModelSerializer):
+	xp = serializers.SerializerMethodField()
+	
+	def get_xp(self, obj):
+		return obj.total_xp
 	
 	class Meta:
 		model = Update
-		fields = ('uuid', 'trainer', 'update_time', 'xp', 'modified_extra_fields')
+		fields = ('uuid', 'trainer', 'update_time', 'xp', 'total_xp', 'modified_extra_fields')
 
 class DetailedUpdateSerializer(serializers.ModelSerializer):
+	xp = serializers.SerializerMethodField()
+	
+	def get_xp(self, obj):
+		return obj.total_xp
 	
 	def validate(self, attrs):
 		instance = Update(**attrs)
@@ -21,7 +29,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Update
-		fields = ('uuid', 'trainer', 'update_time', 'total_xp', 'pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust',) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('data_source',)
+		fields = ('uuid', 'trainer', 'update_time', 'xp', 'total_xp', 'pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust',) + UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('data_source',)
 
 class BriefTrainerSerializer(serializers.ModelSerializer):
 	update_set = BriefUpdateSerializer(read_only=True, many=True)
