@@ -526,7 +526,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
 		context['leaderboard'] = None
 		return render(request, 'leaderboard.html', context, status=404)
 	
-	QuerySet = QuerySet.exclude(**{f'update__{sort_by}__isnull': True}).annotate(*[Max('update__'+x) for x in fields_to_calculate_max]).order_by(f'-update__{sort_by}__max', '-update__total_xp__max', '-update__update_time__max', 'faction',)
+	QuerySet = QuerySet.annotate(*[Max('update__'+x) for x in fields_to_calculate_max]).exclude(**{f'update__{sort_by}__max__isnull': True}).order_by(f'-update__{sort_by}__max', '-update__total_xp__max', '-update__update_time__max', 'faction',)
 	
 	Results = []
 	GRAND_TOTAL = QuerySet.aggregate(Sum('update__total_xp__max'))
@@ -604,14 +604,14 @@ def SetUpProfileViewStep3(request):
 		return HttpResponseRedirect(reverse('trainerdex_web:update_stats'))
 	
 	form = RegistrationFormUpdate(initial={'trainer':request.user.trainer})
-	form.fields['image_proof'].required = True
+	form.fields['screenshot'].required = True
 	
 	if request.method == 'POST':
 		logger.info(request.FILES)
 		form_data = request.POST.copy()
-		form_data['meta_source'] = 'ss_registration'
+		form_data['data_source'] = 'ss_registration'
 		form = RegistrationFormUpdate(form_data, request.FILES)
-		form.fields['image_proof'].required = True
+		form.fields['screenshot'].required = True
 		form.trainer = request.user.trainer
 		logger.info(form.is_valid())
 		if form.is_valid():
@@ -621,6 +621,6 @@ def SetUpProfileViewStep3(request):
 		logger.info(form.cleaned_data)
 		logger.error(form.errors)
 	form.fields['update_time'].widget = forms.HiddenInput()
-	form.fields['meta_source'].widget = forms.HiddenInput()
+	form.fields['data_source'].widget = forms.HiddenInput()
 	form.fields['trainer'].widget = forms.HiddenInput()
 	return render(request, 'create_update.html', {'form': form})
