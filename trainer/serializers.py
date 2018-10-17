@@ -100,7 +100,7 @@ class LeaderboardSerializer(serializers.Serializer):
 	
 	def get_level(self, obj):
 		try:
-			level_parser(xp=obj.update__total_xp__max).level
+			return level_parser(xp=obj.update__total_xp__max).level
 		except ValueError:
 			return None
 	
