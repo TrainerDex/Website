@@ -26,5 +26,5 @@ python-dateutil==2.7.3
 pytz
 requests==2.20.0
 six==1.10.0
-urllib3==1.23
+urllib3==1.24
 vine==1.1.4
