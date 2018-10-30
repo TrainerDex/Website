@@ -1,7 +1,14 @@
 {
   "name": "trainerdex.co.uk",
   "version": "0.0.1",
-  "author": "TrainerDex",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JayTurnr/trainerdex.co.uk.git"
+  },
+  "author": "JayTurnr",
+  "bugs": {
+    "url": "https://github.com/JayTurnr/trainerdex.co.uk/issues"
+  },
   "homepage": "https://www.trainerdex.co.uk/",
   "private": true,
   "dependencies": {
