@@ -37,7 +37,7 @@ def VerificationImagePath(instance, filename):
 	return 'v_{0}_{1}{ext}'.format(instance.owner.id, datetime.utcnow().timestamp(), ext=splitext(filename)[1])
 
 def VerificationUpdateImagePath(instance, filename):
-	return 'v_{0}/v_{1}_{2}{ext}'.format(instance.trainer.owner.id, instance.trainer.id, instance.meta_time_created.timestamp(), ext=splitext(filename)[1])
+	return 'v_{0}/v_{1}_{2}{ext}'.format(instance.trainer.owner.id, instance.trainer.id, instance.submission_date.timestamp(), ext=splitext(filename)[1])
 
 class Trainer(models.Model):
 	
