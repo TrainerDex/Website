@@ -1107,8 +1107,8 @@ class Update(models.Model):
 						hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=Gen4Date)))
 				
 		# Raise Soft Errors
-		soft_error_override = self.double_check_confirmation
-		if soft_error_dict != {} and soft_error_override != True:
+		soft_error_override = any([bool(self.double_check_confirmation),('ss_' in self.data_source)])
+		if soft_error_dict != {} and not soft_error_override:
 			raise ValidationError(soft_error_dict)
 		
 		# Raise Hard Errors
