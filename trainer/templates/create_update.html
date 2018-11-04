@@ -16,149 +16,149 @@
 
 {% block content %}
 <div class="mdl-grid">
-	<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-cell--8-col-tablet trainerdex-card__alert">
-		<div class="mdl-card__title">
-			<h2 class="mdl-card__title-text">{% trans "Update Stats" %}</h2>
-		</div>
-		<form method="POST" action="{{request.path}}" enctype="multipart/form-data" id="form_update_stats">
-			{% csrf_token %}
-			{# translators: Asterix for required fields #}
-			{% trans "*" as required %}
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-cell--8-col-tablet trainerdex-card__alert">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "Update Stats" %}</h2>
+    </div>
+    <form method="POST" action="{{request.path}}" enctype="multipart/form-data" id="form_update_stats">
+      {% csrf_token %}
+      {# translators: Asterix for required fields #}
+      {% trans "*" as required %}
       <div class="mdl-card__supporting-text">
-				<p id="asterix_notice">{% blocktrans %}All fields marked with an asterix ({{required}}) are required.{% endblocktrans %}</p>
-				<span id="errors">{{ form.non_field_errors }}</span>
-      	
-				{# Include the hidden fields #}
-				
-				{% for hidden in form.hidden_fields %}
-				{{ hidden }}
-				{% if hidden.errors %}<script type="text/javascript">{% for error in hidden.errors %}
-					console.error("{{error}}");
-				{% endfor %}</script>{% endif %}
-				{% endfor %}
-				
-				{% if redirect_field_value %}
-				<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-				{% endif %}
-				
-				{# Include the visible fields #}
-				
-				{% for field in form.visible_fields %}
-				{% if forloop.first %}
-					<div class="mdl-grid">
-				{% endif %}
-				{# Build tabs #}
-				{% if field.id_for_label == 'id_badge_travel_km' %}
-					</div>
-				<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-					<div class="mdl-tabs__tab-bar">
-						<a href="#medals-panel" class="mdl-tabs__tab is-active">{% trans "Medals" %}</a>
-						<a href="#type-badges-panel" class="mdl-tabs__tab">{% trans "Types" %}</a>
-					</div>
-					{# Build First Tab #}
-					<div class="mdl-tabs__panel is-active" id="medals-panel">
-						<div class="mdl-grid">
-				{% elif field.id_for_label == 'id_badge_type_normal' %} {# Build second tab #}
-						</div>
-					</div>
-					<div class="mdl-tabs__panel" id="type-badges-panel">
-						<div class="mdl-grid">
-				{% endif %}
-				
-						{# Build Card #}
-						<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col mdl-cell--4-col-phone mdl-cell--4-col-tablet">
-							<div class="mdl-card__title">
-								<h2 class="mdl-card__title-text">{{field.label}}{% if field.field.required == True %}{{required}}{% endif %}</h2>
-							</div>
-							<div class="mdl-card__supporting-text">
-								<p>{{field.help_text}}</p>
-								<img src="{% get_static_prefix %}img/survey/{{field.name}}.png" style="max-height:100px; height:auto; width:auto;"/>
-								{% if field.errors %}
-								<ul class="mdl-textfield__error survey__error">{% for error in field.errors %}
-									<li>{{error}}</li>
-									{% endfor %}</ul>
-									<script type="text/javascript">{% for error in field.errors %}
-									console.error("{{error}}");
-									{% endfor %}</script>
-									{% endif %}
-							</div>
-							
-							
-							{% if field.field.widget.input_type == 'text' or field.field.widget.input_type == 'number' %}
-							{# Number Input #}
-							<div class="mdl-card__actions mdl-card--border">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if field.errors %} is-invalid{% endif %}">
-									{{ field|add_class:"mdl-textfield__input"}}
-									<label id="{{field.id_for_label}}_label" class="mdl-textfield__label" for="{{field.id_for_label}}">Not supplied</label>
-								</div>
-							</div>
-							
-							{% elif field.field.widget.input_type == 'checkbox'%}
-							{# Checkbox Input #}
-							<div class="mdl-card__actions mdl-card--border">
-								<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{field.id_for_label}}" >
-									{{ field|add_class:"mdl-switch__input"}}
-									<span class="mdl-switch__label"></span>
-								</label>
-							</div>
-							
-							{% elif field.field.widget.input_type == 'file'%}
-							{# File Input #}
-							<div class="mdl-card__actions mdl-card--border">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--file{% if field.errors %} is-invalid{% endif %}">
-									<input class="mdl-textfield__input" placeholder="" type="text" id="text_{{field.id_for_label}}" readonly />
-									<label class="mdl-textfield__label" for="{{field.id_for_label}}"></label>
-									<div class="mdl-button mdl-button--icon mdl-button--file">
-										<i class="material-icons">attach_file</i>
-										<input type="file" name="{{field.html_name}}" id="{{field.id_for_label}}" onchange="document.getElementById('text_{{field.id_for_label}}').value=this.files[0].name;" />
-									</div>
-								</div>
-							</div>
-							
-							{% else %}
-							{# Other Inputs #}
-							<div class="mdl-card__actions mdl-card--border">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if field.errors %} is-invalid{% endif %}">
-									{{ field }}
-									<label id="{{field.id_for_label}}_label" class="mdl-textfield__label" for="{{field.id_for_label}}">{% trans "Not previously submitted" %}</label>
-								</div>
-							</div>
-							{% endif %}
-						</div>
-						{% endfor %}
-					</div>
-				</div>
-			</div>
-			<div class="mdl-card__actions mdl-card--border">
-				<button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action">{% trans "Submit" %}</button>
-			</div>
-		</form>
-	</div>
+        <p id="asterix_notice">{% blocktrans %}All fields marked with an asterix ({{required}}) are required.{% endblocktrans %}</p>
+        <span id="errors">{{ form.non_field_errors }}</span>
+        
+        {# Include the hidden fields #}
+        
+        {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+        {% if hidden.errors %}<script type="text/javascript">{% for error in hidden.errors %}
+          console.error("{{error}}");
+        {% endfor %}</script>{% endif %}
+        {% endfor %}
+        
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        
+        {# Include the visible fields #}
+        
+        {% for field in form.visible_fields %}
+        {% if forloop.first %}
+          <div class="mdl-grid">
+        {% endif %}
+        {# Build tabs #}
+        {% if field.id_for_label == 'id_badge_travel_km' %}
+          </div>
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+          <div class="mdl-tabs__tab-bar">
+            <a href="#medals-panel" class="mdl-tabs__tab is-active">{% trans "Medals" %}</a>
+            <a href="#type-badges-panel" class="mdl-tabs__tab">{% trans "Types" %}</a>
+          </div>
+          {# Build First Tab #}
+          <div class="mdl-tabs__panel is-active" id="medals-panel">
+            <div class="mdl-grid">
+        {% elif field.id_for_label == 'id_badge_type_normal' %} {# Build second tab #}
+            </div>
+          </div>
+          <div class="mdl-tabs__panel" id="type-badges-panel">
+            <div class="mdl-grid">
+        {% endif %}
+        
+            {# Build Card #}
+            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col mdl-cell--4-col-phone mdl-cell--4-col-tablet">
+              <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">{{field.label}}{% if field.field.required == True %}{{required}}{% endif %}</h2>
+              </div>
+              <div class="mdl-card__supporting-text">
+                <p>{{field.help_text}}</p>
+                <img src="{% get_static_prefix %}img/survey/{{field.name}}.png" style="max-height:100px; height:auto; width:auto;"/>
+                {% if field.errors %}
+                <ul class="mdl-textfield__error survey__error">{% for error in field.errors %}
+                  <li>{{error}}</li>
+                  {% endfor %}</ul>
+                  <script type="text/javascript">{% for error in field.errors %}
+                  console.error("{{error}}");
+                  {% endfor %}</script>
+                  {% endif %}
+              </div>
+              
+              
+              {% if field.field.widget.input_type == 'text' or field.field.widget.input_type == 'number' %}
+              {# Number Input #}
+              <div class="mdl-card__actions mdl-card--border">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if field.errors %} is-invalid{% endif %}">
+                  {{ field|add_class:"mdl-textfield__input"}}
+                  <label id="{{field.id_for_label}}_label" class="mdl-textfield__label" for="{{field.id_for_label}}">Not supplied</label>
+                </div>
+              </div>
+              
+              {% elif field.field.widget.input_type == 'checkbox'%}
+              {# Checkbox Input #}
+              <div class="mdl-card__actions mdl-card--border">
+                <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{field.id_for_label}}" >
+                  {{ field|add_class:"mdl-switch__input"}}
+                  <span class="mdl-switch__label"></span>
+                </label>
+              </div>
+              
+              {% elif field.field.widget.input_type == 'file'%}
+              {# File Input #}
+              <div class="mdl-card__actions mdl-card--border">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--file{% if field.errors %} is-invalid{% endif %}">
+                  <input class="mdl-textfield__input" placeholder="" type="text" id="text_{{field.id_for_label}}" readonly />
+                  <label class="mdl-textfield__label" for="{{field.id_for_label}}"></label>
+                  <div class="mdl-button mdl-button--icon mdl-button--file">
+                    <i class="material-icons">attach_file</i>
+                    <input type="file" name="{{field.html_name}}" id="{{field.id_for_label}}" onchange="document.getElementById('text_{{field.id_for_label}}').value=this.files[0].name;" />
+                  </div>
+                </div>
+              </div>
+              
+              {% else %}
+              {# Other Inputs #}
+              <div class="mdl-card__actions mdl-card--border">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if field.errors %} is-invalid{% endif %}">
+                  {{ field }}
+                  <label id="{{field.id_for_label}}_label" class="mdl-textfield__label" for="{{field.id_for_label}}">{% trans "Not previously submitted" %}</label>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action">{% trans "Submit" %}</button>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}
-			
+      
 {% block extra_body %}
 <script type="text/javascript">
-	const url = '{% url 'trainerdex_rest.1:latest_update' user.trainer.pk %}'
-	
-	function createNode(element) {
-		return document.createElement(element); // Create the type of element you pass in the parameters
-	}
-	
-	function append(parent, el) {
-		return parent.appendChild(el); // Append the second parameter(element) to the first one
-	}
-	
-	fetch(url).then((resp) => resp.json()).then(function(data) {
-		let update = data;
-		console.table(update);
-		for (var key in update) {
-			if (update[key]) {
-				if (document.getElementById('id_'+key+'_label')) {
-					document.getElementById('id_'+key+'_label').innerHTML = `Last: ${Humanize.intComma(update[key])}`
-				}
-			}
-		}
-	})
+  const url = '{% url 'trainerdex_rest.1:latest_update' user.trainer.pk %}'
+  
+  function createNode(element) {
+    return document.createElement(element); // Create the type of element you pass in the parameters
+  }
+  
+  function append(parent, el) {
+    return parent.appendChild(el); // Append the second parameter(element) to the first one
+  }
+  
+  fetch(url).then((resp) => resp.json()).then(function(data) {
+    let update = data;
+    console.table(update);
+    for (var key in update) {
+      if (update[key]) {
+        if (document.getElementById('id_'+key+'_label')) {
+          document.getElementById('id_'+key+'_label').innerHTML = `Last: ${Humanize.intComma(update[key])}`
+        }
+      }
+    }
+  })
 </script>
 {% endblock %}

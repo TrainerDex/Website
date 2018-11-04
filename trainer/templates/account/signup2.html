@@ -17,7 +17,7 @@
       <h2 class="mdl-card__title-text">{% trans "Register" %} - {% trans "Step 2" %}</h2>
     </div>
     <form class="signup" id="signup_form" method="post" enctype="multipart/form-data" action="{% url 'profile_set_up' %}">
-    <div class="mdl-card__supporting-text" style="text-align: center;">
+      <div class="mdl-card__supporting-text" style="text-align: center;">
         <div id="signup_form">
           {% csrf_token %}
           <span>{{ form.non_field_errors }}</span>

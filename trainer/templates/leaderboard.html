@@ -16,10 +16,11 @@
 #{{trainer.position}}·{{trainer.trainer.username}}·{{trainer.trainer.flag_emoji|default_if_none:''}}·{{trainer.xp|intcomma}}·{% endfor %}" />
 <script>
 function setParam(uri, key, val) {
-    return uri
-        .replace(RegExp("([?&]"+key+"(?=[=&#]|$)[^#&]*|(?=#|$))"), "&"+key+"="+encodeURIComponent(val))
-        .replace(/^([^?&]+)&/, "$1?");
-}</script>
+  return uri
+    .replace(RegExp("([?&]"+key+"(?=[=&#]|$)[^#&]*|(?=#|$))"), "&"+key+"="+encodeURIComponent(val))
+    .replace(/^([^?&]+)&/, "$1?");
+}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -30,9 +31,6 @@ function setParam(uri, key, val) {
 
 <div class="tdx-lb__menu mdl-card__menu mdl-color-text--primary-contrast">
   <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}-1);" {% if page == 1 %}disabled{% endif %}><i class="material-icons">navigate_before</i></button> {{page}}/{{pages}} <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}+1);" {% if page == pages %}disabled{% endif %}><i class="material-icons">navigate_next</i></button>
-  <!--<button id="set-location" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" disabled>
-    <i class="material-icons">pin_drop</i>
-  </button>-->
   <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect">
     <i class="material-icons">filter_list</i>
   </button>
@@ -93,10 +91,6 @@ function setParam(uri, key, val) {
         {% trans "There is no information to include in this leaderboard. Why not be the first?" %}
     </div>
 </div>
-<img style="
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 25px;" src="{% static 'img/404.png' %}" />
+<img style="display: block; margin-left: auto; margin-right: auto; padding-top: 25px;" src="{% static 'img/404.png' %}" />
 {% endfor %}
 {% endblock %}

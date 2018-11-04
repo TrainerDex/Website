@@ -5,7 +5,7 @@ from trainer.api.v1.views import TrainerListJSONView, TrainerDetailJSONView, Upd
 app_name = "trainerdex.api.1"
 
 urlpatterns = [
-    # /
+    # /leaderboard/
     url(r'^leaderboard\/discord\/(?P<guild>[0-9]+)\/$', DiscordLeaderboardAPIView.as_view()),
     url(r'^leaderboard\/$', LeaderboardJSONView.as_view()),
     # /trainers/

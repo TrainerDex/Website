@@ -6,19 +6,19 @@
 <link rel="stylesheet" href="{% static '/css/help.css' %}">
 {% endblock %}
 
-        {% block page %}
-        <div class="help-ribbon"></div>
-        <main class="help-main mdl-layout__content">
-          <div class="help-container mdl-grid">
-            <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
-            <div class="help-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
-              <div class="help-crumbs mdl-color-text--grey-500">
-                {% block help_navigation %}{% endblock %}
-              </div>
-              <h3>{% block article_title %}{% endblock %}</h3>
-                {% block article_content %}
-                {% endblock%}
-            </div>
-          </div>
-        </main>
-        {% endblock %}
+{% block page %}
+<div class="help-ribbon"></div>
+<main class="help-main mdl-layout__content">
+  <div class="help-container mdl-grid">
+    <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+    <div class="help-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+      <div class="help-crumbs mdl-color-text--grey-500">
+        {% block help_navigation %}{% endblock %}
+      </div>
+      <h3>{% block article_title %}{% endblock %}</h3>
+      {% block article_content %}
+      {% endblock%}
+    </div>
+  </div>
+</main>
+{% endblock %}
