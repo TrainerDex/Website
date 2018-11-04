@@ -4,11 +4,6 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 import re
 
-def StartDateValidator(value):
-	LAUNCH_DATE = date(2016, 7, 6)
-	if not date.today()+timedelta(days=1) >= value >= LAUNCH_DATE:
-		raise ValidationError(_("The date you entered was before launch date of {launch_date} or in the future.").format(launch_date=LAUNCH_DATE), params={'value': value})
-
 def PokemonGoUsernameValidator(value):
 	match = re.match('^[A-Za-z0-9]{3,15}$', value)
 	if not match:

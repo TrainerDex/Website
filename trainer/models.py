@@ -11,7 +11,7 @@ from collections import defaultdict
 from colorful.fields import RGBColorField
 from datetime import date, datetime, timedelta, timezone, time
 from decimal import Decimal
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.postgres import fields as postgres_fields
@@ -27,12 +27,6 @@ from django.utils.translation import gettext_noop, pgettext_lazy,to_locale, get_
 from trainer.validators import *
 from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, lookup, numbers, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
 
-def factionImagePath(instance, filename):
-	return f'img/{instance.slug}'
-
-def leaderImagePath(instance, filename):
-	return f'img/{instance.faction.slug}.leader' #remains for legacy reasons
-
 def VerificationImagePath(instance, filename):
 	return 'v_{0}_{1}{ext}'.format(instance.owner.id, datetime.utcnow().timestamp(), ext=splitext(filename)[1])
 
@@ -43,7 +37,7 @@ class Trainer(models.Model):
 	
 	owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
 	username = postgres_fields.CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], db_index=True, verbose_name=pgettext_lazy("onboard_enter_name_hint", "Nickname"), help_text=_("Your Trainer Nickname exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."))
-	start_date = models.DateField(null=True, blank=True, validators=[StartDateValidator], verbose_name=pgettext_lazy("profile_start_date", "Start Date"), help_text=_("The date you created your Pokémon Go account."))
+	start_date = models.DateField(null=True, blank=True, validators=[MinValueValidator(date(2016, 7, 6))], verbose_name=pgettext_lazy("profile_start_date", "Start Date"), help_text=_("The date you created your Pokémon Go account."))
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"), help_text=_("Mystic = Blue, Instinct = Yellow, Valor = Red.") )
 	last_cheated = models.DateField(null=True, blank=True, verbose_name=_("Last Cheated"), help_text=_("When did this Trainer last cheat?"))
 	statistics = models.BooleanField(default=True, verbose_name=pgettext_lazy("Profile_Category_Stats", "Statistics"), help_text=_("Would you like to be shown on the leaderboard? Ticking this box gives us permission to process your data."))
@@ -338,75 +332,6 @@ class Faction(models.Model):
 	class Meta:
 		verbose_name = _("Team")
 		verbose_name_plural = _("Teams")
-		
-class FactionLeader(models.Model):
-	faction = models.OneToOneField(Faction, on_delete=models.CASCADE, related_name='leader', verbose_name=_("Team"), primary_key=True)
-	name_en = models.CharField(
-		max_length=50,
-		verbose_name=_("Name ({language})").format(
-			language=_('English')
-		)
-	)
-	name_ja = models.CharField(
-		max_length=50,
-		verbose_name=_("Name ({language})").format(
-			language=_('Japanese')
-		)
-	)
-	name_fr = models.CharField(
-		max_length=50,
-		verbose_name=_("Name ({language})").format(
-			language=_('French')
-		)
-	)
-	name_es = models.CharField(
-		max_length=50,
-		verbose_name=_("Name ({language})").format(
-			language=_('Spanish')
-		)
-	)
-	name_de = models.CharField(
-		max_length=50,
-		verbose_name=_("Name ({language})").format(
-			language=_('German')
-		)
-	)
-	name_it = models.CharField(
-		max_length=50,
-		verbose_name=_("Name ({language})").format(
-			language=_('Italian')
-		)
-	)
-	name_ko = models.CharField(
-		max_length=50,
-		verbose_name=_("Name ({language})").format(
-			language=_('Korean')
-		)
-	)
-	name_zh_Hant = models.CharField(
-		max_length=50,
-		verbose_name=_("Name ({language})").format(
-			language=_('Traditional Chinese')
-		)
-	)
-	name_pt_BR = models.CharField(
-		max_length=50,
-		verbose_name=_("Name ({language})").format(
-			language=_('Brazilian Portuguese')
-		)
-	)
-	
-	@property
-	def localized_name(self):
-		lng_cd = to_locale(get_supported_language_variant(get_language()))
-		return getattr(self, f'name_{lng_cd}')
-	
-	def __str__(self):
-		return f'{self.localized_name}, Leader of {self.faction}'
-		
-	class Meta:
-		verbose_name = _("Team Leader")
-		verbose_name_plural = _("Team Leaders")
 
 class Update(models.Model):
 	uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
@@ -529,11 +454,6 @@ class Update(models.Model):
 		QuestReleaseDate = date(2018,3,30)
 		FriendReleaseDate = date(2018,6,21)
 		Gen4Date = date(2018,10,16)
-		
-		
-		# Deny if No Start Date or TL40 Date
-		#if not bool(self.trainer.start_date):
-		#	raise ValidationError(_("You can't post if you haven't set your start date."))
 			
 		for field in Update._meta.get_fields():
 			if bool(getattr(self, field.name)):
