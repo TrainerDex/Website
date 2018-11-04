@@ -4,7 +4,7 @@ logger = logging.getLogger('django.trainerdex')
 import requests
 
 from cities.models import Continent, Country, Region
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from django import forms
 from django.conf import settings
 from django.contrib import messages
@@ -117,7 +117,15 @@ def CreateUpdateHTMLView(request):
         messages.warning(request, _("Please complete your profile to continue using the website."))
         return HttpResponseRedirect(reverse('profile_set_up'))
     
-    form = UpdateForm(initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
+    if request.user.trainer.update_set.filter(update_time__gte=datetime.now()-timedelta(hours=1)).exists():
+        existing = request.user.trainer.update_set.filter(update_time__gte=datetime.now()-timedelta(hours=1)).latest('update_time')
+    else:
+        existing = None
+        
+    if existing:
+        form = UpdateForm(instance=existing)
+    else:
+        form = UpdateForm(initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
     form.fields['update_time'].widget = forms.HiddenInput()
     form.fields['data_source'].widget = forms.HiddenInput()
     form.fields['data_source'].disabled = True
@@ -125,7 +133,10 @@ def CreateUpdateHTMLView(request):
     form.fields['double_check_confirmation'].widget = forms.HiddenInput()
     form.trainer = request.user.trainer
     if request.method == 'POST':
-        form = UpdateForm(request.POST, initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
+        if existing:
+            form = UpdateForm(request.POST, instance=existing)
+        else:
+            form = UpdateForm(request.POST, initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
         form.fields['update_time'].widget = forms.HiddenInput()
         form.fields['data_source'].widget = forms.HiddenInput()
         form.fields['data_source'].disabled = True
@@ -135,9 +146,11 @@ def CreateUpdateHTMLView(request):
         form.trainer = request.user.trainer
         if form.is_valid():
             update = form.save()
-            messages.success(request, 'Statistics updated')
+            messages.success(request, _('Statistics updated'))
             return HttpResponseRedirect(reverse('trainerdex:profile_username', kwargs={'username':request.user.trainer.username}))
     
+    if existing:
+        messages.info(request, _('You have posted in the past hour - updating previous post.'))
     context = {
         'form': form
     }
