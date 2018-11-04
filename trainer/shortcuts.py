@@ -1,4 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
+from datetime import date, timedelta
 from collections import namedtuple
 from distutils.util import strtobool
 
@@ -8,12 +9,8 @@ def strtoboolornone(value):
 	except (ValueError, AttributeError):
 		return None
 
-def cleanleaderboardqueryset(queryset, **kwargs):
-	value = list(queryset)
-	for x in value:
-		if x.update__total_xp__max is None or x.update__total_xp__max is 0:
-			value.remove(x)
-	return sorted(value, **kwargs)
+def filter_leaderboard_qs(queryset):
+	return queryset.exclude(update__isnull=True).exclude(statistics=False).exclude(verified=False).exclude(last_cheated__lt=date(2018,9,1)-timedelta(weeks=26)).exclude(last_cheated__gt=date(2018,9,1)).exclude(last_cheated__gt=date.today()-timedelta(weeks=26)).select_related('faction')
 
 def level_parser(xp=None, level=None):
 	"""

@@ -10,8 +10,6 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 from ajax_select import urls as ajex_select_urls
 from website.views import *
-from trainer import urls as TrainerURLS
-from support import urls as SupportURLS
 from trainer.views import SetUpProfileViewStep2, SetUpProfileViewStep3
 from trainer import sitemaps
 
@@ -24,7 +22,7 @@ urlpatterns = [
         'trainers':sitemaps.TrainerSitemap
     }},
     name='django.contrib.sitemaps.views.sitemap'),
-    url(r'^api\/v1\/', include(TrainerURLS.REST)),
+    url(r'^api\/v1\/', include('trainer.api.v1.urls')),
     url(r'^api\/admin\/', admin.site.urls),
     url(r'^api-token-auth\/', views.obtain_auth_token),
     url(r'^ajax_select\/', include(ajex_select_urls)),
@@ -34,8 +32,8 @@ urlpatterns = [
     url(r'^accounts\/', include('allauth.urls')),
     url(r'^tools\/rosetta\/', include('rosetta.urls')),
     url(r'^$', RedirectView.as_view(pattern_name='trainerdex_web:leaderboard', permanent=True), name='home'),
-    url(r'^help\/', include(SupportURLS)),
-    url('', include(TrainerURLS.HTML)),
+    url(r'^help\/', include('support.urls')),
+    url('', include('trainer.urls')),
 ]
 
 if settings.DEBUG:
