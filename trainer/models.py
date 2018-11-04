@@ -394,12 +394,12 @@ class Update(models.Model):
     badge_legendary_battle_won = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_legendary_battle_won_title", "Battle Legend"), help_text=pgettext_lazy("badge_legendary_battle_won", "Win {0} Legendary Raids.").format(1000))
     badge_berries_fed = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_berries_fed_title", "Berry Master"), help_text=pgettext_lazy("badge_berries_fed", "Feed {0} Berries at Gyms.").format(1000))
     badge_hours_defended = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_hours_defended_title", "Gym Leader"), help_text=pgettext_lazy("badge_hours_defended", "Defend Gyms for {0} hours.").format(1000))
-    badge_pokedex_entries_gen3 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen3_title", "Hoenn"), help_text=pgettext_lazy("badge_pokedex_entries_gen3", "Register {0} Pokémon first discovered in the Hoenn region to the Pokédex.").format(90), validators=[MaxValueValidator(126)])
+    badge_pokedex_entries_gen3 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen3_title", "Hoenn"), help_text=pgettext_lazy("badge_pokedex_entries_gen3", "Register {0} Pokémon first discovered in the Hoenn region to the Pokédex.").format(90), validators=[MaxValueValidator(130)])
     badge_challenge_quests = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_challenge_quests_title", "Pokémon Ranger"), help_text=pgettext_lazy("badge_challenge_quests", "Complete {0} Field Research tasks.").format(1000))
     badge_max_level_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"), help_text=pgettext_lazy("badge_max_level_friends", "Become Best Friends with {0} Trainers.").format(3), validators=[MaxValueValidator(200)])
     badge_trading = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_title", "Gentleman"), help_text=pgettext_lazy("badge_trading", "Trade {0} Pokémon.").format(1000))
     badge_trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_distance_title", "Pilot"), help_text=pgettext_lazy("badge_trading_distance", "Earn {0} km across the distance of all Pokémon trades.").format(1000000))
-    badge_pokedex_entries_gen4 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen4_title", "Sinnoh"), help_text=pgettext_lazy("badge_pokedex_entries_gen4", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80), validators=[MaxValueValidator(107)])
+    badge_pokedex_entries_gen4 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen4_title", "Sinnoh"), help_text=pgettext_lazy("badge_pokedex_entries_gen4", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80), validators=[MaxValueValidator(32)])
     
     badge_type_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_normal_title", "Schoolkid"), help_text=pgettext_lazy("badge_type_normal", "Catch {0} Normal-type Pokémon").format(200))
     badge_type_fighting = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fighting_title", "Black Belt"), help_text=pgettext_lazy("badge_type_fighting", "Catch {0} Fighting-type Pokémon").format(200))
@@ -775,7 +775,7 @@ class Update(models.Model):
                 # 14 - badge_pokedex_entries_gen2 - Johto
                 if field.name == 'badge_pokedex_entries_gen2':
                     
-                    # Max Value = 28
+                    # Max Value = 99
                     # Handled at field level
                     
                     # Handle Early Updates
@@ -909,7 +909,7 @@ class Update(models.Model):
                 # 21 - badge_pokedex_entries_gen3 - Hoenn
                 if field.name == 'badge_pokedex_entries_gen3':
                     
-                    # Max Value = 126
+                    # Max Value = 130
                     # Handled at field level
                     
                     # Handle Early Updates
