@@ -139,7 +139,7 @@
       
 {% block extra_body %}
 <script type="text/javascript">
-  const url = '{% url 'trainerdex_rest.1:latest_update' user.trainer.pk %}'
+  const url = '{% url 'trainerdex.api.1:latest_update' user.trainer.pk %}'
   
   function createNode(element) {
     return document.createElement(element); // Create the type of element you pass in the parameters

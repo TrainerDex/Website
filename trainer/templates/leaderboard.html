@@ -73,7 +73,7 @@ function setParam(uri, key, val) {
     {% endif %}
       <tr>
         <td>{{trainer.position|ordinal}}</td>
-        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'trainerdex_web:profile' %}?id={{trainer.trainer.pk}}'"><div class="trainer-nickname">{{trainer.trainer.username}} {{trainer.trainer.flag_emoji|default_if_none:''}}</div> <div class="tl">{{trainer.level}}</div></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'trainerdex:profile' %}?id={{trainer.trainer.pk}}'"><div class="trainer-nickname">{{trainer.trainer.username}} {{trainer.trainer.flag_emoji|default_if_none:''}}</div> <div class="tl">{{trainer.level}}</div></td>
         <td class="mdl-data-table__cell--non-numeric" style="padding-top: 0px; padding-bottom: 0px; width: 32px;" ><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'" alt="{{trainer.trainer.faction.name}}"/></td>
         {% for column in trainer.columns %}
         <td>{{column.value|default_if_none:"---"|intcomma}}</td>

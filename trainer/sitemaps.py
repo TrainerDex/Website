@@ -9,9 +9,9 @@ class BaseSitemap(Sitemap):
     def items(self):
         return [
             ('account_settings', 0.9),
-            ('trainerdex_web:leaderboard', 1),
+            ('trainerdex:leaderboard', 1),
             ('help:faq', 0.9),
-            ('trainerdex_web:update_stats', 0.9)
+            ('trainerdex:update_stats', 0.9)
         ]
     
     def priority(self, obj):
@@ -40,7 +40,7 @@ class LeaderboardContinentSitemap(Sitemap):
         return Continent.objects.exclude(code='AN')
     
     def location(self, obj):
-        return reverse('trainerdex_web:leaderboard', kwargs={'continent':obj.code})
+        return reverse('trainerdex:leaderboard', kwargs={'continent':obj.code})
 
 class LeaderboardCountrySitemap(Sitemap):
     changefreq = "daily"
@@ -56,7 +56,7 @@ class LeaderboardCountrySitemap(Sitemap):
             return 0.02
     
     def location(self, obj):
-        return reverse('trainerdex_web:leaderboard', kwargs={'country':obj.code})
+        return reverse('trainerdex:leaderboard', kwargs={'country':obj.code})
 
 class LeaderboardRegionSitemap(Sitemap):
     changefreq = "daily"
@@ -72,4 +72,4 @@ class LeaderboardRegionSitemap(Sitemap):
             return 0.02
     
     def location(self, obj):
-        return reverse('trainerdex_web:leaderboard', kwargs={'country':obj.country.code, 'region': obj.code})
+        return reverse('trainerdex:leaderboard', kwargs={'country':obj.country.code, 'region': obj.code})

@@ -51,7 +51,7 @@ def TrainerRedirectorView(request, username=None, id=None):
     else:
         trainer = request.user.trainer
     
-    return HttpResponsePermanentRedirect(reverse('trainerdex_web:profile_username', kwargs={'username':trainer.username}))
+    return HttpResponsePermanentRedirect(reverse('trainerdex:profile_username', kwargs={'username':trainer.username}))
 
 def TrainerProfileHTMLView(request, username):
     if request.user.is_authenticated and not _check_if_self_valid(request):
@@ -136,7 +136,7 @@ def CreateUpdateHTMLView(request):
         if form.is_valid():
             update = form.save()
             messages.success(request, 'Statistics updated')
-            return HttpResponseRedirect(reverse('trainerdex_web:profile_username', kwargs={'username':request.user.trainer.username}))
+            return HttpResponseRedirect(reverse('trainerdex:profile_username', kwargs={'username':request.user.trainer.username}))
     
     context = {
         'form': form
@@ -267,7 +267,7 @@ def SetUpProfileViewStep2(request):
     if request.user.is_authenticated and _check_if_self_valid(request):
         if len(request.user.trainer.update_set.all()) == 0:
             return HttpResponseRedirect(reverse('profile_first_post'))
-        return HttpResponseRedirect(reverse('trainerdex_web:profile'))
+        return HttpResponseRedirect(reverse('trainerdex:profile'))
     
     form = RegistrationFormTrainer(instance=request.user.trainer)
     form.fields['verification'].required = True
@@ -286,7 +286,7 @@ def SetUpProfileViewStep2(request):
 @login_required
 def SetUpProfileViewStep3(request):
     if request.user.is_authenticated and _check_if_self_valid(request) and len(request.user.trainer.update_set.all()) > 0:
-        return HttpResponseRedirect(reverse('trainerdex_web:update_stats'))
+        return HttpResponseRedirect(reverse('trainerdex:update_stats'))
     
     form = RegistrationFormUpdate(initial={'trainer':request.user.trainer})
     form.fields['screenshot'].required = True
@@ -302,7 +302,7 @@ def SetUpProfileViewStep3(request):
         if form.is_valid():
             form.save()
             messages.success(request, _("Stats updated. Screenshot included."))
-            return HttpResponseRedirect(reverse('trainerdex_web:profile_username', kwargs={'username':request.user.trainer.username}))
+            return HttpResponseRedirect(reverse('trainerdex:profile_username', kwargs={'username':request.user.trainer.username}))
         logger.info(form.cleaned_data)
         logger.error(form.errors)
     form.fields['update_time'].widget = forms.HiddenInput()
