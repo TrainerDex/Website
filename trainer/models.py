@@ -13,7 +13,8 @@ from datetime import date, datetime, timedelta, timezone, time
 from decimal import Decimal
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from django.contrib.postgres import fields as postgres_fields
 from django.core.exceptions import ValidationError, ObjectDoesNotExist, PermissionDenied
 from django.db import models
@@ -35,7 +36,7 @@ def VerificationUpdateImagePath(instance, filename):
 
 class Trainer(models.Model):
 	
-	owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
+	owner = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
 	username = postgres_fields.CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], db_index=True, verbose_name=pgettext_lazy("onboard_enter_name_hint", "Nickname"), help_text=_("Your Trainer Nickname exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."))
 	start_date = models.DateField(null=True, blank=True, validators=[MinValueValidator(date(2016, 7, 5))], verbose_name=pgettext_lazy("profile_start_date", "Start Date"), help_text=_("The date you created your Pokémon Go account."))
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"), help_text=_("Mystic = Blue, Instinct = Yellow, Valor = Red.") )
@@ -1117,7 +1118,7 @@ class Update(models.Model):
 
 class TrainerReport(models.Model):
 	trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
-	reporter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_("Reported by"))
+	reporter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_("Reported by"))
 	report = models.TextField(verbose_name=_("Report"))
 	
 	class Meta:

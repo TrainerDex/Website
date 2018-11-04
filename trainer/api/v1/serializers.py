@@ -1,9 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
 from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
-from cities.models import Country, Region
-from django.contrib.auth.models import User
-from trainer.models import *
+from django.contrib.auth import get_user_model
+User = get_user_model()
+from trainer.models import Update, Trainer, Faction
 from trainer.shortcuts import level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 class BriefUpdateSerializer(serializers.ModelSerializer):
