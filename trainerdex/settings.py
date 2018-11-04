@@ -21,7 +21,7 @@ ADMINS = [('Jay Turner', 'jaynicholasturner@gmail.com')]
 # Application definition
 
 INSTALLED_APPS = [
-	'corsheaders',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-	'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -112,9 +112,9 @@ ADMIN_REORDER = (
 
 # DjangoDebugToolbar
 if DEBUG==True:
-	INSTALLED_APPS.append('debug_toolbar')
-	MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
-	INTERNAL_IPS = ['127.0.0.1']
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    INTERNAL_IPS = ['127.0.0.1']
 
 TEMPLATES = [
     {

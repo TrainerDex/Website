@@ -23,157 +23,157 @@
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 
 <!-- Google Charts Data -->
-    <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
-    <script type='text/javascript'>
-      google.charts.load('current', {'packages':['annotatedtimeline']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = new google.visualization.DataTable();
-        {% for update in update_history %}
-          {% if forloop.first %}
-          {% for field in update %}
-					{% if field.attname == 'update_time' %}data.addColumn('date', 'Date');{% else %}data.addColumn('number', '{{field.readable_name}}');{% endif %}{% endfor %}
-        data.addRows([
-          {% if trainer.start_date %}[new Date("{{trainer.start_date|date:"c"}}"){% for field in update|slice:"1:" %},0{% endfor %}],{% else %}[new Date("2016-07-05"){% for field in update|slice:"1:" %},undefined{% endfor %}],{% endif %}{% endif %}
-          [new {% for field in update %}{% if field.attname == 'update_time' %}Date("{{ field.value|date:'c' }}"){% else %},{{field.value|default_if_none:'undefined'}}{% endif %}{% if forloop.last %}]{% endif %}{% endfor %}{% if not forloop.last %},{% else %},
-                     [new Date({# This comment is here because it fixes atom syntax highlighting #}"{% now 'c' %}"){% for field in update|slice:'1:' %},undefined{% endfor %}]{% endif %}
-         {% endfor %}
-        ]);
-
-        var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
-        chart.draw(data, {displayAnnotations: true});
-      }
-    </script>
+<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+<script type='text/javascript'>
+google.charts.load('current', {'packages':['annotatedtimeline']});
+google.charts.setOnLoadCallback(drawChart);
+function drawChart() {
+  var data = new google.visualization.DataTable();
+  {% for update in update_history %}
+  {% if forloop.first %}
+  {% for field in update %}
+  {% if field.attname == 'update_time' %}data.addColumn('date', 'Date');{% else %}data.addColumn('number', '{{field.readable_name}}');{% endif %}{% endfor %}
+  data.addRows([
+    {% if trainer.start_date %}[new Date("{{trainer.start_date|date:"c"}}"){% for field in update|slice:"1:" %},0{% endfor %}],{% else %}[new Date("2016-07-05"){% for field in update|slice:"1:" %},undefined{% endfor %}],{% endif %}{% endif %}
+    [new {% for field in update %}{% if field.attname == 'update_time' %}Date("{{ field.value|date:'c' }}"){% else %},{{field.value|default_if_none:'undefined'}}{% endif %}{% if forloop.last %}]{% endif %}{% endfor %}{% if not forloop.last %},{% else %},
+    [new Date({# This comment is here because it fixes atom syntax highlighting #}"{% now 'c' %}"){% for field in update|slice:'1:' %},undefined{% endfor %}]{% endif %}
+    {% endfor %}
+  ]);
+  
+  var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
+  chart.draw(data, {displayAnnotations: true});
+}
+</script>
 
 
 {% endblock %}
 
 {%block content%}
 <div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top ">
-    <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}" /></div>
-    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-      <ul class="mdl-list">
-        <i class="mdl-card__title-text">{{trainer.username}} {{trainer.flag_emoji|default_if_none:''}}</i>
-        <li class="mdl-list__item">
-          <span class="mdl-list__item-primary-content" id="start_date">
-            <i class="material-icons mdl-list__item-icon">date_range</i>
-            {{trainer.start_date|default_if_none:"July 2016?"}}
-            {% if not trainer.start_date %}<div class="mdl-tooltip" data-mdl-for="start_date">Wild guess! Most trainers started in July 2016.</div>{% endif%}
-          </span>
-        </li>
-        <li class="mdl-list__item">
-          <span class="mdl-list__item-primary-content" id="total_xp">
-            <i class="mdl-list__item-icon">{% trans "XP" context 'Short form of XP'  %}</i>
-            {{total_xp|intcomma}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}
-          </span>
-        </li>
-        <li class="mdl-list__item">
-          <span class="mdl-list__item-primary-content" id="pokemon_info_stardust">
-            <i class="mdl-list__item-icon">✨</i>
-            {{pokemon_info_stardust|intcomma}}
-          </span>
-        </li>
-        <li class="mdl-list__item">
-          <span class="mdl-list__item-primary-content" id="gymbadges_total">
-            <i class="material-icons mdl-list__item-icon">security</i>
-            {{gymbadges_total|intcomma}}
-          </span>
-        </li>
-        <li class="mdl-list__item">
-          <span class="mdl-list__item-primary-content" id="gymbadges_gold">
-            <i class="material-icons mdl-list__item-icon" style="color: #FFD700;">security</i>
-            {{gymbadges_gold|intcomma}}
-          </span>
-        </li>
-      </ul>
+  <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}" /></div>
+  <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+    <ul class="mdl-list">
+      <i class="mdl-card__title-text">{{trainer.username}} {{trainer.flag_emoji|default_if_none:''}}</i>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content" id="start_date">
+          <i class="material-icons mdl-list__item-icon">date_range</i>
+          {{trainer.start_date|default_if_none:"July 2016?"}}
+          {% if not trainer.start_date %}<div class="mdl-tooltip" data-mdl-for="start_date">Wild guess! Most trainers started in July 2016.</div>{% endif%}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content" id="total_xp">
+          <i class="mdl-list__item-icon">{% trans "XP" context 'Short form of XP'  %}</i>
+          {{total_xp|intcomma}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content" id="pokemon_info_stardust">
+          <i class="mdl-list__item-icon">✨</i>
+          {{pokemon_info_stardust|intcomma}}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content" id="gymbadges_total">
+          <i class="material-icons mdl-list__item-icon">security</i>
+          {{gymbadges_total|intcomma}}
+        </span>
+      </li>
+      <li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content" id="gymbadges_gold">
+          <i class="material-icons mdl-list__item-icon" style="color: #FFD700;">security</i>
+          {{gymbadges_gold|intcomma}}
+        </span>
+      </li>
+    </ul>
+  </div>
+  <div class="mdl-cell mdl-cell--2-col mdl-cell--4-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: center;">
+    {% if trainer.badge_chicago_fest_july_2017 %}
+    <img id="badge_chicago_fest_july_2017" class="profile-medal" src="{% static 'img/Badge_Event_Chicago_2017.png' %}" />
+    <div class="mdl-tooltip" for="badge_chicago_fest_july_2017">
+      <b>{% trans "Pokémon GO Fest 2017" context "badge_chicago_fest_july_2017_title" %}</b><br>
+      {% trans "Chicago, July 22, 2017" context "badge_chicago_fest_july_2017" %}
     </div>
-    <div class="mdl-cell mdl-cell--2-col mdl-cell--4-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: center;">
-      {% if trainer.badge_chicago_fest_july_2017 %}
-        <img id="badge_chicago_fest_july_2017" class="profile-medal" src="{% static 'img/Badge_Event_Chicago_2017.png' %}" />
-        <div class="mdl-tooltip" for="badge_chicago_fest_july_2017">
-            <b>{% trans "Pokémon GO Fest 2017" context "badge_chicago_fest_july_2017_title" %}</b><br>
-            {% trans "Chicago, July 22, 2017" context "badge_chicago_fest_july_2017" %}
+    {% endif %}
+    {% if trainer.badge_pikachu_outbreak_yokohama_2017 %}
+    <img id="badge_pikachu_outbreak_yokohama_2017" class="profile-medal" src="{% static 'img/Badge_Event_Yokohama_2017.png' %}" />
+    <div class="mdl-tooltip" for="badge_pikachu_outbreak_yokohama_2017">
+      <b>{% trans "Pikachu Outbreak 2017" context "badge_pikachu_outbreak_yokohama_2017_title" %}</b><br>
+      {% trans "Yokohama, August 2017" context "badge_pikachu_outbreak_yokohama_2017" %}
     </div>
-      {% endif %}
-      {% if trainer.badge_pikachu_outbreak_yokohama_2017 %}
-        <img id="badge_pikachu_outbreak_yokohama_2017" class="profile-medal" src="{% static 'img/Badge_Event_Yokohama_2017.png' %}" />
-        <div class="mdl-tooltip" for="badge_pikachu_outbreak_yokohama_2017">
-            <b>{% trans "Pikachu Outbreak 2017" context "badge_pikachu_outbreak_yokohama_2017_title" %}</b><br>
-            {% trans "Yokohama, August 2017" context "badge_pikachu_outbreak_yokohama_2017" %}
-        </div>
-      {% endif %}
-      {% if trainer.badge_safari_zone_europe_2017_09_16 %}
-        <img id="badge_safari_zone_europe_2017_09_16" class="profile-medal" src="{% static 'img/Badge_Event_Safari_Zone_Europe_2017.png' %}" />
-        <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_09_16">
-            <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_title" %}</b><br>
-            {% trans "Europe, September 16, 2017" context "badge_safari_zone_europe_2017" %}
-        </div>
-      {% endif %}
-      {% if trainer.badge_safari_zone_europe_2017_10_07 %}
-        <img id="badge_safari_zone_europe_2017_10_07" class="profile-medal" src="{% static 'img/Badge_Event_Safari_Zone_Europe_2017.png' %}" />
-        <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_10_07">
-            <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_10_07_title" %}</b><br>
-            {% trans "Europe, October 7, 2017" context "badge_safari_zone_europe_2017_10_07" %}
-        </div>
-      {% endif %}
-      {% if trainer.badge_safari_zone_europe_2017_10_14 %}
-        <img id="badge_safari_zone_europe_2017_10_14" class="profile-medal" src="{% static 'img/Badge_Event_Safari_Zone_Europe_2017.png' %}" />
-        <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_10_14">
-            <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_10_07_title" %}</b><br>
-            {% trans "Europe, October 14, 2017" context "badge_safari_zone_europe_2017_10_07" %}
-        </div>
-      {% endif %}
-      {% if trainer.badge_chicago_fest_july_2018 %}
-        <img id="badge_chicago_fest_july_2018" class="profile-medal" src="{% static 'img/Badge_Event_Chicago_2018.png' %}" />
-        <div class="mdl-tooltip" for="badge_chicago_fest_july_2018">
-            <b>{% trans "Pokémon GO Fest 2018" context "badge_chicago_fest_july_2018_*_*_title" %}</b><br>
-            {% trans "Chicago, July 14-15, 2018" context "badge_chicago_fest_july_2018_*_*" %}
-        </div>
-      {% endif %}
-      {% if trainer.badge_apac_partner_july_2018_japan %}
-        <img id="badge_apac_partner_july_2018_japan" class="profile-medal" src="{% static 'img/Badge_Apac_Partner_July_2018.png' %}" />
-        <div class="mdl-tooltip" for="badge_apac_partner_july_2018_japan">
-            <b>{% trans "Pokémon GO Special Weekend" context "badge_apac_partner_july_2018_*_title" %}</b><br>
-            {% trans "Japan, July 26-29, 2018" context "badge_apac_partner_july_2018_*" %}
-        </div>
-      {% endif %}
-      {% if trainer.badge_apac_partner_july_2018_south_korea %}
-        <img id="badge_apac_partner_july_2018_south_korea" class="profile-medal" src="{% static 'img/Badge_Apac_Partner_July_2018.png' %}" />
-        <div class="mdl-tooltip" for="badge_apac_partner_july_2018_south_korea">
-            <b>{% trans "Pokémon GO Special Weekend" context "badge_apac_partner_july_2018_5_title" %}</b><br>
-            {% trans "South Korea, July 29, 2018" context "badge_apac_partner_july_2018_5" %}
-        </div>
-      {% endif %}
-      {% for spon in sponsorships %}
-        <img id="{{spon.slug}}" class="profile-medal" src="{% get_media_prefix %}{{spon.icon}}" />
-        <div class="mdl-tooltip" for="{{spon.slug}}">
-            <b>{{spon.title}}</b><br>
-        {{spon.description}}
-        </div>
-      {% endfor %}
-      {% if silph_card %}
-        {% for badge in trainer.get_silph_card_badges %}
-        <img id="silph_{{badge.slug}}" class="profile-medal" src="{{badge.image}}" />
-        <div class="mdl-tooltip" for="silph_{{badge.slug}}">
-            <b>{{badge.name}}</b><br>
-        {{badge.description}}
-        </div>
-        {% endfor %}
-      {% endif %}
+    {% endif %}
+    {% if trainer.badge_safari_zone_europe_2017_09_16 %}
+    <img id="badge_safari_zone_europe_2017_09_16" class="profile-medal" src="{% static 'img/Badge_Event_Safari_Zone_Europe_2017.png' %}" />
+    <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_09_16">
+      <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_title" %}</b><br>
+      {% trans "Europe, September 16, 2017" context "badge_safari_zone_europe_2017" %}
     </div>
+    {% endif %}
+    {% if trainer.badge_safari_zone_europe_2017_10_07 %}
+    <img id="badge_safari_zone_europe_2017_10_07" class="profile-medal" src="{% static 'img/Badge_Event_Safari_Zone_Europe_2017.png' %}" />
+    <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_10_07">
+      <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_10_07_title" %}</b><br>
+      {% trans "Europe, October 7, 2017" context "badge_safari_zone_europe_2017_10_07" %}
+    </div>
+    {% endif %}
+    {% if trainer.badge_safari_zone_europe_2017_10_14 %}
+    <img id="badge_safari_zone_europe_2017_10_14" class="profile-medal" src="{% static 'img/Badge_Event_Safari_Zone_Europe_2017.png' %}" />
+    <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_10_14">
+      <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_10_07_title" %}</b><br>
+      {% trans "Europe, October 14, 2017" context "badge_safari_zone_europe_2017_10_07" %}
+    </div>
+    {% endif %}
+    {% if trainer.badge_chicago_fest_july_2018 %}
+    <img id="badge_chicago_fest_july_2018" class="profile-medal" src="{% static 'img/Badge_Event_Chicago_2018.png' %}" />
+    <div class="mdl-tooltip" for="badge_chicago_fest_july_2018">
+      <b>{% trans "Pokémon GO Fest 2018" context "badge_chicago_fest_july_2018_*_*_title" %}</b><br>
+      {% trans "Chicago, July 14-15, 2018" context "badge_chicago_fest_july_2018_*_*" %}
+    </div>
+    {% endif %}
+    {% if trainer.badge_apac_partner_july_2018_japan %}
+    <img id="badge_apac_partner_july_2018_japan" class="profile-medal" src="{% static 'img/Badge_Apac_Partner_July_2018.png' %}" />
+    <div class="mdl-tooltip" for="badge_apac_partner_july_2018_japan">
+      <b>{% trans "Pokémon GO Special Weekend" context "badge_apac_partner_july_2018_*_title" %}</b><br>
+      {% trans "Japan, July 26-29, 2018" context "badge_apac_partner_july_2018_*" %}
+    </div>
+    {% endif %}
+    {% if trainer.badge_apac_partner_july_2018_south_korea %}
+    <img id="badge_apac_partner_july_2018_south_korea" class="profile-medal" src="{% static 'img/Badge_Apac_Partner_July_2018.png' %}" />
+    <div class="mdl-tooltip" for="badge_apac_partner_july_2018_south_korea">
+      <b>{% trans "Pokémon GO Special Weekend" context "badge_apac_partner_july_2018_5_title" %}</b><br>
+      {% trans "South Korea, July 29, 2018" context "badge_apac_partner_july_2018_5" %}
+    </div>
+    {% endif %}
+    {% for spon in sponsorships %}
+    <img id="{{spon.slug}}" class="profile-medal" src="{% get_media_prefix %}{{spon.icon}}" />
+    <div class="mdl-tooltip" for="{{spon.slug}}">
+      <b>{{spon.title}}</b><br>
+      {{spon.description}}
+    </div>
+    {% endfor %}
+    {% if silph_card %}
+    {% for badge in trainer.get_silph_card_badges %}
+    <img id="silph_{{badge.slug}}" class="profile-medal" src="{{badge.image}}" />
+    <div class="mdl-tooltip" for="silph_{{badge.slug}}">
+      <b>{{badge.name}}</b><br>
+      {{badge.description}}
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
   <div class="mdl-tabs__tab-bar">
-      <a href="#history-panel" class="mdl-tabs__tab is-active">{% trans "History" context "profile_category_history" %}</a>
-      <a href="#badges-panel" class="mdl-tabs__tab">{% trans "Medals" context "profile_category_medals" %}</a>
-      <a href="#graph-panel" class="mdl-tabs__tab">{% trans "Graph" context "profile_category_graph" %}</a>
+    <a href="#history-panel" class="mdl-tabs__tab is-active">{% trans "History" context "profile_category_history" %}</a>
+    <a href="#badges-panel" class="mdl-tabs__tab">{% trans "Medals" context "profile_category_medals" %}</a>
+    <a href="#graph-panel" class="mdl-tabs__tab">{% trans "Graph" context "profile_category_graph" %}</a>
   </div>
-
+  
   <div class="mdl-tabs__panel is-active" id="history-panel">
     <div class="mdl-grid table-responsive">
       <table class="mdl-cell mdl-data-table mdl-js-data-table mdl-shadow--2dp trainerdex-card-center">
         {% for update in update_history %}
-          {% if forloop.first %}
+        {% if forloop.first %}
         <thead>
           <tr>
             {% for field in update %}
@@ -186,23 +186,24 @@
           
           <tr id="{{update.1.value}}">
             {% for field in update %}
-              {% if field.attname == 'update_time' %}
+            {% if field.attname == 'update_time' %}
             <td id="{{update.1.value}}.{{field.attname}}">{{field.value|default_if_none:"---"|naturalday}}</td>
-              {% else %}
+            {% else %}
             <td id="{{update.1.value}}.{{field.attname}}">{{field.value|default_if_none:"---"|intcomma}}</td>
-              {% endif %}
+            {% endif %}
             {% endfor %}
           </tr>
           {% if forloop.last %}
         </tbody>
-          {% endif %}
+        {% endif %}
         {% endfor %}
       </table>
     </div>
   </div>
+  
   <div class="mdl-tabs__panel" id="badges-panel">
     {% for badge in badges %}
-      {% if forloop.first %}
+    {% if forloop.first %}
     <div class="mdl-grid mdl-grid--no-spacing">
       {% endif %}
       <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
@@ -214,7 +215,7 @@
             <div class="value-bar"></div>
           </div>
         </div>
-      <span>{{ badge.readable_name }}</span>
+        <span>{{ badge.readable_name }}</span>
       </div>
       {% if forloop.last %}
     </div>
@@ -232,10 +233,8 @@
     </div>
     {% endfor %}
   </div>
+  
   <div class="mdl-tabs__panel" id="graph-panel">
     <div id='chart_div' style='width: 100%; height: 550px;'></div>
-</div>
-{% endblock %}
-
-{% block extra_body %}
+  </div>
 {% endblock %}

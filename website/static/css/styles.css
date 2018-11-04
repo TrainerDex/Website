@@ -1,28 +1,12 @@
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
 li.mdl-menu__item > i.material-icons {
-    display: inline-flex;
-    vertical-align: middle;
-    line-height: 48px;
-    padding-right: 5px;
+  display: inline-flex;
+  vertical-align: middle;
+  line-height: 48px;
+  padding-right: 5px;
 }
 
 .flag-icon-circle {
@@ -114,86 +98,86 @@ li.mdl-menu__item > i.material-icons {
   background-color: #ca3755;
 }
 
-  .trainerdex-header .material-icons {
-    color: #f2f2f2 !important;
-  }
-
-  .trainerdex-header .mdl-layout__drawer-button {
-    background: transparent;
-    color: #767777;
-  }
-
-  .trainerdex-header .mdl-navigation__link {
-    color: #f2f2f2;
-    font-weight: 700;
-    font-size: 14px;
-  }
-
-  .trainerdex-header-navigation-container {
-    /* Simple hack to make the overflow happen to the left instead... */
-    direction: rtl;
-    -webkit-order: 1;
-        -ms-flex-order: 1;
-            order: 1;
-    width: 500px;
-    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-        width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .trainerdex-header-navigation {
-    /* ... and now make sure the content is actually LTR */
-    direction: ltr;
-    -webkit-justify-content: flex-end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
-    width: 800px;
-  }
-
-  .trainerdex-search-box.is-focused + .trainerdex-header-navigation-container {
-    opacity: 0;
-    width: 100px;
-  }
-
-
-  .trainerdex-header-navigation .mdl-navigation__link {
-    display: inline-block;
-    height: 60px;
-    line-height: 68px;
-    background-color: transparent !important;
-    border-bottom: 4px solid transparent;
-  }
-
-    .trainerdex-header-navigation .mdl-navigation__link:hover {
-      border-bottom: 4px solid #f2f2f2;
-    }
-
-  .trainerdex-search-box {
-    -webkit-order: 2;
-        -ms-flex-order: 2;
-            order: 2;
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
-  .trainerdex-more-button {
-    -webkit-order: 3;
-        -ms-flex-order: 3;
-            order: 3;
-  }
-
-  .trainerdex-title {
-    font-family: 'Raleway', sans-serif;
-  }
-
-  .tdx-lb__title {
-    background-color: #ca3755!important;
-    color: #f2f2f2!important;
+.trainerdex-header .material-icons {
+  color: #f2f2f2 !important;
 }
-  .tdx-lb__menu {
-    color: #f2f2f2!important;
+
+.trainerdex-header .mdl-layout__drawer-button {
+  background: transparent;
+  color: #767777;
 }
-  .tdx-lb__supporting-text {
-    color: #f2f2f2!important;
+
+.trainerdex-header .mdl-navigation__link {
+  color: #f2f2f2;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.trainerdex-header-navigation-container {
+  /* Simple hack to make the overflow happen to the left instead... */
+  direction: rtl;
+  -webkit-order: 1;
+  -ms-flex-order: 1;
+  order: 1;
+  width: 500px;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+  width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trainerdex-header-navigation {
+  /* ... and now make sure the content is actually LTR */
+  direction: ltr;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  width: 800px;
+}
+
+.trainerdex-search-box.is-focused + .trainerdex-header-navigation-container {
+  opacity: 0;
+  width: 100px;
+}
+
+
+.trainerdex-header-navigation .mdl-navigation__link {
+  display: inline-block;
+  height: 60px;
+  line-height: 68px;
+  background-color: transparent !important;
+  border-bottom: 4px solid transparent;
+}
+
+.trainerdex-header-navigation .mdl-navigation__link:hover {
+  border-bottom: 4px solid #f2f2f2;
+}
+
+.trainerdex-search-box {
+  -webkit-order: 2;
+  -ms-flex-order: 2;
+  order: 2;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.trainerdex-more-button {
+  -webkit-order: 3;
+  -ms-flex-order: 3;
+  order: 3;
+}
+
+.trainerdex-title {
+  font-family: 'Raleway', sans-serif;
+}
+
+.tdx-lb__title {
+  background-color: #ca3755!important;
+  color: #f2f2f2!important;
+}
+.tdx-lb__menu {
+  color: #f2f2f2!important;
+}
+.tdx-lb__supporting-text {
+  color: #f2f2f2!important;
 }
 
 /**** Mobile layout ****/
@@ -201,11 +185,11 @@ li.mdl-menu__item > i.material-icons {
   .trainerdex-header-navigation-container {
     display: none;
   }
-
+  
   .trainerdex-title {
     display: none !important;
   }
-
+  
   .trainerdex-mobile-title {
     display: block !important;
     font-family: 'Raleway', sans-serif;
@@ -213,23 +197,23 @@ li.mdl-menu__item > i.material-icons {
     left: calc(50% - 14px);
     transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
-
+  
   /* WebViews in iOS 9 break the "~" operator, and WebViews in OS X 10.10 break
-     consecutive "+" operators in some cases. Therefore, we need to use both
-     here to cover all the bases. */
+  consecutive "+" operators in some cases. Therefore, we need to use both
+  here to cover all the bases. */
   .trainerdex.trainerdex-search-box.is-focused ~ .trainerdex-mobile-title,
   .trainerdex-search-box.is-focused + .trainerdex-header-navigation-container + .trainerdex-mobile-title {
     opacity: 0;
   }
-
+  
   .trainerdex-more-button {
     display: none;
   }
-
+  
   .trainerdex-search-box.is-focused {
     width: calc(100% - 48px);
   }
-
+  
   .trainerdex-search-box .mdl-textfield__expandable-holder {
     width: 100%;
   }
@@ -261,8 +245,8 @@ li.mdl-menu__item > i.material-icons {
   display: -ms-flexbox;
   display: flex;
   -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 .trainerdex-drawer-header {
   box-sizing: border-box;
@@ -270,11 +254,11 @@ li.mdl-menu__item > i.material-icons {
   display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
   padding: 16px;
   height: 151px;
 }
@@ -284,29 +268,29 @@ li.mdl-menu__item > i.material-icons {
   display: flex;
   position: relative;
   -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
   -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   width: 100%;
 }
 
 .trainerdex-navigation {
   -webkit-flex-grow: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
 }
 .trainerdex-layout .trainerdex-navigation .mdl-navigation__link {
   display: -webkit-flex !important;
   display: -ms-flexbox !important;
   display: flex !important;
   -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
   -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   color: #332e20!important;
   font-weight: 500;
   -webkit-tap-highlight-color: #ca3755!important;
@@ -327,8 +311,8 @@ li.mdl-menu__item > i.material-icons {
 
 .trainerdex-charts {
   -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 .trainerdex-chart:nth-child(1) {
   color: #ACEC00;
@@ -348,16 +332,16 @@ li.mdl-menu__item > i.material-icons {
   display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
 }
 /* TODO: Find a proper solution to have the graphs
- * not float around outside their container in IE10/11.
- * Using a browserhacks.com solution for now.
- */
+* not float around outside their container in IE10/11.
+* Using a browserhacks.com solution for now.
+*/
 _:-ms-input-placeholder, :root .trainerdex-graphs {
   min-height: 664px;
 }
@@ -374,11 +358,11 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 
 .trainerdex-cards {
   -webkit-align-items: flex-start;
-      -ms-flex-align: start;
-          align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
   -webkit-align-content: flex-start;
-      -ms-flex-line-pack: start;
-          align-content: flex-start;
+  -ms-flex-line-pack: start;
+  align-content: flex-start;
 }
 .trainerdex-cards .trainerdex-separator {
   height: 32px;
@@ -395,10 +379,10 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
   font-size: 1em;
 }
 /*.trainerdex-updates .mdl-card__title {
-  min-height: 200px;
-  background-image: url('/static/teams/instinct_leader.png');
-  background-position: right 1% top -2%;
-  background-repeat: no-repeat;
+min-height: 200px;
+background-image: url('/static/teams/instinct_leader.png');
+background-position: right 1% top -2%;
+background-repeat: no-repeat;
 }*/
 .trainerdex-cards .mdl-card__actions a {
   color: #00BCD4;
@@ -425,8 +409,8 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
   display: flex;
   box-sizing: border-box;
   -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .trainerdex-promo {
@@ -478,7 +462,7 @@ _:-ms-input-placeholder, :root .trainerdex-graph {
 }
 /*
 .social-btn__twitter {
-  background-image: url('http://www.trainerdex.co.uk/static/img/twitter.svg');
+background-image: url('http://www.trainerdex.co.uk/static/img/twitter.svg');
 }
 */
 .social-btn__facebook {
@@ -515,53 +499,53 @@ iframe[scrolling='no'] { overflow: hidden; }
 /* Table responsive */
 
 .table-responsive {
-    min-height: .01%;
-    overflow-x: auto;
+  min-height: .01%;
+  overflow-x: auto;
 }
 @media screen and (max-width: 767px) {
-    .table-responsive {
-        width: 100%;
-        margin-bottom: 15px;
-        overflow-y: hidden;
-        -ms-overflow-style: -ms-autohiding-scrollbar;
-        border: 1px solid #ddd;
-    }
-    .table-responsive > .table {
-        margin-bottom: 0;
-    }
-    .table-responsive > .table > thead > tr > th,
-    .table-responsive > .table > tbody > tr > th,
-    .table-responsive > .table > tfoot > tr > th,
-    .table-responsive > .table > thead > tr > td,
-    .table-responsive > .table > tbody > tr > td,
-    .table-responsive > .table > tfoot > tr > td {
-        white-space: nowrap;
-    }
-    .table-responsive > .table-bordered {
-        border: 0;
-    }
-    .table-responsive > .table-bordered > thead > tr > th:first-child,
-    .table-responsive > .table-bordered > tbody > tr > th:first-child,
-    .table-responsive > .table-bordered > tfoot > tr > th:first-child,
-    .table-responsive > .table-bordered > thead > tr > td:first-child,
-    .table-responsive > .table-bordered > tbody > tr > td:first-child,
-    .table-responsive > .table-bordered > tfoot > tr > td:first-child {
-        border-left: 0;
-    }
-    .table-responsive > .table-bordered > thead > tr > th:last-child,
-    .table-responsive > .table-bordered > tbody > tr > th:last-child,
-    .table-responsive > .table-bordered > tfoot > tr > th:last-child,
-    .table-responsive > .table-bordered > thead > tr > td:last-child,
-    .table-responsive > .table-bordered > tbody > tr > td:last-child,
-    .table-responsive > .table-bordered > tfoot > tr > td:last-child {
-        border-right: 0;
-    }
-    .table-responsive > .table-bordered > tbody > tr:last-child > th,
-    .table-responsive > .table-bordered > tfoot > tr:last-child > th,
-    .table-responsive > .table-bordered > tbody > tr:last-child > td,
-    .table-responsive > .table-bordered > tfoot > tr:last-child > td {
-        border-bottom: 0;
-    }
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+  }
+  .table-responsive > .table {
+    margin-bottom: 0;
+  }
+  .table-responsive > .table > thead > tr > th,
+  .table-responsive > .table > tbody > tr > th,
+  .table-responsive > .table > tfoot > tr > th,
+  .table-responsive > .table > thead > tr > td,
+  .table-responsive > .table > tbody > tr > td,
+  .table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+  }
+  .table-responsive > .table-bordered {
+    border: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:first-child,
+  .table-responsive > .table-bordered > tbody > tr > th:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+  .table-responsive > .table-bordered > thead > tr > td:first-child,
+  .table-responsive > .table-bordered > tbody > tr > td:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:last-child,
+  .table-responsive > .table-bordered > tbody > tr > th:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+  .table-responsive > .table-bordered > thead > tr > td:last-child,
+  .table-responsive > .table-bordered > tbody > tr > td:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+  }
+  .table-responsive > .table-bordered > tbody > tr:last-child > th,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+  .table-responsive > .table-bordered > tbody > tr:last-child > td,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+  }
 }
 
 .leaderboard-link {
@@ -596,12 +580,12 @@ iframe[scrolling='no'] { overflow: hidden; }
 }
 
 .tl {
-	float:right;
-	text-align:right;
-	width:50%;
+  float:right;
+  text-align:right;
+  width:50%;
 }
 .trainer-nickname {
-	float:left;
-	text-align:left;
-	width:50%;
+  float:left;
+  text-align:left;
+  width:50%;
 }
