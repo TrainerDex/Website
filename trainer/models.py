@@ -37,7 +37,7 @@ class Trainer(models.Model):
 	
 	owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
 	username = postgres_fields.CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], db_index=True, verbose_name=pgettext_lazy("onboard_enter_name_hint", "Nickname"), help_text=_("Your Trainer Nickname exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."))
-	start_date = models.DateField(null=True, blank=True, validators=[MinValueValidator(date(2016, 7, 6))], verbose_name=pgettext_lazy("profile_start_date", "Start Date"), help_text=_("The date you created your Pokémon Go account."))
+	start_date = models.DateField(null=True, blank=True, validators=[MinValueValidator(date(2016, 7, 5))], verbose_name=pgettext_lazy("profile_start_date", "Start Date"), help_text=_("The date you created your Pokémon Go account."))
 	faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"), help_text=_("Mystic = Blue, Instinct = Yellow, Valor = Red.") )
 	last_cheated = models.DateField(null=True, blank=True, verbose_name=_("Last Cheated"), help_text=_("When did this Trainer last cheat?"))
 	statistics = models.BooleanField(default=True, verbose_name=pgettext_lazy("Profile_Category_Stats", "Statistics"), help_text=_("Would you like to be shown on the leaderboard? Ticking this box gives us permission to process your data."))
