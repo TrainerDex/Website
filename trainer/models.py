@@ -242,7 +242,7 @@ class Trainer(models.Model):
                 raise ValidationError({'thesilphroad_username': _("The team of this Silph Card does not match that of your profile.")})
     
     def get_absolute_url(self):
-        return reverse('trainerdex_web:profile_username', kwargs={'username':self.username})
+        return reverse('trainerdex:profile_username', kwargs={'username':self.username})
     
     class Meta:
         ordering = ['username']

@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^accounts\/profile/first_update\/?$', SetUpProfileViewStep3, name='profile_first_post'),
     url(r'^accounts\/', include('allauth.urls')),
     url(r'^tools\/rosetta\/', include('rosetta.urls')),
-    url(r'^$', RedirectView.as_view(pattern_name='trainerdex_web:leaderboard', permanent=True), name='home'),
+    url(r'^$', RedirectView.as_view(pattern_name='trainerdex:leaderboard', permanent=True), name='home'),
     url(r'^help\/', include('support.urls')),
     url('', include('trainer.urls')),
 ]
