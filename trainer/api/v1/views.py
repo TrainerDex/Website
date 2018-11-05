@@ -5,6 +5,7 @@ import requests
 
 from allauth.socialaccount.models import SocialAccount
 from datetime import datetime, timedelta, date
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -316,7 +317,7 @@ class DiscordLeaderboardAPIView(APIView):
         members = [x['user']['id'] for x in members.json() if not any([i in x['roles'] for i in opt_out_role_id])]
         trainers = filter_leaderboard_qs(Trainer.objects.filter(owner__socialaccount__provider='discord', owner__socialaccount__uid__in=members))
         
-        leaderboard = trainers.prefetch_related('faction').prefetch_related('update_set').prefetch_related('owner').annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())).order_by('rank')
+        leaderboard = trainers.prefetch_related('faction').prefetch_related('update_set').prefetch_related('owner').annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).filter(update__update_time__max__gte=datetime.now()-relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)).annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())).order_by('rank')
         serializer = LeaderboardSerializer(leaderboard, many=True)
         output['leaderboard'] = serializer.data
         return Response(output)
