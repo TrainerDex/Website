@@ -283,7 +283,9 @@ def SetUpProfileViewStep2(request):
         return HttpResponseRedirect(reverse('trainerdex:profile'))
     
     form = RegistrationFormTrainer(instance=request.user.trainer)
-    form.fields['verification'].required = True
+    if not request.user.trainer.verified:
+        form.fields['verification'].required = True
+    form.fields['start_date'].required = True
     
     if request.method == 'POST':
         form = RegistrationFormTrainer(request.POST, request.FILES, instance=request.user.trainer)

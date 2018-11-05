@@ -226,15 +226,12 @@ class Trainer(models.Model):
     @property
     def profile_complete(self):
         return bool(
-            bool(self.owner) and bool(self.username) and bool(bool(self.verification) or bool(self.verified))
+            bool(self.owner) and bool(self.username) and bool(bool(self.verification) or bool(self.verified)) and bool(self.start_date)
         )
     
     @property
     def profile_completed_optional(self):
-        return bool(
-            bool(self.profile_complete) and
-            bool(self.start_date)
-        )
+        return self.profile_complete
     
     def clean(self):
         if self.thesilphroad_username:
