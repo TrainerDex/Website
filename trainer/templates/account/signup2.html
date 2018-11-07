@@ -37,7 +37,9 @@
           {% for field in form.visible_fields %}
             {% if field.field.widget.input_type == 'text' or field.field.widget.input_type == 'number' %}
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if field.errors %} is-invalid{% endif %}">
-                {{ field|add_class:"mdl-textfield__input"}}
+                {% if field.name == 'start_date' %}
+                <input type="date" name="start_date" value="2016-07-08" class="mdl-textfield__input" required id="id_start_date">{% else %}
+                {{ field|add_class:"mdl-textfield__input"}}{% endif %}
                 <label class="mdl-textfield__label" for="{{field.id_for_label}}">{{field.label}}</label>
                 <span>{{field.help_text}}</span>
                 {% for error in field.errors %}
