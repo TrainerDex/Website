@@ -24,7 +24,7 @@ pillow
 psycopg2==2.7.6.1
 python-dateutil==2.7.3
 pytz
-requests==2.20.0
+requests==2.20.1
 six==1.10.0
 urllib3==1.24.1
 vine==1.1.4
