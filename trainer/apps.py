@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from django.apps import AppConfig
-from django.utils.translation import gettext_lazy as _
 
 class TrainerDexConfig(AppConfig):
+    label = 'trainer'
     name = 'trainer'
-    verbose_name = _("TrainerDex")
+    verbose_name = "TrainerDex"
