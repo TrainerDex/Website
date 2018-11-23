@@ -166,7 +166,7 @@ class Migration(migrations.Migration):
                 ('gymbadges_total', models.PositiveIntegerField(blank=True, null=True, validators=[django.core.validators.MaxValueValidator(1000)], verbose_name='Gym Badges')),
                 ('gymbadges_gold', models.PositiveIntegerField(blank=True, null=True, validators=[django.core.validators.MaxValueValidator(1000)], verbose_name='Gold Gym Badges')),
                 ('pokemon_info_stardust', models.PositiveIntegerField(blank=True, null=True, verbose_name='Stardust')),
-                ('trainer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trainer.Trainer', verbose_name='Trainer')),
+                ('trainer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pokemongo.Trainer', verbose_name='Trainer')),
             ],
             options={
                 'db_table' : 'trainer_update',
@@ -179,7 +179,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='trainer',
             name='faction',
-            field=models.ForeignKey(default=0, help_text='Mystic = Blue, Instinct = Yellow, Valor = Red.', on_delete=django.db.models.deletion.SET_DEFAULT, to='trainer.Faction', verbose_name='Team'),
+            field=models.ForeignKey(default=0, help_text='Mystic = Blue, Instinct = Yellow, Valor = Red.', on_delete=django.db.models.deletion.SET_DEFAULT, to='pokemongo.Faction', verbose_name='Team'),
         ),
         migrations.AddField(
             model_name='trainer',
@@ -199,7 +199,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='sponsorship',
             name='members',
-            field=models.ManyToManyField(related_name='sponsorships', to='trainer.Trainer'),
+            field=models.ManyToManyField(related_name='sponsorships', to='pokemongo.Trainer'),
         ),
         migrations.AlterField(
             model_name='trainer',
