@@ -2,6 +2,6 @@
 from django.apps import AppConfig
 
 class TrainerDexConfig(AppConfig):
-    label = 'trainer'
+    label = 'pokemongo'
     name = 'trainer'
     verbose_name = "TrainerDex"
