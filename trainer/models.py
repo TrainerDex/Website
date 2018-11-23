@@ -16,6 +16,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.contrib.postgres import fields as postgres_fields
+from django.core import validators
 from django.core.exceptions import ValidationError, ObjectDoesNotExist, PermissionDenied
 from django.db import models
 from django.db.models import Max
@@ -25,7 +26,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy, to_locale, get_supported_language_variant, get_language
-from trainer.validators import *
+from trainer.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup, numbers, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
 
 def VerificationImagePath(instance, filename):
