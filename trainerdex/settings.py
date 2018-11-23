@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'colorful',
     'cookielaw',
     'rosetta',
-    'trainer',
+    'trainer.apps.TrainerDexConfig',
     'website',
     'support',
     'allauth',
