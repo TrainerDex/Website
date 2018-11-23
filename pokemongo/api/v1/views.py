@@ -20,9 +20,9 @@ from rest_framework import authentication, permissions, status
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from trainer.models import Trainer, Update
-from trainer.api.v1.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
-from trainer.shortcuts import filter_leaderboard_qs
+from pokemongo.models import Trainer, Update
+from pokemongo.api.v1.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
+from pokemongo.shortcuts import filter_leaderboard_qs
 
 def recent(value):
     if timezone.now()-timedelta(hours=1) <= value <= timezone.now():

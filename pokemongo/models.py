@@ -26,8 +26,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy, to_locale, get_supported_language_variant, get_language
-from trainer.validators import PokemonGoUsernameValidator, TrainerCodeValidator
-from trainer.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup, numbers, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
+from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
+from pokemongo.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup, numbers, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
 
 def VerificationImagePath(instance, filename):
     return 'v_{0}_{1}{ext}'.format(instance.owner.id, datetime.utcnow().timestamp(), ext=splitext(filename)[1])

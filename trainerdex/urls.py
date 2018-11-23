@@ -10,8 +10,8 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 from ajax_select import urls as ajex_select_urls
 from website.views import *
-from trainer.views import SetUpProfileViewStep2, SetUpProfileViewStep3
-from trainer import sitemaps
+from pokemongo.views import SetUpProfileViewStep2, SetUpProfileViewStep3
+from pokemongo import sitemaps
 
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': {

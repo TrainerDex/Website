@@ -1,8 +1,8 @@
 ﻿# -*- coding: utf-8 -*-
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
-from trainer.models import Update, Trainer
-from trainer.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS
+from pokemongo.models import Update, Trainer
+from pokemongo.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS
 
 class UpdateForm(ModelForm):
     

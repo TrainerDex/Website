@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 from django.conf.urls import url
-from trainer.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, TrainerRedirectorView
+from pokemongo.views import LeaderboardHTMLView, TrainerProfileHTMLView, CreateUpdateHTMLView, TrainerRedirectorView
 
 app_name = "trainerdex"
 

@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 from django.conf.urls import url
-from trainer.api.v1.views import TrainerListJSONView, TrainerDetailJSONView, UpdateListJSONView, LatestUpdateJSONView, UpdateDetailJSONView, UserViewSet, SocialLookupJSONView, LeaderboardJSONView, DiscordLeaderboardAPIView
+from pokemongo.api.v1.views import TrainerListJSONView, TrainerDetailJSONView, UpdateListJSONView, LatestUpdateJSONView, UpdateDetailJSONView, UserViewSet, SocialLookupJSONView, LeaderboardJSONView, DiscordLeaderboardAPIView
 
 app_name = "trainerdex.api.1"
 

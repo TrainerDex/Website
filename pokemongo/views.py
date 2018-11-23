@@ -18,9 +18,9 @@ from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language_from_request
 from math import ceil
-from trainer.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
-from trainer.models import Trainer, Update, Faction
-from trainer.shortcuts import strtoboolornone, filter_leaderboard_qs, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, BADGES, chunks
+from pokemongo.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
+from pokemongo.models import Trainer, Update, Faction
+from pokemongo.shortcuts import strtoboolornone, filter_leaderboard_qs, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, BADGES, chunks
 
 def _check_if_trainer_valid(trainer):
     if settings.DEBUG:

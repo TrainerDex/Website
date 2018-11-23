@@ -8,13 +8,11 @@ import django.core.validators
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
-import trainer.models
+import pokemongo.models
 import uuid
 
 
 class Migration(migrations.Migration):
-
-    replaces = [('trainer', '0001_squashed_0080_auto_20181017_1043'), ('trainer', '0002_auto_20181104_1410'), ('trainer', '0003_fix_start_date'), ('trainer', '0004_IncreasePokedexBadges'), ('trainer', '0005_auto_20181123_1249'), ('trainer', '0006_remove_trainer_thesilphroad_username')]
 
     initial = True
 
@@ -99,7 +97,7 @@ class Migration(migrations.Migration):
                 ('last_modified', models.DateTimeField(auto_now=True, verbose_name='Last Modified')),
                 ('event_10b', models.BooleanField(default=False)),
                 ('event_1k_users', models.BooleanField(default=False)),
-                ('verification', models.ImageField(blank=True, upload_to=trainer.models.VerificationImagePath, verbose_name='Username / Level / Team Screenshot')),
+                ('verification', models.ImageField(blank=True, upload_to=pokemongo.models.VerificationImagePath, verbose_name='Username / Level / Team Screenshot')),
                 ('thesilphroad_username', django.contrib.postgres.fields.citext.CICharField(blank=True, help_text='The username you use on The Silph Road, if different from your Trainer Nickname.', max_length=30, null=True, verbose_name='TheSilphRoad Trainer Name')),
             ],
             options={
@@ -117,7 +115,7 @@ class Migration(migrations.Migration):
                 ('update_time', models.DateTimeField(default=django.utils.timezone.now, verbose_name='Time Updated')),
                 ('submission_date', models.DateTimeField(auto_now_add=True, verbose_name='Submission Datetime')),
                 ('data_source', models.CharField(choices=[('?', None), ('cs_social_twitter', 'Twitter (Found)'), ('cs_social_facebook', 'Facebook (Found)'), ('cs_social_youtube', 'YouTube (Found)'), ('cs_?', 'Sourced Elsewhere'), ('ts_social_discord', 'Discord'), ('ts_social_twitter', 'Twitter'), ('ts_direct', 'Directly told (via text)'), ('web_quick', 'Quick Update (Web)'), ('web_detailed', 'Detailed Update (Web)'), ('ts_registration', 'Registration'), ('ss_registration', 'Registration w/ Screenshot'), ('ss_generic', 'Generic Screenshot'), ('ss_ocr', 'OCR Screenshot'), ('com.nianticlabs.pokemongo.friends', 'In Game Friends'), ('com.pokeassistant.trainerstats', 'Poké Assistant'), ('com.pokenavbot.profiles', 'PokeNav'), ('tl40datateam.spreadsheet', 'Tl40 Data Team (Legacy)'), ('com.tl40data.website', 'Tl40 Data Team'), ('com.pkmngots.import', 'Third Saturday')], default='?', max_length=256, verbose_name='Source')),
-                ('screenshot', models.ImageField(blank=True, upload_to=trainer.models.VerificationUpdateImagePath, verbose_name='Screenshot')),
+                ('screenshot', models.ImageField(blank=True, upload_to=pokemongo.models.VerificationUpdateImagePath, verbose_name='Screenshot')),
                 ('double_check_confirmation', models.BooleanField(default=False, help_text='This will silence some errors.', verbose_name='I have double checked this information and it is correct.')),
                 ('total_xp', models.PositiveIntegerField(null=True, verbose_name='Total XP')),
                 ('pokedex_caught', models.PositiveIntegerField(blank=True, null=True, verbose_name='Unique Species Caught')),
