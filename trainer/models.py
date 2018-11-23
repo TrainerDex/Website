@@ -254,7 +254,6 @@ class Faction(models.Model):
         return f'{self.localized_name}'
     
     class Meta:
-        db_table = 'trainer_faction'
         verbose_name = _("Team")
         verbose_name_plural = _("Teams")
 
@@ -965,7 +964,6 @@ class Update(models.Model):
             self.trainer.update_set.create(update_time=datetime(2017,6,19,20,00), legacy_gym_trained=SET_ACE)
     
     class Meta:
-        db_table = 'trainer_update'
         get_latest_by = 'update_time'
         ordering = ['-update_time']
         verbose_name = _("Update")
@@ -1052,7 +1050,6 @@ class Sponsorship(models.Model):
         return self.title
     
     class Meta:
-        db_table = 'trainer_sponsorship'
         verbose_name = _("Special Relationship (Sponsorship)")
         verbose_name_plural = _("Special Relationships (Sponsorships)")
 
