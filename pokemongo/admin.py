@@ -52,7 +52,7 @@ class TrainerAdmin(admin.ModelAdmin):
     ordering = ('username',)
     fieldsets = (
         (None, {
-            'fields': ('owner', 'username', 'faction', 'start_date', 'daily_goal', 'total_goal','trainer_code', 'thesilphroad_username')
+            'fields': ('owner', 'username', 'faction', 'start_date', 'daily_goal', 'total_goal','trainer_code')
         }),
         (_('Reports'), {
             'fields': ('last_cheated', 'verified', 'verification')

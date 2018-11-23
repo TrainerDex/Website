@@ -102,13 +102,6 @@ def TrainerProfileHTMLView(request, username):
             )
         context['update_history'].append(update_obj)
     
-    try:
-        trainer.get_silph_card()
-    except (ObjectDoesNotExist, PermissionDenied):
-        context['silph_card'] = False
-    else:
-        context['silph_card'] = True
-    
     return render(request, 'profile.html', context)
 
 @login_required
