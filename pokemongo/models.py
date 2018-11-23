@@ -158,11 +158,6 @@ class Trainer(models.Model):
     def profile_completed_optional(self):
         return self.profile_complete
     
-    def clean(self):
-        if self.thesilphroad_username:
-            if self.faction.slug.casefold() != self.get_silph_card_team().casefold():
-                raise ValidationError({'thesilphroad_username': _("The team of this Silph Card does not match that of your profile.")})
-    
     def get_absolute_url(self):
         return reverse('trainerdex:profile_username', kwargs={'username':self.username})
     
