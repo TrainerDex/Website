@@ -9,7 +9,7 @@ from django.views.generic.base import RedirectView
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
 from ajax_select import urls as ajex_select_urls
-from website.views import *
+from core.views import *
 from pokemongo.views import SetUpProfileViewStep2, SetUpProfileViewStep3
 from pokemongo import sitemaps
 
@@ -22,7 +22,7 @@ urlpatterns = [
         'trainers':sitemaps.TrainerSitemap
     }},
     name='django.contrib.sitemaps.views.sitemap'),
-    url(r'^api\/v1\/', include('trainer.api.v1.urls')),
+    url(r'^api\/v1\/', include('pokemongo.api.v1.urls')),
     url(r'^api\/admin\/', admin.site.urls),
     url(r'^api-token-auth\/', views.obtain_auth_token),
     url(r'^ajax_select\/', include(ajex_select_urls)),
@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^accounts\/', include('allauth.urls')),
     url(r'^tools\/rosetta\/', include('rosetta.urls')),
     url(r'^$', RedirectView.as_view(pattern_name='trainerdex:leaderboard', permanent=True), name='home'),
-    url('', include('trainer.urls')),
+    url('', include('pokemongo.urls')),
 ]
 
 if settings.DEBUG:
