@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from trainer.models import *
+from pokemongo.models import *
 
 @admin.register(Faction)
 class FactionAdmin(admin.ModelAdmin):

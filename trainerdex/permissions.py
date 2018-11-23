@@ -1,7 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 from rest_framework import permissions
 
-
 class IsAdminUserOrReadOnly(permissions.BasePermission):
     """
     Hack Permission that gives Jay access to everything

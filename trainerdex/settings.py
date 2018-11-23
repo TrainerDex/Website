@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'colorful',
     'cookielaw',
     'rosetta',
-    'trainer.apps.TrainerDexConfig',
-    'website',
+    'pokemongo.apps.TrainerDexConfig',
+    'core',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -80,23 +80,12 @@ ADMIN_REORDER = (
             'authtoken.Token'
         )},
     {
-        'app': 'trainer',
+        'app': 'pokemongo',
         'models': (
-            'trainer.Trainer',
-            'trainer.Update',
-            'trainer.TrainerReport',
-            'trainer.Sponsorship',
-            'trainer.Faction',
-            'trainer.FactionLeader'
-        )},
-    {
-        'app': 'trainer',
-        'label': 'Community Leagues',
-        'models': (
-            'trainer.DiscordGuild',
-            'trainer.CommunityLeague',
-            'trainer.CommunityLeagueMembershipPersonal',
-            'trainer.CommunityLeagueMembershipDiscord'
+            'pokemongo.Trainer',
+            'pokemongo.Update',
+            'pokemongo.Sponsorship',
+            'pokemongo.Faction',
         )},
     {
         'app': 'cities',
@@ -126,7 +115,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'website.context_processors.google_analytics',
+                'core.context_processors.google_analytics',
             ],
         },
     },
@@ -237,7 +226,7 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_PRESERVE_USERNAME_CASING = True
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
-ACCOUNT_USERNAME_VALIDATORS = 'trainer.validators.username_validator'
+ACCOUNT_USERNAME_VALIDATORS = 'pokemongo.validators.username_validator'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',

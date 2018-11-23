@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from trainer.models import Trainer
+from pokemongo.models import Trainer
 from cities.models import Continent, Country, Region
 
 class BaseSitemap(Sitemap):

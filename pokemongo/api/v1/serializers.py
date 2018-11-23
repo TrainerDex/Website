@@ -3,8 +3,8 @@ from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 User = get_user_model()
-from trainer.models import Update, Trainer, Faction
-from trainer.shortcuts import level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
+from pokemongo.models import Update, Trainer, Faction
+from pokemongo.shortcuts import level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 class BriefUpdateSerializer(serializers.ModelSerializer):
     xp = serializers.SerializerMethodField()
