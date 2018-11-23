@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'rosetta',
     'trainer.apps.TrainerDexConfig',
     'website',
-    'support',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

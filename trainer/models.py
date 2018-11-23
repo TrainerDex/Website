@@ -82,8 +82,6 @@ class Trainer(models.Model):
     
     verification = models.ImageField(upload_to=VerificationImagePath, blank=True, verbose_name=_("Username / Level / Team Screenshot"))
     
-    thesilphroad_username = postgres_fields.CICharField(null=True, blank=True, max_length=30, verbose_name=_("TheSilphRoad Trainer Name"), help_text=_("The username you use on The Silph Road, if different from your Trainer Nickname.")) # max_length=15, unique=True, validators=[PokemonGoUsernameValidator]
-    
     def has_cheated(self):
         return bool(self.last_cheated)
     has_cheated.boolean = True
@@ -144,80 +142,6 @@ class Trainer(models.Model):
         if level:
             return int_to_unicode(level).strip()
         return None
-    
-    def get_silph_card(self, make_assumption=True):
-        if make_assumption:
-            name = self.thesilphroad_username or self.username
-        else:
-            if self.thesilphroad_username:
-                name = self.thesilphroad_username
-            else:
-                raise ObjectDoesNotExist
-        r = requests.get('https://sil.ph/{}.json'.format(name))
-        if r.status_code != 200:
-            raise ObjectDoesNotExist
-        try:
-            r = r.json()
-        except json.JSONDecodeError:
-            raise ObjectDoesNotExist
-        if 'data' in r:
-            return r['data']
-        else:
-            raise PermissionDenied
-    
-    def get_silph_card_badges (self):
-        badges = self.get_silph_card()['badges']
-        try:
-            return [x['Badge'] for x in self.get_silph_card()['badges'] if x['Badge']['slug'] not in ['travler-card']]
-        except:
-            return None
-    
-    def get_silph_card_id (self):
-        return self.get_silph_card()['card_id']
-    
-    def get_silph_card_checkins (self):
-        return self.get_silph_card()['checkins']
-    
-    def get_silph_card_goal (self):
-        return self.get_silph_card()['goal']
-    
-    def get_silph_card_handshakes (self):
-        return self.get_silph_card()['handshakes']
-    
-    def get_silph_card_home_region (self):
-        return self.get_silph_card()['home_region']
-    
-    def get_silph_card_in_game_username (self):
-        return self.get_silph_card()['in_game_username']
-    
-    def get_silph_card_joined (self):
-        import pendulum
-        return pendulum.parse(self.get_silph_card()['joined'])
-    
-    def get_silph_card_nest_migrations(self):
-        return self.get_silph_card()['nest_migrations']
-    
-    def get_silph_card_playstyle(self):
-        return self.get_silph_card()['playstyle']
-    
-    def get_silph_card_pokedex_count(self):
-        return self.get_silph_card()['pokedex_count']
-    
-    def get_true_pokedex_count(self):
-        try:
-            silph_value = self.get_silph_card(make_assumption=False)['pokedex_count']
-        except (ObjectDoesNotExist,PermissionDenied):
-            silph_value = 0
-        return max(silph_value, self.update_set.exclude(dex_caught__isnull=True).aggregate(Max('dex_caught')))
-    
-    def get_silph_card_team(self):
-        return self.get_silph_card()['team']
-    
-    def get_silph_card_title(self):
-        return self.get_silph_card()['title']
-    
-    def get_silph_card_xp(self):
-        return self.get_silph_card()['xp']
     
     @property
     def active(self):
@@ -1113,15 +1037,6 @@ class Update(models.Model):
 #                                code=edit.status_code,
 #                                log=edit.content))
 
-class TrainerReport(models.Model):
-    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"))
-    reporter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_("Reported by"))
-    report = models.TextField(verbose_name=_("Report"))
-    
-    class Meta:
-        verbose_name=_("Report")
-        verbose_name_plural=_("Reports")
-
 class Sponsorship(models.Model):
     slug = models.SlugField(db_index=True, primary_key=True)
     title = models.CharField(db_index=True, max_length=20)
@@ -1136,76 +1051,76 @@ class Sponsorship(models.Model):
         verbose_name = _("Special Relationship (Sponsorship)")
         verbose_name_plural = _("Special Relationships (Sponsorships)")
 
-class DiscordGuild(models.Model):
-    id = models.BigIntegerField(primary_key=True)
-    cached_data = postgres_fields.JSONField(null=True, blank=True)
-    cached_date = models.DateTimeField(auto_now=True)
-    
-    setting_channels_ocr_enabled = postgres_fields.ArrayField(models.BigIntegerField())
-    setting_rename_users = models.BooleanField(default=False)
-    
-    def __str__(self):
-        return str(self.id)
-    
-    class Meta:
-        verbose_name = _("Discord Guild")
-        verbose_name_plural = _("Discord Guilds")
-
-class CommunityLeague(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
-    language = models.CharField(max_length=7, choices=settings.LANGUAGES)
-    short_description = models.CharField(max_length=70)
-    description = models.TextField(null=True, blank=True)
-    vanity = models.SlugField()
-    
-    privacy_public = models.BooleanField(default=False)
-    
-    security_ban_sync = models.BooleanField(default=False)
-    security_kick_sync = models.BooleanField(default=False)
-    
-    memberships_personal = models.ManyToManyField(
-        Trainer,
-        through='CommunityLeagueMembershipPersonal',
-        through_fields=('league', 'trainer')
-    )
-    memberships_discord = models.ManyToManyField(
-        DiscordGuild,
-        through='CommunityLeagueMembershipDiscord',
-        through_fields=('league', 'discord')
-    )
-    
-    def __str__(self):
-        return self.short_description
-    
-    class Meta:
-        verbose_name = _("Community League")
-        verbose_name_plural = _("Community Leagues")
-
-class CommunityLeagueMembershipPersonal(models.Model):
-    league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
-    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-    
-    primary = models.BooleanField(default=True)
-    
-    def __str__(self):
-        return "{league} - {trainer}".format(league=self.league, trainer=self.trainer)
-    
-    class Meta:
-        verbose_name = _("Community League Membership")
-        verbose_name_plural = _("Community League Memberships")
-
-class CommunityLeagueMembershipDiscord(models.Model):
-    league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
-    discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
-    
-    auto_import = models.BooleanField(default=True)
-    
-    security_ban_sync = models.NullBooleanField()
-    security_kick_sync = models.NullBooleanField()
-    
-    def __str__(self):
-        return "{league} - {guild}".format(league=self.league, trainer=self.discord)
-    
-    class Meta:
-        verbose_name = _("Community League Discord Connection")
-        verbose_name_plural = _("Community League Discord Connections")
+# class DiscordGuild(models.Model):
+#     id = models.BigIntegerField(primary_key=True)
+#     cached_data = postgres_fields.JSONField(null=True, blank=True)
+#     cached_date = models.DateTimeField(auto_now=True)
+#
+#     setting_channels_ocr_enabled = postgres_fields.ArrayField(models.BigIntegerField())
+#     setting_rename_users = models.BooleanField(default=False)
+#
+#     def __str__(self):
+#         return str(self.id)
+#
+#     class Meta:
+#         verbose_name = _("Discord Guild")
+#         verbose_name_plural = _("Discord Guilds")
+#
+# class CommunityLeague(models.Model):
+#     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
+#     language = models.CharField(max_length=7, choices=settings.LANGUAGES)
+#     short_description = models.CharField(max_length=70)
+#     description = models.TextField(null=True, blank=True)
+#     vanity = models.SlugField()
+#
+#     privacy_public = models.BooleanField(default=False)
+#
+#     security_ban_sync = models.BooleanField(default=False)
+#     security_kick_sync = models.BooleanField(default=False)
+#
+#     memberships_personal = models.ManyToManyField(
+#         Trainer,
+#         through='CommunityLeagueMembershipPersonal',
+#         through_fields=('league', 'trainer')
+#     )
+#     memberships_discord = models.ManyToManyField(
+#         DiscordGuild,
+#         through='CommunityLeagueMembershipDiscord',
+#         through_fields=('league', 'discord')
+#     )
+#
+#     def __str__(self):
+#         return self.short_description
+#
+#     class Meta:
+#         verbose_name = _("Community League")
+#         verbose_name_plural = _("Community Leagues")
+#
+# class CommunityLeagueMembershipPersonal(models.Model):
+#     league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
+#     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+#
+#     primary = models.BooleanField(default=True)
+#
+#     def __str__(self):
+#         return "{league} - {trainer}".format(league=self.league, trainer=self.trainer)
+#
+#     class Meta:
+#         verbose_name = _("Community League Membership")
+#         verbose_name_plural = _("Community League Memberships")
+#
+# class CommunityLeagueMembershipDiscord(models.Model):
+#     league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
+#     discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
+#
+#     auto_import = models.BooleanField(default=True)
+#
+#     security_ban_sync = models.NullBooleanField()
+#     security_kick_sync = models.NullBooleanField()
+#
+#     def __str__(self):
+#         return "{league} - {guild}".format(league=self.league, trainer=self.discord)
+#
+#     class Meta:
+#         verbose_name = _("Community League Discord Connection")
+#         verbose_name_plural = _("Community League Discord Connections")

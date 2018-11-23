@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from trainer.models import *
@@ -7,30 +7,25 @@ from trainer.models import *
 class FactionAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name_en",)}
 
-@admin.register(DiscordGuild)
-class DiscordGuildAdmin(admin.ModelAdmin):
-    
-    search_fields = ('id',)
-    
-@admin.register(CommunityLeague)
-class CommunityLeagueAdmin(admin.ModelAdmin):
-    
-    search_fields = ('uuid','short_description', 'vanity')
-    
-@admin.register(CommunityLeagueMembershipPersonal)
-class CommunityLeagueMembershipPersonalAdmin(admin.ModelAdmin):
-    
-    autocomplete_fields = ['league', 'trainer']
-
-@admin.register(CommunityLeagueMembershipDiscord)
-class CommunityLeagueMembershipDiscordAdmin(admin.ModelAdmin):
-    
-    autocomplete_fields = ['league', 'discord']
-
-@admin.register(TrainerReport)
-class TrainerReportAdmin(admin.ModelAdmin):
-    
-    autocomplete_fields = ['trainer']
+# @admin.register(DiscordGuild)
+# class DiscordGuildAdmin(admin.ModelAdmin):
+#
+#     search_fields = ('id',)
+#
+# @admin.register(CommunityLeague)
+# class CommunityLeagueAdmin(admin.ModelAdmin):
+#
+#     search_fields = ('uuid','short_description', 'vanity')
+#
+# @admin.register(CommunityLeagueMembershipPersonal)
+# class CommunityLeagueMembershipPersonalAdmin(admin.ModelAdmin):
+#
+#     autocomplete_fields = ['league', 'trainer']
+#
+# @admin.register(CommunityLeagueMembershipDiscord)
+# class CommunityLeagueMembershipDiscordAdmin(admin.ModelAdmin):
+#
+#     autocomplete_fields = ['league', 'discord']
 
 @admin.register(Sponsorship)
 class SponsorshipAdmin(admin.ModelAdmin):
