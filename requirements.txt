@@ -1,6 +1,6 @@
 amqp==2.3.2
 billiard==3.5.0.5
-certifi==2018.10.15
+certifi==2018.11.29
 chardet==3.0.4
 django-allauth==0.38.0
 django-cities==0.5.0.6
