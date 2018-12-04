@@ -597,23 +597,6 @@ class Update(models.Model):
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
                 
-                # 10 - badge_battle_training_won - Ace Trainer
-                SET_ACE = False
-                if field.name == 'badge_battle_training_won':
-                    
-                    # Closed Badge
-                    
-                    if self.trainer.start_date: # If Trainer has not got start_date set, blank
-                        if self.update_time.date() > GymCloseDate: # If update is before close date, let it through
-                            if not bool(last_update): # If the user has posted before, clear it.
-                                if self.trainer.start_date <= GymCloseDate: # If the user is old enough, hasn't got it set, let it be set later.
-                                    SET_ACE = int(getattr(self,field.name))
-                            setattr(self,field.name, None)
-                        else:
-                            pass
-                    else:
-                        setattr(self,field.name, None)
-                
                 # 11 - badge_small_rattata - Youngster
                 if field.name == 'badge_small_rattata':
                     
@@ -953,10 +936,6 @@ class Update(models.Model):
         # Raise Hard Errors
         if hard_error_dict:
             raise ValidationError(hard_error_dict)
-            
-        # No Errors Thrown!
-        if SET_ACE:
-            self.trainer.update_set.create(update_time=datetime(2017,6,19,20,00), legacy_gym_trained=SET_ACE)
     
     class Meta:
         get_latest_by = 'update_time'
