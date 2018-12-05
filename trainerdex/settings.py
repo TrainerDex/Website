@@ -79,21 +79,9 @@ ADMIN_REORDER = (
             'account.EmailAddress',
             'authtoken.Token'
         )},
-    {
-        'app': 'pokemongo',
-        'models': (
-            'pokemongo.Trainer',
-            'pokemongo.Update',
-            'pokemongo.Sponsorship',
-            'pokemongo.Faction',
-        )},
-    {
-        'app': 'cities',
-        'models': (
-            'cities.country',
-            'cities.region',
-            'cities.alternativename'
-        )},
+    'core',
+    'pokemongo',
+    'cities',
     'socialaccount',
     'sites',
 )
@@ -282,3 +270,7 @@ DEFAULT_FROM_EMAIL = 'TrainerDex Support <jay@trainerdex.co.uk>'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 FILE_UPLOAD_PERMISSIONS = 0x775
+
+DISCORD_CLIENT_ID = ***REMOVED***
+DISCORD_CLIENT_SECRET = '***REMOVED***'
+DISCORD_TOKEN = '***REMOVED***'

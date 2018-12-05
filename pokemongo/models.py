@@ -5,8 +5,9 @@ import logging
 logger = logging.getLogger('django.trainerdex')
 import requests
 
-from os.path import splitext
+from allauth.socialaccount.models import SocialAccount
 from cities.models import Country, Region
+from core.models import DiscordGuild, get_guild_members
 from collections import defaultdict
 from colorful.fields import RGBColorField
 from datetime import date, datetime, timedelta, timezone, time
@@ -24,10 +25,10 @@ from django.db.models.signals import *
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext_lazy, to_locale, get_supported_language_variant, get_language
+from django.utils.translation import gettext_lazy as _, pgettext_lazy, to_locale, get_supported_language_variant, get_language
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from pokemongo.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup, numbers, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
+from os.path import splitext
 
 def VerificationImagePath(instance, filename):
     return 'v_{0}_{1}{ext}'.format(instance.owner.id, datetime.utcnow().timestamp(), ext=splitext(filename)[1])
@@ -1041,62 +1042,71 @@ class Sponsorship(models.Model):
 #     class Meta:
 #         verbose_name = _("Discord Guild")
 #         verbose_name_plural = _("Discord Guilds")
+
+class Community(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
+    language = models.CharField(max_length=12, choices=settings.LANGUAGES)
+    name = models.CharField(max_length=70)
+    description = models.TextField(null=True, blank=True)
+    handle = models.SlugField()
+
+    privacy_public = models.BooleanField(default=False)
+
+    memberships_personal = models.ManyToManyField(
+        Trainer,
+        #through='CommunityMembershipPersonal',
+        #through_fields=('community', 'trainer')
+    )
+    memberships_discord = models.ManyToManyField(
+        DiscordGuild,
+        through='CommunityMembershipDiscord',
+        through_fields=('community', 'discord')
+    )
+
+    def __str__(self):
+        return self.name
+        
+    class Meta:
+        verbose_name = _("Community")
+        verbose_name_plural = _("Communities")
+
+#class CommunityMembershipPersonal(models.Model):
+#    community = models.ForeignKey(Community, on_delete=models.CASCADE)
+#    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
 #
-# class CommunityLeague(models.Model):
-#     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
-#     language = models.CharField(max_length=7, choices=settings.LANGUAGES)
-#     short_description = models.CharField(max_length=70)
-#     description = models.TextField(null=True, blank=True)
-#     vanity = models.SlugField()
+#    #primary = models.BooleanField(default=True)
 #
-#     privacy_public = models.BooleanField(default=False)
+#    def __str__(self):
+#        return "{community} - {trainer}".format(community=self.community, trainer=self.trainer)
 #
-#     security_ban_sync = models.BooleanField(default=False)
-#     security_kick_sync = models.BooleanField(default=False)
-#
-#     memberships_personal = models.ManyToManyField(
-#         Trainer,
-#         through='CommunityLeagueMembershipPersonal',
-#         through_fields=('league', 'trainer')
-#     )
-#     memberships_discord = models.ManyToManyField(
-#         DiscordGuild,
-#         through='CommunityLeagueMembershipDiscord',
-#         through_fields=('league', 'discord')
-#     )
-#
-#     def __str__(self):
-#         return self.short_description
-#
-#     class Meta:
-#         verbose_name = _("Community League")
-#         verbose_name_plural = _("Community Leagues")
-#
-# class CommunityLeagueMembershipPersonal(models.Model):
-#     league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
-#     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-#
-#     primary = models.BooleanField(default=True)
-#
-#     def __str__(self):
-#         return "{league} - {trainer}".format(league=self.league, trainer=self.trainer)
-#
-#     class Meta:
-#         verbose_name = _("Community League Membership")
-#         verbose_name_plural = _("Community League Memberships")
-#
-# class CommunityLeagueMembershipDiscord(models.Model):
-#     league = models.ForeignKey(CommunityLeague, on_delete=models.CASCADE)
-#     discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
-#
-#     auto_import = models.BooleanField(default=True)
-#
-#     security_ban_sync = models.NullBooleanField()
-#     security_kick_sync = models.NullBooleanField()
-#
-#     def __str__(self):
-#         return "{league} - {guild}".format(league=self.league, trainer=self.discord)
-#
-#     class Meta:
-#         verbose_name = _("Community League Discord Connection")
-#         verbose_name_plural = _("Community League Discord Connections")
+#    class Meta:
+#        verbose_name = _("Community Membership")
+#        verbose_name_plural = _("Community Memberships")
+
+class CommunityMembershipDiscord(models.Model):
+    community = models.ForeignKey(Community, on_delete=models.CASCADE)
+    discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
+
+    auto_import = models.BooleanField(default=True, help_text="This is currently not automatic.\nThere is no automatic removal.")
+
+    #security_ban_sync = models.BooleanField(null=True)
+    #security_kick_sync = models.BooleanField(null=True)
+
+    def __str__(self):
+        return "{community} - {guild}".format(community=self.community, guild=self.discord)
+         
+    def auto_import(self):
+        a = [member["user"]["id"] for member in get_guild_members(self.discord.id)]
+        b = [x.user.trainer for x in SocialAccount.objects.prefetch_related('user').prefetch_related('user__trainer').filter(provider='discord', uid__in=a)]
+        self.community.memberships_personal.add(*b)
+        return len(b)
+
+    class Meta:
+        verbose_name = _("Community Discord Connection")
+        verbose_name_plural = _("Community Discord Connections")
+        
+@receiver(post_save, sender=CommunityMembershipDiscord)
+def auto_import(sender, **kwargs):
+    if kwargs['created'] and self.auto_import:
+        sender.auto_import()
+    return None
