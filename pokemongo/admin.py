@@ -6,7 +6,7 @@ from pokemongo.models import *
 
 def import_discord(modeladmin, request, queryset):
     for x in queryset:
-        imported = x.auto_import()
+        imported = x.import_members()
         messages.success(request, ngettext(
             "Succesfully imported {count} user to {community}",
             "Succesfully imported {count} users to {community}", imported
