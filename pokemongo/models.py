@@ -1086,7 +1086,7 @@ class Community(models.Model):
 class CommunityMembershipDiscord(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
-
+    
     auto_import = models.BooleanField(default=True, help_text="This is currently not automatic.\nThere is no automatic removal.")
 
     #security_ban_sync = models.BooleanField(null=True)
@@ -1095,7 +1095,7 @@ class CommunityMembershipDiscord(models.Model):
     def __str__(self):
         return "{community} - {guild}".format(community=self.community, guild=self.discord)
          
-    def auto_import(self):
+    def import_members(self):
         a = [member["user"]["id"] for member in get_guild_members(self.discord.id)]
         b = [x.user.trainer for x in SocialAccount.objects.prefetch_related('user').prefetch_related('user__trainer').filter(provider='discord', uid__in=a)]
         self.community.memberships_personal.add(*b)
@@ -1107,6 +1107,6 @@ class CommunityMembershipDiscord(models.Model):
         
 @receiver(post_save, sender=CommunityMembershipDiscord)
 def auto_import(sender, **kwargs):
-    if kwargs['created'] and self.auto_import:
-        sender.auto_import()
+    if kwargs['created'] and kwargs['instance'].auto_import:
+        sender.import_members(kwargs['instance'])
     return None
