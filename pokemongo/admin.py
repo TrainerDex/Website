@@ -1,31 +1,40 @@
 # -*- coding: utf-8 -*-
-from django.contrib import admin
-from django.utils.translation import gettext_lazy as _
+from django.contrib import admin, messages
+from django.utils.translation import gettext_lazy as _, ngettext
 from pokemongo.models import *
+
+
+def import_discord(modeladmin, request, queryset):
+    for x in queryset:
+        imported = x.auto_import()
+        messages.success(request, ngettext(
+            "Succesfully imported {count} user to {community}",
+            "Succesfully imported {count} users to {community}", imported
+        ).format(count=imported, community=x.community.name))
+        
+    
+import_discord.short_description = 'Import users from Discord'
 
 @admin.register(Faction)
 class FactionAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name_en",)}
 
-# @admin.register(DiscordGuild)
-# class DiscordGuildAdmin(admin.ModelAdmin):
+@admin.register(Community)
+class CommunityAdmin(admin.ModelAdmin):
+
+    search_fields = ('name','short_description', 'handle')
+    autocomplete_fields = ['memberships_personal', 'memberships_discord']
+
+# @admin.register(CommunityMembershipPersonal)
+# class CommunityMembershipPersonalAdmin(admin.ModelAdmin):
 #
-#     search_fields = ('id',)
-#
-# @admin.register(CommunityLeague)
-# class CommunityLeagueAdmin(admin.ModelAdmin):
-#
-#     search_fields = ('uuid','short_description', 'vanity')
-#
-# @admin.register(CommunityLeagueMembershipPersonal)
-# class CommunityLeagueMembershipPersonalAdmin(admin.ModelAdmin):
-#
-#     autocomplete_fields = ['league', 'trainer']
-#
-# @admin.register(CommunityLeagueMembershipDiscord)
-# class CommunityLeagueMembershipDiscordAdmin(admin.ModelAdmin):
-#
-#     autocomplete_fields = ['league', 'discord']
+#     autocomplete_fields = ['community', 'trainer']
+
+@admin.register(CommunityMembershipDiscord)
+class CommunityMembershipDiscordAdmin(admin.ModelAdmin):
+
+    autocomplete_fields = ['community', 'discord']
+    actions = [import_discord]
 
 @admin.register(Sponsorship)
 class SponsorshipAdmin(admin.ModelAdmin):

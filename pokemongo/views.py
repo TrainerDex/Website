@@ -19,7 +19,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language_from_request
 from math import ceil
 from pokemongo.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
-from pokemongo.models import Trainer, Update, Faction
+from pokemongo.models import Trainer, Update, Faction, Community
 from pokemongo.shortcuts import strtoboolornone, filter_leaderboard_qs, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, BADGES, chunks
 
 def _check_if_trainer_valid(trainer):
@@ -149,7 +149,7 @@ def CreateUpdateHTMLView(request):
     }
     return render(request, 'create_update.html', context)
 
-def LeaderboardHTMLView(request, continent=None, country=None, region=None):
+def LeaderboardHTMLView(request, continent=None, country=None, region=None, community=None):
     if request.user.is_authenticated and not _check_if_self_valid(request):
         messages.warning(request, _("Please complete your profile to continue using the website."))
         return HttpResponseRedirect(reverse('profile_set_up'))
@@ -167,7 +167,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
         except Continent.DoesNotExist:
             raise Http404(_('No continent found for code {continent}').format(continent=continent))
         context['title'] = (continent.alt_names.filter(language_code=get_language_from_request(request)).first() or continent).name
-        QuerySet = Trainer.objects.filter(leaderboard_country__continent__code__iexact=continent)
+        QuerySet = Trainer.objects.filter(leaderboard_country__continent=continent)
     elif country and region == None:
         try:
             country = Country.objects.prefetch_related('leaderboard_trainers_country').get(code__iexact = country)
@@ -188,6 +188,18 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None):
             country_str=(region.country.alt_names.filter(language_code=get_language_from_request(request)).first() or region.country).name
         )
         QuerySet = region.leaderboard_trainers_region
+    elif community:
+        try:
+            community = Community.objects.get(handle__iexact=community)
+        except Community.DoesNotExist:
+            raise Http404(_('No community found for handle {community}').format(community = community))
+        
+        if not community.privacy_public:
+            if not request.user.trainer in community.memberships_personal.all():
+                raise Http404(_('Access denied'))
+        
+        context['title'] = community.name
+        QuerySet = community.memberships_personal
     else:
         context['title'] = None
         QuerySet = Trainer.objects
