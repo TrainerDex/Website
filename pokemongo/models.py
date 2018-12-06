@@ -1053,9 +1053,7 @@ class Community(models.Model):
     privacy_public = models.BooleanField(default=False)
 
     memberships_personal = models.ManyToManyField(
-        Trainer,
-        #through='CommunityMembershipPersonal',
-        #through_fields=('community', 'trainer')
+        Trainer
     )
     memberships_discord = models.ManyToManyField(
         DiscordGuild,
@@ -1065,48 +1063,29 @@ class Community(models.Model):
 
     def __str__(self):
         return self.name
-        
+    
+    def get_members(self):
+        queryset = self.memberships_personal.all() | Trainer.objects.filter(owner__socialaccount__discordguildmembership__guild__communitymembershipdiscord__in=CommunityMembershipDiscord.objects.filter(sync_members=True, community=self))
+        return queryset
+    
     class Meta:
         verbose_name = _("Community")
         verbose_name_plural = _("Communities")
-
-#class CommunityMembershipPersonal(models.Model):
-#    community = models.ForeignKey(Community, on_delete=models.CASCADE)
-#    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-#
-#    #primary = models.BooleanField(default=True)
-#
-#    def __str__(self):
-#        return "{community} - {trainer}".format(community=self.community, trainer=self.trainer)
-#
-#    class Meta:
-#        verbose_name = _("Community Membership")
-#        verbose_name_plural = _("Community Memberships")
 
 class CommunityMembershipDiscord(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
     
-    auto_import = models.BooleanField(default=True, help_text="This is currently not automatic.\nThere is no automatic removal.")
+    sync_members = models.BooleanField(default=True, help_text="Members in this Discord are automatically included in the community.")
+    # include_roles = # Roles to Include
+    # exclude_roles = # Roles to Exclude
 
     #security_ban_sync = models.BooleanField(null=True)
     #security_kick_sync = models.BooleanField(null=True)
 
     def __str__(self):
         return "{community} - {guild}".format(community=self.community, guild=self.discord)
-         
-    def import_members(self):
-        a = [member["user"]["id"] for member in get_guild_members(self.discord.id)]
-        b = [x.user.trainer for x in SocialAccount.objects.prefetch_related('user').prefetch_related('user__trainer').filter(provider='discord', uid__in=a)]
-        self.community.memberships_personal.add(*b)
-        return len(b)
 
     class Meta:
         verbose_name = _("Community Discord Connection")
         verbose_name_plural = _("Community Discord Connections")
-        
-@receiver(post_save, sender=CommunityMembershipDiscord)
-def auto_import(sender, **kwargs):
-    if kwargs['created'] and kwargs['instance'].auto_import:
-        sender.import_members(kwargs['instance'])
-    return None

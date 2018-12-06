@@ -199,7 +199,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None, comm
                 raise Http404(_('Access denied'))
         
         context['title'] = community.name
-        QuerySet = community.memberships_personal
+        QuerySet = community.get_members()
     else:
         context['title'] = None
         QuerySet = Trainer.objects
