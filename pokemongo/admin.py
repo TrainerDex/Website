@@ -4,16 +4,16 @@ from django.utils.translation import gettext_lazy as _, ngettext
 from pokemongo.models import *
 
 
-def import_discord(modeladmin, request, queryset):
+def sync_members(modeladmin, request, queryset):
     for x in queryset:
-        imported = x.import_members()
-        messages.success(request, ngettext(
-            "Succesfully imported {count} user to {community}",
-            "Succesfully imported {count} users to {community}", imported
-        ).format(count=imported, community=x.community.name))
-        
+        for y in x.memberships_discord.filter(communitymembershipdiscord__sync_members=True):
+            results = y.sync_members()
+            for message in results['success']:
+                messages.success(request, message)
+            for message in results['warning']:
+                messages.warning(request, message)
     
-import_discord.short_description = 'Import users from Discord'
+sync_members.short_description = _('Sync Members for all eligible Discords')
 
 @admin.register(Faction)
 class FactionAdmin(admin.ModelAdmin):
@@ -24,17 +24,12 @@ class CommunityAdmin(admin.ModelAdmin):
 
     search_fields = ('name','short_description', 'handle')
     autocomplete_fields = ['memberships_personal', 'memberships_discord']
-
-# @admin.register(CommunityMembershipPersonal)
-# class CommunityMembershipPersonalAdmin(admin.ModelAdmin):
-#
-#     autocomplete_fields = ['community', 'trainer']
+    actions = [sync_members]
 
 @admin.register(CommunityMembershipDiscord)
 class CommunityMembershipDiscordAdmin(admin.ModelAdmin):
 
     autocomplete_fields = ['community', 'discord']
-    actions = [import_discord]
 
 @admin.register(Sponsorship)
 class SponsorshipAdmin(admin.ModelAdmin):
@@ -55,7 +50,7 @@ class UpdateAdmin(admin.ModelAdmin):
 class TrainerAdmin(admin.ModelAdmin):
     
     autocomplete_fields = ['owner','leaderboard_country','leaderboard_region']
-    list_display = ('username', 'level', 'faction', 'currently_cheats', 'is_on_leaderboard', 'is_verified', 'awaiting_verification')
+    list_display = ('username', 'faction', 'currently_cheats', 'is_on_leaderboard', 'is_verified', 'awaiting_verification')
     list_filter = ('faction', 'last_cheated', 'statistics', 'verified',)
     search_fields = ('username', 'owner__first_name')
     ordering = ('username',)
@@ -78,7 +73,3 @@ class TrainerAdmin(admin.ModelAdmin):
             'fields': ('leaderboard_country', 'leaderboard_region', 'statistics')
         }),
     )
-    
-    def get_queryset(self, request):
-        return super(TrainerAdmin,self).get_queryset(request).prefetch_related('update_set')
-    
