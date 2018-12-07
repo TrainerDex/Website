@@ -1048,7 +1048,7 @@ class Community(models.Model):
     language = models.CharField(max_length=12, choices=settings.LANGUAGES)
     name = models.CharField(max_length=70)
     description = models.TextField(null=True, blank=True)
-    handle = models.SlugField()
+    handle = models.SlugField(unique=True)
 
     privacy_public = models.BooleanField(default=False)
 
