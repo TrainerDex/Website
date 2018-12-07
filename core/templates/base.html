@@ -174,9 +174,9 @@
       </footer>
     </div>
     
-    {% block update_stats_button %}
+    {% block fab %}
     {% if user.is_authenticated %}
-    <a id="trainerdex__update-button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored  mdl-shadow--2dp" href="{% url 'trainerdex:update_stats' %}"><i class="material-icons">add</i></a>
+    <a id="trainerdex__fab" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--raised mdl-js-ripple-effect mdl-button--colored" href="{% url 'trainerdex:update_stats' %}"><i class="material-icons">add</i></a>
     {% endif %}
     {% endblock %}
     
