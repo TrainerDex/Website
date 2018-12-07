@@ -599,3 +599,17 @@ iframe[scrolling='no'] { overflow: hidden; }
   margin-bottom: 40px;
   z-index: 900;
 }
+
+.mdl-card__floating-action-bar {
+  padding-bottom: 53px; /* Based on default height on setup */
+}
+.mdl-card__floating-action-bar > .mdl-card__actions {
+  position: fixed;
+  bottom: 0;
+  height: 53px; /* Based on default height on setup */
+  z-index:10;
+  background: white; /* Based on default background, must change to support theming */
+}
+.mdl-card__floating-action-bar > .mdl-card__actions > .mdl-button {
+  z-index: inherit;
+}
