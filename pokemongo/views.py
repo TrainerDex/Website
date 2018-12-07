@@ -58,7 +58,10 @@ def TrainerProfileHTMLView(request, username):
         messages.warning(request, _("Please complete your profile to continue using the website."))
         return HttpResponseRedirect(reverse('profile_set_up'))
     
-    trainer = Trainer.objects.prefetch_related().get(username__iexact=username)
+    try:
+        trainer = Trainer.objects.prefetch_related().get(username__iexact=username)
+    except Trainer.DoesNotExist:
+        raise Http404(_('Trainer not found'))
     context = {
         'trainer' : trainer,
         'updates' : trainer.update_set.all(),
@@ -203,7 +206,7 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None, comm
             raise Http404(_('No community found for handle {community}').format(community = community))
         
         if not community.privacy_public:
-            if not request.user.trainer in community.memberships_personal.all():
+            if (not request.user.is_authenticated) or (not request.user.trainer in community.memberships_personal.all()):
                 raise Http404(_('Access denied'))
         
         context['title'] = community.name
