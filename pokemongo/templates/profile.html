@@ -53,38 +53,37 @@ function drawChart() {
   <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}" /></div>
   <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
     <ul class="mdl-list">
-      <i class="mdl-card__title-text">{{trainer.username}} {{trainer.flag_emoji|default_if_none:''}}</i>
-      <li class="mdl-list__item">
+      <i class="mdl-card__title-text">{{trainer.username}}  {{trainer.flag_emoji|default_if_none:''}}</i>
+      {% if trainer.start_date %}<li class="mdl-list__item">
         <span class="mdl-list__item-primary-content" id="start_date">
           <i class="material-icons mdl-list__item-icon">date_range</i>
-          {{trainer.start_date|default_if_none:"July 2016?"}}
-          {% if not trainer.start_date %}<div class="mdl-tooltip" data-mdl-for="start_date">Wild guess! Most trainers started in July 2016.</div>{% endif%}
+          {{trainer.start_date}}
         </span>
-      </li>
+      </li>{% endif%}
       <li class="mdl-list__item">
         <span class="mdl-list__item-primary-content" id="total_xp">
           <i class="mdl-list__item-icon">{% trans "XP" context 'Short form of XP'  %}</i>
           {{total_xp|intcomma}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}
         </span>
       </li>
-      <li class="mdl-list__item">
+      {% if pokemon_info_stardust %}<li class="mdl-list__item">
         <span class="mdl-list__item-primary-content" id="pokemon_info_stardust">
           <i class="mdl-list__item-icon">✨</i>
           {{pokemon_info_stardust|intcomma}}
         </span>
-      </li>
-      <li class="mdl-list__item">
+      </li>{% endif %}
+      {% if gymbadges_total %}<li class="mdl-list__item">
         <span class="mdl-list__item-primary-content" id="gymbadges_total">
           <i class="material-icons mdl-list__item-icon">security</i>
           {{gymbadges_total|intcomma}}
         </span>
-      </li>
-      <li class="mdl-list__item">
+      </li>{% endif %}
+      {% if gymbadges_gold %}<li class="mdl-list__item">
         <span class="mdl-list__item-primary-content" id="gymbadges_gold">
           <i class="material-icons mdl-list__item-icon" style="color: #FFD700;">security</i>
           {{gymbadges_gold|intcomma}}
         </span>
-      </li>
+      </li>{% endif %}
     </ul>
   </div>
   <div class="mdl-cell mdl-cell--2-col mdl-cell--4-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: center;">
