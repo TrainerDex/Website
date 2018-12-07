@@ -81,9 +81,10 @@ def TrainerProfileHTMLView(request, username):
         else:
             badge_dict['percent'] = 100
         badges.append(badge_dict)
-    _values = context['updates'].aggregate(*[Max(x) for x in ('total_xp', 'pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust',)])
+    _values = context['updates'].aggregate(*[Max(x) for x in ('total_xp', 'pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold',)])
     for value in _values:
         context[value[:-5]] = _values[value]
+    context['pokemon_info_stardust'] = trainer.update_set.exclude(pokemon_info_stardust__isnull=True).latest('update_time').pokemon_info_stardust
     context['level'] = trainer.level()
     context['badges'] = badges
     context['update_history'] = []
@@ -116,36 +117,40 @@ def CreateUpdateHTMLView(request):
         existing = None
         
     if existing:
-        form = UpdateForm(instance=existing)
+        if request.method == 'POST':
+            form = UpdateForm(request.POST, instance=existing)
+        else:
+            form = UpdateForm(instance=existing, initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
+            form.fields['double_check_confirmation'].widget = forms.HiddenInput()
     else:
-        form = UpdateForm(initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
+        if request.method == 'POST':
+            form = UpdateForm(request.POST, initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
+        else:
+            form = UpdateForm(initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
+            form.fields['double_check_confirmation'].widget = forms.HiddenInput()
     form.fields['update_time'].widget = forms.HiddenInput()
     form.fields['data_source'].widget = forms.HiddenInput()
     form.fields['data_source'].disabled = True
     form.fields['trainer'].widget = forms.HiddenInput()
-    form.fields['double_check_confirmation'].widget = forms.HiddenInput()
     form.trainer = request.user.trainer
+    error_fields = None
+    
     if request.method == 'POST':
-        if existing:
-            form = UpdateForm(request.POST, instance=existing)
-        else:
-            form = UpdateForm(request.POST, initial={'trainer':request.user.trainer, 'data_source': 'web_detailed'})
-        form.fields['update_time'].widget = forms.HiddenInput()
-        form.fields['data_source'].widget = forms.HiddenInput()
-        form.fields['data_source'].disabled = True
-        form.fields['trainer'].widget = forms.HiddenInput()
-        form.fields['double_check_confirmation'].required = True
         form.data_source = 'web_detailed'
-        form.trainer = request.user.trainer
         if form.is_valid():
             update = form.save()
             messages.success(request, _('Statistics updated'))
             return HttpResponseRedirect(reverse('trainerdex:profile_username', kwargs={'username':request.user.trainer.username}))
+        else:
+            form.fields['double_check_confirmation'].required = True
+            error_fields = [Update._meta.get_field(x) for x in form.errors.as_data().keys()]
     
     if existing:
-        messages.info(request, _('You have posted in the past hour - updating previous post.'))
+        messages.info(request, _('Since you have posted in the past hour, you are currently updating your previous post.'))
+    
     context = {
-        'form': form
+        'form': form,
+        'error_fields': error_fields,
     }
     return render(request, 'create_update.html', context)
 

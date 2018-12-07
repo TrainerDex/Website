@@ -1,0 +1,15 @@
+.update__card {
+  background-size: 100px;
+  background-position: right 16px top 16px;
+  background-repeat: no-repeat;
+}
+.update__card > .mdl-card__title > .mdl-card__title-text {
+  margin-right: calc(16px + 100px);
+}
+.update__card > .mdl-card__supporting-text > p {
+  margin-right: calc(16px + 100px);
+}
+
+.update__error {
+  position: static !important;
+}

@@ -589,3 +589,27 @@ iframe[scrolling='no'] { overflow: hidden; }
   text-align:left;
   width:50%;
 }
+
+.mdl-button--fab {
+  position: fixed;
+  display: block;
+  right: 0;
+  bottom: 0;
+  margin-right: 40px;
+  margin-bottom: 40px;
+  z-index: 900;
+}
+
+.mdl-card__floating-action-bar {
+  padding-bottom: 53px; /* Based on default height on setup */
+}
+.mdl-card__floating-action-bar > .mdl-card__actions {
+  position: fixed;
+  bottom: 0;
+  height: 53px; /* Based on default height on setup */
+  z-index:10;
+  background: white; /* Based on default background, must change to support theming */
+}
+.mdl-card__floating-action-bar > .mdl-card__actions > .mdl-button {
+  z-index: inherit;
+}

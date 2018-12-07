@@ -283,7 +283,7 @@ class Update(models.Model):
     
     submission_date = models.DateTimeField(auto_now_add=True, verbose_name=_("Submission Datetime"))
     data_source = models.CharField(max_length=256, choices=DATABASE_SOURCES, default='?', verbose_name=_("Source"))
-    screenshot = models.ImageField(upload_to=VerificationUpdateImagePath, blank=True, verbose_name=_("Screenshot"))
+    screenshot = models.ImageField(upload_to=VerificationUpdateImagePath, blank=True, verbose_name=_("Screenshot"), help_text=_("This should be your TOTAL XP screenshot."))
     
     # Error Override Checks
     double_check_confirmation = models.BooleanField(default=False, verbose_name=_("I have double checked this information and it is correct."), help_text=_("This will silence some errors."))
