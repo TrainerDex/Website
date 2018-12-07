@@ -589,3 +589,13 @@ iframe[scrolling='no'] { overflow: hidden; }
   text-align:left;
   width:50%;
 }
+
+.mdl-button--fab {
+  position: fixed;
+  display: block;
+  right: 0;
+  bottom: 0;
+  margin-right: 40px;
+  margin-bottom: 40px;
+  z-index: 900;
+}
