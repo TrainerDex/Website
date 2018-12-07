@@ -84,7 +84,10 @@ def TrainerProfileHTMLView(request, username):
     _values = context['updates'].aggregate(*[Max(x) for x in ('total_xp', 'pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold',)])
     for value in _values:
         context[value[:-5]] = _values[value]
-    context['pokemon_info_stardust'] = trainer.update_set.exclude(pokemon_info_stardust__isnull=True).latest('update_time').pokemon_info_stardust
+    try:
+        context['pokemon_info_stardust'] = trainer.update_set.exclude(pokemon_info_stardust__isnull=True).latest('update_time').pokemon_info_stardust
+    except:
+        context['pokemon_info_stardust'] = None
     context['level'] = trainer.level()
     context['badges'] = badges
     context['update_history'] = []
