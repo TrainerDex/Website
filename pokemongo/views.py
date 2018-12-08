@@ -199,10 +199,14 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
         try:
             community = Community.objects.get(handle__iexact=community)
         except Community.DoesNotExist:
+            if not request.user.is_authenticated:
+                return redirect(reverse('account_login')+f"?next={reverse('trainerdex:leaderboard', kwargs={'community': community})}")
             raise Http404(_('No community found for handle {community}').format(community = community))
         
         if not community.privacy_public:
-            if not request.user.trainer in community.get_members().all():
+            if not request.user.is_authenticated:
+                return redirect(reverse('account_login')+f"?next={reverse('trainerdex:leaderboard', kwargs={'community': community.handle})}")
+            elif not community.get_members().filter(id=request.user.trainer.id).exists():
                 raise Http404(_('Access denied'))
         
         context['title'] = community.name
