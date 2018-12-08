@@ -1057,7 +1057,9 @@ class Community(models.Model):
     description = models.TextField(null=True, blank=True)
     handle = models.SlugField(unique=True)
 
-    privacy_public = models.BooleanField(default=False)
+    privacy_public = models.BooleanField(default=False, verbose_name=_("Publicly Viewable"), help_text=_("By default, this is off. Turn this on to share your community with the world."))
+    privacy_public_join = models.BooleanField(default=False, verbose_name=_("Publicly Joinable"), help_text=_("By default, this is off. Turn this on to make your community free to join. No invites required."))
+    privacy_tournaments = models.BooleanField(default=False, verbose_name=_("Tournament: Publicly Viewable"), help_text=_("By default, this is off. Turn this on to share your tournament results with the world."))
 
     memberships_personal = models.ManyToManyField(
         Trainer,
@@ -1089,7 +1091,7 @@ class CommunityMembershipDiscord(models.Model):
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
     
-    sync_members = models.BooleanField(default=True, help_text="Members in this Discord are automatically included in the community.")
+    sync_members = models.BooleanField(default=True, help_text=_("Members in this Discord are automatically included in the community."))
     include_roles = models.ManyToManyField(DiscordGuildRole, related_name='include_roles_community_membership_discord', blank=True)
     exclude_roles = models.ManyToManyField(DiscordGuildRole, related_name='exclude_roles_community_membership_discord', blank=True)
 
