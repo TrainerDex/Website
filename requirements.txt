@@ -9,6 +9,7 @@ django-cookie-law==2.0.1
 django-cors-headers==2.4.0
 django-crispy-forms
 django-debug-toolbar
+django-exclusivebooleanfield==0.3.0
 django-filter>=1.0.1
 django-modeladmin-reorder==0.3
 django-rosetta==0.9.0

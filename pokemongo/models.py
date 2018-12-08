@@ -26,6 +26,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy, to_locale, get_supported_language_variant, get_language
+from exclusivebooleanfield.fields import ExclusiveBooleanField
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from pokemongo.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup, numbers, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
 from os.path import splitext
@@ -173,6 +174,41 @@ def create_profile(sender, **kwargs):
     if kwargs['created']:
         trainer = Trainer.objects.create(owner=kwargs['instance'], username=kwargs['instance'].username)
         return trainer
+    return None
+
+class Nickname(models.Model):
+    trainer = models.ForeignKey(
+        Trainer,
+        on_delete=models.CASCADE,
+        db_index=True,
+        verbose_name=pgettext_lazy("player_term", "Trainer"),
+        )
+    nickname = postgres_fields.CICharField(
+        max_length=15,
+        unique=True,
+        validators=[PokemonGoUsernameValidator],
+        db_index=True,
+        verbose_name=pgettext_lazy("onboard_enter_name_hint", "Nickname"),
+        )
+    active = ExclusiveBooleanField(on='trainer')
+    
+    def clean(self):
+        if self.active and self.trainer.user.username != self.nickname:
+            self.trainer.user.username = self.nickname
+            self.trainer.user.save()
+        
+    def __str__(self):
+        return self.nickname
+
+@receiver(post_save, sender=Trainer)
+def new_trainer_set_nickname(sender, **kwargs):
+    if kwargs['created']:
+        nickname = Nickname.objects.create(
+            trainer=kwargs['instance'],
+            nickname=kwargs['instance'].user.username,
+            active=True
+            )
+        return nickname
     return None
 
 class Faction(models.Model):
