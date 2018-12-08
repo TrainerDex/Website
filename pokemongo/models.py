@@ -1124,3 +1124,11 @@ class CommunityMembershipDiscord(models.Model):
     class Meta:
         verbose_name = _("Community Discord Connection")
         verbose_name_plural = _("Community Discord Connections")
+
+class TournamentBattleRecord(models.Model):
+    host = models.ForeignKey(Community, on_delete=models.PROTECT, verbose_name=_("tournament host"))
+    challenger = models.ForeignKey(Trainer, on_delete=models.PROTECT, related_name='tournament_battles_as_challenger', verbose_name=_("tournament challenger"), help_text=_("For knockout tournaments, I would recommend this to be the left/top Trainer."))
+    opponent = models.ForeignKey(Trainer, on_delete=models.PROTECT, related_name='tournament_battles_as_opponent', verbose_name=_("tournament opponent"), help_text=_("For knockout tournaments, I would recommend this to be the right/bottom Trainer."))
+    
+    match_date = models.DateTimeField(null=True, blank=True, verbose_name=_("Match Time"), help_text=_("This field can be blank if the match is in the future or hasn't been decided on when it'll happen."))
+    winner = models.IntegerField(null=True, blank=True, choices=((-1, _("Pending Results")), (0, _("tournament challenger")), (1, _("tournament opponent"))), help_text=_("This field can be blank if the match is in the future or hasn't been decided on when it'll happen."))
