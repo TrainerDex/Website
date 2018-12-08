@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-<form method="POST" action="{{request.path}}" id="form_survey" class="mdl-card__floating-action-bar">
+<form method="POST" action="{{request.path}}" enctype="multipart/form-data" id="form_survey" class="mdl-card__floating-action-bar">
   {% csrf_token %}
   {# translators: Asterix for required fields #}
   {% trans "*" as required %}
