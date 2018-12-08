@@ -321,6 +321,7 @@ def SetUpProfileViewStep3(request):
     
     form = RegistrationFormUpdate(initial={'trainer':request.user.trainer})
     form.fields['screenshot'].required = True
+    form.fields['double_check_confirmation'].widget = forms.HiddenInput()
     
     if request.method == 'POST':
         logger.info(request.FILES)
