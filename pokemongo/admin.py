@@ -29,7 +29,7 @@ class CommunityAdmin(admin.ModelAdmin):
 @admin.register(CommunityMembershipDiscord)
 class CommunityMembershipDiscordAdmin(admin.ModelAdmin):
 
-    autocomplete_fields = ['community', 'discord', 'include_roles', 'exclude_roles']
+    autocomplete_fields = ['community', 'discord']
 
 @admin.register(Sponsorship)
 class SponsorshipAdmin(admin.ModelAdmin):
