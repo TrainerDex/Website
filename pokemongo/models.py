@@ -1094,7 +1094,7 @@ class CommunityMembershipDiscord(models.Model):
     
     def members_queryset(self):
         if self.sync_members:
-            qs =  Trainer.objects
+            qs =  Trainer.objects.filter(owner__socialaccount__discordguildmembership__guild__communitymembershipdiscord=self)
             
             if self.include_roles.exists():
                 q = models.Q()
