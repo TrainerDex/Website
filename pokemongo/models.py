@@ -320,6 +320,13 @@ class Update(models.Model):
     badge_trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_distance_title", "Pilot"), help_text=pgettext_lazy("badge_trading_distance", "Earn {0} km across the distance of all Pokémon trades.").format(1000000))
     badge_pokedex_entries_gen4 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen4_title", "Sinnoh"), help_text=pgettext_lazy("badge_pokedex_entries_gen4", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80), validators=[MaxValueValidator(47)])
     
+    badge_great_league = models.PositiveIntegerField(null=True, blank=True)
+    badge_ultra_league = models.PositiveIntegerField(null=True, blank=True)
+    badge_master_league = models.PositiveIntegerField(null=True, blank=True)
+    # badge_top_banana_1 = models.PositiveIntegerField(null=True, blank=True) # What does this do? Bananas
+    # badge_top_banana_2 = models.PositiveIntegerField(null=True, blank=True) # What does this do? In
+    # badge_top_banana_3 = models.PositiveIntegerField(null=True, blank=True) # What does this do? Pyjamas
+    
     badge_type_normal = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_normal_title", "Schoolkid"), help_text=pgettext_lazy("badge_type_normal", "Catch {0} Normal-type Pokémon").format(200))
     badge_type_fighting = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_fighting_title", "Black Belt"), help_text=pgettext_lazy("badge_type_fighting", "Catch {0} Fighting-type Pokémon").format(200))
     badge_type_flying = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_type_flying_title", "Bird Keeper"), help_text=pgettext_lazy("badge_type_flying", "Catch {0} Flying-type Pokémon").format(200))
