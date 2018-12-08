@@ -205,12 +205,12 @@ def LeaderboardHTMLView(request, continent=None, country=None, region=None, comm
         except Community.DoesNotExist:
             raise Http404(_('No community found for handle {community}').format(community = community))
         
-        if not community.privacy_public:
-            if (not request.user.is_authenticated) or (not request.user.trainer in community.memberships_personal.all()):
+        if not community.privacy_public and not request.user.is_superuser:
+            if (not request.user.is_authenticated) or (not community.get_members().filter(id=request.user.trainer.id).exists()):
                 raise Http404(_('Access denied'))
         
         context['title'] = community.name
-        QuerySet = community.memberships_personal
+        QuerySet = community.get_members()
     else:
         context['title'] = None
         QuerySet = Trainer.objects
