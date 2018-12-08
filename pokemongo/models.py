@@ -40,7 +40,6 @@ def VerificationUpdateImagePath(instance, filename):
 class Trainer(models.Model):
     
     owner = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='trainer', verbose_name=_("User"))
-    username = postgres_fields.CICharField(max_length=15, unique=True, validators=[PokemonGoUsernameValidator], db_index=True, verbose_name=pgettext_lazy("onboard_enter_name_hint", "Nickname"), help_text=_("Your Trainer Nickname exactly as is in game. You are free to change capitalisation but removal or addition of digits may prevent other Trainers with similar usernames from using this service and is against the Terms of Service."))
     start_date = models.DateField(null=True, blank=True, validators=[MinValueValidator(date(2016, 7, 5))], verbose_name=pgettext_lazy("profile_start_date", "Start Date"), help_text=_("The date you created your Pokémon Go account."))
     faction = models.ForeignKey('Faction', on_delete=models.SET_DEFAULT, default=0, verbose_name=_("Team"), help_text=_("Mystic = Blue, Instinct = Yellow, Valor = Red.") )
     last_cheated = models.DateField(null=True, blank=True, verbose_name=_("Last Cheated"), help_text=_("When did this Trainer last cheat?"))
@@ -137,9 +136,6 @@ class Trainer(models.Model):
             return level_parser(xp=update.aggregate(models.Max('total_xp'))['total_xp__max']).level
         return None
     
-    def __str__(self):
-        return self.username
-    
     def circled_level(self):
         level = self.level()
         if level:
@@ -160,12 +156,26 @@ class Trainer(models.Model):
     def profile_completed_optional(self):
         return self.profile_complete
     
+    @property
+    def nickname(self):
+        """Gets nickname, fallback to User username"""
+        try:
+            return self.nickname_set.get(active=True).nickname
+        except Nickname.DoesNotExist:
+            return self.user.username
+    
+    @property
+    def username(self):
+        """Alias for nickname"""
+        return self.nickname
+    
+    def __str__(self):
+        return self.nickname
+    
     def get_absolute_url(self):
         return reverse('trainerdex:profile_username', kwargs={'username':self.username})
     
     class Meta:
-        db_table = 'trainer_trainer'
-        ordering = ['username']
         verbose_name = _("Trainer")
         verbose_name_plural = _("Trainers")
 
@@ -193,19 +203,22 @@ class Nickname(models.Model):
     active = ExclusiveBooleanField(on='trainer')
     
     def clean(self):
-        if self.active and self.trainer.user.username != self.nickname:
-            self.trainer.user.username = self.nickname
-            self.trainer.user.save()
+        if self.active and self.trainer.owner.username != self.nickname:
+            self.trainer.owner.username = self.nickname
+            self.trainer.owner.save()
         
     def __str__(self):
         return self.nickname
+        
+    class Meta:
+        ordering = ['nickname']
 
 @receiver(post_save, sender=Trainer)
 def new_trainer_set_nickname(sender, **kwargs):
     if kwargs['created']:
         nickname = Nickname.objects.create(
             trainer=kwargs['instance'],
-            nickname=kwargs['instance'].user.username,
+            nickname=kwargs['instance'].owner.username,
             active=True
             )
         return nickname

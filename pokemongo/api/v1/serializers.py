@@ -36,10 +36,14 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
 class BriefTrainerSerializer(serializers.ModelSerializer):
     update_set = BriefUpdateSerializer(read_only=True, many=True)
     prefered = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
     
     def get_prefered(self, obj):
         """This field is deprecated and will be removed in API v2"""
         return True
+    
+    def get_username(self, obj):
+        return obj.nickname
     
     class Meta:
         model = Trainer
@@ -48,10 +52,14 @@ class BriefTrainerSerializer(serializers.ModelSerializer):
 class DetailedTrainerSerializer(serializers.ModelSerializer):
     update_set = BriefUpdateSerializer(read_only=True, many=True)
     prefered = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
     
     def get_prefered(self, obj):
         """This field is deprecated and will be removed in API v2"""
         return True
+    
+    def get_username(self, obj):
+        return obj.nickname
     
     class Meta:
         model = Trainer
@@ -115,7 +123,7 @@ class LeaderboardSerializer(serializers.Serializer):
         return obj.id
     
     def get_username(self, obj):
-        return obj.username
+        return obj.nickname
     
     def get_faction(self, obj):
         return FactionSerializer(obj.faction).data

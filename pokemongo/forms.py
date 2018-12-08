@@ -31,7 +31,6 @@ class RegistrationFormTrainer(ModelForm):
     class Meta:
         model = Trainer
         fields = (
-            'username',
             'start_date',
             'faction',
             'statistics',
