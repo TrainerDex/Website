@@ -21,6 +21,18 @@ def get_guild_members(guild_id: int, limit=1000, snowflake=None):
     r = requests.get(f"{base_url}/guilds/{guild_id}/members", headers={'Authorization': f"Bot {settings.DISCORD_TOKEN}"}, params={'limit': limit, 'snowflake': snowflake})
     r.raise_for_status()
     return r.json()
+    
+def get_guild_channels(guild_id: int):
+    base_url = 'https://discordapp.com/api/v{version_number}'.format(version_number=6)
+    r = requests.get(f"{base_url}/guilds/{guild_id}/channels", headers={'Authorization': f"Bot {settings.DISCORD_TOKEN}"})
+    r.raise_for_status()
+    return r.json()
+
+def get_channel(channel_id: int):
+    base_url = 'https://discordapp.com/api/v{version_number}'.format(version_number=6)
+    r = requests.get(f"{base_url}/channels/{channel_id}", headers={'Authorization': f"Bot {settings.DISCORD_TOKEN}"})
+    r.raise_for_status()
+    return r.json()
 
 class DiscordGuild(models.Model):
     id = models.BigIntegerField(primary_key=True, verbose_name="ID")
@@ -93,6 +105,11 @@ class DiscordGuild(models.Model):
                         "{count} members left {guild}", inactive_members.count()
                     ).format(count=inactive_members.count(), guild=self)
                 ]}
+        
+    def download_channels(self):
+        guild_channels = get_guild_channels(self.id)
+        for channel in guild_channels:
+            x = DiscordGuildChannel.objects.get_or_create(id=int(channel["id"]), guild=self, defaults={'data': channel, 'cached_date': timezone.now()})
     
     def clean(self):
         self.refresh_from_api()
@@ -106,6 +123,35 @@ def new_guild(sender, **kwargs):
     if kwargs['created']:
         kwargs['instance'].sync_members()
     return None
+
+class DiscordGuildChannel(models.Model):
+    id = models.BigIntegerField(primary_key=True, verbose_name="ID")
+    guild = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
+    data = postgres_fields.JSONField(null=True, blank=True)
+    cached_date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.data['name']} in {self.guild}"
+    
+    def name(self):
+        return self.data["name"]
+    name.short_description = _('name')
+    
+    def refresh_from_api(self):
+        try:
+            self.data = get_channel(self.id)
+            self.cached_date = timezone.now()
+        except:
+            print("Failed to get server information from Discord")
+        else:
+            self.save()
+    
+    def clean(self):
+        self.refresh_from_api()
+    
+    class Meta:
+        verbose_name = _("Discord Channel")
+        verbose_name_plural = _("Discord Channels")
 
 class DiscordGuildMembership(models.Model):
     guild = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
