@@ -180,7 +180,10 @@ class LatestUpdateJSONView(APIView):
     authentication_classes = (authentication.TokenAuthentication,)
     
     def get(self, request, pk):
-        update = Update.objects.filter(trainer=pk).latest('update_time')
+        try:
+            update = Update.objects.filter(trainer=pk).latest('update_time')
+        except Update.DoesNotExist:
+            return Response(None, status=404)
         serializer = DetailedUpdateSerializer(update)
         return Response(serializer.data)
     
