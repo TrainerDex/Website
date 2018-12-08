@@ -54,6 +54,7 @@ class DiscordGuild(models.Model):
         try:
             self.data = get_guild_info(self.id)
             self.cached_date = timezone.now()
+            self.sync_roles()
         except:
             print("Failed to get server information from Discord")
         else:
@@ -106,6 +107,11 @@ class DiscordGuild(models.Model):
                     ).format(count=inactive_members.count(), guild=self)
                 ]}
         
+    def sync_roles(self):
+        guild_roles = self.data["roles"]
+        for role in guild_roles:
+            x = DiscordGuildRole.objects.get_or_create(id=int(role["id"]), guild=self, defaults={'data': role, 'cached_date': timezone.now()})
+        
     def download_channels(self):
         guild_channels = get_guild_channels(self.id)
         for channel in guild_channels:
@@ -152,6 +158,40 @@ class DiscordGuildChannel(models.Model):
     class Meta:
         verbose_name = _("Discord Channel")
         verbose_name_plural = _("Discord Channels")
+
+class DiscordGuildRole(models.Model):
+    id = models.BigIntegerField(primary_key=True, verbose_name="ID")
+    guild = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
+    data = postgres_fields.JSONField(null=True, blank=True)
+    cached_date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.data['name']} in {self.guild}"
+    
+    def name(self):
+        return self.data["name"]
+    name.short_description = _('name')
+
+    def position(self):
+        return int(self.data["position"])
+    position.short_description = _('position')
+    
+    def refresh_from_api(self):
+        try:
+            self.data = get_channel(self.id)
+            self.cached_date = timezone.now()
+        except:
+            print("Failed to get server information from Discord")
+        else:
+            self.save()
+    
+    def clean(self):
+        self.refresh_from_api()
+    
+    class Meta:
+        verbose_name = _("Discord Role")
+        verbose_name_plural = _("Discord Roles")
+        ordering = ['guild__id', '-data__position']
 
 class DiscordGuildMembership(models.Model):
     guild = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)

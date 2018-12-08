@@ -4,7 +4,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib import admin, messages
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _, ngettext
-from core.models import DiscordGuild, DiscordGuildChannel, DiscordGuildMembership
+from core.models import DiscordGuild, DiscordGuildChannel, DiscordGuildRole, DiscordGuildMembership
 from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
@@ -64,7 +64,42 @@ class DiscordGuildChannelAdmin(admin.ModelAdmin):
     readonly_fields = fields
     autocomplete_fields = ['guild']
     search_fields = ('guild', 'data__name')
-    list_display = ('name', 'guild', 'cached_date',)
+    list_display = ('name', 'guild', 'cached_date')
+    list_filter = ('guild', 'cached_date')
+    
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return self.fields
+        else:
+            return ('data_prettified','cached_date',)
+    
+    def data_prettified(self, instance):
+        """Function to display pretty version of our data"""
+
+        # Convert the data to sorted, indented JSON
+        response = json.dumps(instance.data, sort_keys=True, indent=2)
+
+        # Get the Pygments formatter
+        formatter = HtmlFormatter(style='colorful')
+
+        # Highlight the data
+        response = highlight(response, JsonLexer(), formatter)
+
+        # Get the stylesheet
+        style = "<style>" + formatter.get_style_defs() + "</style><br>"
+
+        # Safe the output
+        return mark_safe(style + response)
+
+    data_prettified.short_description = 'data'
+
+@admin.register(DiscordGuildRole)
+class DiscordGuildRoleAdmin(admin.ModelAdmin):
+    fields = ('guild','data_prettified','cached_date')
+    readonly_fields = fields
+    autocomplete_fields = ['guild']
+    search_fields = ('guild', 'id')
+    list_display = ('name', 'guild', 'cached_date', 'position',)
     list_filter = ('guild', 'cached_date')
     
     def get_readonly_fields(self, request, obj=None):

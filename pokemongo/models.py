@@ -7,7 +7,7 @@ import requests
 
 from allauth.socialaccount.models import SocialAccount
 from cities.models import Country, Region
-from core.models import DiscordGuild, get_guild_members
+from core.models import DiscordGuild, get_guild_members, DiscordGuildRole
 from collections import defaultdict
 from colorful.fields import RGBColorField
 from datetime import date, datetime, timedelta, timezone, time
@@ -1033,7 +1033,7 @@ class Sponsorship(models.Model):
 #     cached_data = postgres_fields.JSONField(null=True, blank=True)
 #     cached_date = models.DateTimeField(auto_now=True)
 #
-#     setting_channels_ocr_enabled = postgres_fields.ArrayField(models.BigIntegerField())
+#     setting_channels_ocr_enabled = postgres_fields.ArrayField(models.BigIntegerField()) # Need to find a way to implement this without clogging core with specific modules too much.
 #     setting_rename_users = models.BooleanField(default=False)
 #
 #     def __str__(self):
@@ -1053,20 +1053,26 @@ class Community(models.Model):
     privacy_public = models.BooleanField(default=False)
 
     memberships_personal = models.ManyToManyField(
-        Trainer
+        Trainer,
+        blank=True,
     )
     memberships_discord = models.ManyToManyField(
         DiscordGuild,
         through='CommunityMembershipDiscord',
-        through_fields=('community', 'discord')
+        through_fields=('community', 'discord'),
+        blank=True,
     )
 
     def __str__(self):
         return self.name
     
     def get_members(self):
-        queryset = self.memberships_personal.all() | Trainer.objects.filter(owner__socialaccount__discordguildmembership__guild__communitymembershipdiscord__in=CommunityMembershipDiscord.objects.filter(sync_members=True, community=self))
-        return queryset
+        qs = self.memberships_personal.all()
+        
+        for x in CommunityMembershipDiscord.objects.filter(sync_members=True, community=self):
+            qs = qs | x.members_queryset()
+        
+        return qs
     
     class Meta:
         verbose_name = _("Community")
@@ -1077,14 +1083,34 @@ class CommunityMembershipDiscord(models.Model):
     discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
     
     sync_members = models.BooleanField(default=True, help_text="Members in this Discord are automatically included in the community.")
-    # include_roles = # Roles to Include
-    # exclude_roles = # Roles to Exclude
+    include_roles = models.ManyToManyField(DiscordGuildRole, related_name='include_roles_community_membership_discord', blank=True)
+    exclude_roles = models.ManyToManyField(DiscordGuildRole, related_name='exclude_roles_community_membership_discord', blank=True)
 
     #security_ban_sync = models.BooleanField(null=True)
     #security_kick_sync = models.BooleanField(null=True)
 
     def __str__(self):
         return "{community} - {guild}".format(community=self.community, guild=self.discord)
+    
+    def members_queryset(self):
+        if self.sync_members:
+            qs =  Trainer.objects
+            
+            if self.include_roles.exists():
+                q = models.Q()
+                for role in self.include_roles.all():
+                    q = q | models.Q(owner__socialaccount__discordguildmembership__data__roles__contains=str(role.id))
+                qs = qs.filter(q)
+            
+            if self.exclude_roles.exists():
+                q = models.Q()
+                for role in self.exclude_roles.all():
+                    q = q | models.Q(owner__socialaccount__discordguildmembership__data__roles__contains=str(role.id))
+                qs = qs.exclude(q)
+            
+            return qs
+        else:
+            return Trainer.objects.none()
 
     class Meta:
         verbose_name = _("Community Discord Connection")
