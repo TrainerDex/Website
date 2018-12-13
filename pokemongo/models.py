@@ -173,7 +173,7 @@ class Trainer(models.Model):
         return self.nickname
     
     def get_absolute_url(self):
-        return reverse('trainerdex:profile_username', kwargs={'username':self.username})
+        return reverse('trainerdex:profile_nickname', kwargs={'nickname':self.nickname})
     
     class Meta:
         verbose_name = _("Trainer")
@@ -1133,21 +1133,6 @@ class Sponsorship(models.Model):
         verbose_name = _("Special Relationship (Sponsorship)")
         verbose_name_plural = _("Special Relationships (Sponsorships)")
 
-# class DiscordGuild(models.Model):
-#     id = models.BigIntegerField(primary_key=True)
-#     cached_data = postgres_fields.JSONField(null=True, blank=True)
-#     cached_date = models.DateTimeField(auto_now=True)
-#
-#     setting_channels_ocr_enabled = postgres_fields.ArrayField(models.BigIntegerField()) # Need to find a way to implement this without clogging core with specific modules too much.
-#     setting_rename_users = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return str(self.id)
-#
-#     class Meta:
-#         verbose_name = _("Discord Guild")
-#         verbose_name_plural = _("Discord Guilds")
-
 class Community(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="UUID")
     language = models.CharField(max_length=12, choices=settings.LANGUAGES)
@@ -1180,6 +1165,9 @@ class Community(models.Model):
             qs = qs | x.members_queryset()
         
         return qs
+    
+    def get_absolute_url(self):
+        return reverse('trainerdex:leaderboard', kwargs={'community':self.handle})
     
     class Meta:
         verbose_name = _("Community")

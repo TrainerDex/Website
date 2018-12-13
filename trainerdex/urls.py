@@ -11,7 +11,7 @@ from rest_framework.authtoken import views
 from ajax_select import urls as ajex_select_urls
 from core.views import *
 from pokemongo.views import SetUpProfileViewStep2, SetUpProfileViewStep3
-from pokemongo import sitemaps
+from core import sitemaps
 
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': {
@@ -19,7 +19,8 @@ urlpatterns = [
         'continent':sitemaps.LeaderboardContinentSitemap,
         'country':sitemaps.LeaderboardCountrySitemap,
         'region':sitemaps.LeaderboardRegionSitemap,
-        'trainers':sitemaps.TrainerSitemap
+        'trainers':sitemaps.TrainerSitemap,
+        'Communities':sitemaps.LeaderboardCommunitySitemap,
     }},
     name='django.contrib.sitemaps.views.sitemap'),
     url(r'^api\/v1\/', include('pokemongo.api.v1.urls')),
