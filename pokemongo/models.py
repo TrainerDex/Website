@@ -369,9 +369,9 @@ class Update(models.Model):
     badge_trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_distance_title", "Pilot"), help_text=pgettext_lazy("badge_trading_distance", "Earn {0} km across the distance of all Pokémon trades.").format(1000000))
     badge_pokedex_entries_gen4 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen4_title", "Sinnoh"), help_text=pgettext_lazy("badge_pokedex_entries_gen4", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80), validators=[MaxValueValidator(47)])
     
-    badge_great_league = models.PositiveIntegerField(null=True, blank=True)
-    badge_ultra_league = models.PositiveIntegerField(null=True, blank=True)
-    badge_master_league = models.PositiveIntegerField(null=True, blank=True)
+    badge_great_league = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_great_league_title", "Great League Veteran"), help_text=pgettext_lazy("badge_great_league", "Win {} Trainer Battles in the Great League.").format(200))
+    badge_ultra_league = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_ultra_league_title", "Ultra League Veteran"), help_text=pgettext_lazy("badge_ultra_league", "Win {} Trainer Battles in the Ultra League.").format(200))
+    badge_master_league = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_master_league_title", "Master League Veteran"), help_text=pgettext_lazy("badge_master_league", "Win {} Trainer Battles in the Master League.").format(200))
     # badge_top_banana_1 = models.PositiveIntegerField(null=True, blank=True) # What does this do? Bananas
     # badge_top_banana_2 = models.PositiveIntegerField(null=True, blank=True) # What does this do? In
     # badge_top_banana_3 = models.PositiveIntegerField(null=True, blank=True) # What does this do? Pyjamas
@@ -462,7 +462,7 @@ class Update(models.Model):
                     # InterestDate = StartDate
                     InterestDate = self.trainer.start_date
                     # DailyLimit = 1M
-                    DailyLimit = 1000000
+                    DailyLimit = 10000000
                     
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
@@ -654,6 +654,33 @@ class Update(models.Model):
                         if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+                
+                # 10 - badge_battle_training_won - Ace Trainer
+                if field.name == 'badge_battle_training_won':
+                    
+                    # InterestDate = StartDate
+                    InterestDate = PVPDate
+                    # DailyLimit = 25
+                    DailyLimit = 100
+    
+                    # Checks Daily Limit between now and InterestDate
+                    if InterestDate:
+                        _timedelta = self.update_time.date()-InterestDate
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds()/86400)
+                        if _xdelta >= DailyLimit:
+                            # Failed Verification, raise error!
+                            soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=InterestDate, date2=self.update_time.date())))
+                    
+                    # Checks Daily Limit between now and last_update
+                    if bool(last_update):
+                        _xdelta = getattr(self,field.name)-getattr(last_update, field.name)
+                        _timedelta = self.update_time-last_update.update_time
+                        if _xdelta / (_timedelta.total_seconds()/86400) >= DailyLimit:
+                            # Failed Verification, raise error!
+                            soft_error_dict[field.name].append(ValidationError(_("The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}").format(badge=field.verbose_name, delta=_xdelta, expected=DailyLimit, date1=last_update.update_time, date2=self.update_time.date())))
+                    
+                    if GymCloseDate < self.update_time.date() < PVPDate : # If update is when Ace Trainer was closed, clear it.
+                        setattr(self,field.name, None)
                 
                 # 11 - badge_small_rattata - Youngster
                 if field.name == 'badge_small_rattata':
@@ -985,6 +1012,27 @@ class Update(models.Model):
                     # Handle Early Updates
                     if self.update_time.date() < Gen3Date:
                         hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=Gen4Date)))
+                
+                # 25 - badge_great_league - Great League Veteran
+                if field.name == 'badge_great_league':
+                    
+                    # Handle Early Updates
+                    if self.update_time.date() < PVPDate:
+                        hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=PVPDate)))
+                
+                # 25 - badge_ultra_league - Ultra League Veteran
+                if field.name == 'badge_ultra_league':
+                    
+                    # Handle Early Updates
+                    if self.update_time.date() < PVPDate:
+                        hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=PVPDate)))
+                
+                # 25 - badge_master_league - Master League Veteran
+                if field.name == 'badge_master_league':
+                    
+                    # Handle Early Updates
+                    if self.update_time.date() < PVPDate:
+                        hard_error_dict[field.name].append(ValidationError(_("You entered {badge} for a date before it's release. {value:,}/{expected:,}").format(badge=field.verbose_name, delta=self.update_time.date(), expected=PVPDate)))
                 
         # Raise Soft Errors
         soft_error_override = any([bool(self.double_check_confirmation),('ss_' in self.data_source)])
