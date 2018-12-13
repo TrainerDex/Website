@@ -42,7 +42,7 @@ class UpdateAdmin(admin.ModelAdmin):
     
     autocomplete_fields = ['trainer']
     list_display = ('trainer', 'total_xp', 'update_time', 'submission_date', 'has_modified_extra_fields')
-    search_fields = ('trainer__username', 'trainer__owner__username')
+    search_fields = ('trainer__nickname__nickname', 'trainer__owner__username')
     ordering = ('-update_time',)
     date_hierarchy = 'update_time'
 
@@ -97,7 +97,7 @@ class TrainerAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': ('owner', 'username', 'faction', 'start_date', 'daily_goal', 'total_goal','trainer_code')
+            'fields': ('owner', 'faction', 'start_date', 'daily_goal', 'total_goal','trainer_code')
         }),
         (_('Reports'), {
             'fields': ('last_cheated', 'verified', 'verification')
