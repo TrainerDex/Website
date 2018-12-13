@@ -37,7 +37,7 @@ class UserViewSet(ModelViewSet):
 class TrainerListJSONView(APIView):
     """
     get:
-    Accepts paramaters for Team (t) and Username (q)
+    Accepts paramaters for Team (t) and Nickname (q)
     
     post:
     Register a Trainer, needs the Primary Key of the Owner, the User object which owns the Trainer
@@ -49,7 +49,7 @@ class TrainerListJSONView(APIView):
         queryset = Trainer.objects.exclude(owner__is_active=False)
         if request.GET.get('q') or request.GET.get('t'):
             if request.GET.get('q'):
-                queryset = queryset.filter(username__iexact=request.GET.get('q'))
+                queryset = queryset.filter(nickname__nickname__iexact=request.GET.get('q'))
             if request.GET.get('t'):
                 queryset = queryset.filter(faction=request.GET.get('t'))
         
