@@ -46,14 +46,55 @@ class UpdateAdmin(admin.ModelAdmin):
     ordering = ('-update_time',)
     date_hierarchy = 'update_time'
 
+@admin.register(Nickname)
+class NicknameAdmin(admin.ModelAdmin):
+    
+    search_fields = (
+        'nickname',
+        'trainer__owner__first_name',
+        'trainer__owner__username',
+        )
+    list_display = (
+        'nickname',
+        'trainer',
+        'active',
+        )
+    list_filter = ('active',)
+    list_display_links = ('nickname',)
+    autocomplete_fields = ['trainer']
+
 @admin.register(Trainer)
 class TrainerAdmin(admin.ModelAdmin):
     
-    autocomplete_fields = ['owner','leaderboard_country','leaderboard_region']
-    list_display = ('username', 'faction', 'currently_cheats', 'is_on_leaderboard', 'is_verified', 'awaiting_verification')
-    list_filter = ('faction', 'last_cheated', 'statistics', 'verified',)
-    search_fields = ('username', 'owner__first_name')
-    ordering = ('username',)
+    autocomplete_fields = [
+        'owner',
+        'leaderboard_country',
+        'leaderboard_region',
+        ]
+    list_display = (
+        'nickname',
+        'faction',
+        'currently_cheats',
+        'is_on_leaderboard',
+        'is_verified',
+        'awaiting_verification',
+        )
+    list_filter = (
+        'faction',
+        'last_cheated',
+        'statistics',
+        'verified',
+        )
+    search_fields = (
+        'nickname__nickname',
+        'owner__first_name',
+        'owner__username',
+        )
+    ordering = (
+        'nickname__nickname',
+        'pk'
+        )
+    
     fieldsets = (
         (None, {
             'fields': ('owner', 'username', 'faction', 'start_date', 'daily_goal', 'total_goal','trainer_code')

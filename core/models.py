@@ -44,6 +44,10 @@ class DiscordGuild(models.Model):
         through_fields=('guild', 'user')
     )
     
+    settings_pokemongo_rename = models.BooleanField(default=True, help_text=_("""This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here. Pairs great with White Wine, Wensleydale and a Denied "Change Nickname" permission."""))
+    settings_pokemongo_rename_with_level = models.BooleanField(default=True, help_text=_("""This setting will add a level to the end of their username on your server. Their name will update whenever they level up. Pairs great with Red Wine, Pears and the above settings."""))
+    settings_pokemongo_rename_with_level_format = models.CharField(default='int', max_length=10, choices=(('int', _("Plain ol' Numbers")), ('circled_level', _("Circled Numbers ㊵"))))
+    
     def __str__(self):
         try:
             return str(self.data['name'])
@@ -70,7 +74,11 @@ class DiscordGuild(models.Model):
             return ''
     
     def sync_members(self):
-        guild_api_members = get_guild_members(self.id)
+        try:
+            guild_api_members = get_guild_members(self.id)
+        except:
+            print("Failed to get server information from Discord")
+            return {'warning' ["Failed to get server information from Discord"]}
         new_members = [DiscordGuildMembership(
                 guild=self,
                 user=SocialAccount.objects.get(provider='discord', uid=x["user"]["id"]),
@@ -108,12 +116,22 @@ class DiscordGuild(models.Model):
                 ]}
         
     def sync_roles(self):
-        guild_roles = self.data["roles"]
+        try:
+            guild_roles = self.data["roles"]
+        except:
+            print("Failed to get server information from Discord")
+            return None
+        
         for role in guild_roles:
             x = DiscordGuildRole.objects.get_or_create(id=int(role["id"]), guild=self, defaults={'data': role, 'cached_date': timezone.now()})
         
     def download_channels(self):
-        guild_channels = get_guild_channels(self.id)
+        try:
+            guild_channels = get_guild_channels(self.id)
+        except:
+            print("Failed to get information")
+            return None
+        
         for channel in guild_channels:
             x = DiscordGuildChannel.objects.get_or_create(id=int(channel["id"]), guild=self, defaults={'data': channel, 'cached_date': timezone.now()})
     

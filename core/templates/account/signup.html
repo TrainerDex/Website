@@ -22,9 +22,10 @@
     </div>
     <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
       <div class="mdl-card__supporting-text" style="text-align: center;">
-        {% blocktrans trimmed with '<a href="'|add:login_url|add:'">'|safe as login_link_start and '</a>' as login_link_end %}
+        <p>{% blocktrans trimmed with '<a href="'|add:login_url|add:'">'|safe as login_link_start and '</a>' as login_link_end %}
         If you are in a Discord Guild Leaderboard or have been contacted by us via Twitter, you would already have an account. Please {{ login_link_start }}sign in{{ login_link_end }} instead.
-        {% endblocktrans %}<br>
+        {% endblocktrans %}</p>
+        <p>{% trans "Please use your in-game name now, as it will be used later for verification." %}</p>
         <div id="signup_form" class="mdl-textfield mdl-js-textfield">
           {% csrf_token %}
           <span>{{ form.non_field_errors }}</span>
