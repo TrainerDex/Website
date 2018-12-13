@@ -157,6 +157,9 @@ BADGES = [
     {'name':'badge_trading', 'bronze':10, 'silver':100, 'gold':1000},
     {'name':'badge_trading_distance', 'bronze':1000, 'silver':10000, 'gold':1000000},
     {'name':'badge_pokedex_entries_gen4', 'bronze':5, 'silver':30, 'gold':80},
+    {'name':'badge_great_league', 'bronze':5, 'silver':50, 'gold':200},
+    {'name':'badge_ultra_league', 'bronze':5, 'silver':50, 'gold':200},
+    {'name':'badge_master_league', 'bronze':5, 'silver':50, 'gold':200},
 ] +  [{'name':x, 'bronze':10, 'silver':50, 'gold':200} for x in UPDATE_FIELDS_TYPES]
 
 numbers = [9312,9313,9314,9315,9316,9317,9318,9319,9320,9321,9322,9323,9324,9325,9326,9327,9328,9329,9330,9331,12881,12882,12883,12884,12885,12886,12887,12888,12889,12890,12891,12892,12893,12894,12895,12977,12978,12979,12980,12981,12982,12983,12984,12985,12986,12987,12988,12989,12990,12991]
