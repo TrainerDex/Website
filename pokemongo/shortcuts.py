@@ -96,6 +96,9 @@ UPDATE_FIELDS_BADGES = (
     'badge_trading',
     'badge_trading_distance',
     'badge_pokedex_entries_gen4',
+    'badge_great_league',
+    'badge_ultra_league',
+    'badge_master_league',
 )
 
 UPDATE_FIELDS_TYPES = (
