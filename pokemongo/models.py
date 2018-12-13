@@ -179,10 +179,10 @@ class Trainer(models.Model):
         verbose_name = _("Trainer")
         verbose_name_plural = _("Trainers")
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_profile(sender, **kwargs):
     if kwargs['created']:
-        trainer = Trainer.objects.create(owner=kwargs['instance'], username=kwargs['instance'].username)
+        trainer = Trainer.objects.create(owner=kwargs['instance'])
         return trainer
     return None
 
