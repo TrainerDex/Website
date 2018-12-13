@@ -122,7 +122,8 @@ class TrainerDetailJSONView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, pk):
         trainer = self.get_object(pk)
@@ -138,7 +139,8 @@ class TrainerDetailJSONView(APIView):
                 },
             }
             return Response(response, status=status.HTTP_204_NO_CONTENT)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
     
 
 class UpdateListJSONView(APIView):
@@ -162,7 +164,8 @@ class UpdateListJSONView(APIView):
         if serializer.is_valid():
             serializer.save(trainer=get_object_or_404(Trainer, pk=pk))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def patch(self, request, pk):
         return self.post(self, request, pk)
@@ -195,7 +198,8 @@ class LatestUpdateJSONView(APIView):
                 serializer.clean()
                 serializer.save(trainer=update.trainer,uuid=update.uuid,pk=update.pk)
                 return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
 class UpdateDetailJSONView(APIView):
@@ -216,7 +220,7 @@ class UpdateDetailJSONView(APIView):
         update = get_object_or_404(Update, trainer=pk, uuid=uuid)
         serializer = DetailedUpdateSerializer(update)
         if update.trainer.id != int(pk):
-            return Response(serializer.errors, status=400)
+            return Response(status=400)
         return Response(serializer.data)
     
     def patch(self, request, uuid, pk):
@@ -227,7 +231,10 @@ class UpdateDetailJSONView(APIView):
                 serializer.clean()
                 serializer.save(trainer=update.trainer,uuid=update.uuid,pk=update.pk)
                 return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, uuid, pk):
         update = get_object_or_404(Update, trainer=pk, uuid=uuid)
@@ -293,7 +300,8 @@ class SocialLookupJSONView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DiscordLeaderboardAPIView(APIView):
     def get(self, request, guild):
