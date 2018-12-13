@@ -1,6 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from pokemongo.models import Trainer
+from pokemongo.models import Trainer, Community
+from pokemongo.shortcuts import filter_leaderboard_qs
 from cities.models import Continent, Country, Region
 
 class BaseSitemap(Sitemap):
@@ -10,7 +11,6 @@ class BaseSitemap(Sitemap):
         return [
             ('account_settings', 0.9),
             ('trainerdex:leaderboard', 1),
-            ('help:faq', 0.9),
             ('trainerdex:update_stats', 0.9)
         ]
     
@@ -24,13 +24,13 @@ class TrainerSitemap(Sitemap):
     changefreq = "weekly"
     
     def items(self):
-        return Trainer.objects.exclude(statistics=False).exclude(verified=False).exclude(currently_cheats = True).filter(update__isnull=False).distinct()
+        return filter_leaderboard_qs(Trainer.objects).distinct()
     
     def lastmod(self, obj):
         return obj.last_modified
     
     def priority(self, obj):
-        return min((min(obj.update_set.order_by('-total_xp')[0].total_xp/20000000, 1.0)*(5/11))+0.5, 0.9)
+        return min((min(obj.update_set.exclude(total_xp__isnull=True).order_by('-total_xp').first().total_xp/20000000, 1.0)*(5/11))+0.5, 0.9)
 
 class LeaderboardContinentSitemap(Sitemap):
     changefreq = "daily"
@@ -73,3 +73,19 @@ class LeaderboardRegionSitemap(Sitemap):
     
     def location(self, obj):
         return reverse('trainerdex:leaderboard', kwargs={'country':obj.country.code, 'region': obj.code})
+
+class LeaderboardCommunitySitemap(Sitemap):
+    changefreq = "daily"
+    
+    def items(self):
+        return Community.objects.exclude(privacy_public = False).distinct()
+    
+    def priority(self, obj):
+        count = obj.get_members().count()
+        if count:
+            return 0.92 + min(count, 20)/200
+        else:
+            return 0.02
+    
+    def location(self, obj):
+        return reverse('trainerdex:leaderboard', kwargs={'community':obj.handle})
