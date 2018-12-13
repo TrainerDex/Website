@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-13 09:12+0000\n"
+"POT-Creation-Date: 2018-12-13 10:25+0000\n"
 "PO-Revision-Date: 2018-10-16 14:41+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1464,6 +1464,36 @@ msgctxt "badge_pokedex_entries_gen4"
 msgid "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex."
 msgstr ""
 
+#: pokemongo/models.py:372
+msgctxt "badge_great_league_title"
+msgid "Great League Veteran"
+msgstr ""
+
+#: pokemongo/models.py:372
+msgctxt "badge_great_league"
+msgid "Win {} Trainer Battles in the Great League."
+msgstr ""
+
+#: pokemongo/models.py:373
+msgctxt "badge_ultra_league_title"
+msgid "Ultra League Veteran"
+msgstr ""
+
+#: pokemongo/models.py:373
+msgctxt "badge_ultra_league"
+msgid "Win {} Trainer Battles in the Ultra League."
+msgstr ""
+
+#: pokemongo/models.py:374
+msgctxt "badge_master_league_title"
+msgid "Master League Veteran"
+msgstr ""
+
+#: pokemongo/models.py:374
+msgctxt "badge_master_league"
+msgid "Win {} Trainer Battles in the Master League."
+msgstr ""
+
 #: pokemongo/models.py:379
 msgctxt "badge_type_normal_title"
 msgid "Schoolkid"
@@ -1712,129 +1742,130 @@ msgstr ""
 #: pokemongo/models.py:584 pokemongo/models.py:600 pokemongo/models.py:608
 #: pokemongo/models.py:624 pokemongo/models.py:632 pokemongo/models.py:648
 #: pokemongo/models.py:656 pokemongo/models.py:672 pokemongo/models.py:680
-#: pokemongo/models.py:696 pokemongo/models.py:704 pokemongo/models.py:720
-#: pokemongo/models.py:728 pokemongo/models.py:758 pokemongo/models.py:766
-#: pokemongo/models.py:796 pokemongo/models.py:804 pokemongo/models.py:824
-#: pokemongo/models.py:832 pokemongo/models.py:892 pokemongo/models.py:900
-#: pokemongo/models.py:930 pokemongo/models.py:938 pokemongo/models.py:958
-#: pokemongo/models.py:966
+#: pokemongo/models.py:699 pokemongo/models.py:707 pokemongo/models.py:723
+#: pokemongo/models.py:731 pokemongo/models.py:747 pokemongo/models.py:755
+#: pokemongo/models.py:785 pokemongo/models.py:793 pokemongo/models.py:823
+#: pokemongo/models.py:831 pokemongo/models.py:851 pokemongo/models.py:859
+#: pokemongo/models.py:919 pokemongo/models.py:927 pokemongo/models.py:957
+#: pokemongo/models.py:965 pokemongo/models.py:985 pokemongo/models.py:993
 msgid "The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}"
 msgstr ""
 
-#: pokemongo/models.py:732 pokemongo/models.py:742 pokemongo/models.py:770
-#: pokemongo/models.py:780 pokemongo/models.py:808 pokemongo/models.py:836
-#: pokemongo/models.py:856 pokemongo/models.py:866 pokemongo/models.py:876
-#: pokemongo/models.py:904 pokemongo/models.py:914 pokemongo/models.py:942
-#: pokemongo/models.py:977 pokemongo/models.py:987
+#: pokemongo/models.py:759 pokemongo/models.py:769 pokemongo/models.py:797
+#: pokemongo/models.py:807 pokemongo/models.py:835 pokemongo/models.py:863
+#: pokemongo/models.py:883 pokemongo/models.py:893 pokemongo/models.py:903
+#: pokemongo/models.py:931 pokemongo/models.py:941 pokemongo/models.py:969
+#: pokemongo/models.py:1004 pokemongo/models.py:1014 pokemongo/models.py:1021
+#: pokemongo/models.py:1028 pokemongo/models.py:1035
 msgid "You entered {badge} for a date before it's release. {value:,}/{expected:,}"
 msgstr ""
 
-#: pokemongo/models.py:850
+#: pokemongo/models.py:877
 msgid "The {badge} you entered is too high. Please check for typos and other mistakes. You can't have more gold gyms than gyms in Total. {value:,}/{expected:,}"
 msgstr ""
 
-#: pokemongo/models.py:852
+#: pokemongo/models.py:879
 #, python-brace-format
 msgid "You must fill in {other_badge} if filling in {this_badge}."
 msgstr ""
 
-#: pokemongo/models.py:973
+#: pokemongo/models.py:1000
 msgid "The {badge} you entered is too high. Please check for typos and other mistakes. You can only gain so much in a day. {value:,}/{expected:,}"
 msgstr ""
 
-#: pokemongo/models.py:1001
+#: pokemongo/models.py:1049
 msgid "Update"
 msgstr "Mise à jour"
 
-#: pokemongo/models.py:1002
+#: pokemongo/models.py:1050
 msgid "Updates"
 msgstr "Mises à jour"
 
-#: pokemongo/models.py:1085
+#: pokemongo/models.py:1133
 msgid "Special Relationship (Sponsorship)"
 msgstr ""
 
-#: pokemongo/models.py:1086
+#: pokemongo/models.py:1134
 msgid "Special Relationships (Sponsorships)"
 msgstr ""
 
-#: pokemongo/models.py:1110
+#: pokemongo/models.py:1158
 msgid "Publicly Viewable"
 msgstr ""
 
-#: pokemongo/models.py:1110
+#: pokemongo/models.py:1158
 msgid "By default, this is off. Turn this on to share your community with the world."
 msgstr ""
 
-#: pokemongo/models.py:1111
+#: pokemongo/models.py:1159
 msgid "Publicly Joinable"
 msgstr ""
 
-#: pokemongo/models.py:1111
+#: pokemongo/models.py:1159
 msgid "By default, this is off. Turn this on to make your community free to join. No invites required."
 msgstr ""
 
-#: pokemongo/models.py:1112
+#: pokemongo/models.py:1160
 msgid "Tournament: Publicly Viewable"
 msgstr ""
 
-#: pokemongo/models.py:1112
+#: pokemongo/models.py:1160
 msgid "By default, this is off. Turn this on to share your tournament results with the world."
 msgstr ""
 
-#: pokemongo/models.py:1137
+#: pokemongo/models.py:1185
 msgid "Community"
 msgstr ""
 
-#: pokemongo/models.py:1138
+#: pokemongo/models.py:1186
 msgid "Communities"
 msgstr ""
 
-#: pokemongo/models.py:1144
+#: pokemongo/models.py:1192
 msgid "Members in this Discord are automatically included in the community."
 msgstr ""
 
-#: pokemongo/models.py:1175
+#: pokemongo/models.py:1223
 #, fuzzy
 #| msgid "Account Connections"
 msgid "Community Discord Connection"
 msgstr "Connexions au compte"
 
-#: pokemongo/models.py:1176
+#: pokemongo/models.py:1224
 #, fuzzy
 #| msgid "Account Connections"
 msgid "Community Discord Connections"
 msgstr "Connexions au compte"
 
-#: pokemongo/models.py:1179
+#: pokemongo/models.py:1227
 msgid "tournament host"
 msgstr ""
 
-#: pokemongo/models.py:1180 pokemongo/models.py:1184
+#: pokemongo/models.py:1228 pokemongo/models.py:1232
 msgid "tournament challenger"
 msgstr ""
 
-#: pokemongo/models.py:1180
+#: pokemongo/models.py:1228
 msgid "For knockout tournaments, I would recommend this to be the left/top Trainer."
 msgstr ""
 
-#: pokemongo/models.py:1181 pokemongo/models.py:1184
+#: pokemongo/models.py:1229 pokemongo/models.py:1232
 msgid "tournament opponent"
 msgstr ""
 
-#: pokemongo/models.py:1181
+#: pokemongo/models.py:1229
 msgid "For knockout tournaments, I would recommend this to be the right/bottom Trainer."
 msgstr ""
 
-#: pokemongo/models.py:1183
+#: pokemongo/models.py:1231
 msgid "Match Time"
 msgstr ""
 
-#: pokemongo/models.py:1183 pokemongo/models.py:1184
+#: pokemongo/models.py:1231 pokemongo/models.py:1232
 msgid "This field can be blank if the match is in the future or hasn't been decided on when it'll happen."
 msgstr ""
 
-#: pokemongo/models.py:1184
+#: pokemongo/models.py:1232
 msgid "Pending Results"
 msgstr ""
 
