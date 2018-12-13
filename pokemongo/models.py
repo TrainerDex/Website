@@ -462,7 +462,7 @@ class Update(models.Model):
                     # InterestDate = StartDate
                     InterestDate = self.trainer.start_date
                     # DailyLimit = 1M
-                    DailyLimit = 1000000
+                    DailyLimit = 10000000
                     
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
