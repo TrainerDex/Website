@@ -430,6 +430,7 @@ class Update(models.Model):
         QuestReleaseDate = date(2018,3,30)
         FriendReleaseDate = date(2018,6,21)
         Gen4Date = date(2018,10,16)
+        PVPDate = date(2018,12,13)
             
         for field in Update._meta.get_fields():
             if bool(getattr(self, field.name)):

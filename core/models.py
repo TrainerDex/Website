@@ -74,7 +74,11 @@ class DiscordGuild(models.Model):
             return ''
     
     def sync_members(self):
-        guild_api_members = get_guild_members(self.id)
+        try:
+            guild_api_members = get_guild_members(self.id)
+        except:
+            print("Failed to get server information from Discord")
+            return {'warning' ["Failed to get server information from Discord"]}
         new_members = [DiscordGuildMembership(
                 guild=self,
                 user=SocialAccount.objects.get(provider='discord', uid=x["user"]["id"]),
@@ -112,12 +116,22 @@ class DiscordGuild(models.Model):
                 ]}
         
     def sync_roles(self):
-        guild_roles = self.data["roles"]
+        try:
+            guild_roles = self.data["roles"]
+        except:
+            print("Failed to get server information from Discord")
+            return None
+        
         for role in guild_roles:
             x = DiscordGuildRole.objects.get_or_create(id=int(role["id"]), guild=self, defaults={'data': role, 'cached_date': timezone.now()})
         
     def download_channels(self):
-        guild_channels = get_guild_channels(self.id)
+        try:
+            guild_channels = get_guild_channels(self.id)
+        except:
+            print("Failed to get information")
+            return None
+        
         for channel in guild_channels:
             x = DiscordGuildChannel.objects.get_or_create(id=int(channel["id"]), guild=self, defaults={'data': channel, 'cached_date': timezone.now()})
     
