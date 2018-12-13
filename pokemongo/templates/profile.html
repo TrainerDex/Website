@@ -6,20 +6,20 @@
 {% load humanize %}
 {% load widget_tweaks %}
 
-{% block head_title %}{{trainer.username}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}{% endblock %}
-{% block section_title %}{{trainer.username}}{% endblock %}
+{% block head_title %}{{trainer.nickname}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}{% endblock %}
+{% block section_title %}{{trainer.nickname}}{% endblock %}
 
 {% block extra_head %}
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:site" content="@TrainerDexApp"/>
-<meta property="og:title" content="{{trainer.username}}" />
+<meta property="og:title" content="{{trainer.nickname}}" />
 <meta property="og:image" content="{% get_static_prefix %}{{trainer.faction.image}}"/>
 <meta property="og:type" content="profile" />
 <meta property="og:ttl" content="345600" />
 <meta property="og:description" content="{% trans 'Team' %}: {{trainer.faction}}
 {% trans 'Level' %}: {{level}}
 {% trans 'XP' context 'Short form of XP' %}: {{xp|intcomma}}" />
-<meta property="profile:username" content="{{trainer.username}}" />
+<meta property="profile:username" content="{{trainer.nickname}}" />
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 
 <!-- Google Charts Data -->
@@ -53,7 +53,7 @@ function drawChart() {
   <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}" /></div>
   <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
     <ul class="mdl-list">
-      <i class="mdl-card__title-text">{{trainer.username}}  {{trainer.flag_emoji|default_if_none:''}}</i>
+      <i class="mdl-card__title-text">{{trainer.nickname}}  {{trainer.flag_emoji|default_if_none:''}}</i>
       {% if trainer.start_date %}<li class="mdl-list__item">
         <span class="mdl-list__item-primary-content" id="start_date">
           <i class="material-icons mdl-list__item-icon">date_range</i>
