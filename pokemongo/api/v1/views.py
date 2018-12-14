@@ -23,6 +23,7 @@ from rest_framework.response import Response
 from pokemongo.models import Trainer, Update
 from pokemongo.api.v1.serializers import UserSerializer, BriefTrainerSerializer, DetailedTrainerSerializer, BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer
 from pokemongo.shortcuts import filter_leaderboard_qs
+from core.models import DiscordGuild, DiscordChannel, DiscordRole, DiscordGuildMembership, get_guild_info
 
 def recent(value):
     if timezone.now()-timedelta(hours=1) <= value <= timezone.now():
@@ -305,28 +306,33 @@ class SocialLookupJSONView(APIView):
 
 class DiscordLeaderboardAPIView(APIView):
     def get(self, request, guild):
-        discord_base_url = 'https://discordapp.com/api'
-        headers = {}
         output = {'generated':datetime.utcnow()}
         
-        if request.GET.get('DiscordAuthorization'):
-            headers['Authorization'] = request.GET.get('DiscordAuthorization')
-        else:
-            headers['Authorization'] = 'Bot Mzc3NTU5OTAyNTEzNzkwOTc3.DYhWdw.tBGXI2g8RqH3EbDDdypSaQLXYLU'
+        try:
+            server = DiscordGuild.objects.get(id=int(guild))
+        except DiscordGuild.DoesNotExist:
+            logger.warn(f"Guild with id {guild} not found")
+            try:
+                i = get_guild_info(int(guild))
+            except:
+                return Response({'error': 'Access Denied', 'cause': "The bot doesn't have access to this guild.", 'solution': "Add the bot account to the guild."}, status=404)
+            else:
+                logger.info(f"{i['name']} found. Creating.")
+                server, created = DiscordGuild.objects.get_or_create(id=int(guild), defaults={'data': i, 'cached_date': timezone.now()})
+            
         
-        _guild = requests.get('{base_url}/guilds/{param}'.format(base_url=discord_base_url, param=guild), headers=headers)
-        if not status.is_success(_guild.status_code):
-            return Response({'error': '003 - Bad Guild ID', 'cause': "Most likely, the bot parameter provided doesn't have access to that guild", 'solution': "If I have to lay this out to you, you shouldn't be here"}, status=status.HTTP_400_BAD_REQUEST)
-        _guild = _guild.json()
+        if not server.data or server.outdated:
+            server.refresh_from_api()
+            if not server.data:
+                return Response({'error': 'Access Denied', 'cause': "The bot doesn't have access to this guild.", 'solution': "Add the bot account to the guild."}, status=424)
+            else:
+                server.sync_members()
         
-        output['title'] = '{guild_name} Leaderboard'.format(guild_name=_guild['name'])
-        opt_out_role_id = [x['id'] for x in _guild['roles'] if x['name'] in ('NoLB,')]
+        output['title'] = '{title} Leaderboard'.format(title=server.data['name'])
+        opt_out_roles = server.roles.filter(data__name='NoLB') | server.roles.filter(exclude_roles_community_membership_discord__discord=server)
         
-        members = requests.get('{base_url}/guilds/{param}/members'.format(base_url=discord_base_url, param=guild), headers=headers, params={'limit':1000})
-        if not status.is_success(members.status_code):
-            return Response({'error': '000 - Unknown', 'cause': 'unknown', 'solution':'forward this output to apisupport@trainerdex.co.uk', 'Discord API Responce': members.content}, status=members.status_code)
-        members = [x['user']['id'] for x in members.json() if not any([i in x['roles'] for i in opt_out_role_id])]
-        trainers = filter_leaderboard_qs(Trainer.objects.filter(owner__socialaccount__provider='discord', owner__socialaccount__uid__in=members))
+        members = server.members.exclude(discordguildmembership__data__roles__in=[x.id for x in opt_out_roles])
+        trainers = filter_leaderboard_qs(Trainer.objects.filter(owner__socialaccount__in=members))
         
         leaderboard = trainers.prefetch_related('faction').prefetch_related('update_set').prefetch_related('owner').annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).filter(update__update_time__max__gte=datetime.now()-relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)).annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())).order_by('rank')
         serializer = LeaderboardSerializer(leaderboard, many=True)

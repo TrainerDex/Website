@@ -23,9 +23,9 @@ from pokemongo.models import Trainer, Update, Faction, Community
 from pokemongo.shortcuts import strtoboolornone, filter_leaderboard_qs, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, BADGES, chunks
 
 def _check_if_trainer_valid(trainer):
-    if settings.DEBUG:
-        logger.log(level=30 if trainer.profile_complete else 20, msg='Checking {nickname}: Completed profile: {status}'.format(nickname=trainer.nickname, status=trainer.profile_complete))
-        logger.log(level=30 if trainer.update_set.exclude(total_xp__isnull=True).count() else 20, msg='Checking {nickname}: Update count: {count}'.format(nickname=trainer.nickname, count=trainer.update_set.count()))
+    logger.debug(level=30 if trainer.profile_complete else 20, msg='Checking {nickname}: Completed profile: {status}'.format(nickname=trainer.nickname, status=trainer.profile_complete))
+    logger.debug(level=30 if trainer.update_set.exclude(total_xp__isnull=True).count() else 20, msg='Checking {nickname}: Update count: {count}'.format(nickname=trainer.nickname, count=trainer.update_set.count()))
+    
     if not trainer.profile_complete or not trainer.update_set.exclude(total_xp__isnull=True).exists():
         raise Http404(_('{0} has not completed their profile.').format(trainer.owner.username))
     return trainer
