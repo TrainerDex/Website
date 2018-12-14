@@ -7,7 +7,7 @@ import requests
 
 from allauth.socialaccount.models import SocialAccount
 from cities.models import Country, Region
-from core.models import DiscordGuild, get_guild_members, DiscordGuildRole
+from core.models import DiscordGuild, get_guild_members, DiscordRole
 from collections import defaultdict
 from colorful.fields import RGBColorField
 from datetime import date, datetime, timedelta, timezone, time
@@ -1178,8 +1178,8 @@ class CommunityMembershipDiscord(models.Model):
     discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
     
     sync_members = models.BooleanField(default=True, help_text=_("Members in this Discord are automatically included in the community."))
-    include_roles = models.ManyToManyField(DiscordGuildRole, related_name='include_roles_community_membership_discord', blank=True)
-    exclude_roles = models.ManyToManyField(DiscordGuildRole, related_name='exclude_roles_community_membership_discord', blank=True)
+    include_roles = models.ManyToManyField(DiscordRole, related_name='include_roles_community_membership_discord', blank=True)
+    exclude_roles = models.ManyToManyField(DiscordRole, related_name='exclude_roles_community_membership_discord', blank=True)
 
     #security_ban_sync = models.BooleanField(null=True)
     #security_kick_sync = models.BooleanField(null=True)

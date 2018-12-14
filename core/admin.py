@@ -4,7 +4,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib import admin, messages
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _, ngettext
-from core.models import DiscordGuild, DiscordGuildChannel, DiscordGuildRole, DiscordGuildMembership
+from core.models import DiscordGuild, DiscordChannel, DiscordRole, DiscordGuildMembership
 from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
@@ -27,10 +27,10 @@ download_channels.short_description = _("Download channels from Discord. Current
 
 @admin.register(DiscordGuild)
 class DiscordGuildAdmin(admin.ModelAdmin):
-    fields = ('id', 'admin', 'data_prettified', 'cached_date')
+    fields = ('id', 'owner', 'data_prettified', 'cached_date')
     search_fields = ('id', 'data__name')
     actions = [sync_members, download_channels]
-    list_display = ('__str__', 'admin', 'cached_date')
+    list_display = ('__str__', 'region', '_outdated', 'has_data', 'owner', 'cached_date')
     
     def get_readonly_fields(self, request, obj=None):
         if obj:
@@ -58,13 +58,13 @@ class DiscordGuildAdmin(admin.ModelAdmin):
 
     data_prettified.short_description = 'data'
 
-@admin.register(DiscordGuildChannel)
-class DiscordGuildChannelAdmin(admin.ModelAdmin):
+@admin.register(DiscordChannel)
+class DiscordChannelAdmin(admin.ModelAdmin):
     fields = ('guild','data_prettified','cached_date')
     readonly_fields = fields
     autocomplete_fields = ['guild']
     search_fields = ('guild', 'data__name')
-    list_display = ('name', 'guild', 'cached_date')
+    list_display = ('name', 'type', 'guild', 'cached_date')
     list_filter = ('guild', 'cached_date')
     
     def get_readonly_fields(self, request, obj=None):
@@ -93,8 +93,8 @@ class DiscordGuildChannelAdmin(admin.ModelAdmin):
 
     data_prettified.short_description = 'data'
 
-@admin.register(DiscordGuildRole)
-class DiscordGuildRoleAdmin(admin.ModelAdmin):
+@admin.register(DiscordRole)
+class DiscordRoleAdmin(admin.ModelAdmin):
     fields = ('guild','data_prettified','cached_date')
     readonly_fields = fields
     autocomplete_fields = ['guild']
