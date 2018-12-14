@@ -83,9 +83,9 @@ class LeaderboardCommunitySitemap(Sitemap):
     def priority(self, obj):
         count = obj.get_members().count()
         if count:
-            return 0.92 + min(count, 20)/200
+            return min(0.74 + ((count/1000)*0.26), 1)
         else:
-            return 0.02
+            return 0.74
     
     def location(self, obj):
         return reverse('trainerdex:leaderboard', kwargs={'community':obj.handle})
