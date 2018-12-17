@@ -32,7 +32,7 @@ def recent(value):
 
 class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
-    queryset = User.objects.all()
+    queryset = User.objects.exclude(is_active=False)
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class TrainerListJSONView(APIView):
@@ -67,7 +67,7 @@ class TrainerListJSONView(APIView):
         Now it has a 60 minute open slot to work after the auth.User (owner) instance is created. After which, a PATCH request must be given. This is due to the nature of a Trainer being created automatically for all new auth.User
         """
         
-        trainer = Trainer.objects.get(owner__pk=request.data['owner'])
+        trainer = Trainer.objects.get(owner__pk=request.data['owner'], owner__is_active=True)
         if not recent(trainer.owner.date_joined):
             return Response({"_error": "profile already exists, please use patch on trainer uri instead or check the owner pk is correct", "_profile_id": trainer.pk}, status=status.HTTP_400_BAD_REQUEST)
         serializer = DetailedTrainerSerializer(trainer, data=request.data, partial=True)
@@ -92,7 +92,7 @@ class TrainerDetailJSONView(APIView):
     authentication_classes = (authentication.TokenAuthentication,)
     
     def get_object(self, pk):
-        return get_object_or_404(Trainer, pk=pk)
+        return get_object_or_404(Trainer, pk=pk, owner__is_active=True)
     
     def get(self, request, pk):
         trainer = self.get_object(pk)
@@ -156,14 +156,14 @@ class UpdateListJSONView(APIView):
     authentication_classes = (authentication.TokenAuthentication,)
     
     def get(self, request, pk):
-        updates = Update.objects.filter(trainer=pk)
+        updates = Update.objects.filter(trainer=pk, trainer__owner__is_active=True)
         serializer = BriefUpdateSerializer(updates, many=True) if request.GET.get('detail') != "1" else DetailedUpdateSerializer(updates, many=True)
         return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
     
     def post(self, request, pk):
         serializer = DetailedUpdateSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(trainer=get_object_or_404(Trainer, pk=pk))
+            serializer.save(trainer=get_object_or_404(Trainer, pk=pk, owner__is_active=True))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -185,14 +185,14 @@ class LatestUpdateJSONView(APIView):
     
     def get(self, request, pk):
         try:
-            update = Update.objects.filter(trainer=pk).latest('update_time')
+            update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest('update_time')
         except Update.DoesNotExist:
             return Response(None, status=404)
         serializer = DetailedUpdateSerializer(update)
         return Response(serializer.data)
     
     def patch(self, request, pk):
-        update = Update.objects.filter(trainer=pk).latest('update_time')
+        update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest('update_time')
         if update.meta_time_created > datetime.now(utc)-timedelta(minutes=32):
             serializer = DetailedUpdateSerializer(update, data=request.data)
             if serializer.is_valid():
@@ -218,14 +218,14 @@ class UpdateDetailJSONView(APIView):
     authentication_classes = (authentication.TokenAuthentication,)
     
     def get(self, request, uuid, pk):
-        update = get_object_or_404(Update, trainer=pk, uuid=uuid)
+        update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainr__owner__is_active=True)
         serializer = DetailedUpdateSerializer(update)
         if update.trainer.id != int(pk):
             return Response(status=400)
         return Response(serializer.data)
     
     def patch(self, request, uuid, pk):
-        update = get_object_or_404(Update, trainer=pk, uuid=uuid)
+        update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainr__owner__is_active=True)
         if update.meta_time_created > datetime.now(utc)-timedelta(minutes=32):
             serializer = DetailedUpdateSerializer(update, data=request.data)
             if serializer.is_valid():
@@ -238,7 +238,7 @@ class UpdateDetailJSONView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, uuid, pk):
-        update = get_object_or_404(Update, trainer=pk, uuid=uuid)
+        update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
         if update.meta_time_created > datetime.now(utc)-timedelta(days=2):
             update.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -258,7 +258,7 @@ class LeaderboardJSONView(APIView):
     def get(self, request):
         query = filter_leaderboard_qs(Trainer.objects)
         if request.GET.get('users'):
-            query = Trainer.objects.filter(id__in=request.GET.get('users').split(','))
+            query = filter_leaderboard_qs(Trainer.objects.filter(id__in=request.GET.get('users').split(',')))
         leaderboard = query.prefetch_related('faction').prefetch_related('update_set').prefetch_related('owner').annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())).order_by('rank')
         serializer = LeaderboardSerializer(leaderboard[:5000], many=True)
         return Response(serializer.data)
@@ -279,13 +279,13 @@ class SocialLookupJSONView(APIView):
     """
     
     def get(self, request):
-        query = SocialAccount.objects.filter(provider=request.GET.get('provider'))
+        query = SocialAccount.objects.exclude(user__is_active=False).filter(provider=request.GET.get('provider'))
         if request.GET.get('uid'):
             query = query.filter(uid__in=request.GET.get('uid').split(','))
         elif request.GET.get('user'):
             query = query.filter(user__in=request.GET.get('user').split(','))
         elif request.GET.get('trainer'):
-            query = query.filter(user=get_object_or_404(Trainer, pk=request.GET.get('trainer')).owner)
+            query = query.filter(user__trainer=request.GET.get('trainer'))
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = SocialAllAuthSerializer(query, many=True)
@@ -293,7 +293,7 @@ class SocialLookupJSONView(APIView):
         
     def put(self, request):
         try:
-            query = SocialAccount.objects.get(provider=request.data['provider'], uid=request.data['uid'])
+            query = SocialAccount.objects.exclude(user__is_active=False).get(provider=request.data['provider'], uid=request.data['uid'])
         except:
             serializer = SocialAllAuthSerializer(data=request.data)
         else:

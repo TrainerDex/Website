@@ -83,7 +83,10 @@ class UserSerializer(serializers.ModelSerializer):
     
     def get_profiles(self, obj):
         """This field is deprecated and will be removed in API v2"""
-        return [obj.trainer.pk]
+        try:
+            return [obj.trainer.pk]
+        except User.trainer.RelatedObjectDoesNotExist:
+            return []
     
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)

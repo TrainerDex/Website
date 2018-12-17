@@ -40,17 +40,17 @@ def _check_if_self_valid(request):
 def TrainerRedirectorView(request, nickname=None, id=None):
     stay = False
     if nickname:
-        trainer = get_object_or_404(Trainer, nickname__nickname__iexact=nickname)
-        if nickname.upper() == trainer.nickname.upper():
+        trainer = get_object_or_404(Trainer, nickname__nickname__iexact=nickname, owner__is_active=True)
+        if nickname == trainer.nickname:
             stay = True
     elif id:
-        trainer = get_object_or_404(Trainer, pk=id)
+        trainer = get_object_or_404(Trainer, pk=id, owner__is_active=True)
     elif request.GET.get('username'):
-        trainer = get_object_or_404(Trainer, nickname__nickname__iexact=request.GET.get('username'))
+        trainer = get_object_or_404(Trainer, nickname__nickname__iexact=request.GET.get('username'), owner__is_active=True)
     elif request.GET.get('nickname'):
-        trainer = get_object_or_404(Trainer, nickname__nickname__iexact=request.GET.get('nickname'))
+        trainer = get_object_or_404(Trainer, nickname__nickname__iexact=request.GET.get('nickname'), owner__is_active=True)
     elif request.GET.get('id'):
-        trainer = get_object_or_404(Trainer, pk=request.GET.get('id'))
+        trainer = get_object_or_404(Trainer, pk=request.GET.get('id'), owner__is_active=True)
     elif not request.user.is_authenticated:
         return redirect('home')
     else:
