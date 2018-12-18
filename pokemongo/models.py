@@ -1162,7 +1162,7 @@ class Community(models.Model):
         qs = self.memberships_personal.all()
         
         for x in CommunityMembershipDiscord.objects.filter(sync_members=True, community=self):
-            qs = qs | x.members_queryset()
+            qs |= x.members_queryset()
         
         return qs
     
