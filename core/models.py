@@ -63,7 +63,7 @@ class DiscordGuild(models.Model):
     )
     
     settings_pokemongo_rename = models.BooleanField(default=True, verbose_name=_('Rename users when they join.'), help_text=_("""This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here. Pairs great with White Wine, Wensleydale and a Denied "Change Nickname" permission."""))
-    settings_pokemongo_rename_with_level = models.BooleanField(default=True, verbose_name=_('Rename users with their level indicator'), help_text=_("""This setting will add a level to the end of their username on your server. Their name will update whenever they level up. Pairs great with Red Wine, Pears and the above settings."""))
+    settings_pokemongo_rename_with_level = models.BooleanField(default=False, verbose_name=_('Rename users with their level indicator'), help_text=_("""This setting will add a level to the end of their username on your server. Their name will update whenever they level up. Pairs great with Red Wine, Pears and the above settings."""))
     settings_pokemongo_rename_with_level_format = models.CharField(default='int', verbose_name=_('Level Indicator format'), max_length=50, choices=(('int', _("Plain ol' Numbers")), ('circled_level', _("Circled Numbers ㊵"))))
     
     def _outdated(self):
@@ -226,7 +226,7 @@ class DiscordGuild(models.Model):
         reactivate_members = DiscordGuildMembership.objects.filter(guild=self, active=False, user__uid__in=[x["user"]["id"] for x in guild_api_members])
         reactivate_members.update(active=True)
         
-        inactive_members = DiscordGuildMembership.objects.filter(guild=self).exclude(user__uid__in=[x["user"]["id"] for x in guild_api_members])
+        inactive_members = DiscordGuildMembership.objects.filter(guild=self, active=True).exclude(user__uid__in=[x["user"]["id"] for x in guild_api_members])
         inactive_members.update(active=False)
         
         return {'success': [
