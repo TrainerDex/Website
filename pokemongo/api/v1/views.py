@@ -35,7 +35,7 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.exclude(is_active=False)
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-class TrainerListJSONView(APIView):
+class TrainerListView(APIView):
     """
     get:
     Accepts paramaters for Team (t) and Nickname (q)
@@ -77,7 +77,7 @@ class TrainerListJSONView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-class TrainerDetailJSONView(APIView):
+class TrainerDetailView(APIView):
     """
     get:
     Trainer detail
@@ -144,7 +144,7 @@ class TrainerDetailJSONView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
     
 
-class UpdateListJSONView(APIView):
+class UpdateListView(APIView):
     """
     get:
     Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
@@ -172,7 +172,7 @@ class UpdateListJSONView(APIView):
         return self.post(self, request, pk)
     
 
-class LatestUpdateJSONView(APIView):
+class LatestUpdateView(APIView):
     """
     get:
     Gets detailed view of the latest update
@@ -203,7 +203,7 @@ class LatestUpdateJSONView(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-class UpdateDetailJSONView(APIView):
+class UpdateDetailView(APIView):
     """
     get:
     Gets detailed view
@@ -250,7 +250,7 @@ class UpdateDetailJSONView(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
 
-class LeaderboardJSONView(APIView):
+class LeaderboardView(APIView):
     """
     Limited to 5000
     """
@@ -264,7 +264,7 @@ class LeaderboardJSONView(APIView):
         return Response(serializer.data)
     
 
-class SocialLookupJSONView(APIView):
+class SocialLookupView(APIView):
     """
     get:
         kwargs:
