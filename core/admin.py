@@ -133,8 +133,7 @@ class DiscordRoleAdmin(admin.ModelAdmin):
 
 @admin.register(DiscordGuildMembership)
 class DiscordGuildMembershipAdmin(admin.ModelAdmin):
-    fields = ('guild', 'user','data_prettified','cached_date')
-    readonly_fields = fields
+    fields = ('guild', 'user','data_prettified','cached_date', 'active', 'nick_override')
     autocomplete_fields = ['guild', 'user']
     search_fields = ('guild__data__name', 'guild__id', 'user__user__username', 'user__user__trainer__nickname__nickname', 'data__nick', 'data__user__username')
     list_display = ('user', '__str__', 'active', 'cached_date',)
@@ -142,7 +141,7 @@ class DiscordGuildMembershipAdmin(admin.ModelAdmin):
     
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return self.fields
+            return ('guild', 'user','data_prettified','cached_date')
         else:
             return ('data_prettified','cached_date')
     
