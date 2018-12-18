@@ -468,6 +468,7 @@ class DiscordGuildMembership(models.Model):
     guild = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
     user = models.ForeignKey(SocialAccount, on_delete=models.CASCADE, limit_choices_to={'provider': 'discord'})
     active = models.BooleanField(default=True)
+    nick_override = models.CharField(null=True, blank=True, max_length=32)
     
     data = postgres_fields.JSONField(null=True, blank=True)
     cached_date = models.DateTimeField(auto_now_add=True)
@@ -476,6 +477,17 @@ class DiscordGuildMembership(models.Model):
         return (timezone.now()-self.cached_date) > timedelta(days=1)
     _outdated.boolean = True
     outdated = property(_outdated)
+    
+    def _change_nick(self, nick: str):
+        base_url = 'https://discordapp.com/api/v{version_number}'.format(version_number=6)
+        if len(nick) > 32:
+            raise ValidationError('nick too long')
+        logger.info(f"Renaming {self} to {nick}")
+        r = requests.patch(f"{base_url}/guilds/{self.guild.id}/members/{self.user.uid}", headers={'Authorization': f"Bot {settings.DISCORD_TOKEN}"}, json={'nick': nick})
+        logger.info(r.status_code)
+        logger.info(r.text)
+        self.refresh_from_api()
+
 
     @property
     def nick(self):
