@@ -331,7 +331,11 @@ class DiscordLeaderboardAPIView(APIView):
         output['title'] = '{title} Leaderboard'.format(title=server.data['name'])
         opt_out_roles = server.roles.filter(data__name='NoLB') | server.roles.filter(exclude_roles_community_membership_discord__discord=server)
         
-        members = server.members.exclude(discordguildmembership__data__roles__in=[x.id for x in opt_out_roles])
+        sq = Q()
+        for x in opt_out_roles:
+            sq |= Q(discordguildmembership__data__roles__contains=[str(x.id)])
+        
+        members = server.members.exclude(sq)
         trainers = filter_leaderboard_qs(Trainer.objects.filter(owner__socialaccount__in=members))
         
         leaderboard = trainers.prefetch_related('faction').prefetch_related('update_set').prefetch_related('owner').annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).filter(update__update_time__max__gte=datetime.now()-relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)).annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())).order_by('rank')
