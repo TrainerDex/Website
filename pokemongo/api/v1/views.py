@@ -35,7 +35,7 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.exclude(is_active=False)
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-class TrainerListJSONView(APIView):
+class TrainerListView(APIView):
     """
     get:
     Accepts paramaters for Team (t) and Nickname (q)
@@ -77,7 +77,7 @@ class TrainerListJSONView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-class TrainerDetailJSONView(APIView):
+class TrainerDetailView(APIView):
     """
     get:
     Trainer detail
@@ -144,7 +144,7 @@ class TrainerDetailJSONView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
     
 
-class UpdateListJSONView(APIView):
+class UpdateListView(APIView):
     """
     get:
     Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
@@ -172,7 +172,7 @@ class UpdateListJSONView(APIView):
         return self.post(self, request, pk)
     
 
-class LatestUpdateJSONView(APIView):
+class LatestUpdateView(APIView):
     """
     get:
     Gets detailed view of the latest update
@@ -203,7 +203,7 @@ class LatestUpdateJSONView(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-class UpdateDetailJSONView(APIView):
+class UpdateDetailView(APIView):
     """
     get:
     Gets detailed view
@@ -250,7 +250,7 @@ class UpdateDetailJSONView(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
 
-class LeaderboardJSONView(APIView):
+class LeaderboardView(APIView):
     """
     Limited to 5000
     """
@@ -264,7 +264,7 @@ class LeaderboardJSONView(APIView):
         return Response(serializer.data)
     
 
-class SocialLookupJSONView(APIView):
+class SocialLookupView(APIView):
     """
     get:
         kwargs:
@@ -331,7 +331,11 @@ class DiscordLeaderboardAPIView(APIView):
         output['title'] = '{title} Leaderboard'.format(title=server.data['name'])
         opt_out_roles = server.roles.filter(data__name='NoLB') | server.roles.filter(exclude_roles_community_membership_discord__discord=server)
         
-        members = server.members.exclude(discordguildmembership__data__roles__in=[x.id for x in opt_out_roles])
+        sq = Q()
+        for x in opt_out_roles:
+            sq |= Q(discordguildmembership__data__roles__contains=[str(x.id)])
+        
+        members = server.members.exclude(sq)
         trainers = filter_leaderboard_qs(Trainer.objects.filter(owner__socialaccount__in=members))
         
         leaderboard = trainers.prefetch_related('faction').prefetch_related('update_set').prefetch_related('owner').annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).filter(update__update_time__max__gte=datetime.now()-relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)).annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())).order_by('rank')

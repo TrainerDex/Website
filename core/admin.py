@@ -27,16 +27,19 @@ download_channels.short_description = _("Download channels from Discord. Current
 
 @admin.register(DiscordGuild)
 class DiscordGuildAdmin(admin.ModelAdmin):
-    fields = ('id', 'owner', 'data_prettified', 'cached_date')
+    fieldsets = (
+        (None, {'fields' : ('id', 'owner', 'data_prettified', 'cached_date',)}),
+        ('TrainerDex', {'fields': ('settings_pokemongo_rename', 'settings_pokemongo_rename_with_level', 'settings_pokemongo_rename_with_level_format',)}),
+        )
     search_fields = ('id', 'data__name')
     actions = [sync_members, download_channels]
     list_display = ('__str__', 'region', '_outdated', 'has_data', 'owner', 'cached_date')
     
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return self.fields
+            return self.fieldsets[0][1]['fields']
         else:
-            return [x for x in self.fields if x != 'id']
+            return [x for x in self.fieldsets[0][1]['fields'] if x != 'id']
     
     def data_prettified(self, instance):
         """Function to display pretty version of our data"""
@@ -130,16 +133,15 @@ class DiscordRoleAdmin(admin.ModelAdmin):
 
 @admin.register(DiscordGuildMembership)
 class DiscordGuildMembershipAdmin(admin.ModelAdmin):
-    fields = ('guild', 'user','data_prettified','cached_date')
-    readonly_fields = fields
+    fields = ('guild', 'user','data_prettified','cached_date', 'active', 'nick_override')
     autocomplete_fields = ['guild', 'user']
-    search_fields = ('guild', 'user', 'data__nick', 'data__user__username')
-    list_display = ('user', 'guild', 'active', 'cached_date',)
-    list_filter = ('guild', 'active','cached_date')
+    search_fields = ('guild__data__name', 'guild__id', 'user__user__username', 'user__user__trainer__nickname__nickname', 'data__nick', 'data__user__username')
+    list_display = ('user', '__str__', 'active', 'cached_date',)
+    list_filter = ('guild', 'active', 'cached_date')
     
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return self.fields
+            return ('guild', 'user','data_prettified','cached_date')
         else:
             return ('data_prettified','cached_date')
     

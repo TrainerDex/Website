@@ -7,7 +7,7 @@ import requests
 
 from allauth.socialaccount.models import SocialAccount
 from cities.models import Country, Region
-from core.models import DiscordGuild, get_guild_members, DiscordRole
+from core.models import DiscordGuild, get_guild_members, DiscordRole, DiscordGuildMembership
 from collections import defaultdict
 from colorful.fields import RGBColorField
 from datetime import date, datetime, timedelta, timezone, time
@@ -28,7 +28,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy, to_locale, get_supported_language_variant, get_language
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
-from pokemongo.shortcuts import level_parser, int_to_unicode, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup, numbers, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
+from pokemongo.shortcuts import level_parser, circled_level, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
 from os.path import splitext
 
 def VerificationImagePath(instance, filename):
@@ -131,15 +131,9 @@ class Trainer(models.Model):
     is_on_leaderboard.boolean = True
     
     def level(self):
-        update = self.update_set.exclude(total_xp__isnull=True)
-        if update.exists():
-            return level_parser(xp=update.aggregate(models.Max('total_xp'))['total_xp__max']).level
-        return None
-    
-    def circled_level(self):
-        level = self.level()
-        if level:
-            return int_to_unicode(level).strip()
+        updates = self.update_set.exclude(total_xp__isnull=True)
+        if updates.exists():
+            return updates.latest('update_time').level()
         return None
     
     @property
@@ -367,7 +361,7 @@ class Update(models.Model):
     badge_max_level_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"), help_text=pgettext_lazy("badge_max_level_friends", "Become Best Friends with {0} Trainers.").format(3), validators=[MaxValueValidator(200)])
     badge_trading = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_title", "Gentleman"), help_text=pgettext_lazy("badge_trading", "Trade {0} Pokémon.").format(1000))
     badge_trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_distance_title", "Pilot"), help_text=pgettext_lazy("badge_trading_distance", "Earn {0} km across the distance of all Pokémon trades.").format(1000000))
-    badge_pokedex_entries_gen4 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen4_title", "Sinnoh"), help_text=pgettext_lazy("badge_pokedex_entries_gen4", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80), validators=[MaxValueValidator(47)])
+    badge_pokedex_entries_gen4 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen4_title", "Sinnoh"), help_text=pgettext_lazy("badge_pokedex_entries_gen4", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80), validators=[MaxValueValidator(61)])
     
     badge_great_league = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_great_league_title", "Great League Veteran"), help_text=pgettext_lazy("badge_great_league", "Win {} Trainer Battles in the Great League.").format(200))
     badge_ultra_league = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_ultra_league_title", "Ultra League Veteran"), help_text=pgettext_lazy("badge_ultra_league", "Win {} Trainer Battles in the Ultra League.").format(200))
@@ -400,12 +394,20 @@ class Update(models.Model):
     gymbadges_gold = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("gymbadges_gold", "Gold Gym Badges"), validators=[MaxValueValidator(1000)])
     pokemon_info_stardust = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("pokemon_info_stardust_label", "Stardust"))
     
+    def level(self):
+        if self.total_xp:
+            return level_parser(xp=self.total_xp).level
+        return None
+    
     def __str__(self):
-        return _("Update by {trainer}").format(trainer=self.trainer)
+        return _("Update(trainer: {trainer}, update_time: {time}, {stats})").format(trainer=self.trainer, time=self.update_time, stats=','.join([f'{x}: {getattr(self, x)}' for x in self.modified_fields()]))
     
     def has_modified_extra_fields(self):
         return bool([x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust')) if getattr(self, x)])
     has_modified_extra_fields.boolean = True
+
+    def modified_fields(self):
+        return [x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust', 'total_xp')) if getattr(self, x)]
     
     def modified_extra_fields(self):
         return [x for x in (UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES + ('pokedex_caught', 'pokedex_seen', 'gymbadges_total', 'gymbadges_gold', 'pokemon_info_stardust')) if getattr(self, x)]
@@ -1049,75 +1051,30 @@ class Update(models.Model):
         verbose_name = _("Update")
         verbose_name_plural = _("Updates")
 
-#@receiver(post_save, sender=Update)
-#def update_discord_level(sender, **kwargs):
-#    if kwargs['created'] and kwargs['instance'].xp:
-#        if kwargs['instance'].trainer.owner.socialaccount_set.filter(provider='discord').exists():
-#            for user in kwargs['instance'].trainer.owner.socialaccount_set.filter(provider='discord'):
-#                r = requests.get(
-#                    url="https://discordapp.com/api/v6/users/@me/guilds",
-#                    headers={"Authorization": "Bearer {oauth2_token}".format(
-#                        oauth2_token=user.socialtoken_set.first().token
-#                    )})
-#                if 'code' in r.json():
-#                    return
-#                for guild in DiscordGuild.objects.filter(id__in=[x['id'] for x in r.json()], setting_rename_users=True):
-#                    check = requests.get(
-#                        url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
-#                            guild = guild.id,
-#                            user = user.uid
-#                        ),
-#                        headers = {"Authorization": "Bot {token}".format(
-#                            token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")}
-#                    )
-#
-#                    try:
-#                        if check.json()['nick']:
-#                            base_name = check.json()['nick']
-#                        else:
-#                            base_name = kwargs['instance'].trainer.username
-#                    except KeyError:
-#                        base_name = kwargs['instance'].trainer.username
-#
-#                    if ord(base_name[-1]) in numbers:
-#                        base_name = base_name[:-2]
-#
-#                    new_name = base_name+" "+int_to_unicode(kwargs['instance'].trainer.level())
-#
-#                    logger.info("Renaming {user} on Discord Guild #{guild_id} to {name}".format(
-#                        user=kwargs['instance'].trainer.username,
-#                        guild_id=guild.id,
-#                        name=new_name
-#                    ))
-#
-#                    edit = requests.patch(
-#                        url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
-#                            guild = guild.id,
-#                            user = user.uid
-#                        ),
-#                        headers={"Authorization": "Bot {token}".format(
-#                            token="Mzc3NTU5OTAyNTEzNzkwOTc3.Da5Omg.SQf0EuGcHS3Sp0GCRluKaM6Crrw")},
-#                        json={"nick": new_name})
-#
-#                    if edit.status_code != 204:
-#                        logger.error("^ {code} ^ Failed to rename user, trying again \n {log}".format(
-#                            code=edit.status_code,
-#                            log=edit.content))
-#
-#                        # I'm not 100% sure tryiing again will ever work. Maybe a workaround could be messaging the user via one of the set OCR channels and letting them know the bot in unable to rename them and they'll have to manage it themselves.
-#
-#                        edit = requests.patch(
-#                            url="https://discordapp.com/api/v6/guilds/{guild}/members/{user}".format(
-#                                guild = guild.id,
-#                                user = user.uid
-#                            ),
-#                            headers={"Authorization": "Bearer {oauth2_token}".format(oauth2_token=user.socialtoken_set.first().token)},
-#                            json={"nick": new_name})
-#
-#                        if edit.status_code != 204:
-#                            logger.error("^ {code} ^ Failed to rename user again \n {log}".format(
-#                                code=edit.status_code,
-#                                log=edit.content))
+@receiver(post_save, sender=Update)
+def update_discord_level(sender, **kwargs):
+    if kwargs['created'] and kwargs['instance'].total_xp:
+        level = kwargs['instance'].level()
+        for discord in DiscordGuildMembership.objects.exclude(active=False).filter(guild__settings_pokemongo_rename=True, guild__settings_pokemongo_rename_with_level=True, user__user__trainer=kwargs['instance'].trainer):
+            if discord.nick_override:
+                base = discord.nick_override
+            else:
+                base = kwargs['instance'].trainer.nickname
+            
+            if discord.guild.settings_pokemongo_rename_with_level_format=='int':
+                ext = str(level)
+            elif discord.guild.settings_pokemongo_rename_with_level_format=='circled_level':
+                ext = circled_level(level)
+            
+            if len(base)+len(ext) > 32:
+                chopped_base = base[slice(0,32-len(ext)-1)]
+                combined = f"{chopped_base}…{ext}"
+            elif len(base)+len(ext) == 32:
+                combined = f"{base}{ext}"
+            else:
+                combined = f"{base} {ext}"
+            
+            discord._change_nick(combined)
 
 class Sponsorship(models.Model):
     slug = models.SlugField(db_index=True, primary_key=True)
@@ -1162,7 +1119,7 @@ class Community(models.Model):
         qs = self.memberships_personal.all()
         
         for x in CommunityMembershipDiscord.objects.filter(sync_members=True, community=self):
-            qs = qs | x.members_queryset()
+            qs |= x.members_queryset()
         
         return qs
     
