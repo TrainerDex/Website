@@ -16,7 +16,7 @@ django-modeladmin-reorder==0.3
 django-rosetta==0.9.0
 django-unused-media
 django-widget-tweaks==1.4.3
-django==2.1.4
+django==2.1.5
 djangorestframework==3.9.0
 humanize==0.5.1
 idna==2.8
