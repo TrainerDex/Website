@@ -4,7 +4,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib import admin, messages
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _, ngettext
-from core.models import DiscordGuild, DiscordChannel, DiscordRole, DiscordGuildMembership
+from core.models import DiscordGuild, DiscordChannel, DiscordRole, DiscordGuildMembership, DiscordUser
 from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
@@ -43,22 +43,47 @@ class DiscordGuildAdmin(admin.ModelAdmin):
     
     def data_prettified(self, instance):
         """Function to display pretty version of our data"""
-
+        
         # Convert the data to sorted, indented JSON
         response = json.dumps(instance.data, sort_keys=True, indent=2)
-
+        
         # Get the Pygments formatter
         formatter = HtmlFormatter(style='colorful')
-
+        
         # Highlight the data
         response = highlight(response, JsonLexer(), formatter)
-
+        
         # Get the stylesheet
         style = "<style>" + formatter.get_style_defs() + "</style><br>"
-
+        
         # Safe the output
         return mark_safe(style + response)
+    data_prettified.short_description = 'data'
 
+@admin.register(DiscordUser)
+class DiscordUserAdmin(admin.ModelAdmin):
+    fields = ('user', 'uid', 'last_login', 'date_joined', 'data_prettified',)
+    search_fields = ('user__username', 'uid',)
+    list_display = ('__str__', 'uid', 'last_login', 'date_joined', 'user',)
+    readonly_fields = ('uid','last_login', 'date_joined', 'data_prettified')
+    
+    def data_prettified(self, instance):
+        """Function to display pretty version of our data"""
+        
+        # Convert the data to sorted, indented JSON
+        response = json.dumps(instance.extra_data, sort_keys=True, indent=2)
+        
+        # Get the Pygments formatter
+        formatter = HtmlFormatter(style='colorful')
+        
+        # Highlight the data
+        response = highlight(response, JsonLexer(), formatter)
+        
+        # Get the stylesheet
+        style = "<style>" + formatter.get_style_defs() + "</style><br>"
+        
+        # Safe the output
+        return mark_safe(style + response)
     data_prettified.short_description = 'data'
 
 @admin.register(DiscordChannel)
