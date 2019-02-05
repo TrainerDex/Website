@@ -72,9 +72,7 @@ class Trainer(models.Model):
     badge_yokosuka_2_sep_2018_mikasa = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_mikasa_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_mikasa", "Yokosuka, Sep 2, 2018-MIKASA"))
     badge_yokosuka_2_sep_2018_verny = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_verny_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_verny", "Yokosuka, Sep 2, 2018-VERNY"))
     badge_yokosuka_2_sep_2018_kurihama = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_kurihama_title", "Pokémon GO Safari Zone"), help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_kurihama", "Yokosuka, Sep 2, 2018-KURIHAMA"))
-    # badge_top_banana_1 = models.PositiveIntegerField(null=True, blank=True) # What does this do? Bananas
-    # badge_top_banana_2 = models.PositiveIntegerField(null=True, blank=True) # What does this do? In
-    # badge_top_banana_3 = models.PositiveIntegerField(null=True, blank=True) # What does this do? Pyjamas
+    badge_top_banana = models.BooleanField(default=False, verbose_name=pgettext_lazy("badge_top_banana__title", "Pokémon GO Safari Zone - Porto Alegre 2019"), help_text=pgettext_lazy("badge_top_banana__help", "Porto Alegre"))
     
     leaderboard_country = models.ForeignKey(Country, on_delete=models.SET_NULL , null=True, blank=True, verbose_name=_("Country"), related_name='leaderboard_trainers_country', help_text=_("Where are you based?"))
     leaderboard_region = models.ForeignKey(Region, on_delete=models.SET_NULL , null=True, blank=True, verbose_name=_("Region"), related_name='leaderboard_trainers_region', help_text=_("Where are you based?"))
@@ -364,7 +362,13 @@ class Update(models.Model):
     badge_max_level_friends = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"), help_text=pgettext_lazy("badge_max_level_friends", "Become Best Friends with {0} Trainers.").format(3), validators=[MaxValueValidator(200)])
     badge_trading = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_title", "Gentleman"), help_text=pgettext_lazy("badge_trading", "Trade {0} Pokémon.").format(1000))
     badge_trading_distance = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_trading_distance_title", "Pilot"), help_text=pgettext_lazy("badge_trading_distance", "Earn {0} km across the distance of all Pokémon trades.").format(1000000))
-    badge_pokedex_entries_gen4 = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_pokedex_entries_gen4_title", "Sinnoh"), help_text=pgettext_lazy("badge_pokedex_entries_gen4", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80), validators=[MaxValueValidator(62)])
+    badge_pokedex_entries_gen4 = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_pokedex_entries_gen4__title", "Sinnoh"),
+        help_text=pgettext_lazy("badge_pokedex_entries_gen4__help", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80),
+        validators=[MaxValueValidator(79)],
+        )
     
     badge_great_league = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_great_league_title", "Great League Veteran"), help_text=pgettext_lazy("badge_great_league", "Win {} Trainer Battles in the Great League.").format(200))
     badge_ultra_league = models.PositiveIntegerField(null=True, blank=True, verbose_name=pgettext_lazy("badge_ultra_league_title", "Ultra League Veteran"), help_text=pgettext_lazy("badge_ultra_league", "Win {} Trainer Battles in the Ultra League.").format(200))
