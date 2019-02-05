@@ -143,6 +143,13 @@ function drawChart() {
       {% trans "South Korea, July 29, 2018" context "badge_apac_partner_july_2018_5" %}
     </div>
     {% endif %}
+    {% if trainer.badge_top_banana %}
+    <img id="badge_top_banana" class="profile-medal" src="{% static 'img/badge_top_banana.png' %}" />
+    <div class="mdl-tooltip" for="badge_top_banana">
+      <b>{% trans "Pokémon GO Safari Zone - Porto Alegre 2019" context "badge_top_banana__title" %}</b><br>
+      {% trans "Porto Alegre" context "badge_top_banana__help" %}
+    </div>
+    {% endif %}
     {% for spon in sponsorships %}
     <img id="{{spon.slug}}" class="profile-medal" src="{% get_media_prefix %}{{spon.icon}}" />
     <div class="mdl-tooltip" for="{{spon.slug}}">
