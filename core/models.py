@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from django.db import models, IntegrityError
 from django.db.models.signals import *
 from django.dispatch import receiver
+from django.utils.encoding import force_text
 from django.utils.translation import pgettext_lazy, gettext_lazy as _, ngettext
 from django.utils import timezone
 from datetime import timedelta
@@ -57,7 +58,7 @@ class DiscordGuild(models.Model):
     data = postgres_fields.JSONField(null=True, blank=True)
     cached_date = models.DateTimeField(auto_now_add=True)
     members = models.ManyToManyField(
-        SocialAccount,
+        'DiscordUser',
         through='DiscordGuildMembership',
         through_fields=('guild', 'user')
     )
@@ -464,9 +465,33 @@ class DiscordRole(models.Model):
         verbose_name_plural = _("Discord Roles")
         ordering = ['guild__id', '-data__position']
 
+class DiscordUserManager(models.Manager):
+    def get_queryset(self):
+        return super(DiscordUserManager, self).get_queryset().filter(provider='discord')
+        
+    def create(self, **kwargs):
+        kwargs.update({'provider': 'discord'})
+        return super(DiscordUserManager, self).create(**kwargs)
+
+class DiscordUser(SocialAccount):
+    objects = DiscordUserManager()
+    
+    def __str__(self):
+        if 'username' in self.extra_data and 'discriminator' in self.extra_data:
+            return f"{self.extra_data['username']}#{self.extra_data['discriminator']}"
+        else:
+            return force_text(self.user)
+    
+    
+    
+    class Meta:
+        proxy = True
+        verbose_name = _("Discord User")
+        verbose_name_plural = _("Discord Users")
+
 class DiscordGuildMembership(models.Model):
     guild = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
-    user = models.ForeignKey(SocialAccount, on_delete=models.CASCADE, limit_choices_to={'provider': 'discord'})
+    user = models.ForeignKey(DiscordUser, on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
     nick_override = models.CharField(null=True, blank=True, max_length=32)
     
