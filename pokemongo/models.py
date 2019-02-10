@@ -1356,34 +1356,6 @@ def update_discord_level(sender, **kwargs):
             
             discord._change_nick(combined)
 
-class Sponsorship(models.Model):
-    slug = models.SlugField(
-        db_index=True,
-        primary_key=True,
-        )
-    title = models.CharField(
-        db_index=True,
-        max_length=20,
-        )
-    description = models.CharField(
-        db_index=True,
-        max_length=240,
-        )
-    icon = models.ImageField(
-        upload_to='spon/',
-        )
-    members = models.ManyToManyField(
-        Trainer,
-        related_name='sponsorships',
-        )
-    
-    def __str__(self):
-        return self.title
-    
-    class Meta:
-        verbose_name = _("Special Relationship (Sponsorship)")
-        verbose_name_plural = _("Special Relationships (Sponsorships)")
-
 class ProfileBadge(models.Model):
     slug = models.SlugField(
         db_index=True,
@@ -1435,6 +1407,9 @@ class ProfileBadgeHoldership(models.Model):
     reason_given = models.CharField(
         max_length=64,
         )
+    
+    def __str__(self):
+        return f"{self.trainer} - {self.badge}"
 
 class Community(models.Model):
     uuid = models.UUIDField(

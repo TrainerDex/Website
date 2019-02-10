@@ -104,14 +104,6 @@ class TrainerAdmin(admin.ModelAdmin):
         (_('Reports'), {
             'fields': ('last_cheated', 'verified', 'verification')
         }),
-        (_('2017 Events'), {
-            'classes': ('collapse',),
-            'fields': ('badge_chicago_fest_july_2017', 'badge_pikachu_outbreak_yokohama_2017', 'badge_safari_zone_europe_2017_09_16', 'badge_safari_zone_europe_2017_10_07', 'badge_safari_zone_europe_2017_10_14')
-        }),
-        (_('2018 Events'), {
-            'classes': ('collapse',),
-            'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018_japan','badge_apac_partner_july_2018_south_korea')
-        }),
         (_('Leaderboard'), {
             'fields': ('leaderboard_country', 'leaderboard_region', 'statistics')
         }),
