@@ -14,15 +14,23 @@ from pokemongo.views import SetUpProfileViewStep2, SetUpProfileViewStep3
 from core import sitemaps
 
 urlpatterns = [
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': {
-        'base': sitemaps.BaseSitemap,
-        'continent':sitemaps.LeaderboardContinentSitemap,
-        'country':sitemaps.LeaderboardCountrySitemap,
-        'region':sitemaps.LeaderboardRegionSitemap,
-        'trainers':sitemaps.TrainerSitemap,
-        'Communities':sitemaps.LeaderboardCommunitySitemap,
-    }},
-    name='django.contrib.sitemaps.views.sitemap'),
+    url(
+        r'^sitemap\.xml$',
+        sitemap,
+        {'sitemaps': {
+            'base': sitemaps.BaseSitemap,
+            'continent':sitemaps.LeaderboardContinentSitemap,
+            'country':sitemaps.LeaderboardCountrySitemap,
+            'region':sitemaps.LeaderboardRegionSitemap,
+            'trainers':sitemaps.TrainerSitemap,
+            'Communities':sitemaps.LeaderboardCommunitySitemap,
+            }
+         },
+         name='django.contrib.sitemaps.views.sitemap',
+         ),
+    ]
+
+urlpatterns += [
     url(r'^api\/v1\/', include('pokemongo.api.v1.urls')),
     url(r'^api\/admin\/', admin.site.urls),
     url(r'^api-token-auth\/', views.obtain_auth_token),

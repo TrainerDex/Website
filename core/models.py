@@ -54,18 +54,42 @@ def get_channel(channel_id: int):
     return r.json()
 
 class DiscordGuild(models.Model):
-    id = models.BigIntegerField(primary_key=True, verbose_name="ID")
-    data = postgres_fields.JSONField(null=True, blank=True)
-    cached_date = models.DateTimeField(auto_now_add=True)
+    id = models.BigIntegerField(
+        primary_key=True,
+        verbose_name="ID",
+        )
+    data = postgres_fields.JSONField(
+        null=True,
+        blank=True,
+        )
+    cached_date = models.DateTimeField(
+        auto_now_add=True,
+        )
     members = models.ManyToManyField(
         'DiscordUser',
         through='DiscordGuildMembership',
-        through_fields=('guild', 'user')
-    )
+        through_fields=('guild', 'user'),
+        )
     
-    settings_pokemongo_rename = models.BooleanField(default=True, verbose_name=_('Rename users when they join.'), help_text=_("""This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here. Pairs great with White Wine, Wensleydale and a Denied "Change Nickname" permission."""))
-    settings_pokemongo_rename_with_level = models.BooleanField(default=False, verbose_name=_('Rename users with their level indicator'), help_text=_("""This setting will add a level to the end of their username on your server. Their name will update whenever they level up. Pairs great with Red Wine, Pears and the above settings."""))
-    settings_pokemongo_rename_with_level_format = models.CharField(default='int', verbose_name=_('Level Indicator format'), max_length=50, choices=(('int', _("Plain ol' Numbers")), ('circled_level', _("Circled Numbers ㊵"))))
+    settings_pokemongo_rename = models.BooleanField(
+        default=True,
+        verbose_name=_('Rename users when they join.'),
+        help_text=_("This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."),
+        )
+    settings_pokemongo_rename_with_level = models.BooleanField(
+        default=False,
+        verbose_name=_('Rename users with their level indicator'),
+        help_text=_("This setting will add a level to the end of their username on your server. Their name will update whenever they level up."),
+        )
+    settings_pokemongo_rename_with_level_format = models.CharField(
+        default='int',
+        verbose_name=_('Level Indicator format'),
+        max_length=50,
+        choices=[
+            ('int', _("Plain ol' Numbers")),
+            ('circled_level', _("Circled Numbers ㊵")),
+            ],
+        )
     
     def _outdated(self):
         return (timezone.now()-self.cached_date) > timedelta(days=1)
@@ -281,10 +305,22 @@ def new_guild(sender, **kwargs):
     return None
 
 class DiscordChannel(models.Model):
-    id = models.BigIntegerField(primary_key=True, verbose_name="ID")
-    guild = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE, related_name='channels')
-    data = postgres_fields.JSONField(null=True, blank=True)
-    cached_date = models.DateTimeField(auto_now_add=True)
+    id = models.BigIntegerField(
+        primary_key=True,
+        verbose_name="ID",
+        )
+    guild = models.ForeignKey(
+        DiscordGuild,
+        on_delete=models.CASCADE,
+        related_name='channels',
+        )
+    data = postgres_fields.JSONField(
+        null=True,
+        blank=True,
+        )
+    cached_date = models.DateTimeField(
+        auto_now_add=True,
+        )
     
     def _outdated(self):
         return (timezone.now()-self.cached_date) > timedelta(days=1)
@@ -395,10 +431,22 @@ class DiscordChannel(models.Model):
         verbose_name_plural = _("Discord Channels")
 
 class DiscordRole(models.Model):
-    id = models.BigIntegerField(primary_key=True, verbose_name="ID")
-    guild = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE, related_name='roles')
-    data = postgres_fields.JSONField(null=True, blank=True)
-    cached_date = models.DateTimeField(auto_now_add=True)
+    id = models.BigIntegerField(
+        primary_key=True,
+        verbose_name="ID",
+        )
+    guild = models.ForeignKey(
+        DiscordGuild,
+        on_delete=models.CASCADE,
+        related_name='roles',
+        )
+    data = postgres_fields.JSONField(
+        null=True,
+        blank=True,
+        )
+    cached_date = models.DateTimeField(
+        auto_now_add=True,
+        )
     
     def _outdated(self):
         return (timezone.now()-self.cached_date) > timedelta(days=1)
@@ -482,21 +530,36 @@ class DiscordUser(SocialAccount):
         else:
             return force_text(self.user)
     
-    
-    
     class Meta:
         proxy = True
         verbose_name = _("Discord User")
         verbose_name_plural = _("Discord Users")
 
 class DiscordGuildMembership(models.Model):
-    guild = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
-    user = models.ForeignKey(DiscordUser, on_delete=models.CASCADE)
-    active = models.BooleanField(default=True)
-    nick_override = models.CharField(null=True, blank=True, max_length=32)
+    guild = models.ForeignKey(
+        DiscordGuild,
+        on_delete=models.CASCADE,
+        )
+    user = models.ForeignKey(
+        DiscordUser,
+        on_delete=models.CASCADE,
+        )
+    active = models.BooleanField(
+        default=True,
+        )
+    nick_override = models.CharField(
+        null=True,
+        blank=True,
+        max_length=32,
+        )
     
-    data = postgres_fields.JSONField(null=True, blank=True)
-    cached_date = models.DateTimeField(auto_now_add=True)
+    data = postgres_fields.JSONField(
+        null=True,
+        blank=True,
+        )
+    cached_date = models.DateTimeField(
+        auto_now_add=True,
+        )
     
     def _outdated(self):
         return (timezone.now()-self.cached_date) > timedelta(days=1)
