@@ -27,11 +27,17 @@ class CommunityMembershipDiscordAdmin(admin.ModelAdmin):
 
     autocomplete_fields = ['community', 'discord']
 
-@admin.register(Sponsorship)
-class SponsorshipAdmin(admin.ModelAdmin):
+@admin.register(ProfileBadge)
+class ProfileBadgeAdmin(admin.ModelAdmin):
     
     autocomplete_fields = ['members']
-    search_fields = ('title',)
+    search_fields = ('title', 'slug')
+
+@admin.register(ProfileBadgeHoldership)
+class ProfileBadgeHoldershipAdmin(admin.ModelAdmin):
+    
+    autocomplete_fields = ['trainer', 'badge', 'awarded_by']
+    search_fields = ('trainer__nickname__nickname', 'badge__title', 'badge__slug')
 
 @admin.register(Update)
 class UpdateAdmin(admin.ModelAdmin):

@@ -70,7 +70,7 @@ def TrainerProfileView(request, trainer):
     context = {
         'trainer' : trainer,
         'updates' : trainer.update_set.all(),
-        'sponsorships' : trainer.sponsorships.all(),
+        'badges' : trainer.profilebadge_set.all(),
     }
     _badges = context['updates'].aggregate(*[Max(x) for x in UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES])
     badges = []
