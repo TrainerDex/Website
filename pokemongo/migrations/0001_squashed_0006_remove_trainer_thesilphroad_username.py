@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('name_ko', models.CharField(max_length=50, verbose_name='Name (Korean)')),
                 ('name_zh_Hant', models.CharField(max_length=50, verbose_name='Name (Traditional Chinese)')),
                 ('name_pt_BR', models.CharField(max_length=50, verbose_name='Name (Brazilian Portuguese)')),
-                ('colour', colorful.fields.RGBColorField(blank=True, default='#929292', null=True, verbose_name='Colour')),
+                ('colour', models.CharField(max_length=7, default='#929292', null=True, verbose_name='Colour')),
             ],
             options={
                 'db_table' : 'trainer_faction',

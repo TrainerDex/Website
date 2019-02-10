@@ -8,6 +8,7 @@ import requests
 from allauth.socialaccount.models import SocialAccount
 from cities.models import Country, Region
 from core.models import DiscordGuild, get_guild_members, DiscordRole, DiscordGuildMembership
+from core.shortcuts import dict_to_choices
 from collections import defaultdict
 from colorful.fields import RGBColorField
 from datetime import date, datetime, timedelta, timezone, time
@@ -61,12 +62,10 @@ class Trainer(models.Model):
         verbose_name=pgettext_lazy("profile_start_date", "Start Date"),
         help_text=_("The date you created your Pokémon Go account."),
         )
-    faction = models.ForeignKey(
-        'Faction',
-        on_delete=models.SET_DEFAULT,
-        default=0,
-        verbose_name=_("Team"),
-        help_text=_("Mystic = Blue, Instinct = Yellow, Valor = Red."),
+    faction = models.SmallIntegerField(
+        choices=dict_to_choices(settings.TEAMS),
+        null=True,
+        verbose_name=pgettext_lazy("faction", "Team"),
         )
     last_cheated = models.DateField(
         null=True,
@@ -399,84 +398,6 @@ def new_trainer_set_nickname(sender, **kwargs):
             )
         return nickname
     return None
-
-class Faction(models.Model):
-    slug = models.SlugField()
-    name_en = models.CharField(
-        max_length=50,
-        verbose_name=_("Name ({language})").format(
-            language=_('English')
-        )
-    )
-    name_ja = models.CharField(
-        max_length=50,
-        verbose_name=_("Name ({language})").format(
-            language=_('Japanese')
-        )
-    )
-    name_fr = models.CharField(
-        max_length=50,
-        verbose_name=_("Name ({language})").format(
-            language=_('French')
-        )
-    )
-    name_es = models.CharField(
-        max_length=50,
-        verbose_name=_("Name ({language})").format(
-            language=_('Spanish')
-        )
-    )
-    name_de = models.CharField(
-        max_length=50,
-        verbose_name=_("Name ({language})").format(
-            language=_('German')
-        )
-    )
-    name_it = models.CharField(
-        max_length=50,
-        verbose_name=_("Name ({language})").format(
-            language=_('Italian')
-        )
-    )
-    name_ko = models.CharField(
-        max_length=50,
-        verbose_name=_("Name ({language})").format(
-            language=_('Korean')
-        )
-    )
-    name_zh_Hant = models.CharField(
-        max_length=50,
-        verbose_name=_("Name ({language})").format(
-            language=_('Traditional Chinese')
-        )
-    )
-    name_pt_BR = models.CharField(
-        max_length=50,
-        verbose_name=_("Name ({language})").format(
-            language=_('Brazilian Portuguese')
-        )
-    )
-    colour = RGBColorField(default='#929292', null=True, blank=True, verbose_name=_("Colour"))
-    
-    @property
-    def image(self):
-        return f'img/{self.slug}.png'
-    
-    @property
-    def vector_image(self):
-        return f'img/{self.slug}.svg'
-    
-    @property
-    def localized_name(self):
-        lng_cd = to_locale(get_supported_language_variant(get_language()))
-        return getattr(self, f'name_{lng_cd}')
-    
-    def __str__(self):
-        return f'{self.localized_name}'
-    
-    class Meta:
-        verbose_name = _("Team")
-        verbose_name_plural = _("Teams")
 
 class Update(models.Model):
     uuid = models.UUIDField(

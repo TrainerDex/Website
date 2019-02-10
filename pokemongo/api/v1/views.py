@@ -111,7 +111,7 @@ class TrainerDetailView(APIView):
                 'reason': 'Profile deactivated',
                 'profile': {
                     'id': trainer.pk,
-                    'faction': trainer.faction.id,
+                    'faction': trainer.faction,
                 },
             }
             return Response(response, status=status.HTTP_423_LOCKED)
@@ -136,7 +136,7 @@ class TrainerDetailView(APIView):
                 'reason': 'Profile deactivated',
                 'profile': {
                     'id': trainer.pk,
-                    'faction': trainer.faction.id,
+                    'faction': trainer.faction,
                 },
             }
             return Response(response, status=status.HTTP_204_NO_CONTENT)
@@ -259,7 +259,12 @@ class LeaderboardView(APIView):
         query = filter_leaderboard_qs(Trainer.objects)
         if request.GET.get('users'):
             query = filter_leaderboard_qs(Trainer.objects.filter(id__in=request.GET.get('users').split(',')))
-        leaderboard = query.prefetch_related('faction').prefetch_related('update_set').prefetch_related('owner').annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())).order_by('rank')
+        leaderboard = query.prefetch_related('update_set') \
+            .prefetch_related('owner') \
+            .annotate(Max('update__total_xp'), Max('update__update_time')) \
+            .exclude(update__total_xp__max__isnull=True) \
+            .annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())) \
+            .order_by('rank')
         serializer = LeaderboardSerializer(leaderboard[:5000], many=True)
         return Response(serializer.data)
     
@@ -338,7 +343,13 @@ class DiscordLeaderboardAPIView(APIView):
         members = server.members.exclude(sq)
         trainers = filter_leaderboard_qs(Trainer.objects.filter(owner__socialaccount__in=members))
         
-        leaderboard = trainers.prefetch_related('faction').prefetch_related('update_set').prefetch_related('owner').annotate(Max('update__total_xp'), Max('update__update_time')).exclude(update__total_xp__max__isnull=True).filter(update__update_time__max__gte=datetime.now()-relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)).annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())).order_by('rank')
+        leaderboard = trainers.prefetch_related('update_set') \
+            .prefetch_related('owner') \
+            .annotate(Max('update__total_xp'), Max('update__update_time')) \
+            .exclude(update__total_xp__max__isnull=True) \
+            .filter(update__update_time__max__gte=datetime.now()-relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)) \
+            .annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())) \
+            .order_by('rank')
         serializer = LeaderboardSerializer(leaderboard, many=True)
         output['leaderboard'] = serializer.data
         return Response(output)

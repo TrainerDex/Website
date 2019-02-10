@@ -16,8 +16,7 @@ def filter_leaderboard_qs(queryset):
         .exclude(verified=False) \
         .exclude(last_cheated__lt=date(2018,9,1)-timedelta(weeks=26)) \
         .exclude(last_cheated__gt=date(2018,9,1)) \
-        .exclude(last_cheated__gt=date.today()-timedelta(weeks=26)) \
-        .select_related('faction')
+        .exclude(last_cheated__gt=date.today()-timedelta(weeks=26))
 
 def level_parser(xp=None, level=None):
     """
