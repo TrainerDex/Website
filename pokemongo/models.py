@@ -46,6 +46,9 @@ def VerificationUpdateImagePath(instance, filename):
         instance.submission_date.timestamp(),
         ext=splitext(filename)[1]
         )
+    
+def get_path_for_badges(instance, filename):
+    return f"profile/badges/{instance.slug}{splitext(filename)[1]}"
 
 class Trainer(models.Model):
     
@@ -99,127 +102,6 @@ class Trainer(models.Model):
         max_length=15,
         verbose_name=pgettext_lazy("friend_code_title", "Trainer Code"),
         help_text=_("Fancy sharing your trainer code? (Disclaimer: This information will be public)"),
-        )
-    
-    badge_chicago_fest_july_2017 = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_chicago_fest_july_2017_title", "Pokémon GO Fest 2017"),
-        help_text=pgettext_lazy("badge_chicago_fest_july_2017", "Chicago, July 22, 2017"),
-        )
-    badge_pikachu_outbreak_yokohama_2017 = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_pikachu_outbreak_yokohama_2017_title", "Pikachu Outbreak 2017"),
-        help_text=pgettext_lazy("badge_pikachu_outbreak_yokohama_2017", "Yokohama, August 2017"),
-        )
-    badge_safari_zone_europe_2017_09_16 = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_safari_zone_europe_2017_title", "GO Safari Zone - Europe 2017"),
-        help_text=pgettext_lazy("badge_safari_zone_europe_2017", "Europe, September 16, 2017"),
-        )
-    badge_safari_zone_europe_2017_10_07 = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_safari_zone_europe_2017_10_07_title", "GO Safari Zone - Europe 2017"),
-        help_text=pgettext_lazy("badge_safari_zone_europe_2017_10_07", "Europe, October 7, 2017"),
-        )
-    badge_safari_zone_europe_2017_10_14 = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_safari_zone_europe_2017_10_14_title", "GO Safari Zone - Europe 2017"),
-        help_text=pgettext_lazy("badge_safari_zone_europe_2017_10_14", "Europe, October 14, 2017"),
-        )
-    badge_chicago_fest_july_2018 = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_chicago_fest_july_2018_*_*_title", "Pokémon GO Fest 2018"),
-        help_text=pgettext_lazy("badge_chicago_fest_july_2018_*_*", "Chicago, July 14-15, 2018"),
-        )
-    badge_apac_partner_july_2018_japan = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_apac_partner_july_2018_*_title", "Pokémon GO Special Weekend"),
-        help_text=pgettext_lazy("badge_apac_partner_july_2018_*", "Japan, July 26-29, 2018"),
-        )
-    badge_apac_partner_july_2018_south_korea = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_apac_partner_july_2018_5_title", "Pokémon GO Special Weekend"),
-        help_text=pgettext_lazy("badge_apac_partner_july_2018_5", "South Korea, July 29, 2018"),
-        )
-    badge_yokosuka_29_aug_2018_mikasa = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_29_aug_2018_mikasa_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_29_aug_2018_mikasa", "Yokosuka, Aug 29, 2018-MIKASA"),
-        )
-    badge_yokosuka_29_aug_2018_verny = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_29_aug_2018_verny_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_29_aug_2018_verny", "Yokosuka, Aug 29, 2018-VERNY"),
-        )
-    badge_yokosuka_29_aug_2018_kurihama = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_29_aug_2018_kurihama_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_29_aug_2018_kurihama", "Yokosuka, Aug 29, 2018-KURIHAM"),
-        )
-    badge_yokosuka_30_aug_2018_mikasa = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_30_aug_2018_mikasa_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_30_aug_2018_mikasa", "Yokosuka, Aug 30, 2018-MIKASA"),
-        )
-    badge_yokosuka_30_aug_2018_verny = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_30_aug_2018_verny_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_30_aug_2018_verny", "Yokosuka, Aug 30, 2018-VERNY"),
-        )
-    badge_yokosuka_30_aug_2018_kurihama = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_30_aug_2018_kurihama_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_30_aug_2018_kurihama", "Yokosuka, Aug 30, 2018-KURIHAMA"),
-        )
-    badge_yokosuka_31_aug_2018_mikasa = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_31_aug_2018_mikasa_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_31_aug_2018_mikasa", "Yokosuka, Aug 31, 2018-MIKASA"),
-        )
-    badge_yokosuka_31_aug_2018_verny = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_31_aug_2018_verny_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_31_aug_2018_verny", "Yokosuka, Aug 31, 2018-VERNY"),
-        )
-    badge_yokosuka_31_aug_2018_kurihama = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_31_aug_2018_kurihama_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_31_aug_2018_kurihama", "Yokosuka, Aug 31, 2018-KURIHAMA"),
-        )
-    badge_yokosuka_1_sep_2018_mikasa = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_1_sep_2018_mikasa_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_1_sep_2018_mikasa", "Yokosuka, Sep 1, 2018-MIKASA"),
-        )
-    badge_yokosuka_1_sep_2018_verny = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_1_sep_2018_verny_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_1_sep_2018_verny", "Yokosuka, Sep 1, 2018-VERNY"),
-        )
-    badge_yokosuka_1_sep_2018_kurihama = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_1_sep_2018_kurihama_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_1_sep_2018_kurihama", "Yokosuka, Sep 1, 2018-KURIHAMA"),
-        )
-    badge_yokosuka_2_sep_2018_mikasa = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_mikasa_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_mikasa", "Yokosuka, Sep 2, 2018-MIKASA"),
-        )
-    badge_yokosuka_2_sep_2018_verny = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_verny_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_verny", "Yokosuka, Sep 2, 2018-VERNY"),
-        )
-    badge_yokosuka_2_sep_2018_kurihama = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_yokosuka_2_sep_2018_kurihama_title", "Pokémon GO Safari Zone"),
-        help_text=pgettext_lazy("badge_yokosuka_2_sep_2018_kurihama", "Yokosuka, Sep 2, 2018-KURIHAMA"),
-        )
-    badge_top_banana = models.BooleanField(
-        default=False,
-        verbose_name=pgettext_lazy("badge_top_banana__title", "Pokémon GO Safari Zone - Porto Alegre 2019"),
-        help_text=pgettext_lazy("badge_top_banana__help", "Porto Alegre"),
         )
     
     leaderboard_country = models.ForeignKey(
@@ -1501,6 +1383,58 @@ class Sponsorship(models.Model):
     class Meta:
         verbose_name = _("Special Relationship (Sponsorship)")
         verbose_name_plural = _("Special Relationships (Sponsorships)")
+
+class ProfileBadge(models.Model):
+    slug = models.SlugField(
+        db_index=True,
+        primary_key=True,
+        )
+    title = models.CharField(
+        db_index=True,
+        max_length=20,
+        )
+    description = models.CharField(
+        db_index=True,
+        max_length=240,
+        )
+    badge = models.ImageField(
+        upload_to=get_path_for_badges,
+        )
+    members = models.ManyToManyField(
+        Trainer,
+        through='ProfileBadgeHoldership',
+        through_fields=('badge', 'trainer'),
+        )
+    
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        verbose_name = _("Badge")
+        verbose_name_plural = _("Badges")
+        
+class ProfileBadgeHoldership(models.Model):
+    trainer = models.ForeignKey(
+        Trainer,
+        on_delete=models.CASCADE,
+        )
+    badge = models.ForeignKey(
+        ProfileBadge,
+        on_delete=models.CASCADE,
+        )
+    awarded_by = models.ForeignKey(
+        Trainer,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='badges_awarded',
+        )
+    awarded_on = models.DateTimeField(
+        auto_now_add=True,
+        )
+    reason_given = models.CharField(
+        max_length=64,
+        )
 
 class Community(models.Model):
     uuid = models.UUIDField(
