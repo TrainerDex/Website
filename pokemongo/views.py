@@ -55,6 +55,7 @@ def TrainerRedirectorView(request, nickname=None, id=None):
         return redirect('home')
     else:
         trainer = request.user.trainer
+        return HttpResponseRedirect(reverse('trainerdex:profile_nickname', kwargs={'nickname':trainer.nickname}))
     
     if not stay:
         return HttpResponsePermanentRedirect(reverse('trainerdex:profile_nickname', kwargs={'nickname':trainer.nickname}))
