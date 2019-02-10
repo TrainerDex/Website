@@ -19,7 +19,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language_from_request
 from math import ceil
 from pokemongo.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
-from pokemongo.models import Trainer, Update, Faction, Community
+from pokemongo.models import Trainer, Update, Community
 from pokemongo.shortcuts import strtoboolornone, filter_leaderboard_qs, level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, UPDATE_SORTABLE_FIELDS, BADGES, chunks
 
 def _check_if_trainer_valid(trainer):
@@ -175,7 +175,6 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
     context['mystic'] = showMystic = {'param':'Mystic', 'value': strtoboolornone(request.GET.get('mystic'))}
     context['valor'] = showValor = {'param':'Valor', 'value': strtoboolornone(request.GET.get('valor'))}
     context['instinct'] = showInstinct = {'param':'Instinct', 'value': strtoboolornone(request.GET.get('instinct'))}
-    context['factions'] = Faction.objects.all()
     
     if continent:
         try:
@@ -238,7 +237,7 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
     context['sort_by'] = sort_by
     
     
-    QuerySet = QuerySet.exclude(faction__slug__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
+    # QuerySet = QuerySet.exclude(faction__slug__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
     context['grand_total_users'] = total_users = QuerySet.count()
     
     if total_users == 0:

@@ -15,10 +15,6 @@ def sync_members(modeladmin, request, queryset):
     
 sync_members.short_description = _('Sync Members for all eligible Discords')
 
-@admin.register(Faction)
-class FactionAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name_en",)}
-
 @admin.register(Community)
 class CommunityAdmin(admin.ModelAdmin):
 

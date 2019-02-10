@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import os
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, pgettext_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'cities',
-    'colorful',
     'cookielaw',
     'rosetta',
     'core',
@@ -274,3 +273,12 @@ FILE_UPLOAD_PERMISSIONS = 0x775
 DISCORD_CLIENT_ID = 377559902513790977
 DISCORD_CLIENT_SECRET = 'KP8Zwv1qI8zv9g2_wl2Rd0nzo6gXEydX'
 DISCORD_TOKEN = 'Mzc3NTU5OTAyNTEzNzkwOTc3.DunDCg.4FJAVu3T8BBvVfKiTl4IQDkFxxY'
+
+# CONSTANTS
+
+TEAMS = {
+    0: pgettext_lazy(context="team_name_team0", message="No Team"),
+    1: pgettext_lazy(context="team_name_team1", message="Team Mystic"),
+    2: pgettext_lazy(context="team_name_team2", message="Team Valor"),
+    3: pgettext_lazy(context="team_name_team3", message="Team Instinct"),
+}

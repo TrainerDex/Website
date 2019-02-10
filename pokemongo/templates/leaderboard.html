@@ -31,18 +31,12 @@ function setParam(uri, key, val) {
 
 <div class="tdx-lb__menu mdl-card__menu mdl-color-text--primary-contrast">
   <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}-1);" {% if page == 1 %}disabled{% endif %}><i class="material-icons">navigate_before</i></button> {{page}}/{{pages}} <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}+1);" {% if page == pages %}disabled{% endif %}><i class="material-icons">navigate_next</i></button>
-  <button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect">
+  <!--<button id="leaderboard-options" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect">
     <i class="material-icons">filter_list</i>
-  </button>
+  </button>-->
   
-  <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="leaderboard-options">
-    <li class="mdl-menu__item mdl-js-ripple-effect" id="mystic" class="button" onclick="location.href = setParam(window.location.href, 'mystic', '{{ mystic.value|yesno:'0,1,0' }}');">{% autoescape off %}{{ mystic.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>,<i class="material-icons">remove_circle_outline</i>' }}{% endautoescape %}{{factions.1}}
-    </li>
-    <li class="mdl-menu__item mdl-js-ripple-effect" id="valor" class="button" onclick="location.href = setParam(window.location.href, 'valor', '{{ valor.value|yesno:'0,1,0' }}');">{% autoescape off %}{{ valor.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>,<i class="material-icons">remove_circle_outline</i>' }}{% endautoescape %}{{factions.2}}
-    </li>
-    <li class="mdl-menu__item mdl-js-ripple-effect" id="instinct" class="button" onclick="location.href = setParam(window.location.href, 'instinct', '{{ instinct.value|yesno:'0,1,0' }}');">{% autoescape off %}{{ instinct.value|yesno:'<i class="material-icons">remove_circle_outline</i>,<i class="material-icons">add_circle_outline</i>,<i class="material-icons">remove_circle_outline</i>' }}{% endautoescape %}{{factions.3}}
-    </li>
-  </ul>
+  <!--<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="leaderboard-options">
+  </ul>-->
 </div>
 
 {% for trainer in leaderboard %}
@@ -59,7 +53,7 @@ function setParam(uri, key, val) {
       <tr>
         <th></th>
         <th class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;"><div id="trainer-nickname" class="trainer-nickname">{% trans "Nickname" context "onboard_enter_name_hint" %}</div> <div id="trainer-level" class="tl">{% trans "TL" context 'Short form of Trainer Level'  %}</div></th>
-        <th id="faction" class="mdl-data-table__cell--non-numeric" style="width: 32px;">{% trans "Team" %}</th>
+        <!-- <th id="faction" class="mdl-data-table__cell--non-numeric" style="width: 32px;">{% trans "Team" %}</th> -->
         {% for column in trainer.columns %}
         <th id="{{column.name}}" {% if sort_by == column.name %}class="mdl-data-table__header--sorted-descending"{% endif %} onclick="location.href = setParam(window.location.href, 'sort', '{{column.name}}');">{{column.readable_name}}</th>
         <div class="mdl-tooltip" for="{{column.name}}">
@@ -74,7 +68,7 @@ function setParam(uri, key, val) {
       <tr>
         <td>{{trainer.position|ordinal}}</td>
         <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'trainerdex:profile' %}?id={{trainer.trainer.pk}}'"><div class="trainer-nickname">{{trainer.trainer.nickname}} {{trainer.trainer.flag_emoji|default_if_none:''}}</div> <div class="tl">{{trainer.level}}</div></td>
-        <td class="mdl-data-table__cell--non-numeric" style="padding-top: 0px; padding-bottom: 0px; width: 32px;" ><img width="32px" src="{% static trainer.trainer.faction.vector_image %}" onerror="this.src='{% static trainer.trainer.faction.image %}'" alt="{{trainer.trainer.faction.name}}"/></td>
+        <!-- <td class="mdl-data-table__cell--non-numeric" style="padding-top: 0px; padding-bottom: 0px; width: 32px;">{{trainer.trainer.faction}}</td> -->
         {% for column in trainer.columns %}
         <td>{{column.value|default_if_none:"---"|intcomma}}</td>
         {% endfor %}
