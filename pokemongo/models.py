@@ -508,7 +508,7 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_pokedex_entries_gen4__title", "Sinnoh"),
         help_text=pgettext_lazy("badge_pokedex_entries_gen4__help", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80),
-        validators=[MaxValueValidator(79)],
+        validators=[MaxValueValidator(80)],
         )
     
     badge_great_league = models.PositiveIntegerField(
