@@ -171,11 +171,7 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
         return HttpResponseRedirect(reverse('profile_set_up'))
     
     context = {}
-    
-    context['mystic'] = showMystic = {'param':'Mystic', 'value': strtoboolornone(request.GET.get('mystic'))}
-    context['valor'] = showValor = {'param':'Valor', 'value': strtoboolornone(request.GET.get('valor'))}
-    context['instinct'] = showInstinct = {'param':'Instinct', 'value': strtoboolornone(request.GET.get('instinct'))}
-    
+        
     if continent:
         try:
             continent = Continent.objects.get(code__iexact = continent)
@@ -225,7 +221,7 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
     
     SORTABLE_FIELDS = ['update__'+x for x in UPDATE_SORTABLE_FIELDS]
     fields_to_calculate_max = {'total_xp', 'badge_capture_total', 'badge_travel_km', 'badge_evolved_total', 'badge_hatched_total', 'badge_pokestops_visited', 'badge_raid_battle_won', 'badge_legendary_battle_won',
-'badge_hours_defended','badge_challenge_quests', 'badge_pokedex_entries_gen4', 'update_time'} # Gen 4 in there temp.
+'badge_hours_defended', 'badge_pokedex_entries_gen4','badge_great_league', 'badge_ultra_league', 'badge_master_league', 'update_time'}
     if request.GET.get('sort'):
         if request.GET.get('sort') in UPDATE_SORTABLE_FIELDS:
             fields_to_calculate_max.add(request.GET.get('sort'))
@@ -236,8 +232,6 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
         sort_by = 'total_xp'
     context['sort_by'] = sort_by
     
-    
-    # QuerySet = QuerySet.exclude(faction__slug__in=[x['param'] for x in (showValor, showMystic, showInstinct) if x['value'] is False])
     context['grand_total_users'] = total_users = QuerySet.count()
     
     if total_users == 0:
@@ -263,19 +257,16 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
             'update_time' : trainer.update__update_time__max,
         }
         
-        FIELDS = []
-        FIELDS_TO_SORT = fields_to_calculate_max.copy()
-        FIELDS_TO_SORT.remove('update_time')
-        FIELDS_TO_SORT = [x for x in UPDATE_SORTABLE_FIELDS if x in FIELDS_TO_SORT]
-        for x in FIELDS_TO_SORT:
-            FIELDS.append(
-                {
+        FIELDS = fields_to_calculate_max.copy()
+        FIELDS.remove('update_time')
+        FIELDS = [x for x in UPDATE_SORTABLE_FIELDS if x in FIELDS]
+        FIELDS = [{
                     'name':x,
                     'readable_name':Update._meta.get_field(x).verbose_name,
                     'tooltip':Update._meta.get_field(x).help_text,
                     'value':getattr(trainer, 'update__{field}__max'.format(field=x)),
-                },
-            )
+                } for x in FIELDS]
+        FIELDS.insert(0, FIELDS.pop([FIELDS.index(x) for x in FIELDS if x['name'] == sort_by][0]))
         trainer_stats['columns'] = FIELDS
         Results.append(trainer_stats)
     
