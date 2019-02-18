@@ -13,12 +13,12 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:site" content="@TrainerDexApp"/>
 <meta property="og:title" content="{{trainer.nickname}}" />
-<!-- <meta property="og:image" content="{% get_static_prefix %}{{trainer.faction.image}}"/> -->
+<meta property="og:image" content="{{trainer.team.get_image_url}}"/>
 <meta property="og:type" content="profile" />
 <meta property="og:ttl" content="345600" />
-<!-- <meta property="og:description" content="{% trans 'Team' %}: {{trainer.faction}}
+<meta property="og:description" content="{% trans 'Team' context 'faction' %}: {{trainer.team}}
 {% trans 'Level' %}: {{level}}
-{% trans 'XP' context 'Short form of XP' %}: {{xp|intcomma}}" /> -->
+{% trans 'XP' context 'Short form of XP' %}: {{xp|intcomma}}" />
 <meta property="profile:username" content="{{trainer.nickname}}" />
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 
@@ -50,7 +50,7 @@ function drawChart() {
 
 {%block content%}
 <div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top ">
-  <!-- <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}" /></div> -->
+  <div class="mdl-cell mdl-cell--1-col mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="{{trainer.team.get_image_url}}" /></div>
   <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
     <ul class="mdl-list">
       <i class="mdl-card__title-text">{{trainer.nickname}}  {{trainer.flag_emoji|default_if_none:''}}</i>

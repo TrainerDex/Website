@@ -50,6 +50,34 @@ def VerificationUpdateImagePath(instance, filename):
 def get_path_for_badges(instance, filename):
     return f"profile/badges/{instance.slug}{splitext(filename)[1]}"
 
+class Faction():
+    def __init__(self, id: int):
+        if not (0 <= id <= 3):
+            raise ValueError("Must be one of four choices: 0, 1, 2, 3")
+        self.id = id
+        self.verbose_name = settings.TEAMS[self.id]
+    
+    def get_image_url(self):
+        from django.contrib.staticfiles.templatetags.staticfiles import static
+        return static(f'img/faction/{self.id}.png')
+    
+    def __str__(self):
+        return str(self.verbose_name)
+        
+    def __hash__(self):
+        return self.id
+    
+    def __eq__(self, other):
+        if isinstance(other, int):
+            return self.id == other
+        elif isinstance(other, Faction):
+            return self.id == other.id
+        else:
+            raise NotImplementedError
+        
+    def __bool__(self):
+        return True
+
 class Trainer(models.Model):
     
     owner = models.OneToOneField(
@@ -144,6 +172,9 @@ class Trainer(models.Model):
         blank=True,
         verbose_name=_("Username / Level / Team Screenshot"),
         )
+    
+    def team(self):
+        return Faction(int(self.faction))
     
     def has_cheated(self):
         return bool(self.last_cheated)

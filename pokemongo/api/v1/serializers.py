@@ -3,7 +3,7 @@ from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 User = get_user_model()
-from pokemongo.models import Update, Trainer
+from pokemongo.models import Update, Trainer, Faction
 from pokemongo.shortcuts import level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 class BriefUpdateSerializer(serializers.ModelSerializer):
@@ -97,6 +97,21 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'first_name', 'last_name', 'profiles', 'trainer')
         read_only_fields = ('profiles','trainer')
 
+class FactionSerializer(serializers.Serializer):
+    id = serializers.SerializerMethodField()
+    name_en = serializers.SerializerMethodField()
+    
+    def get_id(self, obj):
+        return Faction(obj).id
+    
+    def get_name_en(self, obj):
+        from django.utils import translation
+        lang = translation.get_language()
+        translation.activate("en")
+        result = str(Faction(obj))
+        translation.activate(lang)
+        return result
+
 class LeaderboardSerializer(serializers.Serializer):
     level = serializers.SerializerMethodField()
     position = serializers.SerializerMethodField()
@@ -124,7 +139,7 @@ class LeaderboardSerializer(serializers.Serializer):
         return obj.nickname
     
     def get_faction(self, obj):
-        return obj.faction
+        return FactionSerializer(obj.faction).data
     
     def get_xp(self, obj):
         """This field is deprecated and will be removed in API v2"""
