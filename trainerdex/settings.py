@@ -40,15 +40,26 @@ INSTALLED_APPS = [
     'rosetta',
     'core',
     'pokemongo',
+    ]
+
+INSTALLED_APPS += [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.discord',
     'allauth.socialaccount.providers.reddit',
     'allauth.socialaccount.providers.twitter',
+    ]
+
+INSTALLED_APPS += [
     'widget_tweaks',
-    'admin_reorder',
-]
+    ]
+
+INSTALLED_APPS += [
+    'markdown_deux',
+    'bootstrapform',
+    'helpdesk',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,7 +71,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'admin_reorder.middleware.ModelAdminReorder',
 ]
 
 LOCALE_PATHS = [
@@ -68,22 +78,6 @@ LOCALE_PATHS = [
 ]
 
 ROOT_URLCONF = 'trainerdex.urls'
-
-ADMIN_REORDER = (
-    {
-        'app': 'auth',
-        'models': (
-            'auth.User',
-            'auth.Group',
-            'account.EmailAddress',
-            'authtoken.Token'
-        )},
-    'core',
-    'pokemongo',
-    'cities',
-    'socialaccount',
-    'sites',
-)
 
 # DjangoDebugToolbar
 if DEBUG==True:
@@ -269,6 +263,16 @@ DEFAULT_FROM_EMAIL = 'TrainerDex Support <jay@trainerdex.co.uk>'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 FILE_UPLOAD_PERMISSIONS = 0x775
+
+# Helpdesk
+
+HELPDESK_USE_CDN = True
+HELPDESK_TRANSLATE_TICKET_COMMENTS = True
+HELPDESK_AUTO_SUBSCRIBE_ON_TICKET_RESPONSE = True
+HELPDESK_STAFF_ONLY_TICKET_OWNERS = True
+HELPDESK_STAFF_ONLY_TICKET_CC = True
+
+# DISCORD
 
 DISCORD_CLIENT_ID = ***REMOVED***
 DISCORD_CLIENT_SECRET = '***REMOVED***'
