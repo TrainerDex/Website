@@ -15,10 +15,6 @@ def sync_members(modeladmin, request, queryset):
     
 sync_members.short_description = _('Sync Members for all eligible Discords')
 
-@admin.register(Faction)
-class FactionAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name_en",)}
-
 @admin.register(Community)
 class CommunityAdmin(admin.ModelAdmin):
 
@@ -31,11 +27,17 @@ class CommunityMembershipDiscordAdmin(admin.ModelAdmin):
 
     autocomplete_fields = ['community', 'discord']
 
-@admin.register(Sponsorship)
-class SponsorshipAdmin(admin.ModelAdmin):
+@admin.register(ProfileBadge)
+class ProfileBadgeAdmin(admin.ModelAdmin):
     
     autocomplete_fields = ['members']
-    search_fields = ('title',)
+    search_fields = ('title', 'slug')
+
+@admin.register(ProfileBadgeHoldership)
+class ProfileBadgeHoldershipAdmin(admin.ModelAdmin):
+    
+    autocomplete_fields = ['trainer', 'badge', 'awarded_by']
+    search_fields = ('trainer__nickname__nickname', 'badge__title', 'badge__slug')
 
 @admin.register(Update)
 class UpdateAdmin(admin.ModelAdmin):
@@ -101,14 +103,6 @@ class TrainerAdmin(admin.ModelAdmin):
         }),
         (_('Reports'), {
             'fields': ('last_cheated', 'verified', 'verification')
-        }),
-        (_('2017 Events'), {
-            'classes': ('collapse',),
-            'fields': ('badge_chicago_fest_july_2017', 'badge_pikachu_outbreak_yokohama_2017', 'badge_safari_zone_europe_2017_09_16', 'badge_safari_zone_europe_2017_10_07', 'badge_safari_zone_europe_2017_10_14')
-        }),
-        (_('2018 Events'), {
-            'classes': ('collapse',),
-            'fields': ('badge_chicago_fest_july_2018','badge_apac_partner_july_2018_japan','badge_apac_partner_july_2018_south_korea')
         }),
         (_('Leaderboard'), {
             'fields': ('leaderboard_country', 'leaderboard_region', 'statistics')
