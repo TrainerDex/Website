@@ -8,25 +8,35 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework.authtoken import views
-from ajax_select import urls as ajex_select_urls
 from core.views import *
 from pokemongo.views import SetUpProfileViewStep2, SetUpProfileViewStep3
 from core import sitemaps
 
+from django.utils.translation import gettext_lazy as _
+
 urlpatterns = [
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': {
-        'base': sitemaps.BaseSitemap,
-        'continent':sitemaps.LeaderboardContinentSitemap,
-        'country':sitemaps.LeaderboardCountrySitemap,
-        'region':sitemaps.LeaderboardRegionSitemap,
-        'trainers':sitemaps.TrainerSitemap,
-        'Communities':sitemaps.LeaderboardCommunitySitemap,
-    }},
-    name='django.contrib.sitemaps.views.sitemap'),
+    url(
+        r'^sitemap\.xml$',
+        sitemap,
+        {'sitemaps': {
+            'base': sitemaps.BaseSitemap,
+            'continent':sitemaps.LeaderboardContinentSitemap,
+            'country':sitemaps.LeaderboardCountrySitemap,
+            'region':sitemaps.LeaderboardRegionSitemap,
+            'trainers':sitemaps.TrainerSitemap,
+            'Communities':sitemaps.LeaderboardCommunitySitemap,
+            }
+         },
+         name='django.contrib.sitemaps.views.sitemap',
+         ),
+    ]
+
+urlpatterns += [
     url(r'^api\/v1\/', include('pokemongo.api.v1.urls')),
     url(r'^api\/admin\/', admin.site.urls),
     url(r'^api-token-auth\/', views.obtain_auth_token),
-    url(r'^ajax_select\/', include(ajex_select_urls)),
+    url(r'^api\/ajax_select\/', include('ajax_select.urls')),
+    url(r'^help\/', include('helpdesk.urls')),
     url(r'^accounts\/settings\/?$', SettingsView, name='account_settings'),
     url(r'^accounts\/profile/setup\/?$', SetUpProfileViewStep2, name='profile_set_up'),
     url(r'^accounts\/profile/first_update\/?$', SetUpProfileViewStep3, name='profile_first_post'),
@@ -42,4 +52,4 @@ if settings.DEBUG:
     urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
 
 admin.site.site_title = "TrainerDex"
-admin.site.site_header = admin.site.site_title+" Admin"
+admin.site.site_header = _("{site_name} Admin").format(site_name=admin.site.site_title)

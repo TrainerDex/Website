@@ -13,10 +13,10 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:site" content="@TrainerDexApp"/>
 <meta property="og:title" content="{{trainer.nickname}}" />
-<meta property="og:image" content="{% get_static_prefix %}{{trainer.faction.image}}"/>
+<meta property="og:image" content="{{trainer.team.get_image_url}}"/>
 <meta property="og:type" content="profile" />
 <meta property="og:ttl" content="345600" />
-<meta property="og:description" content="{% trans 'Team' %}: {{trainer.faction}}
+<meta property="og:description" content="{% trans 'Team' context 'faction' %}: {{trainer.team}}
 {% trans 'Level' %}: {{level}}
 {% trans 'XP' context 'Short form of XP' %}: {{xp|intcomma}}" />
 <meta property="profile:username" content="{{trainer.nickname}}" />
@@ -50,7 +50,7 @@ function drawChart() {
 
 {%block content%}
 <div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top ">
-  <div class="mdl-cell mdl-cell--1-col  mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="https://www.trainerdex.co.uk/static/{{trainer.faction.image}}" /></div>
+  <div class="mdl-cell mdl-cell--1-col mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="{{trainer.team.get_image_url}}" /></div>
   <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
     <ul class="mdl-list">
       <i class="mdl-card__title-text">{{trainer.nickname}}  {{trainer.flag_emoji|default_if_none:''}}</i>
@@ -85,78 +85,6 @@ function drawChart() {
         </span>
       </li>{% endif %}
     </ul>
-  </div>
-  <div class="mdl-cell mdl-cell--2-col mdl-cell--4-offset-desktop mdl-cell--1-offset-tablet mdl-cell--4-col-phone" style="text-align: center;">
-    {% if trainer.badge_chicago_fest_july_2017 %}
-    <img id="badge_chicago_fest_july_2017" class="profile-medal" src="{% static 'img/Badge_Event_Chicago_2017.png' %}" />
-    <div class="mdl-tooltip" for="badge_chicago_fest_july_2017">
-      <b>{% trans "Pokémon GO Fest 2017" context "badge_chicago_fest_july_2017_title" %}</b><br>
-      {% trans "Chicago, July 22, 2017" context "badge_chicago_fest_july_2017" %}
-    </div>
-    {% endif %}
-    {% if trainer.badge_pikachu_outbreak_yokohama_2017 %}
-    <img id="badge_pikachu_outbreak_yokohama_2017" class="profile-medal" src="{% static 'img/Badge_Event_Yokohama_2017.png' %}" />
-    <div class="mdl-tooltip" for="badge_pikachu_outbreak_yokohama_2017">
-      <b>{% trans "Pikachu Outbreak 2017" context "badge_pikachu_outbreak_yokohama_2017_title" %}</b><br>
-      {% trans "Yokohama, August 2017" context "badge_pikachu_outbreak_yokohama_2017" %}
-    </div>
-    {% endif %}
-    {% if trainer.badge_safari_zone_europe_2017_09_16 %}
-    <img id="badge_safari_zone_europe_2017_09_16" class="profile-medal" src="{% static 'img/Badge_Event_Safari_Zone_Europe_2017.png' %}" />
-    <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_09_16">
-      <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_title" %}</b><br>
-      {% trans "Europe, September 16, 2017" context "badge_safari_zone_europe_2017" %}
-    </div>
-    {% endif %}
-    {% if trainer.badge_safari_zone_europe_2017_10_07 %}
-    <img id="badge_safari_zone_europe_2017_10_07" class="profile-medal" src="{% static 'img/Badge_Event_Safari_Zone_Europe_2017.png' %}" />
-    <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_10_07">
-      <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_10_07_title" %}</b><br>
-      {% trans "Europe, October 7, 2017" context "badge_safari_zone_europe_2017_10_07" %}
-    </div>
-    {% endif %}
-    {% if trainer.badge_safari_zone_europe_2017_10_14 %}
-    <img id="badge_safari_zone_europe_2017_10_14" class="profile-medal" src="{% static 'img/Badge_Event_Safari_Zone_Europe_2017.png' %}" />
-    <div class="mdl-tooltip" for="badge_safari_zone_europe_2017_10_14">
-      <b>{% trans "GO Safari Zone - Europe 2017" context "badge_safari_zone_europe_2017_10_07_title" %}</b><br>
-      {% trans "Europe, October 14, 2017" context "badge_safari_zone_europe_2017_10_07" %}
-    </div>
-    {% endif %}
-    {% if trainer.badge_chicago_fest_july_2018 %}
-    <img id="badge_chicago_fest_july_2018" class="profile-medal" src="{% static 'img/Badge_Event_Chicago_2018.png' %}" />
-    <div class="mdl-tooltip" for="badge_chicago_fest_july_2018">
-      <b>{% trans "Pokémon GO Fest 2018" context "badge_chicago_fest_july_2018_*_*_title" %}</b><br>
-      {% trans "Chicago, July 14-15, 2018" context "badge_chicago_fest_july_2018_*_*" %}
-    </div>
-    {% endif %}
-    {% if trainer.badge_apac_partner_july_2018_japan %}
-    <img id="badge_apac_partner_july_2018_japan" class="profile-medal" src="{% static 'img/Badge_Apac_Partner_July_2018.png' %}" />
-    <div class="mdl-tooltip" for="badge_apac_partner_july_2018_japan">
-      <b>{% trans "Pokémon GO Special Weekend" context "badge_apac_partner_july_2018_*_title" %}</b><br>
-      {% trans "Japan, July 26-29, 2018" context "badge_apac_partner_july_2018_*" %}
-    </div>
-    {% endif %}
-    {% if trainer.badge_apac_partner_july_2018_south_korea %}
-    <img id="badge_apac_partner_july_2018_south_korea" class="profile-medal" src="{% static 'img/Badge_Apac_Partner_July_2018.png' %}" />
-    <div class="mdl-tooltip" for="badge_apac_partner_july_2018_south_korea">
-      <b>{% trans "Pokémon GO Special Weekend" context "badge_apac_partner_july_2018_5_title" %}</b><br>
-      {% trans "South Korea, July 29, 2018" context "badge_apac_partner_july_2018_5" %}
-    </div>
-    {% endif %}
-    {% if trainer.badge_top_banana %}
-    <img id="badge_top_banana" class="profile-medal" src="{% static 'img/badge_top_banana.png' %}" />
-    <div class="mdl-tooltip" for="badge_top_banana">
-      <b>{% trans "Pokémon GO Safari Zone - Porto Alegre 2019" context "badge_top_banana__title" %}</b><br>
-      {% trans "Porto Alegre" context "badge_top_banana__help" %}
-    </div>
-    {% endif %}
-    {% for spon in sponsorships %}
-    <img id="{{spon.slug}}" class="profile-medal" src="{% get_media_prefix %}{{spon.icon}}" />
-    <div class="mdl-tooltip" for="{{spon.slug}}">
-      <b>{{spon.title}}</b><br>
-      {{spon.description}}
-    </div>
-    {% endfor %}
   </div>
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">

@@ -11,7 +11,7 @@ class BaseSitemap(Sitemap):
         return [
             ('account_settings', 0.9),
             ('trainerdex:leaderboard', 1),
-            ('trainerdex:update_stats', 0.9)
+            ('trainerdex:update_stats', 0.9),
         ]
     
     def priority(self, obj):

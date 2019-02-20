@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import os
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, pgettext_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,20 +36,30 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'cities',
-    'colorful',
     'cookielaw',
     'rosetta',
     'core',
     'pokemongo',
+    ]
+
+INSTALLED_APPS += [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.discord',
     'allauth.socialaccount.providers.reddit',
     'allauth.socialaccount.providers.twitter',
+    ]
+
+INSTALLED_APPS += [
     'widget_tweaks',
-    'admin_reorder',
-]
+    ]
+
+INSTALLED_APPS += [
+    'markdown_deux',
+    'bootstrapform',
+    'helpdesk',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -61,7 +71,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'admin_reorder.middleware.ModelAdminReorder',
 ]
 
 LOCALE_PATHS = [
@@ -69,22 +78,6 @@ LOCALE_PATHS = [
 ]
 
 ROOT_URLCONF = 'trainerdex.urls'
-
-ADMIN_REORDER = (
-    {
-        'app': 'auth',
-        'models': (
-            'auth.User',
-            'auth.Group',
-            'account.EmailAddress',
-            'authtoken.Token'
-        )},
-    'core',
-    'pokemongo',
-    'cities',
-    'socialaccount',
-    'sites',
-)
 
 # DjangoDebugToolbar
 if DEBUG==True:
@@ -271,6 +264,25 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 FILE_UPLOAD_PERMISSIONS = 0x775
 
+# Helpdesk
+
+HELPDESK_USE_CDN = True
+HELPDESK_TRANSLATE_TICKET_COMMENTS = True
+HELPDESK_AUTO_SUBSCRIBE_ON_TICKET_RESPONSE = True
+HELPDESK_STAFF_ONLY_TICKET_OWNERS = True
+HELPDESK_STAFF_ONLY_TICKET_CC = True
+
+# DISCORD
+
 DISCORD_CLIENT_ID = ***REMOVED***
 DISCORD_CLIENT_SECRET = '***REMOVED***'
 DISCORD_TOKEN = '***REMOVED***'
+
+# CONSTANTS
+
+TEAMS = {
+    0: pgettext_lazy(context="team_name_team0", message="No Team"),
+    1: pgettext_lazy(context="team_name_team1", message="Team Mystic"),
+    2: pgettext_lazy(context="team_name_team2", message="Team Valor"),
+    3: pgettext_lazy(context="team_name_team3", message="Team Instinct"),
+}

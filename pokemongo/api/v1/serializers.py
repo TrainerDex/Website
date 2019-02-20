@@ -63,7 +63,7 @@ class DetailedTrainerSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Trainer
-        fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'trainer_code', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'badge_chicago_fest_july_2017', 'badge_pikachu_outbreak_yokohama_2017', 'badge_safari_zone_europe_2017_09_16', 'badge_safari_zone_europe_2017_10_07', 'badge_safari_zone_europe_2017_10_14', 'leaderboard_country', 'leaderboard_region', 'badge_chicago_fest_july_2018', 'badge_apac_partner_july_2018_japan', 'badge_apac_partner_july_2018_south_korea', 'update_set', 'prefered', 'verified')
+        fields = ('id', 'last_modified', 'owner', 'username', 'start_date', 'faction', 'trainer_code', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'update_set', 'prefered', 'verified')
 
 class DetailedTrainerSerializerPATCH(serializers.ModelSerializer):
     update_set = BriefUpdateSerializer(read_only=True, many=True)
@@ -97,10 +97,20 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'first_name', 'last_name', 'profiles', 'trainer')
         read_only_fields = ('profiles','trainer')
 
-class FactionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Faction
-        fields = ('id', 'name_en',)
+class FactionSerializer(serializers.Serializer):
+    id = serializers.SerializerMethodField()
+    name_en = serializers.SerializerMethodField()
+    
+    def get_id(self, obj):
+        return Faction(obj).id
+    
+    def get_name_en(self, obj):
+        from django.utils import translation
+        lang = translation.get_language()
+        translation.activate("en")
+        result = str(Faction(obj))
+        translation.activate(lang)
+        return result
 
 class LeaderboardSerializer(serializers.Serializer):
     level = serializers.SerializerMethodField()
