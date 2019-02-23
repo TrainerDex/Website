@@ -105,6 +105,7 @@ UPDATE_FIELDS_BADGES = (
     'badge_great_league',
     'badge_ultra_league',
     'badge_master_league',
+    'badge_photobomb',
 )
 
 UPDATE_FIELDS_TYPES = (
