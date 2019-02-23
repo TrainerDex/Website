@@ -26,7 +26,7 @@ from django.db.models.signals import *
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _, pgettext_lazy, to_locale, get_supported_language_variant, get_language
+from django.utils.translation import gettext_lazy as _, pgettext_lazy, npgettext_lazy, to_locale, get_supported_language_variant, get_language
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from pokemongo.shortcuts import level_parser, circled_level, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
@@ -476,7 +476,7 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_pokedex_entries_gen2_title", "Johto"),
         help_text=pgettext_lazy("badge_pokedex_entries_gen2", "Register {0} Pokémon first discovered in the Johto region to the Pokédex.").format(70),
-        validators=[MaxValueValidator(99)],
+        validators=[MaxValueValidator(100)],
         )
     badge_raid_battle_won = models.PositiveIntegerField(
         null=True,
@@ -507,7 +507,7 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_pokedex_entries_gen3_title", "Hoenn"),
         help_text=pgettext_lazy("badge_pokedex_entries_gen3", "Register {0} Pokémon first discovered in the Hoenn region to the Pokédex.").format(90),
-        validators=[MaxValueValidator(130)],
+        validators=[MaxValueValidator(133)],
         )
     badge_challenge_quests = models.PositiveIntegerField(
         null=True,
@@ -559,6 +559,12 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_master_league_title", "Master League Veteran"),
         help_text=pgettext_lazy("badge_master_league", "Win {} Trainer Battles in the Master League.").format(200),
+        )
+    badge_photobomb = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_photobomb_title", "Cameraman"),
+        help_text=npgettext_lazy("badge_photobomb", "Have {0} surprise encounter in AR Snapshot.", "Have {0} surprise encounters in AR Snapshot.", 2).format("𝓍"), # Find numbers
         )
     
     badge_pokedex_entries_unknown = models.PositiveIntegerField( # Meltan Generation, assumed to be Gen 8
