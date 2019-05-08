@@ -29,4 +29,4 @@ requests==2.21.0
 six==1.10.0
 urllib3==1.24.2
 vine==1.2.0
-Pygments==2.3.1
+Pygments==2.4.0
