@@ -92,7 +92,7 @@ class DiscordGuild(models.Model):
         )
     
     def _outdated(self):
-        return (timezone.now()-self.cached_date) > timedelta(days=1)
+        return (timezone.now()-self.cached_date) > timedelta(hours=1)
     _outdated.boolean = True
     outdated = property(_outdated)
     

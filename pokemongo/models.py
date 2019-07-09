@@ -564,7 +564,7 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_photobomb_title", "Cameraman"),
-        help_text=npgettext_lazy("badge_photobomb", "Have {0} surprise encounter in AR Snapshot.", "Have {0} surprise encounters in AR Snapshot.", 2).format("𝓍"), # Find numbers
+        help_text=npgettext_lazy("badge_photobomb", "Have {0} surprise encounter in AR Snapshot.", "Have {0} surprise encounters in AR Snapshot.", 2).format(200),
         )
     
     badge_pokedex_entries_unknown = models.PositiveIntegerField( # Meltan Generation, assumed to be Gen 8
@@ -1187,8 +1187,8 @@ class Update(models.Model):
                     # Max Value = 1000
                     # Handled at field level
                     
-                    _xcompare = self.gymbadges_total or self.trainer.update_set.filter(update_time__lt=self.update_time).exclude(**{'gymbadges_total' : None}).order_by('-gymbadges_total', '-update_time').only('gymbadges_total', 'update_time').first().gymbadges_total
-                    # Check if gymbadges_total is filled in, or has been filled in in the past
+                    _xcompare = self.gymbadges_total
+                    # Check if gymbadges_total is filled in
                     if _xcompare:
                         # GoldGyms < GymsSeen
                         # Check if gymbadges_gold is more of less than gymbadges_total
