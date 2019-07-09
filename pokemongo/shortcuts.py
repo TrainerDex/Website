@@ -167,6 +167,8 @@ BADGES = [
     {'name':'badge_great_league', 'bronze':5, 'silver':50, 'gold':200},
     {'name':'badge_ultra_league', 'bronze':5, 'silver':50, 'gold':200},
     {'name':'badge_master_league', 'bronze':5, 'silver':50, 'gold':200},
+    {'name':'badge_photobomb', 'bronze': 10, 'silver': 50, 'gold':200},
+    {'name':'badge_pokedex_entries_unknown', 'bronze': 1, 'silver': 1, 'gold':2},
 ] +  [{'name':x, 'bronze':10, 'silver':50, 'gold':200} for x in UPDATE_FIELDS_TYPES]
 
 def circled_level(i: int):

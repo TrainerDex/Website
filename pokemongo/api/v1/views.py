@@ -262,9 +262,13 @@ class LeaderboardView(APIView):
         leaderboard = query.prefetch_related('update_set') \
             .prefetch_related('owner') \
             .annotate(Max('update__total_xp'), Max('update__update_time')) \
-            .exclude(update__total_xp__max__isnull=True) \
-            .annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())) \
-            .order_by('rank')
+            .exclude(update__total_xp__max__isnull=True)
+        if datetime(2019,3,31,23,00) < datetime.now() < datetime(2019,4,1,23,00):
+            leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').asc())) \
+                .order_by('rank')
+        else:
+            leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').desc())) \
+                .order_by('rank')
         serializer = LeaderboardSerializer(leaderboard[:5000], many=True)
         return Response(serializer.data)
     
@@ -325,7 +329,6 @@ class DiscordLeaderboardAPIView(APIView):
                 logger.info(f"{i['name']} found. Creating.")
                 server, created = DiscordGuild.objects.get_or_create(id=int(guild), defaults={'data': i, 'cached_date': timezone.now()})
             
-        
         if not server.data or server.outdated:
             server.refresh_from_api()
             if not server.data:
@@ -347,9 +350,13 @@ class DiscordLeaderboardAPIView(APIView):
             .prefetch_related('owner') \
             .annotate(Max('update__total_xp'), Max('update__update_time')) \
             .exclude(update__total_xp__max__isnull=True) \
-            .filter(update__update_time__max__gte=datetime.now()-relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)) \
-            .annotate(rank=Window(expression=Rank(), order_by=F(f'update__total_xp__max').desc())) \
-            .order_by('rank')
+            .filter(update__update_time__max__gte=datetime.now()-relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0))
+        if datetime(2019,3,31,23,00) < datetime.now() < datetime(2019,4,1,23,00):
+            leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').asc())) \
+                .order_by('rank')
+        else:
+            leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').desc())) \
+                .order_by('rank')
         serializer = LeaderboardSerializer(leaderboard, many=True)
         output['leaderboard'] = serializer.data
         return Response(output)
