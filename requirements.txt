@@ -16,7 +16,7 @@ django-helpdesk==0.2.16
 django-rosetta==0.9.3
 django-unused-media
 django-widget-tweaks==1.4.5
-djangorestframework==3.9.4
+djangorestframework==3.10.2
 humanize==0.5.1
 idna==2.8
 markdown>=2.1.0
