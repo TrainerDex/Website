@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  db:
+    container_name: tdx_db
+    image: kartoza/postgis
+    restart: always
+    volumes:
+      - /opt/monord_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=sOnsCzkzuewHY6pG
+      - POSTGRES_DB=ekpogo
+      - POSTGRES_USER=ekpogo
+  web:
+    container_name: tdx_web
+    build: .
+    command: bash -c "python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
