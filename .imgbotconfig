@@ -1,0 +1,6 @@
+{
+  "schedule": "daily",
+  "ignoredFiles": [
+    "core/static/node_modules"
+  ]
+}
