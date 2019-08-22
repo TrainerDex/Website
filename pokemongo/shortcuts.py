@@ -106,6 +106,8 @@ UPDATE_FIELDS_BADGES = (
     'badge_ultra_league',
     'badge_master_league',
     'badge_photobomb',
+    'badge_pokemon_purified',
+    'badge_rocket_grunts_defeated',
 )
 
 UPDATE_FIELDS_TYPES = (
