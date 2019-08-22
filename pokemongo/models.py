@@ -506,7 +506,7 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_pokedex_entries_gen3_title", "Hoenn"),
         help_text=pgettext_lazy("badge_pokedex_entries_gen3", "Register {0} Pokémon first discovered in the Hoenn region to the Pokédex.").format(90),
-        validators=[MaxValueValidator(133)],
+        validators=[MaxValueValidator(134)],
         )
     badge_challenge_quests = models.PositiveIntegerField(
         null=True,
@@ -564,6 +564,18 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_photobomb_title", "Cameraman"),
         help_text=npgettext_lazy("badge_photobomb", "Have {0} surprise encounter in AR Snapshot.", "Have {0} surprise encounters in AR Snapshot.", 2).format(200),
+        )
+    badge_pokemon_purified = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_pokemon_purified_title", "Purifier"),
+        help_text=pgettext_lazy("badge_pokemon_purified", "Purify {0} Shadow Pokémon.").format(500),
+        )
+    badge_rocket_grunts_defeated = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_rocket_grunts_defeated_title", "Hero"),
+        help_text=pgettext_lazy("badge_rocket_grunts_defeated", "Defeat {0} Team GO Rocket Grunts.").format(1000),
         )
     
     badge_pokedex_entries_unknown = models.PositiveIntegerField( # Meltan Generation, assumed to be Gen 8
@@ -1213,7 +1225,7 @@ class Update(models.Model):
                 # 21 - badge_pokedex_entries_gen3 - Hoenn
                 if field.name == 'badge_pokedex_entries_gen3':
                     
-                    # Max Value = 130
+                    # Max Value = 134
                     # Handled at field level
                     
                     # Handle Early Updates
