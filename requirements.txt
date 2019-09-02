@@ -2,7 +2,7 @@ amqp==2.5.0
 billiard==3.6.1.0
 certifi==2019.6.16
 chardet==3.0.4
-django==2.1.11
+django==2.2.5
 django-ajax-selects
 django-allauth==0.39.1
 django-cities==0.5.0.6
