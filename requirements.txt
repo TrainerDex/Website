@@ -7,7 +7,7 @@ django-ajax-selects
 django-allauth==0.39.1
 django-cities==0.5.0.6
 django-cookie-law==2.0.1
-django-cors-headers==2.5.0
+django-cors-headers==3.1.1
 django-crispy-forms
 django-debug-toolbar
 django-exclusivebooleanfield==0.3.0
