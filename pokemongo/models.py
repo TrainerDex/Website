@@ -248,7 +248,7 @@ class Trainer(models.Model):
         try:
             return self.nickname_set.get(active=True).nickname
         except Nickname.DoesNotExist:
-            return self.user.username
+            return self.owner.username
     
     @property
     def username(self):
@@ -507,7 +507,7 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_pokedex_entries_gen3_title", "Hoenn"),
         help_text=pgettext_lazy("badge_pokedex_entries_gen3", "Register {0} Pokémon first discovered in the Hoenn region to the Pokédex.").format(90),
-        validators=[MaxValueValidator(133)],
+        validators=[MaxValueValidator(134)],
         )
     badge_challenge_quests = models.PositiveIntegerField(
         null=True,
@@ -539,7 +539,7 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_pokedex_entries_gen4__title", "Sinnoh"),
         help_text=pgettext_lazy("badge_pokedex_entries_gen4__help", "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.").format(80),
-        validators=[MaxValueValidator(99)],
+        validators=[MaxValueValidator(107)],
         )
     
     badge_great_league = models.PositiveIntegerField(
@@ -566,12 +566,45 @@ class Update(models.Model):
         verbose_name=pgettext_lazy("badge_photobomb_title", "Cameraman"),
         help_text=npgettext_lazy("badge_photobomb", "Have {0} surprise encounter in AR Snapshot.", "Have {0} surprise encounters in AR Snapshot.", 2).format(200),
         )
-    
-    badge_pokedex_entries_unknown = models.PositiveIntegerField( # Meltan Generation, assumed to be Gen 8
+    badge_pokemon_purified = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name=pgettext_lazy("badge_pokedex_entries_unknown_title", "Unknown Generation"),
-        help_text=pgettext_lazy("badge_pokedex_entries_unknown", "This is the Unknown generation at the end of your Pokédex with Meltan and Melmetal."),
+        verbose_name=pgettext_lazy("badge_pokemon_purified_title", "Purifier"),
+        help_text=pgettext_lazy("badge_pokemon_purified", "Purify {0} Shadow Pokémon.").format(500),
+        )
+    badge_photobombadge_rocket_grunts_defeated = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_rocket_grunts_defeated_title", "Hero"),
+        help_text=pgettext_lazy("badge_rocket_grunts_defeated", "Defeat {0} Team GO Rocket Grunts.").format(1000),
+        )
+    
+    badge_pokedex_entries_gen5 = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_pokedex_entries_gen5__title", "Unova"),
+        help_text=pgettext_lazy("badge_pokedex_entries_gen5__help", "Register {0} Pokémon first discovered in the Unova region to the Pokédex.").format(100),
+        validators=[MaxValueValidator(156)],
+        )
+    badge_pokedex_entries_gen6 = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_pokedex_entries_gen6__title", "Kalos"),
+        help_text=pgettext_lazy("badge_pokedex_entries_gen6__help", "Register {0} Pokémon first discovered in the Kalos region to the Pokédex.").format('x'),
+        validators=[MaxValueValidator(72)],
+        )
+    badge_pokedex_entries_gen7 = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_pokedex_entries_gen7__title", "Alola"),
+        help_text=pgettext_lazy("badge_pokedex_entries_gen7__help", "Register {0} Pokémon first discovered in the Alola region to the Pokédex.").format('x'),
+        validators=[MaxValueValidator(88)],
+        )
+    badge_pokedex_entries_gen8 = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_pokedex_entries_gen8__title", "Galar (Meltan)"),
+        help_text=pgettext_lazy("badge_pokedex_entries_gen8__help", "This is the Unknown generation at the end of your Pokédex with Meltan and Melmetal."),
         validators=[MaxValueValidator(2)],
         )
     
