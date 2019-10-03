@@ -218,14 +218,14 @@ class UpdateDetailView(APIView):
     authentication_classes = (authentication.TokenAuthentication,)
     
     def get(self, request, uuid, pk):
-        update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainr__owner__is_active=True)
+        update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
         serializer = DetailedUpdateSerializer(update)
         if update.trainer.id != int(pk):
             return Response(status=400)
         return Response(serializer.data)
     
     def patch(self, request, uuid, pk):
-        update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainr__owner__is_active=True)
+        update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
         if update.meta_time_created > datetime.now(utc)-timedelta(minutes=32):
             serializer = DetailedUpdateSerializer(update, data=request.data)
             if serializer.is_valid():
