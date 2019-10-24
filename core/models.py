@@ -90,6 +90,8 @@ class DiscordGuild(models.Model):
             ('circled_level', _("Circled Numbers ㊵")),
             ],
         )
+    settings_welcomer_message_new = models.TextField(blank=True, null=True)
+    settings_welcomer_message_existing = models.TextField(blank=True, null=True)
     
     def _outdated(self):
         return (timezone.now()-self.cached_date) > timedelta(hours=1)
