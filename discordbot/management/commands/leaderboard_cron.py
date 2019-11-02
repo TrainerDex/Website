@@ -38,7 +38,7 @@ class Command(BaseCommand):
             # For members only in older list, apologise for loss of rank
             
             print("Getting the latest Monday gone by", end='')
-            last_monday = datetime.now(tzutc())-relativedelta(months=1, weekday=MO(-1), hour=23, minute=59, second=59, microsecond=999999)
+            last_monday = datetime.now(tzutc())-relativedelta(weekday=MO(-1), hour=23, minute=59, second=59, microsecond=999999)
             print(":", last_monday)
             
             print("Getting frequency", end='')
