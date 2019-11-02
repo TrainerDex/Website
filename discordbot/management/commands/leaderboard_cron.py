@@ -95,7 +95,7 @@ class Command(BaseCommand):
             for nonce, message in enumerate(message_parts):
                 print("message:", message)
                 print("nonce:", int(base_nonce+str(nonce)))
-                await channel.send(message, nonce=int(base_nonce+str(enumerate)))
+                await channel.send(message, nonce=int(base_nonce+str(nonce)))
             
             await client.close()
             
