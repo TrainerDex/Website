@@ -90,9 +90,12 @@ class DiscordGuild(models.Model):
             ('circled_level', _("Circled Numbers ㊵")),
             ],
         )
+    
     settings_welcomer_message_new = models.TextField(blank=True, null=True)
     settings_welcomer_message_existing = models.TextField(blank=True, null=True)
     
+    options_xp_gains_channel = models.ForeignKey('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True)
+        
     def _outdated(self):
         return (timezone.now()-self.cached_date) > timedelta(hours=1)
     _outdated.boolean = True
@@ -291,7 +294,7 @@ class DiscordGuild(models.Model):
             return None
         
         for channel in guild_channels:
-            x = DiscordGuildChannel.objects.get_or_create(id=int(channel["id"]), guild=self, defaults={'data': channel, 'cached_date': timezone.now()})
+            x = DiscordChannel.objects.get_or_create(id=int(channel["id"]), guild=self, defaults={'data': channel, 'cached_date': timezone.now()})
     
     def clean(self):
         self.refresh_from_api()
