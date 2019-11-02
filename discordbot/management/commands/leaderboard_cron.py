@@ -49,15 +49,14 @@ class Command(BaseCommand):
             if frequency=='MONTHLY':
                 this_month = last_monday
                 last_month = this_month+relativedelta(months=-1, day=31, weekday=MO(-1))
-                month_b4_last = last_month+relativedelta(months=-1, day=31, weekday=MO(-1))
                 print(":", this_month, last_month, this_month-last_month)
             
             print('Loading updates on latest date', end='')
-            this_months_submissions = Update.objects.filter(trainer__in=mbrs, update_time__lte=this_month, update_time__gt=last_month).order_by('trainer', '-update_time').distinct('trainer')
+            this_months_submissions = Update.objects.filter(trainer__in=mbrs, update_time__lte=this_month, update_time__gt=this_month+relativedelta(weeks=-2)).order_by('trainer', '-update_time').distinct('trainer')
             print(":", this_months_submissions.count())
             
             print('Loading updates on latest date', end='')
-            last_months_submissions = Update.objects.filter(trainer__in=mbrs, update_time__lte=last_month, update_time__gt=month_b4_last).order_by('trainer', '-update_time').distinct('trainer')
+            last_months_submissions = Update.objects.filter(trainer__in=mbrs, update_time__lte=last_month, update_time__gt=last_month+relativedelta(weeks=-2)).order_by('trainer', '-update_time').distinct('trainer')
             print(":", last_months_submissions.count())
             
             print('Generating lists')
