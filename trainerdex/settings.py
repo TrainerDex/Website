@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rosetta',
     'core',
     'pokemongo',
+    'discordbot',
     ]
 
 INSTALLED_APPS += [
