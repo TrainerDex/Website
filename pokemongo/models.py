@@ -10,7 +10,6 @@ from cities.models import Country, Region
 from core.models import DiscordGuild, get_guild_members, DiscordRole, DiscordGuildMembership
 from core.shortcuts import dict_to_choices
 from collections import defaultdict
-from colorful.fields import RGBColorField
 from datetime import date, datetime, timedelta, timezone, time
 from decimal import Decimal
 from django.core.validators import MaxValueValidator, MinValueValidator
