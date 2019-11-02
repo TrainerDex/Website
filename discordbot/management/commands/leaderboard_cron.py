@@ -1,13 +1,14 @@
 from django.core.management.base import BaseCommand, CommandError
 import discord
 from core.models import DiscordGuild
-from datetime import datetime, date
+from datetime import datetime
 from dateutil.tz import tzutc
 from dateutil.relativedelta import relativedelta, MO
 from discordbot import __version__ as VERSION
 from humanize import naturaldate
 from humanfriendly import format_number, format_timespan
 from pokemongo.models import Trainer, Update
+from time import time
 
 class Command(BaseCommand):
     help = 'Runs the weekly/monthly gains leaderboards.'
@@ -26,16 +27,8 @@ class Command(BaseCommand):
         async def on_ready():
             guilddb = DiscordGuild.objects.get(id=options['guild'][0])
             channel = client.get_channel(guilddb.options_xp_gains_channel.id)
-            # guilddb.refresh_from_api()
             guilddb.sync_members()
             mbrs = Trainer.objects.filter(owner__socialaccount__discordguildmembership__guild=guilddb, owner__socialaccount__discordguildmembership__active=True)
-            
-            # Get members
-            # Get updates by members filtered by the last "month"
-            # Get updates by members as above ... offset by the last month
-            # For members in both lists, calculate differences
-            # For memebers only in latest list, welcome to leaderboard
-            # For members only in older list, apologise for loss of rank
             
             print("Getting the latest Monday gone by", end='')
             last_monday = datetime.now(tzutc())-relativedelta(weekday=MO(-1), hour=23, minute=59, second=59, microsecond=999999)
@@ -85,7 +78,24 @@ class Command(BaseCommand):
             leaderboard_text+="\n\nWe have **{x}** new entries who will be ranked next month, including; _{top_5}_…".format(x=new_entries.count(), top_5=", ".join([x.trainer.nickname for x in sorted(new_entries, key=lambda x: x.total_xp, reverse=True)[:5]]))
             leaderboard_text+="\n**{x}** trainers didn't submit in time this month so couldn't be ranked, including; _{top_5}_…".format(x=dropped_trainers.count(), top_5=", ".join([x.trainer.nickname for x in dropped_trainers[:5]]))
             print(leaderboard_text)
-            await channel.send(leaderboard_text)
+            
+            print("Splitting and sending message")
+            message = ""
+            message_parts = []
+            for part in leaderboard_text.split('\n'):
+                if len(message+part+"\n") > 2000:
+                    message_parts.append(message)
+                    message = part+"\n"
+                else:
+                    message+=part+"\n"
+            message_parts.append(message)
+            del message
+            
+            base_nonce = str(int(time()))
+            for nonce, message in enumerate(message_parts):
+                print("message:", message)
+                print("nonce:", int(base_nonce+str(nonce)))
+                await channel.send(message, nonce=int(base_nonce+str(enumerate)))
             
             await client.close()
             
