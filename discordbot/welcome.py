@@ -24,11 +24,13 @@ class Welcomer(commands.Cog):
                     await channel.send("Welcome {member} to {guild.name}. Are you new?".format(guild=member.guild, member=member))
     
     @commands.command()
+    @commands.has_permissions(manage_guild=True)
     async def simulate_join(self, ctx):
         """Simulates on_member_join"""
         await self.on_member_join(ctx.author)
     
     @commands.command()
+    @commands.has_permissions(manage_guild=True)
     async def set_welcome_message_new(self, ctx, *, msg: str):
         """Sets the welcome message"""
         if msg=='none':
@@ -39,6 +41,7 @@ class Welcomer(commands.Cog):
         await ctx.send(f"Welcome message for new users set to '{guilddb.settings_welcomer_message_new}' for this server.")
     
     @commands.command()
+    @commands.has_permissions(manage_guild=True)
     async def set_welcome_message_existing(self, ctx, *, msg: str):
         """Sets the welcome message"""
         if msg=='none':
