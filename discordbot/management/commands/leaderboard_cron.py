@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
+from django.contrib.sites.models import Site
 import discord
 from core.models import DiscordGuild
 from datetime import datetime
@@ -14,10 +15,16 @@ class Command(BaseCommand):
     help = 'Runs the weekly/monthly gains leaderboards.'
     
     def add_arguments(self, parser):
-        parser.add_argument('token', nargs=1, type=str)
+        parser.add_argument('site', nargs=1, type=str)
         parser.add_argument('guild', nargs=1, type=int)
     
     def handle(self, *args, **options):
+        print('Finding Client Key')
+        try:
+            key = Site.objects.get(domain=options['site'][0]).socialapp_set.filter(provider='discord').first().key
+        except:
+            raise CommandError("Can't find key for site '{}'".format(options['site'][0]))
+        
         print('Generating Client')
         client = discord.Client(
             status=discord.Status('online'),
@@ -100,4 +107,4 @@ class Command(BaseCommand):
             await client.close()
             
         print('Running verion', VERSION)
-        client.run(options['token'][0])
+        client.run(key)
