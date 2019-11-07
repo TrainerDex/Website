@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         print('Building bot verion', VERSION)
         bot = Bot(
-        command_prefix='.',
+        command_prefix=['tdx!','.'],
         case_insensitive=True,
         description="Welcome to TrainerDex. I am the rewrite of the new bot. Call me discordbot2 for short. The name isn't very creative but what are you going to do.",
         owner_id=319792326958514176,
