@@ -16,7 +16,7 @@ class Command(BaseCommand):
         command_prefix=['tdx!','.'],
         case_insensitive=True,
         description="Welcome to TrainerDex. I am the rewrite of the new bot. Call me discordbot2 for short. The name isn't very creative but what are you going to do.",
-        owner_id=319792326958514176,
+        owner_ids=[319792326958514176,319844458558390274],
         activity=discord.Game(VERSION)
         )
         print('Running verion', VERSION)
