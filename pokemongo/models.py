@@ -519,7 +519,6 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"),
         help_text=pgettext_lazy("badge_max_level_friends", "Become Best Friends with {0} Trainers.").format(3),
-        validators=[MaxValueValidator(200)],
         )
     badge_trading = models.PositiveIntegerField(
         null=True,
@@ -1283,9 +1282,6 @@ class Update(models.Model):
                 
                 # 23 - badge_max_level_friends - Idol
                 if field.name == 'badge_max_level_friends':
-                    
-                    # Max Value = 200
-                    # Handled at field level
                     
                     # Handle Early Updates
                     if self.update_time.date() < FriendReleaseDate:
