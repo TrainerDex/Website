@@ -30,6 +30,7 @@ from exclusivebooleanfield.fields import ExclusiveBooleanField
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from pokemongo.shortcuts import level_parser, circled_level, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES, lookup, UPDATE_NON_REVERSEABLE_FIELDS, BADGES
 from os.path import splitext
+from pytz import common_timezones
 
 def VerificationImagePath(instance, filename):
     return 'v_{0}_{1}{ext}'.format(
@@ -1484,8 +1485,14 @@ class Community(models.Model):
         verbose_name="UUID",
         )
     language = models.CharField(
-        max_length=12,
+        default=settings.LANGUAGE_CODE,
         choices=settings.LANGUAGES,
+        max_length=len(max(settings.LANGUAGES, key=lambda x: len(x[0]))[0]),
+        )
+    timezone = models.CharField(
+        default=settings.TIME_ZONE,
+        choices=((x,x) for x in common_timezones),
+        max_length=len(max(common_timezones, key=len)),
         )
     name = models.CharField(
         max_length=70,
