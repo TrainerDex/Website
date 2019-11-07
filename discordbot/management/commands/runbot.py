@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
+from django.contrib.sites.models import Site
 import discord
 from discordbot import __version__ as VERSION
 from discord.ext.commands import Bot
@@ -8,9 +9,15 @@ class Command(BaseCommand):
     help = 'Starts a Discord.py bot'
     
     def add_arguments(self, parser):
-        parser.add_argument('token', nargs=1, type=str)
+        parser.add_argument('site', nargs=1, type=str)
     
     def handle(self, *args, **options):
+        print('Finding Client Key')
+        try:
+            key = Site.objects.get(domain=options['site'][0]).socialapp_set.filter(provider='discord').first().key
+        except:
+            raise CommandError("Can't find key for site '{}'".format(options['site'][0]))
+        
         print('Building bot verion', VERSION)
         bot = Bot(
         command_prefix=['tdx!','.'],
@@ -23,4 +30,4 @@ class Command(BaseCommand):
         print('Initiating Cogs')
         bot.add_cog(Welcomer(bot))
         print('Starting Bot')
-        bot.run(options['token'][0])
+        bot.run(key)
