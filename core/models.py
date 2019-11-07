@@ -100,10 +100,10 @@ class DiscordGuild(models.Model):
     # Needed for discordbot/welcome.py
     settings_welcomer_message_new = models.TextField(blank=True, null=True)
     settings_welcomer_message_existing = models.TextField(blank=True, null=True)
-    settings_welcome_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='welcome_channel')
+    settings_welcome_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='welcome_channel', limit_choices_to={'data__type':0})
     
     # Needed for discordbot/management/commands/leaderboard_cron.py
-    settings_xp_gains_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='xp_gains_channel')
+    settings_xp_gains_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='xp_gains_channel', limit_choices_to={'data__type':0})
     
         
     def _outdated(self):
