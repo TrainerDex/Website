@@ -29,7 +29,9 @@ download_channels.short_description = _("Download channels from Discord. Current
 class DiscordGuildAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {'fields' : ('id', 'owner', 'data_prettified', 'cached_date',)}),
-        ('TrainerDex', {'fields': ('settings_pokemongo_rename', 'settings_pokemongo_rename_with_level', 'settings_pokemongo_rename_with_level_format','settings_welcomer_message_new', 'settings_welcomer_message_existing', 'options_xp_gains_channel',)}),
+        ('Localization', {'fields': ('settings_guild_lang', 'settings_guild_timezone',)}),
+        ('Welcomer', {'fields': ('settings_welcomer_message_new', 'settings_welcomer_message_existing', 'settings_welcome_channel',)}),
+        ('TrainerDex', {'fields': ('settings_pokemongo_rename', 'settings_pokemongo_rename_with_level', 'settings_pokemongo_rename_with_level_format','settings_xp_gains_channel',)}),
         )
     search_fields = ('id', 'data__name')
     actions = [sync_members, download_channels]

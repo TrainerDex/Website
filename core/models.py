@@ -14,6 +14,7 @@ from django.utils.encoding import force_text
 from django.utils.translation import pgettext_lazy, gettext_lazy as _, ngettext
 from django.utils import timezone
 from datetime import timedelta
+from pytz import common_timezones
 
 def get_guild_info(guild_id: int):
     base_url = 'https://discordapp.com/api/v{version_number}'.format(version_number=6)
@@ -71,6 +72,11 @@ class DiscordGuild(models.Model):
         through_fields=('guild', 'user'),
         )
     
+    # Localization settings
+    settings_guild_lang = models.CharField(default=settings.LANGUAGE_CODE, choices=settings.LANGUAGES, max_length=len(max(settings.LANGUAGES, key=lambda x: len(x[0]))[0]))
+    settings_guild_timezone = models.CharField(default=settings.TIME_ZONE, choices=((x,x) for x in common_timezones), max_length=len(max(common_timezones, key=len)))
+    
+    # Needed for automatic renaming features
     settings_pokemongo_rename = models.BooleanField(
         default=True,
         verbose_name=_('Rename users when they join.'),
@@ -91,10 +97,14 @@ class DiscordGuild(models.Model):
             ],
         )
     
+    # Needed for discordbot/welcome.py
     settings_welcomer_message_new = models.TextField(blank=True, null=True)
     settings_welcomer_message_existing = models.TextField(blank=True, null=True)
+    settings_welcome_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='welcome_channel')
     
-    options_xp_gains_channel = models.ForeignKey('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True)
+    # Needed for discordbot/management/commands/leaderboard_cron.py
+    settings_xp_gains_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='xp_gains_channel')
+    
         
     def _outdated(self):
         return (timezone.now()-self.cached_date) > timedelta(hours=1)
