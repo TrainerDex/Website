@@ -239,6 +239,8 @@ SOCIALACCOUNT_PROVIDERS = {
             'identify',
             'email',
             'guilds',
+            'guilds.join',
+            'gdm.join',
         ]
     }
 }
