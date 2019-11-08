@@ -28,14 +28,14 @@ download_channels.short_description = _("Download channels from Discord. Current
 @admin.register(DiscordGuild)
 class DiscordGuildAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {'fields' : ('id', 'owner', 'data_prettified', 'cached_date',)}),
+        (None, {'fields' : ('id', 'name', 'owner', 'data_prettified', 'cached_date',)}),
         ('Localization', {'fields': ('settings_guild_lang', 'settings_guild_timezone',)}),
         ('Welcomer', {'fields': ('settings_welcomer_message_new', 'settings_welcomer_message_existing', 'settings_welcome_channel',)}),
         ('TrainerDex', {'fields': ('settings_pokemongo_rename', 'settings_pokemongo_rename_with_level', 'settings_pokemongo_rename_with_level_format','settings_xp_gains_channel',)}),
         )
     search_fields = ('id', 'data__name')
     actions = [sync_members, download_channels]
-    list_display = ('__str__', 'region', '_outdated', 'has_data', 'owner', 'cached_date')
+    list_display = ('normalized_name', 'id', 'name', '_outdated', 'has_data', 'owner', 'cached_date')
     
     def get_readonly_fields(self, request, obj=None):
         if obj:

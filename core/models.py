@@ -2,7 +2,7 @@
 import logging
 logger = logging.getLogger('django.trainerdex')
 import requests
-
+import re
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.contrib.postgres import fields as postgres_fields
@@ -121,119 +121,25 @@ class DiscordGuild(models.Model):
     def name(self):
         if self.data and 'name' in self.data:
             return self.data['name']
-
+        
     @property
-    def icon(self):
-        if self.data and 'icon' in self.data:
-            return self.data['icon']
-
-    @property
-    def splash(self):
-        if self.data and 'splash' in self.data:
-            return self.data['splash']
-
-    def _is_owner(self):
-        if self.data and 'owner' in self.data:
-            return self.data['owner']
-    _is_owner.boolean = True
-    is_owner = property(_is_owner)
-
-    @property
-    def owner_id(self):
-        if self.data and 'owner_id' in self.data:
-            return self.data['owner_id']
+    def normalized_name(self):
+        if self.data and 'name' in self.data:
+            return re.sub(r'(?:Pok[eé]mon?\s?(Go)?(GO)?\s?-?\s)', '', self.data['name'])
 
     @property
     def owner(self):
-        if self.data and 'owner_id' in self.data:
-            try:
-                return SocialAccount.objects.get(provider='discord', uid=self.data['owner_id'])
-            except SocialAccount.DoesNotExist:
-                pass
-        return self.owner_id
-
-    @property
-    def permissions(self):
-        if self.data and 'permissions' in self.data:
-            return self.data['permissions']
-
-    @property
-    def region(self):
-        if self.data and 'region' in self.data:
-            return self.data['region']
-
-    @property
-    def afk_channel_id(self):
-        if self.data and 'afk_channel_id' in self.data:
-            return self.data['afk_channel_id']
-
-    @property
-    def afk_channel(self):
-        if self.data and 'afk_channel_id' in self.data:
-            try:
-                return DiscordChannel.objects.get(id=self.data['afk_channel_id'])
-            except DiscordChannel.DoesNotExist:
-                pass
-        return self.afk_channel_id
-
-    @property
-    def afk_timeout(self):
-        if self.data and 'afk_timeout' in self.data:
-            return self.data['afk_timeout']
-
-    @property
-    def verification_level(self):
-        if self.data and 'verification_level' in self.data:
-            channel_types = ['NONE', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH']
-            return channel_types[self.data['verification_level']]
-
-    @property
-    def default_message_notifications(self):
-        if self.data and 'default_message_notifications' in self.data:
-            channel_types = ['ALL_MESSAGES', 'ONLY_MENTIONS']
-            return channel_types[self.data['default_message_notifications']]
-
-    @property
-    def explicit_content_filter(self):
-        if self.data and 'explicit_content_filter' in self.data:
-            channel_types = ['DISABLED', 'MEMBERS_WITHOUT_ROLES', 'ALL_MEMBERS']
-            return channel_types[self.data['explicit_content_filter']]
-    
-    # roles is a reverse relation
-
-    @property
-    def emojis(self):
-        if self.data and 'emojis' in self.data:
-            return self.data['emojis']
-
-    @property
-    def features(self):
-        if self.data and 'features' in self.data:
-            return self.data['features']
-
-    @property
-    def mfa_level(self):
-        if self.data and 'mfa_level' in self.data:
-            channel_types = ['NONE', 'ELEVATED']
-            return channel_types[self.data['mfa_level']]
-
-    @property
-    def system_channel_id(self):
-        if self.data and 'system_channel_id' in self.data:
-            return self.data['system_channel_id']
-
-    @property
-    def system_channel(self):
-        if self.data and 'system_channel_id' in self.data:
-            try:
-                return DiscordChannel.objects.get(id=self.data['system_channel_id'])
-            except DiscordChannel.DoesNotExist:
-                pass
-        return self.afk_channel_id
+        if self.data:
+            if 'owner_id' in self.data:
+                try:
+                    return DiscordUser.objects.get(uid=self.data['owner_id'])
+                except SocialAccount.DoesNotExist:
+                    pass
+            return self.data['owner_id']
     
     def __str__(self):
         try:
-            return str(self.data['name'])
+            return str(self.name)
         except:
             return f"Discord Guild with ID {self.id}"
     
@@ -349,7 +255,7 @@ class DiscordChannel(models.Model):
     @property
     def type(self):
         if self.data and 'type' in self.data:
-            channel_types = ['GUILD_TEXT', 'DM', 'GUILD_VOICE', 'GROUP_DM', 'GUILD_CATEGORY']
+            channel_types = ['Text Channel', 'DM', 'Voice Channel', 'Group DM', 'Category']
             return channel_types[self.data['type']]
 
     @property
@@ -372,44 +278,10 @@ class DiscordChannel(models.Model):
     nsfw = property(_nsfw)
 
     @property
-    def bitrate(self):
-        if self.data and 'bitrate' in self.data:
-            return self.data['bitrate']
-
-    @property
-    def user_limit(self):
-        if self.data and 'user_limit' in self.data:
-            return self.data['user_limit']
-
-    @property
-    def rate_limit_per_user(self):
-        if self.data and 'rate_limit_per_user' in self.data:
-            return self.data['rate_limit_per_user']
-
-    @property
     def recipients(self):
         if self.data and 'recipients' in self.data:
             return SocialAccount.objects.filter(provider='discord', uid__in=[x['id'] for x in self.data['recipients']])
         return SocialAccount.objects.none()
-
-    @property
-    def icon(self):
-        if self.data and 'icon' in self.data:
-            return self.data['icon']
-
-    @property
-    def owner(self):
-        if self.data and 'owner_id' in self.data:
-            try:
-                return SocialAccount.objects.get(provider='discord', uid=self.data['owner_id'])
-            except SocialAccount.DoesNotExist:
-                pass
-        return SocialAccount.objects.none()
-
-    @property
-    def owner_id(self):
-        if self.data and 'owner_id' in self.data:
-            return self.data['owner_id']
 
     @property
     def parent(self):
@@ -419,11 +291,6 @@ class DiscordChannel(models.Model):
             except DiscordChannel.DoesNotExist:
                 pass
         return DiscordChannel.objects.none()
-
-    @property
-    def parent_id(self):
-        if self.data and 'parent_id' in self.data:
-            return self.data['parent_id']
     
     @property
     def children(self):
