@@ -98,6 +98,7 @@ class DiscordGuild(models.Model):
         )
     
     # Needed for discordbot/welcome.py
+    settings_welcomer_enabled= models.BooleanField(default=False)
     settings_welcomer_message_new = models.TextField(blank=True, null=True)
     settings_welcomer_message_existing = models.TextField(blank=True, null=True)
     settings_welcome_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='welcome_channel', limit_choices_to={'data__type':0})
