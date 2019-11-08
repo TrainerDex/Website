@@ -9,19 +9,26 @@ class Welcomer(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         guilddb = DiscordGuild.objects.get_or_create(id=member.guild.id)[0]
-        channel = member.guild.system_channel
-        if channel is not None:
-            try:
-                trainer = DiscordUser.objects.get(uid=str(member.id)).user.trainer
-                if guilddb.settings_welcomer_message_existing:
-                    await channel.send(guilddb.settings_welcomer_message_existing.format(trainer=trainer, guild=member.guild, member=member))
-                else:
-                    await channel.send("Welcome {trainer.nickname} to {guild.name}. I've found you in our database.".format(trainer=trainer, guild=member.guild, member=member))
-            except DiscordUser.DoesNotExist:
-                if guilddb.settings_welcomer_message_new:
-                    await channel.send(guilddb.settings_welcomer_message_existing.format(trainer=trainer, guild=member.guild, member=member))
-                else:
-                    await channel.send("Welcome {member} to {guild.name}. Are you new?".format(guild=member.guild, member=member))
+        
+        if !guilddb.settings_welcomer_enabled:
+            return
+        
+        channel = self.bot.get_channel(guilddb.settings_welcome_channel.id) or member.guild.system_channel
+        
+        if !channel:
+            return
+        
+        try:
+            trainer = DiscordUser.objects.get(uid=str(member.id)).user.trainer
+            if guilddb.settings_welcomer_message_existing:
+                await channel.send(guilddb.settings_welcomer_message_existing.format(trainer=trainer, guild=member.guild, member=member))
+            else:
+                await channel.send("Welcome {trainer.nickname} to {guild.name}. I've found you in our database.".format(trainer=trainer, guild=member.guild, member=member))
+        except DiscordUser.DoesNotExist:
+            if guilddb.settings_welcomer_message_new:
+                await channel.send(guilddb.settings_welcomer_message_existing.format(trainer=trainer, guild=member.guild, member=member))
+            else:
+                await channel.send("Welcome {member} to {guild.name}. Are you new?".format(guild=member.guild, member=member))
     
     @commands.command()
     @commands.has_permissions(manage_guild=True)
