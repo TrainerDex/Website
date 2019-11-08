@@ -72,41 +72,6 @@ class DiscordGuild(models.Model):
         through_fields=('guild', 'user'),
         )
     
-    # Localization settings
-    settings_guild_lang = models.CharField(default=settings.LANGUAGE_CODE, choices=settings.LANGUAGES, max_length=len(max(settings.LANGUAGES, key=lambda x: len(x[0]))[0]))
-    settings_guild_timezone = models.CharField(default=settings.TIME_ZONE, choices=((x,x) for x in common_timezones), max_length=len(max(common_timezones, key=len)))
-    
-    # Needed for automatic renaming features
-    settings_pokemongo_rename = models.BooleanField(
-        default=True,
-        verbose_name=_('Rename users when they join.'),
-        help_text=_("This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."),
-        )
-    settings_pokemongo_rename_with_level = models.BooleanField(
-        default=False,
-        verbose_name=_('Rename users with their level indicator'),
-        help_text=_("This setting will add a level to the end of their username on your server. Their name will update whenever they level up."),
-        )
-    settings_pokemongo_rename_with_level_format = models.CharField(
-        default='int',
-        verbose_name=_('Level Indicator format'),
-        max_length=50,
-        choices=[
-            ('int', _("Plain ol' Numbers")),
-            ('circled_level', _("Circled Numbers ㊵")),
-            ],
-        )
-    
-    # Needed for discordbot/welcome.py
-    settings_welcomer_enabled= models.BooleanField(default=False)
-    settings_welcomer_message_new = models.TextField(blank=True, null=True)
-    settings_welcomer_message_existing = models.TextField(blank=True, null=True)
-    settings_welcome_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='welcome_channel', limit_choices_to={'data__type':0})
-    
-    # Needed for discordbot/management/commands/leaderboard_cron.py
-    settings_xp_gains_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='xp_gains_channel', limit_choices_to={'data__type':0})
-    
-        
     def _outdated(self):
         return (timezone.now()-self.cached_date) > timedelta(hours=1)
     _outdated.boolean = True
@@ -220,6 +185,42 @@ class DiscordGuild(models.Model):
         verbose_name = _("Discord Guild")
         verbose_name_plural = _("Discord Guilds")
 
+class DiscordGuildSettings(DiscordGuild):
+    # Localization settings
+    language = models.CharField(default=settings.LANGUAGE_CODE, choices=settings.LANGUAGES, max_length=len(max(settings.LANGUAGES, key=lambda x: len(x[0]))[0]))
+    timezone = models.CharField(default=settings.TIME_ZONE, choices=((x,x) for x in common_timezones), max_length=len(max(common_timezones, key=len)))
+    
+    # Needed for automatic renaming features
+    renamer = models.BooleanField(
+        default=True,
+        verbose_name=_('Rename users when they join.'),
+        help_text=_("This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."),
+        )
+    renamer_with_level = models.BooleanField(
+        default=False,
+        verbose_name=_('Rename users with their level indicator'),
+        help_text=_("This setting will add a level to the end of their username on your server. Their name will update whenever they level up."),
+        )
+    renamer_with_level_format = models.CharField(
+        default='int',
+        verbose_name=_('Level Indicator format'),
+        max_length=50,
+        choices=[
+            ('int', _("Plain ol' Numbers")),
+            ('circled_level', _("Circled Numbers ㊵")),
+            ],
+        )
+    
+    # Needed for discordbot/welcome.py
+    welcomer = models.BooleanField(default=False)
+    welcomer_message_new = models.TextField(blank=True, null=True)
+    welcomer_message_existing = models.TextField(blank=True, null=True)
+    welcomer_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='welcomer_channel', limit_choices_to={'data__type':0})
+    
+    # Needed for discordbot/management/commands/leaderboard_cron.py
+    monthly_gains_channel = models.OneToOneField('DiscordChannel', on_delete=models.SET_NULL, null=True, blank=True, related_name='monthly_gains_channel', limit_choices_to={'data__type':0})
+    #monthly_gains_period = 'MONTHLY'
+
 @receiver(post_save, sender=DiscordGuild)
 def new_guild(sender, **kwargs):
     if kwargs['created']:
@@ -250,7 +251,7 @@ class DiscordChannel(models.Model):
     outdated = property(_outdated)
     
     def __str__(self):
-        return f"{self.name} in {self.guild}"
+        return self.name
     
     @property
     def type(self):

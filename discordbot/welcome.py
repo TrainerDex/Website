@@ -8,25 +8,25 @@ class Welcomer(commands.Cog):
     
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        guilddb = DiscordGuild.objects.get_or_create(id=member.guild.id)[0]
+        guilddb = DiscordGuildSettings.objects.get_or_create(id=member.guild.id)[0]
         
-        if !guilddb.settings_welcomer_enabled:
+        if !guilddb.welcomer:
             return
         
-        channel = self.bot.get_channel(guilddb.settings_welcome_channel.id) or member.guild.system_channel
+        channel = self.bot.get_channel(guilddb.welcomer_channel.id) or member.guild.system_channel
         
         if !channel:
             return
         
         try:
             trainer = DiscordUser.objects.get(uid=str(member.id)).user.trainer
-            if guilddb.settings_welcomer_message_existing:
-                await channel.send(guilddb.settings_welcomer_message_existing.format(trainer=trainer, guild=member.guild, member=member))
+            if guilddb.welcomer_message_existing:
+                await channel.send(guilddb.welcomer_message_existing.format(trainer=trainer, guild=member.guild, member=member))
             else:
                 await channel.send("Welcome {trainer.nickname} to {guild.name}. I've found you in our database.".format(trainer=trainer, guild=member.guild, member=member))
         except DiscordUser.DoesNotExist:
-            if guilddb.settings_welcomer_message_new:
-                await channel.send(guilddb.settings_welcomer_message_existing.format(trainer=trainer, guild=member.guild, member=member))
+            if guilddb.welcomer_message_new:
+                await channel.send(guilddb.welcomer_message_new.format(trainer=trainer, guild=member.guild, member=member))
             else:
                 await channel.send("Welcome {member} to {guild.name}. Are you new?".format(guild=member.guild, member=member))
     
@@ -42,10 +42,10 @@ class Welcomer(commands.Cog):
         """Sets the welcome message"""
         if msg=='none':
             msg=None
-        guilddb = DiscordGuild.objects.get_or_create(id=ctx.message.channel.guild.id)[0]
-        guilddb.settings_welcomer_message_new = msg
+        guilddb = DiscordGuildSettings.objects.get_or_create(id=ctx.message.channel.guild.id)[0]
+        guilddb.welcomer_message_new = msg
         guilddb.save()
-        await ctx.send(f"Welcome message for new users set to '{guilddb.settings_welcomer_message_new}' for this server.")
+        await ctx.send(f"Welcome message for new users set to '{guilddb.welcomer_message_new}' for this server.")
     
     @commands.command()
     @commands.has_permissions(manage_guild=True)
@@ -53,7 +53,7 @@ class Welcomer(commands.Cog):
         """Sets the welcome message"""
         if msg=='none':
             msg=None
-        guilddb = DiscordGuild.objects.get_or_create(id=ctx.message.channel.guild.id)[0]
-        guilddb.settings_welcomer_message_existing = msg
+        guilddb = DiscordGuildSettings.objects.get_or_create(id=ctx.message.channel.guild.id)[0]
+        guilddb.welcomer_message_existing = msg
         guilddb.save()
-        await ctx.send(f"Welcome message for existing users set to '{guilddb.settings_welcomer_message_existing}' for this server.")
+        await ctx.send(f"Welcome message for existing users set to '{guilddb.welcomer_message_existing}' for this server.")

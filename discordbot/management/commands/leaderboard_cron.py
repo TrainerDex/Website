@@ -32,10 +32,10 @@ class Command(BaseCommand):
         
         @client.event
         async def on_ready():
-            guilddb = DiscordGuild.objects.get(id=options['guild'][0])
-            channel = client.get_channel(guilddb.options_xp_gains_channel.id)
-            guilddb.sync_members()
-            mbrs = Trainer.objects.filter(owner__socialaccount__discordguildmembership__guild=guilddb, owner__socialaccount__discordguildmembership__active=True)
+            guilddb = DiscordGuildSettings.objects.get(id=options['guild'][0])
+            channel = client.get_channel(guilddb.monthly_gains_channel.id)
+            guilddb.discordguild_ptr.sync_members()
+            mbrs = Trainer.objects.filter(owner__socialaccount__discordguildmembership__guild=guilddb.discordguild_ptr, owner__socialaccount__discordguildmembership__active=True)
             
             print("Getting the latest Monday gone by", end='')
             last_monday = datetime.now(tzutc())-relativedelta(weekday=MO(-1), hour=23, minute=59, second=59, microsecond=999999)

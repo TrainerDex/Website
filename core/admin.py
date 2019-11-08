@@ -4,7 +4,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib import admin, messages
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _, ngettext
-from core.models import DiscordGuild, DiscordChannel, DiscordRole, DiscordGuildMembership, DiscordUser
+from core.models import DiscordGuild, DiscordGuildSettings, DiscordChannel, DiscordRole, DiscordGuildMembership, DiscordUser
 from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
@@ -25,23 +25,33 @@ def download_channels(modeladmin, request, queryset):
 
 download_channels.short_description = _("Download channels from Discord. Currently doesn't delete them.")
 
+class DiscordSettingsInline(admin.StackedInline):
+    model = DiscordGuildSettings
+    fieldsets = (
+        ('Localization', {'fields': ('language', 'timezone',)}),
+        ('Welcomer', {'fields': ('renamer', 'renamer_with_level', 'renamer_with_level_format',)}),
+        ('TrainerDex', {'fields': ('welcomer', 'welcomer_message_new', 'welcomer_message_existing', 'welcomer_channel', 'monthly_gains_channel',)}),
+        )
+    verbose_name = _("Discord Server Settings")
+    verbose_name_plural = _("Discord Server Settings")
+    can_delete = False
+
 @admin.register(DiscordGuild)
 class DiscordGuildAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {'fields' : ('id', 'name', 'owner', 'data_prettified', 'cached_date',)}),
-        ('Localization', {'fields': ('settings_guild_lang', 'settings_guild_timezone',)}),
-        ('Welcomer', {'fields': ('settings_welcomer_message_new', 'settings_welcomer_message_existing', 'settings_welcome_channel',)}),
-        ('TrainerDex', {'fields': ('settings_pokemongo_rename', 'settings_pokemongo_rename_with_level', 'settings_pokemongo_rename_with_level_format','settings_xp_gains_channel',)}),
+        (None, {'fields' : ('id', 'name', 'owner',)}),
+        ('Debug', {'fields' : ('data_prettified', 'cached_date'), 'classes': ('collapse',),}),
         )
+    inlines = [DiscordSettingsInline,]
     search_fields = ('id', 'data__name')
     actions = [sync_members, download_channels]
     list_display = ('normalized_name', 'id', 'name', '_outdated', 'has_data', 'owner', 'cached_date')
     
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return self.fieldsets[0][1]['fields']
+            return ('id', 'name', 'owner', 'data_prettified', 'cached_date')
         else:
-            return [x for x in self.fieldsets[0][1]['fields'] if x != 'id']
+            return ('name', 'owner', 'data_prettified', 'cached_date')
     
     def data_prettified(self, instance):
         """Function to display pretty version of our data"""
