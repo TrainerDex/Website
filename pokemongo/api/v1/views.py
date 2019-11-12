@@ -337,7 +337,7 @@ class DiscordLeaderboardAPIView(APIView):
             else:
                 server.save()
             
-            if !server.has_access:
+            if not server.has_access:
                 return Response({'error': 'Access Denied', 'cause': "The bot doesn't have access to this guild.", 'solution': "Add the bot account to the guild."}, status=424)
             else:
                 server.sync_members()
