@@ -330,8 +330,14 @@ class DiscordLeaderboardAPIView(APIView):
                 server, created = DiscordGuild.objects.get_or_create(id=int(guild), defaults={'data': i, 'cached_date': timezone.now()})
             
         if not server.data or server.outdated:
-            server.refresh_from_api()
-            if not server.data:
+            try:
+                server.refresh_from_api()
+            except:
+                return Response(status=424)
+            else:
+                server.save()
+            
+            if !server.has_access:
                 return Response({'error': 'Access Denied', 'cause': "The bot doesn't have access to this guild.", 'solution': "Add the bot account to the guild."}, status=424)
             else:
                 server.sync_members()

@@ -45,7 +45,7 @@ class DiscordGuildAdmin(admin.ModelAdmin):
     inlines = [DiscordSettingsInline,]
     search_fields = ('id', 'data__name')
     actions = [sync_members, download_channels]
-    list_display = ('normalized_name', 'id', 'name', '_outdated', 'has_data', 'owner', 'cached_date')
+    list_display = ('name', 'id', '_outdated', 'has_data', 'has_access', 'owner', 'cached_date')
     
     def get_readonly_fields(self, request, obj=None):
         if obj:
