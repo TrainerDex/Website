@@ -10,12 +10,12 @@ class Welcomer(commands.Cog):
     async def on_member_join(self, member):
         guilddb = DiscordGuildSettings.objects.get_or_create(id=member.guild.id)[0]
         
-        if !guilddb.welcomer:
+        if not guilddb.welcomer:
             return
         
         channel = self.bot.get_channel(guilddb.welcomer_channel.id) or member.guild.system_channel
         
-        if !channel:
+        if not channel:
             return
         
         try:
