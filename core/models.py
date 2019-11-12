@@ -19,7 +19,10 @@ from pytz import common_timezones
 def get_guild_info(guild_id: int):
     base_url = 'https://discordapp.com/api/v{version_number}'.format(version_number=6)
     r = requests.get(f"{base_url}/guilds/{guild_id}", headers={'Authorization': f"Bot {settings.DISCORD_TOKEN}"})
-    r.raise_for_status()
+    try:
+        r.raise_for_status()
+    except:
+        return r.status_code
     return r.json()
 
 def get_guild_members(guild_id: int, limit=1000):
@@ -63,9 +66,8 @@ class DiscordGuild(models.Model):
         null=True,
         blank=True,
         )
-    cached_date = models.DateTimeField(
-        auto_now_add=True,
-        )
+    cached_date = models.DateTimeField(auto_now_add=True)
+    has_access = models.BooleanField(default=False)
     members = models.ManyToManyField(
         'DiscordUser',
         through='DiscordGuildMembership',
@@ -111,9 +113,14 @@ class DiscordGuild(models.Model):
     def refresh_from_api(self):
         logging.info(f"Updating {self}")
         try:
-            self.data = get_guild_info(self.id)
-            self.cached_date = timezone.now()
-            self.sync_roles()
+            data_or_code = get_guild_info(self.id)
+            if type(data_or_code) == int:
+                self.has_access = False
+            else:
+                self.data = data_or_code
+                self.has_access = True
+                self.cached_date = timezone.now()
+                self.sync_roles()
         except:
             logger.exception("Failed to get server information from Discord")
         else:
@@ -304,8 +311,6 @@ class DiscordChannel(models.Model):
             self.cached_date = timezone.now()
         except:
             logger.exception("Failed to get server information from Discord")
-        else:
-            self.save()
     
     def clean(self):
         self.refresh_from_api()
@@ -386,8 +391,6 @@ class DiscordRole(models.Model):
             self.cached_date = timezone.now()
         except:
             logger.exception("Failed to get server information from Discord")
-        else:
-            self.save()
     
     def clean(self):
         self.refresh_from_api()
@@ -501,12 +504,10 @@ class DiscordGuildMembership(models.Model):
             self.data = get_guild_member(self.guild.id, self.user.uid)
             if not self.user.extra_data:
                 self.user.extra_data = self.data['user']
+                self.user.save()
             self.cached_date = timezone.now()
         except:
             logger.exception("Failed to get server information from Discord")
-        else:
-            self.user.save()
-            self.save()
     
     def clean(self):
         if self.user.provider != 'discord':
