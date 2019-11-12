@@ -1401,15 +1401,15 @@ class Update(models.Model):
 def update_discord_level(sender, **kwargs):
     if kwargs['created'] and kwargs['instance'].total_xp:
         level = kwargs['instance'].level()
-        for discord in DiscordGuildMembership.objects.exclude(active=False).filter(guild__settings_pokemongo_rename=True, guild__settings_pokemongo_rename_with_level=True, user__user__trainer=kwargs['instance'].trainer):
+        for discord in DiscordGuildMembership.objects.exclude(active=False).filter(guild__discordguildsettings__renamer=True, guild__discordguildsettings__renamer_with_level=True, user__user__trainer=kwargs['instance'].trainer):
             if discord.nick_override:
                 base = discord.nick_override
             else:
                 base = kwargs['instance'].trainer.nickname
             
-            if discord.guild.settings_pokemongo_rename_with_level_format=='int':
+            if discord.guild.discordguildsettings.renamer_with_level_format=='int':
                 ext = str(level)
-            elif discord.guild.settings_pokemongo_rename_with_level_format=='circled_level':
+            elif discord.guild.discordguildsettings.renamer_with_level_format=='circled_level':
                 ext = circled_level(level)
             
             if len(base)+len(ext) > 32:
