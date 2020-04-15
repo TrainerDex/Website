@@ -9,7 +9,7 @@ django-crispy-forms # Am I using this?
 django-exclusivebooleanfield==0.3.0
 django-filter>=1.0.1
 django-form-utils==1.0.3
-django-helpdesk==0.2.17
+django-helpdesk==0.2.20
 django-rosetta==0.9.3
 django-unused-media # Am I using this?
 django-widget-tweaks==1.4.5
