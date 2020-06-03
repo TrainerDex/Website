@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import os
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 
@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'rosetta',
     'core',
     'pokemongo',
-    'discordbot',
     ]
 
 INSTALLED_APPS += [
