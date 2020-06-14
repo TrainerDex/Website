@@ -14,10 +14,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _, pgettext_lazy
+from django.utils.translation import gettext_lazy as _, pgettext_lazy, pgettext
 from django_countries.fields import CountryField
 
-from core.models import Nickname
+from core.models import Nickname, User
 # from core.models import DiscordGuildMembership
 from trainerdex.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from trainerdex.shortcuts import circled_level
@@ -38,8 +38,9 @@ class Trainer(models.Model):
         )
     id = models.PositiveIntegerField(
         editable= False,
-        unique=True,
         verbose_name='(Deprecated) ID',
+        blank=True,
+        null=True,
         )
     start_date = models.DateField(
         null=True,
@@ -86,14 +87,10 @@ class Trainer(models.Model):
         default=False,
         verbose_name=_("Banned"),
         )
-    gdpr = models.BooleanField(
-        default=True,
-        verbose_name=pgettext_lazy('profile__gdpr__title', 'GDPR'),
-        help_text=pgettext_lazy('profile__gdpr__help', 'This gives us permission to process your data.'),
-        )
 
     def submitted_picture(self) -> bool:
-        return bool(self.verification)
+        # return bool(self.verification_image)
+        return False
     submitted_picture.boolean = True
     
     def awaiting_verification(self) -> bool:
@@ -107,7 +104,7 @@ class Trainer(models.Model):
         return {
             'verified': self.verified,
             'gdpr': self.user.gdpr,
-            'not_banned': not self.user.banned,
+            'not_banned': not self.banned,
         }
     
     def leaderboard_eligibility(self) -> bool:
@@ -116,7 +113,8 @@ class Trainer(models.Model):
     
     @property
     def profile_complete(self) -> bool:
-        return all([self.user, self.nickname, self.verification_image, self.verified, self.start_date])
+        # return all([self.user, self.nickname, self.submitted_picture(), self.verified, self.start_date])
+        return all([self.user, self.nickname, self.verified, self.start_date])
     
     @property
     def nickname(self) -> str:
@@ -156,7 +154,18 @@ def create_profile(sender, instance, created, **kwargs) -> Trainer:
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def save_profile(sender, instance, **kwargs):
-    instance.trainer.save()
+    if kwargs.get('raw'):
+        # End early, one should not query/modify other records in the database as the database might not be in a consistent state yet.
+        return None
+    
+    if instance.is_service_user:
+        # End early, service users shouldn't have Trainer objects
+        return None
+    
+    try:
+        instance.trainer.save()
+    except User.trainer.RelatedObjectDoesNotExist:
+        pass
 
 
 class Faction(models.Model):
@@ -168,10 +177,10 @@ class Faction(models.Model):
     VALOR = 2
     INSTINCT = 3
     FACTION_CHOICES = (
-        (TEAMLESS, pgettext_lazy('faction_0__short', 'Teamless')),
-        (MYSTIC, pgettext_lazy('faction_1__short', 'Mystic')),
-        (VALOR, pgettext_lazy('faction_2__short', 'Valor')),
-        (INSTINCT, pgettext_lazy('faction_3__short', 'Instinct')),
+        (TEAMLESS, pgettext('faction_0__short', 'Teamless')),
+        (MYSTIC, pgettext('faction_1__short', 'Mystic')),
+        (VALOR, pgettext('faction_2__short', 'Valor')),
+        (INSTINCT, pgettext('faction_3__short', 'Instinct')),
     )
     
     id = models.PositiveSmallIntegerField(choices=FACTION_CHOICES, primary_key=True)
@@ -179,20 +188,20 @@ class Faction(models.Model):
     @property
     def name_short(self):
         CHOICES = (
-        pgettext_lazy('faction_0__short', 'Teamless'),
-        pgettext_lazy('faction_1__short', 'Mystic'),
-        pgettext_lazy('faction_2__short', 'Valor'),
-        pgettext_lazy('faction_3__short', 'Instinct'),
+        pgettext('faction_0__short', 'Teamless'),
+        pgettext('faction_1__short', 'Mystic'),
+        pgettext('faction_2__short', 'Valor'),
+        pgettext('faction_3__short', 'Instinct'),
         )
         return CHOICES[self.id]
     
     @property
     def name_long(self):
         CHOICES = (
-        pgettext_lazy('faction_0__long', 'No Team'),
-        pgettext_lazy('faction_1__long', 'Team Mystic'),
-        pgettext_lazy('faction_2__long', 'Team Valor'),
-        pgettext_lazy('faction_3__long', 'Team Instinct'),
+        pgettext('faction_0__long', 'No Team'),
+        pgettext('faction_1__long', 'Team Mystic'),
+        pgettext('faction_2__long', 'Team Valor'),
+        pgettext('faction_3__long', 'Team Instinct'),
         )
         return CHOICES[self.id]
     

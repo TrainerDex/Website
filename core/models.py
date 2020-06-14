@@ -35,10 +35,11 @@ class User(AbstractUser):
         verbose_name=pgettext_lazy("nickname__title", "Nickname"),
         )
     is_service_user = models.BooleanField(default=False)
+    gdpr = models.BooleanField(default=True)
 
 
 class Nickname(models.Model):
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         verbose_name=pgettext_lazy("profile__user__title", "User"),
@@ -79,8 +80,8 @@ def update_username(sender, instance, created, **kwargs):
         # End early, one should not query/modify other records in the database as the database might not be in a consistent state yet.
         return None
     
-    if instance.active:
-        instance.user.username = istance.nickname
+    if instance.active and instance.user.username!=instance.nickname:
+        instance.user.username = instance.nickname
         instance.user.save(update_fields=['username'])
         # TODO: Generate an email or notice for the user alerting them of this change.
 
