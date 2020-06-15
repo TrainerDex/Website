@@ -10,6 +10,7 @@ djangorestframework==3.11
 humanfriendly
 humanize
 pendulum==2.0.5
+Pillow
 psycopg2-binary
 Pygments
 python-dateutil==2.8.1

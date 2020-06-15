@@ -1,15 +1,18 @@
 import json
 import logging
 import uuid
+import os
 
 import datetime
 from collections import defaultdict
 from decimal import Decimal
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import Max
+from django.db.models import Max, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -21,7 +24,6 @@ from core.models import Nickname, User
 # from core.models import DiscordGuildMembership
 from trainerdex.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from trainerdex.shortcuts import circled_level
-from trainerdex.shortcuts import BADGES, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_POKEDEX, UPDATE_FIELDS_TYPES, UPDATE_NON_REVERSEABLE_FIELDS
 
 log = logging.getLogger('django.trainerdex')
 
@@ -76,18 +78,12 @@ class Trainer(models.Model):
         verbose_name=pgettext_lazy("profile__last_modified__title", "Last Modified"),
         )
     
-    # verification_image = models.ImageField(
-    #     upload_to=verification_image_path,
-    #     blank=True,
-    #     verbose_name=pgettext_lazy("profile__verification_image__title", "In-Game Profile Screenshot"),
-    #     )
-    
         
     banned = models.BooleanField(
         default=False,
         verbose_name=_("Banned"),
         )
-
+    
     def submitted_picture(self) -> bool:
         # return bool(self.verification_image)
         return False
@@ -151,21 +147,6 @@ def create_profile(sender, instance, created, **kwargs) -> Trainer:
     
     if created:
         return Trainer.objects.create(user=instance)
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def save_profile(sender, instance, **kwargs):
-    if kwargs.get('raw'):
-        # End early, one should not query/modify other records in the database as the database might not be in a consistent state yet.
-        return None
-    
-    if instance.is_service_user:
-        # End early, service users shouldn't have Trainer objects
-        return None
-    
-    try:
-        instance.trainer.save()
-    except User.trainer.RelatedObjectDoesNotExist:
-        pass
 
 
 class Faction(models.Model):
@@ -258,20 +239,6 @@ class Update(models.Model):
         choices=DATABASE_SOURCES,
         default='?',
         verbose_name=_("Source"),
-        )
-    # screenshot = models.ImageField(
-    #     upload_to=VerificationUpdateImagePath,
-    #     blank=True,
-    #     verbose_name=_("Screenshot"),
-    #     help_text=_("This should be your TOTAL XP screenshot."),
-    #     )
-    
-    # Error Override Checks
-    # TODO: Replace this with a front-end check.
-    double_check_confirmation = models.BooleanField(
-        default=False,
-        verbose_name=_("I have double checked this information and it is correct."),
-        help_text=_("This will silence some errors."),
         )
     
     # Can be seen on main profile
@@ -511,6 +478,12 @@ class Update(models.Model):
         verbose_name=pgettext_lazy("rocket_grunts_defeated__title", "Hero"),
         help_text=pgettext_lazy("rocket_grunts_defeated__help", "Defeat {0} Team GO Rocket Grunts.").format(1000),
         )
+    buddy_best = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("buddy_best__title", "Best Buddy"),
+        help_text=pgettext_lazy("buddy_best__help", "Have {0} Best Buddies.").format(100),
+        )
     wayfarer = models.PositiveIntegerField(
         null=True,
         blank=True,
@@ -655,32 +628,22 @@ class Update(models.Model):
     def has_modified_extra_fields(self) -> bool:
         return bool(list(self.modified_extra_fields()))
     has_modified_extra_fields.boolean = True
-
+    
+    @classmethod
+    def field_metadata(self):
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'update_fields_metadata.json'), 'r') as file:
+            return json.load(file)
+    
     def modified_fields(self):
-        fields = []
-        fields += UPDATE_FIELDS_BADGES
-        fields += UPDATE_FIELDS_TYPES
-        fields += UPDATE_FIELDS_POKEDEX
-        fields += 'gymbadges_total'
-        fields += 'gymbadges_gold'
-        fields += 'stardust'
-        fields += 'total_xp'
+        fields = list(self.field_metadata().keys())
         
         for x in fields:
             if getattr(self, x):
                 yield x
     
     def modified_extra_fields(self):
-        fields = []
-        fields += UPDATE_FIELDS_BADGES
-        fields += UPDATE_FIELDS_TYPES
-        fields += UPDATE_FIELDS_POKEDEX
-        fields += 'gymbadges_total'
-        fields += 'gymbadges_gold'
-        fields += 'stardust'
-        
-        for x in fields:
-            if getattr(self, x):
+        for x in self.modified_fields():
+            if x!='total_xp':
                 yield x
     
     def clean(self):
@@ -800,20 +763,6 @@ class Update(models.Model):
                     datetime.time.min,
                     ),
                 'DailyLimit': 800,
-                },
-            'evolved_total': {
-                'InterestDate': datetime.datetime.combine(
-                    start_date,
-                    datetime.time.min,
-                    ),
-                'DailyLimit': 250,
-                },
-            'evolved_total': {
-                'InterestDate': datetime.datetime.combine(
-                    start_date,
-                    datetime.time.min,
-                    ),
-                'DailyLimit': 250,
                 },
             'evolved_total': {
                 'InterestDate': datetime.datetime.combine(
@@ -1005,6 +954,51 @@ class Update(models.Model):
         ordering = ['-update_time']
         verbose_name = _("Update")
         verbose_name_plural = _("Updates")
+
+
+class Evidence(models.Model):
+    
+    content_type = models.ForeignKey(
+        ContentType,
+        on_delete=models.CASCADE,
+        limit_choices_to=Q(app_label='trainerdex', model__in=['trainer', 'update']),
+        )
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    content_field = models.CharField(
+        max_length=200,
+        choices=[(f"trainer.profile", f"{Trainer._meta.verbose_name}")]+[(f"update.{f.name}", f"{Update._meta.verbose_name}.{f.verbose_name}") for f in Update._meta.fields],
+    )
+    
+    @property
+    def trainer(self) -> Trainer:
+        if isinstance(self.content_object, Trainer):
+            return self.content_object
+        elif isinstance(self.content_object, Update):
+            return self.content_object.trainer
+        return None
+    
+    
+    def clean(self):
+        
+        # Checking the content_field is a valid field in the model for content_type
+        print(self.content_field, self.content_type.model)
+        if self.content_field.split('.')[0] != self.content_type.model:
+            raise ValidationError({'content_field': _("Content Field doesn't match Content Object")})
+    
+
+
+class EvidenceImage(models.Model):
+    evidence = models.ForeignKey(
+        Evidence,
+        on_delete=models.CASCADE,
+        related_name='images',
+        )
+    image = models.ImageField(
+        width_field='width',
+        height_field='height',
+        blank=False,
+    )
 
 # @receiver(post_save, sender=Update)
 # def update_discord_level(sender, **kwargs):

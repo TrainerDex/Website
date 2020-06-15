@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from trainerdex.models import Trainer, Update
+from trainerdex.models import Trainer, Update, Evidence, EvidenceImage
 
 
 @admin.register(Update)
@@ -56,3 +56,25 @@ class TrainerAdmin(admin.ModelAdmin):
         qs = super(TrainerAdmin, self).queryset(request)
         qs = qs.order_by('user__username', 'pk').distinct('pk')
         return qs
+
+
+class EvidenceImageInline(admin.TabularInline):
+    model = EvidenceImage
+    min_num = 0
+
+
+@admin.register(Evidence)
+class EvidenceAdmin(admin.ModelAdmin):
+    
+    list_display = [
+        'trainer',
+        'content_field',
+    ]
+    list_filter = [
+        'content_type',
+        'content_field',
+    ]
+    inlines = [
+        EvidenceImageInline,
+    ]
+    

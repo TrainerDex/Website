@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^trainers\/(?P<pk>[0-9]+)\/updates\/latest\/$', LatestUpdateView.as_view(), name='latest_update'),
     url(r'^trainers\/(?P<pk>[0-9]+)\/updates\/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})\/$', UpdateDetailView.as_view()),
     # /users/
-    url(r'^users\/$', UserViewSet.as_view({'get':'list','post':'create'})),
-    url(r'^users\/(?P<pk>[0-9]+)\/$', UserViewSet.as_view({'get':'retrieve','patch':'partial_update'})),
+    url(r'^users\/$', UserViewSet.as_view({'get':'list'})),
+    url(r'^users\/(?P<pk>[0-9]+)\/$', UserViewSet.as_view({'get':'retrieve'})),
     url(r'^users\/social\/$', SocialLookupView.as_view()),
 ]
