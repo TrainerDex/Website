@@ -9,7 +9,7 @@ django-widget-tweaks==1.4.8 # Not updated for Django 3
 djangorestframework==3.11
 humanfriendly
 humanize
-pendulum==2.0.5
+pendulum==2.1.0
 Pillow
 psycopg2-binary
 Pygments
