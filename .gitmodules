@@ -1,0 +1,3 @@
+[submodule "PogoAssets"]
+	path = PogoAssets
+	url = https://github.com/ZeChrales/PogoAssets.git

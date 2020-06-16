@@ -1,6 +1,21 @@
 #/bin/bash
-#cp .githook-post-checkout.sh .git/hooks/post-checkout
 echo "[post-checkout hook: $1]"
+
+file1=".githook-post-checkout.sh"
+file2=".git/hooks/post-checkout"
+
+printf "Checking for changes to '$file1'"
+if cmp -s "$file1" "$file2"; then
+    # Clear line
+    printf "\r\033[K"
+else
+    printf "\r\033[KChanges found... copying '$file1' to '$file2'\n"
+    cp "$file1" "$file2"
+    printf "Restarting script\n"
+    sh "$file2"
+    exit 0
+fi
+
 
 changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
 
@@ -8,7 +23,6 @@ check_run() {
   echo "$changed_files" | grep -E "$1" && eval "$2"
 }
 
-check_run "core/static/package.json" "(echo -e '\033[0;31mnode_modules changed\e[0m'; cd website/static; npm update --verbose)"
 check_run "requirements.txt" "(echo -e '\033[0;31mpython requirements.txt changed\e[0m'; source env/bin/activate; pip install -r requirements.txt)"
 check_run "(static)|(requirements.txt)" "(echo -e '\033[0;31mstatic files changed\e[0m'; source env/bin/activate; python manage.py collectstatic --clear --noinput)"
 
