@@ -1,0 +1,23 @@
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = ''
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
+db_password = ''
+
+# Email
+# https://docs.djangoproject.com/en/3.0/topics/email/
+
+EMAIL_HOST_PASSWORD = ''
+
+# Keys for third party services
+
+DISCORD_CLIENT_ID = 0
+DISCORD_CLIENT_SECRET = ''
+DISCORD_TOKEN = ''
+GOOGLE_ANALYTICS_DOMAIN = 'trainerdex.co.uk'
+GOOGLE_ANALYTICS_PROPERTY_ID = ''

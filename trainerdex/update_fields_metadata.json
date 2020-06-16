@@ -1,0 +1,566 @@
+{
+    "battle_attack_won": {
+        "levels": {
+            "bronze": 10,
+            "silver": 100,
+            "gold": 1000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "battle_training_won": {
+        "levels": {
+            "bronze": 10,
+            "silver": 100,
+            "gold": 1000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "berries_fed": {
+        "levels": {
+            "bronze": 10,
+            "silver": 100,
+            "gold": 1000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "big_magikarp": {
+        "levels": {
+            "bronze": 3,
+            "silver": 50,
+            "gold": 300
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "buddy_best": {
+        "levels": {
+            "bronze": 1,
+            "silver": 10,
+            "gold": 100
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "capture_total": {
+        "levels": {
+            "bronze": 30,
+            "silver": 500,
+            "gold": 2000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "challenge_quests": {
+        "levels": {
+            "bronze": 10,
+            "silver": 100,
+            "gold": 1000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "evolved_total": {
+        "levels": {
+            "bronze": 3,
+            "silver": 20,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "great_league": {
+        "levels": {
+            "bronze": 5,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "gymbadges_gold": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "gymbadges_total": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "hatched_total": {
+        "levels": {
+            "bronze": 10,
+            "silver": 100,
+            "gold": 500
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "hours_defended": {
+        "levels": {
+            "bronze": 10,
+            "silver": 100,
+            "gold": 1000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "legendary_battle_won": {
+        "levels": {
+            "bronze": 10,
+            "silver": 100,
+            "gold": 1000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "master_league": {
+        "levels": {
+            "bronze": 5,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "max_level_friends": {
+        "levels": {
+            "bronze": 1,
+            "silver": 2,
+            "gold": 3
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "photobomb": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pikachu": {
+        "levels": {
+            "bronze": 3,
+            "silver": 50,
+            "gold": 300
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokedex_gen1": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokedex_gen2": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokedex_gen3": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokedex_gen4": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokedex_gen5": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokedex_gen6": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokedex_gen7": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokedex_gen8": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokedex_total_caught": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokedex_total_seen": {
+        "levels": {
+            "bronze": 10,
+            "gold": 200,
+            "silver": 50
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokemon_purified": {
+        "levels": {
+            "bronze": 5,
+            "silver": 50,
+            "gold": 500
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "pokestops_visited": {
+        "levels": {
+            "bronze": 100,
+            "silver": 1000,
+            "gold": 2000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "raid_battle_won": {
+        "levels": {
+            "bronze": 10,
+            "silver": 100,
+            "gold": 1000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "rocket_grunts_defeated": {
+        "levels": {
+            "bronze": 10,
+            "gold": 100,
+            "silver": 1000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "small_rattata": {
+        "levels": {
+            "bronze": 3,
+            "silver": 50,
+            "gold": 300
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "stardust": {
+        "levels": null,
+        "reversable": true,
+        "sortable": false
+    },
+    "total_xp": {
+        "levels": {
+            "1": 0,
+            "2": 1000,
+            "3": 3000,
+            "4": 6000,
+            "5": 10000,
+            "6": 15000,
+            "7": 21000,
+            "8": 28000,
+            "9": 36000,
+            "10": 45000,
+            "11": 55000,
+            "12": 65000,
+            "13": 75000,
+            "14": 85000,
+            "15": 100000,
+            "16": 120000,
+            "17": 140000,
+            "18": 160000,
+            "19": 185000,
+            "20": 210000,
+            "21": 260000,
+            "22": 335000,
+            "23": 435000,
+            "24": 560000,
+            "25": 710000,
+            "26": 900000,
+            "27": 1100000,
+            "28": 1350000,
+            "29": 1650000,
+            "30": 2000000,
+            "31": 2500000,
+            "32": 3000000,
+            "33": 3750000,
+            "34": 4750000,
+            "35": 6000000,
+            "36": 7500000,
+            "37": 9500000,
+            "38": 12000000,
+            "39": 15000000,
+            "40": 20000000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "trading": {
+        "levels": {
+            "bronze": 10,
+            "silver": 100,
+            "gold": 1000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "trading_distance": {
+        "levels": {
+            "bronze": 1000,
+            "silver": 10000,
+            "gold": 1000000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "travel_km": {
+        "levels": {
+            "bronze": 10,
+            "silver": 100,
+            "gold": 1000
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_bug": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_dark": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_dragon": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_electric": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_fairy": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_fighting": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_fire": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_flying": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_ghost": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_grass": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_ground": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_ice": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_normal": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_poison": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_psychic": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_rock": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_steel": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "type_water": {
+        "levels": {
+            "bronze": 10,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "ultra_league": {
+        "levels": {
+            "bronze": 5,
+            "silver": 50,
+            "gold": 200
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "unown": {
+        "levels": {
+            "bronze": 5,
+            "silver": 30,
+            "gold": 70
+        },
+        "reversable": false,
+        "sortable": true
+    },
+    "wayfarer": {
+        "levels": {
+            "bronze": 50,
+            "gold": 1000,
+            "silver": 184
+        },
+        "reversable": false,
+        "sortable": true
+    }
+}
