@@ -13,13 +13,3 @@ updates:
   - jayturnr
   labels:
   - dependencies
-  ignore:
-  - dependency-name: django
-    versions:
-    - "> 2.1.11, < 3"
-  - dependency-name: django-cookie-law
-    versions:
-    - "> 2.0.1"
-  - dependency-name: django-modeladmin-reorder
-    versions:
-    - "> 0.3, < 0.4"
