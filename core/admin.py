@@ -10,7 +10,7 @@ from pygments.formatters import HtmlFormatter
 from pygments.lexers import JsonLexer
 from pygments import highlight
 
-from core.models import Nickname, User
+from core.models import Nickname, User, HumanUser, ServiceAccount
 from trainerdex.admin import TrainerAdmin
 from trainerdex.models import Trainer
 
@@ -44,7 +44,12 @@ class TrainerInlineAdmin(admin.StackedInline):
     can_delete = False
 
 
-@admin.register(User)
+@admin.register(ServiceAccount)
+class ServiceAccountAdmin(UserAdmin):
+    pass
+
+
+@admin.register(HumanUser)
 class CustomUserAdmin(UserAdmin):
     inlines = [TrainerInlineAdmin]
 

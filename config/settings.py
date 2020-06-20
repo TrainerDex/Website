@@ -1,7 +1,7 @@
 ﻿import os
 
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
-from config.local_settings import *
+from config import local_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -11,21 +11,29 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# Handled in local_settings.py
-# SECRET_KEY = ''
+SECRET_KEY = local_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# Handled in local_settings.py
-# DEBUG = True
+DEBUG = local_settings.DEBUG
 
 ALLOWED_HOSTS = ['*']
 
-ADMINS = [('Jay Turner', 'jaynicholasturner@gmail.com')]
+ADMINS = local_settings.ADMINS
 
 # Application definition
 
+# django-cors-headers
+# https://pypi.org/project/django-cors-headers/
+# I read somewhere this has to be before django.contrib.sites
+
 INSTALLED_APPS = [
     'corsheaders',
+]
+
+# django apps
+# https://docs.djangoproject.com/en/3.0/
+
+INSTALLED_APPS += [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -36,13 +44,18 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.gis',
+]
+
+# django-rest-framework
+# https://www.django-rest-framework.org/#installation
+
+INSTALLED_APPS += [
     'rest_framework',
     'rest_framework.authtoken',
-    'django_countries',
-    # 'oauth2_provider',
-    'core',
-    'trainerdex',
-    ]
+]
+
+# django-allauth
+# https://django-allauth.readthedocs.io/en/stable/installation.html
 
 INSTALLED_APPS += [
     'allauth',
@@ -54,8 +67,19 @@ INSTALLED_APPS += [
     'allauth.socialaccount.providers.twitter',
     ]
 
+# other third-party apps
+
 INSTALLED_APPS += [
     'widget_tweaks',
+    'django_countries',
+    ]
+
+# first-party apps
+
+INSTALLED_APPS += [
+    # 'communtity',
+    'core',
+    'trainerdex',
     ]
 
 MIDDLEWARE = [
@@ -79,7 +103,11 @@ LOCALE_PATHS = [
 ROOT_URLCONF = 'config.urls'
 
 # DjangoDebugToolbar
+# https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
+
 if DEBUG==True:
+    if 'django.contrib.staticfiles' not in INSTALLED_APPS:
+        INSTALLED_APPS.append('django.contrib.staticfiles')
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
     INTERNAL_IPS = ['127.0.0.1']
@@ -106,13 +134,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# Some settings handled in config.local_settings
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'django',
-        'USER': 'tdx',
-        'PASSWORD': db_password,
+        'USER': local_settings.db_user,
+        'PASSWORD': local_settings.db_password,
         'HOST': '127.0.0.1',
     }
 }
@@ -257,12 +286,12 @@ SOCIALACCOUNT_QUERY_EMAIL= True
 # https://docs.djangoproject.com/en/3.0/topics/email/
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'noreply@mg.trainerdex.co.uk'
-# EMAIL_HOST_PASSWORD = ''
-DEFAULT_FROM_EMAIL = 'TrainerDex Support <jay@trainerdex.co.uk>'
+EMAIL_HOST = local_settings.EMAIL_HOST
+EMAIL_USE_TLS = local_settings.EMAIL_USE_TLS
+EMAIL_PORT = local_settings.EMAIL_PORT
+EMAIL_HOST_USER = local_settings.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = local_settings.EMAIL_HOST_PASSWORD
+DEFAULT_FROM_EMAIL = local_settings.DEFAULT_FROM_EMAIL
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 FILE_UPLOAD_PERMISSIONS = 0x775

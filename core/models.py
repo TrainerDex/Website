@@ -6,7 +6,7 @@ import requests
 import django.contrib.postgres.fields
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_save
@@ -38,9 +38,45 @@ class User(AbstractUser):
     gdpr = models.BooleanField(default=True)
 
 
+class ServiceAccountManager(UserManager):
+    def get_queryset(self):
+        return super(ServiceAccountManager, self).get_queryset().filter(is_service_user=True)
+
+    def create(self, **kwargs):
+        kwargs.update({'is_service_user': True, 'gdpr': True})
+        return super(ServiceAccountManager, self).create(**kwargs)
+
+
+class ServiceAccount(User):
+    objects = ServiceAccountManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _("Service Account")
+        verbose_name_plural = _("Service Accounts")
+
+
+class HumanUserManager(UserManager):
+    def get_queryset(self):
+        return super(HumanUserManager, self).get_queryset().filter(is_service_user=False)
+
+    def create(self, **kwargs):
+        kwargs.update({'is_service_user': False})
+        return super(HumanUserManager, self).create(**kwargs)
+
+
+class HumanUser(User):
+    objects = HumanUserManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
+
+
 class Nickname(models.Model):
     user = models.ForeignKey(
-        User,
+        HumanUser,
         on_delete=models.CASCADE,
         verbose_name=pgettext_lazy("profile__user__title", "User"),
         )

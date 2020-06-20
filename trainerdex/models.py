@@ -20,7 +20,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy, pgettext
 from django_countries.fields import CountryField
 
-from core.models import Nickname, User
+from core.models import Nickname, HumanUser
 # from core.models import DiscordGuildMembership
 from trainerdex.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from trainerdex.shortcuts import circled_level
@@ -32,7 +32,7 @@ class Trainer(models.Model):
     """The model used to represent a users profile in the database"""
     
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
+        HumanUser,
         on_delete=models.CASCADE,
         related_name='trainer',
         verbose_name=pgettext_lazy("profile__user__title", "User"),
