@@ -4,10 +4,11 @@ import logging
 from allauth.socialaccount.models import SocialAccount
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
+from django.core.exceptions import PermissionDenied
 from django.core.mail import mail_admins
 from django.db.models.functions import DenseRank as Rank
 from django.db.models import F, Max, Q, Window
-from django.shortcuts import get_object_or_404
+from django.http import Http404
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from rest_framework.response import Response
@@ -16,9 +17,8 @@ from rest_framework.views import APIView
 from rest_framework import authentication, permissions, status
 
 # from core.models import DiscordGuild, get_guild_info
-from trainerdex.api.v1.serializers import BriefUpdateSerializer, DetailedUpdateSerializer, LeaderboardSerializer, SocialAllAuthSerializer, TrainerSerializer, UserSerializer
+from trainerdex.api.v1.serializers import BriefUpdateSerializer, DetailedUpdateSerializer, SocialAllAuthSerializer, TrainerSerializer, UserSerializer
 from trainerdex.models import Trainer, Update
-from trainerdex.shortcuts import filter_leaderboard_qs
 
 log = logging.getLogger('django.trainerdex')
 User = get_user_model()
@@ -30,8 +30,7 @@ def recent(value):
 
 class UserViewSet(ReadOnlyModelViewSet):
     serializer_class = UserSerializer
-    queryset = User.objects.exclude(is_active=False, gdpr=False)
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = User.objects.exclude(is_active=False, gdpr=False, is_service_user=True)
 
 class TrainerListView(APIView):
     """
@@ -61,27 +60,52 @@ class TrainerDetailView(APIView):
     
     authentication_classes = (authentication.TokenAuthentication,)
     
-    def get_object(self, pk):
-        return get_object_or_404(Trainer, id=pk, user__is_active=True, user__gdpr=True)
-    
-    def get(self, request, pk):
-        trainer = self.get_object(pk)
+    def get_object(self, pk: int) -> Trainer:
+        try:
+            obj = Trainer.objects.get(id=pk)
+        except Trainer.DoesNotExist:
+            raise Http404
         
-        if trainer.user.gdpr and trainer.user.is_active:
-            serializer = TrainerSerializer(trainer)
-            return Response(serializer.data)
-        return Response(None, status=status.HTTP_403_FORBIDDEN)
+        if not obj.user.gdpr:
+            raise PermissionDenied
+        
+        if not obj.user.is_active:
+            raise Http404
+        
+        return obj
+    
+    def get(self, request, pk: int) -> Response:
+        trainer = self.get_object(pk)
+        serializer = TrainerSerializer(trainer)
+        return Response(serializer.data)
 
 class UpdateListView(APIView):
     """
     get:
-    Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime.datetime), 'xp'(int) and 'fields_updated' (list)
+        parameters
+        ---------
+        detail:
+            bool
     """
     
     authentication_classes = (authentication.TokenAuthentication,)
     
-    def get(self, request, pk):
-        updates = Update.objects.filter(trainer=pk, trainer__user__is_active=True)
+    def get_trainer(self, pk: int) -> Trainer:
+        try:
+            obj = Trainer.objects.get(id=pk)
+        except Trainer.DoesNotExist:
+            raise Http404
+        
+        if not obj.user.gdpr:
+            raise PermissionDenied
+        
+        if not obj.user.is_active:
+            raise Http404
+        
+        return obj
+    
+    def get(self, request, pk: int) -> Response:
+        updates = Update.objects.filter(trainer=self.get_trainer(pk))
         serializer = BriefUpdateSerializer(updates, many=True) if request.GET.get('detail') != "1" else DetailedUpdateSerializer(updates, many=True)
         return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
     
@@ -89,16 +113,35 @@ class UpdateListView(APIView):
 class LatestUpdateView(APIView):
     """
     get:
-    Gets detailed view of the latest update
+        Returns the latest update of the user
     """
     
     authentication_classes = (authentication.TokenAuthentication,)
     
-    def get(self, request, pk):
+    def get_trainer(self, pk: int) -> Trainer:
         try:
-            update = Update.objects.filter(trainer=pk, trainer__user__is_active=True).latest('update_time')
+            obj = Trainer.objects.get(id=pk)
+        except Trainer.DoesNotExist:
+            raise Http404
+        
+        if not obj.user.gdpr:
+            raise PermissionDenied
+        
+        if not obj.user.is_active:
+            raise Http404
+        
+        return obj
+    
+    def get_object(self, pk: int) -> Update:
+        try:
+            obj = Update.objects.filter(trainer=self.get_trainer(pk)).latest('update_time')
         except Update.DoesNotExist:
-            return Response(None, status=404)
+            raise Http404
+        
+        return obj
+    
+    def get(self, request, pk: int) -> Response:
+        update = self.get_object(pk)
         serializer = DetailedUpdateSerializer(update)
         return Response(serializer.data)
     
@@ -106,54 +149,59 @@ class LatestUpdateView(APIView):
 class UpdateDetailView(APIView):
     """
     get:
-    Gets detailed view
+        Returns an update object
     """
     
     authentication_classes = (authentication.TokenAuthentication,)
     
-    def get(self, request, uuid, pk):
-        update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__user__is_active=True)
+    def get_trainer(self, pk: int) -> Trainer:
+        try:
+            obj = Trainer.objects.get(id=pk)
+        except Trainer.DoesNotExist:
+            raise Http404
+        
+        if not obj.user.gdpr:
+            raise PermissionDenied
+        
+        if not obj.user.is_active:
+            raise Http404
+        
+        return obj
+    
+    def get_object(self, pk: int, uuid) -> Update:
+        try:
+            obj = Update.objects.get(trainer=self.get_trainer(pk), uuid=uuid)
+        except Update.DoesNotExist:
+            raise Http404
+        
+        return obj
+    
+    def get(self, request, pk: int, uuid) -> Response:
+        update = self.get_object(trainer=pk, uuid=uuid)
         serializer = DetailedUpdateSerializer(update)
-        if update.trainer.id != int(pk):
-            return Response(status=400)
         return Response(serializer.data)
-    
 
-class LeaderboardView(APIView):
-    """
-    Limited to 5000
-    """
-    
-    def get(self, request):
-        query = filter_leaderboard_qs(Trainer.objects)
-        if request.GET.get('users'):
-            query = filter_leaderboard_qs(Trainer.objects.filter(id__in=request.GET.get('users').split(',')))
-        leaderboard = query.prefetch_related('update_set') \
-            .prefetch_related('user') \
-            .annotate(Max('update__total_xp'), Max('update__update_time')) \
-            .exclude(update__total_xp__max__isnull=True)
-        if datetime.datetime(2019,3,31,23,00) < datetime.datetime.now() < datetime.datetime(2019,4,1,23,00):
-            leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').asc())) \
-                .order_by('rank')
-        else:
-            leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').desc())) \
-                .order_by('rank')
-        serializer = LeaderboardSerializer(leaderboard[:5000], many=True)
-        return Response(serializer.data)
-    
 
 class SocialLookupView(APIView):
     """
     get:
-        kwargs:
-            provider (requiered) - platform, options are 'facebook', 'twitter', 'discord', 'google', 'patreon'
-        
-            uid - Social ID, supports a comma seperated list. Could be useful for passing a list of users in a server to retrieve a list of UserIDs, which could then be passed to api/v1/leaderboard/
-            user - TrainerDex User ID, supports a comma seperated list
-            trainer - TrainerDex Trainer ID
+        parameters
+        ---------
+        provider:
+            str, required
+            options are 'discord', 'facebook', 'google', 'twitter'
+        uid:
+            int
+            Social ID, supports a comma seperated list
+        user:
+            int
+            New TrainerDex User IDs (all users have this)
+        trainer:
+            int
+            Old TrainerDex Trainer IDs (not all users have this)
     """
     
-    def get(self, request):
+    def get(self, request) -> Response:
         query = SocialAccount.objects.exclude(user__is_active=False).filter(provider=request.GET.get('provider'))
         if request.GET.get('uid'):
             query = query.filter(uid__in=request.GET.get('uid').split(','))
@@ -165,58 +213,3 @@ class SocialLookupView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = SocialAllAuthSerializer(query, many=True)
         return Response(serializer.data)
-
-class DiscordLeaderboardAPIView(APIView):
-    pass
-#     def get(self, request, guild):
-#         output = {'generated':datetime.datetime.utcnow()}
-#
-#         try:
-#             server = DiscordGuild.objects.get(id=int(guild))
-#         except DiscordGuild.DoesNotExist:
-#             logger.warn(f"Guild with id {guild} not found")
-#             try:
-#                 i = get_guild_info(int(guild))
-#             except:
-#                 return Response({'error': 'Access Denied', 'cause': "The bot doesn't have access to this guild.", 'solution': "Add the bot account to the guild."}, status=404)
-#             else:
-#                 logger.info(f"{i['name']} found. Creating.")
-#                 server, created = DiscordGuild.objects.get_or_create(id=int(guild), defaults={'data': i, 'cached_date': timezone.now()})
-#
-#         if not server.data or server.outdated:
-#             try:
-#                 server.refresh_from_api()
-#             except:
-#                 return Response(status=424)
-#             else:
-#                 server.save()
-#
-#             if not server.has_access:
-#                 return Response({'error': 'Access Denied', 'cause': "The bot doesn't have access to this guild.", 'solution': "Add the bot account to the guild."}, status=424)
-#             else:
-#                 server.sync_members()
-#
-#         output['title'] = '{title} Leaderboard'.format(title=server.data['name'])
-#         opt_out_roles = server.roles.filter(data__name='NoLB') | server.roles.filter(exclude_roles_community_membership_discord__discord=server)
-#
-#         sq = Q()
-#         for x in opt_out_roles:
-#             sq |= Q(discordguildmembership__data__roles__contains=[str(x.id)])
-#
-#         members = server.members.exclude(sq)
-#         trainers = filter_leaderboard_qs(Trainer.objects.filter(user__socialaccount__in=members))
-#
-#         leaderboard = trainers.prefetch_related('update_set') \
-#             .prefetch_related('user') \
-#             .annotate(Max('update__total_xp'), Max('update__update_time')) \
-#             .exclude(update__total_xp__max__isnull=True) \
-#             .filter(update__update_time__max__gte=datetime.datetime.now()-relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0))
-#         if datetime.datetime(2019,3,31,23,00) < datetime.datetime.now() < datetime.datetime(2019,4,1,23,00):
-#             leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').asc())) \
-#                 .order_by('rank')
-#         else:
-#             leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').desc())) \
-#                 .order_by('rank')
-#         serializer = LeaderboardSerializer(leaderboard, many=True)
-#         output['leaderboard'] = serializer.data
-#         return Response(output)

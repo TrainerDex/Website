@@ -106,6 +106,7 @@ class BriefUpdateSerializer(serializers.ModelSerializer):
         model = Update
         fields = ('uuid', 'trainer', 'update_time', 'xp', 'total_xp', 'modified_extra_fields')
 
+
 class DetailedUpdateSerializer(serializers.ModelSerializer):
     trainer = serializers.SerializerMethodField()
     pokedex_caught = serializers.SerializerMethodField()
@@ -352,6 +353,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
         model = Update
         fields = tuple(v1_field_names['update'].values())
 
+
 class TrainerSerializer(serializers.ModelSerializer):
     owner = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
@@ -400,6 +402,7 @@ class TrainerSerializer(serializers.ModelSerializer):
         model = Trainer
         fields = ('id', 'last_modified', 'owner', 'user', 'username', 'start_date', 'faction', 'trainer_code', 'has_cheated', 'last_cheated', 'currently_cheats', 'daily_goal', 'total_goal', 'leaderboard_country', 'leaderboard_region', 'update_set', 'prefered')
 
+
 class UserSerializer(serializers.ModelSerializer):
     profiles = serializers.SerializerMethodField()
     trainer = serializers.SerializerMethodField()
@@ -422,65 +425,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'profiles', 'trainer')
 
-class FactionSerializer(serializers.Serializer):
-    id = serializers.SerializerMethodField()
-    name_en = serializers.SerializerMethodField()
-    
-    def get_id(self, obj):
-        return obj.id
-    
-    def get_name_en(self, obj):
-        lang = translation.get_language()
-        translation.activate("en")
-        result = obj.name_long
-        translation.activate(lang)
-        return result
-
-class LeaderboardSerializer(serializers.Serializer):
-    level = serializers.SerializerMethodField()
-    position = serializers.SerializerMethodField()
-    id = serializers.SerializerMethodField()
-    username = serializers.SerializerMethodField()
-    faction = serializers.SerializerMethodField()
-    xp = serializers.SerializerMethodField()
-    total_xp = serializers.SerializerMethodField()
-    last_updated = serializers.SerializerMethodField()
-    user_id = serializers.SerializerMethodField()
-    
-    def get_level(self, obj):
-        try:
-            return level_parser(xp=obj.update__total_xp__max).level
-        except ValueError:
-            return None
-    
-    def get_position(self, obj):
-        return obj.rank
-    
-    def get_id(self, obj):
-        return obj.id
-    
-    def get_username(self, obj):
-        return obj.nickname
-    
-    def get_faction(self, obj):
-        return FactionSerializer(obj.faction).data
-    
-    def get_xp(self, obj):
-        """This field is deprecated and will be removed in API v2"""
-        return obj.update__total_xp__max
-    
-    def get_total_xp(self, obj):
-        return obj.update__total_xp__max
-    
-    def get_last_updated(self, obj):
-        return obj.update__update_time__max
-    
-    def get_user_id(self, obj):
-        return obj.user.pk if obj.user else None
-    
-    class Meta:
-        model = Trainer
-        fields = ('position', 'id', 'username', 'faction', 'level', 'xp', 'total_xp', 'last_updated', 'user_id')
 
 class SocialAllAuthSerializer(serializers.ModelSerializer):
     

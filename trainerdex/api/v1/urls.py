@@ -1,21 +1,19 @@
 ﻿from django.conf.urls import url
+from django.urls import path
 
-from trainerdex.api.v1.views import DiscordLeaderboardAPIView, LatestUpdateView, LeaderboardView, SocialLookupView, TrainerDetailView, TrainerListView, UpdateDetailView, UpdateListView, UserViewSet
+from trainerdex.api.v1.views import LatestUpdateView, SocialLookupView, TrainerDetailView, TrainerListView, UpdateDetailView, UpdateListView, UserViewSet
 
 app_name = "trainerdex.api.1"
 
 urlpatterns = [
-    # /leaderboard/
-    url(r'^leaderboard\/discord\/(?P<guild>[0-9]+)\/$', DiscordLeaderboardAPIView.as_view()),
-    url(r'^leaderboard\/$', LeaderboardView.as_view()),
     # /trainers/
-    url(r'^trainers\/$', TrainerListView.as_view()),
-    url(r'^trainers\/(?P<pk>[0-9]+)\/$', TrainerDetailView.as_view()),
-    url(r'^trainers\/(?P<pk>[0-9]+)\/updates\/$', UpdateListView.as_view()),
-    url(r'^trainers\/(?P<pk>[0-9]+)\/updates\/latest\/$', LatestUpdateView.as_view(), name='latest_update'),
-    url(r'^trainers\/(?P<pk>[0-9]+)\/updates\/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})\/$', UpdateDetailView.as_view()),
+    path('trainers/', TrainerListView.as_view()),
+    path('trainers/<int:pk>/', TrainerDetailView.as_view()),
+    path('trainers/<int:pk>/updates/', UpdateListView.as_view()),
+    path('trainers/<int:pk>/updates/latest/', LatestUpdateView.as_view(), name='latest_update'),
+    path('trainers/<int:pk>/updates/<uuid:uuid>/', UpdateDetailView.as_view()),
     # /users/
-    url(r'^users\/$', UserViewSet.as_view({'get':'list'})),
-    url(r'^users\/(?P<pk>[0-9]+)\/$', UserViewSet.as_view({'get':'retrieve'})),
-    url(r'^users\/social\/$', SocialLookupView.as_view()),
+    path('users/', UserViewSet.as_view({'get':'list'})),
+    path('users/<int:pk>/', UserViewSet.as_view({'get':'retrieve'})),
+    path('users/social/', SocialLookupView.as_view()),
 ]
