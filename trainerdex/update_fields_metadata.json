@@ -367,9 +367,9 @@
     },
     "travel_km": {
         "levels": {
-            "bronze": 10,
-            "silver": 100,
-            "gold": 1000
+            "bronze": 10.00,
+            "silver": 100.00,
+            "gold": 1000.00
         },
         "reversable": false,
         "sortable": true

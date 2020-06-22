@@ -8,7 +8,7 @@ PokemonGoUsernameValidator = validators.RegexValidator(
     )
 
 TrainerCodeValidator = validators.RegexValidator(
-    r'(\d{4}\s?){3}',
+    r'(\d{4}[\s\-]?){3}',
     _("Trainer Code must be 12 digits long and contain only numbers and whitespace."),
     'invalid',
     )

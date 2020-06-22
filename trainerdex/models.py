@@ -4,13 +4,14 @@ import uuid
 import os
 
 import datetime
+import humanize
 from collections import defaultdict
 from decimal import Decimal
 from django.conf import settings
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, MaxLengthValidator, MinLengthValidator
 from django.db import models
 from django.db.models import Max, Q
 from django.db.models.signals import post_save
@@ -58,15 +59,6 @@ class Trainer(models.Model):
         default=0,
         )
     
-    trainer_code = models.CharField(
-        null=True,
-        blank=True,
-        validators=[TrainerCodeValidator],
-        max_length=15,
-        verbose_name=pgettext_lazy("profile__friend_code__title", "Trainer Code"),
-        help_text=pgettext_lazy("profile__friend_code__help", "Fancy sharing your trainer code?"),
-        )
-    
     country = CountryField()
     
     verified = models.BooleanField(
@@ -83,14 +75,21 @@ class Trainer(models.Model):
         default=False,
         verbose_name=_("Banned"),
         )
+    evidence = GenericRelation(
+        'Evidence',
+        object_id_field='object_pk',
+        )
     
-    def submitted_picture(self) -> bool:
-        # return bool(self.verification_image)
-        return False
-    submitted_picture.boolean = True
+    def has_evidence_been_submitted(self) -> bool:
+        return self.evidence.first().images.exists()
+    has_evidence_been_submitted.boolean = True
+    
+    def has_evidence_been_approved(self) -> bool:
+        return self.evidence.first().approval
+    has_evidence_been_approved.boolean = True
     
     def awaiting_verification(self) -> bool:
-        return (self.submitted_picture() and not self.verified)
+        return (self.has_evidence_been_submitted() and not any(self.verified, self.has_evidence_been_approved()))
     awaiting_verification.boolean = True
     awaiting_verification.short_description = pgettext_lazy("profile__awaiting_verification__description", "Ready to be verified!")
     
@@ -131,6 +130,7 @@ class Trainer(models.Model):
     def get_absolute_url(self) -> str:
         return reverse('trainerdex:profile_nickname', kwargs={'nickname':self.nickname})
     
+    
     class Meta:
         verbose_name = _("Trainer")
         verbose_name_plural = _("Trainers")
@@ -147,6 +147,66 @@ def create_profile(sender, instance, created, **kwargs) -> Trainer:
     
     if created:
         return Trainer.objects.create(user=instance)
+
+
+class TrainerCode(models.Model):
+    
+    class PrivacyOptions(models.TextChoices):
+        """Follows chmod-style octal notation
+        
+        Split into 3 groups: user, group and others.
+        Since theres nothing to execute, at current there is no 7,5,3 and 1 but we might use that for api access
+        
+        Current valid options
+        ---------------------
+        6: read, write
+            only valid in the first group
+        4: read
+        0: none
+        
+        """
+        PRIVATE = '600', _('Private')
+        GROUPS_ONLY = '640', _('Share with groups only')
+        OTHERS_ONLY = '604', _('Share with website only')
+        ALL = '644', _('Share with groups and website')
+    
+    trainer = models.OneToOneField(
+        Trainer,
+        on_delete=models.CASCADE,
+        related_name='trainer_code',
+        verbose_name=pgettext_lazy("profile__trainer__title", "Trainer"),
+        primary_key=True,
+        )
+    code = models.CharField(
+        null=True,
+        blank=True,
+        validators=[
+            TrainerCodeValidator,
+            MinLengthValidator(12),
+            MaxLengthValidator(15),
+        ],
+        max_length=15,
+        verbose_name=pgettext_lazy("profile__friend_code__title", "Trainer Code"),
+        help_text=pgettext_lazy("profile__friend_code__help", "Fancy sharing your trainer code?"),
+        )
+    privacy_setting = models.CharField(
+        max_length=3,
+        choices=PrivacyOptions.choices,
+        default=PrivacyOptions.GROUPS_ONLY,
+        blank=False,
+    )
+    
+    def is_visible_to_self(self):
+        return self.privacy_setting[0] in ['7', '6', '5', '4']
+    
+    def is_visible_to_group(self):
+        return self.privacy_setting[1] in ['7', '6', '5', '4']
+    
+    def is_visible_to_others(self):
+        return self.privacy_setting[2] in ['7', '6', '5', '4']
+    
+    def __str__(self):
+        return str(self.trainer)
 
 
 class Faction(models.Model):
@@ -949,6 +1009,7 @@ class Update(models.Model):
         elif raise_ == False:
                 return warnings
     
+    
     class Meta:
         get_latest_by = 'update_time'
         ordering = ['-update_time']
@@ -957,17 +1018,26 @@ class Update(models.Model):
 
 
 class Evidence(models.Model):
-    
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
         limit_choices_to=Q(app_label='trainerdex', model__in=['trainer', 'update']),
+        verbose_name='Model',
         )
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    object_pk = models.CharField(verbose_name='Object PK', max_length=36)
+    content_object = GenericForeignKey('content_type', 'object_pk')
     content_field = models.CharField(
-        max_length=200,
-        choices=[(f"trainer.profile", f"{Trainer._meta.verbose_name}")]+[(f"update.{f.name}", f"{Update._meta.verbose_name}.{f.verbose_name}") for f in Update._meta.fields],
+        max_length=max(
+            len("update.")+len(max(Update.field_metadata().keys(), key=len)),
+            len("trainer.profile"),
+            ),
+        choices=[
+            ("trainer.profile", f"{Trainer._meta.verbose_name}"),
+        ]+[(f"update.{f.name}", f"{Update._meta.verbose_name}.{f.verbose_name}") for f in Update._meta.fields if f.name in Update.field_metadata()],
+    )
+    
+    approval = models.BooleanField(
+        default=False,
     )
     
     @property
@@ -978,14 +1048,32 @@ class Evidence(models.Model):
             return self.content_object.trainer
         return None
     
+    def __str__(self):
+        return _("Evidence for {evidence_type} and {trainer}").format(evidence_type=self.content_field, trainer=self.trainer)
     
     def clean(self):
-        
         # Checking the content_field is a valid field in the model for content_type
         print(self.content_field, self.content_type.model)
         if self.content_field.split('.')[0] != self.content_type.model:
             raise ValidationError({'content_field': _("Content Field doesn't match Content Object")})
     
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['content_type', 'object_pk', 'content_field'],
+                name='unique_request'
+            ),
+        ]
+
+@receiver(post_save, sender=Trainer)
+def create_profile(sender, instance, created, **kwargs) -> Evidence:
+    if kwargs.get('raw'):
+        # End early, one should not query/modify other records in the database as the database might not be in a consistent state yet.
+        return None
+
+    if created:
+        return Evidence.objects.get_or_create(content_type__app_label='trainerdex', content_type__model='trainer', object_id=instance.pk, content_field='trainer.profile')[0]
 
 
 class EvidenceImage(models.Model):
@@ -1000,27 +1088,80 @@ class EvidenceImage(models.Model):
         blank=False,
     )
 
-# @receiver(post_save, sender=Update)
-# def update_discord_level(sender, **kwargs):
-#     if kwargs['created'] and kwargs['instance'].total_xp:
-#         level = kwargs['instance'].level()
-#         for discord in DiscordGuildMembership.objects.exclude(active=False).filter(guild__discordguildsettings__renamer=True, guild__discordguildsettings__renamer_with_level=True, user__user__trainer=kwargs['instance'].trainer):
-#             if discord.nick_override:
-#                 base = discord.nick_override
-#             else:
-#                 base = kwargs['instance'].trainer.nickname
-#
-#             if discord.guild.discordguildsettings.renamer_with_level_format=='int':
-#                 ext = str(level)
-#             elif discord.guild.discordguildsettings.renamer_with_level_format=='circled_level':
-#                 ext = circled_level(level)
-#
-#             if len(base)+len(ext) > 32:
-#                 chopped_base = base[slice(0,32-len(ext)-1)]
-#                 combined = f"{chopped_base}…{ext}"
-#             elif len(base)+len(ext) == 32:
-#                 combined = f"{base}{ext}"
-#             else:
-#                 combined = f"{base} {ext}"
-#
-#             discord._change_nick(combined)
+
+class BaseTarget(models.Model):
+    name = models.CharField(
+        max_length=200,
+        null=True,
+        blank=True,
+        verbose_name=_("name"))
+    stat = models.CharField(
+        max_length=len(max(Update.field_metadata().keys(), key=len)),
+        choices=[(f.name, f.verbose_name) for f in Update._meta.fields if f.name in Update.field_metadata() and Update.field_metadata().get(f.name).get('reversable') == False],
+        verbose_name=_("stat")
+    )
+    _target = models.CharField(
+        max_length=max(10, Update._meta.get_field('travel_km').max_digits),
+        verbose_name=_('target'),
+    )
+    
+    def target():
+        doc = "The target property."
+        def fget(self):
+            return Update._meta.get_field(self.stat).to_python(self._target)
+        def fset(self, value):
+            value = Update._meta.get_field(self.stat).get_prep_value(value)
+            self._target = str(value)
+        def fdel(self):
+            pass
+        return locals()
+    target = property(**target())
+    
+    def __str__(self):
+        return f"{self.name} ({self.stat}: {humanize.intcomma(self.target)})"
+    
+    def clean(self):
+        self.target = self._target
+    
+    
+    class Meta:
+        abstract = True
+        verbose_name = _('target')
+        verbose_name_plural = _('targets')
+        ordering = ['stat', '_target']
+
+
+class PresetTarget(BaseTarget):
+    name = models.CharField(max_length=200, null=False, blank=False)
+    
+    def add_to_trainer(self, trainer: Trainer):
+        return Target.objects.get_or_create(trainer=trainer, stat=self.stat, _target=self._target)
+    
+    
+    class Meta:
+        abstract = False
+        verbose_name = _('Target (Preset)')
+        verbose_name_plural = _('Targets (Preset)')
+
+
+class PresetTargetGroup(models.Model):
+    slug = models.SlugField(primary_key=True)
+    name = models.CharField(max_length=200)
+    
+    children = models.ManyToManyField(PresetTarget)
+    
+    def __str__(self):
+        return self.name
+    
+    
+    class Meta:
+        verbose_name = _('Group of Targets')
+        verbose_name_plural = _('Groups of Targets')
+
+
+class Target(BaseTarget):
+    trainer = models.ForeignKey(
+        Trainer,
+        on_delete=models.CASCADE,
+        verbose_name=_("Trainer"),
+        )

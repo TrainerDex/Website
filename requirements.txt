@@ -7,7 +7,6 @@ django-exclusivebooleanfield==0.3.0 # Not updated for Django 3
 django-oauth-toolkit==1.3.2
 django-widget-tweaks==1.4.8 # Not updated for Django 3
 djangorestframework==3.11
-humanfriendly
 humanize
 pendulum==2.1.0
 Pillow
