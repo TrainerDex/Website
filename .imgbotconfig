@@ -1,0 +1,6 @@
+{
+    "ignoredFiles": [
+        "core/static/branding/app/*",
+        "core/static/branding/logo/*"
+    ]
+}
