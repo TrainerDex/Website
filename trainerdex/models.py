@@ -18,7 +18,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _, pgettext_lazy, pgettext
+from django.utils.translation import gettext_lazy as _, pgettext_lazy, pgettext, npgettext_lazy
 from django_countries.fields import CountryField
 
 from core.models import Nickname, HumanUser
@@ -29,6 +29,52 @@ from trainerdex.shortcuts import circled_level
 log = logging.getLogger('django.trainerdex')
 
 
+class Faction(models.Model):
+    """
+    Managed by the system, automatically created via a Django data migration
+    """
+    TEAMLESS = 0
+    MYSTIC = 1
+    VALOR = 2
+    INSTINCT = 3
+    FACTION_CHOICES = (
+        (TEAMLESS, pgettext('faction_0__short', 'Teamless')),
+        (MYSTIC, pgettext('faction_1__short', 'Mystic')),
+        (VALOR, pgettext('faction_2__short', 'Valor')),
+        (INSTINCT, pgettext('faction_3__short', 'Instinct')),
+    )
+    
+    id = models.PositiveSmallIntegerField(choices=FACTION_CHOICES, primary_key=True)
+    
+    @property
+    def name_short(self):
+        CHOICES = (
+        pgettext('faction_0__short', 'Teamless'),
+        pgettext('faction_1__short', 'Mystic'),
+        pgettext('faction_2__short', 'Valor'),
+        pgettext('faction_3__short', 'Instinct'),
+        )
+        return CHOICES[self.id]
+    
+    @property
+    def name_long(self):
+        CHOICES = (
+        pgettext('faction_0__long', 'No Team'),
+        pgettext('faction_1__long', 'Team Mystic'),
+        pgettext('faction_2__long', 'Team Valor'),
+        pgettext('faction_3__long', 'Team Instinct'),
+        )
+        return CHOICES[self.id]
+    
+    def __str__(self):
+        return self.name_short
+    
+    
+    class Meta:
+        verbose_name = npgettext_lazy("faction__title", "team", "teams", 1)
+        verbose_name = npgettext_lazy("faction__title", "team", "teams", 3)
+
+
 class Trainer(models.Model):
     """The model used to represent a users profile in the database"""
     
@@ -36,7 +82,7 @@ class Trainer(models.Model):
         HumanUser,
         on_delete=models.CASCADE,
         related_name='trainer',
-        verbose_name=pgettext_lazy("profile__user__title", "User"),
+        verbose_name=HumanUser._meta.verbose_name,
         primary_key=True,
         )
     id = models.PositiveIntegerField(
@@ -53,9 +99,9 @@ class Trainer(models.Model):
         help_text=pgettext_lazy("profile__start_date__help", "The date you created your Pokémon Go account. This can be found under TOTAL ACTIVITY in-game."),
         )
     faction = models.ForeignKey(
-        'Faction',
+        Faction,
         on_delete=models.PROTECT,
-        verbose_name=pgettext_lazy("profile__faction__title", "Team"),
+        verbose_name=Faction._meta.verbose_name,
         default=0,
         )
     
@@ -132,17 +178,15 @@ class Trainer(models.Model):
     
     
     class Meta:
-        verbose_name = _("Trainer")
-        verbose_name_plural = _("Trainers")
+        verbose_name = npgettext_lazy("trainer__title", "trainer", "trainers", 1)
+        verbose_name_plural = npgettext_lazy("trainer__title", "trainer", "trainers", 2)
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_profile(sender, instance, created, **kwargs) -> Trainer:
     if kwargs.get('raw'):
-        # End early, one should not query/modify other records in the database as the database might not be in a consistent state yet.
         return None
     
     if instance.is_service_user:
-        # End early, service users shouldn't have Trainer objects
         return None
     
     if created:
@@ -150,6 +194,7 @@ def create_profile(sender, instance, created, **kwargs) -> Trainer:
 
 
 class TrainerCode(models.Model):
+    
     
     class PrivacyOptions(models.TextChoices):
         """Follows chmod-style octal notation
@@ -174,7 +219,7 @@ class TrainerCode(models.Model):
         Trainer,
         on_delete=models.CASCADE,
         related_name='trainer_code',
-        verbose_name=pgettext_lazy("profile__trainer__title", "Trainer"),
+        verbose_name=Trainer._meta.verbose_name,
         primary_key=True,
         )
     code = models.CharField(
@@ -186,8 +231,7 @@ class TrainerCode(models.Model):
             MaxLengthValidator(15),
         ],
         max_length=15,
-        verbose_name=pgettext_lazy("profile__friend_code__title", "Trainer Code"),
-        help_text=pgettext_lazy("profile__friend_code__help", "Fancy sharing your trainer code?"),
+        verbose_name=npgettext_lazy("trainer_code__title", "Trainer Code", "Trainer Codes", 1),
         )
     privacy_setting = models.CharField(
         max_length=3,
@@ -207,48 +251,11 @@ class TrainerCode(models.Model):
     
     def __str__(self):
         return str(self.trainer)
-
-
-class Faction(models.Model):
-    """
-    Managed by the system, automatically created via a Django data migration
-    """
-    TEAMLESS = 0
-    MYSTIC = 1
-    VALOR = 2
-    INSTINCT = 3
-    FACTION_CHOICES = (
-        (TEAMLESS, pgettext('faction_0__short', 'Teamless')),
-        (MYSTIC, pgettext('faction_1__short', 'Mystic')),
-        (VALOR, pgettext('faction_2__short', 'Valor')),
-        (INSTINCT, pgettext('faction_3__short', 'Instinct')),
-    )
-    
-    id = models.PositiveSmallIntegerField(choices=FACTION_CHOICES, primary_key=True)
-    
-    @property
-    def name_short(self):
-        CHOICES = (
-        pgettext('faction_0__short', 'Teamless'),
-        pgettext('faction_1__short', 'Mystic'),
-        pgettext('faction_2__short', 'Valor'),
-        pgettext('faction_3__short', 'Instinct'),
-        )
-        return CHOICES[self.id]
-    
-    @property
-    def name_long(self):
-        CHOICES = (
-        pgettext('faction_0__long', 'No Team'),
-        pgettext('faction_1__long', 'Team Mystic'),
-        pgettext('faction_2__long', 'Team Valor'),
-        pgettext('faction_3__long', 'Team Instinct'),
-        )
-        return CHOICES[self.id]
     
     
-    def __str__(self):
-        return self.name_short
+    class Meta:
+        verbose_name = npgettext_lazy("trainer_code__title", "Trainer Code", "Trainer Codes", 1)
+        verbose_name_plural = npgettext_lazy("trainer_code__title", "Trainer Code", "Trainer Codes", 2)
 
 
 class Update(models.Model):
@@ -260,7 +267,7 @@ class Update(models.Model):
     trainer = models.ForeignKey(
         Trainer,
         on_delete=models.CASCADE,
-        verbose_name=_("Trainer"),
+        verbose_name=Trainer._meta.verbose_name,
         )
     update_time = models.DateTimeField(
         default=timezone.now,
@@ -303,7 +310,7 @@ class Update(models.Model):
     
     # Can be seen on main profile
     total_xp = models.PositiveIntegerField(
-        null=True, # Are you sure you want this?
+        null=True,
         verbose_name=pgettext_lazy("total_xp__title", "Total XP"),
         )
     
@@ -1013,8 +1020,8 @@ class Update(models.Model):
     class Meta:
         get_latest_by = 'update_time'
         ordering = ['-update_time']
-        verbose_name = _("Update")
-        verbose_name_plural = _("Updates")
+        verbose_name = npgettext_lazy("update__title", "update", "updates", 1)
+        verbose_name_plural = npgettext_lazy("update__title", "update", "updates", 2)
 
 
 class Evidence(models.Model):
@@ -1022,9 +1029,9 @@ class Evidence(models.Model):
         ContentType,
         on_delete=models.CASCADE,
         limit_choices_to=Q(app_label='trainerdex', model__in=['trainer', 'update']),
-        verbose_name='Model',
+        verbose_name='model',
         )
-    object_pk = models.CharField(verbose_name='Object PK', max_length=36)
+    object_pk = models.CharField(verbose_name='object PK', max_length=36)
     content_object = GenericForeignKey('content_type', 'object_pk')
     content_field = models.CharField(
         max_length=max(
@@ -1032,8 +1039,8 @@ class Evidence(models.Model):
             len("trainer.profile"),
             ),
         choices=[
-            ("trainer.profile", f"{Trainer._meta.verbose_name}"),
-        ]+[(f"update.{f.name}", f"{Update._meta.verbose_name}.{f.verbose_name}") for f in Update._meta.fields if f.name in Update.field_metadata()],
+            ("trainer.profile", f"{Trainer._meta.verbose_name.title()}"),
+        ]+[(f"update.{f.name}", f"{Update._meta.verbose_name.title()}.{f.verbose_name}") for f in Update._meta.fields if f.name in Update.field_metadata()],
     )
     
     approval = models.BooleanField(
@@ -1065,11 +1072,12 @@ class Evidence(models.Model):
                 name='unique_request'
             ),
         ]
+        verbose_name = npgettext_lazy("evidence__title", "evidence", "evidence", 1)
+        verbose_name_plural = npgettext_lazy("evidence__title", "evidence", "evidence", 2)
 
 @receiver(post_save, sender=Trainer)
 def create_profile(sender, instance, created, **kwargs) -> Evidence:
     if kwargs.get('raw'):
-        # End early, one should not query/modify other records in the database as the database might not be in a consistent state yet.
         return None
 
     if created:
@@ -1081,6 +1089,7 @@ class EvidenceImage(models.Model):
         Evidence,
         on_delete=models.CASCADE,
         related_name='images',
+        verbose_name=Evidence._meta.verbose_name
         )
     image = models.ImageField(
         width_field='width',
@@ -1102,7 +1111,7 @@ class BaseTarget(models.Model):
     )
     _target = models.CharField(
         max_length=max(10, Update._meta.get_field('travel_km').max_digits),
-        verbose_name=_('target'),
+        verbose_name=npgettext_lazy("target__title", "target", "targets", 1),
     )
     
     def target():
@@ -1126,8 +1135,8 @@ class BaseTarget(models.Model):
     
     class Meta:
         abstract = True
-        verbose_name = _('target')
-        verbose_name_plural = _('targets')
+        verbose_name = npgettext_lazy("target__title", "target", "targets", 1)
+        verbose_name_plural = npgettext_lazy("target__title", "target", "targets", 2)
         ordering = ['stat', '_target']
 
 
@@ -1140,8 +1149,8 @@ class PresetTarget(BaseTarget):
     
     class Meta:
         abstract = False
-        verbose_name = _('Target (Preset)')
-        verbose_name_plural = _('Targets (Preset)')
+        verbose_name = npgettext_lazy("target__title", "target", "targets", 1) + " (Preset)"
+        verbose_name_plural = npgettext_lazy("target__title", "target", "targets", 1) + " (Preset)"
 
 
 class PresetTargetGroup(models.Model):
@@ -1155,13 +1164,13 @@ class PresetTargetGroup(models.Model):
     
     
     class Meta:
-        verbose_name = _('Group of Targets')
-        verbose_name_plural = _('Groups of Targets')
+        verbose_name = npgettext_lazy("target__title", "group of {target__title_plural}", "groups of {target__title_plural}", 1).format(target__title_plural=BaseTarget._meta.verbose_name_plural)
+        verbose_name_plural = npgettext_lazy("target__title", "group of {target__title_plural}", "groups of {target__title_plural}", 2).format(target__title_plural=BaseTarget._meta.verbose_name_plural)
 
 
 class Target(BaseTarget):
     trainer = models.ForeignKey(
         Trainer,
         on_delete=models.CASCADE,
-        verbose_name=_("Trainer"),
+        verbose_name=Trainer._meta.verbose_name,
         )

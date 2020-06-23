@@ -12,7 +12,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.encoding import force_text
-from django.utils.translation import gettext_lazy as _, ngettext, pgettext_lazy
+from django.utils.translation import gettext_lazy as _, ngettext, pgettext_lazy, npgettext_lazy
 from django.utils import timezone
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 from pytz import common_timezones
@@ -32,7 +32,6 @@ class User(AbstractUser):
         error_messages={
             'unique': _("A user with that username already exists."),
         },
-        verbose_name=pgettext_lazy("nickname__title", "Nickname"),
         )
     is_service_user = models.BooleanField(default=False)
     gdpr = models.BooleanField(default=True)
@@ -52,8 +51,8 @@ class ServiceAccount(User):
 
     class Meta:
         proxy = True
-        verbose_name = _("Service Account")
-        verbose_name_plural = _("Service Accounts")
+        verbose_name = npgettext_lazy("service_account__title", "service account", "service accounts", 1)
+        verbose_name_plural = npgettext_lazy("service_account__title", "service account", "service accounts", 2)
 
 
 class HumanUserManager(UserManager):
@@ -70,22 +69,22 @@ class HumanUser(User):
 
     class Meta:
         proxy = True
-        verbose_name = _("User")
-        verbose_name_plural = _("Users")
+        verbose_name = User._meta.verbose_name
+        verbose_name_plural = User._meta.verbose_name_plural
 
 
 class Nickname(models.Model):
     user = models.ForeignKey(
         HumanUser,
         on_delete=models.CASCADE,
-        verbose_name=pgettext_lazy("profile__user__title", "User"),
+        verbose_name=HumanUser._meta.verbose_name,
         )
     nickname = django.contrib.postgres.fields.CICharField(
         max_length=15,
         unique=True,
         validators=[PokemonGoUsernameValidator],
         db_index=True,
-        verbose_name=pgettext_lazy("nickname__title", "Nickname"),
+        verbose_name=npgettext_lazy("nickname__title", "nickname", "nicknames", 1),
         )
     active = ExclusiveBooleanField(
         on='user',
@@ -96,15 +95,15 @@ class Nickname(models.Model):
         
     class Meta:
         ordering = ['nickname']
+        verbose_name = npgettext_lazy("nickname__title", "nickname", "nicknames", 1)
+        verbose_name_plural = npgettext_lazy("nickname__title", "nickname", "nicknames", 2)
 
 @receiver(post_save, sender=User)
 def create_nickname(sender, instance, created, **kwargs) -> Nickname:
     if kwargs.get('raw'):
-        # End early, one should not query/modify other records in the database as the database might not be in a consistent state yet.
         return None
     
     if instance.is_service_user:
-        # End early, service users shouldn't have Trainer objects
         return None
     
     if created:
@@ -113,7 +112,6 @@ def create_nickname(sender, instance, created, **kwargs) -> Nickname:
 @receiver(post_save, sender=Nickname)
 def update_username(sender, instance, created, **kwargs):
     if kwargs.get('raw'):
-        # End early, one should not query/modify other records in the database as the database might not be in a consistent state yet.
         return None
     
     if instance.active and instance.user.username!=instance.nickname:

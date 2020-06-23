@@ -4,7 +4,7 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _, pgettext_lazy
+from django.utils.translation import gettext_lazy as _, pgettext_lazy, npgettext_lazy
 from pytz import common_timezones
 
 from core.models import DiscordGuild
@@ -81,17 +81,19 @@ class Community(models.Model):
         return reverse('trainerdex:leaderboard', kwargs={'community':self.handle})
     
     class Meta:
-        verbose_name = _("Community")
-        verbose_name_plural = _("Communities")
+        verbose_name = npgettext_lazy("community__title", "community", "communities", 1)
+        verbose_name_plural = npgettext_lazy("community__title", "community", "communities", 2)
 
 class CommunityMembershipDiscord(models.Model):
     community = models.ForeignKey(
         Community,
         on_delete=models.CASCADE,
+        verbose_name=Community._meta.verbose_name
         )
     discord = models.ForeignKey(
         DiscordGuild,
         on_delete=models.CASCADE,
+        verbose_name=DiscordGuild._meta.verbose_name
         )
     
     sync_members = models.BooleanField(
@@ -132,7 +134,3 @@ class CommunityMembershipDiscord(models.Model):
             return qs
         else:
             return Trainer.objects.none()
-
-    class Meta:
-        verbose_name = _("Community Discord Connection")
-        verbose_name_plural = _("Community Discord Connections")
