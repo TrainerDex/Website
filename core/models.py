@@ -29,55 +29,15 @@ class User(AbstractUser):
         max_length=15,
         unique=True,
         validators=[PokemonGoUsernameValidator],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
+        error_messages={'unique': _("A user with that username already exists."),},
         )
-    is_service_user = models.BooleanField(default=False)
     gdpr = models.BooleanField(default=True)
-
-
-class ServiceAccountManager(UserManager):
-    def get_queryset(self):
-        return super(ServiceAccountManager, self).get_queryset().filter(is_service_user=True)
-
-    def create(self, **kwargs):
-        kwargs.update({'is_service_user': True, 'gdpr': True})
-        return super(ServiceAccountManager, self).create(**kwargs)
-
-
-class ServiceAccount(User):
-    objects = ServiceAccountManager()
-
-    class Meta:
-        proxy = True
-        verbose_name = npgettext_lazy("service_account__title", "service account", "service accounts", 1)
-        verbose_name_plural = npgettext_lazy("service_account__title", "service account", "service accounts", 2)
-
-
-class HumanUserManager(UserManager):
-    def get_queryset(self):
-        return super(HumanUserManager, self).get_queryset().filter(is_service_user=False)
-
-    def create(self, **kwargs):
-        kwargs.update({'is_service_user': False})
-        return super(HumanUserManager, self).create(**kwargs)
-
-
-class HumanUser(User):
-    objects = HumanUserManager()
-
-    class Meta:
-        proxy = True
-        verbose_name = User._meta.verbose_name
-        verbose_name_plural = User._meta.verbose_name_plural
-
 
 class Nickname(models.Model):
     user = models.ForeignKey(
-        HumanUser,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        verbose_name=HumanUser._meta.verbose_name,
+        verbose_name=User._meta.verbose_name,
         )
     nickname = django.contrib.postgres.fields.CICharField(
         max_length=15,
@@ -101,9 +61,6 @@ class Nickname(models.Model):
 @receiver(post_save, sender=User)
 def create_nickname(sender, instance, created, **kwargs) -> Nickname:
     if kwargs.get('raw'):
-        return None
-    
-    if instance.is_service_user:
         return None
     
     if created:

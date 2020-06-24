@@ -30,7 +30,7 @@ def recent(value):
 
 class UserViewSet(ReadOnlyModelViewSet):
     serializer_class = UserSerializer
-    queryset = User.objects.exclude(is_active=False, gdpr=False, is_service_user=True)
+    queryset = User.objects.exclude(is_active=False, gdpr=False)
 
 class TrainerListView(APIView):
     """

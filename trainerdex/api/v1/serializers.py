@@ -79,7 +79,6 @@ v1_field_names = {
         'user': 'owner',
         'start_date': 'start_date',
         'faction': 'faction',
-        'trainer_code': 'trainer_code',
         'country': 'leaderboard_country',
         'verified': 'verified',
         'last_modified': 'last_modified',
@@ -357,6 +356,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
 class TrainerSerializer(serializers.ModelSerializer):
     owner = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
+    trainer_code = serializers.SerializerMethodField()
     has_cheated = serializers.SerializerMethodField()
     last_cheated = serializers.SerializerMethodField()
     currently_cheats = serializers.SerializerMethodField()
@@ -372,6 +372,12 @@ class TrainerSerializer(serializers.ModelSerializer):
     
     def get_username(self, obj):
         return getattr(obj,'nickname')
+    
+    def get_trainer_code(self, obj):
+        if obj.user.has_perm('trainerdex.share_trainer_code_to_api'):
+            if hasattr(obj, 'trainer_code'):
+                return obj.trainer_code.code
+        return None
     
     def get_has_cheated(self, obj):
         return getattr(obj,'banned')

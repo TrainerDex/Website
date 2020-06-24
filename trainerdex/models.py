@@ -8,6 +8,7 @@ import humanize
 from collections import defaultdict
 from decimal import Decimal
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
@@ -21,13 +22,13 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy, pgettext, npgettext_lazy
 from django_countries.fields import CountryField
 
-from core.models import Nickname, HumanUser
+from core.models import Nickname
 # from core.models import DiscordGuildMembership
 from trainerdex.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from trainerdex.shortcuts import circled_level
 
 log = logging.getLogger('django.trainerdex')
-
+User = get_user_model()
 
 class Faction(models.Model):
     """
@@ -79,10 +80,10 @@ class Trainer(models.Model):
     """The model used to represent a users profile in the database"""
     
     user = models.OneToOneField(
-        HumanUser,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='trainer',
-        verbose_name=HumanUser._meta.verbose_name,
+        verbose_name=User._meta.verbose_name,
         primary_key=True,
         )
     id = models.PositiveIntegerField(
@@ -116,7 +117,7 @@ class Trainer(models.Model):
         verbose_name=pgettext_lazy("profile__last_modified__title", "Last Modified"),
         )
     
-        
+    # This field `banned` needs to be replaced with a better solution.
     banned = models.BooleanField(
         default=False,
         verbose_name=_("Banned"),
@@ -181,12 +182,9 @@ class Trainer(models.Model):
         verbose_name = npgettext_lazy("trainer__title", "trainer", "trainers", 1)
         verbose_name_plural = npgettext_lazy("trainer__title", "trainer", "trainers", 2)
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+@receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs) -> Trainer:
     if kwargs.get('raw'):
-        return None
-    
-    if instance.is_service_user:
         return None
     
     if created:
@@ -194,26 +192,6 @@ def create_profile(sender, instance, created, **kwargs) -> Trainer:
 
 
 class TrainerCode(models.Model):
-    
-    
-    class PrivacyOptions(models.TextChoices):
-        """Follows chmod-style octal notation
-        
-        Split into 3 groups: user, group and others.
-        Since theres nothing to execute, at current there is no 7,5,3 and 1 but we might use that for api access
-        
-        Current valid options
-        ---------------------
-        6: read, write
-            only valid in the first group
-        4: read
-        0: none
-        
-        """
-        PRIVATE = '600', _('Private')
-        GROUPS_ONLY = '640', _('Share with groups only')
-        OTHERS_ONLY = '604', _('Share with website only')
-        ALL = '644', _('Share with groups and website')
     
     trainer = models.OneToOneField(
         Trainer,
@@ -233,21 +211,6 @@ class TrainerCode(models.Model):
         max_length=15,
         verbose_name=npgettext_lazy("trainer_code__title", "Trainer Code", "Trainer Codes", 1),
         )
-    privacy_setting = models.CharField(
-        max_length=3,
-        choices=PrivacyOptions.choices,
-        default=PrivacyOptions.GROUPS_ONLY,
-        blank=False,
-    )
-    
-    def is_visible_to_self(self):
-        return self.privacy_setting[0] in ['7', '6', '5', '4']
-    
-    def is_visible_to_group(self):
-        return self.privacy_setting[1] in ['7', '6', '5', '4']
-    
-    def is_visible_to_others(self):
-        return self.privacy_setting[2] in ['7', '6', '5', '4']
     
     def __str__(self):
         return str(self.trainer)
@@ -256,6 +219,11 @@ class TrainerCode(models.Model):
     class Meta:
         verbose_name = npgettext_lazy("trainer_code__title", "Trainer Code", "Trainer Codes", 1)
         verbose_name_plural = npgettext_lazy("trainer_code__title", "Trainer Code", "Trainer Codes", 2)
+        permissions = [
+            ("share_trainer_code_to_groups", _("Trainer Code can be seen by users of groups they're in")),
+            ("share_trainer_code_to_web", _("Trainer Code can be seen on the web, publicly")),
+            ("share_trainer_code_to_api", _("Trainer Code can be on the API")),
+        ]
 
 
 class Update(models.Model):
@@ -1081,7 +1049,7 @@ def create_profile(sender, instance, created, **kwargs) -> Evidence:
         return None
 
     if created:
-        return Evidence.objects.get_or_create(content_type__app_label='trainerdex', content_type__model='trainer', object_id=instance.pk, content_field='trainer.profile')[0]
+        return Evidence.objects.get_or_create(content_type=ContentType.objects.get(app_label='trainerdex', model='trainer'), object_pk=instance.pk, content_field='trainer.profile')[0]
 
 
 class EvidenceImage(models.Model):
