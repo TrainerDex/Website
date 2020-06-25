@@ -54,6 +54,14 @@ INSTALLED_APPS += [
     'rest_framework.authtoken',
 ]
 
+# first-party apps
+
+INSTALLED_APPS += [
+# 'communtity',
+'core',
+'trainerdex',
+]
+
 # django-allauth
 # https://django-allauth.readthedocs.io/en/stable/installation.html
 
@@ -72,14 +80,6 @@ INSTALLED_APPS += [
 INSTALLED_APPS += [
     'widget_tweaks',
     'django_countries',
-    ]
-
-# first-party apps
-
-INSTALLED_APPS += [
-    # 'communtity',
-    'core',
-    'trainerdex',
     ]
 
 MIDDLEWARE = [

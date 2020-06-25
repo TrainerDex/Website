@@ -5,9 +5,11 @@ from django.contrib import admin
 from rest_framework.authtoken import views
 
 urlpatterns = [
+    path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
     path('api/v1/', include('trainerdex.api.v1.urls')),
     url(r'^api-token-auth\/', views.obtain_auth_token),
+    url('', include('core.urls')),
     url('', include('trainerdex.urls')),
 ]
 
