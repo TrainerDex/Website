@@ -1,10 +1,10 @@
-name: Django CI
+name: Django CI & Lint
 
 on:
   push:
-    branches: [ feature/django3majorrewrite, develop ]
+    branches: [ develop ]
   pull_request:
-    branches: [ feature/django3majorrewrite, develop ]
+    branches: [ develop ]
 
 jobs:
   build:

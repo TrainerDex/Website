@@ -57,7 +57,7 @@ INSTALLED_APPS += [
 # first-party apps
 
 INSTALLED_APPS += [
-# 'communtity',
+# 'community',
 'core',
 'trainerdex',
 ]
