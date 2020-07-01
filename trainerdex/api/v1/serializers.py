@@ -1,10 +1,8 @@
 ﻿from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from django.utils import translation
 
-from trainerdex.models import Faction, Trainer, Update
-from trainerdex.shortcuts import level_parser
+from trainerdex.models import Trainer, Update
 
 User = get_user_model()
 
@@ -93,10 +91,10 @@ class BriefUpdateSerializer(serializers.ModelSerializer):
     
     def get_xp(self, obj):
         """This field is deprecated and will be removed in API v2"""
-        return getattr(obj,'total_xp')
+        return getattr(obj, 'total_xp')
     
     def get_trainer(self, obj):
-        return getattr(obj,'trainer').id
+        return getattr(obj, 'trainer').id
     
     def get_modified_extra_fields(self, obj):
         return [v1_field_names['update'][x] for x in obj.modified_extra_fields()]
@@ -168,185 +166,185 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
     pokemon_info_stardust = serializers.SerializerMethodField()
     
     def get_trainer(self, obj):
-        return getattr(obj,'trainer').id
+        return getattr(obj, 'trainer').id
 
     def get_xp(self, obj):
         """This field is deprecated and will be removed in API v2"""
-        return getattr(obj,'total_xp')
+        return getattr(obj, 'total_xp')
 
     def get_pokedex_caught(self, obj):
-        return getattr(obj,'pokedex_total_caught')
+        return getattr(obj, 'pokedex_total_caught')
 
     def get_pokedex_seen(self, obj):
-        return getattr(obj,'pokedex_total_seen')
+        return getattr(obj, 'pokedex_total_seen')
 
     def get_badge_pokedex_entries(self, obj):
-        return getattr(obj,'pokedex_gen1')
+        return getattr(obj, 'pokedex_gen1')
 
     def get_badge_pokedex_entries_gen2(self, obj):
-        return getattr(obj,'pokedex_gen2')
+        return getattr(obj, 'pokedex_gen2')
 
     def get_badge_pokedex_entries_gen3(self, obj):
-        return getattr(obj,'pokedex_gen3')
+        return getattr(obj, 'pokedex_gen3')
 
     def get_badge_pokedex_entries_gen4(self, obj):
-        return getattr(obj,'pokedex_gen4')
+        return getattr(obj, 'pokedex_gen4')
 
     def get_badge_pokedex_entries_gen5(self, obj):
-        return getattr(obj,'pokedex_gen5')
+        return getattr(obj, 'pokedex_gen5')
 
     def get_badge_pokedex_entries_gen6(self, obj):
-        return getattr(obj,'pokedex_gen6')
+        return getattr(obj, 'pokedex_gen6')
 
     def get_badge_pokedex_entries_gen7(self, obj):
-        return getattr(obj,'pokedex_gen7')
+        return getattr(obj, 'pokedex_gen7')
 
     def get_badge_pokedex_entries_gen8(self, obj):
-        return getattr(obj,'pokedex_gen8')
+        return getattr(obj, 'pokedex_gen8')
 
     def get_badge_travel_km(self, obj):
-        return getattr(obj,'travel_km')
+        return getattr(obj, 'travel_km')
 
     def get_badge_capture_total(self, obj):
-        return getattr(obj,'capture_total')
+        return getattr(obj, 'capture_total')
 
     def get_badge_evolved_total(self, obj):
-        return getattr(obj,'evolved_total')
+        return getattr(obj, 'evolved_total')
 
     def get_badge_hatched_total(self, obj):
-        return getattr(obj,'hatched_total')
+        return getattr(obj, 'hatched_total')
 
     def get_badge_pokestops_visited(self, obj):
-        return getattr(obj,'pokestops_visited')
+        return getattr(obj, 'pokestops_visited')
 
     def get_badge_big_magikarp(self, obj):
-        return getattr(obj,'big_magikarp')
+        return getattr(obj, 'big_magikarp')
 
     def get_badge_battle_attack_won(self, obj):
-        return getattr(obj,'battle_attack_won')
+        return getattr(obj, 'battle_attack_won')
 
     def get_badge_battle_training_won(self, obj):
-        return getattr(obj,'battle_training_won')
+        return getattr(obj, 'battle_training_won')
 
     def get_badge_small_rattata(self, obj):
-        return getattr(obj,'small_rattata')
+        return getattr(obj, 'small_rattata')
 
     def get_badge_pikachu(self, obj):
-        return getattr(obj,'pikachu')
+        return getattr(obj, 'pikachu')
 
     def get_badge_unown(self, obj):
-        return getattr(obj,'unown')
+        return getattr(obj, 'unown')
 
     def get_badge_raid_battle_won(self, obj):
-        return getattr(obj,'raid_battle_won')
+        return getattr(obj, 'raid_battle_won')
 
     def get_badge_legendary_battle_won(self, obj):
-        return getattr(obj,'legendary_battle_won')
+        return getattr(obj, 'legendary_battle_won')
 
     def get_badge_berries_fed(self, obj):
-        return getattr(obj,'berries_fed')
+        return getattr(obj, 'berries_fed')
 
     def get_badge_hours_defended(self, obj):
-        return getattr(obj,'hours_defended')
+        return getattr(obj, 'hours_defended')
 
     def get_badge_challenge_quests(self, obj):
-        return getattr(obj,'challenge_quests')
+        return getattr(obj, 'challenge_quests')
 
     def get_badge_max_level_friends(self, obj):
-        return getattr(obj,'max_level_friends')
+        return getattr(obj, 'max_level_friends')
 
     def get_badge_trading(self, obj):
-        return getattr(obj,'trading')
+        return getattr(obj, 'trading')
 
     def get_badge_trading_distance(self, obj):
-        return getattr(obj,'trading_distance')
+        return getattr(obj, 'trading_distance')
 
     def get_badge_great_league(self, obj):
-        return getattr(obj,'great_league')
+        return getattr(obj, 'great_league')
 
     def get_badge_ultra_league(self, obj):
-        return getattr(obj,'ultra_league')
+        return getattr(obj, 'ultra_league')
 
     def get_badge_master_league(self, obj):
-        return getattr(obj,'master_league')
+        return getattr(obj, 'master_league')
 
     def get_badge_photobomb(self, obj):
-        return getattr(obj,'photobomb')
+        return getattr(obj, 'photobomb')
 
     def get_badge_pokemon_purified(self, obj):
-        return getattr(obj,'pokemon_purified')
+        return getattr(obj, 'pokemon_purified')
 
     def get_badge_rocket_grunts_defeated(self, obj):
-        return getattr(obj,'rocket_grunts_defeated')
+        return getattr(obj, 'rocket_grunts_defeated')
 
     def get_badge_buddy_best(self, obj):
-        return getattr(obj,'buddy_best')
+        return getattr(obj, 'buddy_best')
 
     def get_badge_wayfarer(self, obj):
-        return getattr(obj,'wayfarer')
+        return getattr(obj, 'wayfarer')
 
     def get_badge_type_normal(self, obj):
-        return getattr(obj,'type_normal')
+        return getattr(obj, 'type_normal')
 
     def get_badge_type_fighting(self, obj):
-        return getattr(obj,'type_fighting')
+        return getattr(obj, 'type_fighting')
 
     def get_badge_type_flying(self, obj):
-        return getattr(obj,'type_flying')
+        return getattr(obj, 'type_flying')
 
     def get_badge_type_poison(self, obj):
-        return getattr(obj,'type_poison')
+        return getattr(obj, 'type_poison')
 
     def get_badge_type_ground(self, obj):
-        return getattr(obj,'type_ground')
+        return getattr(obj, 'type_ground')
 
     def get_badge_type_rock(self, obj):
-        return getattr(obj,'type_rock')
+        return getattr(obj, 'type_rock')
 
     def get_badge_type_bug(self, obj):
-        return getattr(obj,'type_bug')
+        return getattr(obj, 'type_bug')
 
     def get_badge_type_ghost(self, obj):
-        return getattr(obj,'type_ghost')
+        return getattr(obj, 'type_ghost')
 
     def get_badge_type_steel(self, obj):
-        return getattr(obj,'type_steel')
+        return getattr(obj, 'type_steel')
 
     def get_badge_type_fire(self, obj):
-        return getattr(obj,'type_fire')
+        return getattr(obj, 'type_fire')
 
     def get_badge_type_water(self, obj):
-        return getattr(obj,'type_water')
+        return getattr(obj, 'type_water')
 
     def get_badge_type_grass(self, obj):
-        return getattr(obj,'type_grass')
+        return getattr(obj, 'type_grass')
 
     def get_badge_type_electric(self, obj):
-        return getattr(obj,'type_electric')
+        return getattr(obj, 'type_electric')
 
     def get_badge_type_psychic(self, obj):
-        return getattr(obj,'type_psychic')
+        return getattr(obj, 'type_psychic')
 
     def get_badge_type_ice(self, obj):
-        return getattr(obj,'type_ice')
+        return getattr(obj, 'type_ice')
 
     def get_badge_type_dragon(self, obj):
-        return getattr(obj,'type_dragon')
+        return getattr(obj, 'type_dragon')
 
     def get_badge_type_dark(self, obj):
-        return getattr(obj,'type_dark')
+        return getattr(obj, 'type_dark')
 
     def get_badge_type_fairy(self, obj):
-        return getattr(obj,'type_fairy')
+        return getattr(obj, 'type_fairy')
 
     def get_gymbadges_total(self, obj):
-        return getattr(obj,'gymbadges_total')
+        return getattr(obj, 'gymbadges_total')
 
     def get_gymbadges_gold(self, obj):
-        return getattr(obj,'gymbadges_gold')
+        return getattr(obj, 'gymbadges_gold')
 
     def get_pokemon_info_stardust(self, obj):
-        return getattr(obj,'stardust')
+        return getattr(obj, 'stardust')
     
     class Meta:
         model = Update
@@ -368,10 +366,10 @@ class TrainerSerializer(serializers.ModelSerializer):
     prefered = serializers.SerializerMethodField()
     
     def get_owner(self, obj):
-        return getattr(obj,'user').id
+        return getattr(obj, 'user').id
     
     def get_username(self, obj):
-        return getattr(obj,'nickname')
+        return getattr(obj, 'nickname')
     
     def get_trainer_code(self, obj):
         if obj.user.has_perm('trainerdex.share_trainer_code_to_api'):
@@ -380,13 +378,13 @@ class TrainerSerializer(serializers.ModelSerializer):
         return None
     
     def get_has_cheated(self, obj):
-        return getattr(obj,'banned')
+        return getattr(obj, 'banned')
     
     def get_last_cheated(self, obj):
         return None
     
     def get_currently_cheats(self, obj):
-        return getattr(obj,'banned')
+        return getattr(obj, 'banned')
     
     def get_daily_goal(self, obj):
         return None
@@ -395,7 +393,7 @@ class TrainerSerializer(serializers.ModelSerializer):
         return None
     
     def get_leaderboard_country(self, obj):
-        return getattr(obj,'country').code
+        return getattr(obj, 'country').code
     
     def get_leaderboard_region(self, obj):
         return None

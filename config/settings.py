@@ -1,6 +1,6 @@
 ﻿import os
 
-from django.utils.translation import gettext_lazy as _, pgettext_lazy
+from django.utils.translation import gettext_lazy as _
 from config import local_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -57,9 +57,9 @@ INSTALLED_APPS += [
 # first-party apps
 
 INSTALLED_APPS += [
-# 'community',
-'core',
-'trainerdex',
+    # 'community',
+    'core',
+    'trainerdex',
 ]
 
 # django-allauth
@@ -105,7 +105,7 @@ ROOT_URLCONF = 'config.urls'
 # DjangoDebugToolbar
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
 
-if DEBUG==True:
+if DEBUG:
     if 'django.contrib.staticfiles' not in INSTALLED_APPS:
         INSTALLED_APPS.append('django.contrib.staticfiles')
     INSTALLED_APPS.append('debug_toolbar')
@@ -201,10 +201,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# if DEBUG:
-    # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-# else:
-    # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+if not DEBUG:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 USE_X_FORWARDED_HOST = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -280,7 +278,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     },
 }
-SOCIALACCOUNT_QUERY_EMAIL= True
+SOCIALACCOUNT_QUERY_EMAIL = True
 
 # Email
 # https://docs.djangoproject.com/en/3.0/topics/email/

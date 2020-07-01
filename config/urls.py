@@ -9,7 +9,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('trainerdex.api.v1.urls')),
     url(r'^api-token-auth\/', views.obtain_auth_token),
-    url('', include('trainerdex.urls')),
 ]
 
 if settings.DEBUG:

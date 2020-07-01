@@ -14,7 +14,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, MaxLengthValidator, MinLengthValidator
 from django.db import models
-from django.db.models import Max, Q
+from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -23,11 +23,11 @@ from django.utils.translation import gettext_lazy as _, pgettext_lazy, pgettext,
 from django_countries.fields import CountryField
 
 from core.models import Nickname
-from trainerdex.validators import PokemonGoUsernameValidator, TrainerCodeValidator
-from trainerdex.shortcuts import circled_level
+from trainerdex.validators import TrainerCodeValidator
 
 log = logging.getLogger('django.trainerdex')
 User = get_user_model()
+
 
 class Faction(models.Model):
     """
@@ -49,26 +49,25 @@ class Faction(models.Model):
     @property
     def name_short(self):
         CHOICES = (
-        pgettext('faction_0__short', 'Teamless'),
-        pgettext('faction_1__short', 'Mystic'),
-        pgettext('faction_2__short', 'Valor'),
-        pgettext('faction_3__short', 'Instinct'),
+            pgettext('faction_0__short', 'Teamless'),
+            pgettext('faction_1__short', 'Mystic'),
+            pgettext('faction_2__short', 'Valor'),
+            pgettext('faction_3__short', 'Instinct'),
         )
         return CHOICES[self.id]
     
     @property
     def name_long(self):
         CHOICES = (
-        pgettext('faction_0__long', 'No Team'),
-        pgettext('faction_1__long', 'Team Mystic'),
-        pgettext('faction_2__long', 'Team Valor'),
-        pgettext('faction_3__long', 'Team Instinct'),
+            pgettext('faction_0__long', 'No Team'),
+            pgettext('faction_1__long', 'Team Mystic'),
+            pgettext('faction_2__long', 'Team Valor'),
+            pgettext('faction_3__long', 'Team Instinct'),
         )
         return CHOICES[self.id]
     
     def __str__(self):
         return self.name_short
-    
     
     class Meta:
         verbose_name = npgettext_lazy("faction__title", "team", "teams", 1)
@@ -101,7 +100,7 @@ class Trainer(models.Model):
         primary_key=True,
         )
     id = models.PositiveIntegerField(
-        editable= False,
+        editable=False,
         verbose_name='(Deprecated) ID',
         blank=True,
         null=True,
@@ -111,7 +110,7 @@ class Trainer(models.Model):
         blank=False,
         validators=[MinValueValidator(datetime.date(2016, 7, 5))],
         verbose_name=pgettext_lazy("profile__start_date__title", "Start Date"),
-        help_text=pgettext_lazy("profile__start_date__help", "The date you created your Pokémon Go account. This can be found under TOTAL ACTIVITY in-game."),
+        help_text=pgettext_lazy("profile__start_date__help", "The date you created your Pokémon Go account."),
         )
     faction = models.ForeignKey(
         Faction,
@@ -191,8 +190,7 @@ class Trainer(models.Model):
         return self.nickname
     
     def get_absolute_url(self) -> str:
-        return reverse('trainerdex:profile_nickname', kwargs={'nickname':self.nickname})
-    
+        return reverse('trainerdex:profile_nickname', kwargs={'nickname': self.nickname})
     
     class Meta:
         verbose_name = npgettext_lazy("trainer__title", "trainer", "trainers", 1)
@@ -230,7 +228,6 @@ class TrainerCode(models.Model):
     
     def __str__(self):
         return str(self.trainer)
-    
     
     class Meta:
         verbose_name = npgettext_lazy("trainer_code__title", "Trainer Code", "Trainer Codes", 1)
@@ -684,9 +681,17 @@ class Update(models.Model):
     has_modified_extra_fields.boolean = True
     
     @classmethod
-    def field_metadata(self):
+    def field_metadata(self, reversable: bool = None, sortable: bool = None):
         with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'update_fields_metadata.json'), 'r') as file:
-            return json.load(file)
+            metadata = json.load(file)
+        
+        if reversable is not None:
+            metadata = {k: v for k, v in metadata.items() if v.get('reversable') == reversable}
+        
+        if sortable is not None:
+            metadata = {k: v for k, v in metadata.items() if v.get('sortable') == sortable}
+        
+        return metadata
     
     def modified_fields(self):
         fields = list(self.field_metadata().keys())
@@ -697,7 +702,7 @@ class Update(models.Model):
     
     def modified_extra_fields(self):
         for x in self.modified_fields():
-            if x!='total_xp':
+            if x != 'total_xp':
                 yield x
     
     def clean(self):
@@ -705,13 +710,12 @@ class Update(models.Model):
             
         for field in Update._meta.get_fields():
             if getattr(self, field.name) is None:
-                continue # Nothing to check!
-            
+                continue
             
             # Get latest update with that field present, only get the important fields.
             last_update = self.trainer.update_set.filter(update_time__lt=self.update_time) \
                 .exclude(uuid=self.uuid) \
-                .exclude(**{field.name : None}) \
+                .exclude(**{field.name: None}) \
                 .order_by('-update_time') \
                 .only(field.name, 'update_time') \
                 .first()
@@ -719,7 +723,7 @@ class Update(models.Model):
             # Overall Rules
             
             # Value must be higher than or equal to than previous value
-            if last_update is not None and field.name in UPDATE_NON_REVERSEABLE_FIELDS:
+            if last_update is not None and field.name in Update.field_metadata(reversable=False):
                 if getattr(self, field.name) < getattr(last_update, field.name):
                     errors[field.name].append(
                         ValidationError(
@@ -735,8 +739,8 @@ class Update(models.Model):
                 # Max Value = 1000, unless total is at 1000
                 
                 max_gymbadges_visible = 1000
-                gold = getattr(self,field.name)
-                total = getattr(self,'gymbadges_total')
+                gold = getattr(self, field.name)
+                total = getattr(self, 'gymbadges_total')
                 
                 
                 # Check if gymbadges_total is filled in
@@ -757,7 +761,7 @@ class Update(models.Model):
             
             if field.name == 'trading_distance':
                 
-                trading = getattr(self,'trading')
+                trading = getattr(self, 'trading')
                 
                 # Check if trading is filled in
                 if trading is None:
@@ -771,7 +775,7 @@ class Update(models.Model):
         if errors:
             raise ValidationError(errors)
     
-    def check_values(self, raise_: bool=False):
+    def check_values(self, raise_: bool = False):
         """Checks values for anything ary
         
         Parameters
@@ -855,7 +859,7 @@ class Update(models.Model):
                 },
             'battle_training_won': {
                 'InterestDate': datetime.datetime.combine(
-                    max(start_date, datetime.date(2018,12,13)),
+                    max(start_date, datetime.date(2018, 12, 13)),
                     datetime.time.min,
                     ),
                 'DailyLimit': 100,
@@ -869,52 +873,52 @@ class Update(models.Model):
                 },
             'berries_fed': {
                 'InterestDate': datetime.datetime.combine(
-                    max(start_date,datetime.date(2017,6,22)),
+                    max(start_date, datetime.date(2017, 6, 22)),
                     datetime.time.min,
                     ),
                 'DailyLimit': 100,
                 },
             'hours_defended': {
                 'InterestDate': datetime.datetime.combine(
-                    max(start_date,datetime.date(2017,6,22)),
+                    max(start_date, datetime.date(2017, 6, 22)),
                     datetime.time.min,
                     ),
                 'DailyLimit': 480,
                 },
             'raid_battle_won': {
                 'InterestDate': datetime.datetime.combine(
-                    max(start_date,datetime.date(2017,6,26)),
+                    max(start_date, datetime.date(2017, 6, 26)),
                     datetime.time.min,
                     ),
                 'DailyLimit': 100,
                 },
             'legendary_battle_won': {
                 'InterestDate': datetime.datetime.combine(
-                    max(start_date,datetime.date(2017,7,22)),
+                    max(start_date, datetime.date(2017, 7, 22)),
                     datetime.time.min,
                     ),
                 'DailyLimit': 100,
                 },
             'challenge_quests': {
                 'InterestDate': datetime.datetime.combine(
-                    max(start_date,datetime.date(2018,3,30)),
+                    max(start_date, datetime.date(2018, 3, 30)),
                     datetime.time.min,
                     ),
                 'DailyLimit': 500,
                 },
             'trading': {
                 'InterestDate': datetime.datetime.combine(
-                    max(start_date,datetime.date(2018,6,21)),
+                    max(start_date, datetime.date(2018, 6, 21)),
                     datetime.time.min,
                     ),
                 'DailyLimit': 100,
                 },
             'trading_distance': {
                 'InterestDate': datetime.datetime.combine(
-                    max(start_date,datetime.date(2018,6,21)),
+                    max(start_date, datetime.date(2018, 6, 21)),
                     datetime.time.min,
                     ),
-                'DailyLimit': 1001800, # (earth_circumference/2) * trading.DailyLimit
+                'DailyLimit': 1001800,  # (earth_circumference/2) * trading.DailyLimit
                 },
             
         }
@@ -927,7 +931,7 @@ class Update(models.Model):
             # Get latest update with that field present, only get the important fields.
             last_update = self.trainer.update_set.filter(update_time__lt=self.update_time) \
                 .exclude(uuid=self.uuid) \
-                .exclude(**{field.name : None}) \
+                .exclude(**{field.name: None}) \
                 .order_by('-update_time') \
                 .only(field.name, 'update_time') \
                 .first()
@@ -950,7 +954,8 @@ class Update(models.Model):
                         stat_delta = getattr(self, field.name)-x['stat']
                         delta = getattr(self, 'update_time')-x['datetime']
                         rate = stat_delta / (delta.total_seconds()/86400)
-                        if rate >= config.get(field.name).get('DailyLimit'):
+                        DailyLimit = config.get(field.name).get('DailyLimit')
+                        if rate >= DailyLimit:
                             warnings[field.name].append(
                                 ValidationError(
                                     _("This value is high. Your daily average is above the threshold of {threshold:,}. Please check you haven't made a mistake.\n\nYour daily average between {earlier_date} and {later_date} is {average:,}").format(
@@ -970,8 +975,8 @@ class Update(models.Model):
                 if _xcompare:
                     # GoldGyms < GymsSeen
                     # Check if gymbadges_gold is more of less than gymbadges_total
-                    if getattr(self,field.name) > _xcompare:
-                        warnings[field.name].append(ValidationError(_("The {badge} you entered is too high. Please check for typos and other mistakes. You can't have more gold gyms than gyms in Total. {value:,}/{expected:,}").format(badge=field.verbose_name, value=getattr(self,field.name), expected=_xcompare)))
+                    if getattr(self, field.name) > _xcompare:
+                        warnings[field.name].append(ValidationError(_("The {badge} you entered is too high. Please check for typos and other mistakes. You can't have more gold gyms than gyms in Total. {value:,}/{expected:,}").format(badge=field.verbose_name, value=getattr(self, field.name), expected=_xcompare)))
                 else:
                     warnings[field.name].append(ValidationError(_("You must fill in {other_badge} if filling in {this_badge}.").format(this_badge=field.verbose_name, other_badge=Update._meta.get_field('gymbadges_total').verbose_name)))
                 
@@ -980,7 +985,7 @@ class Update(models.Model):
                 trading = getattr(self, 'trading')
                 earth_circumference = 20037.5085
                 max_distance = int(earth_circumference/2)
-                rate = (getattr(self,field.name) / _xcompare)
+                rate = (getattr(self, field.name) / _xcompare)
                 
                 # Check if trading is filled in
                 if trading:
@@ -999,10 +1004,9 @@ class Update(models.Model):
                     warnings[field.name].append(ValidationError(_("You must fill in {other_badge} if filling in {this_badge}.").format(this_badge=field.verbose_name, other_badge=Update._meta.get_field('trading').verbose_name)))
         
         if raise_ and warnings:
-                ValidationError(warnings)
-        elif raise_ == False:
-                return warnings
-    
+            ValidationError(warnings)
+        elif not raise_:
+            return warnings
     
     class Meta:
         get_latest_by = 'update_time'
@@ -1051,7 +1055,6 @@ class Evidence(models.Model):
         if self.content_field.split('.')[0] != self.content_type.model:
             raise ValidationError({'content_field': _("Content Field doesn't match Content Object")})
     
-    
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -1063,7 +1066,7 @@ class Evidence(models.Model):
         verbose_name_plural = npgettext_lazy("evidence__title", "evidence", "evidence", 2)
 
 @receiver(post_save, sender=Trainer)
-def create_profile(sender, instance, created, **kwargs) -> Evidence:
+def create_evidence(sender, instance, created, **kwargs) -> Evidence:
     if kwargs.get('raw'):
         return None
 
@@ -1093,7 +1096,7 @@ class BaseTarget(models.Model):
         verbose_name=_("name"))
     stat = models.CharField(
         max_length=len(max(Update.field_metadata().keys(), key=len)),
-        choices=[(f.name, f.verbose_name) for f in Update._meta.fields if f.name in Update.field_metadata() and Update.field_metadata().get(f.name).get('reversable') == False],
+        choices=[(f.name, f.verbose_name) for f in Update._meta.fields if f.name in Update.field_metadata() and not Update.field_metadata().get(f.name).get('reversable')],
         verbose_name=_("stat")
     )
     _target = models.CharField(
@@ -1118,7 +1121,6 @@ class BaseTarget(models.Model):
     def clean(self):
         self.target = self._target
     
-    
     class Meta:
         abstract = True
         verbose_name = npgettext_lazy("target__title", "target", "targets", 1)
@@ -1131,7 +1133,6 @@ class PresetTarget(BaseTarget):
     
     def add_to_trainer(self, trainer: Trainer):
         return Target.objects.get_or_create(trainer=trainer, stat=self.stat, _target=self._target)
-    
     
     class Meta:
         abstract = False
@@ -1147,7 +1148,6 @@ class PresetTargetGroup(models.Model):
     
     def __str__(self):
         return self.name
-    
     
     class Meta:
         verbose_name = npgettext_lazy("target__title", "target group", "target groups", 1)

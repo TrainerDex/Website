@@ -2,21 +2,15 @@ import datetime
 import logging
 
 from allauth.socialaccount.models import SocialAccount
-from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
-from django.core.mail import mail_admins
-from django.db.models.functions import DenseRank as Rank
-from django.db.models import F, Max, Q, Window
 from django.http import Http404
-from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.views import APIView
-from rest_framework import authentication, permissions, status
+from rest_framework import authentication, status
 
-# from core.models import DiscordGuild, get_guild_info
 from trainerdex.api.v1.serializers import BriefUpdateSerializer, DetailedUpdateSerializer, SocialAllAuthSerializer, TrainerSerializer, UserSerializer
 from trainerdex.models import Trainer, Update
 

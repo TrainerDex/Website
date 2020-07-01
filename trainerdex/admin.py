@@ -3,9 +3,9 @@ from django.utils.translation import gettext_lazy as _
 
 from trainerdex.models import DataSource, Trainer, TrainerCode, Update, Evidence, EvidenceImage, Target, PresetTarget, PresetTargetGroup
 
-
 admin.site.register(PresetTargetGroup)
 admin.site.register(DataSource)
+
 
 @admin.register(PresetTarget)
 class PresetTargetAdmin(admin.ModelAdmin):
@@ -62,7 +62,7 @@ class TrainerAdmin(admin.ModelAdmin):
         'user__first_name',
         'user__username',
         ]
-    readonly_fields=[
+    readonly_fields = [
         'id',
         ]
     fieldsets = [
@@ -133,4 +133,3 @@ class EvidenceAdmin(admin.ModelAdmin):
     inlines = [
         EvidenceImageInline,
     ]
-    

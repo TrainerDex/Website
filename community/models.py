@@ -1,10 +1,7 @@
-import logging
-import uuid
-
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as _, pgettext_lazy, npgettext_lazy
+from django.utils.translation import gettext_lazy as _, npgettext_lazy
 from pytz import common_timezones
 
 from trainerdex.models import Trainer
@@ -22,7 +19,7 @@ class Community(models.Model):
     )
     timezone = models.CharField(
         default=settings.TIME_ZONE,
-        choices=((x,x) for x in common_timezones),
+        choices=((x, x) for x in common_timezones),
         max_length=len(max(common_timezones, key=len)),
     )
     name = models.CharField(
@@ -53,7 +50,7 @@ class Community(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('trainerdex:leaderboard', kwargs={'community':self.handle})
+        return reverse('trainerdex:leaderboard', kwargs={'community': self.handle})
     
     class Meta:
         verbose_name = npgettext_lazy("community__title", "community", "communities", 1)
