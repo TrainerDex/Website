@@ -1,21 +1,5 @@
 import json
 
-from distutils.util import strtobool
-from django.db.models.query import QuerySet
-
-def strtoboolornone(value: str, default: bool=None) -> bool:
-    try:
-        return strtobool(value)
-    except ValueError:
-        return default
-
-def filter_leaderboard_qs(queryset: QuerySet) -> QuerySet:
-    return queryset.exclude(owner__is_active=False) \
-        .exclude(user__gdpr=False) \
-        .exclude(user__banned=True) \
-        .exclude(verified=False) \
-        .exclude(update__isnull=True)
-
 def level_parser(xp: int=None, level: int=None):
     """
     Takes either xp OR level and returns the value for the other

@@ -23,7 +23,6 @@ from django.utils.translation import gettext_lazy as _, pgettext_lazy, pgettext,
 from django_countries.fields import CountryField
 
 from core.models import Nickname
-# from core.models import DiscordGuildMembership
 from trainerdex.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from trainerdex.shortcuts import circled_level
 
@@ -76,6 +75,21 @@ class Faction(models.Model):
         verbose_name = npgettext_lazy("faction__title", "team", "teams", 3)
 
 
+class TrainerQuerySet(models.QuerySet):
+    def exclude_banned(self: models.QuerySet) -> models.QuerySet:
+        return self.exclude(banned=True)
+    
+    def exclude_unverifired(self: models.QuerySet) -> models.QuerySet:
+        return self.exclude(verified=False)
+    
+    def exclude_inactive(self: models.QuerySet) -> models.QuerySet:
+        return self.exclude(user__is_active=False) \
+            .exclude(user__gdpr=False)
+    
+    def exclude_empty(self: models.QuerySet) -> models.QuerySet:
+        return self.exclude(update__isnull=True)
+
+
 class Trainer(models.Model):
     """The model used to represent a users profile in the database"""
     
@@ -126,6 +140,8 @@ class Trainer(models.Model):
         'Evidence',
         object_id_field='object_pk',
         )
+    
+    objects = TrainerQuerySet.as_manager()
     
     def has_evidence_been_submitted(self) -> bool:
         return self.evidence.first().images.exists()
