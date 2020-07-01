@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from trainerdex.models import Trainer, TrainerCode, Update, Evidence, EvidenceImage, Target, PresetTarget, PresetTargetGroup
+from trainerdex.models import DataSource, Trainer, TrainerCode, Update, Evidence, EvidenceImage, Target, PresetTarget, PresetTargetGroup
 
 
 admin.site.register(PresetTargetGroup)
+admin.site.register(DataSource)
 
 @admin.register(PresetTarget)
 class PresetTargetAdmin(admin.ModelAdmin):
