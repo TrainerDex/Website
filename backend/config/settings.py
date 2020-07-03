@@ -78,7 +78,6 @@ INSTALLED_APPS += [
 # other third-party apps
 
 INSTALLED_APPS += [
-    'widget_tweaks',
     'django_countries',
     ]
 
