@@ -132,31 +132,24 @@ class DiscordGuild(models.Model):
         except:
             logger.exception("Failed to get server information from Discord")
             return {'warning': ["Failed to get server information from Discord"]}
-        new_members = [DiscordGuildMembership(
-                guild=self,
-                user=SocialAccount.objects.get(provider='discord', uid=x["user"]["id"]),
-                active=True,
-                data=x,
-                cached_date=timezone.now()
-            ) for x in guild_api_members if SocialAccount.objects.filter(provider='discord', uid=x["user"]["id"]).exists() and not DiscordGuildMembership.objects.filter(guild=self,
-            user=SocialAccount.objects.get(provider='discord', uid=x["user"]["id"])).exists()]
-        bulk = DiscordGuildMembership.objects.bulk_create(new_members)
-        
-        reactivate_members = DiscordGuildMembership.objects.filter(guild=self, active=False, user__uid__in=[x["user"]["id"] for x in guild_api_members])
-        reactivate_members.update(active=True)
+        added_people = []
+        amended_people = []
+        for x in guild_api_members:
+            if SocialAccount.objects.filter(provider='discord', uid=x["user"]["id"]).exists():
+                x,y = DiscordGuildMembership.objects.update_or_create(guild=self, user=SocialAccount.objects.get(provider='discord', uid=x["user"]["id"]), defaults={'active': True, 'data': x, 'cached_date': timezone.now()})
+                if y:
+                    added_people.append(x)
+                else:
+                    amended_people.append(x)
         
         inactive_members = DiscordGuildMembership.objects.filter(guild=self, active=True).exclude(user__uid__in=[x["user"]["id"] for x in guild_api_members])
         inactive_members.update(active=False)
         
         return {'success': [
                     ngettext(
-                        "Succesfully imported {success} of {total} ({real_total}) new member to {guild}",
-                        "Succesfully imported {success} of {total} ({real_total}) new members to {guild}", len(guild_api_members)
-                    ).format(success=len(bulk), total=len(new_members), real_total=len(guild_api_members), guild=self),
-                    ngettext(
-                        "Succesfully added {count} member back into {guild}",
-                        "Succesfully added {count} members back into {guild}", len(guild_api_members)
-                    ).format(count=reactivate_members.count(), guild=self)
+                        "Succesfully imported {success} of {total} new member to {guild}",
+                        "Succesfully imported {success} of {total} new members to {guild}", len(guild_api_members)
+                    ).format(success=len(added_people)+len(amended_people), total=len(guild_api_members), guild=self)
                 ],
                 'warning': [
                     ngettext(
