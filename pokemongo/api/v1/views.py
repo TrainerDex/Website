@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.core.mail import mail_admins
 from django.db.models import Max, Q, F, Window
-from django.db.models.functions import Rank
+from django.db.models.functions import DenseRank as Rank
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -263,12 +263,8 @@ class LeaderboardView(APIView):
             .prefetch_related('owner') \
             .annotate(Max('update__total_xp'), Max('update__update_time')) \
             .exclude(update__total_xp__max__isnull=True)
-        if datetime(2019,3,31,23,00) < datetime.now() < datetime(2019,4,1,23,00):
-            leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').asc())) \
-                .order_by('rank')
-        else:
-            leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').desc())) \
-                .order_by('rank')
+        leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').desc())) \
+            .order_by('rank', 'update__update_time__max')
         serializer = LeaderboardSerializer(leaderboard[:5000], many=True)
         return Response(serializer.data)
     
@@ -357,12 +353,8 @@ class DiscordLeaderboardAPIView(APIView):
             .annotate(Max('update__total_xp'), Max('update__update_time')) \
             .exclude(update__total_xp__max__isnull=True) \
             .filter(update__update_time__max__gte=datetime.now()-relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0))
-        if datetime(2019,3,31,23,00) < datetime.now() < datetime(2019,4,1,23,00):
-            leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').asc())) \
-                .order_by('rank')
-        else:
-            leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').desc())) \
-                .order_by('rank')
+        leaderboard = leaderboard.annotate(rank=Window(expression=Rank(), order_by=F('update__total_xp__max').desc())) \
+            .order_by('rank', 'update__update_time__max')
         serializer = LeaderboardSerializer(leaderboard, many=True)
         output['leaderboard'] = serializer.data
         return Response(output)
