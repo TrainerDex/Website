@@ -12,7 +12,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db.models import Max, Q, Sum, F, Window
-from django.db.models.functions import Rank
+from django.db.models.functions import DenseRank as Rank
 from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.translation import gettext_lazy as _
@@ -246,10 +246,7 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
     GRAND_TOTAL = QuerySet.aggregate(Sum('update__total_xp__max'))
     context['grand_total_xp'] = GRAND_TOTAL['update__total_xp__max__sum']
     
-    if datetime(2019,3,31,23,00) < datetime.now() < datetime(2019,4,1,23,00):
-        QuerySet = QuerySet.annotate(rank=Window(expression=Rank(), order_by=F(f'update__{sort_by}__max').asc())).prefetch_related('leaderboard_country').order_by('rank', 'update__total_xp__max', '-update__update_time__max', 'faction')
-    else:
-        QuerySet = QuerySet.annotate(rank=Window(expression=Rank(), order_by=F(f'update__{sort_by}__max').desc())).prefetch_related('leaderboard_country').order_by('rank', '-update__total_xp__max', '-update__update_time__max', 'faction')
+    QuerySet = QuerySet.annotate(rank=Window(expression=Rank(), order_by=F(f'update__{sort_by}__max').desc())).prefetch_related('leaderboard_country').order_by('rank', 'update__update_time__max', 'faction')
 
     for trainer in QuerySet:
         if not trainer.update__total_xp__max:
