@@ -48,18 +48,16 @@ class TrainerListView(APIView):
     
     def get(self, request):
         queryset = Trainer.objects.exclude(owner__is_active=False)
+        if not request.user.is_superuser:
+            queryset = queryset.exclude(statistics=False)
         if request.GET.get('q') or request.GET.get('t'):
             if request.GET.get('q'):
                 queryset = queryset.filter(nickname__nickname__iexact=request.GET.get('q'))
             if request.GET.get('t'):
                 queryset = queryset.filter(faction=request.GET.get('t'))
         
-        if request.GET.get('detail') == '1':
-            serializer = DetailedTrainerSerializer(queryset, many=True)
-            return Response(serializer.data)
-        else:
-            serializer = BriefTrainerSerializer(queryset, many=True)
-            return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
+        serializer = DetailedTrainerSerializer(queryset, many=True)
+        return Response(serializer.data)
     
     def post(self, request):
         """
@@ -96,26 +94,19 @@ class TrainerDetailView(APIView):
     
     def get(self, request, pk):
         trainer = self.get_object(pk)
-        if trainer.active is True:
-            if request.GET.get('detail') == 'low':
-                serializer = BriefTrainerSerializer(trainer)
-            else:
-                serializer = DetailedTrainerSerializer(trainer)
-            if trainer.statistics is True or (trainer.statistics is False and request.GET.get('statistics') == 'force'):
-                return Response(serializer.data)
-            elif trainer.statistics is False:
-                return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
-        elif trainer.active is False:
+        if trainer.active is True and (trainer.statistics is True or request.user.is_superuser is True):
+            serializer = DetailedTrainerSerializer(trainer)
+            return Response(serializer.data)
+        elif (trainer.active is False) or (trainer.statistics is False):
             response = {
                 'code': 1,
                 'reason': 'Profile deactivated',
                 'profile': {
                     'id': trainer.pk,
-                    'faction': trainer.faction,
                 },
             }
             return Response(response, status=status.HTTP_423_LOCKED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(None, status=status.HTTP_400_BAD_REQUEST)
     
     def patch(self, request, pk):
         trainer = self.get_object(pk)
