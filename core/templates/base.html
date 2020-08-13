@@ -115,7 +115,7 @@
           <a class="mdl-navigation__link" href="{% url 'trainerdex:profile' %}"><i class="material-icons">person</i>{% trans "My Profile" %}</a>{% else %}<a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}"><i class="material-icons">home</i>{% trans "Home" %}</a>{% endif %}
           <a class="mdl-navigation__link" href="{% url 'trainerdex:leaderboard' %}"><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
           <div class="mdl-layout-spacer"></div>
-          <a class="mdl-navigation__link mdl-button--disabled"><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">{% trans 'Help' %}</span></a>
+          <a class="mdl-navigation__link" href="http://discord.trainerdex.co.uk"><i class="material-icons" role="presentation">help_outline</i>{% trans 'Help' %}</a>
         </nav>
       </div>
 
