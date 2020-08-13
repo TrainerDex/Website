@@ -1,5 +1,5 @@
-﻿# -*- coding: utf-8 -*-
-from django.shortcuts import render, HttpResponse
+﻿from django.shortcuts import render
+
 
 def SettingsView(request):
-    return render(request, 'account/account_settings.html')
+    return render(request, "account/account_settings.html")

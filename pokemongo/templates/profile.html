@@ -39,7 +39,7 @@ function drawChart() {
     [new Date({# This comment is here because it fixes atom syntax highlighting #}"{% now 'c' %}"){% for field in update|slice:'1:' %},undefined{% endfor %}]{% endif %}
     {% endfor %}
   ]);
-  
+
   var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
   chart.draw(data, {displayAnnotations: true});
 }
@@ -93,7 +93,7 @@ function drawChart() {
     <a href="#badges-panel" class="mdl-tabs__tab">{% trans "Medals" context "profile_category_medals" %}</a>
     <a href="#graph-panel" class="mdl-tabs__tab">{% trans "Graph" context "profile_category_graph" %}</a>
   </div>
-  
+
   <div class="mdl-tabs__panel is-active" id="history-panel">
     <div class="mdl-grid table-responsive">
       <table class="mdl-cell mdl-data-table mdl-js-data-table mdl-shadow--2dp trainerdex-card-center">
@@ -108,7 +108,7 @@ function drawChart() {
         </thead>
         <tbody>
           {% endif %}
-          
+
           <tr id="{{update.1.value}}">
             {% for field in update %}
             {% if field.attname == 'update_time' %}
@@ -125,7 +125,7 @@ function drawChart() {
       </table>
     </div>
   </div>
-  
+
   <div class="mdl-tabs__panel" id="badges-panel">
     {% for badge in badges %}
     {% if forloop.first %}
@@ -158,7 +158,7 @@ function drawChart() {
     </div>
     {% endfor %}
   </div>
-  
+
   <div class="mdl-tabs__panel" id="graph-panel">
     <div id='chart_div' style='width: 100%; height: 550px;'></div>
   </div>

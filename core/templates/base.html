@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    
+
     {% load cookielaw_tags %}
     {% load static %}
     {% load i18n %}
     {% load account %}
-    
+
     <title>{% block head_title %}{% endblock %} | TrainerDex</title>
     <meta name="description" content="{% trans 'TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!' context 'meta tag in head' %}">
     <meta name="mobile-web-app-capable" content="yes">
@@ -26,7 +26,7 @@
     <meta property="og:site_name" content="TrainerDex" />
     <meta name="fb:page_id" content="1683676791663912" />
     <meta name="msvalidate.01" content="E7E20ABA1E037AC0B7E0116E01E3337A" />
-    
+
     <link rel="stylesheet" href="{% static 'node_modules/material-design-lite/material.min.css' %}">
     <link rel="stylesheet" href="{% static 'node_modules/mdl-ext/lib/mdl-ext.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="{% static 'css/emoji.css' %}">
     <script src="{% static 'js/emoji.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'cookielaw/css/cookielaw.css' %}" />
-    
+
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
       (adsbygoogle = window.adsbygoogle || []).push({
@@ -47,7 +47,7 @@
         enable_page_level_ads: true
       });
     </script>
-    
+
     {% block extra_head %}
     {% endblock %}
   </head>
@@ -136,7 +136,7 @@
           <a class="mdl-navigation__link mdl-button--disabled"><i class="material-icons" role="presentation">help_outline</i><span class="visuallyhidden">{% trans 'Help' %}</span></a>
         </nav>
       </div>
-      
+
       {% if messages %}{% for message in messages %}
       <div id="trainerdex-toast-message" class="mdl-js-snackbar mdl-snackbar">
         <div class="mdl-snackbar__text"></div>
@@ -151,25 +151,25 @@
       function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
       </script>
       {% endfor %}{% endif %}
-      
+
       {% block page %}
       <main class="mdl-layout__content mdl-color--grey-100" style="flex: 1 0 auto;">
         {% block content %}
         {% endblock %}
       </main>
       {% endblock %}
-      
+
       {% endblock %}
       {% block extra_body %}
       {% endblock %}
     </div>
-    
+
     {% block fab %}
     {% if user.is_authenticated %}
     <a id="trainerdex__fab" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--raised mdl-js-ripple-effect mdl-button--colored" href="{% url 'trainerdex:update_stats' %}"><i class="material-icons">add</i></a>
     {% endif %}
     {% endblock %}
-    
+
     {% if GOOGLE_ANALYTICS_PROPERTY_ID %}
       {% include "ga.html" %}
     {% endif %}

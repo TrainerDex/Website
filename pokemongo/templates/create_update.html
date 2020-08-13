@@ -24,18 +24,18 @@
     <p>{% blocktrans %}All fields marked with an asterix&nbsp;({{required}}) are required.{% endblocktrans %}</p>
     <span id="errors">{{ form.non_field_errors }}</span>
   </div>
-  
+
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  
+
   <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
     <div class="mdl-tabs__tab-bar">
       {% for fieldset in form.fieldsets %}
       <a href="#{{fieldset.name}}-panel" class="mdl-tabs__tab {{fieldset.classes}}">{{fieldset.legend}}</a>
       {% endfor %}
     </div>
-    
+
     {% for fieldset in form.fieldsets %}
     <div class="mdl-tabs__panel {{fieldset.classes}}" id="{{fieldset.name}}-panel">
       <div class="mdl-grid">
@@ -124,7 +124,7 @@
 </div>
 </form>
 {% endblock %}
-      
+
 {% block extra_body %}
 <script type="text/javascript">
 const errors = {% autoescape off %}{{form.errors.as_json}}{% endautoescape %}
@@ -136,15 +136,15 @@ for (var key in errors) {
 
 <script type="text/javascript">
   const url = '{% url 'trainerdex.api.1:latest_update' user.trainer.pk %}'
-  
+
   function createNode(element) {
     return document.createElement(element); // Create the type of element you pass in the parameters
   }
-  
+
   function append(parent, el) {
     return parent.appendChild(el); // Append the second parameter(element) to the first one
   }
-  
+
   fetch(url).then((resp) => resp.json()).then(function(data) {
     let update = data;
     console.table(update);
