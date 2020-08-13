@@ -53,15 +53,11 @@
   <body>
     {% cookielaw_banner %}
     {% block body %}
-    {# Translators: 'beta' should remain in lowercase and is superscripted #}
-    {% trans 'beta' as beta_text %}
-    {# Translators: 'β' should remain in lowercase and is superscripted, it's the short form of 'beta' and is used on mobile #}
-    {% trans 'β' as beta_short %}
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="trainerdex-header mdl-layout__header is-casting-shadow">
         <div class="mdl-layout__header-row">
           <span class="trainerdex-title mdl-layout__title">
-            <img class="trainerdex-logo-image" src="{% static 'img/logo-white-text.png' %}"><sup>{{ beta_text }}</sup>
+            <img class="trainerdex-logo-image" src="{% static 'img/logo-text.png' %}">
           </span>
           {# Add spacer, to align navigation to the right in desktop #}
           <div class="mdl-layout-spacer"></div>
@@ -72,12 +68,10 @@
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:profile' %}">{% user_display user %}</a>{% endif %}
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:leaderboard' %}">{% trans "Leaderboard" %}</a>
               {% if user.trainer.leaderboard_country %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:leaderboard' country=user.trainer.leaderboard_country.code %}">{{user.trainer.leaderboard_country}} {% trans "Leaderboard" %}</a>{% endif %}
-              {# {% if user.is_authenticated %}{% if user.trainer %}{% if user.trainer.communty_set %}{% endif %}{% endif %}{% endif %} #}
-              {# Add Link to Communities (Beta) #}
             </nav>
           </div>
           <div class="trainerdex-mobile-title mdl-layout-title">
-            <img class="trainerdex-logo-image" src="{% static 'img/logo-white.png' %}"><sup>{{ beta_short }}</sup>
+            <img class="trainerdex-logo-image" src="{% static 'img/logo.png' %}">
           </div>
           <button class="trainerdex-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
             <i class="material-icons">more_vert</i>
