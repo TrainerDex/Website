@@ -21,31 +21,6 @@
 {% trans 'XP' context 'Short form of XP' %}: {{xp|intcomma}}" />
 <meta property="profile:username" content="{{trainer.nickname}}" />
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
-
-<!-- Google Charts Data -->
-<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
-<script type='text/javascript'>
-google.charts.load('current', {'packages':['annotatedtimeline']});
-google.charts.setOnLoadCallback(drawChart);
-function drawChart() {
-  var data = new google.visualization.DataTable();
-  {% for update in update_history %}
-  {% if forloop.first %}
-  {% for field in update %}
-  {% if field.attname == 'update_time' %}data.addColumn('date', 'Date');{% else %}data.addColumn('number', '{{field.readable_name}}');{% endif %}{% endfor %}
-  data.addRows([
-    {% if trainer.start_date %}[new Date("{{trainer.start_date|date:"c"}}"){% for field in update|slice:"1:" %},0{% endfor %}],{% else %}[new Date("2016-07-05"){% for field in update|slice:"1:" %},undefined{% endfor %}],{% endif %}{% endif %}
-    [new {% for field in update %}{% if field.attname == 'update_time' %}Date("{{ field.value|date:'c' }}"){% else %},{{field.value|default_if_none:'undefined'}}{% endif %}{% if forloop.last %}]{% endif %}{% endfor %}{% if not forloop.last %},{% else %},
-    [new Date({# This comment is here because it fixes atom syntax highlighting #}"{% now 'c' %}"){% for field in update|slice:'1:' %},undefined{% endfor %}]{% endif %}
-    {% endfor %}
-  ]);
-
-  var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
-  chart.draw(data, {displayAnnotations: true});
-}
-</script>
-
-
 {% endblock %}
 
 {%block content%}
@@ -85,7 +60,6 @@ function drawChart() {
   <div class="mdl-tabs__tab-bar">
     <a href="#history-panel" class="mdl-tabs__tab is-active">{% trans "History" context "profile_category_history" %}</a>
     <a href="#badges-panel" class="mdl-tabs__tab">{% trans "Medals" context "profile_category_medals" %}</a>
-    <a href="#graph-panel" class="mdl-tabs__tab">{% trans "Graph" context "profile_category_graph" %}</a>
   </div>
 
   <div class="mdl-tabs__panel is-active" id="history-panel">
@@ -151,9 +125,5 @@ function drawChart() {
       </div>
     </div>
     {% endfor %}
-  </div>
-
-  <div class="mdl-tabs__panel" id="graph-panel">
-    <div id='chart_div' style='width: 100%; height: 550px;'></div>
   </div>
 {% endblock %}
