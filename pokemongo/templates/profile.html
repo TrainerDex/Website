@@ -66,12 +66,6 @@ function drawChart() {
           {{total_xp|intcomma}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}
         </span>
       </li>
-      {% if pokemon_info_stardust %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="pokemon_info_stardust">
-          <i class="mdl-list__item-icon">✨</i>
-          {{pokemon_info_stardust|intcomma}}
-        </span>
-      </li>{% endif %}
       {% if gymbadges_total %}<li class="mdl-list__item">
         <span class="mdl-list__item-primary-content" id="gymbadges_total">
           <i class="material-icons mdl-list__item-icon">security</i>

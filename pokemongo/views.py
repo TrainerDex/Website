@@ -152,14 +152,6 @@ def TrainerProfileView(request, trainer):
     )
     for value in _values:
         context[value[:-5]] = _values[value]
-    try:
-        context["pokemon_info_stardust"] = (
-            trainer.update_set.exclude(pokemon_info_stardust__isnull=True)
-            .latest("update_time")
-            .pokemon_info_stardust
-        )
-    except:
-        context["pokemon_info_stardust"] = None
     context["level"] = trainer.level()
     context["badges"] = badges
     context["update_history"] = []
