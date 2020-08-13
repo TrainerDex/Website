@@ -21,19 +21,19 @@
         <div id="signup_form">
           {% csrf_token %}
           <span>{{ form.non_field_errors }}</span>
-          
+
           {# Include the hidden fields #}
-          
+
           {% for hidden in form.hidden_fields %}
            {{ hidden }}
           {% endfor %}
-          
+
           {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
           {% endif %}
-          
+
           {# Include the visible fields #}
-          
+
           {% for field in form.visible_fields %}
             {% if field.field.widget.input_type == 'text' or field.field.widget.input_type == 'number' %}
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if field.errors %} is-invalid{% endif %}">
@@ -76,7 +76,7 @@
               {{field}}<br>
               {{field.errors}}<br>
             {% endif %}
-          
+
           {% endfor %}
         </div>
       </div>

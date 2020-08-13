@@ -5,7 +5,6 @@ django-allauth==0.40.0
 django-cities==0.5.0.6
 django-cookie-law==2.0.1
 django-cors-headers==2.5.0
-django-crispy-forms # Am I using this?
 django-exclusivebooleanfield==0.3.0
 django-filter>=1.0.1
 django-form-utils==1.0.3
