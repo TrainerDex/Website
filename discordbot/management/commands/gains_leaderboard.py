@@ -153,7 +153,7 @@ class Command(BaseCommand):
             ]
 
             return """**{title}**
-Week: {year}W{week} Dealine: {this_week_deadline}
+Week: {year}W{week} Dealine: {this_week_deadline} UTC
 
 {ranked}
 
@@ -161,7 +161,7 @@ Week: {year}W{week} Dealine: {this_week_deadline}
 
 Next entries will be ranked next week if they update by the deadline.
 **{lost_count}** Trainers from last week didn't update again this week.
-Next weeks deadline is: {deadline}
+Next weeks deadline is: {deadline} UTC
 """.format(
                 title=title,
                 year=week_number[0],
