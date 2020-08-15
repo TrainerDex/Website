@@ -183,7 +183,7 @@ Next weeks deadline is: {deadline}
         async def on_ready():
             for guild in client.guilds:
 
-                await gen_and_print(guild, next_week[1])
+                await self.gen_and_print(guild, next_week[1])
 
             # g: DiscordGuild = DiscordGuild.objects.get(id=guild.id)
             # channel: discord.Channel = client.get_channel(
