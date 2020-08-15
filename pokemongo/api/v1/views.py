@@ -367,7 +367,9 @@ class DiscordLeaderboardAPIView(APIView):
                 server.sync_members()
 
         output["title"] = "{title} Leaderboard".format(title=server.data["name"])
-        opt_out_roles = server.roles.filter(data__name="NoLB") | server.roles.filter(
+        opt_out_roles = server.roles.filter(
+            data__name__in=["NoLB", "TrainerDex Excluded"]
+        ) | server.roles.filter(
             exclude_roles_community_membership_discord__discord=server
         )
 
