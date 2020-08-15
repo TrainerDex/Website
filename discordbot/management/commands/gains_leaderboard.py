@@ -6,7 +6,6 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from dateutil.relativedelta import MO
 from dateutil.rrule import rrule, WEEKLY
-from humanize import naturaldate
 from humanfriendly import format_number, format_timespan
 
 from core.models import DiscordGuild
@@ -148,6 +147,7 @@ class Command(BaseCommand):
             ]
 
             return """**{title}**
+{year}W{week}
 
 {ranked}
 
@@ -157,12 +157,14 @@ class Command(BaseCommand):
 Next weeks deadline is: {deadline}
 """.format(
                 title=title,
+                year=week_number[0],
+                week=week_number[1],
                 ranked="\n".join(ranked),
                 new=", ".join([str(x) for x in new_entries]),
                 lost=", ".join([str(x) for x in dropped_trainers]),
                 new_count=format_number(len(new_entries)),
                 lost_count=format_number(len(dropped_trainers)),
-                deadline=naturaldate(deadline),
+                deadline=deadline,
             )
 
         async def gen_and_print(guild: discord.Guild, deadline: datetime):
