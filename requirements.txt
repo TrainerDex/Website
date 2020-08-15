@@ -3,7 +3,7 @@ discord.py>=1.4.0
 django==2.2.13
 django-allauth==0.42.0
 django-cities==0.6
-django-cors-headers==2.5.0
+django-cors-headers==3.4.0
 django-exclusivebooleanfield==0.3.0
 django-filter>=1.0.1
 django-form-utils==1.0.3
