@@ -133,14 +133,16 @@ class Command(BaseCommand):
             dropped_trainers: List[Trainer],
             deadline: datetime,
         ):
-            title = "Weekly Gains Leaderboard for `{guild.name}`".format(guild=guild)
+            title = "Weekly <:total_xp:743121748630831165> Gains Leaderboard for `{guild.name}`".format(
+                guild=guild
+            )
 
             if not gains:
                 return f"**{title}**\nUnfortunately, there were not valid entries this week."
 
             ranked = [
                 "#{position} **{trainer}** @ {rate}/day (+{delta})"
-                " `Interval: {interval} Gain: {then} ⇒ {now}`".format(
+                " `Interval: {interval}` `Gain: {then} ⇒ {now}`".format(
                     position=position + 1,
                     trainer=entry.trainer,
                     rate=format_number(round(entry.rate)),
@@ -161,7 +163,7 @@ Week: `{year}W{week}` Dealine: `{this_week_deadline} UTC`
 
 Next entries will be ranked next week if they update by the deadline.
 **{lost_count}** Trainers from last week didn't update again this week.
-Next weeks deadline is: `{deadline} UTC`
+**Next weeks deadline is: `{deadline} UTC`**
 """.format(
                 title=title,
                 year=week_number[0],
