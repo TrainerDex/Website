@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "cities",
-    "cookielaw",
     "rosetta",
     "core",
     "pokemongo",
