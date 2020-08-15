@@ -191,9 +191,8 @@ Next weeks deadline is: `{deadline} UTC`
                 else:
                     continue
 
-                # if g.monthly_gains_channel:
-                if guild.id == 459727475119882272:
-                    channel = client.get_channel(626746445294338058)
+                if g.monthly_gains_channel:
+                    channel = client.get_channel(g.monthly_gains_channel.id)
                     async with channel.typing():
                         (
                             gains,
