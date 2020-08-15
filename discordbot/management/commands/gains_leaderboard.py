@@ -158,8 +158,8 @@ Next weeks deadline is: {deadline}
 """.format(
                 title=title,
                 ranked="\n".join(ranked),
-                new=", ".join(new_entries),
-                lost=", ".join(dropped_trainers),
+                new=", ".join([str(x) for x in new_entries]),
+                lost=", ".join([str(x) for x in dropped_trainers]),
                 new_count=format_number(len(new_entries)),
                 lost_count=format_number(len(dropped_trainers)),
                 deadline=naturaldate(deadline),
