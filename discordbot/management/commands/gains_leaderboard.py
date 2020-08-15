@@ -65,7 +65,7 @@ class Command(BaseCommand):
         print("Starting Client")
         client = discord.Client(fetch_offline_members=True)
 
-        async def generate_leaderboard(self, guild: discord.Guild) -> DiscordGuild:
+        async def generate_leaderboard(guild: discord.Guild) -> DiscordGuild:
             ex_roles: List[discord.Roles] = [
                 x for x in guild.roles if x.name in ("NoLB", "TrainerDex Exclude")
             ]
@@ -130,7 +130,6 @@ class Command(BaseCommand):
             return (gains, new_entries, dropped_trainers)
 
         async def format_leaderboard_as_text(
-            self,
             guild: discord.Guild,
             gains: List[Gain],
             new_entries: List[Trainer],
@@ -170,11 +169,9 @@ Next weeks deadline is: {deadline}
                 deadline=naturaldate(deadline),
             )
 
-        async def gen_and_print(self, guild: discord.Guild, deadline: datetime):
-            gains, new_entries, dropped_trainers = await self.generate_leaderboard(
-                guild
-            )
-            text = await self.format_leaderboard_as_text(
+        async def gen_and_print(guild: discord.Guild, deadline: datetime):
+            gains, new_entries, dropped_trainers = await generate_leaderboard(guild)
+            text = await format_leaderboard_as_text(
                 guild, gains, new_entries, dropped_trainers, deadline
             )
             print(text)
@@ -183,7 +180,7 @@ Next weeks deadline is: {deadline}
         async def on_ready():
             for guild in client.guilds:
 
-                await self.gen_and_print(guild, next_week[1])
+                await gen_and_print(guild, next_week[1])
 
             # g: DiscordGuild = DiscordGuild.objects.get(id=guild.id)
             # channel: discord.Channel = client.get_channel(
