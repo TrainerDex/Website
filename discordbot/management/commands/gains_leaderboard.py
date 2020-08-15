@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Iterable, List
+from typing import Iterable, List, Union
 
 import discord
 from django.conf import settings
@@ -60,7 +60,9 @@ class Command(BaseCommand):
         print("Starting Client")
         client = discord.Client(fetch_offline_members=True)
 
-        async def generate_leaderboard(guild: discord.Guild) -> DiscordGuild:
+        async def generate_leaderboard(
+            guild: discord.Guild,
+        ) -> Iterable[Union[List[Gain], List[Trainer]]]:
             ex_roles: List[discord.Roles] = [
                 x for x in guild.roles if x.name in ("NoLB", "TrainerDex Exclude")
             ]
