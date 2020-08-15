@@ -8,7 +8,7 @@ from dateutil.relativedelta import MO
 from dateutil.rrule import rrule, WEEKLY
 from humanfriendly import format_number, format_timespan
 
-from core.models import DiscordGuild
+from core.models import DiscordGuildSettings
 from pokemongo.models import Trainer, Update
 from pokemongo.shortcuts import filter_leaderboard_qs
 
@@ -182,13 +182,16 @@ Next weeks deadline is: {deadline}
         @client.event
         async def on_ready():
             for guild in client.guilds:
-                try:
-                    g: DiscordGuild = DiscordGuild.objects.get(id=guild.id)
-                except DiscordGuild.DoesNotExist:
-                    pass
+                if DiscordGuildSettings.objects.filter(id=guild.id).exists():
+                    g: DiscordGuildSettings = DiscordGuildSettings.objects.get(
+                        id=guild.id
+                    )
                 else:
+                    continue
+
+                if g.monthly_gains_channel:
                     channel: discord.Channel = client.get_channel(
-                        g.discordguildsettings.monthly_gains_channel.id
+                        g.monthly_gains_channel.id
                     )
                     print(guild.name, "would post to", channel.name)
                     await gen_and_print(guild, next_week[1])
