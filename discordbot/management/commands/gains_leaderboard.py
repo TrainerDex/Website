@@ -6,7 +6,6 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from dateutil.relativedelta import MO
 from dateutil.rrule import rrule, WEEKLY
-from dateutil.tz import UTC
 from humanize import naturaldate
 from humanfriendly import format_number, format_timespan
 
@@ -44,10 +43,7 @@ class Gain:
 
     @property
     def rate(self):
-        return round(
-            number=(self.stat_delta / self.days),
-            digits=(2 if self.stat == "badge_travel_km" else 0),
-        )
+        return self.stat_delta / self.days
 
 
 class Command(BaseCommand):
@@ -142,7 +138,7 @@ class Command(BaseCommand):
                 " (Rate: {rate}, Interval: {interval}, Gain: {then} ⇒ {now} (+{delta}))".format(
                     position=position,
                     trainer=entry.trainer,
-                    rate=format_number(entry.rate),
+                    rate=format_number(round(entry.rate)),
                     interval=format_timespan(entry.time_delta, max_units=2),
                     then=format_number(entry.last_week_stat),
                     now=format_number(entry.this_week_stat),
