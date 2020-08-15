@@ -9,7 +9,7 @@ from core.models import (
 )
 from core.shortcuts import dict_to_choices
 from collections import defaultdict
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 from decimal import Decimal
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
@@ -21,6 +21,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy, npgettext_lazy
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
