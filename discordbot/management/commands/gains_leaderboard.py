@@ -133,15 +133,15 @@ class Command(BaseCommand):
         ):
             title = "Weekly Gains Leaderboard for {guild.name}".format(guild=guild)
             ranked = [
-                "#{position} **{trainer}**"
-                " (Rate: {rate}, Interval: {interval}, Gain: {then} ⇒ {now} (+{delta}))".format(
-                    position=position,
+                "#{position} **{trainer}** @ {rate}/day (+{delta})"
+                " (Interval: {interval}, Gain: {then} ⇒ {now})".format(
+                    position=position + 1,
                     trainer=entry.trainer,
                     rate=format_number(round(entry.rate)),
+                    delta=format_number(entry.stat_delta),
                     interval=format_timespan(entry.time_delta, max_units=2),
                     then=format_number(entry.last_week_stat),
                     now=format_number(entry.this_week_stat),
-                    delta=format_number(entry.stat_delta),
                 )
                 for position, entry in enumerate(gains)
             ]
@@ -152,8 +152,9 @@ class Command(BaseCommand):
 {ranked}
 
 **{new_count}** New entries: {new}
-**{lost_count}** Lost entries: {lost}
 
+Next entries will be ranked next week if they update by the deadline.
+**{lost_count}** didn't update again this week.
 Next weeks deadline is: {deadline}
 """.format(
                 title=title,
@@ -161,7 +162,6 @@ Next weeks deadline is: {deadline}
                 week=week_number[1],
                 ranked="\n".join(ranked),
                 new=", ".join([str(x) for x in new_entries]),
-                lost=", ".join([str(x) for x in dropped_trainers]),
                 new_count=format_number(len(new_entries)),
                 lost_count=format_number(len(dropped_trainers)),
                 deadline=deadline,
