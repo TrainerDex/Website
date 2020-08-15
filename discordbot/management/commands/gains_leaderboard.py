@@ -216,10 +216,10 @@ Next weeks deadline is: {deadline} UTC
 
                         for x, y in enumerate(message_parts):
                             if x == 0:
-                                msg = await channel.send(x)
+                                msg = await channel.send(y)
                                 await msg.pin()
                             else:
-                                await channel.send(x)
+                                await channel.send(y)
 
             await client.close()
 
