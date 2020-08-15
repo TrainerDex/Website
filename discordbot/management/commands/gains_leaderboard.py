@@ -192,27 +192,38 @@ Next weeks deadline is: {deadline} UTC
                     continue
 
                 if g.monthly_gains_channel:
-                    channel: discord.Channel = client.get_channel(
-                        g.monthly_gains_channel.id
-                    )
-                    print(guild.name, "would post to", channel.name)
-                    await gen_and_print(guild, next_week[1])
+                    if g.id == 459727475119882272:
+                        channel = client.get_channel(626746445294338058)
+                        async with channel.typing():
+                            (
+                                gains,
+                                new_entries,
+                                dropped_trainers,
+                            ) = await generate_leaderboard(g)
+                            text = await format_leaderboard_as_text(
+                                guild,
+                                gains,
+                                new_entries,
+                                dropped_trainers,
+                                next_week[1],
+                            )
 
-            # print("Splitting and sending message")
-            # message = ""
-            # message_parts = []
-            # for part in leaderboard_text.split("\n"):
-            #     if len(message + part + "\n") > 2000:
-            #         message_parts.append(message)
-            #         message = part + "\n"
-            #     else:
-            #         message += part + "\n"
-            # message_parts.append(message)
-            # del message
-            #
-            # for message in message_parts:
-            #     msg = await channel.send(message)
-            #     await msg.pin()
+                            message = ""
+                            message_parts = []
+                            for part in text.split("\n"):
+                                if len(message + part + "\n") > 2000:
+                                    message_parts.append(message)
+                                    message = part + "\n"
+                                else:
+                                    message += part + "\n"
+                            message_parts.append(message)
+
+                            for x, y in enumerate(message_parts):
+                                if x == 0:
+                                    msg = await channel.send(x)
+                                    await msg.pin()
+                                else:
+                                    await channel.send(x)
 
             await client.close()
 
