@@ -1,6 +1,8 @@
 import logging
 import requests
 import re
+from typing import Dict, List, Union, Optional
+
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.contrib.postgres import fields as postgres_fields
@@ -11,26 +13,24 @@ from django.dispatch import receiver
 from django.utils.encoding import force_text
 from django.utils.translation import gettext_lazy as _, ngettext
 from django.utils import timezone
+
 from datetime import timedelta
 from pytz import common_timezones
 
 logger = logging.getLogger("django.trainerdex")
 
 
-def get_guild_info(guild_id: int):
+def get_guild_info(guild_id: int) -> Dict:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/guilds/{guild_id}",
         headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
     )
-    try:
-        r.raise_for_status()
-    except:
-        return r.status_code
+    r.raise_for_status()
     return r.json()
 
 
-def get_guild_members(guild_id: int, limit=1000):
+def get_guild_members(guild_id: int, limit=1000) -> List[Dict]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     previous = None
     more = True
@@ -49,7 +49,7 @@ def get_guild_members(guild_id: int, limit=1000):
     return result
 
 
-def get_guild_member(guild_id: int, user_id: int):
+def get_guild_member(guild_id: int, user_id: int) -> Dict:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/guilds/{guild_id}/members/{user_id}",
@@ -59,7 +59,7 @@ def get_guild_member(guild_id: int, user_id: int):
     return r.json()
 
 
-def get_guild_channels(guild_id: int):
+def get_guild_channels(guild_id: int) -> List[Dict]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/guilds/{guild_id}/channels",
@@ -69,7 +69,7 @@ def get_guild_channels(guild_id: int):
     return r.json()
 
 
-def get_channel(channel_id: int):
+def get_channel(channel_id: int) -> Dict:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/channels/{channel_id}",
@@ -81,7 +81,7 @@ def get_channel(channel_id: int):
 
 class DiscordGuild(models.Model):
     id = models.BigIntegerField(primary_key=True, verbose_name="ID",)
-    data = postgres_fields.JSONField(null=True, blank=True,)
+    data = postgres_fields.JSONField(null=True, blank=True)
     cached_date = models.DateTimeField(auto_now_add=True)
     has_access = models.BooleanField(default=False)
     members = models.ManyToManyField(
@@ -90,64 +90,58 @@ class DiscordGuild(models.Model):
         through_fields=("guild", "user"),
     )
 
-    def _outdated(self):
+    def _outdated(self) -> bool:
         return (timezone.now() - self.cached_date) > timedelta(hours=1)
 
     _outdated.boolean = True
     outdated = property(_outdated)
 
-    def has_data(self):
+    def has_data(self) -> bool:
         return bool(self.data)
 
     has_data.boolean = True
     has_data.short_description = "got data"
 
     @property
-    def name(self):
-        if self.data and "name" in self.data:
-            return self.data["name"]
+    def name(self) -> str:
+        return self.data.get("name")
 
     @property
-    def normalized_name(self):
-        if self.data and "name" in self.data:
-            return re.sub(r"(?:Pok[eé]mon?\s?(Go)?(GO)?\s?-?\s)", "", self.data["name"])
+    def normalized_name(self) -> str:
+        if self.name:
+            return re.sub(r"(?:Pok[eé]mon?\s?(Go)?(GO)?\s?-?\s)", "", self.name)
 
     @property
-    def owner(self):
-        if self.data:
-            if "owner_id" in self.data:
-                try:
-                    return DiscordUser.objects.get(uid=self.data["owner_id"])
-                except SocialAccount.DoesNotExist:
-                    pass
-            return self.data["owner_id"]
+    def owner(self) -> Union[int, SocialAccount]:
+        if self.data.get("owner_id"):
+            try:
+                return DiscordUser.objects.get(uid=self.data.get("owner_id"))
+            except DiscordUser.DoesNotExist:
+                pass
+        return self.data.get("owner_id")
 
-    def __str__(self):
-        try:
-            return str(self.name)
-        except:
-            return f"Discord Guild with ID {self.id}"
+    def __str__(self) -> str:
+        return self.name or f"Discord Guild with ID {self.id}"
 
-    def refresh_from_api(self):
+    def refresh_from_api(self) -> None:
         logging.info(f"Updating {self}")
         try:
-            data_or_code = get_guild_info(self.id)
-            if type(data_or_code) == int:
-                self.has_access = False
-            else:
-                self.data = data_or_code
-                self.has_access = True
-                self.cached_date = timezone.now()
-                self.sync_roles()
-        except:
+            data = get_guild_info(self.id)
+            self.data = data
+            self.has_access = True
+            self.cached_date = timezone.now()
+        except requests.exceptions.HTTPError:
+            self.has_access = False
             logger.exception("Failed to get server information from Discord")
         else:
+            self.sync_roles()
+        finally:
             self.save()
 
-    def sync_members(self):
+    def sync_members(self) -> Dict[str, List[str]]:
         try:
             guild_api_members = get_guild_members(self.id)
-        except:
+        except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
             return {"warning": ["Failed to get server information from Discord"]}
         added_people = []
@@ -194,13 +188,8 @@ class DiscordGuild(models.Model):
             ],
         }
 
-    def sync_roles(self):
-        try:
-            guild_roles = self.data["roles"]
-        except:
-            logger.exception("Failed to get server information from Discord")
-            return None
-
+    def sync_roles(self) -> None:
+        guild_roles = self.data.get("roles")
         for role in guild_roles:
             DiscordRole.objects.get_or_create(
                 id=int(role["id"]),
@@ -208,21 +197,20 @@ class DiscordGuild(models.Model):
                 defaults={"data": role, "cached_date": timezone.now()},
             )
 
-    def download_channels(self):
+    def download_channels(self) -> None:
         try:
             guild_channels = get_guild_channels(self.id)
-        except:
+        except requests.exceptions.HTTPError:
             logger.exception("Failed to get information")
-            return None
+        else:
+            for channel in guild_channels:
+                DiscordChannel.objects.get_or_create(
+                    id=int(channel["id"]),
+                    guild=self,
+                    defaults={"data": channel, "cached_date": timezone.now()},
+                )
 
-        for channel in guild_channels:
-            DiscordChannel.objects.get_or_create(
-                id=int(channel["id"]),
-                guild=self,
-                defaults={"data": channel, "cached_date": timezone.now()},
-            )
-
-    def clean(self):
+    def clean(self) -> None:
         self.refresh_from_api()
 
     class Meta:
@@ -269,19 +257,6 @@ class DiscordGuildSettings(DiscordGuild):
         ],
     )
 
-    # Needed for discordbot/welcome.py
-    welcomer = models.BooleanField(default=False)
-    welcomer_message_new = models.TextField(blank=True, null=True)
-    welcomer_message_existing = models.TextField(blank=True, null=True)
-    welcomer_channel = models.OneToOneField(
-        "DiscordChannel",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="welcomer_channel",
-        limit_choices_to={"data__type": 0},
-    )
-
     # Needed for discordbot/management/commands/leaderboard_cron.py
     monthly_gains_channel = models.OneToOneField(
         "DiscordChannel",
@@ -294,10 +269,10 @@ class DiscordGuildSettings(DiscordGuild):
 
 
 @receiver(post_save, sender=DiscordGuild)
-def new_guild(sender, **kwargs):
+def new_guild(sender, **kwargs) -> None:
     if kwargs["created"]:
+        DiscordGuildSettings.objects.get_or_create(pk=kwargs["instance"].id)
         kwargs["instance"].sync_members()
-    return None
 
 
 class DiscordChannel(models.Model):
@@ -308,79 +283,55 @@ class DiscordChannel(models.Model):
     data = postgres_fields.JSONField(null=True, blank=True,)
     cached_date = models.DateTimeField(auto_now_add=True,)
 
-    def _outdated(self):
+    def _outdated(self) -> bool:
         return (timezone.now() - self.cached_date) > timedelta(days=1)
 
     _outdated.boolean = True
     outdated = property(_outdated)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     @property
-    def type(self):
-        if self.data and "type" in self.data:
-            channel_types = [
-                "Text Channel",
-                "DM",
-                "Voice Channel",
-                "Group DM",
-                "Category",
-            ]
-            return channel_types[self.data["type"]]
+    def type(self) -> str:
+        channel_types = {
+            0: "GUILD_TEXT",
+            1: "DM",
+            2: "GUILD_VOICE",
+            3: "GROUP_DM",
+            4: "GUILD_CATEGORY",
+            5: "GUILD_NEWS",
+            6: "GUILD_STORE",
+        }
+        return channel_types.get(self.data.get("type"), "UNKNOWN")
 
     @property
-    def position(self):
-        if self.data and "position" in self.data:
-            return self.data["position"]
+    def position(self) -> Optional[int]:
+        return self.data.get("position")
 
     @property
-    def name(self):
-        if self.data and "name" in self.data:
-            return self.data["name"]
+    def name(self) -> Optional[str]:
+        return self.data.get("name")
 
     @property
-    def topic(self):
-        if self.data and "topic" in self.data:
-            return self.data["topic"]
+    def topic(self) -> Optional[str]:
+        return self.data.get("topic")
 
-    def _nsfw(self):
-        if self.data and "nsfw" in self.data:
-            return self.data["nsfw"]
+    def _nsfw(self) -> Optional[bool]:
+        return self.data.get("nsfw")
 
     _nsfw.boolean = True
     nsfw = property(_nsfw)
 
-    @property
-    def recipients(self):
-        if self.data and "recipients" in self.data:
-            return SocialAccount.objects.filter(
-                provider="discord", uid__in=[x["id"] for x in self.data["recipients"]]
-            )
-        return SocialAccount.objects.none()
-
-    @property
-    def parent(self):
-        if self.data and "parent_id" in self.data:
-            try:
-                return DiscordChannel.objects.get(id=self.data["parent_id"])
-            except DiscordChannel.DoesNotExist:
-                pass
-        return DiscordChannel.objects.none()
-
-    @property
-    def children(self):
-        return DiscordChannel.objects.filter(data__parent_id=str(self.id))
-
-    def refresh_from_api(self):
+    def refresh_from_api(self) -> None:
         logger.info(f"Updating {self}")
         try:
             self.data = get_channel(self.id)
             self.cached_date = timezone.now()
-        except:
+        except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
 
-    def clean(self):
+    def clean(self) -> None:
         self.refresh_from_api()
 
     class Meta:
@@ -396,66 +347,58 @@ class DiscordRole(models.Model):
     data = postgres_fields.JSONField(null=True, blank=True,)
     cached_date = models.DateTimeField(auto_now_add=True,)
 
-    def _outdated(self):
+    def _outdated(self) -> bool:
         return (timezone.now() - self.cached_date) > timedelta(days=1)
 
     _outdated.boolean = True
     outdated = property(_outdated)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} in {self.guild}"
 
     @property
-    def name(self):
-        if self.data and "name" in self.data:
-            return self.data["name"]
+    def name(self) -> str:
+        return self.data.get("name")
 
     @property
-    def color(self):
-        if self.data and "color" in self.data:
-            if self.data["color"] != 0:
-                return self.data["color"]
+    def color(self) -> int:
+        return self.data.get("color")
 
-    def _hoist(self):
-        if self.data and "hoist" in self.data:
-            return self.data["hoist"]
+    def _hoist(self) -> bool:
+        return self.data.get("hoist")
 
     _hoist.boolean = True
     hoist = property(_hoist)
 
     @property
-    def position(self):
-        if self.data and "position" in self.data:
-            return self.data["position"]
+    def position(self) -> int:
+        return self.data.get("position")
 
     @property
-    def permissions(self):
-        if self.data and "permissions" in self.data:
-            return self.data["permissions"]
+    def permissions(self) -> int:
+        return self.data.get("permissions")
 
-    def _managed(self):
-        if self.data and "managed" in self.data:
-            return self.data["managed"]
+    def _managed(self) -> bool:
+        return self.data.get("managed")
 
     _managed.short_description = "managed"
     managed = property(_managed)
 
-    def _mentionable(self):
-        if self.data and "mentionable" in self.data:
-            return self.data["mentionable"]
+    def _mentionable(self) -> bool:
+        return self.data.get("mentionable")
 
     _mentionable.short_description = "mentionable"
     mentionable = property(_mentionable)
 
-    def refresh_from_api(self):
+    def refresh_from_api(self) -> None:
         logger.info(f"Updating {self}")
         try:
             self.data = get_channel(self.id)
             self.cached_date = timezone.now()
-        except:
+        except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
 
-    def clean(self):
+    def clean(self) -> None:
         self.refresh_from_api()
 
     class Meta:
@@ -476,7 +419,7 @@ class DiscordUserManager(models.Manager):
 class DiscordUser(SocialAccount):
     objects = DiscordUserManager()
 
-    def __str__(self):
+    def __str__(self) -> str:
         if "username" in self.extra_data and "discriminator" in self.extra_data:
             return f"{self.extra_data['username']}#{self.extra_data['discriminator']}"
         else:
@@ -497,13 +440,13 @@ class DiscordGuildMembership(models.Model):
     data = postgres_fields.JSONField(null=True, blank=True,)
     cached_date = models.DateTimeField(auto_now_add=True,)
 
-    def _outdated(self):
+    def _outdated(self) -> bool:
         return (timezone.now() - self.cached_date) > timedelta(days=1)
 
     _outdated.boolean = True
     outdated = property(_outdated)
 
-    def _change_nick(self, nick: str):
+    def _change_nick(self, nick: str) -> None:
         base_url = "https://discordapp.com/api/v{version_number}".format(
             version_number=6
         )
@@ -520,58 +463,52 @@ class DiscordGuildMembership(models.Model):
         self.refresh_from_api()
 
     @property
-    def nick(self):
-        if self.data and "nick" in self.data:
-            return self.data["nick"]
+    def nick(self) -> Optional[str]:
+        return self.data.get("nick")
 
     @property
-    def display_name(self):
-        if self.data:
-            return self.nick or self.data["user"]["username"]
-        else:
-            return self.user
+    def display_name(self) -> str:
+        return self.nick or str(self.user)
 
     @property
-    def roles(self):
-        if self.data and "roles" in self.data:
+    def roles(self) -> List[DiscordRole]:
+        if self.data.get("roles"):
             return DiscordRole.objects.filter(
-                id__in=[str(x) for x in self.data["roles"]]
+                id__in=[str(x) for x in self.data.get("roles")]
             )
         else:
             return DiscordRole.objects.none()
 
-    def _deaf(self):
-        if self.data and "deaf" in self.data:
+    def _deaf(self) -> bool:
+        if self.data.get("deaf"):
             return self.data["deaf"]
 
     _deaf.boolean = True
     deaf = property(_deaf)
 
-    def _mute(self):
-        if self.data and "mute" in self.data:
+    def _mute(self) -> bool:
+        if self.data.get("mute"):
             return self.data["mute"]
 
     _mute.boolean = True
     mute = property(_mute)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.display_name} in {self.guild}"
 
-    def refresh_from_api(self):
+    def refresh_from_api(self) -> None:
         logger.info(f"Updating {self}")
         try:
             self.data = get_guild_member(self.guild.id, self.user.uid)
+        except requests.exceptions.HTTPError:
+            logger.exception("Failed to get server information from Discord")
+        else:
             if not self.user.extra_data:
                 self.user.extra_data = self.data["user"]
                 self.user.save()
             self.cached_date = timezone.now()
-        except:
-            logger.exception("Failed to get server information from Discord")
 
-    def clean(self):
-        if self.user.provider != "discord":
-            raise ValidationError(_("{} is not of type 'discord'").format(self.user))
-
+    def clean(self) -> None:
         self.refresh_from_api()
 
     class Meta:

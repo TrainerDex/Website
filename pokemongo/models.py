@@ -7,7 +7,6 @@ from core.models import (
     DiscordRole,
     DiscordGuildMembership,
 )
-from core.shortcuts import dict_to_choices
 from collections import defaultdict
 from datetime import date, datetime, timedelta
 from decimal import Decimal
@@ -103,7 +102,7 @@ class Trainer(models.Model):
         help_text=_("The date you created your Pokémon Go account."),
     )
     faction = models.SmallIntegerField(
-        choices=dict_to_choices(settings.TEAMS),
+        choices=list(settings.TEAMS.items()),
         null=True,
         verbose_name=pgettext_lazy("faction", "Team"),
     )
