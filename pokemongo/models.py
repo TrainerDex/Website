@@ -1,15 +1,12 @@
 import uuid
 import logging
-
-from cities.models import Country, Region
-from core.models import (
-    DiscordGuild,
-    DiscordRole,
-    DiscordGuildMembership,
-)
+from typing import List, Optional, NoReturn
 from collections import defaultdict
 from datetime import date, datetime, timedelta
 from decimal import Decimal
+from os.path import splitext
+from pytz import common_timezones
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -22,7 +19,15 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy, npgettext_lazy
+
 from exclusivebooleanfield.fields import ExclusiveBooleanField
+from cities.models import Country, Region
+
+from core.models import (
+    DiscordGuild,
+    DiscordRole,
+    DiscordGuildMembership,
+)
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from pokemongo.shortcuts import (
     level_parser,
@@ -32,20 +37,18 @@ from pokemongo.shortcuts import (
     lookup,
     UPDATE_NON_REVERSEABLE_FIELDS,
 )
-from os.path import splitext
-from pytz import common_timezones
 
 logger = logging.getLogger("django.trainerdex")
 User = get_user_model()
 
 
-def VerificationImagePath(instance, filename):
+def VerificationImagePath(instance, filename: str) -> str:
     return "v_{0}_{1}{ext}".format(
         instance.owner.id, datetime.utcnow().timestamp(), ext=splitext(filename)[1]
     )
 
 
-def VerificationUpdateImagePath(instance, filename):
+def VerificationUpdateImagePath(instance, filename: str) -> str:
     return "v_{0}/v_{1}_{2}{ext}".format(
         instance.trainer.owner.id,
         instance.trainer.id,
@@ -54,7 +57,7 @@ def VerificationUpdateImagePath(instance, filename):
     )
 
 
-def get_path_for_badges(instance, filename):
+def get_path_for_badges(instance, filename: str) -> str:
     return f"profile/badges/{instance.slug}{splitext(filename)[1]}"
 
 
@@ -65,16 +68,16 @@ class Faction:
         self.id = id
         self.verbose_name = settings.TEAMS[self.id]
 
-    def get_image_url(self):
+    def get_image_url(self) -> str:
         return static(f"img/faction/{self.id}.png")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.verbose_name)
 
     def __hash__(self):
-        return self.id
+        return hash(self.id)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, int):
             return self.id == other
         elif isinstance(other, Faction):
@@ -82,12 +85,11 @@ class Faction:
         else:
             raise NotImplementedError
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         return True
 
 
 class Trainer(models.Model):
-
     owner = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -116,26 +118,13 @@ class Trainer(models.Model):
         default=True,
         verbose_name=pgettext_lazy("Profile_Category_Stats", "Statistics"),
         help_text=_(
-            "Would you like to be shown on the leaderboard? Ticking this box gives us permission to process your data."
+            "Would you like to be shown on the leaderboard?"
+            " Ticking this box gives us permission to process your data."
         ),
     )
 
-    daily_goal = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        verbose_name=_("Rate Goal"),
-        help_text=_(
-            "Our Discord bot lets you know if you've reached you goals or not: How much XP do you aim to gain a day?"
-        ),
-    )
-    total_goal = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        verbose_name=_("Reach Goal"),
-        help_text=_(
-            "Our Discord bot lets you know if you've reached you goals or not: How much XP are you aiming for next?"
-        ),
-    )
+    daily_goal = models.PositiveIntegerField(null=True, blank=True)
+    total_goal = models.PositiveIntegerField(null=True, blank=True)
 
     trainer_code = models.CharField(
         null=True,
@@ -144,7 +133,7 @@ class Trainer(models.Model):
         max_length=15,
         verbose_name=pgettext_lazy("friend_code_title", "Trainer Code"),
         help_text=_(
-            "Fancy sharing your trainer code? (Disclaimer: This information will be public)"
+            "Fancy sharing your trainer code?" " (This information is public.)"
         ),
     )
 
@@ -167,13 +156,13 @@ class Trainer(models.Model):
         help_text=_("Where are you based?"),
     )
 
-    verified = models.BooleanField(default=False, verbose_name=_("Verified"),)
+    verified = models.BooleanField(default=False, verbose_name=_("Verified"))
     last_modified = models.DateTimeField(
         auto_now=True, verbose_name=_("Last Modified"),
     )
 
-    event_10b = models.BooleanField(default=False,)
-    event_1k_users = models.BooleanField(default=False,)
+    event_10b = models.BooleanField(default=False)
+    event_1k_users = models.BooleanField(default=False)
 
     verification = models.ImageField(
         upload_to=VerificationImagePath,
@@ -181,16 +170,16 @@ class Trainer(models.Model):
         verbose_name=_("Username / Level / Team Screenshot"),
     )
 
-    def team(self):
+    def team(self) -> Faction:
         return Faction(int(self.faction))
 
-    def has_cheated(self):
+    def has_cheated(self) -> bool:
         return bool(self.last_cheated)
 
     has_cheated.boolean = True
     has_cheated.short_description = _("Historic Cheater")
 
-    def currently_cheats(self):
+    def currently_cheats(self) -> bool:
         if (
             self.last_cheated
             and self.last_cheated + timedelta(weeks=26) > timezone.now().date()
@@ -202,21 +191,19 @@ class Trainer(models.Model):
     currently_cheats.boolean = True
     currently_cheats.short_description = _("Cheater")
 
-    def is_prefered(self):
+    def is_prefered(self) -> bool:
         return True
 
-    def flag_emoji(self):
+    def flag_emoji(self) -> Optional[str]:
         if self.leaderboard_country:
             return lookup(self.leaderboard_country.code)
-        else:
-            return None
 
-    def submitted_picture(self):
+    def submitted_picture(self) -> bool:
         return bool(self.verification)
 
     submitted_picture.boolean = True
 
-    def awaiting_verification(self):
+    def awaiting_verification(self) -> bool:
         if bool(self.verification) is True and bool(self.verified) is False:
             return True
         return False
@@ -224,36 +211,35 @@ class Trainer(models.Model):
     awaiting_verification.boolean = True
     awaiting_verification.short_description = _("Ready to be verified!")
 
-    def is_verified(self):
+    def is_verified(self) -> bool:
         return self.verified
 
     is_verified.boolean = True
     is_verified.short_description = _("Verified")
 
-    def is_verified_and_saved(self):
+    def is_verified_and_saved(self) -> bool:
         return bool(bool(self.verified) and bool(self.verification))
 
     is_verified_and_saved.boolean = True
 
-    def is_on_leaderboard(self):
+    def is_on_leaderboard(self) -> bool:
         return bool(
             self.is_verified and self.statistics and not self.currently_cheats()
         )
 
     is_on_leaderboard.boolean = True
 
-    def level(self):
+    def level(self) -> Optional[int]:
         updates = self.update_set.exclude(total_xp__isnull=True)
         if updates.exists():
             return updates.latest("update_time").level()
-        return None
 
     @property
-    def active(self):
+    def active(self) -> bool:
         return self.owner.is_active
 
     @property
-    def profile_complete(self):
+    def profile_complete(self) -> bool:
         return bool(
             bool(self.owner)
             and bool(self.username)
@@ -262,11 +248,11 @@ class Trainer(models.Model):
         )
 
     @property
-    def profile_completed_optional(self):
+    def profile_completed_optional(self) -> bool:
         return self.profile_complete
 
     @property
-    def nickname(self):
+    def nickname(self) -> str:
         """Gets nickname, fallback to User username"""
         try:
             return self.nickname_set.get(active=True).nickname
@@ -274,11 +260,11 @@ class Trainer(models.Model):
             return self.owner.username
 
     @property
-    def username(self):
+    def username(self) -> str:
         """Alias for nickname"""
         return self.nickname
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.nickname
 
     def get_absolute_url(self):
@@ -292,11 +278,10 @@ class Trainer(models.Model):
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_profile(sender, **kwargs):
+def create_profile(sender, **kwargs) -> Optional[Trainer]:
     if kwargs["created"]:
         trainer = Trainer.objects.create(owner=kwargs["instance"])
         return trainer
-    return None
 
 
 class Nickname(models.Model):
@@ -313,14 +298,14 @@ class Nickname(models.Model):
         db_index=True,
         verbose_name=pgettext_lazy("onboard_enter_name_hint", "Nickname"),
     )
-    active = ExclusiveBooleanField(on="trainer",)
+    active = ExclusiveBooleanField(on="trainer")
 
-    def clean(self):
+    def clean(self) -> None:
         if self.active and self.trainer.owner.username != self.nickname:
             self.trainer.owner.username = self.nickname
             self.trainer.owner.save()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.nickname
 
     class Meta:
@@ -328,7 +313,7 @@ class Nickname(models.Model):
 
 
 @receiver(post_save, sender=Trainer)
-def new_trainer_set_nickname(sender, **kwargs):
+def new_trainer_set_nickname(sender, **kwargs) -> Optional[Nickname]:
     if kwargs["created"]:
         nickname = Nickname.objects.create(
             trainer=kwargs["instance"],
@@ -336,7 +321,6 @@ def new_trainer_set_nickname(sender, **kwargs):
             active=True,
         )
         return nickname
-    return None
 
 
 class Update(models.Model):
@@ -857,12 +841,11 @@ class Update(models.Model):
         verbose_name=pgettext_lazy("pokemon_info_stardust_label", "Stardust"),
     )
 
-    def level(self):
+    def level(self) -> Optional[int]:
         if self.total_xp:
             return level_parser(xp=self.total_xp).level
-        return None
 
-    def __str__(self):
+    def __str__(self) -> str:
         return _("Update(trainer: {trainer}, update_time: {time}, {stats})").format(
             trainer=self.trainer,
             time=self.update_time,
@@ -871,12 +854,12 @@ class Update(models.Model):
             ),
         )
 
-    def has_modified_extra_fields(self):
+    def has_modified_extra_fields(self) -> bool:
         return bool(self.modified_extra_fields())
 
     has_modified_extra_fields.boolean = True
 
-    def modified_fields(self):
+    def modified_fields(self) -> List[str]:
         return [
             x
             for x in (
@@ -894,7 +877,7 @@ class Update(models.Model):
             if getattr(self, x)
         ]
 
-    def modified_extra_fields(self):
+    def modified_extra_fields(self) -> List[str]:
         return [
             x
             for x in (
@@ -911,7 +894,7 @@ class Update(models.Model):
             if getattr(self, x)
         ]
 
-    def clean(self):
+    def clean(self) -> NoReturn:
         if not self.trainer:
             return
 
@@ -2393,7 +2376,7 @@ class Update(models.Model):
 
 
 @receiver(post_save, sender=Update)
-def update_discord_level(sender, **kwargs):
+def update_discord_level(sender, **kwargs) -> None:
     if kwargs["created"] and kwargs["instance"].total_xp:
         level = kwargs["instance"].level()
         for discord in DiscordGuildMembership.objects.exclude(active=False).filter(
@@ -2426,15 +2409,15 @@ def update_discord_level(sender, **kwargs):
 
 
 class ProfileBadge(models.Model):
-    slug = models.SlugField(db_index=True, primary_key=True,)
-    title = models.CharField(db_index=True, max_length=20,)
-    description = models.CharField(db_index=True, max_length=240,)
-    badge = models.ImageField(upload_to=get_path_for_badges,)
+    slug = models.SlugField(db_index=True, primary_key=True)
+    title = models.CharField(db_index=True, max_length=20)
+    description = models.CharField(db_index=True, max_length=240)
+    badge = models.ImageField(upload_to=get_path_for_badges)
     members = models.ManyToManyField(
         Trainer, through="ProfileBadgeHoldership", through_fields=("badge", "trainer"),
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
     class Meta:
@@ -2443,8 +2426,8 @@ class ProfileBadge(models.Model):
 
 
 class ProfileBadgeHoldership(models.Model):
-    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE,)
-    badge = models.ForeignKey(ProfileBadge, on_delete=models.CASCADE,)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+    badge = models.ForeignKey(ProfileBadge, on_delete=models.CASCADE)
     awarded_by = models.ForeignKey(
         Trainer,
         null=True,
@@ -2452,10 +2435,10 @@ class ProfileBadgeHoldership(models.Model):
         on_delete=models.SET_NULL,
         related_name="badges_awarded",
     )
-    awarded_on = models.DateTimeField(auto_now_add=True,)
-    reason_given = models.CharField(max_length=64,)
+    awarded_on = models.DateTimeField(auto_now_add=True)
+    reason_given = models.CharField(max_length=64)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.trainer} - {self.badge}"
 
 
@@ -2473,9 +2456,9 @@ class Community(models.Model):
         choices=((x, x) for x in common_timezones),
         max_length=len(max(common_timezones, key=len)),
     )
-    name = models.CharField(max_length=70,)
-    description = models.TextField(null=True, blank=True,)
-    handle = models.SlugField(unique=True,)
+    name = models.CharField(max_length=70)
+    description = models.TextField(null=True, blank=True)
+    handle = models.SlugField(unique=True)
 
     privacy_public = models.BooleanField(
         default=False,
@@ -2503,7 +2486,7 @@ class Community(models.Model):
         ),
     )
 
-    memberships_personal = models.ManyToManyField(Trainer, blank=True,)
+    memberships_personal = models.ManyToManyField(Trainer, blank=True)
     memberships_discord = models.ManyToManyField(
         DiscordGuild,
         through="CommunityMembershipDiscord",
@@ -2511,7 +2494,7 @@ class Community(models.Model):
         blank=True,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     def get_members(self):
@@ -2533,8 +2516,8 @@ class Community(models.Model):
 
 
 class CommunityMembershipDiscord(models.Model):
-    community = models.ForeignKey(Community, on_delete=models.CASCADE,)
-    discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE,)
+    community = models.ForeignKey(Community, on_delete=models.CASCADE)
+    discord = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE)
 
     sync_members = models.BooleanField(
         default=True,
@@ -2553,7 +2536,7 @@ class CommunityMembershipDiscord(models.Model):
         blank=True,
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "{community} - {guild}".format(
             community=self.community, guild=self.discord
         )

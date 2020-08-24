@@ -93,8 +93,6 @@ class RegistrationFormTrainer(BetterModelForm):
             "start_date",
             "faction",
             "statistics",
-            "daily_goal",
-            "total_goal",
             "verification",
         )
 
