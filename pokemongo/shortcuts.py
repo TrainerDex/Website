@@ -114,10 +114,9 @@ UPDATE_FIELDS_BADGES = (
     "badge_ultra_league",
     "badge_master_league",
     "badge_photobomb",
-    "badge_pokemon_purified",
-    "badge_photobombadge_rocket_grunts_defeated",
     "badge_pokedex_entries_gen5",
-    "badge_pokedex_entries_gen8",
+    "badge_pokemon_purified",
+    "badge_rocket_grunts_defeated",
 )
 
 UPDATE_FIELDS_TYPES = (
@@ -195,13 +194,7 @@ BADGES = [
     {"name": "badge_photobomb", "bronze": 10, "silver": 50, "gold": 200},
     {"name": "badge_pokedex_entries_gen5", "bronze": 5, "silver": 50, "gold": 100},
     {"name": "badge_pokemon_purified", "bronze": 5, "silver": 50, "gold": 500},
-    {
-        "name": "badge_photobombadge_rocket_grunts_defeated",
-        "bronze": 10,
-        "silver": 100,
-        "gold": 1000,
-    },
-    {"name": "badge_pokedex_entries_gen8", "bronze": 1, "silver": 1, "gold": 2},
+    {"name": "badge_rocket_grunts_defeated", "bronze": 10, "silver": 100, "gold": 1000},
 ] + [{"name": x, "bronze": 10, "silver": 50, "gold": 200} for x in UPDATE_FIELDS_TYPES]
 
 
