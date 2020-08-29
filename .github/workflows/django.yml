@@ -21,7 +21,7 @@ jobs:
       run: |
         sudo add-apt-repository -y ppa:ubuntugis/ppa
         sudo apt-get update
-        sudo apt -y install postgresql gdal-bin python3-gdal
+        sudo apt -y install postgresql gdal-bin python3-gdal postgis
         sudo systemctl start postgresql
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
