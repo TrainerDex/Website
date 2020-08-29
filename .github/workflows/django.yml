@@ -31,12 +31,13 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Setup PostgreSQL with Postgis
-      uses: huaxk/postgis-action@v1.0.0
+    - name: Setup PostgreSQL
+      uses: Daniel-Marynicz/postgresql-action@master
       with:
-        postgresql db: ekpogo
-        postgresql user: ekpogo
-        postgresql password: sOnsCzkzuewHY6pG
+        postgres_db: ekpogo
+        postgres_user: ekpogo
+        postgres_password: sOnsCzkzuewHY6pG
+        postgres_extensions: citext postgis
     - name: Run Tests
       run: |
         python manage.py test
