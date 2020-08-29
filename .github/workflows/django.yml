@@ -29,9 +29,9 @@ jobs:
     - name: Setup PostgreSQL
       uses: Daniel-Marynicz/postgresql-action@master
       with:
-        postgres_db: ekpogo
-        postgres_user: ekpogo
-        postgres_password: sOnsCzkzuewHY6pG
+        app_db: ekpogo
+        app_user: ekpogo
+        app_user_password: sOnsCzkzuewHY6pG
         postgres_extensions: citext postgis
     - name: Install Dependencies
       run: |
