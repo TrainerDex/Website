@@ -21,7 +21,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy, npgettext_lazy
 
 from exclusivebooleanfield.fields import ExclusiveBooleanField
-from cities.models import Country, Region
+from cities.models import Country
 
 from core.models import (
     DiscordGuild,
@@ -144,15 +144,6 @@ class Trainer(models.Model):
         blank=True,
         verbose_name=_("Country"),
         related_name="leaderboard_trainers_country",
-        help_text=_("Where are you based?"),
-    )
-    leaderboard_region = models.ForeignKey(
-        Region,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        verbose_name=_("Region"),
-        related_name="leaderboard_trainers_region",
         help_text=_("Where are you based?"),
     )
 

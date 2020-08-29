@@ -94,7 +94,6 @@ class TrainerAdmin(admin.ModelAdmin):
     autocomplete_fields = [
         "owner",
         "leaderboard_country",
-        "leaderboard_region",
     ]
     list_display = (
         "nickname",
@@ -132,8 +131,5 @@ class TrainerAdmin(admin.ModelAdmin):
             },
         ),
         (_("Reports"), {"fields": ("last_cheated", "verified", "verification")}),
-        (
-            _("Leaderboard"),
-            {"fields": ("leaderboard_country", "leaderboard_region", "statistics")},
-        ),
+        (_("Leaderboard"), {"fields": ("leaderboard_country", "statistics")},),
     )

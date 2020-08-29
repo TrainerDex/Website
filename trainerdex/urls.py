@@ -18,11 +18,9 @@ urlpatterns = [
         {
             "sitemaps": {
                 "base": sitemaps.BaseSitemap,
-                "continent": sitemaps.LeaderboardContinentSitemap,
                 "country": sitemaps.LeaderboardCountrySitemap,
-                "region": sitemaps.LeaderboardRegionSitemap,
                 "trainers": sitemaps.TrainerSitemap,
-                "Communities": sitemaps.LeaderboardCommunitySitemap,
+                "communities": sitemaps.LeaderboardCommunitySitemap,
             }
         },
         name="django.contrib.sitemaps.views.sitemap",
