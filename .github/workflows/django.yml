@@ -46,3 +46,12 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+    - name: Check for uncommited makemigrations
+      run: |
+        python manage.py makemigrations --check core pokemongo
+    - name: Run Migrations
+      run: |
+        python manage.py migrate --noinput
+    - name: System Check
+      run: |
+        python manage.py check
