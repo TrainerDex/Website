@@ -159,7 +159,13 @@ UPDATE_SORTABLE_FIELDS = (
 )
 
 UPDATE_NON_REVERSEABLE_FIELDS = (
-    ("total_xp", "pokedex_caught", "pokedex_seen", "gymbadges_total", "gymbadges_gold",)
+    (
+        "total_xp",
+        "pokedex_caught",
+        "pokedex_seen",
+        "gymbadges_total",
+        "gymbadges_gold",
+    )
     + UPDATE_FIELDS_BADGES
     + UPDATE_FIELDS_TYPES
 )
