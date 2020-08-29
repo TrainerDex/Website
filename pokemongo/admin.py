@@ -13,9 +13,7 @@ from pokemongo.models import (
 
 def sync_members(modeladmin, request, queryset):
     for x in queryset:
-        for y in x.memberships_discord.filter(
-            communitymembershipdiscord__sync_members=True
-        ):
+        for y in x.memberships_discord.filter(communitymembershipdiscord__sync_members=True):
             results = y.sync_members()
             for message in results["success"]:
                 messages.success(request, message)
@@ -131,5 +129,8 @@ class TrainerAdmin(admin.ModelAdmin):
             },
         ),
         (_("Reports"), {"fields": ("last_cheated", "verified", "verification")}),
-        (_("Leaderboard"), {"fields": ("leaderboard_country", "statistics")},),
+        (
+            _("Leaderboard"),
+            {"fields": ("leaderboard_country", "statistics")},
+        ),
     )

@@ -51,7 +51,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         key = settings.DISCORD_TOKEN
         current_time = datetime.utcnow()
-        rule = rrule(WEEKLY, dtstart=datetime(2016, 7, 4, 12, 0), byweekday=MO,)
+        rule = rrule(
+            WEEKLY,
+            dtstart=datetime(2016, 7, 4, 12, 0),
+            byweekday=MO,
+        )
         next_week = (rule.before(current_time, inc=True), rule.after(current_time))
         this_week = (rule.before(next_week[0]), next_week[0])
         last_week = (rule.before(this_week[0]), this_week[0])
@@ -187,9 +191,7 @@ Next entries will be ranked next week if they update by the deadline.
         async def on_ready():
             for guild in client.guilds:
                 if DiscordGuildSettings.objects.filter(id=guild.id).exists():
-                    g: DiscordGuildSettings = DiscordGuildSettings.objects.get(
-                        id=guild.id
-                    )
+                    g: DiscordGuildSettings = DiscordGuildSettings.objects.get(id=guild.id)
                 else:
                     continue
 

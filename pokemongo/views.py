@@ -52,9 +52,7 @@ def _check_if_trainer_valid(trainer: Trainer) -> Trainer:
         not trainer.profile_complete
         or not trainer.update_set.exclude(total_xp__isnull=True).exists()
     ):
-        raise Http404(
-            _("{0} has not completed their profile.").format(trainer.owner.username)
-        )
+        raise Http404(_("{0} has not completed their profile.").format(trainer.owner.username))
     return trainer
 
 
@@ -92,24 +90,18 @@ def TrainerRedirectorView(
             owner__is_active=True,
         )
     elif request.GET.get("id"):
-        trainer = get_object_or_404(
-            Trainer, pk=request.GET.get("id"), owner__is_active=True
-        )
+        trainer = get_object_or_404(Trainer, pk=request.GET.get("id"), owner__is_active=True)
     elif not request.user.is_authenticated:
         return redirect("home")
     else:
         trainer = request.user.trainer
         return HttpResponseRedirect(
-            reverse(
-                "trainerdex:profile_nickname", kwargs={"nickname": trainer.nickname}
-            )
+            reverse("trainerdex:profile_nickname", kwargs={"nickname": trainer.nickname})
         )
 
     if not stay:
         return HttpResponsePermanentRedirect(
-            reverse(
-                "trainerdex:profile_nickname", kwargs={"nickname": trainer.nickname}
-            )
+            reverse("trainerdex:profile_nickname", kwargs={"nickname": trainer.nickname})
         )
     else:
         return TrainerProfileView(request, trainer)
@@ -117,9 +109,7 @@ def TrainerRedirectorView(
 
 def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
-        messages.warning(
-            request, _("Please complete your profile to continue using the website.")
-        )
+        messages.warning(request, _("Please complete your profile to continue using the website."))
         return HttpResponseRedirect(reverse("profile_set_up"))
 
     context = {
@@ -142,9 +132,7 @@ def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
         }
         badge_info = [x for x in BADGES if x["name"] == badge[:-5]][0]
         if badge_dict["value"] < badge_info["gold"]:
-            badge_dict["percent"] = int(
-                (badge_dict["value"] / badge_info["gold"]) * 100
-            )
+            badge_dict["percent"] = int((badge_dict["value"] / badge_info["gold"]) * 100)
         else:
             badge_dict["percent"] = 100
         badges.append(badge_dict)
@@ -199,9 +187,7 @@ def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
 @login_required
 def CreateUpdateView(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
-        messages.warning(
-            request, _("Please complete your profile to continue using the website.")
-        )
+        messages.warning(request, _("Please complete your profile to continue using the website."))
         return HttpResponseRedirect(reverse("profile_set_up"))
 
     if request.user.trainer.update_set.filter(
@@ -259,9 +245,7 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
             )
         else:
             form.fields["double_check_confirmation"].required = True
-            error_fields = [
-                Update._meta.get_field(x) for x in form.errors.as_data().keys()
-            ]
+            error_fields = [Update._meta.get_field(x) for x in form.errors.as_data().keys()]
 
     if existing:
         messages.info(
@@ -284,26 +268,20 @@ def LeaderboardView(
     community: Optional[str] = None,
 ) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
-        messages.warning(
-            request, _("Please complete your profile to continue using the website.")
-        )
+        messages.warning(request, _("Please complete your profile to continue using the website."))
         return HttpResponseRedirect(reverse("profile_set_up"))
 
     context = {}
 
     if country:
         try:
-            country = Country.objects.prefetch_related(
-                "leaderboard_trainers_country"
-            ).get(code__iexact=country)
-        except Country.DoesNotExist:
-            raise Http404(
-                _("No country found for code {country}").format(country=country)
+            country = Country.objects.prefetch_related("leaderboard_trainers_country").get(
+                code__iexact=country
             )
+        except Country.DoesNotExist:
+            raise Http404(_("No country found for code {country}").format(country=country))
         context["title"] = (
-            country.alt_names.filter(
-                language_code=get_language_from_request(request)
-            ).first()
+            country.alt_names.filter(language_code=get_language_from_request(request)).first()
             or country
         ).name
         QuerySet = country.leaderboard_trainers_country
@@ -317,9 +295,7 @@ def LeaderboardView(
                     + f"?next={reverse('trainerdex:leaderboard', kwargs={'community': community})}"
                 )
             raise Http404(
-                _("No community found for handle {community}").format(
-                    community=community
-                )
+                _("No community found for handle {community}").format(community=community)
             )
 
         if not community.privacy_public and not request.user.is_superuser:
@@ -370,9 +346,9 @@ def LeaderboardView(
         context["leaderboard"] = None
         return render(request, "leaderboard.html", context, status=404)
 
-    QuerySet = QuerySet.annotate(
-        *[Max("update__" + x) for x in fields_to_calculate_max]
-    ).exclude(**{f"update__{sort_by}__max__isnull": True})
+    QuerySet = QuerySet.annotate(*[Max("update__" + x) for x in fields_to_calculate_max]).exclude(
+        **{f"update__{sort_by}__max__isnull": True}
+    )
 
     Results = []
     GRAND_TOTAL = QuerySet.aggregate(Sum("update__total_xp__max"))
@@ -409,9 +385,7 @@ def LeaderboardView(
             }
             for x in FIELDS
         ]
-        FIELDS.insert(
-            0, FIELDS.pop([FIELDS.index(x) for x in FIELDS if x["name"] == sort_by][0])
-        )
+        FIELDS.insert(0, FIELDS.pop([FIELDS.index(x) for x in FIELDS if x["name"] == sort_by][0]))
         trainer_stats["columns"] = FIELDS
         Results.append(trainer_stats)
 
@@ -446,9 +420,7 @@ def SetUpProfileViewStep2(request: HttpRequest) -> HttpResponse:
     form.fields["start_date"].required = True
 
     if request.method == "POST":
-        form = RegistrationFormTrainer(
-            request.POST, request.FILES, instance=request.user.trainer
-        )
+        form = RegistrationFormTrainer(request.POST, request.FILES, instance=request.user.trainer)
         form.fields["verification"].required = True
         if form.is_valid() and form.has_changed():
             form.save()

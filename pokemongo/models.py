@@ -132,9 +132,7 @@ class Trainer(models.Model):
         validators=[TrainerCodeValidator],
         max_length=15,
         verbose_name=pgettext_lazy("friend_code_title", "Trainer Code"),
-        help_text=_(
-            "Fancy sharing your trainer code?" " (This information is public.)"
-        ),
+        help_text=_("Fancy sharing your trainer code?" " (This information is public.)"),
     )
 
     leaderboard_country = models.ForeignKey(
@@ -149,7 +147,8 @@ class Trainer(models.Model):
 
     verified = models.BooleanField(default=False, verbose_name=_("Verified"))
     last_modified = models.DateTimeField(
-        auto_now=True, verbose_name=_("Last Modified"),
+        auto_now=True,
+        verbose_name=_("Last Modified"),
     )
 
     event_10b = models.BooleanField(default=False)
@@ -171,10 +170,7 @@ class Trainer(models.Model):
     has_cheated.short_description = _("Historic Cheater")
 
     def currently_cheats(self) -> bool:
-        if (
-            self.last_cheated
-            and self.last_cheated + timedelta(weeks=26) > timezone.now().date()
-        ):
+        if self.last_cheated and self.last_cheated + timedelta(weeks=26) > timezone.now().date():
             return True
         else:
             return False
@@ -214,9 +210,7 @@ class Trainer(models.Model):
     is_verified_and_saved.boolean = True
 
     def is_on_leaderboard(self) -> bool:
-        return bool(
-            self.is_verified and self.statistics and not self.currently_cheats()
-        )
+        return bool(self.is_verified and self.statistics and not self.currently_cheats())
 
     is_on_leaderboard.boolean = True
 
@@ -259,9 +253,7 @@ class Trainer(models.Model):
         return self.nickname
 
     def get_absolute_url(self):
-        return reverse(
-            "trainerdex:profile_nickname", kwargs={"nickname": self.nickname}
-        )
+        return reverse("trainerdex:profile_nickname", kwargs={"nickname": self.nickname})
 
     class Meta:
         verbose_name = _("Trainer")
@@ -316,13 +308,19 @@ def new_trainer_set_nickname(sender, **kwargs) -> Optional[Nickname]:
 
 class Update(models.Model):
     uuid = models.UUIDField(
-        unique=True, default=uuid.uuid4, editable=False, verbose_name="UUID",
+        unique=True,
+        default=uuid.uuid4,
+        editable=False,
+        verbose_name="UUID",
     )
     trainer = models.ForeignKey(
-        Trainer, on_delete=models.CASCADE, verbose_name=_("Trainer"),
+        Trainer,
+        on_delete=models.CASCADE,
+        verbose_name=_("Trainer"),
     )
     update_time = models.DateTimeField(
-        default=timezone.now, verbose_name=_("Time Updated"),
+        default=timezone.now,
+        verbose_name=_("Time Updated"),
     )
 
     DATABASE_SOURCES = (
@@ -349,10 +347,14 @@ class Update(models.Model):
     )
 
     submission_date = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Submission Datetime"),
+        auto_now_add=True,
+        verbose_name=_("Submission Datetime"),
     )
     data_source = models.CharField(
-        max_length=256, choices=DATABASE_SOURCES, default="?", verbose_name=_("Source"),
+        max_length=256,
+        choices=DATABASE_SOURCES,
+        default="?",
+        verbose_name=_("Source"),
     )
     screenshot = models.ImageField(
         upload_to=VerificationUpdateImagePath,
@@ -408,17 +410,13 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_capture_total_title", "Collector"),
-        help_text=pgettext_lazy("badge_capture_total", "Catch {0:,} Pokémon.").format(
-            2000
-        ),
+        help_text=pgettext_lazy("badge_capture_total", "Catch {0:,} Pokémon.").format(2000),
     )
     badge_evolved_total = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_evolved_total_title", "Scientist"),
-        help_text=pgettext_lazy("badge_evolved_total", "Evolve {0} Pokémon.").format(
-            200
-        ),
+        help_text=pgettext_lazy("badge_evolved_total", "Evolve {0} Pokémon.").format(200),
     )
     badge_hatched_total = models.PositiveIntegerField(
         null=True,
@@ -430,41 +428,31 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_pokestops_visited_title", "Backpacker"),
-        help_text=pgettext_lazy(
-            "badge_pokestops_visited", "Visit {0:,} PokéStops."
-        ).format(2000),
+        help_text=pgettext_lazy("badge_pokestops_visited", "Visit {0:,} PokéStops.").format(2000),
     )
     badge_big_magikarp = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_big_magikarp_title", "Fisherman"),
-        help_text=pgettext_lazy("badge_big_magikarp", "Catch {0} big Magikarp.").format(
-            300
-        ),
+        help_text=pgettext_lazy("badge_big_magikarp", "Catch {0} big Magikarp.").format(300),
     )
     badge_battle_attack_won = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_battle_attack_won_title", "Battle Girl"),
-        help_text=pgettext_lazy(
-            "badge_battle_attack_won", "Win {0:,} Gym battles."
-        ).format(1000),
+        help_text=pgettext_lazy("badge_battle_attack_won", "Win {0:,} Gym battles.").format(1000),
     )
     badge_battle_training_won = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_battle_training_won_title", "Ace Trainer"),
-        help_text=pgettext_lazy(
-            "badge_battle_training_won", "Train {0:,} times."
-        ).format(1000),
+        help_text=pgettext_lazy("badge_battle_training_won", "Train {0:,} times.").format(1000),
     )
     badge_small_rattata = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_small_rattata_title", "Youngster"),
-        help_text=pgettext_lazy(
-            "badge_small_rattata", "Catch {0} tiny Rattata."
-        ).format(300),
+        help_text=pgettext_lazy("badge_small_rattata", "Catch {0} tiny Rattata.").format(300),
     )
     badge_pikachu = models.PositiveIntegerField(
         null=True,
@@ -493,33 +481,29 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_raid_battle_won_title", "Champion"),
-        help_text=pgettext_lazy("badge_raid_battle_won", "Win {0:,} raids.").format(
-            1000
-        ),
+        help_text=pgettext_lazy("badge_raid_battle_won", "Win {0:,} raids.").format(1000),
     )
     badge_legendary_battle_won = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_legendary_battle_won_title", "Battle Legend"),
-        help_text=pgettext_lazy(
-            "badge_legendary_battle_won", "Win {0:,} Legendary raids."
-        ).format(1000),
+        help_text=pgettext_lazy("badge_legendary_battle_won", "Win {0:,} Legendary raids.").format(
+            1000
+        ),
     )
     badge_berries_fed = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_berries_fed_title", "Berry Master"),
-        help_text=pgettext_lazy(
-            "badge_berries_fed", "Feed {0:,} Berries at Gyms."
-        ).format(1000),
+        help_text=pgettext_lazy("badge_berries_fed", "Feed {0:,} Berries at Gyms.").format(1000),
     )
     badge_hours_defended = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_hours_defended_title", "Gym Leader"),
-        help_text=pgettext_lazy(
-            "badge_hours_defended", "Defend Gyms for {0:,} hours."
-        ).format(1000),
+        help_text=pgettext_lazy("badge_hours_defended", "Defend Gyms for {0:,} hours.").format(
+            1000
+        ),
     )
     badge_pokedex_entries_gen3 = models.PositiveIntegerField(
         null=True,
@@ -592,9 +576,7 @@ class Update(models.Model):
     badge_master_league = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name=pgettext_lazy(
-            "badge_master_league_title", "Master League Veteran"
-        ),
+        verbose_name=pgettext_lazy("badge_master_league_title", "Master League Veteran"),
         help_text=pgettext_lazy(
             "badge_master_league", "Win {} Trainer Battles in the Master League."
         ).format(200),
@@ -621,9 +603,9 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_pokemon_purified_title", "Purifier"),
-        help_text=pgettext_lazy(
-            "badge_pokemon_purified", "Purify {0} Shadow Pokémon."
-        ).format(500),
+        help_text=pgettext_lazy("badge_pokemon_purified", "Purify {0} Shadow Pokémon.").format(
+            500
+        ),
     )
     badge_rocket_grunts_defeated = models.PositiveIntegerField(
         null=True,
@@ -636,9 +618,7 @@ class Update(models.Model):
     badge_rocket_giovanni_defeated = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name=pgettext_lazy(
-            "badge_rocket_giovanni_defeated_title", "Ultra Hero"
-        ),
+        verbose_name=pgettext_lazy("badge_rocket_giovanni_defeated_title", "Ultra Hero"),
         help_text=pgettext_lazy(
             "badge_rocket_giovanni_defeated", "Defeat Giovanni {0} time(s)."
         ).format(20),
@@ -647,17 +627,13 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_buddy_best_title", "Best Buddy"),
-        help_text=pgettext_lazy("badge_buddy_best", "Have {0} Best Buddies.").format(
-            100
-        ),
+        help_text=pgettext_lazy("badge_buddy_best", "Have {0} Best Buddies.").format(100),
     )
     badge_wayfarer = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_wayfarer_title", "Wayfarer"),
-        help_text=pgettext_lazy(
-            "badge_wayfarer", "Earn {0:,} Wayfarer Agreements."
-        ).format(1000),
+        help_text=pgettext_lazy("badge_wayfarer", "Earn {0:,} Wayfarer Agreements.").format(1000),
     )
     badge_total_mega_evos = models.PositiveIntegerField(
         null=True,
@@ -670,9 +646,7 @@ class Update(models.Model):
     badge_unique_mega_evos = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name=pgettext_lazy(
-            "badge_unique_mega_evos_title", "Mgea Evolution Guru"
-        ),
+        verbose_name=pgettext_lazy("badge_unique_mega_evos_title", "Mgea Evolution Guru"),
         help_text=pgettext_lazy(
             "badge_unique_mega_evos", "Mega Evolve {0} different species of Pokémon."
         ).format(36),
@@ -757,145 +731,113 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_normal_title", "Schoolkid"),
-        help_text=pgettext_lazy(
-            "badge_type_normal", "Catch {0} Normal-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_normal", "Catch {0} Normal-type Pokémon").format(200),
     )
     badge_type_fighting = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_fighting_title", "Black Belt"),
-        help_text=pgettext_lazy(
-            "badge_type_fighting", "Catch {0} Fighting-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_fighting", "Catch {0} Fighting-type Pokémon").format(
+            200
+        ),
     )
     badge_type_flying = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_flying_title", "Bird Keeper"),
-        help_text=pgettext_lazy(
-            "badge_type_flying", "Catch {0} Flying-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_flying", "Catch {0} Flying-type Pokémon").format(200),
     )
     badge_type_poison = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_poison_title", "Punk Girl"),
-        help_text=pgettext_lazy(
-            "badge_type_poison", "Catch {0} Poison-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_poison", "Catch {0} Poison-type Pokémon").format(200),
     )
     badge_type_ground = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_ground_title", "Ruin Maniac"),
-        help_text=pgettext_lazy(
-            "badge_type_ground", "Catch {0} Ground-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_ground", "Catch {0} Ground-type Pokémon").format(200),
     )
     badge_type_rock = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_rock_title", "Hiker"),
-        help_text=pgettext_lazy(
-            "badge_type_rock", "Catch {0} Rock-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_rock", "Catch {0} Rock-type Pokémon").format(200),
     )
     badge_type_bug = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_bug_title", "Bug Catcher"),
-        help_text=pgettext_lazy("badge_type_bug", "Catch {0} Bug-type Pokémon").format(
-            200
-        ),
+        help_text=pgettext_lazy("badge_type_bug", "Catch {0} Bug-type Pokémon").format(200),
     )
     badge_type_ghost = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_ghost_title", "Hex Maniac"),
-        help_text=pgettext_lazy(
-            "badge_type_ghost", "Catch {0} Ghost-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_ghost", "Catch {0} Ghost-type Pokémon").format(200),
     )
     badge_type_steel = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_steel_title", "Depot Agent"),
-        help_text=pgettext_lazy(
-            "badge_type_steel", "Catch {0} Steel-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_steel", "Catch {0} Steel-type Pokémon").format(200),
     )
     badge_type_fire = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_fire_title", "Kindler"),
-        help_text=pgettext_lazy(
-            "badge_type_fire", "Catch {0} Fire-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_fire", "Catch {0} Fire-type Pokémon").format(200),
     )
     badge_type_water = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_water_title", "Swimmer"),
-        help_text=pgettext_lazy(
-            "badge_type_water", "Catch {0} Water-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_water", "Catch {0} Water-type Pokémon").format(200),
     )
     badge_type_grass = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_grass_title", "Gardener"),
-        help_text=pgettext_lazy(
-            "badge_type_grass", "Catch {0} Grass-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_grass", "Catch {0} Grass-type Pokémon").format(200),
     )
     badge_type_electric = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_electric_title", "Rocker"),
-        help_text=pgettext_lazy(
-            "badge_type_electric", "Catch {0} Electric-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_electric", "Catch {0} Electric-type Pokémon").format(
+            200
+        ),
     )
     badge_type_psychic = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_psychic_title", "Psychic"),
-        help_text=pgettext_lazy(
-            "badge_type_psychic", "Catch {0} Pychic-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_psychic", "Catch {0} Pychic-type Pokémon").format(200),
     )
     badge_type_ice = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_ice_title", "Skier"),
-        help_text=pgettext_lazy("badge_type_ice", "Catch {0} Ice-type Pokémon").format(
-            200
-        ),
+        help_text=pgettext_lazy("badge_type_ice", "Catch {0} Ice-type Pokémon").format(200),
     )
     badge_type_dragon = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_dragon_title", "Dragon Tamer"),
-        help_text=pgettext_lazy(
-            "badge_type_dragon", "Catch {0} Dragon-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_dragon", "Catch {0} Dragon-type Pokémon").format(200),
     )
     badge_type_dark = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_dark_title", "Delinquent"),
-        help_text=pgettext_lazy(
-            "badge_type_dark", "Catch {0} Dark-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_dark", "Catch {0} Dark-type Pokémon").format(200),
     )
     badge_type_fairy = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_fairy_title", "Fairy Tale Girl"),
-        help_text=pgettext_lazy(
-            "badge_type_fairy", "Catch {0} Fairy-type Pokémon"
-        ).format(200),
+        help_text=pgettext_lazy("badge_type_fairy", "Catch {0} Fairy-type Pokémon").format(200),
     )
 
     # Extra Questions
@@ -925,9 +867,7 @@ class Update(models.Model):
         return _("Update(trainer: {trainer}, update_time: {time}, {stats})").format(
             trainer=self.trainer,
             time=self.update_time,
-            stats=",".join(
-                [f"{x}: {getattr(self, x)}" for x in self.modified_fields()]
-            ),
+            stats=",".join([f"{x}: {getattr(self, x)}" for x in self.modified_fields()]),
         )
 
     def has_modified_extra_fields(self) -> bool:
@@ -1017,9 +957,7 @@ class Update(models.Model):
                 # 2 - Value should less than 1.5 times higher than the leader
                 if bool(last_update) and field.name in UPDATE_NON_REVERSEABLE_FIELDS:
                     leading_value = getattr(
-                        Update.objects.order_by(f"-{field.name}")
-                        .only(field.name)
-                        .first(),
+                        Update.objects.order_by(f"-{field.name}").only(field.name).first(),
                         field.name,
                     )
                     if bool(leading_value):
@@ -1054,9 +992,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1077,9 +1013,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1133,9 +1067,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if (
                             _xdelta / Decimal(str(_timedelta.total_seconds() / 86400))
@@ -1176,9 +1108,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1199,9 +1129,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1232,9 +1160,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1255,9 +1181,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1288,9 +1212,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1311,9 +1233,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1344,9 +1264,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1367,9 +1285,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1400,9 +1316,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1423,9 +1337,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1456,9 +1368,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1479,9 +1389,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1512,9 +1420,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1535,9 +1441,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1573,9 +1477,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1596,9 +1498,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1629,9 +1529,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1652,9 +1550,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1685,9 +1581,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1708,9 +1602,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1777,9 +1669,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1800,9 +1690,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1869,9 +1757,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1892,9 +1778,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -1940,9 +1824,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -1963,9 +1845,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -2108,9 +1988,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -2131,9 +2009,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -2197,9 +2073,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -2220,9 +2094,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -2268,9 +2140,7 @@ class Update(models.Model):
                     # Checks Daily Limit between now and InterestDate
                     if InterestDate:
                         _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (
-                            _timedelta.total_seconds() / 86400
-                        )
+                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
                         if _xdelta >= DailyLimit:
                             # Failed Verification, raise error!
                             soft_error_dict[field.name].append(
@@ -2291,9 +2161,7 @@ class Update(models.Model):
 
                     # Checks Daily Limit between now and last_update
                     if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(
-                            last_update, field.name
-                        )
+                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
                         _timedelta = self.update_time - last_update.update_time
                         if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
                             # Failed Verification, raise error!
@@ -2315,9 +2183,7 @@ class Update(models.Model):
 
                     _xcompare = (
                         self.badge_trading
-                        or self.trainer.update_set.filter(
-                            update_time__lt=self.update_time
-                        )
+                        or self.trainer.update_set.filter(update_time__lt=self.update_time)
                         .exclude(**{"badge_trading": None})
                         .order_by("-badge_trading", "-update_time")
                         .only("badge_trading", "update_time")
@@ -2467,10 +2333,7 @@ def update_discord_level(sender, **kwargs) -> None:
 
             if discord.guild.discordguildsettings.renamer_with_level_format == "int":
                 ext = str(level)
-            elif (
-                discord.guild.discordguildsettings.renamer_with_level_format
-                == "circled_level"
-            ):
+            elif discord.guild.discordguildsettings.renamer_with_level_format == "circled_level":
                 ext = circled_level(level)
 
             if len(base) + len(ext) > 32:
@@ -2490,7 +2353,9 @@ class ProfileBadge(models.Model):
     description = models.CharField(db_index=True, max_length=240)
     badge = models.ImageField(upload_to=get_path_for_badges)
     members = models.ManyToManyField(
-        Trainer, through="ProfileBadgeHoldership", through_fields=("badge", "trainer"),
+        Trainer,
+        through="ProfileBadgeHoldership",
+        through_fields=("badge", "trainer"),
     )
 
     def __str__(self) -> str:
@@ -2520,7 +2385,10 @@ class ProfileBadgeHoldership(models.Model):
 
 class Community(models.Model):
     uuid = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False, verbose_name="UUID",
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+        verbose_name="UUID",
     )
     language = models.CharField(
         default=settings.LANGUAGE_CODE,
@@ -2540,8 +2408,7 @@ class Community(models.Model):
         default=False,
         verbose_name=_("Publicly Viewable"),
         help_text=_(
-            "By default, this is off."
-            " Turn this on to share your community with the world."
+            "By default, this is off." " Turn this on to share your community with the world."
         ),
     )
     privacy_public_join = models.BooleanField(
@@ -2576,9 +2443,7 @@ class Community(models.Model):
     def get_members(self):
         qs = self.memberships_personal.all()
 
-        for x in CommunityMembershipDiscord.objects.filter(
-            sync_members=True, community=self
-        ):
+        for x in CommunityMembershipDiscord.objects.filter(sync_members=True, community=self):
             qs |= x.members_queryset()
 
         return qs
@@ -2597,9 +2462,7 @@ class CommunityMembershipDiscord(models.Model):
 
     sync_members = models.BooleanField(
         default=True,
-        help_text=_(
-            "Members in this Discord are automatically included in the community."
-        ),
+        help_text=_("Members in this Discord are automatically included in the community."),
     )
     include_roles = models.ManyToManyField(
         DiscordRole,
@@ -2613,9 +2476,7 @@ class CommunityMembershipDiscord(models.Model):
     )
 
     def __str__(self) -> str:
-        return "{community} - {guild}".format(
-            community=self.community, guild=self.discord
-        )
+        return "{community} - {guild}".format(community=self.community, guild=self.discord)
 
     def members_queryset(self):
         if self.sync_members:
