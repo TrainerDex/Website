@@ -1,4 +1,4 @@
-import os
+﻿import os
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -111,7 +111,7 @@ DATABASES = {
         "NAME": "ekpogo",
         "USER": "ekpogo",
         "PASSWORD": "sOnsCzkzuewHY6pG",
-        "HOST": "localhost",
+        "HOST": "127.0.0.1",
     }
 }
 
