@@ -659,21 +659,23 @@ class Update(models.Model):
             "badge_wayfarer", "Earn {0:,} Wayfarer Agreements."
         ).format(1000),
     )
-    badge_total_megas = models.PositiveIntegerField(
+    badge_total_mega_evos = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name=pgettext_lazy("badge_total_megas_title", "Successor"),
-        help_text=pgettext_lazy("badge_total_megas", "Placeholder text: {0}").format(
-            500
-        ),
+        verbose_name=pgettext_lazy("badge_total_mega_evos_title", "Successor"),
+        help_text=pgettext_lazy(
+            "badge_total_mega_evos", "Placeholder text: {0}"
+        ).format(500),
     )
-    badge_unique_megas = models.PositiveIntegerField(
+    badge_unique_mega_evos = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name=pgettext_lazy("badge_unique_megas_title", "Mgea Evolution Guru"),
-        help_text=pgettext_lazy("badge_unique_megas", "Placeholder text: {0}").format(
-            36
+        verbose_name=pgettext_lazy(
+            "badge_unique_mega_evos_title", "Mgea Evolution Guru"
         ),
+        help_text=pgettext_lazy(
+            "badge_unique_mega_evos", "Placeholder text: {0}"
+        ).format(36),
     )
 
     # Unreleased badges

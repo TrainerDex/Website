@@ -120,8 +120,8 @@ UPDATE_FIELDS_BADGES = (
     "badge_rocket_giovanni_defeated",
     "badge_buddy_best",
     "badge_wayfarer",
-    "badge_total_megas",
-    "badge_unique_megas",
+    "badge_total_mega_evos",
+    "badge_unique_mega_evos",
 )
 
 UPDATE_FIELDS_TYPES = (
@@ -203,8 +203,8 @@ BADGES = [
     {"name": "badge_rocket_giovanni_defeated", "bronze": 1, "silver": 5, "gold": 20},
     {"name": "badge_buddy_best", "bronze": 1, "silver": 10, "gold": 100},
     {"name": "badge_wayfarer", "bronze": 50, "silver": 500, "gold": 1000},
-    {"name": "badge_total_megas", "bronze": 1, "silver": 50, "gold": 500},
-    {"name": "badge_unique_megas", "bronze": 1, "silver": 24, "gold": 36},
+    {"name": "badge_total_mega_evos", "bronze": 1, "silver": 50, "gold": 500},
+    {"name": "badge_unique_mega_evos", "bronze": 1, "silver": 24, "gold": 36},
 ] + [{"name": x, "bronze": 10, "silver": 50, "gold": 200} for x in UPDATE_FIELDS_TYPES]
 
 
