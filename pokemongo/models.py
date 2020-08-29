@@ -18,7 +18,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _, pgettext_lazy, npgettext_lazy
+from django.utils.translation import gettext_lazy as _, pgettext_lazy
 
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 from cities.models import Country
@@ -658,6 +658,22 @@ class Update(models.Model):
         help_text=pgettext_lazy(
             "badge_wayfarer", "Earn {0:,} Wayfarer Agreements."
         ).format(1000),
+    )
+    badge_total_megas = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_total_megas_title", "Successor"),
+        help_text=pgettext_lazy("badge_total_megas", "Placeholder text: {0}").format(
+            500
+        ),
+    )
+    badge_unique_megas = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_unique_megas_title", "Mgea Evolution Guru"),
+        help_text=pgettext_lazy("badge_unique_megas", "Placeholder text: {0}").format(
+            36
+        ),
     )
 
     # Unreleased badges
