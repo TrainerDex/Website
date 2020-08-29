@@ -1,5 +1,6 @@
-﻿from django.shortcuts import render
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 
 
-def SettingsView(request):
+def SettingsView(request: HttpRequest) -> HttpResponse:
     return render(request, "account/account_settings.html")

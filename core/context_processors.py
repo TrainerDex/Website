@@ -1,7 +1,8 @@
-﻿from django.conf import settings
+from typing import Dict
+from django.conf import settings
 
 
-def google_analytics(request):
+def google_analytics(request) -> Dict[str, str]:
     ga_prop_id = getattr(settings, "GOOGLE_ANALYTICS_PROPERTY_ID", False)
     ga_domain = getattr(settings, "GOOGLE_ANALYTICS_DOMAIN", False)
     if not settings.DEBUG and ga_prop_id and ga_domain:

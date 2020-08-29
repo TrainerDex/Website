@@ -44,7 +44,7 @@
           {{ field }}
           {% else %}
           {# Build Card #}
-          <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-card__fixed-action-bar {% if field.name != 'double_check_confirmation' %}update__card{% endif %}" {% if field.name != 'double_check_confirmation' %}style="background-image: url('{% get_static_prefix %}img/survey/{{field.name}}.png');"{% endif %} id="{{field.id_for_label}}__card">
+          <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-card__fixed-action-bar {% if field.name != 'double_check_confirmation' %}update__card{% endif %}" {% if field.name != 'double_check_confirmation' %}style="background-image: url('{% get_static_prefix %}img/badges/{{field.name}}.png');"{% endif %} id="{{field.id_for_label}}__card">
             <div class="mdl-card__title">
               <h2 class="mdl-card__title-text">{{field.label}}&nbsp;{% if field.field.required == True %}{{required}}{% endif %}</h2>
             </div>

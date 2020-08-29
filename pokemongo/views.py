@@ -1,13 +1,20 @@
 import logging
+from typing import Optional
 
-from cities.models import Continent, Country, Region
+from cities.models import Country
 from datetime import datetime, timedelta
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Max, Sum, F, Window
 from django.db.models.functions import DenseRank as Rank
-from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, Http404
+from django.http import (
+    HttpRequest,
+    HttpResponse,
+    HttpResponseRedirect,
+    HttpResponsePermanentRedirect,
+    Http404,
+)
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language_from_request
@@ -27,7 +34,7 @@ from pokemongo.shortcuts import (
 logger = logging.getLogger("django.trainerdex")
 
 
-def _check_if_trainer_valid(trainer):
+def _check_if_trainer_valid(trainer: Trainer) -> Trainer:
     logger.debug(
         level=30 if trainer.profile_complete else 20,
         msg="Checking {nickname}: Completed profile: {status}".format(
@@ -51,15 +58,18 @@ def _check_if_trainer_valid(trainer):
     return trainer
 
 
-def _check_if_self_valid(request):
+def _check_if_self_valid(request: HttpRequest) -> bool:
     try:
         _check_if_trainer_valid(request.user.trainer)
-        return True
     except Http404:
         return False
+    else:
+        return True
 
 
-def TrainerRedirectorView(request, nickname=None, id=None):
+def TrainerRedirectorView(
+    request: HttpRequest, nickname: Optional[str] = None, id: Optional[int] = None
+) -> HttpResponse:
     stay = False
     if nickname:
         trainer = get_object_or_404(
@@ -105,7 +115,7 @@ def TrainerRedirectorView(request, nickname=None, id=None):
         return TrainerProfileView(request, trainer)
 
 
-def TrainerProfileView(request, trainer):
+def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
         messages.warning(
             request, _("Please complete your profile to continue using the website.")
@@ -187,7 +197,7 @@ def TrainerProfileView(request, trainer):
 
 
 @login_required
-def CreateUpdateView(request):
+def CreateUpdateView(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
         messages.warning(
             request, _("Please complete your profile to continue using the website.")
@@ -268,7 +278,11 @@ def CreateUpdateView(request):
     return render(request, "create_update.html", context)
 
 
-def LeaderboardView(request, continent=None, country=None, region=None, community=None):
+def LeaderboardView(
+    request: HttpRequest,
+    country: Optional[str] = None,
+    community: Optional[str] = None,
+) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
         messages.warning(
             request, _("Please complete your profile to continue using the website.")
@@ -277,21 +291,7 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
 
     context = {}
 
-    if continent:
-        try:
-            continent = Continent.objects.get(code__iexact=continent)
-        except Continent.DoesNotExist:
-            raise Http404(
-                _("No continent found for code {continent}").format(continent=continent)
-            )
-        context["title"] = (
-            continent.alt_names.filter(
-                language_code=get_language_from_request(request)
-            ).first()
-            or continent
-        ).name
-        QuerySet = Trainer.objects.filter(leaderboard_country__continent=continent)
-    elif country and region is None:
+    if country:
         try:
             country = Country.objects.prefetch_related(
                 "leaderboard_trainers_country"
@@ -307,37 +307,6 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
             or country
         ).name
         QuerySet = country.leaderboard_trainers_country
-    elif region:
-        try:
-            region = Region.objects.filter(country__code__iexact=country).get(
-                code__iexact=region
-            )
-        except Country.DoesNotExist:
-            raise Http404(
-                _("No country found for code {country}").format(country=country)
-            )
-        except Region.DoesNotExist:
-            raise Http404(
-                _("No region found for code {country}/{region}").format(
-                    country=country, region=region
-                )
-            )
-
-        context["title"] = _("{region_str}, {country_str}").format(
-            region_str=(
-                region.alt_names.filter(
-                    language_code=get_language_from_request(request)
-                ).first()
-                or region
-            ).name,
-            country_str=(
-                region.country.alt_names.filter(
-                    language_code=get_language_from_request(request)
-                ).first()
-                or region.country
-            ).name,
-        )
-        QuerySet = region.leaderboard_trainers_region
     elif community:
         try:
             community = Community.objects.get(handle__iexact=community)
@@ -465,7 +434,7 @@ def LeaderboardView(request, continent=None, country=None, region=None, communit
 
 
 @login_required
-def SetUpProfileViewStep2(request):
+def SetUpProfileViewStep2(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and _check_if_self_valid(request):
         if len(request.user.trainer.update_set.all()) == 0:
             return HttpResponseRedirect(reverse("profile_first_post"))
@@ -497,7 +466,7 @@ def SetUpProfileViewStep2(request):
 
 
 @login_required
-def SetUpProfileViewStep3(request):
+def SetUpProfileViewStep3(request: HttpRequest) -> HttpResponse:
     if (
         request.user.is_authenticated
         and _check_if_self_valid(request)
