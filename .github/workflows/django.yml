@@ -27,12 +27,12 @@ jobs:
         sudo apt-get update
         sudo apt -y install postgresql
         sudo apt -y install gdal-bin python3-gdal
+        sudo systemctl start postgresql
         psql -c "CREATE USER ekpogo PASSWORD 'sOnsCzkzuewHY6pG'; \
           CREATE DATABASE ekpogo OWNER ekpogo; \\
           \c ekpogo \
           CREATE EXTENSION IF NOT EXISTS postgis; \
           CREATE EXTENSION IF NOT EXISTS citext;"
-    - run: sudo systemctl start postgresql
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
