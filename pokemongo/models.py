@@ -567,7 +567,7 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_pokedex_entries_gen4__title", "Sinnoh"),
         help_text=pgettext_lazy(
-            "badge_pokedex_entries_gen4__help",
+            "badge_pokedex_entries_gen4",
             "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.",
         ).format(80),
         validators=[MaxValueValidator(107)],
@@ -612,7 +612,7 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_pokedex_entries_gen5__title", "Unova"),
         help_text=pgettext_lazy(
-            "badge_pokedex_entries_gen5__help",
+            "badge_pokedex_entries_gen5",
             "Register {0} Pokémon first discovered in the Unova region to the Pokédex.",
         ).format(100),
         validators=[MaxValueValidator(156)],
@@ -633,37 +633,107 @@ class Update(models.Model):
             "badge_rocket_grunts_defeated", "Defeat {0:,} Team GO Rocket Grunts."
         ).format(1000),
     )
+    badge_rocket_giovanni_defeated = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy(
+            "badge_rocket_giovanni_defeated_title", "Ultra Hero"
+        ),
+        help_text=pgettext_lazy(
+            "badge_rocket_giovanni_defeated", "Defeat Giovanni {0} time(s)."
+        ).format(20),
+    )
+    badge_buddy_best = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_buddy_best_title", "Best Buddy"),
+        help_text=pgettext_lazy("badge_buddy_best", "Have {0} Best Buddies.").format(
+            100
+        ),
+    )
+    badge_wayfarer = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_wayfarer_title", "Wayfarer"),
+        help_text=pgettext_lazy(
+            "badge_wayfarer", "Earn {0:,} Wayfarer Agreements."
+        ).format(1000),
+    )
 
-    badge_pokedex_entries_gen6 = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        verbose_name=pgettext_lazy("badge_pokedex_entries_gen6__title", "Kalos"),
-        help_text=pgettext_lazy(
-            "badge_pokedex_entries_gen6__help",
-            "Register {0} Pokémon first discovered in the Kalos region to the Pokédex.",
-        ).format("x"),
-        validators=[MaxValueValidator(72)],
-    )
-    badge_pokedex_entries_gen7 = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        verbose_name=pgettext_lazy("badge_pokedex_entries_gen7__title", "Alola"),
-        help_text=pgettext_lazy(
-            "badge_pokedex_entries_gen7__help",
-            "Register {0} Pokémon first discovered in the Alola region to the Pokédex.",
-        ).format("x"),
-        validators=[MaxValueValidator(88)],
-    )
-    badge_pokedex_entries_gen8 = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        verbose_name=pgettext_lazy("badge_pokedex_entries_gen8__title", "Galar"),
-        help_text=pgettext_lazy(
-            "badge_pokedex_entries_gen8__help",
-            "Register {0} Pokémon first discovered in the Alola region to the Pokédex.",
-        ).format("x"),
-        validators=[MaxValueValidator(2)],
-    )
+    # Unreleased badges
+
+    # badge_encountered_total = models.PositiveIntegerField(
+    #     null=True,
+    #     blank=True,
+    #     verbose_name=pgettext_lazy("badge_encountered_total_title", "Encounters"),
+    #     help_text=pgettext_lazy(
+    #         "badge_encountered_total", "Encounter {0} Pokémon."
+    #     ).format("x"),
+    # )
+    # badge_battle_defend_won = models.PositiveIntegerField(
+    #     null=True,
+    #     blank=True,
+    #     verbose_name=pgettext_lazy(
+    #         "badge_battle_defend_won_title", "Defense Battles Won"
+    #     ),
+    #     help_text=pgettext_lazy(
+    #         "badge_battle_defend_won", "Win {0} defense battles!"
+    #     ).format("x"),
+    # )
+    # badge_defeated_fort = models.PositiveIntegerField(
+    #     null=True,
+    #     blank=True,
+    #     verbose_name=pgettext_lazy("badge_defeated_fort_title", "Battle"),
+    #     help_text=pgettext_lazy("badge_defeated_fort", "Win {0} battles.").format("x"),
+    # )
+    # badge_deployed_total = models.PositiveIntegerField(
+    #     null=True,
+    #     blank=True,
+    #     verbose_name=pgettext_lazy("badge_deployed_total_title", "Pokémon at Gyms."),
+    #     help_text=pgettext_lazy(
+    #         "badge_deployed_total", "Assign {0} Pokémon to Gyms!"
+    #     ).format("x"),
+    # )
+    # badge_unique_pokestops = models.PositiveIntegerField(
+    #     null=True,
+    #     blank=True,
+    #     verbose_name=pgettext_lazy("badge_unique_pokestops_title", "Unique PokéStops"),
+    #     help_text=pgettext_lazy(
+    #         "badge_unique_pokestops", "Visit {0} unique PokéStops."
+    #     ).format("x"),
+    # )
+    # badge_pokedex_entries_gen6 = models.PositiveIntegerField(
+    #     null=True,
+    #     blank=True,
+    #     verbose_name=pgettext_lazy("badge_pokedex_entries_gen6__title", "Kalos"),
+    #     help_text=pgettext_lazy(
+    #         "badge_pokedex_entries_gen6",
+    #         "Register {0} Pokémon first discovered in the Kalos region to the Pokédex.",
+    #     ).format("x"),
+    #     validators=[MaxValueValidator(72)],
+    # )
+    # badge_pokedex_entries_gen7 = models.PositiveIntegerField(
+    #     null=True,
+    #     blank=True,
+    #     verbose_name=pgettext_lazy("badge_pokedex_entries_gen7__title", "Alola"),
+    #     help_text=pgettext_lazy(
+    #         "badge_pokedex_entries_gen7",
+    #         "Register {0} Pokémon first discovered in the Alola region to the Pokédex.",
+    #     ).format("x"),
+    #     validators=[MaxValueValidator(88)],
+    # )
+    # badge_pokedex_entries_gen8 = models.PositiveIntegerField(
+    #     null=True,
+    #     blank=True,
+    #     verbose_name=pgettext_lazy("badge_pokedex_entries_gen8__title", "Galar"),
+    #     help_text=pgettext_lazy(
+    #         "badge_pokedex_entries_gen8",
+    #         "Register {0} Pokémon first discovered in the Alola region to the Pokédex.",
+    #     ).format("x"),
+    #     validators=[MaxValueValidator(2)],
+    # )
+
+    # Type Medals
 
     badge_type_normal = models.PositiveIntegerField(
         null=True,

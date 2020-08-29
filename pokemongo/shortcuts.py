@@ -117,6 +117,9 @@ UPDATE_FIELDS_BADGES = (
     "badge_pokedex_entries_gen5",
     "badge_pokemon_purified",
     "badge_rocket_grunts_defeated",
+    "badge_rocket_giovanni_defeated",
+    "badge_buddy_best",
+    "badge_wayfarer",
 )
 
 UPDATE_FIELDS_TYPES = (
