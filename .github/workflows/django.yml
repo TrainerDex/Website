@@ -33,8 +33,7 @@ jobs:
         app_user: ekpogo
         app_user_password: sOnsCzkzuewHY6pG
         postgres_extensions: citext postgis
-      run: |
-        sudo systemctl start postgres
+    - run: sudo systemctl start postgresql
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
