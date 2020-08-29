@@ -664,7 +664,7 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_total_mega_evos_title", "Successor"),
         help_text=pgettext_lazy(
-            "badge_total_mega_evos", "Placeholder text: {0}"
+            "badge_total_mega_evos", "Mega Evolve a Pokémon {0} times."
         ).format(500),
     )
     badge_unique_mega_evos = models.PositiveIntegerField(
@@ -674,7 +674,7 @@ class Update(models.Model):
             "badge_unique_mega_evos_title", "Mgea Evolution Guru"
         ),
         help_text=pgettext_lazy(
-            "badge_unique_mega_evos", "Placeholder text: {0}"
+            "badge_unique_mega_evos", "Mega Evolve {0} different species of Pokémon."
         ).format(36),
     )
 
