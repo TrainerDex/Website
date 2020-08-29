@@ -31,14 +31,12 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.gis",
-    "django_unused_media",
     "rest_framework",
     "rest_framework.authtoken",
     "cities",
     "rosetta",
     "core",
     "pokemongo",
-    "discordbot",
 ]
 
 INSTALLED_APPS += [
