@@ -1,7 +1,7 @@
 import logging
 from typing import Optional
 
-from cities.models import Continent, Country, Region
+from cities.models import Country
 from datetime import datetime, timedelta
 from django import forms
 from django.contrib import messages
@@ -280,9 +280,7 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
 
 def LeaderboardView(
     request: HttpRequest,
-    continent: Optional[str] = None,
     country: Optional[str] = None,
-    region: Optional[str] = None,
     community: Optional[str] = None,
 ) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
@@ -293,21 +291,7 @@ def LeaderboardView(
 
     context = {}
 
-    if continent:
-        try:
-            continent = Continent.objects.get(code__iexact=continent)
-        except Continent.DoesNotExist:
-            raise Http404(
-                _("No continent found for code {continent}").format(continent=continent)
-            )
-        context["title"] = (
-            continent.alt_names.filter(
-                language_code=get_language_from_request(request)
-            ).first()
-            or continent
-        ).name
-        QuerySet = Trainer.objects.filter(leaderboard_country__continent=continent)
-    elif country and region is None:
+    if country:
         try:
             country = Country.objects.prefetch_related(
                 "leaderboard_trainers_country"
@@ -323,37 +307,6 @@ def LeaderboardView(
             or country
         ).name
         QuerySet = country.leaderboard_trainers_country
-    elif region:
-        try:
-            region = Region.objects.filter(country__code__iexact=country).get(
-                code__iexact=region
-            )
-        except Country.DoesNotExist:
-            raise Http404(
-                _("No country found for code {country}").format(country=country)
-            )
-        except Region.DoesNotExist:
-            raise Http404(
-                _("No region found for code {country}/{region}").format(
-                    country=country, region=region
-                )
-            )
-
-        context["title"] = _("{region_str}, {country_str}").format(
-            region_str=(
-                region.alt_names.filter(
-                    language_code=get_language_from_request(request)
-                ).first()
-                or region
-            ).name,
-            country_str=(
-                region.country.alt_names.filter(
-                    language_code=get_language_from_request(request)
-                ).first()
-                or region.country
-            ).name,
-        )
-        QuerySet = region.leaderboard_trainers_region
     elif community:
         try:
             community = Community.objects.get(handle__iexact=community)
