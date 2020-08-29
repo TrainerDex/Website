@@ -27,7 +27,7 @@ jobs:
         sudo apt-get update
         sudo apt -y install gdal-bin python3-gdal
     - name: Setup PostgreSQL
-      uses: Daniel-Marynicz/postgresql-action@master
+      uses: Daniel-Marynicz/postgresql-action@0.1.0
       with:
         app_db: ekpogo
         app_user: ekpogo
