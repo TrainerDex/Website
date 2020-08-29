@@ -11,17 +11,6 @@ jobs:
 
     runs-on: ubuntu-18.04
 
-    services:
-      postgres:
-        image: postgres:10.10
-        env:
-          POSTGRES_USER: ekpogo
-          POSTGRES_PASSWORD: sOnsCzkzuewHY6pG
-          POSTGRES_DB: ekpogo
-        ports:
-          - 5432/tcp
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.6
@@ -32,11 +21,14 @@ jobs:
       run: |
         sudo add-apt-repository -y ppa:ubuntugis/ppa
         sudo apt-get update
-        sudo apt -y install gdal-bin python3-gdal
+        sudo apt -y install postgresql gdal-bin python3-gdal
+        sudo systemctl start postgresql
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
     - name: Setup PostgreSQL
-      run: sudo ./build_db.sh
+      run: |
+        chmod +x ./build_db.sh
+        ./build_db.sh
     - name: Run Tests
       run: |
         python manage.py test
