@@ -3,8 +3,6 @@ name: Translations
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ develop ]
 
 jobs:
   crowdin:
@@ -34,7 +32,6 @@ jobs:
       uses: crowdin/github-action@1.0.9
       with:
         upload_sources: true
-        base_path: 'django/'
         source: 'trainerdex/locale/django.pot'
         translation: 'trainerdex/locale/%two_letters_code%/LC_MESSAGES/django.po'
         upload_translations: false
