@@ -1,0 +1,33 @@
+name: Crowdin
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  synchronize-with-crowdin:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements-dev.txt
+    - name: Generate pot files
+      run: |
+        python manage.py makemessages --keep-pot --ignore=env/*
+    - name: Update Crowdin
+      uses: crowdin/github-action@1.0.9
+      with:
+        upload_sources: true
+        source: 'trainerdex/locale/django.pot'
+        translation: 'trainerdex/locale/%two_letters_code%/LC_MESSAGES/django.po'
+        upload_translations: false
+        download_translations: true
+        pull_request_labels: 'i18n'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+        CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
