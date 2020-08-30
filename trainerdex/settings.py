@@ -177,9 +177,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 # http://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.TokenAuthentication",
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework.authentication.TokenAuthentication",),
     "DEFAULT_PERMISSION_CLASSES": ("trainerdex.permissions.IsAdminUserOrReadOnly",),
 }
 
