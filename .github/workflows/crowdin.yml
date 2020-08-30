@@ -7,8 +7,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
-
+  crowdin:
     runs-on: ubuntu-18.04
 
     steps:
@@ -25,8 +24,7 @@ jobs:
         sudo systemctl start postgresql
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
-    - name: Setup PostgreSQL
-      run: |
+        sudo apt -y install gettext
         chmod +x ./build_db.sh
         ./build_db.sh
     - name: Generate pot files
