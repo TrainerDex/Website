@@ -1,0 +1,47 @@
+name: Translations
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  crowdin:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+    - name: Install Dependencies
+      run: |
+        sudo add-apt-repository -y ppa:ubuntugis/ppa
+        sudo apt-get update
+        sudo apt -y install postgresql gdal-bin python3-gdal postgis
+        sudo systemctl start postgresql
+        python -m pip install --upgrade pip
+        pip install -r requirements-dev.txt
+        sudo apt -y install gettext
+        chmod +x ./build_db.sh
+        ./build_db.sh
+    - name: Generate pot files
+      run: |
+        python manage.py makemessages --keep-pot --ignore=env/*
+    - name: Update Crowdin
+      uses: crowdin/github-action@1.0.9
+      with:
+        upload_sources: true
+        source: 'trainerdex/locale/django.pot'
+        translation: 'trainerdex/locale/%two_letters_code%/LC_MESSAGES/django.po'
+        upload_translations: false
+        download_translations: true
+        pull_request_labels: 'i18n'
+        project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
+        token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+        CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
