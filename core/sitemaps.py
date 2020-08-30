@@ -56,9 +56,7 @@ class LeaderboardCountrySitemap(Sitemap):
     changefreq = "daily"
 
     def items(self):
-        return Country.objects.filter(
-            leaderboard_trainers_country__isnull=False
-        ).distinct()
+        return Country.objects.filter(leaderboard_trainers_country__isnull=False).distinct()
 
     def priority(self, obj: Country) -> float:
         count = obj.leaderboard_trainers_country.count()

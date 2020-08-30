@@ -47,12 +47,29 @@ download_channels.short_description = _(
 class DiscordSettingsInline(admin.StackedInline):
     model = DiscordGuildSettings
     fieldsets = (
-        ("Localization", {"fields": ("language", "timezone",)}),
+        (
+            "Localization",
+            {
+                "fields": (
+                    "language",
+                    "timezone",
+                )
+            },
+        ),
         (
             "Welcomer",
-            {"fields": ("renamer", "renamer_with_level", "renamer_with_level_format",)},
+            {
+                "fields": (
+                    "renamer",
+                    "renamer_with_level",
+                    "renamer_with_level_format",
+                )
+            },
         ),
-        ("TrainerDex", {"fields": ("monthly_gains_channel",)},),
+        (
+            "TrainerDex",
+            {"fields": ("monthly_gains_channel",)},
+        ),
     )
     verbose_name = _("Discord Server Settings")
     verbose_name_plural = _("Discord Server Settings")
@@ -62,7 +79,16 @@ class DiscordSettingsInline(admin.StackedInline):
 @admin.register(DiscordGuild)
 class DiscordGuildAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {"fields": ("id", "name", "owner",)}),
+        (
+            None,
+            {
+                "fields": (
+                    "id",
+                    "name",
+                    "owner",
+                )
+            },
+        ),
         (
             "Debug",
             {"fields": ("data_prettified", "cached_date"), "classes": ("collapse",)},

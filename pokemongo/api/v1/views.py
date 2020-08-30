@@ -62,9 +62,7 @@ class TrainerListView(APIView):
             queryset = queryset.exclude(statistics=False)
         if request.GET.get("q") or request.GET.get("t"):
             if request.GET.get("q"):
-                queryset = queryset.filter(
-                    nickname__nickname__iexact=request.GET.get("q")
-                )
+                queryset = queryset.filter(nickname__nickname__iexact=request.GET.get("q"))
             if request.GET.get("t"):
                 queryset = queryset.filter(faction=request.GET.get("t"))
 
@@ -77,9 +75,7 @@ class TrainerListView(APIView):
         Now it has a 60 minute open slot to work after the auth.User (owner) instance is created. After which, a PATCH request must be given. This is due to the nature of a Trainer being created automatically for all new auth.User
         """
 
-        trainer = Trainer.objects.get(
-            owner__pk=request.data["owner"], owner__is_active=True
-        )
+        trainer = Trainer.objects.get(owner__pk=request.data["owner"], owner__is_active=True)
         if not recent(trainer.owner.date_joined):
             return Response(
                 {
@@ -175,9 +171,7 @@ class UpdateListView(APIView):
     def post(self, request: HttpRequest, pk: int) -> Response:
         serializer = DetailedUpdateSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(
-                trainer=get_object_or_404(Trainer, pk=pk, owner__is_active=True)
-            )
+            serializer.save(trainer=get_object_or_404(Trainer, pk=pk, owner__is_active=True))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -199,18 +193,18 @@ class LatestUpdateView(APIView):
 
     def get(self, request: HttpRequest, pk: int) -> Response:
         try:
-            update = Update.objects.filter(
-                trainer=pk, trainer__owner__is_active=True
-            ).latest("update_time")
+            update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest(
+                "update_time"
+            )
         except Update.DoesNotExist:
             return Response(None, status=404)
         serializer = DetailedUpdateSerializer(update)
         return Response(serializer.data)
 
     def patch(self, request: HttpRequest, pk: int) -> Response:
-        update = Update.objects.filter(
-            trainer=pk, trainer__owner__is_active=True
-        ).latest("update_time")
+        update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest(
+            "update_time"
+        )
         if update.meta_time_created > datetime.now(utc) - timedelta(minutes=32):
             serializer = DetailedUpdateSerializer(update, data=request.data)
             if serializer.is_valid():
@@ -232,18 +226,14 @@ class UpdateDetailView(APIView):
     authentication_classes = (authentication.TokenAuthentication,)
 
     def get(self, request: HttpRequest, uuid: str, pk: int) -> Response:
-        update = get_object_or_404(
-            Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True
-        )
+        update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
         serializer = DetailedUpdateSerializer(update)
         if update.trainer.id != int(pk):
             return Response(status=400)
         return Response(serializer.data)
 
     def patch(self, request: HttpRequest, uuid: str, pk: int) -> Response:
-        update = get_object_or_404(
-            Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True
-        )
+        update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
         if update.meta_time_created > datetime.now(utc) - timedelta(minutes=32):
             serializer = DetailedUpdateSerializer(update, data=request.data)
             if serializer.is_valid():
@@ -373,18 +363,14 @@ class DiscordLeaderboardAPIView(APIView):
         output["title"] = "{title} Leaderboard".format(title=server.data["name"])
         opt_out_roles = server.roles.filter(
             data__name__in=["NoLB", "TrainerDex Excluded"]
-        ) | server.roles.filter(
-            exclude_roles_community_membership_discord__discord=server
-        )
+        ) | server.roles.filter(exclude_roles_community_membership_discord__discord=server)
 
         sq = Q()
         for x in opt_out_roles:
             sq |= Q(discordguildmembership__data__roles__contains=[str(x.id)])
 
         members = server.members.exclude(sq)
-        trainers = filter_leaderboard_qs(
-            Trainer.objects.filter(owner__socialaccount__in=members)
-        )
+        trainers = filter_leaderboard_qs(Trainer.objects.filter(owner__socialaccount__in=members))
 
         leaderboard = (
             trainers.prefetch_related("update_set")

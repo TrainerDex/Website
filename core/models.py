@@ -80,7 +80,10 @@ def get_channel(channel_id: int) -> Dict:
 
 
 class DiscordGuild(models.Model):
-    id = models.BigIntegerField(primary_key=True, verbose_name="ID",)
+    id = models.BigIntegerField(
+        primary_key=True,
+        verbose_name="ID",
+    )
     data = postgres_fields.JSONField(null=True, blank=True)
     cached_date = models.DateTimeField(auto_now_add=True)
     has_access = models.BooleanField(default=False)
@@ -147,14 +150,10 @@ class DiscordGuild(models.Model):
         added_people = []
         amended_people = []
         for x in guild_api_members:
-            if SocialAccount.objects.filter(
-                provider="discord", uid=x["user"]["id"]
-            ).exists():
+            if SocialAccount.objects.filter(provider="discord", uid=x["user"]["id"]).exists():
                 x, y = DiscordGuildMembership.objects.update_or_create(
                     guild=self,
-                    user=SocialAccount.objects.get(
-                        provider="discord", uid=x["user"]["id"]
-                    ),
+                    user=SocialAccount.objects.get(provider="discord", uid=x["user"]["id"]),
                     defaults={"active": True, "data": x, "cached_date": timezone.now()},
                 )
                 if y:
@@ -162,9 +161,9 @@ class DiscordGuild(models.Model):
                 else:
                     amended_people.append(x)
 
-        inactive_members = DiscordGuildMembership.objects.filter(
-            guild=self, active=True
-        ).exclude(user__uid__in=[x["user"]["id"] for x in guild_api_members])
+        inactive_members = DiscordGuildMembership.objects.filter(guild=self, active=True).exclude(
+            user__uid__in=[x["user"]["id"] for x in guild_api_members]
+        )
         inactive_members.update(active=False)
 
         return {
@@ -276,12 +275,22 @@ def new_guild(sender, **kwargs) -> None:
 
 
 class DiscordChannel(models.Model):
-    id = models.BigIntegerField(primary_key=True, verbose_name="ID",)
-    guild = models.ForeignKey(
-        DiscordGuild, on_delete=models.CASCADE, related_name="channels",
+    id = models.BigIntegerField(
+        primary_key=True,
+        verbose_name="ID",
     )
-    data = postgres_fields.JSONField(null=True, blank=True,)
-    cached_date = models.DateTimeField(auto_now_add=True,)
+    guild = models.ForeignKey(
+        DiscordGuild,
+        on_delete=models.CASCADE,
+        related_name="channels",
+    )
+    data = postgres_fields.JSONField(
+        null=True,
+        blank=True,
+    )
+    cached_date = models.DateTimeField(
+        auto_now_add=True,
+    )
 
     def _outdated(self) -> bool:
         return (timezone.now() - self.cached_date) > timedelta(days=1)
@@ -340,12 +349,22 @@ class DiscordChannel(models.Model):
 
 
 class DiscordRole(models.Model):
-    id = models.BigIntegerField(primary_key=True, verbose_name="ID",)
-    guild = models.ForeignKey(
-        DiscordGuild, on_delete=models.CASCADE, related_name="roles",
+    id = models.BigIntegerField(
+        primary_key=True,
+        verbose_name="ID",
     )
-    data = postgres_fields.JSONField(null=True, blank=True,)
-    cached_date = models.DateTimeField(auto_now_add=True,)
+    guild = models.ForeignKey(
+        DiscordGuild,
+        on_delete=models.CASCADE,
+        related_name="roles",
+    )
+    data = postgres_fields.JSONField(
+        null=True,
+        blank=True,
+    )
+    cached_date = models.DateTimeField(
+        auto_now_add=True,
+    )
 
     def _outdated(self) -> bool:
         return (timezone.now() - self.cached_date) > timedelta(days=1)
@@ -432,13 +451,30 @@ class DiscordUser(SocialAccount):
 
 
 class DiscordGuildMembership(models.Model):
-    guild = models.ForeignKey(DiscordGuild, on_delete=models.CASCADE,)
-    user = models.ForeignKey(DiscordUser, on_delete=models.CASCADE,)
-    active = models.BooleanField(default=True,)
-    nick_override = models.CharField(null=True, blank=True, max_length=32,)
+    guild = models.ForeignKey(
+        DiscordGuild,
+        on_delete=models.CASCADE,
+    )
+    user = models.ForeignKey(
+        DiscordUser,
+        on_delete=models.CASCADE,
+    )
+    active = models.BooleanField(
+        default=True,
+    )
+    nick_override = models.CharField(
+        null=True,
+        blank=True,
+        max_length=32,
+    )
 
-    data = postgres_fields.JSONField(null=True, blank=True,)
-    cached_date = models.DateTimeField(auto_now_add=True,)
+    data = postgres_fields.JSONField(
+        null=True,
+        blank=True,
+    )
+    cached_date = models.DateTimeField(
+        auto_now_add=True,
+    )
 
     def _outdated(self) -> bool:
         return (timezone.now() - self.cached_date) > timedelta(days=1)
@@ -447,9 +483,7 @@ class DiscordGuildMembership(models.Model):
     outdated = property(_outdated)
 
     def _change_nick(self, nick: str) -> None:
-        base_url = "https://discordapp.com/api/v{version_number}".format(
-            version_number=6
-        )
+        base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
         if len(nick) > 32:
             raise ValidationError("nick too long")
         logger.info(f"Renaming {self} to {nick}")
@@ -473,9 +507,7 @@ class DiscordGuildMembership(models.Model):
     @property
     def roles(self) -> List[DiscordRole]:
         if self.data.get("roles"):
-            return DiscordRole.objects.filter(
-                id__in=[str(x) for x in self.data.get("roles")]
-            )
+            return DiscordRole.objects.filter(id__in=[str(x) for x in self.data.get("roles")])
         else:
             return DiscordRole.objects.none()
 
