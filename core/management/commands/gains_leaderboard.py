@@ -4,6 +4,8 @@ from typing import Iterable, List, Union
 import discord
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.utils import translation
+from django.utils.translation import gettext as _
 from dateutil.relativedelta import MO
 from dateutil.rrule import rrule, WEEKLY
 from humanfriendly import format_number, format_timespan
@@ -137,16 +139,20 @@ class Command(BaseCommand):
             dropped_trainers: List[Trainer],
             deadline: datetime,
         ):
-            title = "Weekly <:total_xp:743121748630831165> Gains Leaderboard for `{guild.name}`".format(
-                guild=guild
+            title = _("Weekly {stat} Gains Leaderboard for `{guild.name}`").format(
+                stat="<:total_xp:743121748630831165>", guild=guild
             )
 
             if not gains:
-                return f"**{title}**\nUnfortunately, there were not valid entries this week."
+                return _(
+                    "**{title}**\nUnfortunately, there were not valid entries this week."
+                ).format(title=title)
 
             ranked = [
-                "#{position} **{trainer}** @ {rate}/day (+{delta})"
-                " `Interval: {interval}` `Gain: {then} ⇒ {now}`".format(
+                _(
+                    "#{position} **{trainer}** @ {rate}/day (+{delta})"
+                    + " `Interval: {interval}` `Gain: {then} ⇒ {now}`"
+                ).format(
                     position=position + 1,
                     trainer=entry.trainer,
                     rate=format_number(round(entry.rate)),
@@ -158,17 +164,19 @@ class Command(BaseCommand):
                 for position, entry in enumerate(gains)
             ]
 
-            return """**{title}**
+            return _(
+                """**{title}**
 Week: `{year}W{week}` Dealine: `{this_week_deadline} UTC`
 
 {ranked}
 
 **{new_count}** New entries: {new}
 
-Next entries will be ranked next week if they update by the deadline.
+New entries will be ranked next week if they update by the deadline.
 **{lost_count}** Trainers from last week didn't update again this week.
 **Next weeks deadline is: `{deadline} UTC`**
-""".format(
+"""
+            ).format(
                 title=title,
                 year=week_number[0],
                 week=week_number[1],
@@ -194,6 +202,8 @@ Next entries will be ranked next week if they update by the deadline.
                     g: DiscordGuildSettings = DiscordGuildSettings.objects.get(id=guild.id)
                 else:
                     continue
+
+                translation.activate(g.language)
 
                 if g.monthly_gains_channel:
                     channel = client.get_channel(g.monthly_gains_channel.id)
@@ -231,6 +241,8 @@ Next entries will be ranked next week if they update by the deadline.
                                         pass
                                 else:
                                     await channel.send(y)
+
+                translation.deactivate()
 
             await client.close()
 

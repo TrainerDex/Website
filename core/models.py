@@ -250,10 +250,7 @@ class DiscordGuildSettings(DiscordGuild):
         default="int",
         verbose_name=_("Level Indicator format"),
         max_length=50,
-        choices=[
-            ("int", _("Plain ol' Numbers")),
-            ("circled_level", _("Circled Numbers ㊵")),
-        ],
+        choices=[("int", "40"), ("circled_level", "㊵")],
     )
 
     # Needed for discordbot/management/commands/leaderboard_cron.py
