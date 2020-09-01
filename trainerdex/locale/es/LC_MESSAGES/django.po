@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-30 12:23+0000\n"
-"PO-Revision-Date: 2020-08-30 13:40\n"
+"POT-Creation-Date: 2020-09-01 09:20+0000\n"
+"PO-Revision-Date: 2020-09-01 09:20\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -29,23 +29,50 @@ msgstr "Descargar canales de Discord. Actualmente no los elimina."
 msgid "Discord Server Settings"
 msgstr "Configuración del Servidor de Discord"
 
+#: core/management/commands/gains_leaderboard.py:142
+#, python-brace-format
+msgid "Weekly {stat} Gains Leaderboard for `{guild.name}`"
+msgstr ""
+
+#: core/management/commands/gains_leaderboard.py:148
+#, python-brace-format
+msgid "**{title}**\n"
+"Unfortunately, there were not valid entries this week."
+msgstr ""
+
+#: core/management/commands/gains_leaderboard.py:153
+#, python-brace-format
+msgid "#{position} **{trainer}** @ {rate}/day (+{delta}) `Interval: {interval}` `Gain: {then} ⇒ {now}`"
+msgstr ""
+
+#: core/management/commands/gains_leaderboard.py:168
+#, python-brace-format
+msgid "**{title}**\n"
+"Week: `{year}W{week}` Dealine: `{this_week_deadline} UTC`\n\n"
+"{ranked}\n\n"
+"**{new_count}** New entries: {new}\n\n"
+"New entries will be ranked next week if they update by the deadline.\n"
+"**{lost_count}** Trainers from last week didn't update again this week.\n"
+"**Next weeks deadline is: `{deadline} UTC`**\n"
+msgstr ""
+
 #: core/models.py:172
 #, python-brace-format
 msgid "Succesfully imported {success} of {total} new member to {guild}"
 msgid_plural "Succesfully imported {success} of {total} new members to {guild}"
 msgstr[0] "Nuevo miembro {guild} importado {success} de {total}"
-msgstr[1] ""
+msgstr[1] "Nuevo miembro {guild} importado {success} de {total}"
 
 #: core/models.py:183
 #, python-brace-format
 msgid "{count} member left {guild}"
 msgid_plural "{count} members left {guild}"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{count} miembro dejó el servidor {guild}"
+msgstr[1] "{count} miembro dejó el servidor {guild}"
 
 #: core/models.py:216
 msgid "Discord Guild"
-msgstr ""
+msgstr "Servidor de Discord"
 
 #: core/models.py:217
 msgid "Discord Guilds"
@@ -71,50 +98,42 @@ msgstr "Esta opción añadirá un nivel al final de su nombre de usuario en su s
 msgid "Level Indicator format"
 msgstr "Formato del indicador de nivel"
 
-#: core/models.py:254
-msgid "Plain ol' Numbers"
-msgstr ""
-
-#: core/models.py:255
-msgid "Circled Numbers ㊵"
-msgstr ""
-
-#: core/models.py:347
+#: core/models.py:344
 msgid "Discord Channel"
-msgstr ""
+msgstr "Canal de Discord"
 
-#: core/models.py:348
+#: core/models.py:345
 msgid "Discord Channels"
-msgstr ""
+msgstr "Canales de Discord"
 
-#: core/models.py:424
+#: core/models.py:421
 msgid "Discord Role"
-msgstr ""
+msgstr "Rol en Discord"
 
-#: core/models.py:425
+#: core/models.py:422
 msgid "Discord Roles"
-msgstr ""
+msgstr "Roles en Discord"
 
-#: core/models.py:449
+#: core/models.py:446
 msgid "Discord User"
-msgstr ""
+msgstr "Usuario de Discord"
 
-#: core/models.py:450
+#: core/models.py:447
 msgid "Discord Users"
-msgstr ""
+msgstr "Usuarios de Discord"
 
-#: core/models.py:547
+#: core/models.py:544
 msgid "Discord Member"
-msgstr ""
+msgstr "Miembro de Discord"
 
-#: core/models.py:548
+#: core/models.py:545
 msgid "Discord Members"
-msgstr ""
+msgstr "Miembros de Discord"
 
 #: core/templates/404.html:6 core/templates/404.html:7
 #: core/templates/404.html:11
 msgid "404 Not Found"
-msgstr ""
+msgstr "Error 404 No Encontrado"
 
 #: core/templates/account/account_inactive.html:5
 #: core/templates/account/account_inactive.html:6
@@ -124,19 +143,19 @@ msgstr "Cuenta Inactiva"
 
 #: core/templates/account/account_inactive.html:15
 msgid "This account is inactive. Please contact us on Discord, Twitter or via Email to reactivate your account."
-msgstr ""
+msgstr "Esta cuenta está inactiva. Por favor contáctenos en Discord, Twitter o vía correo electrónico para reactivar tu cuenta."
 
 #: core/templates/account/account_inactive.html:19
 msgid "Discord Server"
-msgstr ""
+msgstr "Servidor de Discord"
 
 #: core/templates/account/account_inactive.html:22
 msgid "@TrainerDexApp on Twitter"
-msgstr ""
+msgstr "@TrainerDexApp en Twitter"
 
 #: core/templates/account/account_inactive.html:25
 msgid "Email us"
-msgstr ""
+msgstr "Envíanos un correo"
 
 #: core/templates/account/account_settings.html:5
 #: core/templates/account/account_settings.html:6
@@ -476,7 +495,7 @@ msgstr "Si estás en Discord Guild Leaderboard o te haz contactado con nosotros 
 
 #: core/templates/account/signup.html:28
 msgid "Please use your in-game name now, as it will be used later for verification."
-msgstr ""
+msgstr "Por favor usa tu nombre de juego ahora, ya que se usará más tarde para la verificación."
 
 #: core/templates/account/signup_closed.html:5
 #: core/templates/account/signup_closed.html:6
@@ -489,11 +508,11 @@ msgstr "Lo sentimos, pero el registro vía este sitio están desactivadas"
 
 #: core/templates/account/signup_closed.html:15
 msgid "This is preperation for transition to the NEW TrainerDex website. We apologise for the inconvenience."
-msgstr ""
+msgstr "Esto es la preparación para la transición a la página web de la NUEVA TrainerDex. Nos disculpamos por las molestias."
 
 #: core/templates/account/signup_closed.html:23
 msgid "Join Discord"
-msgstr ""
+msgstr "Unirse a Discord"
 
 #: core/templates/account/snippets/already_logged_in.html:5
 #, python-format
@@ -628,7 +647,7 @@ msgstr "Estas a punto de utilizar tu cuenta  %(provider_name)s para iniciar sesi
 
 #: pokemongo/admin.py:24
 msgid "Sync Members for all eligible Discords"
-msgstr ""
+msgstr "Sincronizar miembros para todos los Discords elegibles"
 
 #: pokemongo/admin.py:131
 msgid "Reports"
@@ -636,11 +655,11 @@ msgstr "Reportes"
 
 #: pokemongo/forms.py:27 pokemongo/forms.py:67
 msgid "Main"
-msgstr ""
+msgstr "Principal"
 
 #: pokemongo/forms.py:31 pokemongo/forms.py:71
 msgid "Type Medals"
-msgstr ""
+msgstr "Tipos de medalla"
 
 #: pokemongo/models.py:97
 msgid "User"
@@ -686,7 +705,7 @@ msgstr "Código de Entrenador"
 
 #: pokemongo/models.py:135
 msgid "Fancy sharing your trainer code? (This information is public.)"
-msgstr ""
+msgstr "¿Te gustaría compartir tu código de entrenador? (Esta información es pública.)"
 
 #: pokemongo/models.py:143
 msgid "Country"
@@ -731,7 +750,7 @@ msgstr "Entrenadores"
 #: pokemongo/models.py:275
 msgctxt "player_term"
 msgid "Trainer"
-msgstr ""
+msgstr "Entrenador"
 
 #: pokemongo/models.py:282 pokemongo/templates/leaderboard.html:49
 msgctxt "onboard_enter_name_hint"
@@ -744,7 +763,7 @@ msgstr "Tiempo Actualizado"
 
 #: pokemongo/models.py:351
 msgid "Submission Datetime"
-msgstr ""
+msgstr "Tiempo de envío"
 
 #: pokemongo/models.py:357
 msgid "Source"
@@ -752,19 +771,19 @@ msgstr "Fuente"
 
 #: pokemongo/models.py:362
 msgid "Screenshot"
-msgstr ""
+msgstr "Captura de Pantalla"
 
 #: pokemongo/models.py:363
 msgid "This should be your TOTAL XP screenshot."
-msgstr ""
+msgstr "Esta debería ser tu captura de pantalla de tu TOTAL EXPERIENCIA."
 
 #: pokemongo/models.py:369
 msgid "I have double checked this information and it is correct."
-msgstr ""
+msgstr "He comprobado dos veces esta información y es correcta."
 
 #: pokemongo/models.py:370
 msgid "This will silence some errors."
-msgstr ""
+msgstr "Esto silenciará algunos errores."
 
 #: pokemongo/models.py:376
 msgctxt "PROFILE_TOTAL_XP"
@@ -774,12 +793,12 @@ msgstr "Total de PX"
 #: pokemongo/models.py:383
 msgctxt "pokedex_page_caught"
 msgid "Unique Species Caught"
-msgstr ""
+msgstr "Especies únicas capturadas"
 
 #: pokemongo/models.py:388
 msgctxt "pokedex_page_seen"
 msgid "Unique Species Seen"
-msgstr ""
+msgstr "Especies únicas vistas"
 
 #: pokemongo/models.py:397
 msgctxt "badge_travel_km_title"
@@ -794,7 +813,7 @@ msgstr "Recorre {0:0,g} Km."
 #: pokemongo/models.py:403
 msgctxt "badge_pokedex_entries_title"
 msgid "Kanto"
-msgstr ""
+msgstr "Kanto"
 
 #: pokemongo/models.py:405
 #, python-brace-format
@@ -810,7 +829,7 @@ msgstr "Pokécolector"
 #: pokemongo/models.py:413
 msgctxt "badge_capture_total"
 msgid "Catch {0:,} Pokémon."
-msgstr ""
+msgstr "Pokémon capturados: {0:,}."
 
 #: pokemongo/models.py:418
 msgctxt "badge_evolved_total_title"
@@ -842,7 +861,7 @@ msgstr "Mochilero"
 #: pokemongo/models.py:431
 msgctxt "badge_pokestops_visited"
 msgid "Visit {0:,} PokéStops."
-msgstr ""
+msgstr "Pokeparadas visitadas: {0:,}."
 
 #: pokemongo/models.py:436
 msgctxt "badge_big_magikarp_title"
@@ -863,7 +882,7 @@ msgstr "Luchadora"
 #: pokemongo/models.py:443
 msgctxt "badge_battle_attack_won"
 msgid "Win {0:,} Gym battles."
-msgstr ""
+msgstr "Batallas en gimnasios ganadas: {0:,}."
 
 #: pokemongo/models.py:448
 msgctxt "badge_battle_training_won_title"
@@ -873,7 +892,7 @@ msgstr "Entre. Guay"
 #: pokemongo/models.py:449
 msgctxt "badge_battle_training_won"
 msgid "Train {0:,} times."
-msgstr ""
+msgstr "Entrena {0:,} veces."
 
 #: pokemongo/models.py:454
 msgctxt "badge_small_rattata_title"
@@ -900,7 +919,7 @@ msgstr "Captura {0} Pikachu."
 #: pokemongo/models.py:466
 msgctxt "badge_unown_title"
 msgid "Unown"
-msgstr ""
+msgstr "Unown"
 
 #: pokemongo/models.py:467
 #, python-brace-format
@@ -911,7 +930,7 @@ msgstr "Captura {0} Unown."
 #: pokemongo/models.py:473
 msgctxt "badge_pokedex_entries_gen2_title"
 msgid "Johto"
-msgstr ""
+msgstr "Johto"
 
 #: pokemongo/models.py:476
 #, python-brace-format
@@ -927,7 +946,7 @@ msgstr "Campeón"
 #: pokemongo/models.py:484
 msgctxt "badge_raid_battle_won"
 msgid "Win {0:,} raids."
-msgstr ""
+msgstr "Incursiones ganadas: {0:,}."
 
 #: pokemongo/models.py:489
 msgctxt "badge_legendary_battle_won_title"
@@ -937,7 +956,7 @@ msgstr "Combates legendarios"
 #: pokemongo/models.py:490
 msgctxt "badge_legendary_battle_won"
 msgid "Win {0:,} Legendary raids."
-msgstr ""
+msgstr "Gana {0} incursiones legendarias."
 
 #: pokemongo/models.py:497
 msgctxt "badge_berries_fed_title"
@@ -1350,17 +1369,17 @@ msgstr "Captura {0} Pokémon de tipo Hada."
 #: pokemongo/models.py:847
 msgctxt "gymbadges_total"
 msgid "Gym Badges"
-msgstr ""
+msgstr "Medallas de Gimnasios"
 
 #: pokemongo/models.py:853
 msgctxt "gymbadges_gold"
 msgid "Gold Gym Badges"
-msgstr ""
+msgstr "Medallas de Oro de Gimnasio"
 
 #: pokemongo/models.py:859
 msgctxt "pokemon_info_stardust_label"
 msgid "Stardust"
-msgstr ""
+msgstr "Polvo estelar"
 
 #: pokemongo/models.py:867
 #, python-brace-format
@@ -1406,11 +1425,11 @@ msgstr ""
 #: pokemongo/models.py:1913
 #, python-brace-format
 msgid "You must fill in {other_badge} if filling in {this_badge}."
-msgstr ""
+msgstr "Debes rellenar {other_badge} si estas llenando {this_badge}."
 
 #: pokemongo/models.py:2200
 msgid "The {badge} you entered is too high. Please check for typos and other mistakes. You can only gain so much in a day. {value:,}/{expected:,}"
-msgstr ""
+msgstr "La {badge} introducida es demasiada alta. Por favor, comprueba errores en escritura u otros. Solo puedes ganar cierto monto en un día. {value:,}/{expected:,}"
 
 #: pokemongo/models.py:2316
 msgid "Update"
@@ -1422,55 +1441,55 @@ msgstr "Actualiza"
 
 #: pokemongo/models.py:2365
 msgid "Badge"
-msgstr ""
+msgstr "Medalla"
 
 #: pokemongo/models.py:2366
 msgid "Badges"
-msgstr ""
+msgstr "Medallas"
 
 #: pokemongo/models.py:2409
 msgid "Publicly Viewable"
-msgstr ""
+msgstr "Públicamente visible"
 
 #: pokemongo/models.py:2411
 msgid "By default, this is off. Turn this on to share your community with the world."
-msgstr ""
+msgstr "De forma predeterminada, esto está desactivado. Activa esta opción para compartir los resultados de tus torneos con el mundo."
 
 #: pokemongo/models.py:2416
 msgid "Publicly Joinable"
-msgstr ""
+msgstr "Unirse públicamente"
 
 #: pokemongo/models.py:2418
 msgid "By default, this is off. Turn this on to make your community free to join. No invites required."
-msgstr ""
+msgstr "De forma predeterminada, esto está desactivado. Actívalo para hacer que tu comunidad se una libremente. No se requieren invitaciones."
 
 #: pokemongo/models.py:2425
 msgid "Tournament: Publicly Viewable"
-msgstr ""
+msgstr "Torneo: Visible publicamente"
 
 #: pokemongo/models.py:2427
 msgid "By default, this is off. Turn this on to share your tournament results with the world."
-msgstr ""
+msgstr "De forma predeterminada, esto está desactivado. Activa esta opción para compartir los resultados de tus torneos con el mundo."
 
 #: pokemongo/models.py:2455
 msgid "Community"
-msgstr ""
+msgstr "Comunidad"
 
 #: pokemongo/models.py:2456
 msgid "Communities"
-msgstr ""
+msgstr "Comunidades"
 
 #: pokemongo/models.py:2465
 msgid "Members in this Discord are automatically included in the community."
-msgstr ""
+msgstr "Los miembros de este Discord se incluyen automáticamente en la comunidad."
 
 #: pokemongo/models.py:2512
 msgid "Community Discord Connection"
-msgstr ""
+msgstr "Conexión a la Comunidad de Discord"
 
 #: pokemongo/models.py:2513
 msgid "Community Discord Connections"
-msgstr ""
+msgstr "Conexiones a la Comunidad de Discord"
 
 #: pokemongo/templates/account/signup2.html:17
 msgid "Step 2"
@@ -1488,24 +1507,24 @@ msgstr "Actualizar estadísticas "
 
 #: pokemongo/templates/create_update.html:20
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: pokemongo/templates/create_update.html:22
 msgid "Welcome to the TrainerDex. Please be honest and truthful, if caught intentionally providing false information, you may be banned."
-msgstr ""
+msgstr "Bienvenido al TrainerDex. Por favor, sea honesto y veraz, si es capturado intencionalmente proporcionando información falsa, usted puede ser suspendido."
 
 #: pokemongo/templates/create_update.html:23
 msgid "All the questions relate to a section in the game and examples are provided to help if you get stuck."
-msgstr ""
+msgstr "Todas las preguntas relacionadas a una sección del juego y los ejemplos se proporcionan para ayudar si te quedas atascado."
 
 #: pokemongo/templates/create_update.html:24
 #, python-format
 msgid "All fields marked with an asterix&nbsp;(%(required)s) are required."
-msgstr ""
+msgstr "Todos los campos marcados con asterisco&nbsp; (%(required)s) son requeridos."
 
 #: pokemongo/templates/create_update.html:111
 msgid "More info..."
-msgstr ""
+msgstr "Más información..."
 
 #: pokemongo/templates/leaderboard.html:7
 #: pokemongo/templates/leaderboard.html:12
@@ -1544,7 +1563,7 @@ msgstr "No hay información incluida en esta Tabla de Lideres, ¿Porqué no ser 
 
 #: pokemongo/templates/profile.html:20
 msgid "Level"
-msgstr ""
+msgstr "Nivel"
 
 #: pokemongo/templates/profile.html:21 pokemongo/templates/profile.html:40
 msgctxt "Short form of XP"
@@ -1563,12 +1582,12 @@ msgstr "Insignias"
 
 #: pokemongo/templates/profile.html:123
 msgid "It seems this trainer hasn't shared any of their medals."
-msgstr ""
+msgstr "Parece que este entrenador no ha compartido ninguna de sus medallas."
 
 #: pokemongo/validators.py:8
 msgctxt "onboard_name_invalid_characters_error"
 msgid "Only letters and numbers are allowed."
-msgstr ""
+msgstr "Solo letras y números permitidos."
 
 #: pokemongo/validators.py:15
 msgid "Trainer Code must be 12 digits long and contain only numbers and whitespace."
@@ -1577,7 +1596,7 @@ msgstr "El código de entrenador debe tener 12 dígitos y sólo contiene número
 #: pokemongo/views.py:55
 #, python-brace-format
 msgid "{0} has not completed their profile."
-msgstr ""
+msgstr "{0} no ha completado su perfil."
 
 #: pokemongo/views.py:112 pokemongo/views.py:190 pokemongo/views.py:271
 msgid "Please complete your profile to continue using the website."
@@ -1585,25 +1604,25 @@ msgstr "Por favor, complete su perfil para continuar utilizando el sitio."
 
 #: pokemongo/views.py:239
 msgid "Statistics updated"
-msgstr ""
+msgstr "Estadísticas actualizadas"
 
 #: pokemongo/views.py:254
 msgid "Since you have posted in the past hour, you are currently updating your previous post."
-msgstr ""
+msgstr "Puesto que has publicado en la última hora, actualmente estás actualizando tu publicación anterior."
 
 #: pokemongo/views.py:282
 #, python-brace-format
 msgid "No country found for code {country}"
-msgstr ""
+msgstr "Ningún país encontrado para el código {country}"
 
 #: pokemongo/views.py:298
 #, python-brace-format
 msgid "No community found for handle {community}"
-msgstr ""
+msgstr "No se encontró ninguna comunidad {community}"
 
 #: pokemongo/views.py:305
 msgid "Access denied"
-msgstr ""
+msgstr "Acceso denegado"
 
 #: pokemongo/views.py:430
 msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. An admin will verify you within the next couple of days. Until then, you will not appear in the Global Leaderboard but you can still use Guild Leaderboards and and update your stats!"
@@ -1672,5 +1691,5 @@ msgstr "Equipo Instinto"
 #: trainerdex/urls.py:60
 #, python-brace-format
 msgid "{site_name} Admin"
-msgstr ""
+msgstr "{site_name} Administración del sitio"
 
