@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-30 13:40+0000\n"
+"POT-Creation-Date: 2020-09-01 09:20+0000\n"
 "PO-Revision-Date: 2019-02-18 15:05+0000\n"
 "Last-Translator: b'Jay Turner <jaynicholasturner@gmail.com>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,40 @@ msgstr ""
 
 #: core/admin.py:74 core/admin.py:75
 msgid "Discord Server Settings"
+msgstr ""
+
+#: core/management/commands/gains_leaderboard.py:142
+#, python-brace-format
+msgid "Weekly {stat} Gains Leaderboard for `{guild.name}`"
+msgstr ""
+
+#: core/management/commands/gains_leaderboard.py:148
+#, python-brace-format
+msgid ""
+"**{title}**\n"
+"Unfortunately, there were not valid entries this week."
+msgstr ""
+
+#: core/management/commands/gains_leaderboard.py:153
+#, python-brace-format
+msgid ""
+"#{position} **{trainer}** @ {rate}/day (+{delta}) `Interval: {interval}` "
+"`Gain: {then} ⇒ {now}`"
+msgstr ""
+
+#: core/management/commands/gains_leaderboard.py:168
+#, python-brace-format
+msgid ""
+"**{title}**\n"
+"Week: `{year}W{week}` Dealine: `{this_week_deadline} UTC`\n"
+"\n"
+"{ranked}\n"
+"\n"
+"**{new_count}** New entries: {new}\n"
+"\n"
+"New entries will be ranked next week if they update by the deadline.\n"
+"**{lost_count}** Trainers from last week didn't update again this week.\n"
+"**Next weeks deadline is: `{deadline} UTC`**\n"
 msgstr ""
 
 #: core/models.py:172
@@ -76,43 +110,35 @@ msgstr ""
 msgid "Level Indicator format"
 msgstr ""
 
-#: core/models.py:254
-msgid "Plain ol' Numbers"
-msgstr ""
-
-#: core/models.py:255
-msgid "Circled Numbers ㊵"
-msgstr ""
-
-#: core/models.py:347
+#: core/models.py:344
 msgid "Discord Channel"
 msgstr ""
 
-#: core/models.py:348
+#: core/models.py:345
 msgid "Discord Channels"
 msgstr ""
 
-#: core/models.py:424
+#: core/models.py:421
 msgid "Discord Role"
 msgstr ""
 
-#: core/models.py:425
+#: core/models.py:422
 msgid "Discord Roles"
 msgstr ""
 
-#: core/models.py:449
+#: core/models.py:446
 msgid "Discord User"
 msgstr ""
 
-#: core/models.py:450
+#: core/models.py:447
 msgid "Discord Users"
 msgstr ""
 
-#: core/models.py:547
+#: core/models.py:544
 msgid "Discord Member"
 msgstr ""
 
-#: core/models.py:548
+#: core/models.py:545
 msgid "Discord Members"
 msgstr ""
 
