@@ -864,7 +864,7 @@ class Update(models.Model):
             return level_parser(xp=self.total_xp).level
 
     def __str__(self) -> str:
-        return _("Update(trainer: {trainer}, update_time: {time}, {stats})").format(
+        return "Update(trainer: {trainer}, update_time: {time}, {stats})".format(
             trainer=self.trainer,
             time=self.update_time,
             stats=",".join([f"{x}: {getattr(self, x)}" for x in self.modified_fields()]),
