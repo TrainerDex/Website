@@ -5,15 +5,15 @@ msgstr ""
 "POT-Creation-Date: 2020-09-02 09:42+0000\n"
 "PO-Revision-Date: 2020-09-02 09:42\n"
 "Last-Translator: \n"
-"Language-Team: Korean\n"
-"Language: ko_KR\n"
+"Language-Team: Dutch, Belgium\n"
+"Language: nl_BE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: trainerdex\n"
 "X-Crowdin-Project-ID: 413366\n"
-"X-Crowdin-Language: ko\n"
+"X-Crowdin-Language: nl-BE\n"
 "X-Crowdin-File: django.pot\n"
 "X-Crowdin-File-ID: 38\n"
 
@@ -61,12 +61,14 @@ msgstr ""
 msgid "Succesfully imported {success} of {total} new member to {guild}"
 msgid_plural "Succesfully imported {success} of {total} new members to {guild}"
 msgstr[0] ""
+msgstr[1] ""
 
 #: core/models.py:183
 #, python-brace-format
 msgid "{count} member left {guild}"
 msgid_plural "{count} members left {guild}"
 msgstr[0] ""
+msgstr[1] ""
 
 #: core/models.py:216
 msgid "Discord Guild"
@@ -541,7 +543,7 @@ msgstr ""
 #: core/templates/base.html:112 core/templates/base.html:113
 #: pokemongo/admin.py:133 pokemongo/templates/leaderboard.html:28
 msgid "Leaderboard"
-msgstr "리더 보드"
+msgstr ""
 
 #: core/templates/base.html:78 core/templates/base.html:101
 msgid "Log out"
@@ -670,7 +672,7 @@ msgstr ""
 #: pokemongo/templates/profile.html:19
 msgctxt "faction"
 msgid "Team"
-msgstr "파티"
+msgstr ""
 
 #: pokemongo/models.py:114
 msgid "Last Cheated"
@@ -1001,6 +1003,7 @@ msgctxt "badge_max_level_friends"
 msgid "Become Best Friends with {0} Trainer."
 msgid_plural "Become Best Friends with {0} Trainers."
 msgstr[0] ""
+msgstr[1] ""
 
 #: pokemongo/models.py:540
 msgctxt "badge_trading_title"
@@ -1044,6 +1047,7 @@ msgctxt "badge_great_league"
 msgid "Win a Trainer Battle in the Great League."
 msgid_plural "Win {0} Trainer Battles in the Great League."
 msgstr[0] ""
+msgstr[1] ""
 
 #: pokemongo/models.py:577
 msgctxt "badge_ultra_league_title"
@@ -1056,6 +1060,7 @@ msgctxt "badge_ultra_league"
 msgid "Win a Trainer Battle in the Ultra League."
 msgid_plural "Win {0} Trainer Battles in the Ultra League."
 msgstr[0] ""
+msgstr[1] ""
 
 #: pokemongo/models.py:588
 msgctxt "badge_master_league_title"
@@ -1068,6 +1073,7 @@ msgctxt "badge_master_league"
 msgid "Win a Trainer Battle in the Master League."
 msgid_plural "Win {0} Trainer Battles in the Master League."
 msgstr[0] ""
+msgstr[1] ""
 
 #: pokemongo/models.py:599
 msgctxt "badge_photobomb_title"
@@ -1080,6 +1086,7 @@ msgctxt "badge_photobomb"
 msgid "Have {0} surprise encounter in GO Snapshot."
 msgid_plural "Have {0} surprise encounters in GO Snapshot."
 msgstr[0] ""
+msgstr[1] ""
 
 #: pokemongo/models.py:610
 msgctxt "badge_pokedex_entries_gen5__title"
@@ -1124,6 +1131,7 @@ msgctxt "badge_rocket_giovanni_defeated"
 msgid "Defeat the Team GO Rocket Boss."
 msgid_plural "Defeat the Team GO Rocket Boss {0} times. "
 msgstr[0] ""
+msgstr[1] ""
 
 #: pokemongo/models.py:647
 msgctxt "badge_buddy_best_title"
@@ -1136,6 +1144,7 @@ msgctxt "badge_buddy_best"
 msgid "Have 1 Best Buddy."
 msgid_plural "Have {0} Best Buddies."
 msgstr[0] ""
+msgstr[1] ""
 
 #: pokemongo/models.py:658
 msgctxt "badge_wayfarer_title"
@@ -1148,6 +1157,7 @@ msgctxt "badge_wayfarer"
 msgid "Earn a Wayfarer Agreement"
 msgid_plural "Earn {0} Wayfarer Agreements"
 msgstr[0] ""
+msgstr[1] ""
 
 #: pokemongo/models.py:669
 msgctxt "badge_total_mega_evos_title"
@@ -1527,14 +1537,14 @@ msgstr ""
 #: pokemongo/templates/leaderboard.html:7
 #: pokemongo/templates/leaderboard.html:12
 msgid "International"
-msgstr "국제"
+msgstr ""
 
 #: pokemongo/templates/leaderboard.html:7
 #: pokemongo/templates/leaderboard.html:12
 #, python-format
 msgctxt "This is the title, loc is defined as the country/continent name, or the word International (which is translated seperately)."
 msgid "%(loc)s Leaderboard"
-msgstr "%(loc)s 리더 보드"
+msgstr ""
 
 #: pokemongo/templates/leaderboard.html:40
 msgctxt "Total XP of all Trainers on leaderboard"
@@ -1669,22 +1679,22 @@ msgstr ""
 #: trainerdex/settings.py:260
 msgctxt "team_name_team0"
 msgid "No Team"
-msgstr "소속없음"
+msgstr ""
 
 #: trainerdex/settings.py:261
 msgctxt "team_name_team1"
 msgid "Team Mystic"
-msgstr "팀 미스틱"
+msgstr ""
 
 #: trainerdex/settings.py:262
 msgctxt "team_name_team2"
 msgid "Team Valor"
-msgstr "팀 발로"
+msgstr ""
 
 #: trainerdex/settings.py:263
 msgctxt "team_name_team3"
 msgid "Team Instinct"
-msgstr "팀 인스팅트"
+msgstr ""
 
 #: trainerdex/urls.py:60
 #, python-brace-format
