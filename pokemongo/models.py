@@ -18,7 +18,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _, pgettext_lazy
+from django.utils.translation import gettext_lazy as _, pgettext_lazy, npgettext_lazy
 
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 from cities.models import Country
@@ -527,8 +527,11 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"),
-        help_text=pgettext_lazy(
-            "badge_max_level_friends", "Become Best Friends with {0} Trainers."
+        help_text=npgettext_lazy(
+            context="badge_max_level_friends",
+            singular="Become Best Friends with {0} Trainer.",
+            plural="Become Best Friends with {0} Trainers.",
+            number=3,
         ).format(3),
     )
     badge_trading = models.PositiveIntegerField(
@@ -561,32 +564,44 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_great_league_title", "Great League Veteran"),
-        help_text=pgettext_lazy(
-            "badge_great_league", "Win {} Trainer Battles in the Great League."
+        help_text=npgettext_lazy(
+            context="badge_great_league",
+            singular="Win a Trainer Battle in the Great League.",
+            plural="Win {0} Trainer Battles in the Great League.",
+            number=200,
         ).format(200),
     )
     badge_ultra_league = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_ultra_league_title", "Ultra League Veteran"),
-        help_text=pgettext_lazy(
-            "badge_ultra_league", "Win {} Trainer Battles in the Ultra League."
+        help_text=npgettext_lazy(
+            context="badge_ultra_league",
+            singular="Win a Trainer Battle in the Ultra League.",
+            plural="Win {0} Trainer Battles in the Ultra League.",
+            number=200,
         ).format(200),
     )
     badge_master_league = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_master_league_title", "Master League Veteran"),
-        help_text=pgettext_lazy(
-            "badge_master_league", "Win {} Trainer Battles in the Master League."
+        help_text=npgettext_lazy(
+            context="badge_master_league",
+            singular="Win a Trainer Battle in the Master League.",
+            plural="Win {0} Trainer Battles in the Master League.",
+            number=200,
         ).format(200),
     )
     badge_photobomb = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_photobomb_title", "Cameraman"),
-        help_text=pgettext_lazy(
-            "badge_photobomb", "Have {0} surprise encounters in GO Snapshot."
+        help_text=npgettext_lazy(
+            context="badge_photobomb",
+            singular="Have {0} surprise encounter in GO Snapshot.",
+            plural="Have {0} surprise encounters in GO Snapshot.",
+            number=200,
         ).format(200),
     )
     badge_pokedex_entries_gen5 = models.PositiveIntegerField(
@@ -619,21 +634,34 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_rocket_giovanni_defeated_title", "Ultra Hero"),
-        help_text=pgettext_lazy(
-            "badge_rocket_giovanni_defeated", "Defeat Giovanni {0} time(s)."
+        help_text=npgettext_lazy(
+            context="badge_rocket_giovanni_defeated",
+            singular="Defeat the Team GO Rocket Boss.",
+            plural="Defeat the Team GO Rocket Boss {0} times. ",
+            number=20,
         ).format(20),
     )
     badge_buddy_best = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_buddy_best_title", "Best Buddy"),
-        help_text=pgettext_lazy("badge_buddy_best", "Have {0} Best Buddies.").format(100),
+        help_text=npgettext_lazy(
+            context="badge_buddy_best",
+            singular="Have 1 Best Buddy.",
+            plural="Have {0} Best Buddies.",
+            number=100,
+        ).format(100),
     )
     badge_wayfarer = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_wayfarer_title", "Wayfarer"),
-        help_text=pgettext_lazy("badge_wayfarer", "Earn {0:,} Wayfarer Agreements.").format(1000),
+        help_text=npgettext_lazy(
+            context="badge_wayfarer",
+            singular="Earn a Wayfarer Agreement",
+            plural="Earn {0} Wayfarer Agreements",
+            number=1000,
+        ).format(1000),
     )
     badge_total_mega_evos = models.PositiveIntegerField(
         null=True,
