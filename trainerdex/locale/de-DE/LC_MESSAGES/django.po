@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-02 09:42+0000\n"
-"PO-Revision-Date: 2020-09-04 09:51\n"
+"PO-Revision-Date: 2020-09-04 10:07\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1625,7 +1625,7 @@ msgstr ""
 #: pokemongo/views.py:282
 #, python-brace-format
 msgid "No country found for code {country}"
-msgstr "Kein Land gefunden, die für die code {}"
+msgstr "Kein Land gefunden, die für die code {country}"
 
 #: pokemongo/views.py:298
 #, python-brace-format
