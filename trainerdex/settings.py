@@ -121,9 +121,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -133,17 +131,20 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = "en"
+LANGUAGE_CODE = "en-US"
 LANGUAGES = [
-    ("en", _("English")),
-    ("de", _("German")),
-    ("es", _("Spanish")),
-    ("fr", _("French")),
-    ("it", _("Italian")),
-    ("ja", _("Japanese")),
-    ("ko", _("Korean")),
-    ("pt-br", _("Brazilian Portuguese")),
-    ("zh-hant", _("Traditional Chinese")),
+    ("en-US", _("English")),
+    ("de-DE", _("German")),
+    ("es-ES", _("Spanish")),
+    ("fr-FR", _("French")),
+    ("it-IT", _("Italian")),
+    ("ja-JP", _("Japanese")),
+    ("ko-KR", _("Korean")),
+    ("pt-BR", _("Brazilian Portuguese")),
+    ("zh-HK", _("Traditional Chinese")),
+    ("th-TH", _("Thai")),
+    ("nl-NL", _("Dutch")),
+    ("nl-BE", _("Dutch (Belgium)")),
 ]
 
 TIME_ZONE = "UTC"
@@ -207,10 +208,7 @@ SOCIALACCOUNT_PROVIDERS = {
         "SCOPE": ["identity", "submit"],
         "USER_AGENT": "django:trainerdex:1.0 (by /u/jayturnr)",
     },
-    "google": {
-        "SCOPE": ["profile", "email"],
-        "AUTH_PARAMS": {"access_type": "online"},
-    },
+    "google": {"SCOPE": ["profile", "email"], "AUTH_PARAMS": {"access_type": "online"}},
     "discord": {"SCOPE": ["identify", "email", "guilds", "guilds.join", "gdm.join"]},
 }
 SOCIALACCOUNT_QUERY_EMAIL = True
