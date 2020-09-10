@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-02 09:42+0000\n"
-"PO-Revision-Date: 2020-09-04 09:51\n"
+"POT-Creation-Date: 2020-09-10 08:15+0000\n"
+"PO-Revision-Date: 2020-09-10 08:15\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Traditional, Hong Kong\n"
 "Language: zh_HK\n"
@@ -1630,58 +1630,70 @@ msgstr ""
 msgid "Stats updated. Screenshot included."
 msgstr ""
 
-#: trainerdex/settings.py:138
+#: trainerdex/settings.py:136
 msgid "English"
 msgstr "英语"
 
-#: trainerdex/settings.py:139
+#: trainerdex/settings.py:137
 msgid "German"
 msgstr "德"
 
-#: trainerdex/settings.py:140
+#: trainerdex/settings.py:138
 msgid "Spanish"
 msgstr "西班牙语"
 
-#: trainerdex/settings.py:141
+#: trainerdex/settings.py:139
 msgid "French"
 msgstr "法语"
 
-#: trainerdex/settings.py:142
+#: trainerdex/settings.py:140
 msgid "Italian"
 msgstr "意大利语"
 
-#: trainerdex/settings.py:143
+#: trainerdex/settings.py:141
 msgid "Japanese"
 msgstr "日本"
 
-#: trainerdex/settings.py:144
+#: trainerdex/settings.py:142
 msgid "Korean"
 msgstr "韩国"
 
-#: trainerdex/settings.py:145
+#: trainerdex/settings.py:143
 msgid "Brazilian Portuguese"
 msgstr "巴西葡萄牙语"
 
-#: trainerdex/settings.py:146
+#: trainerdex/settings.py:144
 msgid "Traditional Chinese"
 msgstr "中国传统"
 
-#: trainerdex/settings.py:260
+#: trainerdex/settings.py:145
+msgid "Thai"
+msgstr ""
+
+#: trainerdex/settings.py:146
+msgid "Dutch"
+msgstr ""
+
+#: trainerdex/settings.py:147
+msgid "Dutch (Belgium)"
+msgstr ""
+
+#: trainerdex/settings.py:258
 msgctxt "team_name_team0"
 msgid "No Team"
 msgstr "未選擇隊伍"
 
-#: trainerdex/settings.py:261
+#: trainerdex/settings.py:259
 msgctxt "team_name_team1"
 msgid "Team Mystic"
 msgstr "叡智隊"
 
-#: trainerdex/settings.py:262
+#: trainerdex/settings.py:260
 msgctxt "team_name_team2"
 msgid "Team Valor"
 msgstr "武勇隊"
 
-#: trainerdex/settings.py:263
+#: trainerdex/settings.py:261
 msgctxt "team_name_team3"
 msgid "Team Instinct"
 msgstr "靈犀隊"
