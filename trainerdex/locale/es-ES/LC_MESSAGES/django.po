@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-10 08:15+0000\n"
-"PO-Revision-Date: 2020-09-10 08:15\n"
+"PO-Revision-Date: 2020-09-11 23:40\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Project: trainerdex\n"
 "X-Crowdin-Project-ID: 413366\n"
 "X-Crowdin-Language: es-ES\n"
-"X-Crowdin-File: django.pot\n"
+"X-Crowdin-File: /master/django.pot\n"
 "X-Crowdin-File-ID: 38\n"
 
 #: core/admin.py:34
@@ -1692,15 +1692,15 @@ msgstr "Chino Tradicional"
 
 #: trainerdex/settings.py:145
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #: trainerdex/settings.py:146
 msgid "Dutch"
-msgstr ""
+msgstr "Holandés"
 
 #: trainerdex/settings.py:147
 msgid "Dutch (Belgium)"
-msgstr ""
+msgstr "Holandés (Bélgica)"
 
 #: trainerdex/settings.py:258
 msgctxt "team_name_team0"
