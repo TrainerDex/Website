@@ -141,10 +141,8 @@ LANGUAGES = [
     ("ja-JP", _("Japanese")),
     ("ko-KR", _("Korean")),
     ("pt-BR", _("Brazilian Portuguese")),
-    ("zh-HK", _("Traditional Chinese")),
     ("th-TH", _("Thai")),
-    ("nl-NL", _("Dutch")),
-    ("nl-BE", _("Dutch (Belgium)")),
+    ("zh-HK", _("Traditional Chinese")),
 ]
 
 TIME_ZONE = "UTC"
