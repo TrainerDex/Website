@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-02 09:42+0000\n"
-"PO-Revision-Date: 2020-09-04 09:51\n"
+"POT-Creation-Date: 2020-09-10 08:15+0000\n"
+"PO-Revision-Date: 2020-09-10 08:15\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -1016,8 +1016,8 @@ msgstr "Famoso"
 msgctxt "badge_max_level_friends"
 msgid "Become Best Friends with {0} Trainer."
 msgid_plural "Become Best Friends with {0} Trainers."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Entabla una amistad sin igual con {0} Entrenador."
+msgstr[1] "Entabla una amistad sin igual con {0} Entrenadores."
 
 #: pokemongo/models.py:540
 msgctxt "badge_trading_title"
@@ -1060,8 +1060,8 @@ msgstr "Veterano Liga Super Ball"
 msgctxt "badge_great_league"
 msgid "Win a Trainer Battle in the Great League."
 msgid_plural "Win {0} Trainer Battles in the Great League."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Gana un combate de Entrenador de Liga Super Ball."
+msgstr[1] "Gana {0} combates de Entrenador de Liga Super Ball."
 
 #: pokemongo/models.py:577
 msgctxt "badge_ultra_league_title"
@@ -1073,8 +1073,8 @@ msgstr "Veterano Liga Ultra Ball"
 msgctxt "badge_ultra_league"
 msgid "Win a Trainer Battle in the Ultra League."
 msgid_plural "Win {0} Trainer Battles in the Ultra League."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Gana un combate de Entrenador de Liga Ultra Ball."
+msgstr[1] "Gana {0} combates de Entrenador de Liga Ultra Ball."
 
 #: pokemongo/models.py:588
 msgctxt "badge_master_league_title"
@@ -1086,8 +1086,8 @@ msgstr "Veterano Liga Master Ball"
 msgctxt "badge_master_league"
 msgid "Win a Trainer Battle in the Master League."
 msgid_plural "Win {0} Trainer Battles in the Master League."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Gana un combate de Entrenador de Liga Master Ball."
+msgstr[1] "Gana {0} combates de Entrenador de Liga Master Ball."
 
 #: pokemongo/models.py:599
 msgctxt "badge_photobomb_title"
@@ -1099,8 +1099,8 @@ msgstr "Camarógrafo"
 msgctxt "badge_photobomb"
 msgid "Have {0} surprise encounter in GO Snapshot."
 msgid_plural "Have {0} surprise encounters in GO Snapshot."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ten {0} encuentro sorpresa al usar Instantánea de GO."
+msgstr[1] "Ten {0} encuentros sorpresa al usar Instantánea de GO."
 
 #: pokemongo/models.py:610
 msgctxt "badge_pokedex_entries_gen5__title"
@@ -1144,8 +1144,8 @@ msgstr "Ultrahéroe"
 msgctxt "badge_rocket_giovanni_defeated"
 msgid "Defeat the Team GO Rocket Boss."
 msgid_plural "Defeat the Team GO Rocket Boss {0} times. "
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Derrota al jefe del Team GO Rocket."
+msgstr[1] "Derrota al jefe del Team GO Rocket {0} veces. "
 
 #: pokemongo/models.py:647
 msgctxt "badge_buddy_best_title"
@@ -1157,8 +1157,8 @@ msgstr "Mejor compañero"
 msgctxt "badge_buddy_best"
 msgid "Have 1 Best Buddy."
 msgid_plural "Have {0} Best Buddies."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ten un mejor compañero."
+msgstr[1] "Ten {0} mejores compañeros."
 
 #: pokemongo/models.py:658
 msgctxt "badge_wayfarer_title"
@@ -1170,8 +1170,8 @@ msgstr "Wayfarer"
 msgctxt "badge_wayfarer"
 msgid "Earn a Wayfarer Agreement"
 msgid_plural "Earn {0} Wayfarer Agreements"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Gana un Acuerdo de Wayfarer"
+msgstr[1] "Gana {0} Acuerdos de Wayfarer"
 
 #: pokemongo/models.py:669
 msgctxt "badge_total_mega_evos_title"
@@ -1654,58 +1654,70 @@ msgstr "Gracias por completar tu perfil. Tus capturas de pantallas han sido envi
 msgid "Stats updated. Screenshot included."
 msgstr "Estadísticas actualizadas. Capturas de pantallas incluídas. "
 
-#: trainerdex/settings.py:138
+#: trainerdex/settings.py:136
 msgid "English"
 msgstr "Inglés"
 
-#: trainerdex/settings.py:139
+#: trainerdex/settings.py:137
 msgid "German"
 msgstr "Alemán"
 
-#: trainerdex/settings.py:140
+#: trainerdex/settings.py:138
 msgid "Spanish"
 msgstr "Español"
 
-#: trainerdex/settings.py:141
+#: trainerdex/settings.py:139
 msgid "French"
 msgstr "Francés"
 
-#: trainerdex/settings.py:142
+#: trainerdex/settings.py:140
 msgid "Italian"
 msgstr "Italiano"
 
-#: trainerdex/settings.py:143
+#: trainerdex/settings.py:141
 msgid "Japanese"
 msgstr "Japonés"
 
-#: trainerdex/settings.py:144
+#: trainerdex/settings.py:142
 msgid "Korean"
 msgstr "Coreano"
 
-#: trainerdex/settings.py:145
+#: trainerdex/settings.py:143
 msgid "Brazilian Portuguese"
 msgstr "Portugués Brasileño"
 
-#: trainerdex/settings.py:146
+#: trainerdex/settings.py:144
 msgid "Traditional Chinese"
 msgstr "Chino Tradicional"
 
-#: trainerdex/settings.py:260
+#: trainerdex/settings.py:145
+msgid "Thai"
+msgstr ""
+
+#: trainerdex/settings.py:146
+msgid "Dutch"
+msgstr ""
+
+#: trainerdex/settings.py:147
+msgid "Dutch (Belgium)"
+msgstr ""
+
+#: trainerdex/settings.py:258
 msgctxt "team_name_team0"
 msgid "No Team"
 msgstr "Sin equipo"
 
-#: trainerdex/settings.py:261
+#: trainerdex/settings.py:259
 msgctxt "team_name_team1"
 msgid "Team Mystic"
 msgstr "Equipo Sabiduría"
 
-#: trainerdex/settings.py:262
+#: trainerdex/settings.py:260
 msgctxt "team_name_team2"
 msgid "Team Valor"
 msgstr "Equipo Valor"
 
-#: trainerdex/settings.py:263
+#: trainerdex/settings.py:261
 msgctxt "team_name_team3"
 msgid "Team Instinct"
 msgstr "Equipo Instinto"

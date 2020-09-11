@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-02 09:42+0000\n"
-"PO-Revision-Date: 2020-09-04 09:51\n"
+"POT-Creation-Date: 2020-09-10 08:15+0000\n"
+"PO-Revision-Date: 2020-09-10 08:15\n"
 "Last-Translator: \n"
 "Language-Team: Korean\n"
 "Language: ko_KR\n"
@@ -660,7 +660,7 @@ msgstr ""
 #: pokemongo/models.py:103
 msgctxt "profile_start_date"
 msgid "Start Date"
-msgstr ""
+msgstr "시작한 날"
 
 #: pokemongo/models.py:104
 msgid "The date you created your Pokémon Go account."
@@ -683,7 +683,7 @@ msgstr ""
 #: pokemongo/models.py:119
 msgctxt "Profile_Category_Stats"
 msgid "Statistics"
-msgstr ""
+msgstr "Stats"
 
 #: pokemongo/models.py:121
 msgid "Would you like to be shown on the leaderboard? Ticking this box gives us permission to process your data."
@@ -779,7 +779,7 @@ msgstr ""
 #: pokemongo/models.py:376
 msgctxt "PROFILE_TOTAL_XP"
 msgid "Total XP"
-msgstr ""
+msgstr "Total XP"
 
 #: pokemongo/models.py:383
 msgctxt "pokedex_page_caught"
@@ -815,23 +815,23 @@ msgstr ""
 #: pokemongo/models.py:412
 msgctxt "badge_capture_total_title"
 msgid "Collector"
-msgstr ""
+msgstr "콜렉터"
 
 #: pokemongo/models.py:413
 msgctxt "badge_capture_total"
 msgid "Catch {0:,} Pokémon."
-msgstr ""
+msgstr "포켓몬을 {0} 마리 잡았다!"
 
 #: pokemongo/models.py:418
 msgctxt "badge_evolved_total_title"
 msgid "Scientist"
-msgstr ""
+msgstr "연구원"
 
 #: pokemongo/models.py:419
 #, python-brace-format
 msgctxt "badge_evolved_total"
 msgid "Evolve {0} Pokémon."
-msgstr ""
+msgstr "포켓몬을 {0} 마리 진화했다!"
 
 #: pokemongo/models.py:424
 msgctxt "badge_hatched_total_title"
@@ -857,33 +857,33 @@ msgstr ""
 #: pokemongo/models.py:436
 msgctxt "badge_big_magikarp_title"
 msgid "Fisherman"
-msgstr ""
+msgstr "낚시꾼"
 
 #: pokemongo/models.py:437
 #, python-brace-format
 msgctxt "badge_big_magikarp"
 msgid "Catch {0} big Magikarp."
-msgstr ""
+msgstr "거대한 잉어킹을 {0} 마리 잡았다!"
 
 #: pokemongo/models.py:442
 msgctxt "badge_battle_attack_won_title"
 msgid "Battle Girl"
-msgstr ""
+msgstr "배틀걸"
 
 #: pokemongo/models.py:443
 msgctxt "badge_battle_attack_won"
 msgid "Win {0:,} Gym battles."
-msgstr ""
+msgstr "체육관에서 {0} 회 배틀에 이겼다!"
 
 #: pokemongo/models.py:448
 msgctxt "badge_battle_training_won_title"
 msgid "Ace Trainer"
-msgstr ""
+msgstr "엘리트 트레이너"
 
 #: pokemongo/models.py:449
 msgctxt "badge_battle_training_won"
 msgid "Train {0:,} times."
-msgstr ""
+msgstr "포켓몬을 {0} 마리 트레이닝했다!"
 
 #: pokemongo/models.py:454
 msgctxt "badge_small_rattata_title"
@@ -952,12 +952,12 @@ msgstr ""
 #: pokemongo/models.py:497
 msgctxt "badge_berries_fed_title"
 msgid "Berry Master"
-msgstr ""
+msgstr "나무열매 마스터"
 
 #: pokemongo/models.py:498
 msgctxt "badge_berries_fed"
 msgid "Feed {0:,} Berries at Gyms."
-msgstr ""
+msgstr "포켓몬에게 {0}개 나무열매를 줬다!"
 
 #: pokemongo/models.py:503
 msgctxt "badge_hours_defended_title"
@@ -983,12 +983,12 @@ msgstr ""
 #: pokemongo/models.py:521
 msgctxt "badge_challenge_quests_title"
 msgid "Pokémon Ranger"
-msgstr ""
+msgstr "포켓몬 레인저"
 
 #: pokemongo/models.py:523
 msgctxt "badge_challenge_quests"
 msgid "Complete {0:,} Field Research tasks."
-msgstr ""
+msgstr "필드리서치를 {0}건 완료한다"
 
 #: pokemongo/models.py:529
 msgctxt "badge_max_level_friends_title"
@@ -1128,14 +1128,14 @@ msgstr[0] ""
 #: pokemongo/models.py:647
 msgctxt "badge_buddy_best_title"
 msgid "Best Buddy"
-msgstr ""
+msgstr "베스트 파트너"
 
 #: pokemongo/models.py:650
 #, python-brace-format
 msgctxt "badge_buddy_best"
 msgid "Have 1 Best Buddy."
 msgid_plural "Have {0} Best Buddies."
-msgstr[0] ""
+msgstr[0] "{0}마리 포켓몬과 베스트 파트너가 되었다"
 
 #: pokemongo/models.py:658
 msgctxt "badge_wayfarer_title"
@@ -1372,7 +1372,7 @@ msgstr ""
 #: pokemongo/models.py:875
 msgctxt "gymbadges_total"
 msgid "Gym Badges"
-msgstr ""
+msgstr "체육관 배지"
 
 #: pokemongo/models.py:881
 msgctxt "gymbadges_gold"
@@ -1539,7 +1539,7 @@ msgstr "%(loc)s 리더 보드"
 #: pokemongo/templates/leaderboard.html:40
 msgctxt "Total XP of all Trainers on leaderboard"
 msgid "Total XP"
-msgstr ""
+msgstr "Total XP"
 
 #: pokemongo/templates/leaderboard.html:40
 msgid "Trainers Considered"
@@ -1561,12 +1561,12 @@ msgstr ""
 
 #: pokemongo/templates/profile.html:20
 msgid "Level"
-msgstr ""
+msgstr "레벨"
 
 #: pokemongo/templates/profile.html:21 pokemongo/templates/profile.html:40
 msgctxt "Short form of XP"
 msgid "XP"
-msgstr ""
+msgstr "XP"
 
 #: pokemongo/templates/profile.html:61
 msgctxt "profile_category_history"
@@ -1576,7 +1576,7 @@ msgstr ""
 #: pokemongo/templates/profile.html:62
 msgctxt "profile_category_medals"
 msgid "Medals"
-msgstr ""
+msgstr "메달"
 
 #: pokemongo/templates/profile.html:123
 msgid "It seems this trainer hasn't shared any of their medals."
@@ -1630,58 +1630,70 @@ msgstr ""
 msgid "Stats updated. Screenshot included."
 msgstr ""
 
-#: trainerdex/settings.py:138
+#: trainerdex/settings.py:136
 msgid "English"
 msgstr ""
 
-#: trainerdex/settings.py:139
+#: trainerdex/settings.py:137
 msgid "German"
 msgstr ""
 
-#: trainerdex/settings.py:140
+#: trainerdex/settings.py:138
 msgid "Spanish"
 msgstr ""
 
-#: trainerdex/settings.py:141
+#: trainerdex/settings.py:139
 msgid "French"
 msgstr ""
 
-#: trainerdex/settings.py:142
+#: trainerdex/settings.py:140
 msgid "Italian"
 msgstr ""
 
-#: trainerdex/settings.py:143
+#: trainerdex/settings.py:141
 msgid "Japanese"
 msgstr ""
 
-#: trainerdex/settings.py:144
+#: trainerdex/settings.py:142
 msgid "Korean"
 msgstr ""
 
-#: trainerdex/settings.py:145
+#: trainerdex/settings.py:143
 msgid "Brazilian Portuguese"
 msgstr ""
 
-#: trainerdex/settings.py:146
+#: trainerdex/settings.py:144
 msgid "Traditional Chinese"
 msgstr ""
 
-#: trainerdex/settings.py:260
+#: trainerdex/settings.py:145
+msgid "Thai"
+msgstr ""
+
+#: trainerdex/settings.py:146
+msgid "Dutch"
+msgstr ""
+
+#: trainerdex/settings.py:147
+msgid "Dutch (Belgium)"
+msgstr ""
+
+#: trainerdex/settings.py:258
 msgctxt "team_name_team0"
 msgid "No Team"
 msgstr "소속없음"
 
-#: trainerdex/settings.py:261
+#: trainerdex/settings.py:259
 msgctxt "team_name_team1"
 msgid "Team Mystic"
 msgstr "팀 미스틱"
 
-#: trainerdex/settings.py:262
+#: trainerdex/settings.py:260
 msgctxt "team_name_team2"
 msgid "Team Valor"
 msgstr "팀 발로"
 
-#: trainerdex/settings.py:263
+#: trainerdex/settings.py:261
 msgctxt "team_name_team3"
 msgid "Team Instinct"
 msgstr "팀 인스팅트"
