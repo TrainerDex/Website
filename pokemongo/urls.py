@@ -18,6 +18,8 @@ urlpatterns = [
     url(r"^tools\/update_stats\/?$", RedirectView.as_view(url="update_stats", permanent=True)),
     url(r"^(?P<nickname>[A-Za-z0-9]{3,15})\/?$", TrainerRedirectorView),
     url(
-        r"^u\/(?P<nickname>[A-Za-z0-9]{3,15})\/?$", TrainerRedirectorView, name="profile_nickname",
+        r"^u\/(?P<nickname>[A-Za-z0-9]{3,15})\/?$",
+        TrainerRedirectorView,
+        name="profile_nickname",
     ),
 ]
