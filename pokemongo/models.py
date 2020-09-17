@@ -100,7 +100,7 @@ class Trainer(models.Model):
         null=True,
         blank=True,
         validators=[MinValueValidator(date(2016, 7, 5))],
-        verbose_name=(pgettext_lazy("profile_start_date", "Start Date:")).strip(":"),
+        verbose_name=pgettext_lazy("profile_start_date", "Start Date"),
         help_text=_("The date you created your Pokémon Go account."),
     )
     faction = models.SmallIntegerField(
@@ -373,7 +373,7 @@ class Update(models.Model):
     # Can be seen on main profile
     total_xp = models.PositiveIntegerField(
         null=True,  # Are you sure you want this?
-        verbose_name=(pgettext_lazy("profile_total_xp", "Total XP:")).strip(":"),
+        verbose_name=pgettext_lazy("profile_total_xp", "Total XP"),
     )
 
     # Pokedex Figures
@@ -686,46 +686,6 @@ class Update(models.Model):
 
     # Unreleased badges
 
-    # badge_encountered_total = models.PositiveIntegerField(
-    #     null=True,
-    #     blank=True,
-    #     verbose_name=pgettext_lazy("badge_encountered_total_title", "Encounters"),
-    #     help_text=pgettext_lazy(
-    #         "badge_encountered_total", "Encounter {0} Pokémon."
-    #     ).format("x"),
-    # )
-    # badge_battle_defend_won = models.PositiveIntegerField(
-    #     null=True,
-    #     blank=True,
-    #     verbose_name=pgettext_lazy(
-    #         "badge_battle_defend_won_title", "Defense Battles Won"
-    #     ),
-    #     help_text=pgettext_lazy(
-    #         "badge_battle_defend_won", "Win {0} defense battles!"
-    #     ).format("x"),
-    # )
-    # badge_defeated_fort = models.PositiveIntegerField(
-    #     null=True,
-    #     blank=True,
-    #     verbose_name=pgettext_lazy("badge_defeated_fort_title", "Battle"),
-    #     help_text=pgettext_lazy("badge_defeated_fort", "Win {0} battles.").format("x"),
-    # )
-    # badge_deployed_total = models.PositiveIntegerField(
-    #     null=True,
-    #     blank=True,
-    #     verbose_name=pgettext_lazy("badge_deployed_total_title", "Pokémon at Gyms."),
-    #     help_text=pgettext_lazy(
-    #         "badge_deployed_total", "Assign {0} Pokémon to Gyms!"
-    #     ).format("x"),
-    # )
-    # badge_unique_pokestops = models.PositiveIntegerField(
-    #     null=True,
-    #     blank=True,
-    #     verbose_name=pgettext_lazy("badge_unique_pokestops_title", "Unique PokéStops"),
-    #     help_text=pgettext_lazy(
-    #         "badge_unique_pokestops", "Visit {0} unique PokéStops."
-    #     ).format("x"),
-    # )
     # badge_pokedex_entries_gen6 = models.PositiveIntegerField(
     #     null=True,
     #     blank=True,
@@ -876,13 +836,13 @@ class Update(models.Model):
     gymbadges_total = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name=pgettext_lazy("gymbadges_total", "Gym Badges"),
+        verbose_name=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
         validators=[MaxValueValidator(1000)],
     )
     gymbadges_gold = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name=pgettext_lazy("gymbadges_gold", "Gold Gym Badges"),
+        verbose_name=_("Gold Gym Badges"),
         validators=[MaxValueValidator(1000)],
     )
     pokemon_info_stardust = models.PositiveIntegerField(
