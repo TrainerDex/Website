@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-10 08:15+0000\n"
-"PO-Revision-Date: 2020-09-11 23:40\n"
+"POT-Creation-Date: 2020-09-12 00:01+0000\n"
+"PO-Revision-Date: 2020-09-17 08:16\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Traditional, Hong Kong\n"
 "Language: zh_HK\n"
@@ -659,8 +659,8 @@ msgstr ""
 
 #: pokemongo/models.py:103
 msgctxt "profile_start_date"
-msgid "Start Date"
-msgstr "開始日"
+msgid "Start Date:"
+msgstr ""
 
 #: pokemongo/models.py:104
 msgid "The date you created your Pokémon Go account."
@@ -681,8 +681,8 @@ msgid "When did this Trainer last cheat?"
 msgstr ""
 
 #: pokemongo/models.py:119
-msgctxt "Profile_Category_Stats"
-msgid "Statistics"
+msgctxt "profile_category_stats"
+msgid "Stats"
 msgstr ""
 
 #: pokemongo/models.py:121
@@ -714,8 +714,8 @@ msgstr ""
 msgid "Last Modified"
 msgstr ""
 
-#: pokemongo/models.py:160
-msgid "Username / Level / Team Screenshot"
+#: pokemongo/models.py:160 pokemongo/models.py:362
+msgid "Screenshot"
 msgstr ""
 
 #: pokemongo/models.py:170
@@ -743,10 +743,10 @@ msgctxt "player_term"
 msgid "Trainer"
 msgstr ""
 
-#: pokemongo/models.py:282 pokemongo/templates/leaderboard.html:49
-msgctxt "onboard_enter_name_hint"
+#: pokemongo/models.py:282
+msgctxt "codename"
 msgid "Nickname"
-msgstr "暱稱"
+msgstr ""
 
 #: pokemongo/models.py:323
 msgid "Time Updated"
@@ -758,10 +758,6 @@ msgstr ""
 
 #: pokemongo/models.py:357
 msgid "Source"
-msgstr ""
-
-#: pokemongo/models.py:362
-msgid "Screenshot"
 msgstr ""
 
 #: pokemongo/models.py:363
@@ -777,9 +773,9 @@ msgid "This will silence some errors."
 msgstr ""
 
 #: pokemongo/models.py:376
-msgctxt "PROFILE_TOTAL_XP"
-msgid "Total XP"
-msgstr "總XP"
+msgctxt "profile_total_xp"
+msgid "Total XP:"
+msgstr ""
 
 #: pokemongo/models.py:383
 msgctxt "pokedex_page_caught"
@@ -798,8 +794,8 @@ msgstr "慢跑者"
 
 #: pokemongo/models.py:398
 msgctxt "badge_travel_km"
-msgid "Walk {0:0,g} km"
-msgstr "行走 {0:0,g} km"
+msgid "Walk {0:0,g} km."
+msgstr ""
 
 #: pokemongo/models.py:403
 msgctxt "badge_pokedex_entries_title"
@@ -818,9 +814,10 @@ msgid "Collector"
 msgstr "收藏家"
 
 #: pokemongo/models.py:413
+#, python-brace-format
 msgctxt "badge_capture_total"
-msgid "Catch {0:,} Pokémon."
-msgstr "捉到 {0} 隻寶可夢"
+msgid "Catch {0} Pokémon."
+msgstr ""
 
 #: pokemongo/models.py:418
 msgctxt "badge_evolved_total_title"
@@ -850,9 +847,10 @@ msgid "Backpacker"
 msgstr "背包客"
 
 #: pokemongo/models.py:431
+#, python-brace-format
 msgctxt "badge_pokestops_visited"
-msgid "Visit {0:,} PokéStops."
-msgstr "拜訪 {0} 個寶可補給站"
+msgid "Visit {0} PokéStops."
+msgstr ""
 
 #: pokemongo/models.py:436
 msgctxt "badge_big_magikarp_title"
@@ -871,9 +869,10 @@ msgid "Battle Girl"
 msgstr "對戰女孩"
 
 #: pokemongo/models.py:443
+#, python-brace-format
 msgctxt "badge_battle_attack_won"
-msgid "Win {0:,} Gym battles."
-msgstr "贏得 {0} 場道館對戰"
+msgid "Win {0} Gym battles."
+msgstr ""
 
 #: pokemongo/models.py:448
 msgctxt "badge_battle_training_won_title"
@@ -881,9 +880,10 @@ msgid "Ace Trainer"
 msgstr "精英訓練家"
 
 #: pokemongo/models.py:449
+#, python-brace-format
 msgctxt "badge_battle_training_won"
-msgid "Train {0:,} times."
-msgstr "進行了 {0} 次訓練"
+msgid "Train {0} times."
+msgstr ""
 
 #: pokemongo/models.py:454
 msgctxt "badge_small_rattata_title"
@@ -935,9 +935,10 @@ msgid "Champion"
 msgstr "冠軍"
 
 #: pokemongo/models.py:484
+#, python-brace-format
 msgctxt "badge_raid_battle_won"
-msgid "Win {0:,} raids."
-msgstr "在團體戰中獲勝 {0} 次！"
+msgid "Win {0} raids."
+msgstr ""
 
 #: pokemongo/models.py:489
 msgctxt "badge_legendary_battle_won_title"
@@ -945,9 +946,10 @@ msgid "Battle Legend"
 msgstr "對戰傳奇"
 
 #: pokemongo/models.py:490
+#, python-brace-format
 msgctxt "badge_legendary_battle_won"
-msgid "Win {0:,} Legendary raids."
-msgstr "在 {0} 場傳說團體戰中獲勝"
+msgid "Win {0} Legendary raids."
+msgstr ""
 
 #: pokemongo/models.py:497
 msgctxt "badge_berries_fed_title"
@@ -955,9 +957,10 @@ msgid "Berry Master"
 msgstr "樹果名人"
 
 #: pokemongo/models.py:498
+#, python-brace-format
 msgctxt "badge_berries_fed"
-msgid "Feed {0:,} Berries at Gyms."
-msgstr "在道館餵了 {0} 個樹果"
+msgid "Feed {0} Berries at Gyms."
+msgstr ""
 
 #: pokemongo/models.py:503
 msgctxt "badge_hours_defended_title"
@@ -965,528 +968,1347 @@ msgid "Gym Leader"
 msgstr "道館館主"
 
 #: pokemongo/models.py:504
+#, python-brace-format
 msgctxt "badge_hours_defended"
-msgid "Defend Gyms for {0:,} hours."
-msgstr "成功防禦道館 {0} 小時"
+msgid "Defend Gyms for {0} hours."
+msgstr ""
 
-#: pokemongo/models.py:511
+#: pokemongo/models.py:509
 msgctxt "badge_pokedex_entries_gen3_title"
 msgid "Hoenn"
 msgstr "豐緣"
 
-#: pokemongo/models.py:514
+#: pokemongo/models.py:512
 #, python-brace-format
 msgctxt "badge_pokedex_entries_gen3"
 msgid "Register {0} Pokémon first discovered in the Hoenn region to the Pokédex."
 msgstr "在寶可夢圖鑑裡登錄 {0} 隻豐緣地區的寶可夢！"
 
-#: pokemongo/models.py:521
+#: pokemongo/models.py:519
 msgctxt "badge_challenge_quests_title"
 msgid "Pokémon Ranger"
 msgstr "寶可夢巡護員"
 
-#: pokemongo/models.py:523
+#: pokemongo/models.py:521
+#, python-brace-format
 msgctxt "badge_challenge_quests"
-msgid "Complete {0:,} Field Research tasks."
-msgstr "完成 {0} 個田野調查課題"
+msgid "Complete {0} Field Research tasks."
+msgstr ""
 
-#: pokemongo/models.py:529
+#: pokemongo/models.py:527
 msgctxt "badge_max_level_friends_title"
 msgid "Idol"
 msgstr "偶像"
 
-#: pokemongo/models.py:532
+#: pokemongo/models.py:530
 #, python-brace-format
 msgctxt "badge_max_level_friends"
 msgid "Become Best Friends with {0} Trainer."
 msgid_plural "Become Best Friends with {0} Trainers."
 msgstr[0] "和 {0} 名訓練家成為正港好朋友"
 
-#: pokemongo/models.py:540
+#: pokemongo/models.py:538
 msgctxt "badge_trading_title"
 msgid "Gentleman"
 msgstr "紳士"
 
-#: pokemongo/models.py:541
+#: pokemongo/models.py:539
+#, python-brace-format
 msgctxt "badge_trading"
-msgid "Trade {0:,} Pokémon."
-msgstr "交換 {0} 隻寶可夢"
+msgid "Trade {0} Pokémon."
+msgstr ""
 
-#: pokemongo/models.py:546
+#: pokemongo/models.py:544
 msgctxt "badge_trading_distance_title"
 msgid "Pilot"
 msgstr "飛行員"
 
-#: pokemongo/models.py:549
+#: pokemongo/models.py:547
+#, python-brace-format
 msgctxt "badge_trading_distance"
-msgid "Earn {0:,} km across the distance of all Pokémon trades."
-msgstr "交換寶可夢時累積的距離達 {0} 公里"
+msgid "Earn {0} km across the distance of all Pokémon trades."
+msgstr ""
 
-#: pokemongo/models.py:555
+#: pokemongo/models.py:553
 msgctxt "badge_pokedex_entries_gen4__title"
 msgid "Sinnoh"
 msgstr "神奧"
 
-#: pokemongo/models.py:558
+#: pokemongo/models.py:556
 #, python-brace-format
 msgctxt "badge_pokedex_entries_gen4"
 msgid "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex."
 msgstr "在寶可夢圖鑑裡登錄 {0} 隻神奧地區的寶可夢！"
 
-#: pokemongo/models.py:566
+#: pokemongo/models.py:564
 msgctxt "badge_great_league_title"
 msgid "Great League Veteran"
 msgstr "超級聯盟資深訓練家"
 
-#: pokemongo/models.py:569
+#: pokemongo/models.py:567
 #, python-brace-format
 msgctxt "badge_great_league"
 msgid "Win a Trainer Battle in the Great League."
 msgid_plural "Win {0} Trainer Battles in the Great League."
 msgstr[0] "在超級聯盟的訓練家對戰中獲勝 {0} 次"
 
-#: pokemongo/models.py:577
+#: pokemongo/models.py:575
 msgctxt "badge_ultra_league_title"
 msgid "Ultra League Veteran"
 msgstr "高級聯盟資深訓練家"
 
-#: pokemongo/models.py:580
+#: pokemongo/models.py:578
 #, python-brace-format
 msgctxt "badge_ultra_league"
 msgid "Win a Trainer Battle in the Ultra League."
 msgid_plural "Win {0} Trainer Battles in the Ultra League."
 msgstr[0] "在高級聯盟的訓練家對戰中獲勝 {0} 次"
 
-#: pokemongo/models.py:588
+#: pokemongo/models.py:586
 msgctxt "badge_master_league_title"
 msgid "Master League Veteran"
 msgstr "大師聯盟資深訓練家"
 
-#: pokemongo/models.py:591
+#: pokemongo/models.py:589
 #, python-brace-format
 msgctxt "badge_master_league"
 msgid "Win a Trainer Battle in the Master League."
 msgid_plural "Win {0} Trainer Battles in the Master League."
 msgstr[0] "在大師聯盟的訓練家對戰中獲勝 {0} 次"
 
-#: pokemongo/models.py:599
+#: pokemongo/models.py:597
 msgctxt "badge_photobomb_title"
 msgid "Cameraman"
 msgstr "攝影師"
 
-#: pokemongo/models.py:602
+#: pokemongo/models.py:600
 #, python-brace-format
 msgctxt "badge_photobomb"
 msgid "Have {0} surprise encounter in GO Snapshot."
 msgid_plural "Have {0} surprise encounters in GO Snapshot."
 msgstr[0] " 有過 {0} 次驚喜邂逅"
 
-#: pokemongo/models.py:610
+#: pokemongo/models.py:608
 msgctxt "badge_pokedex_entries_gen5__title"
 msgid "Unova"
 msgstr ""
 
-#: pokemongo/models.py:613
+#: pokemongo/models.py:611
 #, python-brace-format
 msgctxt "badge_pokedex_entries_gen5"
 msgid "Register {0} Pokémon first discovered in the Unova region to the Pokédex."
 msgstr ""
 
-#: pokemongo/models.py:620
+#: pokemongo/models.py:618
 msgctxt "badge_pokemon_purified_title"
 msgid "Purifier"
 msgstr "淨化者"
 
-#: pokemongo/models.py:621
+#: pokemongo/models.py:619
 #, python-brace-format
 msgctxt "badge_pokemon_purified"
 msgid "Purify {0} Shadow Pokémon."
 msgstr "淨化 {0} 隻暗影寶可夢"
 
-#: pokemongo/models.py:628
+#: pokemongo/models.py:626
 msgctxt "badge_rocket_grunts_defeated_title"
 msgid "Hero"
 msgstr "英雄"
 
-#: pokemongo/models.py:630
+#: pokemongo/models.py:628
+#, python-brace-format
 msgctxt "badge_rocket_grunts_defeated"
-msgid "Defeat {0:,} Team GO Rocket Grunts."
-msgstr "打敗 {0} 個GO火箭隊成員"
+msgid "Defeat {0} Team GO Rocket Grunts."
+msgstr ""
 
-#: pokemongo/models.py:636
+#: pokemongo/models.py:634
 msgctxt "badge_rocket_giovanni_defeated_title"
 msgid "Ultra Hero"
 msgstr "究極英雄"
 
-#: pokemongo/models.py:639
+#: pokemongo/models.py:637
 #, python-brace-format
 msgctxt "badge_rocket_giovanni_defeated"
 msgid "Defeat the Team GO Rocket Boss."
 msgid_plural "Defeat the Team GO Rocket Boss {0} times. "
 msgstr[0] "打敗GO火箭隊老大 {0} 次"
 
-#: pokemongo/models.py:647
+#: pokemongo/models.py:645
 msgctxt "badge_buddy_best_title"
 msgid "Best Buddy"
 msgstr "正港好夥伴"
 
-#: pokemongo/models.py:650
+#: pokemongo/models.py:648
 #, python-brace-format
 msgctxt "badge_buddy_best"
 msgid "Have 1 Best Buddy."
 msgid_plural "Have {0} Best Buddies."
 msgstr[0] "擁有 {0} 個正港好夥伴"
 
-#: pokemongo/models.py:658
+#: pokemongo/models.py:656
 msgctxt "badge_wayfarer_title"
 msgid "Wayfarer"
 msgstr "Wayfarer"
 
-#: pokemongo/models.py:661
+#: pokemongo/models.py:659
 #, python-brace-format
 msgctxt "badge_wayfarer"
 msgid "Earn a Wayfarer Agreement"
 msgid_plural "Earn {0} Wayfarer Agreements"
 msgstr[0] "獲得 {0} 個Wayfarer Agreement"
 
-#: pokemongo/models.py:669
+#: pokemongo/models.py:667
 msgctxt "badge_total_mega_evos_title"
 msgid "Successor"
 msgstr ""
 
-#: pokemongo/models.py:671
+#: pokemongo/models.py:670
 #, python-brace-format
 msgctxt "badge_total_mega_evos"
-msgid "Mega Evolve a Pokémon {0} times."
-msgstr ""
+msgid "Mega Evolve a Pokémon {0} time."
+msgid_plural "Mega Evolve a Pokémon {0} times."
+msgstr[0] ""
 
-#: pokemongo/models.py:677
+#: pokemongo/models.py:678
 msgctxt "badge_unique_mega_evos_title"
-msgid "Mgea Evolution Guru"
+msgid "Mega Evolution Guru"
 msgstr ""
 
-#: pokemongo/models.py:679
+#: pokemongo/models.py:681
 #, python-brace-format
 msgctxt "badge_unique_mega_evos"
-msgid "Mega Evolve {0} different species of Pokémon."
-msgstr ""
+msgid "Mega Evolve {0} Pokémon."
+msgid_plural "Mega Evolve {0} different species of Pokémon."
+msgstr[0] ""
 
-#: pokemongo/models.py:761
+#: pokemongo/models.py:765
 msgctxt "badge_type_normal_title"
 msgid "Schoolkid"
 msgstr "小學生"
 
-#: pokemongo/models.py:762
+#: pokemongo/models.py:766
 #, python-brace-format
 msgctxt "badge_type_normal"
 msgid "Catch {0} Normal-type Pokémon"
 msgstr "捉到 {0} 隻一般屬性的寶可夢"
 
-#: pokemongo/models.py:767
+#: pokemongo/models.py:771
 msgctxt "badge_type_fighting_title"
 msgid "Black Belt"
 msgstr "空手道王"
 
-#: pokemongo/models.py:768
+#: pokemongo/models.py:772
 #, python-brace-format
 msgctxt "badge_type_fighting"
 msgid "Catch {0} Fighting-type Pokémon"
 msgstr "捉到 {0} 隻格鬥屬性的寶可夢"
 
-#: pokemongo/models.py:775
+#: pokemongo/models.py:779
 msgctxt "badge_type_flying_title"
 msgid "Bird Keeper"
 msgstr "養鳥人"
 
-#: pokemongo/models.py:776
+#: pokemongo/models.py:780
 #, python-brace-format
 msgctxt "badge_type_flying"
 msgid "Catch {0} Flying-type Pokémon"
 msgstr "捉到 {0} 隻飛行屬性的寶可夢"
 
-#: pokemongo/models.py:781
+#: pokemongo/models.py:785
 msgctxt "badge_type_poison_title"
 msgid "Punk Girl"
 msgstr "壞女孩"
 
-#: pokemongo/models.py:782
+#: pokemongo/models.py:786
 #, python-brace-format
 msgctxt "badge_type_poison"
 msgid "Catch {0} Poison-type Pokémon"
 msgstr "捉到 {0} 隻毒屬性的寶可夢"
 
-#: pokemongo/models.py:787
+#: pokemongo/models.py:791
 msgctxt "badge_type_ground_title"
 msgid "Ruin Maniac"
 msgstr "遺跡迷"
 
-#: pokemongo/models.py:788
+#: pokemongo/models.py:792
 #, python-brace-format
 msgctxt "badge_type_ground"
 msgid "Catch {0} Ground-type Pokémon"
 msgstr "捉到 {0} 隻地面屬性的寶可夢"
 
-#: pokemongo/models.py:793
+#: pokemongo/models.py:797
 msgctxt "badge_type_rock_title"
 msgid "Hiker"
 msgstr "登山男"
 
-#: pokemongo/models.py:794
+#: pokemongo/models.py:798
 #, python-brace-format
 msgctxt "badge_type_rock"
 msgid "Catch {0} Rock-type Pokémon"
 msgstr "捉到 {0} 隻岩石屬性的寶可夢"
 
-#: pokemongo/models.py:799
+#: pokemongo/models.py:803
 msgctxt "badge_type_bug_title"
 msgid "Bug Catcher"
 msgstr "捕蟲少年"
 
-#: pokemongo/models.py:800
+#: pokemongo/models.py:804
 #, python-brace-format
 msgctxt "badge_type_bug"
 msgid "Catch {0} Bug-type Pokémon"
 msgstr "捉到 {0} 隻蟲屬性的寶可夢"
 
-#: pokemongo/models.py:805
+#: pokemongo/models.py:809
 msgctxt "badge_type_ghost_title"
 msgid "Hex Maniac"
 msgstr "靈異迷"
 
-#: pokemongo/models.py:806
+#: pokemongo/models.py:810
 #, python-brace-format
 msgctxt "badge_type_ghost"
 msgid "Catch {0} Ghost-type Pokémon"
 msgstr "捉到 {0} 隻幽靈屬性的寶可夢"
 
-#: pokemongo/models.py:811
+#: pokemongo/models.py:815
 msgctxt "badge_type_steel_title"
-msgid "Depot Agent"
-msgstr "鐵路員工"
+msgid "Rail Staff"
+msgstr ""
 
-#: pokemongo/models.py:812
+#: pokemongo/models.py:816
 #, python-brace-format
 msgctxt "badge_type_steel"
 msgid "Catch {0} Steel-type Pokémon"
 msgstr "捉到 {0} 隻鋼屬性的寶可夢"
 
-#: pokemongo/models.py:817
+#: pokemongo/models.py:821
 msgctxt "badge_type_fire_title"
 msgid "Kindler"
 msgstr "營火專家"
 
-#: pokemongo/models.py:818
+#: pokemongo/models.py:822
 #, python-brace-format
 msgctxt "badge_type_fire"
 msgid "Catch {0} Fire-type Pokémon"
 msgstr "捉到 {0} 隻火屬性的寶可夢"
 
-#: pokemongo/models.py:823
+#: pokemongo/models.py:827
 msgctxt "badge_type_water_title"
 msgid "Swimmer"
 msgstr "泳褲小伙子"
 
-#: pokemongo/models.py:824
+#: pokemongo/models.py:828
 #, python-brace-format
 msgctxt "badge_type_water"
 msgid "Catch {0} Water-type Pokémon"
 msgstr "捉到 {0} 隻水屬性的寶可夢"
 
-#: pokemongo/models.py:829
+#: pokemongo/models.py:833
 msgctxt "badge_type_grass_title"
 msgid "Gardener"
 msgstr "園藝家"
 
-#: pokemongo/models.py:830
+#: pokemongo/models.py:834
 #, python-brace-format
 msgctxt "badge_type_grass"
 msgid "Catch {0} Grass-type Pokémon"
 msgstr "捉到 {0} 隻草屬性的寶可夢"
 
-#: pokemongo/models.py:835
+#: pokemongo/models.py:839
 msgctxt "badge_type_electric_title"
 msgid "Rocker"
 msgstr "電氣搖滾團"
 
-#: pokemongo/models.py:836
+#: pokemongo/models.py:840
 #, python-brace-format
 msgctxt "badge_type_electric"
 msgid "Catch {0} Electric-type Pokémon"
 msgstr "捉到 {0} 隻電屬性的寶可夢"
 
-#: pokemongo/models.py:843
+#: pokemongo/models.py:847
 msgctxt "badge_type_psychic_title"
 msgid "Psychic"
 msgstr "超能力者"
 
-#: pokemongo/models.py:844
+#: pokemongo/models.py:848
 #, python-brace-format
 msgctxt "badge_type_psychic"
 msgid "Catch {0} Pychic-type Pokémon"
 msgstr "捉到 {0} 隻超能力屬性的寶可夢"
 
-#: pokemongo/models.py:849
+#: pokemongo/models.py:853
 msgctxt "badge_type_ice_title"
 msgid "Skier"
 msgstr "滑雪者"
 
-#: pokemongo/models.py:850
+#: pokemongo/models.py:854
 #, python-brace-format
 msgctxt "badge_type_ice"
 msgid "Catch {0} Ice-type Pokémon"
 msgstr "捉到 {0} 隻冰屬性的寶可夢"
 
-#: pokemongo/models.py:855
+#: pokemongo/models.py:859
 msgctxt "badge_type_dragon_title"
 msgid "Dragon Tamer"
 msgstr "馴龍師"
 
-#: pokemongo/models.py:856
+#: pokemongo/models.py:860
 #, python-brace-format
 msgctxt "badge_type_dragon"
 msgid "Catch {0} Dragon-type Pokémon"
 msgstr "捉到 {0} 隻龍屬性的寶可夢"
 
-#: pokemongo/models.py:861
+#: pokemongo/models.py:865
 msgctxt "badge_type_dark_title"
 msgid "Delinquent"
 msgstr "大姐頭"
 
-#: pokemongo/models.py:862
+#: pokemongo/models.py:866
 #, python-brace-format
 msgctxt "badge_type_dark"
 msgid "Catch {0} Dark-type Pokémon"
 msgstr "捉到 {0} 隻惡屬性的寶可夢"
 
-#: pokemongo/models.py:867
+#: pokemongo/models.py:871
 msgctxt "badge_type_fairy_title"
 msgid "Fairy Tale Girl"
 msgstr "童話少女"
 
-#: pokemongo/models.py:868
+#: pokemongo/models.py:872
 #, python-brace-format
 msgctxt "badge_type_fairy"
 msgid "Catch {0} Fairy-type Pokémon"
 msgstr "捉到 {0} 隻妖精屬性的寶可夢"
 
-#: pokemongo/models.py:875
+#: pokemongo/models.py:879
 msgctxt "gymbadges_total"
 msgid "Gym Badges"
 msgstr "冒險筆記"
 
-#: pokemongo/models.py:881
+#: pokemongo/models.py:885
 msgctxt "gymbadges_gold"
 msgid "Gold Gym Badges"
 msgstr ""
 
-#: pokemongo/models.py:887
+#: pokemongo/models.py:891
 msgctxt "pokemon_info_stardust_label"
 msgid "Stardust"
 msgstr ""
 
-#: pokemongo/models.py:979
+#: pokemongo/models.py:983
 msgid "This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."
 msgstr ""
 
-#: pokemongo/models.py:1002
+#: pokemongo/models.py:1006
 msgid "This value will make you the leader. Are you sure what you entered is correct?"
 msgstr ""
 
-#: pokemongo/models.py:1029 pokemongo/models.py:1051 pokemongo/models.py:1083
-#: pokemongo/models.py:1108 pokemongo/models.py:1145 pokemongo/models.py:1167
-#: pokemongo/models.py:1197 pokemongo/models.py:1219 pokemongo/models.py:1249
-#: pokemongo/models.py:1271 pokemongo/models.py:1301 pokemongo/models.py:1323
-#: pokemongo/models.py:1353 pokemongo/models.py:1375 pokemongo/models.py:1405
-#: pokemongo/models.py:1427 pokemongo/models.py:1457 pokemongo/models.py:1479
-#: pokemongo/models.py:1514 pokemongo/models.py:1536 pokemongo/models.py:1566
-#: pokemongo/models.py:1588 pokemongo/models.py:1618 pokemongo/models.py:1640
-#: pokemongo/models.py:1706 pokemongo/models.py:1728 pokemongo/models.py:1794
-#: pokemongo/models.py:1816 pokemongo/models.py:1861 pokemongo/models.py:1883
-#: pokemongo/models.py:2025 pokemongo/models.py:2047 pokemongo/models.py:2110
-#: pokemongo/models.py:2132 pokemongo/models.py:2177 pokemongo/models.py:2199
+#: pokemongo/models.py:1033 pokemongo/models.py:1055 pokemongo/models.py:1087
+#: pokemongo/models.py:1112 pokemongo/models.py:1149 pokemongo/models.py:1171
+#: pokemongo/models.py:1201 pokemongo/models.py:1223 pokemongo/models.py:1253
+#: pokemongo/models.py:1275 pokemongo/models.py:1305 pokemongo/models.py:1327
+#: pokemongo/models.py:1357 pokemongo/models.py:1379 pokemongo/models.py:1409
+#: pokemongo/models.py:1431 pokemongo/models.py:1461 pokemongo/models.py:1483
+#: pokemongo/models.py:1518 pokemongo/models.py:1540 pokemongo/models.py:1570
+#: pokemongo/models.py:1592 pokemongo/models.py:1622 pokemongo/models.py:1644
+#: pokemongo/models.py:1710 pokemongo/models.py:1732 pokemongo/models.py:1798
+#: pokemongo/models.py:1820 pokemongo/models.py:1865 pokemongo/models.py:1887
+#: pokemongo/models.py:2029 pokemongo/models.py:2051 pokemongo/models.py:2114
+#: pokemongo/models.py:2136 pokemongo/models.py:2181 pokemongo/models.py:2203
 msgid "The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}"
 msgstr ""
 
-#: pokemongo/models.py:1658 pokemongo/models.py:1679 pokemongo/models.py:1746
-#: pokemongo/models.py:1767 pokemongo/models.py:1834 pokemongo/models.py:1901
-#: pokemongo/models.py:1956 pokemongo/models.py:1977 pokemongo/models.py:1998
-#: pokemongo/models.py:2065 pokemongo/models.py:2083 pokemongo/models.py:2150
-#: pokemongo/models.py:2245 pokemongo/models.py:2266 pokemongo/models.py:2284
-#: pokemongo/models.py:2302 pokemongo/models.py:2320
+#: pokemongo/models.py:1662 pokemongo/models.py:1683 pokemongo/models.py:1750
+#: pokemongo/models.py:1771 pokemongo/models.py:1838 pokemongo/models.py:1905
+#: pokemongo/models.py:1960 pokemongo/models.py:1981 pokemongo/models.py:2002
+#: pokemongo/models.py:2069 pokemongo/models.py:2087 pokemongo/models.py:2154
+#: pokemongo/models.py:2249 pokemongo/models.py:2270 pokemongo/models.py:2288
+#: pokemongo/models.py:2306 pokemongo/models.py:2324
 msgid "You entered {badge} for a date before it's release. {value:,}/{expected:,}"
 msgstr ""
 
-#: pokemongo/models.py:1926
+#: pokemongo/models.py:1930
 msgid "The {badge} you entered is too high. Please check for typos and other mistakes. You can't have more gold gyms than gyms in Total. {value:,}/{expected:,}"
 msgstr ""
 
-#: pokemongo/models.py:1941
+#: pokemongo/models.py:1945
 #, python-brace-format
 msgid "You must fill in {other_badge} if filling in {this_badge}."
 msgstr ""
 
-#: pokemongo/models.py:2228
+#: pokemongo/models.py:2232
 msgid "The {badge} you entered is too high. Please check for typos and other mistakes. You can only gain so much in a day. {value:,}/{expected:,}"
 msgstr ""
 
-#: pokemongo/models.py:2344
+#: pokemongo/models.py:2348
 msgid "Update"
 msgstr ""
 
-#: pokemongo/models.py:2345
+#: pokemongo/models.py:2349
 msgid "Updates"
 msgstr ""
 
-#: pokemongo/models.py:2393
+#: pokemongo/models.py:2397
 msgid "Badge"
 msgstr ""
 
-#: pokemongo/models.py:2394
+#: pokemongo/models.py:2398
 msgid "Badges"
 msgstr ""
 
-#: pokemongo/models.py:2437
+#: pokemongo/models.py:2441
 msgid "Publicly Viewable"
 msgstr ""
 
-#: pokemongo/models.py:2439
+#: pokemongo/models.py:2443
 msgid "By default, this is off. Turn this on to share your community with the world."
 msgstr ""
 
-#: pokemongo/models.py:2444
+#: pokemongo/models.py:2448
 msgid "Publicly Joinable"
 msgstr ""
 
-#: pokemongo/models.py:2446
+#: pokemongo/models.py:2450
 msgid "By default, this is off. Turn this on to make your community free to join. No invites required."
 msgstr ""
 
-#: pokemongo/models.py:2453
+#: pokemongo/models.py:2457
 msgid "Tournament: Publicly Viewable"
 msgstr ""
 
-#: pokemongo/models.py:2455
+#: pokemongo/models.py:2459
 msgid "By default, this is off. Turn this on to share your tournament results with the world."
 msgstr ""
 
-#: pokemongo/models.py:2483
+#: pokemongo/models.py:2487
 msgid "Community"
 msgstr ""
 
-#: pokemongo/models.py:2484
+#: pokemongo/models.py:2488
 msgid "Communities"
 msgstr ""
 
-#: pokemongo/models.py:2493
+#: pokemongo/models.py:2497
 msgid "Members in this Discord are automatically included in the community."
 msgstr ""
 
-#: pokemongo/models.py:2540
+#: pokemongo/models.py:2544
 msgid "Community Discord Connection"
 msgstr ""
 
-#: pokemongo/models.py:2541
+#: pokemongo/models.py:2545
 msgid "Community Discord Connections"
+msgstr ""
+
+#: pokemongo/strings.py:10
+msgid "badge_battle_attack_won"
+msgstr ""
+
+#: pokemongo/strings.py:11
+msgid "badge_battle_attack_won_title"
+msgstr ""
+
+#: pokemongo/strings.py:13
+msgid "badge_battle_defend_won"
+msgstr ""
+
+#: pokemongo/strings.py:14
+msgid "badge_battle_defend_won_title"
+msgstr ""
+
+#: pokemongo/strings.py:16
+msgid "badge_battle_training_won"
+msgstr ""
+
+#: pokemongo/strings.py:17
+msgid "badge_battle_training_won_title"
+msgstr ""
+
+#: pokemongo/strings.py:19
+msgid "badge_berries_fed"
+msgstr ""
+
+#: pokemongo/strings.py:20
+msgid "badge_berries_fed_title"
+msgstr ""
+
+#: pokemongo/strings.py:22
+msgid "badge_big_magikarp"
+msgstr ""
+
+#: pokemongo/strings.py:23
+msgid "badge_big_magikarp_title"
+msgstr ""
+
+#: pokemongo/strings.py:26
+msgid "badge_buddy_best_title"
+msgstr ""
+
+#: pokemongo/strings.py:28
+msgid "badge_capture_total"
+msgstr ""
+
+#: pokemongo/strings.py:29
+msgid "badge_capture_total_title"
+msgstr ""
+
+#: pokemongo/strings.py:31
+msgid "badge_challenge_quests"
+msgstr ""
+
+#: pokemongo/strings.py:32
+msgid "badge_challenge_quests_title"
+msgstr ""
+
+#: pokemongo/strings.py:34
+msgid "badge_defeated_fort"
+msgstr ""
+
+#: pokemongo/strings.py:35
+msgid "badge_defeated_fort_title"
+msgstr ""
+
+#: pokemongo/strings.py:37
+msgid "badge_deployed_total"
+msgstr ""
+
+#: pokemongo/strings.py:38
+msgid "badge_deployed_total_title"
+msgstr ""
+
+#: pokemongo/strings.py:40
+msgid "badge_encountered_total"
+msgstr ""
+
+#: pokemongo/strings.py:41
+msgid "badge_encountered_total_title"
+msgstr ""
+
+#: pokemongo/strings.py:43
+msgid "badge_evolved_total"
+msgstr ""
+
+#: pokemongo/strings.py:44
+msgid "badge_evolved_total_title"
+msgstr ""
+
+#: pokemongo/strings.py:52
+msgid "badge_great_league_title"
+msgstr ""
+
+#: pokemongo/strings.py:54
+msgid "badge_hatched_total"
+msgstr ""
+
+#: pokemongo/strings.py:55
+msgid "badge_hatched_total_title"
+msgstr ""
+
+#: pokemongo/strings.py:57
+msgid "badge_hours_defended"
+msgstr ""
+
+#: pokemongo/strings.py:58
+msgid "badge_hours_defended_title"
+msgstr ""
+
+#: pokemongo/strings.py:60
+msgid "badge_legendary_battle_won"
+msgstr ""
+
+#: pokemongo/strings.py:61
+msgid "badge_legendary_battle_won_title"
+msgstr ""
+
+#: pokemongo/strings.py:69
+msgid "badge_master_league_title"
+msgstr ""
+
+#: pokemongo/strings.py:77
+msgid "badge_max_level_friends_title"
+msgstr ""
+
+#: pokemongo/strings.py:85
+msgid "badge_photobomb_title"
+msgstr ""
+
+#: pokemongo/strings.py:87
+msgid "badge_pikachu"
+msgstr ""
+
+#: pokemongo/strings.py:88
+msgid "badge_pikachu_title"
+msgstr ""
+
+#: pokemongo/strings.py:91
+msgid "badge_pokedex_entries"
+msgstr ""
+
+#: pokemongo/strings.py:93 pokemongo/strings.py:99
+msgid "badge_pokedex_entries_title"
+msgstr ""
+
+#: pokemongo/strings.py:96
+msgid "badge_pokedex_entries_gen2"
+msgstr ""
+
+#: pokemongo/strings.py:102
+msgid "badge_pokedex_entries_gen3"
+msgstr ""
+
+#: pokemongo/strings.py:105
+msgid "badge_pokedex_entries_gen3_title"
+msgstr ""
+
+#: pokemongo/strings.py:108
+msgid "badge_pokedex_entries_gen4"
+msgstr ""
+
+#: pokemongo/strings.py:111
+msgid "badge_pokedex_entries_gen4_title"
+msgstr ""
+
+#: pokemongo/strings.py:114
+msgid "badge_pokedex_entries_gen5"
+msgstr ""
+
+#: pokemongo/strings.py:117
+msgid "badge_pokedex_entries_gen5_title"
+msgstr ""
+
+#: pokemongo/strings.py:120
+msgid "badge_pokedex_entries_gen6"
+msgstr ""
+
+#: pokemongo/strings.py:123
+msgid "badge_pokedex_entries_gen6_title"
+msgstr ""
+
+#: pokemongo/strings.py:126
+msgid "badge_pokedex_entries_gen7"
+msgstr ""
+
+#: pokemongo/strings.py:129
+msgid "badge_pokedex_entries_gen7_title"
+msgstr ""
+
+#: pokemongo/strings.py:132
+msgid "badge_pokedex_entries_gen8"
+msgstr ""
+
+#: pokemongo/strings.py:135
+msgid "badge_pokedex_entries_gen8_title"
+msgstr ""
+
+#: pokemongo/strings.py:137
+msgid "badge_pokedex_entries_unknown_title"
+msgstr ""
+
+#: pokemongo/strings.py:139
+msgid "badge_pokemon_purified"
+msgstr ""
+
+#: pokemongo/strings.py:140
+msgid "badge_pokemon_purified_title"
+msgstr ""
+
+#: pokemongo/strings.py:142
+msgid "badge_pokestops_visited"
+msgstr ""
+
+#: pokemongo/strings.py:143
+msgid "badge_pokestops_visited_title"
+msgstr ""
+
+#: pokemongo/strings.py:145
+msgid "badge_prestige_dropped"
+msgstr ""
+
+#: pokemongo/strings.py:146
+msgid "badge_prestige_dropped_title"
+msgstr ""
+
+#: pokemongo/strings.py:148
+msgid "badge_prestige_raised"
+msgstr ""
+
+#: pokemongo/strings.py:149
+msgid "badge_prestige_raised_title"
+msgstr ""
+
+#: pokemongo/strings.py:151
+msgid "badge_raid_battle_won"
+msgstr ""
+
+#: pokemongo/strings.py:152
+msgid "badge_raid_battle_won_title"
+msgstr ""
+
+#: pokemongo/strings.py:160
+msgid "badge_rocket_giovanni_defeated_title"
+msgstr ""
+
+#: pokemongo/strings.py:163
+msgid "badge_rocket_grunts_defeated"
+msgstr ""
+
+#: pokemongo/strings.py:165
+msgid "badge_rocket_grunts_defeated_title"
+msgstr ""
+
+#: pokemongo/strings.py:167
+msgid "badge_small_rattata"
+msgstr ""
+
+#: pokemongo/strings.py:168
+msgid "badge_small_rattata_title"
+msgstr ""
+
+#: pokemongo/strings.py:170
+msgid "badge_trading"
+msgstr ""
+
+#: pokemongo/strings.py:171
+msgid "badge_trading_title"
+msgstr ""
+
+#: pokemongo/strings.py:174
+msgid "badge_trading_distance"
+msgstr ""
+
+#: pokemongo/strings.py:176
+msgid "badge_trading_distance_title"
+msgstr ""
+
+#: pokemongo/strings.py:179
+msgid "badge_travel_km"
+msgstr ""
+
+#: pokemongo/strings.py:181
+msgid "badge_travel_km_title"
+msgstr ""
+
+#: pokemongo/strings.py:183
+msgid "badge_type_bug"
+msgstr ""
+
+#: pokemongo/strings.py:184
+msgid "badge_type_bug_title"
+msgstr ""
+
+#: pokemongo/strings.py:186
+msgid "badge_type_dark"
+msgstr ""
+
+#: pokemongo/strings.py:187
+msgid "badge_type_dark_title"
+msgstr ""
+
+#: pokemongo/strings.py:189
+msgid "badge_type_dragon"
+msgstr ""
+
+#: pokemongo/strings.py:190
+msgid "badge_type_dragon_title"
+msgstr ""
+
+#: pokemongo/strings.py:192
+msgid "badge_type_electric"
+msgstr ""
+
+#: pokemongo/strings.py:193
+msgid "badge_type_electric_title"
+msgstr ""
+
+#: pokemongo/strings.py:195
+msgid "badge_type_fairy"
+msgstr ""
+
+#: pokemongo/strings.py:196
+msgid "badge_type_fairy_title"
+msgstr ""
+
+#: pokemongo/strings.py:198
+msgid "badge_type_fighting"
+msgstr ""
+
+#: pokemongo/strings.py:199
+msgid "badge_type_fighting_title"
+msgstr ""
+
+#: pokemongo/strings.py:201
+msgid "badge_type_fire"
+msgstr ""
+
+#: pokemongo/strings.py:202
+msgid "badge_type_fire_title"
+msgstr ""
+
+#: pokemongo/strings.py:204
+msgid "badge_type_flying"
+msgstr ""
+
+#: pokemongo/strings.py:205
+msgid "badge_type_flying_title"
+msgstr ""
+
+#: pokemongo/strings.py:207
+msgid "badge_type_ghost"
+msgstr ""
+
+#: pokemongo/strings.py:208
+msgid "badge_type_ghost_title"
+msgstr ""
+
+#: pokemongo/strings.py:210
+msgid "badge_type_grass"
+msgstr ""
+
+#: pokemongo/strings.py:211
+msgid "badge_type_grass_title"
+msgstr ""
+
+#: pokemongo/strings.py:213
+msgid "badge_type_ground"
+msgstr ""
+
+#: pokemongo/strings.py:214
+msgid "badge_type_ground_title"
+msgstr ""
+
+#: pokemongo/strings.py:216
+msgid "badge_type_ice"
+msgstr ""
+
+#: pokemongo/strings.py:217
+msgid "badge_type_ice_title"
+msgstr ""
+
+#: pokemongo/strings.py:219
+msgid "badge_type_normal"
+msgstr ""
+
+#: pokemongo/strings.py:220
+msgid "badge_type_normal_title"
+msgstr ""
+
+#: pokemongo/strings.py:222
+msgid "badge_type_poison"
+msgstr ""
+
+#: pokemongo/strings.py:223
+msgid "badge_type_poison_title"
+msgstr ""
+
+#: pokemongo/strings.py:225
+msgid "badge_type_psychic"
+msgstr ""
+
+#: pokemongo/strings.py:226
+msgid "badge_type_psychic_title"
+msgstr ""
+
+#: pokemongo/strings.py:228
+msgid "badge_type_rock"
+msgstr ""
+
+#: pokemongo/strings.py:229
+msgid "badge_type_rock_title"
+msgstr ""
+
+#: pokemongo/strings.py:231
+msgid "badge_type_steel"
+msgstr ""
+
+#: pokemongo/strings.py:232
+msgid "badge_type_steel_title"
+msgstr ""
+
+#: pokemongo/strings.py:234
+msgid "badge_type_water"
+msgstr ""
+
+#: pokemongo/strings.py:235
+msgid "badge_type_water_title"
+msgstr ""
+
+#: pokemongo/strings.py:243
+msgid "badge_ultra_league_title"
+msgstr ""
+
+#: pokemongo/strings.py:245
+msgid "badge_unique_pokestops"
+msgstr ""
+
+#: pokemongo/strings.py:246
+msgid "badge_unique_pokestops_title"
+msgstr ""
+
+#: pokemongo/strings.py:248
+msgid "badge_unown"
+msgstr ""
+
+#: pokemongo/strings.py:249
+msgid "badge_unown_title"
+msgstr ""
+
+#: pokemongo/strings.py:257
+msgid "badge_wayfarer_title"
+msgstr ""
+
+#: pokemongo/strings.py:265
+msgid "badge_total_mega_evos_title"
+msgstr ""
+
+#: pokemongo/strings.py:273
+msgid "badge_unique_mega_evos_title"
+msgstr ""
+
+#: pokemongo/strings.py:281
+msgid "codename_already_yours"
+msgstr ""
+
+#: pokemongo/strings.py:282
+msgid "codename_reassign_success"
+msgstr ""
+
+#: pokemongo/strings.py:284
+msgid "date_format"
+msgstr ""
+
+#: pokemongo/strings.py:286
+msgid "encounter_score_total_exp"
+msgstr ""
+
+#: pokemongo/strings.py:287
+msgid "feedback_added_xp"
+msgstr ""
+
+#: pokemongo/strings.py:290
+msgid "friend_code_title"
+msgstr ""
+
+#: pokemongo/strings.py:291
+msgid "friend_full_name"
+msgstr ""
+
+#: pokemongo/strings.py:292
+msgid "friends_list_level_format"
+msgstr ""
+
+#: pokemongo/strings.py:300
+msgid "galarian_pokedex_header"
+msgstr ""
+
+#: pokemongo/strings.py:302
+msgid "general_accept"
+msgstr ""
+
+#: pokemongo/strings.py:303
+msgid "general_allow"
+msgstr ""
+
+#: pokemongo/strings.py:304
+msgid "general_button_select"
+msgstr ""
+
+#: pokemongo/strings.py:305
+msgid "general_cancel"
+msgstr ""
+
+#: pokemongo/strings.py:306
+msgid "general_close"
+msgstr ""
+
+#: pokemongo/strings.py:307
+msgid "general_continue"
+msgstr ""
+
+#: pokemongo/strings.py:308
+msgid "general_cp"
+msgstr ""
+
+#: pokemongo/strings.py:309
+msgid "general_dismiss"
+msgstr ""
+
+#: pokemongo/strings.py:310
+msgid "general_do_not_allow"
+msgstr ""
+
+#: pokemongo/strings.py:311
+msgid "general_error"
+msgstr ""
+
+#: pokemongo/strings.py:312
+msgid "general_go"
+msgstr ""
+
+#: pokemongo/strings.py:313
+msgid "general_kg"
+msgstr ""
+
+#: pokemongo/strings.py:314
+msgid "general_m"
+msgstr ""
+
+#: pokemongo/strings.py:315
+msgid "general_more"
+msgstr ""
+
+#: pokemongo/strings.py:316
+msgid "general_no"
+msgstr ""
+
+#: pokemongo/strings.py:317
+msgid "general_ok"
+msgstr ""
+
+#: pokemongo/strings.py:318
+msgid "general_pokemon"
+msgstr ""
+
+#: pokemongo/strings.py:319
+msgid "general_sign_out"
+msgstr ""
+
+#: pokemongo/strings.py:320
+msgid "general_sign_out_confirm"
+msgstr ""
+
+#: pokemongo/strings.py:321
+msgid "general_stamina"
+msgstr ""
+
+#: pokemongo/strings.py:322
+msgid "general_xp"
+msgstr ""
+
+#: pokemongo/strings.py:323
+msgid "general_yes"
+msgstr ""
+
+#: pokemongo/strings.py:327
+msgid "help_center_friends_link"
+msgstr ""
+
+#: pokemongo/strings.py:329
+msgid "help_center_link"
+msgstr ""
+
+#: pokemongo/strings.py:331
+msgid "onboard_name_fail"
+msgstr ""
+
+#: pokemongo/strings.py:333
+msgid "onboard_name_invalid_characters_error"
+msgstr ""
+
+#: pokemongo/strings.py:335
+msgid "onboard_name_not_available"
+msgstr ""
+
+#: pokemongo/strings.py:336
+msgid "onboard_name_not_valid"
+msgstr ""
+
+#: pokemongo/strings.py:337
+msgid "onboard_name_owned"
+msgstr ""
+
+#: pokemongo/strings.py:339
+msgid "pokemon_info_cp"
+msgstr ""
+
+#: pokemongo/strings.py:340
+msgid "pokemon_info_stardust_label"
+msgstr ""
+
+#: pokemongo/strings.py:341
+msgid "pokemon_info_type"
+msgstr ""
+
+#: pokemongo/strings.py:343
+msgid "pokemon_type_bug"
+msgstr ""
+
+#: pokemongo/strings.py:344
+msgid "pokemon_type_dark"
+msgstr ""
+
+#: pokemongo/strings.py:345
+msgid "pokemon_type_dragon"
+msgstr ""
+
+#: pokemongo/strings.py:346
+msgid "pokemon_type_electric"
+msgstr ""
+
+#: pokemongo/strings.py:347
+msgid "pokemon_type_fairy"
+msgstr ""
+
+#: pokemongo/strings.py:348
+msgid "pokemon_type_fighting"
+msgstr ""
+
+#: pokemongo/strings.py:349
+msgid "pokemon_type_fire"
+msgstr ""
+
+#: pokemongo/strings.py:350
+msgid "pokemon_type_flying"
+msgstr ""
+
+#: pokemongo/strings.py:351
+msgid "pokemon_type_ghost"
+msgstr ""
+
+#: pokemongo/strings.py:352
+msgid "pokemon_type_grass"
+msgstr ""
+
+#: pokemongo/strings.py:353
+msgid "pokemon_type_ground"
+msgstr ""
+
+#: pokemongo/strings.py:354
+msgid "pokemon_type_ice"
+msgstr ""
+
+#: pokemongo/strings.py:355
+msgid "pokemon_type_normal"
+msgstr ""
+
+#: pokemongo/strings.py:356
+msgid "pokemon_type_poison"
+msgstr ""
+
+#: pokemongo/strings.py:357
+msgid "pokemon_type_psychic"
+msgstr ""
+
+#: pokemongo/strings.py:358
+msgid "pokemon_type_rock"
+msgstr ""
+
+#: pokemongo/strings.py:359
+msgid "pokemon_type_steel"
+msgstr ""
+
+#: pokemongo/strings.py:360
+msgid "pokemon_type_water"
+msgstr ""
+
+#: pokemongo/strings.py:362
+msgid "privacy_policy_url"
+msgstr ""
+
+#: pokemongo/strings.py:364
+msgid "profile_button_activity_log"
+msgstr ""
+
+#: pokemongo/strings.py:365
+msgid "profile_button_customize"
+msgstr ""
+
+#: pokemongo/strings.py:366
+msgid "profile_category_gymbadges"
+msgstr ""
+
+#: pokemongo/strings.py:367
+msgid "profile_category_medals"
+msgstr ""
+
+#: pokemongo/strings.py:368
+msgid "profile_category_stats"
+msgstr ""
+
+#: pokemongo/strings.py:369
+msgid "profile_category_total_fitness"
+msgstr ""
+
+#: pokemongo/strings.py:370
+msgid "profile_category_weekly_fitness"
+msgstr ""
+
+#: pokemongo/strings.py:371
+msgid "profile_gymbadges_help"
+msgstr ""
+
+#: pokemongo/strings.py:372
+msgid "profile_gymbadges_recently_visited"
+msgstr ""
+
+#: pokemongo/strings.py:373
+msgid "profile_no_gymbadges"
+msgstr ""
+
+#: pokemongo/strings.py:374
+msgid "profile_player_level"
+msgstr ""
+
+#: pokemongo/strings.py:375
+msgid "profile_pokestops_visited"
+msgstr ""
+
+#: pokemongo/strings.py:376
+msgid "profile_start_date"
+msgstr ""
+
+#: pokemongo/strings.py:377
+msgid "profile_total_xp"
+msgstr ""
+
+#: pokemongo/strings.py:379
+msgid "screen_friends_title"
+msgstr ""
+
+#: pokemongo/strings.py:380
+msgid "screen_title_badge_collection"
+msgstr ""
+
+#: pokemongo/strings.py:381
+msgid "screen_title_friend_requests"
+msgstr ""
+
+#: pokemongo/strings.py:382
+msgid "screen_title_news"
+msgstr ""
+
+#: pokemongo/strings.py:383
+msgid "screen_title_notification"
+msgstr ""
+
+#: pokemongo/strings.py:384
+msgid "screen_title_pokedex"
+msgstr ""
+
+#: pokemongo/strings.py:385
+msgid "screen_title_settings"
+msgstr ""
+
+#: pokemongo/strings.py:387
+msgid "team_name_team0"
+msgstr ""
+
+#: pokemongo/strings.py:388
+msgid "team_name_team1"
+msgstr ""
+
+#: pokemongo/strings.py:389
+msgid "team_name_team2"
+msgstr ""
+
+#: pokemongo/strings.py:390
+msgid "team_name_team3"
+msgstr ""
+
+#: pokemongo/strings.py:392
+msgid "terms_of_service_url"
+msgstr ""
+
+#: pokemongo/strings.py:394
+msgid "three_strike_policy_url"
 msgstr ""
 
 #: pokemongo/templates/account/signup2.html:17
@@ -1544,6 +2366,11 @@ msgstr "總XP"
 #: pokemongo/templates/leaderboard.html:40
 msgid "Trainers Considered"
 msgstr ""
+
+#: pokemongo/templates/leaderboard.html:49
+msgctxt "onboard_enter_name_hint"
+msgid "Nickname"
+msgstr "暱稱"
 
 #: pokemongo/templates/leaderboard.html:49 pokemongo/templates/profile.html:9
 #: pokemongo/templates/profile.html:41
@@ -1663,37 +2490,29 @@ msgid "Brazilian Portuguese"
 msgstr "巴西葡萄牙语"
 
 #: trainerdex/settings.py:144
-msgid "Traditional Chinese"
-msgstr "中国传统"
-
-#: trainerdex/settings.py:145
 msgid "Thai"
 msgstr ""
 
-#: trainerdex/settings.py:146
-msgid "Dutch"
-msgstr ""
+#: trainerdex/settings.py:145
+msgid "Traditional Chinese"
+msgstr "中国传统"
 
-#: trainerdex/settings.py:147
-msgid "Dutch (Belgium)"
-msgstr ""
-
-#: trainerdex/settings.py:258
+#: trainerdex/settings.py:256
 msgctxt "team_name_team0"
 msgid "No Team"
 msgstr "未選擇隊伍"
 
-#: trainerdex/settings.py:259
+#: trainerdex/settings.py:257
 msgctxt "team_name_team1"
 msgid "Team Mystic"
 msgstr "叡智隊"
 
-#: trainerdex/settings.py:260
+#: trainerdex/settings.py:258
 msgctxt "team_name_team2"
 msgid "Team Valor"
 msgstr "武勇隊"
 
-#: trainerdex/settings.py:261
+#: trainerdex/settings.py:259
 msgctxt "team_name_team3"
 msgid "Team Instinct"
 msgstr "靈犀隊"
