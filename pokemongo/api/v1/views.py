@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 
 from django.contrib.auth import get_user_model
-from django.db.models import F, Prefetch, Q, Subquery, Window
+from django.db.models import Avg, Count, F, Max, Min, Prefetch, Q, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
@@ -353,27 +353,29 @@ class DiscordLeaderboardAPIView(APIView):
             )
 
         generated_time = timezone.now()
-        output = {"generated": generated_time, "stat": stat}
+        guild = int(guild)
+        output = {"generated": generated_time, "stat": stat, "guild": guild}
 
         try:
-            server = DiscordGuildSettings.objects.get(id=int(guild))
+            server = DiscordGuildSettings.objects.get(id=guild)
         except DiscordGuildSettings.DoesNotExist:
             logger.warn(f"Guild with id {guild} not found")
             try:
-                i = get_guild_info(int(guild))
+                i = get_guild_info(guild)
             except:
                 return Response(
                     {
                         "error": "Access Denied",
                         "cause": "The bot doesn't have access to this guild.",
                         "solution": "Add the bot account to the guild.",
+                        "guild": guild,
                     },
                     status=404,
                 )
             else:
                 logger.info(f"{i['name']} found. Creating.")
                 server, created = DiscordGuildSettings.objects.get_or_create(
-                    id=int(guild), defaults={"data": i, "cached_date": timezone.now()}
+                    id=guild, defaults={"data": i, "cached_date": timezone.now()}
                 )
         else:
             created = False
@@ -437,5 +439,12 @@ class DiscordLeaderboardAPIView(APIView):
             .order_by("rank", "-value", "datetime")
         )
         serializer = LeaderboardSerializer(leaderboard, many=True)
+        output["aggregations"] = leaderboard.aggregate(
+            avg=Avg("value"),
+            count=Count("value"),
+            min=Min("value"),
+            max=Max("value"),
+            sum=Sum("value"),
+        )
         output["leaderboard"] = serializer.data
         return Response(output)
