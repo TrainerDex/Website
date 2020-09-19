@@ -146,7 +146,7 @@ class LeaderboardSerializer(serializers.Serializer):
     faction = serializers.SerializerMethodField()
     xp = serializers.SerializerMethodField()
     total_xp = serializers.SerializerMethodField()
-    stat = serializers.SerializerMethodField()
+    value = serializers.SerializerMethodField()
     last_updated = serializers.SerializerMethodField()
     user_id = serializers.SerializerMethodField()
 
@@ -176,7 +176,7 @@ class LeaderboardSerializer(serializers.Serializer):
         """This field is deprecated and will be removed in API v2"""
         return obj.total_xp
 
-    def get_stat(self, obj: Update) -> int:
+    def get_value(self, obj: Update) -> int:
         return obj.value
 
     def get_last_updated(self, obj: Update) -> datetime.datetime:
