@@ -15,7 +15,10 @@ urlpatterns = [
     url(r"^profile\/?$", TrainerRedirectorView, name="profile"),
     url(r"^profile\/id\/(?P<id>[\d]+)\/?$", TrainerRedirectorView, name="profile"),
     url(r"^new\/?$", CreateUpdateView, name="update_stats"),
-    url(r"^tools\/update_stats\/?$", RedirectView.as_view(pattern_name="trainerdex:update_stats", permanent=True)),
+    url(
+        r"^tools\/update_stats\/?$",
+        RedirectView.as_view(pattern_name="trainerdex:update_stats", permanent=True),
+    ),
     url(r"^(?P<nickname>[A-Za-z0-9]{3,15})\/?$", TrainerRedirectorView),
     url(
         r"^u\/(?P<nickname>[A-Za-z0-9]{3,15})\/?$",
