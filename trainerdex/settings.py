@@ -141,10 +141,8 @@ LANGUAGES = [
     ("ja-JP", _("Japanese")),
     ("ko-KR", _("Korean")),
     ("pt-BR", _("Brazilian Portuguese")),
-    ("zh-HK", _("Traditional Chinese")),
     ("th-TH", _("Thai")),
-    ("nl-NL", _("Dutch")),
-    ("nl-BE", _("Dutch (Belgium)")),
+    ("zh-HK", _("Traditional Chinese")),
 ]
 
 TIME_ZONE = "UTC"
@@ -255,8 +253,8 @@ DISCORD_TOKEN = "***REMOVED***"
 # CONSTANTS
 
 TEAMS = {
-    0: pgettext_lazy(context="team_name_team0", message="No Team"),
-    1: pgettext_lazy(context="team_name_team1", message="Team Mystic"),
-    2: pgettext_lazy(context="team_name_team2", message="Team Valor"),
-    3: pgettext_lazy(context="team_name_team3", message="Team Instinct"),
+    0: pgettext_lazy("team_name_team0", "No Team"),
+    1: pgettext_lazy("team_name_team1", "Team Mystic"),
+    2: pgettext_lazy("team_name_team2", "Team Valor"),
+    3: pgettext_lazy("team_name_team3", "Team Instinct"),
 }
