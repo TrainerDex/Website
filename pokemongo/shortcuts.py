@@ -23,6 +23,18 @@ def filter_leaderboard_qs(queryset):
     )
 
 
+def filter_leaderboard_qs__update(queryset):
+    return (
+        queryset.exclude(trainer__owner__is_active=False)
+        .exclude(trainer__statistics=False)
+        .exclude(trainer__update__isnull=True)
+        .exclude(trainer__verified=False)
+        .exclude(trainer__last_cheated__lt=date(2018, 9, 1) - timedelta(weeks=26))
+        .exclude(trainer__last_cheated__gt=date(2018, 9, 1))
+        .exclude(trainer__last_cheated__gt=date.today() - timedelta(weeks=26))
+    )
+
+
 LevelTuple = namedtuple("LevelTuple", ["level", "total_xp", "xp_required"])
 
 

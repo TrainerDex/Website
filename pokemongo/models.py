@@ -239,10 +239,17 @@ class Trainer(models.Model):
     @property
     def nickname(self) -> str:
         """Gets nickname, fallback to User username"""
-        try:
-            return self.nickname_set.get(active=True).nickname
-        except Nickname.DoesNotExist:
-            return self.owner.username
+        if getattr(self, "_nickname"):
+            if isinstance(self._nickname, list):
+                self._nickname, *_ = self._nickname
+            return self._nickname.nickname
+        else:
+            try:
+                self._nickname = self.nickname_set.get(active=True)
+            except Nickname.DoesNotExist:
+                return self.owner.username
+            finally:
+                return self._nickname.nickname
 
     @property
     def username(self) -> str:
