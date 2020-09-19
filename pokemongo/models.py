@@ -239,7 +239,7 @@ class Trainer(models.Model):
     @property
     def nickname(self) -> str:
         """Gets nickname, fallback to User username"""
-        if getattr(self, "_nickname"):
+        if getattr(self, "_nickname", None):
             if isinstance(self._nickname, list):
                 self._nickname, *_ = self._nickname
             return self._nickname.nickname
