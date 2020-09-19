@@ -16,10 +16,15 @@ app_name = "trainerdex.api.1"
 urlpatterns = [
     # /leaderboard/
     url(
+        r"^leaderboard\/discord\/(?P<guild>[0-9]+)\/(?P<stat>[a-z_]+)\/$",
+        DiscordLeaderboardAPIView.as_view(),
+    ),
+    url(
         r"^leaderboard\/discord\/(?P<guild>[0-9]+)\/$",
         DiscordLeaderboardAPIView.as_view(),
     ),
     url(r"^leaderboard\/$", LeaderboardView.as_view()),
+    url(r"^leaderboard\/(?P<stat>[a-z_]+)\/$", LeaderboardView.as_view()),
     # /trainers/
     url(r"^trainers\/$", TrainerListView.as_view()),
     url(r"^trainers\/(?P<pk>[0-9]+)\/$", TrainerDetailView.as_view()),
