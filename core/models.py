@@ -266,7 +266,7 @@ class DiscordGuildSettings(DiscordGuild):
 
 @receiver(post_save, sender=DiscordGuild)
 def new_guild(sender, **kwargs) -> None:
-    if kwargs["created"]:
+    if kwargs["created"] and not kwargs["raw"]:
         DiscordGuildSettings.objects.get_or_create(pk=kwargs["instance"].id)
         kwargs["instance"].sync_members()
 

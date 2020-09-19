@@ -262,7 +262,7 @@ class Trainer(models.Model):
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_profile(sender, **kwargs) -> Optional[Trainer]:
-    if kwargs["created"]:
+    if kwargs["created"] and not kwargs["raw"]:
         trainer = Trainer.objects.create(owner=kwargs["instance"])
         return trainer
 
@@ -297,7 +297,7 @@ class Nickname(models.Model):
 
 @receiver(post_save, sender=Trainer)
 def new_trainer_set_nickname(sender, **kwargs) -> Optional[Nickname]:
-    if kwargs["created"]:
+    if kwargs["created"] and not kwargs["raw"]:
         nickname = Nickname.objects.create(
             trainer=kwargs["instance"],
             nickname=kwargs["instance"].owner.username,
@@ -2311,7 +2311,7 @@ class Update(models.Model):
 
 @receiver(post_save, sender=Update)
 def update_discord_level(sender, **kwargs) -> None:
-    if kwargs["created"] and kwargs["instance"].total_xp:
+    if kwargs["created"] and not kwargs["raw"] and kwargs["instance"].total_xp:
         level = kwargs["instance"].level()
         for discord in DiscordGuildMembership.objects.exclude(active=False).filter(
             guild__discordguildsettings__renamer=True,
