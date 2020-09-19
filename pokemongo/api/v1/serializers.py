@@ -146,42 +146,47 @@ class LeaderboardSerializer(serializers.Serializer):
     faction = serializers.SerializerMethodField()
     xp = serializers.SerializerMethodField()
     total_xp = serializers.SerializerMethodField()
+    stat = serializers.SerializerMethodField()
     last_updated = serializers.SerializerMethodField()
     user_id = serializers.SerializerMethodField()
 
-    def get_position(self, obj: Trainer) -> int:
+    def get_position(self, obj: Update) -> int:
         return obj.rank
 
-    def get_level(self, obj: Trainer) -> Optional[int]:
+    def get_level(self, obj: Update) -> Optional[int]:
         try:
-            return level_parser(xp=obj.update__total_xp__max).level
+            return level_parser(xp=obj.total_xp).level
         except ValueError:
             return None
 
-    def get_id(self, obj: Trainer) -> int:
-        return obj.id
+    def get_id(self, obj: Update) -> int:
+        return obj.trainer.id
 
-    def get_username(self, obj: Trainer) -> str:
-        return obj.nickname
+    def get_username(self, obj: Update) -> str:
+        return obj.trainer.nickname
 
-    def get_faction(self, obj: Trainer) -> Dict[str, Union[str, int]]:
-        return FactionSerializer(obj.faction).data
+    def get_faction(self, obj: Update) -> Dict[str, Union[str, int]]:
+        return FactionSerializer(obj.trainer.faction).data
 
-    def get_xp(self, obj: Trainer) -> int:
+    def get_xp(self, obj: Update) -> int:
         """This field is deprecated and will be removed in API v2"""
-        return obj.update__total_xp__max
+        return obj.total_xp
 
-    def get_total_xp(self, obj: Trainer) -> int:
-        return obj.update__total_xp__max
+    def get_total_xp(self, obj: Update) -> int:
+        """This field is deprecated and will be removed in API v2"""
+        return obj.total_xp
 
-    def get_last_updated(self, obj: Trainer) -> datetime.datetime:
-        return obj.update__update_time__max
+    def get_stat(self, obj: Update) -> int:
+        return obj.value
 
-    def get_user_id(self, obj: Trainer) -> Optional[int]:
-        return obj.owner.pk if obj.owner else None
+    def get_last_updated(self, obj: Update) -> datetime.datetime:
+        return obj.datetime
+
+    def get_user_id(self, obj: Update) -> Optional[int]:
+        return obj.trainer.owner.pk if obj.trainer.owner else None
 
     class Meta:
-        model = Trainer
+        model = Update
         fields = (
             "position",
             "id",
@@ -190,6 +195,7 @@ class LeaderboardSerializer(serializers.Serializer):
             "level",
             "xp",
             "total_xp",
+            "stat",
             "last_updated",
             "user_id",
         )

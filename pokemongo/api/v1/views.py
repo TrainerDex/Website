@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 
 
 from django.contrib.auth import get_user_model
-from django.db.models import Max, Q, F, Window
-from django.db.models.functions import DenseRank as Rank
+from django.db.models import F, Prefetch, Q, Subquery, Window
+from django.db.models.functions import DenseRank
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -14,10 +14,9 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
 from allauth.socialaccount.models import SocialAccount
-from dateutil.relativedelta import relativedelta
 from pytz import utc
 
-from pokemongo.models import Trainer, Update
+from pokemongo.models import Trainer, Update, Nickname
 from pokemongo.api.v1.serializers import (
     UserSerializer,
     DetailedTrainerSerializer,
@@ -26,8 +25,8 @@ from pokemongo.api.v1.serializers import (
     LeaderboardSerializer,
     SocialAllAuthSerializer,
 )
-from pokemongo.shortcuts import filter_leaderboard_qs
-from core.models import DiscordGuild, get_guild_info
+from pokemongo.shortcuts import filter_leaderboard_qs__update, UPDATE_FIELDS_BADGES
+from core.models import DiscordGuildSettings, get_guild_info
 
 logger = logging.getLogger("django.trainerdex")
 User = get_user_model()
@@ -246,27 +245,58 @@ class UpdateDetailView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+VALID_LB_STATS = UPDATE_FIELDS_BADGES + (
+    "pokedex_caught",
+    "pokedex_seen",
+    "total_xp",
+)
+
+
 class LeaderboardView(APIView):
     """
-    Limited to 5000
+    Limited to 1000
     """
 
-    def get(self, request: HttpRequest) -> Response:
-        query = filter_leaderboard_qs(Trainer.objects)
+    def get(
+        self,
+        request: HttpRequest,
+        stat: str = "total_xp",
+    ) -> Response:
+        if stat not in VALID_LB_STATS:
+            return Response(
+                {"state": "error", "reason": "invalid stat"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        generated_time = timezone.now()
+        query = filter_leaderboard_qs__update(Update.objects)
         if request.GET.get("users"):
-            query = filter_leaderboard_qs(
-                Trainer.objects.filter(id__in=request.GET.get("users").split(","))
+            query = filter_leaderboard_qs__update(
+                Update.objects.filter(trainer_id__in=request.GET.get("users").split(","))
             )
         leaderboard = (
-            query.prefetch_related("update_set")
-            .prefetch_related("owner")
-            .annotate(Max("update__total_xp"), Max("update__update_time"))
-            .exclude(update__total_xp__max__isnull=True)
+            Update.objects.filter(
+                pk__in=Subquery(
+                    query.filter(update_time__lte=generated_time)
+                    .annotate(value=F(stat))
+                    .exclude(value__isnull=True)
+                    .order_by("trainer", "-value")
+                    .distinct("trainer")
+                    .values("pk")
+                )
+            )
+            .prefetch_related(
+                "trainer",
+                "trainer__owner",
+                Prefetch(
+                    "trainer__nickname_set",
+                    Nickname.objects.filter(active=True),
+                    to_attr="_nickname",
+                ),
+            )
+            .annotate(value=F(stat), datetime=F("update_time"))
+            .annotate(rank=Window(expression=DenseRank(), order_by=F("value").desc()))
+            .order_by("rank", "-value", "datetime")
         )
-        leaderboard = leaderboard.annotate(
-            rank=Window(expression=Rank(), order_by=F("update__total_xp__max").desc())
-        ).order_by("rank", "update__update_time__max")
-        serializer = LeaderboardSerializer(leaderboard[:5000], many=True)
+        serializer = LeaderboardSerializer(leaderboard[:1000], many=True)
         return Response(serializer.data)
 
 
@@ -316,12 +346,18 @@ class SocialLookupView(APIView):
 
 
 class DiscordLeaderboardAPIView(APIView):
-    def get(self, request: HttpRequest, guild: int) -> Response:
-        output = {"generated": datetime.utcnow()}
+    def get(self, request: HttpRequest, guild: int, stat: int = "total_xp") -> Response:
+        if stat not in VALID_LB_STATS:
+            return Response(
+                {"state": "error", "reason": "invalid stat"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        generated_time = timezone.now()
+        output = {"generated": generated_time, "stat": stat}
 
         try:
-            server = DiscordGuild.objects.get(id=int(guild))
-        except DiscordGuild.DoesNotExist:
+            server = DiscordGuildSettings.objects.get(id=int(guild))
+        except DiscordGuildSettings.DoesNotExist:
             logger.warn(f"Guild with id {guild} not found")
             try:
                 i = get_guild_info(int(guild))
@@ -336,11 +372,13 @@ class DiscordLeaderboardAPIView(APIView):
                 )
             else:
                 logger.info(f"{i['name']} found. Creating.")
-                server, created = DiscordGuild.objects.get_or_create(
+                server, created = DiscordGuildSettings.objects.get_or_create(
                     id=int(guild), defaults={"data": i, "cached_date": timezone.now()}
                 )
+        else:
+            created = False
 
-        if not server.data or server.outdated:
+        if (not server.data or server.outdated) or created:
             try:
                 server.refresh_from_api()
             except:
@@ -370,21 +408,34 @@ class DiscordLeaderboardAPIView(APIView):
             sq |= Q(discordguildmembership__data__roles__contains=[str(x.id)])
 
         members = server.members.exclude(sq)
-        trainers = filter_leaderboard_qs(Trainer.objects.filter(owner__socialaccount__in=members))
 
-        leaderboard = (
-            trainers.prefetch_related("update_set")
-            .prefetch_related("owner")
-            .annotate(Max("update__total_xp"), Max("update__update_time"))
-            .exclude(update__total_xp__max__isnull=True)
-            .filter(
-                update__update_time__max__gte=datetime.now()
-                - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)
-            )
+        query = filter_leaderboard_qs__update(
+            Update.objects.filter(trainer__owner__socialaccount__in=members)
         )
-        leaderboard = leaderboard.annotate(
-            rank=Window(expression=Rank(), order_by=F("update__total_xp__max").desc())
-        ).order_by("rank", "update__update_time__max")
+        leaderboard = (
+            Update.objects.filter(
+                pk__in=Subquery(
+                    query.filter(update_time__lte=generated_time)
+                    .annotate(value=F(stat))
+                    .exclude(value__isnull=True)
+                    .order_by("trainer", "-value")
+                    .distinct("trainer")
+                    .values("pk")
+                )
+            )
+            .prefetch_related(
+                "trainer",
+                "trainer__owner",
+                Prefetch(
+                    "trainer__nickname_set",
+                    Nickname.objects.filter(active=True),
+                    to_attr="_nickname",
+                ),
+            )
+            .annotate(value=F(stat), datetime=F("update_time"))
+            .annotate(rank=Window(expression=DenseRank(), order_by=F("value").desc()))
+            .order_by("rank", "-value", "datetime")
+        )
         serializer = LeaderboardSerializer(leaderboard, many=True)
         output["leaderboard"] = serializer.data
         return Response(output)
