@@ -96,7 +96,7 @@ class TrainerAdmin(admin.ModelAdmin):
     list_display = (
         "nickname",
         "faction",
-        "currently_cheats",
+        "currently_banned",
         "is_on_leaderboard",
         "is_verified",
         "awaiting_verification",
