@@ -8,7 +8,7 @@ from django.utils import translation, timezone
 from django.utils.translation import gettext as _
 from dateutil.relativedelta import MO
 from dateutil.rrule import rrule, WEEKLY
-from humanize import naturaldelta
+from humanize import precisedelta
 
 from core.models import DiscordGuildSettings
 
@@ -44,7 +44,13 @@ class Command(BaseCommand):
                                 title=_("Progress Deadline Reminder"),
                                 description=_(
                                     "This is a reminder. The Progress Deadline is in {timedelta}."
-                                ).format(timedelta=naturaldelta(deadline - current_time)),
+                                ).format(
+                                    timedelta=precisedelta(
+                                        deadline - current_time,
+                                        minimum_unit="hours",
+                                        suppress=["seconds", "milliseconds", "microseconds"],
+                                    )
+                                ),
                                 timestamp=deadline,
                                 colour=13252437,
                             ).set_author(
@@ -56,10 +62,16 @@ class Command(BaseCommand):
                         else:
                             message = _(
                                 "This is a reminder. The Progress Deadline is in {timedelta}."
-                            ).format(timedelta=naturaldelta(deadline - current_time))
+                            ).format(
+                                timedelta=precisedelta(
+                                    deadline - current_time,
+                                    minimum_unit="hours",
+                                    suppress=["seconds", "milliseconds", "microseconds"],
+                                )
+                            )
                             message += "\n\n"
-                            message += deadline.astimezone(tz=pytz.timezone(g.timezone)).isoformat(
-                                " ", timespec="minutes"
+                            message += deadline.astimezone(tz=pytz.timezone(g.timezone)).strftime(
+                                "%Y %b %d %I:%M %p %Z"
                             )
                             await channel.send(message)
 
