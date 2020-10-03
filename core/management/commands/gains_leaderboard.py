@@ -5,11 +5,11 @@ import discord
 from django.db.models import F
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.utils import translation
+from django.utils import translation, timezone
 from django.utils.translation import gettext as _, pgettext
 from dateutil.relativedelta import MO
 from dateutil.rrule import rrule, WEEKLY
-from humanfriendly import format_number, format_timespan
+from humanize import intcomma, naturaldelta
 
 from core.models import DiscordGuildSettings
 from pokemongo.models import Trainer, Update
@@ -56,22 +56,40 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         key = settings.DISCORD_TOKEN
-        current_time = datetime.utcnow()
+        current_time = timezone.utcnow()
         stat = kwargs.get("stat", "total_xp")
         rule = rrule(
             WEEKLY,
-            dtstart=datetime(2016, 7, 4, 12, 0),
+            dtstart=datetime(2016, 7, 4, 12, 0, tzinfo=timezone.utc),
             byweekday=MO,
         )
         if current_time.date() == date(2020, 10, 3):
-            next_week = (datetime(2020, 9, 29, 12, 0), datetime(2020, 10, 5, 12, 0))
-            this_week = (datetime(2020, 9, 21, 12, 0), datetime(2020, 9, 29, 12, 0))
-            last_week = (datetime(2020, 9, 14, 12, 0), datetime(2020, 9, 21, 12, 0))
+            next_week = (
+                datetime(2020, 9, 29, 12, 0, tzinfo=timezone.utc),
+                datetime(2020, 10, 5, 12, 0, tzinfo=timezone.utc),
+            )
+            this_week = (
+                datetime(2020, 9, 21, 12, 0, tzinfo=timezone.utc),
+                datetime(2020, 9, 29, 12, 0, tzinfo=timezone.utc),
+            )
+            last_week = (
+                datetime(2020, 9, 14, 12, 0, tzinfo=timezone.utc),
+                datetime(2020, 9, 21, 12, 0, tzinfo=timezone.utc),
+            )
             week_number = (2020, 39)
         elif current_time.date() == date(2020, 10, 5):
-            next_week = (datetime(2020, 10, 5, 12, 0), datetime(2020, 10, 12, 12, 0))
-            this_week = (datetime(2020, 9, 29, 12, 0), datetime(2020, 10, 5, 12, 0))
-            last_week = (datetime(2020, 9, 21, 12, 0), datetime(2020, 9, 29, 12, 0))
+            next_week = (
+                datetime(2020, 10, 5, 12, 0, tzinfo=timezone.utc),
+                datetime(2020, 10, 12, 12, 0, tzinfo=timezone.utc),
+            )
+            this_week = (
+                datetime(2020, 9, 29, 12, 0, tzinfo=timezone.utc),
+                datetime(2020, 10, 5, 12, 0, tzinfo=timezone.utc),
+            )
+            last_week = (
+                datetime(2020, 9, 21, 12, 0, tzinfo=timezone.utc),
+                datetime(2020, 9, 29, 12, 0, tzinfo=timezone.utc),
+            )
             week_number = (2020, 40)
         else:
             next_week = (rule.before(current_time, inc=True), rule.after(current_time))
@@ -206,11 +224,11 @@ class Command(BaseCommand):
                 ).format(
                     position=position + 1,
                     trainer=entry.trainer,
-                    rate=format_number(round(entry.rate)),
-                    delta=format_number(entry.stat_delta),
-                    interval=format_timespan(entry.time_delta, max_units=2),
-                    then=format_number(entry.last_week_stat),
-                    now=format_number(entry.this_week_stat),
+                    rate=intcomma(round(entry.rate)),
+                    delta=intcomma(entry.stat_delta),
+                    interval=naturaldelta(entry.time_delta),
+                    then=intcomma(entry.last_week_stat),
+                    now=intcomma(entry.this_week_stat),
                 )
                 for position, entry in enumerate(gains)
             ]
@@ -234,8 +252,8 @@ New entries will be ranked next week if they update by the deadline.
                 this_week_deadline=this_week[1],
                 ranked="\n".join(ranked),
                 new=", ".join([str(x) for x in new_entries]),
-                new_count=format_number(len(new_entries)),
-                lost_count=format_number(len(dropped_trainers)),
+                new_count=intcomma(len(new_entries)),
+                lost_count=intcomma(len(dropped_trainers)),
                 deadline=deadline,
             )
 
@@ -280,12 +298,12 @@ New entries will be ranked next week if they update by the deadline.
                             for x, y in enumerate(message_parts):
                                 if x == 0:
                                     msg = await channel.send(y)
-                                    try:
-                                        await msg.pin()
-                                    except discord.errors.Forbidden:
-                                        pass
                                 else:
                                     await channel.send(y)
+                            try:
+                                await msg.pin()
+                            except discord.errors.Forbidden:
+                                pass
 
                 translation.deactivate()
 
