@@ -52,33 +52,33 @@ class Command(BaseCommand):
     help = "Runs the weekly gains leaderboards."
 
     def add_arguments(self, parser):
-        parser.add_argument("-s", default="total_xp")
+        parser.add_argument("stat", default="total_xp")
 
     def handle(self, *args, **kwargs):
         key = settings.DISCORD_TOKEN
         current_time = datetime.utcnow()
-        stat = kwargs.get("-s", "total_xp")
+        stat = kwargs.get("stat", "total_xp")
         rule = rrule(
             WEEKLY,
             dtstart=datetime(2016, 7, 4, 12, 0),
             byweekday=MO,
         )
-        if current_time.date == date(2020, 10, 3):
-            next_week = (datetime(2016, 9, 29, 12, 0), datetime(2016, 10, 5, 12, 0))
-            this_week = (datetime(2016, 9, 21, 12, 0), datetime(2016, 9, 29, 12, 0))
-            last_week = (datetime(2016, 9, 14, 12, 0), datetime(2016, 9, 21, 12, 0))
-            week_number = 39
-        elif current_time.date == date(2020, 10, 5):
-            next_week = (datetime(2016, 10, 5, 12, 0), datetime(2016, 10, 12, 12, 0))
-            this_week = (datetime(2016, 9, 29, 12, 0), datetime(2016, 10, 5, 12, 0))
-            last_week = (datetime(2016, 9, 21, 12, 0), datetime(2016, 9, 29, 12, 0))
-            week_number = 40
+        if current_time.date() == date(2020, 10, 3):
+            next_week = (datetime(2020, 9, 29, 12, 0), datetime(2020, 10, 5, 12, 0))
+            this_week = (datetime(2020, 9, 21, 12, 0), datetime(2020, 9, 29, 12, 0))
+            last_week = (datetime(2020, 9, 14, 12, 0), datetime(2020, 9, 21, 12, 0))
+            week_number = (2020, 39)
+        elif current_time.date() == date(2020, 10, 5):
+            next_week = (datetime(2020, 10, 5, 12, 0), datetime(2020, 10, 12, 12, 0))
+            this_week = (datetime(2020, 9, 29, 12, 0), datetime(2020, 10, 5, 12, 0))
+            last_week = (datetime(2020, 9, 21, 12, 0), datetime(2020, 9, 29, 12, 0))
+            week_number = (2020, 40)
         else:
             next_week = (rule.before(current_time, inc=True), rule.after(current_time))
             this_week = (rule.before(next_week[0]), next_week[0])
             last_week = (rule.before(this_week[0]), this_week[0])
             week_number = this_week[0].isocalendar()[:2]
-
+        print(next_week, this_week, last_week, week_number, stat)
         print("Starting Client")
         client = discord.Client(fetch_offline_members=True)
 
