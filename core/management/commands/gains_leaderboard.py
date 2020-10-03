@@ -9,7 +9,7 @@ from django.utils import translation, timezone
 from django.utils.translation import gettext as _, pgettext
 from dateutil.relativedelta import MO
 from dateutil.rrule import rrule, WEEKLY
-from humanfriendly import format_number, format_timespan
+from humanize import intcomma, naturaldelta
 
 from core.models import DiscordGuildSettings
 from pokemongo.models import Trainer, Update
@@ -224,11 +224,11 @@ class Command(BaseCommand):
                 ).format(
                     position=position + 1,
                     trainer=entry.trainer,
-                    rate=format_number(round(entry.rate)),
-                    delta=format_number(entry.stat_delta),
-                    interval=format_timespan(entry.time_delta, max_units=2),
-                    then=format_number(entry.last_week_stat),
-                    now=format_number(entry.this_week_stat),
+                    rate=intcomma(round(entry.rate)),
+                    delta=intcomma(entry.stat_delta),
+                    interval=naturaldelta(entry.time_delta),
+                    then=intcomma(entry.last_week_stat),
+                    now=intcomma(entry.this_week_stat),
                 )
                 for position, entry in enumerate(gains)
             ]
@@ -252,8 +252,8 @@ New entries will be ranked next week if they update by the deadline.
                 this_week_deadline=this_week[1],
                 ranked="\n".join(ranked),
                 new=", ".join([str(x) for x in new_entries]),
-                new_count=format_number(len(new_entries)),
-                lost_count=format_number(len(dropped_trainers)),
+                new_count=intcomma(len(new_entries)),
+                lost_count=intcomma(len(dropped_trainers)),
                 deadline=deadline,
             )
 
