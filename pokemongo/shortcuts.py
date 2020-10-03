@@ -3,6 +3,9 @@ from collections import namedtuple
 from distutils.util import strtobool
 from typing import Union, Optional, List
 
+from dateutil.relativedelta import relativedelta
+from django.utils import timezone
+
 
 def strtoboolornone(value) -> Union[bool, None]:
     try:
@@ -16,6 +19,11 @@ def filter_leaderboard_qs(queryset):
         queryset.exclude(owner__is_active=False)
         .exclude(statistics=False)
         .exclude(update__isnull=True)
+        .exclude(
+            update__update_time__lt=(
+                timezone.now() - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)
+            )
+        )
         .exclude(verified=False)
         .exclude(last_cheated__lt=date(2018, 9, 1) - timedelta(weeks=26))
         .exclude(last_cheated__gt=date(2018, 9, 1))
@@ -27,8 +35,12 @@ def filter_leaderboard_qs__update(queryset):
     return (
         queryset.exclude(trainer__owner__is_active=False)
         .exclude(trainer__statistics=False)
-        .exclude(trainer__update__isnull=True)
         .exclude(trainer__verified=False)
+        .exclude(
+            update_time__lt=(
+                timezone.now() - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)
+            )
+        )
         .exclude(trainer__last_cheated__lt=date(2018, 9, 1) - timedelta(weeks=26))
         .exclude(trainer__last_cheated__gt=date(2018, 9, 1))
         .exclude(trainer__last_cheated__gt=date.today() - timedelta(weeks=26))
