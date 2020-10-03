@@ -16,7 +16,7 @@ from core.models import DiscordGuildSettings
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         key = settings.DISCORD_TOKEN
-        current_time = timezone.utcnow()
+        current_time = timezone.now()
         rule = rrule(
             WEEKLY,
             dtstart=datetime(2016, 7, 4, 12, 0, tzinfo=pytz.utc),

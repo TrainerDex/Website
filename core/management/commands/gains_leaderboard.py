@@ -56,7 +56,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         key = settings.DISCORD_TOKEN
-        current_time = timezone.utcnow()
+        current_time = timezone.now()
         stat = kwargs.get("stat", "total_xp")
         rule = rrule(
             WEEKLY,
