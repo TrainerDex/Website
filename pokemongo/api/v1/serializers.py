@@ -91,7 +91,7 @@ class DetailedTrainerSerializer(serializers.ModelSerializer):
             "trainer_code",
             "has_cheated",
             "last_cheated",
-            "currently_cheats",
+            "currently_banned",
             "daily_goal",
             "total_goal",
             "update_set",
