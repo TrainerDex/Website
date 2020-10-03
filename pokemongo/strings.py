@@ -4,8 +4,7 @@ and out of use within the codebase.
 """
 from django.utils.translation import pgettext, npgettext
 
-remote_metadata = ("2020-09-03T22:21:05.018639", "a7cbdfdeb5ba0f10697cce720de093807c4a9a4c")
-apk_metadata = ("2020-09-01T22:45:11.849571", "339c3fbf671838056e38cd7b43276db48e33b64c")
+apk_job = 4005630
 
 pgettext("avatar_detail_battle_won", "Battles Won")
 pgettext("avatar_detail_pokemon_caught", "Pokémon Caught")
