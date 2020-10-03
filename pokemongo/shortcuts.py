@@ -19,11 +19,6 @@ def filter_leaderboard_qs(queryset):
         queryset.exclude(owner__is_active=False)
         .exclude(statistics=False)
         .exclude(update__isnull=True)
-        .exclude(
-            update__update_time__lt=(
-                timezone.now() - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)
-            )
-        )
         .exclude(verified=False)
         .exclude(last_cheated__lt=date(2018, 9, 1) - timedelta(weeks=26))
         .exclude(last_cheated__gt=date(2018, 9, 1))
