@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-01 08:20+0000\n"
-"PO-Revision-Date: 2020-10-01 08:21\n"
+"POT-Creation-Date: 2020-10-03 13:47+0000\n"
+"PO-Revision-Date: 2020-10-03 13:47\n"
 "Last-Translator: \n"
 "Language-Team: Thai\n"
 "Language: th_TH\n"
@@ -29,23 +29,70 @@ msgstr ""
 msgid "Discord Server Settings"
 msgstr ""
 
-#: core/management/commands/gains_leaderboard.py:142
-#, python-brace-format
-msgid "Weekly {stat} Gains Leaderboard for `{guild.name}`"
+#: core/management/commands/gains_leaderboard.py:179 pokemongo/strings.py:376
+#: trainerdex/settings.py:256
+msgctxt "team_name_team0"
+msgid "No Team"
+msgstr "ไม่มีทีม"
+
+#: core/management/commands/gains_leaderboard.py:180 pokemongo/strings.py:377
+#: trainerdex/settings.py:257
+msgctxt "team_name_team1"
+msgid "Team Mystic"
+msgstr "ทีมมิสติก"
+
+#: core/management/commands/gains_leaderboard.py:181 pokemongo/strings.py:378
+#: trainerdex/settings.py:258
+msgctxt "team_name_team2"
+msgid "Team Valor"
+msgstr "ทีมแวเลอร์"
+
+#: core/management/commands/gains_leaderboard.py:182 pokemongo/strings.py:379
+#: trainerdex/settings.py:259
+msgctxt "team_name_team3"
+msgid "Team Instinct"
+msgstr "ทีมอินสติงต์"
+
+#: core/management/commands/gains_leaderboard.py:183 pokemongo/models.py:404
+#: pokemongo/strings.py:179
+msgctxt "badge_travel_km_title"
+msgid "Jogger"
+msgstr "นักวิ่ง"
+
+#: core/management/commands/gains_leaderboard.py:184 pokemongo/models.py:419
+#: pokemongo/strings.py:33
+msgctxt "badge_capture_total_title"
+msgid "Collector"
+msgstr "นักสะสมโปเกมอน"
+
+#: core/management/commands/gains_leaderboard.py:185 pokemongo/models.py:437
+#: pokemongo/strings.py:145
+msgctxt "badge_pokestops_visited_title"
+msgid "Backpacker"
+msgstr "แบ็กแพ็กเกอร์"
+
+#: core/management/commands/gains_leaderboard.py:186 pokemongo/models.py:383
+#: pokemongo/strings.py:366
+msgctxt "profile_total_xp"
+msgid "Total XP"
 msgstr ""
 
-#: core/management/commands/gains_leaderboard.py:148
+#: core/management/commands/gains_leaderboard.py:190
+msgid "Weekly {stat_emoji} {stat_name} Progress for \\N{BUSTS IN SILHOUETTE} {guild.name}"
+msgstr ""
+
+#: core/management/commands/gains_leaderboard.py:199
 #, python-brace-format
 msgid "**{title}**\n"
 "Unfortunately, there were not valid entries this week."
 msgstr ""
 
-#: core/management/commands/gains_leaderboard.py:153
+#: core/management/commands/gains_leaderboard.py:204
 #, python-brace-format
 msgid "#{position} **{trainer}** @ {rate}/day (+{delta}) `Interval: {interval}` `Gain: {then} ⇒ {now}`"
 msgstr ""
 
-#: core/management/commands/gains_leaderboard.py:168
+#: core/management/commands/gains_leaderboard.py:219
 #, python-brace-format
 msgid "**{title}**\n"
 "Week: `{year}W{week}` Dealine: `{this_week_deadline} UTC`\n\n"
@@ -772,11 +819,6 @@ msgstr ""
 msgid "This will silence some errors."
 msgstr ""
 
-#: pokemongo/models.py:383 pokemongo/strings.py:366
-msgctxt "profile_total_xp"
-msgid "Total XP"
-msgstr ""
-
 #: pokemongo/models.py:390
 msgctxt "pokedex_page_caught"
 msgid "Unique Species Caught"
@@ -786,11 +828,6 @@ msgstr ""
 msgctxt "pokedex_page_seen"
 msgid "Unique Species Seen"
 msgstr ""
-
-#: pokemongo/models.py:404 pokemongo/strings.py:179
-msgctxt "badge_travel_km_title"
-msgid "Jogger"
-msgstr "นักวิ่ง"
 
 #: pokemongo/models.py:405 pokemongo/strings.py:177
 msgctxt "badge_travel_km"
@@ -807,11 +844,6 @@ msgstr "คันโต"
 msgctxt "badge_pokedex_entries"
 msgid "Register {0} Kanto region Pokémon in the Pokédex."
 msgstr "บันทึกโปเกมอนจากเขตคันโตลงในโปเกเด็กซ์ {0} ตัว"
-
-#: pokemongo/models.py:419 pokemongo/strings.py:33
-msgctxt "badge_capture_total_title"
-msgid "Collector"
-msgstr "นักสะสมโปเกมอน"
 
 #: pokemongo/models.py:420 pokemongo/strings.py:32
 #, python-brace-format
@@ -840,11 +872,6 @@ msgstr "คนเลี้ยงโปเกมอน"
 msgctxt "badge_hatched_total"
 msgid "Hatch {0} eggs."
 msgstr "ฟักไข่ {0} ใบ"
-
-#: pokemongo/models.py:437 pokemongo/strings.py:145
-msgctxt "badge_pokestops_visited_title"
-msgid "Backpacker"
-msgstr "แบ็กแพ็กเกอร์"
 
 #: pokemongo/models.py:438 pokemongo/strings.py:144
 #, python-brace-format
@@ -2213,26 +2240,6 @@ msgstr ""
 msgctxt "screen_title_settings"
 msgid "SETTINGS"
 msgstr ""
-
-#: pokemongo/strings.py:376 trainerdex/settings.py:256
-msgctxt "team_name_team0"
-msgid "No Team"
-msgstr "ไม่มีทีม"
-
-#: pokemongo/strings.py:377 trainerdex/settings.py:257
-msgctxt "team_name_team1"
-msgid "Team Mystic"
-msgstr "ทีมมิสติก"
-
-#: pokemongo/strings.py:378 trainerdex/settings.py:258
-msgctxt "team_name_team2"
-msgid "Team Valor"
-msgstr "ทีมแวเลอร์"
-
-#: pokemongo/strings.py:379 trainerdex/settings.py:259
-msgctxt "team_name_team3"
-msgid "Team Instinct"
-msgstr "ทีมอินสติงต์"
 
 #: pokemongo/templates/account/signup2.html:17
 msgid "Step 2"
