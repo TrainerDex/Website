@@ -280,12 +280,12 @@ New entries will be ranked next week if they update by the deadline.
                             for x, y in enumerate(message_parts):
                                 if x == 0:
                                     msg = await channel.send(y)
-                                    try:
-                                        await msg.pin()
-                                    except discord.errors.Forbidden:
-                                        pass
                                 else:
                                     await channel.send(y)
+                            try:
+                                await msg.pin()
+                            except discord.errors.Forbidden:
+                                pass
 
                 translation.deactivate()
 
