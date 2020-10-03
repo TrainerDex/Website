@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-03 13:47+0000\n"
-"PO-Revision-Date: 2020-10-03 13:47\n"
+"POT-Creation-Date: 2020-10-03 16:24+0000\n"
+"PO-Revision-Date: 2020-10-03 16:29\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
@@ -29,70 +29,70 @@ msgstr ""
 msgid "Discord Server Settings"
 msgstr ""
 
-#: core/management/commands/gains_leaderboard.py:179 pokemongo/strings.py:376
+#: core/management/commands/gains_leaderboard.py:197 pokemongo/strings.py:376
 #: trainerdex/settings.py:256
 msgctxt "team_name_team0"
 msgid "No Team"
 msgstr "所属なし"
 
-#: core/management/commands/gains_leaderboard.py:180 pokemongo/strings.py:377
+#: core/management/commands/gains_leaderboard.py:198 pokemongo/strings.py:377
 #: trainerdex/settings.py:257
 msgctxt "team_name_team1"
 msgid "Team Mystic"
 msgstr "チーム ミスティック"
 
-#: core/management/commands/gains_leaderboard.py:181 pokemongo/strings.py:378
+#: core/management/commands/gains_leaderboard.py:199 pokemongo/strings.py:378
 #: trainerdex/settings.py:258
 msgctxt "team_name_team2"
 msgid "Team Valor"
 msgstr "チームリーダー"
 
-#: core/management/commands/gains_leaderboard.py:182 pokemongo/strings.py:379
+#: core/management/commands/gains_leaderboard.py:200 pokemongo/strings.py:379
 #: trainerdex/settings.py:259
 msgctxt "team_name_team3"
 msgid "Team Instinct"
 msgstr "チーム インスティンクト"
 
-#: core/management/commands/gains_leaderboard.py:183 pokemongo/models.py:404
+#: core/management/commands/gains_leaderboard.py:201 pokemongo/models.py:404
 #: pokemongo/strings.py:179
 msgctxt "badge_travel_km_title"
 msgid "Jogger"
 msgstr "ジョギング"
 
-#: core/management/commands/gains_leaderboard.py:184 pokemongo/models.py:419
+#: core/management/commands/gains_leaderboard.py:202 pokemongo/models.py:419
 #: pokemongo/strings.py:33
 msgctxt "badge_capture_total_title"
 msgid "Collector"
 msgstr "コレクター"
 
-#: core/management/commands/gains_leaderboard.py:185 pokemongo/models.py:437
+#: core/management/commands/gains_leaderboard.py:203 pokemongo/models.py:437
 #: pokemongo/strings.py:145
 msgctxt "badge_pokestops_visited_title"
 msgid "Backpacker"
 msgstr "バックパッカー"
 
-#: core/management/commands/gains_leaderboard.py:186 pokemongo/models.py:383
+#: core/management/commands/gains_leaderboard.py:204 pokemongo/models.py:383
 #: pokemongo/strings.py:366
 msgctxt "profile_total_xp"
 msgid "Total XP"
 msgstr ""
 
-#: core/management/commands/gains_leaderboard.py:190
+#: core/management/commands/gains_leaderboard.py:208
 msgid "Weekly {stat_emoji} {stat_name} Progress for \\N{BUSTS IN SILHOUETTE} {guild.name}"
 msgstr ""
 
-#: core/management/commands/gains_leaderboard.py:199
+#: core/management/commands/gains_leaderboard.py:217
 #, python-brace-format
 msgid "**{title}**\n"
 "Unfortunately, there were not valid entries this week."
 msgstr ""
 
-#: core/management/commands/gains_leaderboard.py:204
+#: core/management/commands/gains_leaderboard.py:222
 #, python-brace-format
 msgid "#{position} **{trainer}** @ {rate}/day (+{delta}) `Interval: {interval}` `Gain: {then} ⇒ {now}`"
 msgstr ""
 
-#: core/management/commands/gains_leaderboard.py:219
+#: core/management/commands/gains_leaderboard.py:237
 #, python-brace-format
 msgid "**{title}**\n"
 "Week: `{year}W{week}` Dealine: `{this_week_deadline} UTC`\n\n"
@@ -101,6 +101,16 @@ msgid "**{title}**\n"
 "New entries will be ranked next week if they update by the deadline.\n"
 "**{lost_count}** Trainers from last week didn't update again this week.\n"
 "**Next weeks deadline is: `{deadline} UTC`**\n"
+msgstr ""
+
+#: core/management/commands/post_announcement.py:44
+msgid "Progress Deadline Reminder"
+msgstr ""
+
+#: core/management/commands/post_announcement.py:46
+#: core/management/commands/post_announcement.py:64
+#, python-brace-format
+msgid "This is a reminder. The Progress Deadline is in {timedelta}."
 msgstr ""
 
 #: core/models.py:172
