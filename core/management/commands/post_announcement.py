@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 if g.monthly_gains_channel:
                     channel = client.get_channel(g.monthly_gains_channel.id)
                     if channel:
-                        if channel.permissions_for(client.user).embed_links:
+                        if channel.permissions_for(guild.me).embed_links:
                             embed = discord.Embed(
                                 title=_("Progress Deadline Reminder"),
                                 description=_(
