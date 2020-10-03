@@ -47,7 +47,7 @@ class Command(BaseCommand):
                                 ).format(
                                     timedelta=precisedelta(
                                         deadline - current_time,
-                                        minimum_unit="hours",
+                                        minimum_unit="minutes",
                                         suppress=["seconds", "milliseconds", "microseconds"],
                                     )
                                 ),
@@ -65,7 +65,7 @@ class Command(BaseCommand):
                             ).format(
                                 timedelta=precisedelta(
                                     deadline - current_time,
-                                    minimum_unit="hours",
+                                    minimum_unit="minutes",
                                     suppress=["seconds", "milliseconds", "microseconds"],
                                 )
                             )
