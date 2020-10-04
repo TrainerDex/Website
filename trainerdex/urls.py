@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken import views
 
 from core import sitemaps
-from core.views import SettingsView
+from core.views import SettingsView, PrivacyView, TermsView
 from pokemongo.views import SetUpProfileViewStep2, SetUpProfileViewStep3
 
 
@@ -30,6 +30,8 @@ urlpatterns = [
     path("api/token-auth/", views.obtain_auth_token),
     path("api/ajax_select/", include("ajax_select.urls")),
     path("help/", include("helpdesk.urls")),
+    path("legal/privacy", PrivacyView, name="privacy"),
+    path("legal/terms", TermsView, name="terms"),
     path("accounts/settings", SettingsView, name="account_settings"),
     path("accounts/profile/setup", SetUpProfileViewStep2, name="profile_set_up"),
     path("accounts/profile/first_update", SetUpProfileViewStep3, name="profile_first_post"),

@@ -6,8 +6,7 @@
 {% load humanize %}
 {% load widget_tweaks %}
 
-{% block head_title %}{{trainer.nickname}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}{% endblock %}
-{% block section_title %}{{trainer.nickname}}{% endblock %}
+{% block head_title %}{{trainer.nickname}} | {% trans 'Level' context profile_player_level %} {{level}}{% endblock %}
 
 {% block extra_head %}
 <meta name="twitter:card" content="summary"/>
@@ -17,8 +16,8 @@
 <meta property="og:type" content="profile" />
 <meta property="og:ttl" content="345600" />
 <meta property="og:description" content="{% trans 'Team' context 'faction' %}: {{trainer.team}}
-{% trans 'Level' %}: {{level}}
-{% trans 'XP' context 'Short form of XP' %}: {{xp|intcomma}}" />
+{% trans 'Level' context profile_player_level %}: {{level}}
+{% trans 'XP' context 'general_xp' %}: {{xp|intcomma}}" />
 <meta property="profile:username" content="{{trainer.nickname}}" />
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
@@ -28,31 +27,37 @@
   <div class="mdl-cell mdl-cell--1-col mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="{{trainer.team.get_image_url}}" /></div>
   <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
     <ul class="mdl-list">
-      <i class="mdl-card__title-text">{{trainer.nickname}}  {{trainer.flag_emoji|default_if_none:''}}</i>
+      <i class="mdl-card__title-text trainerdex-profile-username">{{trainer.nickname}}</i>
+      {% if badge_travel_km %}<li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content" id="badge_travel_km">
+          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_travel_km.png" %}"></i>
+          {{badge_travel_km|intcomma}}
+        </span>
+      </li>{% endif%}
+      {% if badge_capture_total %}<li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content" id="badge_capture_total">
+          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_capture_total.png" %}"></i>
+          {{badge_capture_total|intcomma}}
+        </span>
+      </li>{% endif%}
+      {% if badge_pokestops_visited %}<li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content" id="badge_pokestops_visited">
+          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_pokestops_visited.png" %}"></i>
+          {{badge_pokestops_visited|intcomma}}
+        </span>
+      </li>{% endif%}
+      {% if total_xp %}<li class="mdl-list__item">
+        <span class="mdl-list__item-primary-content" id="total_xp">
+          <i class="pogo-icons mdl-list__item-icon"><img src="{% get_static_prefix %}img/profile_xp.png"></i>
+          {{total_xp|intcomma}}
+        </span>
+      </li>{% endif%}
       {% if trainer.start_date %}<li class="mdl-list__item">
         <span class="mdl-list__item-primary-content" id="start_date">
-          <i class="material-icons mdl-list__item-icon">date_range</i>
+          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_start_date.png" %}"></i>
           {{trainer.start_date}}
         </span>
       </li>{% endif%}
-      <li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="total_xp">
-          <i class="mdl-list__item-icon">{% trans "XP" context 'Short form of XP'  %}</i>
-          {{total_xp|intcomma}} | {% trans "TL" context 'Short form of Trainer Level'  %} {{level}}
-        </span>
-      </li>
-      {% if gymbadges_total %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="gymbadges_total">
-          <i class="material-icons mdl-list__item-icon">security</i>
-          {{gymbadges_total|intcomma}}
-        </span>
-      </li>{% endif %}
-      {% if gymbadges_gold %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="gymbadges_gold">
-          <i class="material-icons mdl-list__item-icon" style="color: #FFD700;">security</i>
-          {{gymbadges_gold|intcomma}}
-        </span>
-      </li>{% endif %}
     </ul>
   </div>
 </div>

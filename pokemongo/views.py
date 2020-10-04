@@ -140,11 +140,10 @@ def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
         *[
             Max(x)
             for x in (
+                "badge_travel_km",
+                "badge_capture_total",
+                "badge_pokestops_visited",
                 "total_xp",
-                "pokedex_caught",
-                "pokedex_seen",
-                "gymbadges_total",
-                "gymbadges_gold",
             )
         ]
     )

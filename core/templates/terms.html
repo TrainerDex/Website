@@ -1,0 +1,57 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block head_title %}{% trans "Terms of Service" %}{% endblock %}
+
+{% block content %}
+<div class="mdl-grid mdl-grid--no-spacing">
+  <div class="mdl-card mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "Terms of Service" %}</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <p>{% trans "For various reasons, this document is only available in English." %}</p>
+
+      <p>We use several terms in this document which could be considered ambiguous so I would like to clear these up:
+        <ul>
+          <li>the Website - any website hosted on the trainerdex.co.uk domain or any subdomains thereof</li>
+          <li>the Discord Bot - Our official bot instance, TrainerDex#8522, on Discord, or any third party instances that may or may not launch in the future</li>
+        </ul>
+      </p>
+
+      <p>By signing up to TrainerDex through any of the various methods such as; the Website, the Discord Bot or any of our other apps, present and future, you are agreeing to these Terms of Service. These terms of service are subject to change at any time.</p>
+
+      <p>We, TrainerDex, have the right to save and store screenshots of your stats for future audits and verification. We reserve the right to deny a user access to TrainerDex at any time, however, we will always try to provide the reason to the user.</p>
+
+      <p>The following rules/terms are in place and violation of these rules can result in termination of your profile and a permanent ban from the service;
+        <ul>
+          <li>No use of tools and/or apps to falsify your location in Pokémon Go</li>
+          <li>No use of any tools or software or other methods to falsify your screenshots before submitting them</li>
+          <li>No submitting anybody else’s screenshots as your own</li>
+          <li>No knowingly submitting false data to TrainerDex</li>
+        </ul>
+      </p>
+
+      <p>We endeavour to be open with data. We have a public API for information such as your Pokémon Go profile data. As such, your data may be used on third party tools such as PokeNav.</p>
+
+      <p>The types of information we may store on you include;
+        <ul>
+          <li>Various datapoints about your Pokémon Go profile, including username, team, start date and any of the badges information provided to us</li>
+          <li>Your first name, if provided</li>
+          <li>Your email address, if provided</li>
+          <li>Your Discord UID, if provided via the Website or via using the Discord Bot</li>
+          <li>Your Twitter UID, if provided via the Website</li>
+          <li>Your Facebook name, if provided via the Website</li>
+        </ul>
+      </p>
+
+
+      <p>It is within your right to request to be removed from TrainerDex or have your information hidden at any time. However, we are not responsible for third party services caching your public data.</p>
+
+      <p>To request removal or to be hidden from TrainerDex, email <a href="mailto:jay@trainerdex.co.uk">jay@trainerdex.co.uk</a> or message TurnrDev#0117 on Discord.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

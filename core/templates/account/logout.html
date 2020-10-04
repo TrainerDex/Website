@@ -9,10 +9,10 @@
 <div class="mdl-grid">
   <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
     <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">{% trans "Sign Out" %}</h2>
+      <h2 class="mdl-card__title-text">{% trans "Sign Out" context "general_sign_out" %}</h2>
     </div>
     <div class="mdl-card__supporting-text">
-      {% trans 'Are you sure you want to sign out?' %}
+      {% trans 'Are you sure you want to sign out?' context "general_sign_out_confirm" %}
     </div>
     <div class="mdl-card__actions mdl-card--border">
       <form method="post" action="{% url 'account_logout' %}">
@@ -20,7 +20,7 @@
         {% if redirect_field_value %}
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
         {% endif %}
-        <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit">{% trans 'Sign Out' %}</button>
+        <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit">{% trans "Sign Out" context "general_sign_out" %}</button>
       </form>
     </div>
   </div>
