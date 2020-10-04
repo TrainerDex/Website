@@ -6,7 +6,7 @@ app_name = "trainerdex"
 
 urlpatterns = [
     path(
-        "leaderboard",
+        "leaderboard/",
         include(
             [
                 path("", LeaderboardView, name="leaderboard"),
