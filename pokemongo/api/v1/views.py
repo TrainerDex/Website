@@ -345,7 +345,7 @@ class SocialLookupView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class DiscordLeaderboardAPIView(APIView):
+class DiscordLeaderboardView(APIView):
     def get(self, request: HttpRequest, guild: int, stat: int = "total_xp") -> Response:
         if stat not in VALID_LB_STATS:
             return Response(
@@ -374,13 +374,12 @@ class DiscordLeaderboardAPIView(APIView):
                 )
             else:
                 logger.info(f"{i['name']} found. Creating.")
-                server, created = DiscordGuildSettings.objects.get_or_create(
-                    id=guild, defaults={"data": i, "cached_date": timezone.now()}
+                server = DiscordGuildSettings.objects.create(
+                    id=guild, data=i, cached_date=timezone.now()
                 )
-        else:
-            created = False
+                server.sync_members()
 
-        if (not server.data or server.outdated) or created:
+        if not server.data or server.outdated:
             try:
                 server.refresh_from_api()
             except:
