@@ -8,7 +8,7 @@ from pokemongo.api.v1.views import (
     UserViewSet,
     SocialLookupView,
     LeaderboardView,
-    DiscordLeaderboardAPIView,
+    DiscordLeaderboardView,
 )
 
 app_name = "trainerdex.api.1"
@@ -17,11 +17,11 @@ urlpatterns = [
     # /leaderboard/
     url(
         r"^leaderboard\/discord\/(?P<guild>[0-9]+)\/(?P<stat>[a-z_]+)\/$",
-        DiscordLeaderboardAPIView.as_view(),
+        DiscordLeaderboardView.as_view(),
     ),
     url(
         r"^leaderboard\/discord\/(?P<guild>[0-9]+)\/$",
-        DiscordLeaderboardAPIView.as_view(),
+        DiscordLeaderboardView.as_view(),
     ),
     url(r"^leaderboard\/$", LeaderboardView.as_view()),
     url(r"^leaderboard\/(?P<stat>[a-z_]+)\/$", LeaderboardView.as_view()),
