@@ -29,27 +29,20 @@ class TrainerSitemap(Sitemap):
     changefreq = "weekly"
 
     def items(self):
-        return filter_leaderboard_qs(Trainer.objects).distinct()
+        return (
+            filter_leaderboard_qs(Trainer.objects)
+            .order_by("id")
+            .prefetch_related("update_set")
+            .distinct()
+        )
 
     def lastmod(self, obj: Trainer) -> datetime.datetime:
-        return obj.last_modified
+        return max(
+            obj.last_modified, obj.update_set.only("update_time").latest("update_time").update_time
+        )
 
     def priority(self, obj: Trainer) -> float:
-        return min(
-            (
-                min(
-                    obj.update_set.exclude(total_xp__isnull=True)
-                    .order_by("-total_xp")
-                    .first()
-                    .total_xp
-                    / 20000000,
-                    1.0,
-                )
-                * (5 / 11)
-            )
-            + 0.5,
-            0.9,
-        )
+        return 0.5
 
 
 class LeaderboardCountrySitemap(Sitemap):
@@ -61,9 +54,9 @@ class LeaderboardCountrySitemap(Sitemap):
     def priority(self, obj: Country) -> float:
         count = obj.leaderboard_trainers_country.count()
         if count:
-            return 0.92 + min(count, 20) / 400
+            return 0.25 + (min(count, 100) / 200)
         else:
-            return 0.02
+            return 0
 
     def location(self, obj: Country) -> Any:
         return reverse("trainerdex:leaderboard", kwargs={"country": obj.code})
@@ -73,14 +66,14 @@ class LeaderboardCommunitySitemap(Sitemap):
     changefreq = "daily"
 
     def items(self):
-        return Community.objects.exclude(privacy_public=False).distinct()
+        return Community.objects.exclude(privacy_public=False).order_by("handle").distinct()
 
     def priority(self, obj: Community) -> float:
         count = obj.get_members().count()
         if count:
-            return min(0.74 + ((count / 1000) * 0.26), 1)
+            return 0.25 + (min(count, 100) / 200)
         else:
-            return 0.74
+            return 0
 
     def location(self, obj: Community) -> Any:
         return reverse("trainerdex:leaderboard", kwargs={"community": obj.handle})

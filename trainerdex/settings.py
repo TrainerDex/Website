@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "cities",
-    "rosetta",
     "core",
     "pokemongo",
 ]

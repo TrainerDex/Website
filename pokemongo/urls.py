@@ -1,28 +1,34 @@
-﻿from django.conf.urls import url
+from django.urls import include, path, re_path
 from django.views.generic import RedirectView
 from pokemongo.views import LeaderboardView, CreateUpdateView, TrainerRedirectorView
 
 app_name = "trainerdex"
 
 urlpatterns = [
-    url(r"^leaderboard\/?$", LeaderboardView, name="leaderboard"),
-    url(r"^leaderboard\/country\/(?P<country>[\w]+)\/?$", LeaderboardView, name="leaderboard"),
-    url(
-        r"^leaderboard\/community\/(?P<community>[\w\d]+)\/?$",
-        LeaderboardView,
-        name="leaderboard",
+    path(
+        "leaderboard",
+        include(
+            [
+                path("", LeaderboardView, name="leaderboard"),
+                path("country/<str:country>", LeaderboardView, name="leaderboard"),
+                path("community/<slug:community>", LeaderboardView, name="leaderboard"),
+            ]
+        ),
     ),
-    url(r"^profile\/?$", TrainerRedirectorView, name="profile"),
-    url(r"^profile\/id\/(?P<id>[\d]+)\/?$", TrainerRedirectorView, name="profile"),
-    url(r"^new\/?$", CreateUpdateView, name="update_stats"),
-    url(
-        r"^tools\/update_stats\/?$",
+    path("profile", TrainerRedirectorView, name="profile"),
+    path("profile/id/<int:id>", TrainerRedirectorView, name="profile"),
+    path("new", CreateUpdateView, name="update_stats"),
+    path(
+        "tools/update_stats/",
         RedirectView.as_view(pattern_name="trainerdex:update_stats", permanent=True),
     ),
-    url(r"^(?P<nickname>[A-Za-z0-9]{3,15})\/?$", TrainerRedirectorView),
-    url(
-        r"^u\/(?P<nickname>[A-Za-z0-9]{3,15})\/?$",
-        TrainerRedirectorView,
-        name="profile_nickname",
+    re_path(r"^(?P<nickname>[A-Za-z0-9]{3,15})\/?$", TrainerRedirectorView),
+    re_path(
+        r"^u\/(?P<nickname>[A-Za-z0-9]{3,15})\/?$", TrainerRedirectorView, name="profile_nickname"
+    ),
+    path(
+        "",
+        RedirectView.as_view(pattern_name="trainerdex:leaderboard", permanent=False),
+        name="home",
     ),
 ]
