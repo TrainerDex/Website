@@ -1,4 +1,5 @@
 ﻿from django.conf.urls import url
+from django.urls import path
 from pokemongo.api.v1.views import (
     TrainerListView,
     TrainerDetailView,
@@ -8,23 +9,23 @@ from pokemongo.api.v1.views import (
     UserViewSet,
     SocialLookupView,
     LeaderboardView,
-    DiscordLeaderboardView,
+    DetailedLeaderboardView,
 )
 
 app_name = "trainerdex.api.1"
 
 urlpatterns = [
     # /leaderboard/
-    url(
-        r"^leaderboard\/discord\/(?P<guild>[0-9]+)\/(?P<stat>[a-z_]+)\/$",
-        DiscordLeaderboardView.as_view(),
-    ),
-    url(
-        r"^leaderboard\/discord\/(?P<guild>[0-9]+)\/$",
-        DiscordLeaderboardView.as_view(),
-    ),
-    url(r"^leaderboard\/$", LeaderboardView.as_view()),
-    url(r"^leaderboard\/(?P<stat>[a-z_]+)\/$", LeaderboardView.as_view()),
+    path("leaderboard/", LeaderboardView.as_view()),
+    path("leaderboard//", DetailedLeaderboardView.as_view()),
+    path("leaderboard//<str:stat>/", DetailedLeaderboardView.as_view()),
+    path("leaderboard/discord/<int:guild>/", DetailedLeaderboardView.as_view()),
+    path("leaderboard/discord/<int:guild>/<str:stat>/", DetailedLeaderboardView.as_view()),
+    path("leaderboard/country/<str:country>/", DetailedLeaderboardView.as_view()),
+    path("leaderboard/country/<str:country>/<str:stat>/", DetailedLeaderboardView.as_view()),
+    path("leaderboard/community/<slug:community>/", DetailedLeaderboardView.as_view()),
+    path("leaderboard/community/<slug:community>/<str:stat>/", DetailedLeaderboardView.as_view()),
+    path("leaderboard/<str:stat>/", LeaderboardView.as_view()),
     # /trainers/
     url(r"^trainers\/$", TrainerListView.as_view()),
     url(r"^trainers\/(?P<pk>[0-9]+)\/$", TrainerDetailView.as_view()),

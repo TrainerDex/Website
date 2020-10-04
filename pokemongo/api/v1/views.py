@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime, timedelta
 
-
 from django.contrib.auth import get_user_model
 from django.db.models import Avg, Count, F, Max, Min, Prefetch, Q, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
@@ -13,10 +12,12 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 
+import requests
 from allauth.socialaccount.models import SocialAccount
+from cities.models import Country
 from pytz import utc
 
-from pokemongo.models import Trainer, Update, Nickname
+from pokemongo.models import Community, Trainer, Update, Nickname
 from pokemongo.api.v1.serializers import (
     UserSerializer,
     DetailedTrainerSerializer,
@@ -345,74 +346,141 @@ class SocialLookupView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class DiscordLeaderboardView(APIView):
-    def get(self, request: HttpRequest, guild: int, stat: int = "total_xp") -> Response:
+class DetailedLeaderboardView(APIView):
+    def get(
+        self,
+        request: HttpRequest,
+        stat: int = "total_xp",
+        guild: int = None,
+        community: str = None,
+        country: str = None,
+    ) -> Response:
         if stat not in VALID_LB_STATS:
             return Response(
                 {"state": "error", "reason": "invalid stat"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         generated_time = timezone.now()
-        guild = int(guild)
-        output = {"generated": generated_time, "stat": stat, "guild": guild}
 
-        try:
-            server = DiscordGuildSettings.objects.get(id=guild)
-        except DiscordGuildSettings.DoesNotExist:
-            logger.warn(f"Guild with id {guild} not found")
+        def get_guild(guild: int) -> DiscordGuildSettings:
             try:
-                i = get_guild_info(guild)
-            except:
+                server = DiscordGuildSettings.objects.get(id=guild)
+            except DiscordGuildSettings.DoesNotExist:
+                logger.warn(f"Guild with id {guild} not found")
+                try:
+                    i = get_guild_info(guild)
+                except requests.exceptions.HTTPError:
+                    return Response(
+                        {
+                            "error": "Access Denied",
+                            "cause": "The bot doesn't have access to this guild.",
+                            "solution": "Add the bot account to the guild.",
+                            "guild": guild,
+                        },
+                        status=404,
+                    )
+                else:
+                    logger.info(f"{i['name']} found. Creating.")
+                    server = DiscordGuildSettings.objects.create(
+                        id=guild, data=i, cached_date=timezone.now()
+                    )
+                    server.sync_members()
+
+            if not server.data or server.outdated:
+                try:
+                    server.refresh_from_api()
+                except:
+                    return Response(status=424)
+                else:
+                    server.save()
+
+                if not server.has_access:
+                    return Response(
+                        {
+                            "error": "Access Denied",
+                            "cause": "The bot doesn't have access to this guild.",
+                            "solution": "Add the bot account to the guild.",
+                        },
+                        status=424,
+                    )
+                else:
+                    server.sync_members()
+            return server
+
+        def get_users_for_guild(guild: DiscordGuildSettings):
+            opt_out_roles = guild.roles.filter(
+                data__name__in=["NoLB", "TrainerDex Excluded"]
+            ) | guild.roles.filter(exclude_roles_community_membership_discord__discord=guild)
+            sq = Q()
+            for x in opt_out_roles:
+                sq |= Q(discordguildmembership__data__roles__contains=[str(x.id)])
+            members = guild.members.exclude(sq)
+            return Trainer.objects.filter(owner__socialaccount__in=members)
+
+        def get_community(handle: str) -> Community:
+            try:
+                community = Community.objects.get(handle=handle)
+            except Community.DoesNotExist:
                 return Response(
                     {
-                        "error": "Access Denied",
-                        "cause": "The bot doesn't have access to this guild.",
-                        "solution": "Add the bot account to the guild.",
-                        "guild": guild,
+                        "error": "Not Found",
+                        "cause": "There is no known community with this handle.",
+                        "solution": "Double check your spelling.",
+                        "guild": handle,
                     },
                     status=404,
                 )
-            else:
-                logger.info(f"{i['name']} found. Creating.")
-                server = DiscordGuildSettings.objects.create(
-                    id=guild, data=i, cached_date=timezone.now()
-                )
-                server.sync_members()
+            return community
 
-        if not server.data or server.outdated:
+        def get_users_for_community(community: Community):
+            return community.get_members()
+
+        def get_country(code: str) -> Country:
             try:
-                server.refresh_from_api()
-            except:
-                return Response(status=424)
-            else:
-                server.save()
-
-            if not server.has_access:
+                country = Country.objects.prefetch_related("leaderboard_trainers_country").get(
+                    code__iexact=code
+                )
+            except Country.DoesNotExist:
                 return Response(
                     {
-                        "error": "Access Denied",
-                        "cause": "The bot doesn't have access to this guild.",
-                        "solution": "Add the bot account to the guild.",
+                        "error": "Not Found",
+                        "cause": "There is no known country with this code.",
+                        "solution": "Double check your spelling.",
+                        "guild": code,
                     },
-                    status=424,
+                    status=404,
                 )
-            else:
-                server.sync_members()
+            return country
 
-        output["title"] = "{title} Leaderboard".format(title=server.data["name"])
-        opt_out_roles = server.roles.filter(
-            data__name__in=["NoLB", "TrainerDex Excluded"]
-        ) | server.roles.filter(exclude_roles_community_membership_discord__discord=server)
+        def get_users_for_country(country: Country):
+            return country.leaderboard_trainers_country.all()
 
-        sq = Q()
-        for x in opt_out_roles:
-            sq |= Q(discordguildmembership__data__roles__contains=[str(x.id)])
+        if guild:
+            guild = get_guild(guild)
+            if isinstance(guild, Response):
+                return guild
+            output = {"generated": generated_time, "stat": stat, "guild": guild.id}
+            output["title"] = "{guild} Leaderboard".format(guild=guild)
+            members = get_users_for_guild(guild)
+        elif community:
+            community = get_community(community)
+            if isinstance(community, Response):
+                return community
+            output = {"generated": generated_time, "stat": stat, "community": community.handle}
+            output["title"] = "{community} Leaderboard".format(community=community)
+            members = get_users_for_community(community)
+        elif country:
+            country = get_country(country)
+            if isinstance(country, Response):
+                return country
+            output = {"generated": generated_time, "stat": stat, "country": country.code}
+            output["title"] = "{country} Leaderboard".format(country=country)
+            members = get_users_for_country(country)
+        else:
+            output = {"generated": generated_time, "stat": stat, "title": None}
+            members = Trainer.objects.all()
 
-        members = server.members.exclude(sq)
-
-        query = filter_leaderboard_qs__update(
-            Update.objects.filter(trainer__owner__socialaccount__in=members)
-        )
+        query = filter_leaderboard_qs__update(Update.objects.filter(trainer__in=members))
         leaderboard = (
             Update.objects.filter(
                 pk__in=Subquery(
