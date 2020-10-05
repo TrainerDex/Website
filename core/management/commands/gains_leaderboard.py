@@ -98,7 +98,10 @@ class Command(BaseCommand):
             week_number = this_week[0].isocalendar()[:2]
         print(next_week, this_week, last_week, week_number, stat)
         print("Starting Client")
-        client = discord.Client(fetch_offline_members=True)
+        intents = discord.Intents(
+            guilds=True, members=True, emojis=True, guild_messages=True, guild_typing=True
+        )
+        client = discord.Client(intents=intents, allowed_mentions=discord.AllowedMentions.none())
 
         async def generate_leaderboard(
             guild: discord.Guild,

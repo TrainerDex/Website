@@ -2,6 +2,10 @@ html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
+h1, h2, th, .mdl-typography--text-uppercase .trainerdex-profile-username {
+  font-family: 'Raleway', 'Roboto', 'Helvetica', sans-serif;
+}
+
 li.mdl-menu__item > i.material-icons {
   display: inline-flex;
   vertical-align: middle;
@@ -50,7 +54,7 @@ li.mdl-menu__item > i.material-icons {
   background-position: center top 18%;
   background-size: cover;
   background-repeat: no-repeat;
-  
+
 }
 .trainerdex-card__alert > .mdl-card__menu {
   color: #fff;
@@ -62,10 +66,6 @@ li.mdl-menu__item > i.material-icons {
 
 /*  Header-specific */
 
-.trainerdex-search-box .mdl-textfield__input {
-  color: rgba(0, 0, 0, 0.87);
-}
-
 .trainerdex-header .mdl-menu__container {
   z-index: 50;
   margin: 0 !important;
@@ -75,11 +75,7 @@ li.mdl-menu__item > i.material-icons {
   width: auto;
 }
 
-.trainerdex-mobile-title {
-  display: none !important;
-}
-
-.trainerdex-logo-image {
+.trainerdex-logo > img {
   height: 28px;
 }
 
@@ -133,11 +129,6 @@ li.mdl-menu__item > i.material-icons {
   width: 800px;
 }
 
-.trainerdex-search-box.is-focused + .trainerdex-header-navigation-container {
-  opacity: 0;
-  width: 100px;
-}
-
 
 .trainerdex-header-navigation .mdl-navigation__link {
   display: inline-block;
@@ -151,22 +142,10 @@ li.mdl-menu__item > i.material-icons {
   border-bottom: 4px solid #f2f2f2;
 }
 
-.trainerdex-search-box {
-  -webkit-order: 2;
-  -ms-flex-order: 2;
-  order: 2;
-  margin-left: 16px;
-  margin-right: 16px;
-}
-
 .trainerdex-more-button {
   -webkit-order: 3;
   -ms-flex-order: 3;
   order: 3;
-}
-
-.trainerdex-title {
-  font-family: 'Raleway', sans-serif;
 }
 
 .tdx-lb__title {
@@ -185,37 +164,16 @@ li.mdl-menu__item > i.material-icons {
   .trainerdex-header-navigation-container {
     display: none;
   }
-  
-  .trainerdex-title {
-    display: none !important;
-  }
-  
-  .trainerdex-mobile-title {
+
+  .trainerdex-logo {
     display: block !important;
-    font-family: 'Raleway', sans-serif;
     position: absolute;
-    left: calc(50% - 14px);
+    left: calc(50vw);
     transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
-  /* WebViews in iOS 9 break the "~" operator, and WebViews in OS X 10.10 break
-  consecutive "+" operators in some cases. Therefore, we need to use both
-  here to cover all the bases. */
-  .trainerdex.trainerdex-search-box.is-focused ~ .trainerdex-mobile-title,
-  .trainerdex-search-box.is-focused + .trainerdex-header-navigation-container + .trainerdex-mobile-title {
-    opacity: 0;
-  }
-  
+
   .trainerdex-more-button {
     display: none;
-  }
-  
-  .trainerdex-search-box.is-focused {
-    width: calc(100% - 48px);
-  }
-  
-  .trainerdex-search-box .mdl-textfield__expandable-holder {
-    width: 100%;
   }
 }
 /* */
@@ -612,4 +570,9 @@ iframe[scrolling='no'] { overflow: hidden; }
 }
 .mdl-card__floating-action-bar > .mdl-card__actions > .mdl-button {
   z-index: inherit;
+}
+
+.pogo-icons > img {
+  filter: invert(0.7);
+  height: 24px;
 }

@@ -24,11 +24,7 @@ from pygments.formatters import HtmlFormatter
 
 def sync_members(modeladmin, request, queryset) -> None:
     for x in queryset:
-        results = x.sync_members()
-        for message in results["success"]:
-            messages.success(request, message)
-        for message in results["warning"]:
-            messages.warning(request, message)
+        messages.success(request, x.sync_members())
 
 
 sync_members.short_description = _("Sync members with Discord")
