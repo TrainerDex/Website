@@ -11,7 +11,7 @@ django-helpdesk~=0.2.22
 django-widget-tweaks~=1.4.5
 djangorestframework~=3.9.4
 humanize==3.0.1
-markdown~=2.1.0
+markdown~=3.2.2
 pendulum~=2.0.5
 Pillow
 psycopg2
