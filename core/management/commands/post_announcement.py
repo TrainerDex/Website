@@ -24,7 +24,11 @@ class Command(BaseCommand):
         )
         deadline = rule.after(current_time)
         print("Starting Client")
-        client = discord.Client()
+        intents = discord.Intents(guilds=True, guild_messages=True)
+        client = discord.Client(
+            intents=intents,
+            allowed_mentions=discord.AllowedMentions(everyone=True, users=False, roles=True),
+        )
 
         @client.event
         async def on_ready():
