@@ -30,11 +30,43 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-pink.min.css" />
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://twemoji.maxcdn.com/2/twemoji.min.js?11.0"></script>
     <link rel="stylesheet" href="{% static 'css/mdl.css' %}">
-    <link rel="stylesheet" href="{% static 'css/emoji.css' %}">
-    <script src="{% static 'js/emoji.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'cookielaw/css/cookielaw.css' %}" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.wpcc.io/lib/1.0.2/cookieconsent.min.css"/>
+    <script src="https://cdn.wpcc.io/lib/1.0.2/cookieconsent.min.js" defer></script>
+    <script>
+      window.addEventListener(
+        "load",
+        function(){
+          window.wpcc.init(
+            {
+              "corners":"small",
+              "colors":{
+                "popup":{
+                  "background":"#f2f2f2",
+                  "text":"#332e20",
+                  "border":"#ca3755"
+                },
+                "button":{
+                  "background":
+                  "#ca3755",
+                  "text":"#f2f2f2"
+                }
+              },
+              "border":"normal",
+              "transparency":"5",
+              "content":{
+                "href":"{% url 'privacy' %}",
+                "button":"{% trans "OK" context "general_ok" %}",
+                "link":"{% trans "Learn more" %}",
+                "message":"{% trans "This website uses cookies to ensure you get the best experience on our website." %}"
+              }
+            }
+          )
+        }
+      );
+    </script>
+
+
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
@@ -52,10 +84,9 @@
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="trainerdex-header mdl-layout__header is-casting-shadow">
         <div class="mdl-layout__header-row">
-          <span class="trainerdex-title mdl-layout__title">
-            <img class="trainerdex-logo-image" src="{% static 'svg/logo-text.svg' %}">
+          <span class="trainerdex-logo mdl-layout__title">
+            <img src="{% static 'svg/logo-text.svg' %}">
           </span>
-          {# Add spacer, to align navigation to the right in desktop #}
           <div class="mdl-layout-spacer"></div>
           {# Navigation #}
           <div class="trainerdex-header-navigation-container">
@@ -66,16 +97,13 @@
               {% if user.trainer.leaderboard_country %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:leaderboard' country=user.trainer.leaderboard_country.code %}">{{user.trainer.leaderboard_country}} {% trans "Leaderboard" %}</a>{% endif %}
             </nav>
           </div>
-          <div class="trainerdex-mobile-title mdl-layout-title">
-            <img class="trainerdex-logo-image" src="{% static 'svg/logo.svg' %}">
-          </div>
           <button class="trainerdex-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
             {% if user.is_authenticated %}
             <li class="mdl-menu__item" onclick="location.href='{% url 'account_settings' %}';">{% trans "Account Settings" %}</li>
-            <li class="mdl-menu__item" onclick="location.href='{% url 'account_logout' %}';">{% trans "Log out" %}</li>
+            <li class="mdl-menu__item" onclick="location.href='{% url 'account_logout' %}';">{% trans "Sign Out" context "general_sign_out" %}</li>
             {% if user.is_staff %}<li class="mdl-menu__item" onclick="location.href='{% url 'admin:index' %}';">{% trans "Admin Panel" %}</li>{% endif %}
             {% else %}
             <li class="mdl-menu__item" onclick="location.href='{% url 'account_login' %}';">{% trans "Login" %}</li>
@@ -85,34 +113,24 @@
         </div>
       </header>
       <div class="trainerdex-drawer mdl-layout__drawer mdl-color--primary-dark mdl-color-text--primary-contrast">
-        <header class="trainerdex-drawer-header">
-          {% load account %}
-          <a href="{% url 'trainerdex:profile' %}">{#<img src="{% get_static_prefix %}{{user.trainer.faction.image|default_if_none: 'img/generic_avatar_male.png'}}" class="trainerdex-avatar">#}</a>
-          <div class="trainerdex-avatar-dropdown">
-            <span>{%if user.is_authenticated %}{% user_display user %}{% else %}{% trans "Red" context "This is the display name for a user not logged in. Use local references if you like. In English, I've gone for Red, the protagonist in the Gen 1 games." %}{% endif %}</span>
-            <div class="mdl-layout-spacer"></div>
-            <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-              <i class="material-icons" role="presentation">arrow_drop_down</i>
-              <span class="visuallyhidden">{% trans "Account Control" %}</span>
-            </button>
-            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-              {% if user.is_authenticated %}
-              <li class="mdl-menu__item" onclick="location.href='{% url 'account_settings' %}';">{% trans "Account Settings" %}</li>
-              <li class="mdl-menu__item" onclick="location.href='{% url 'account_logout' %}';">{% trans "Log out" %}</li>
-              {% else %}
-              <li class="mdl-menu__item" onclick="location.href='{% url 'account_login' %}';">{% trans "Login" %}</li>
-              <li class="mdl-menu__item" onclick="location.href='{% url 'account_signup' %}';">{% trans "Register" %}</li>
-              {% endif %}
-            </ul>
-          </div>
-        </header>
         <nav class="trainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
           {%if user.is_authenticated %}
-          <a class="mdl-navigation__link" href="{% url 'trainerdex:profile' %}"><i class="material-icons">person</i>{% trans "My Profile" %}</a>{% else %}<a class="mdl-navigation__link mdl-color-text--primary-contrast" href="{% url 'home' %}"><i class="material-icons">home</i>{% trans "Home" %}</a>{% endif %}
+          <a class="mdl-navigation__link" href="{% url 'trainerdex:profile' %}"><i class="material-icons">person</i>{% user_display user %}</a>
+          {% endif %}
           <a class="mdl-navigation__link" href="{% url 'trainerdex:leaderboard' %}"><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
-          {% if user.trainer.leaderboard_country %}<a class="mdl-navigation__link" href="{% url 'trainerdex:leaderboard' country=user.trainer.leaderboard_country.code %}"><i class="material-icons" role="presentation">assessment</i>{{user.trainer.leaderboard_country}} {% trans "Leaderboard" %}</a>{% endif %}
+          {% if user.trainer.leaderboard_country %}<a class="mdl-navigation__link" href="{% url 'trainerdex:leaderboard' country=user.trainer.leaderboard_country.code %}"><div class="material-icons" role="presentation">{{user.trainer.flag_emoji}}</div>{{user.trainer.leaderboard_country}}</a>{% endif %}
           <div class="mdl-layout-spacer"></div>
-          <a class="mdl-navigation__link" href="http://discord.trainerdex.co.uk"><i class="material-icons" role="presentation">help_outline</i>{% trans 'Help' %}</a>
+          {% if user.is_authenticated %}
+          <a class="mdl-navigation__link" href="{% url 'account_settings' %}"><i class="material-icons" role="presentation">settings</i>{% trans "Settings" %}</li>
+          <a class="mdl-navigation__link" href="{% url 'account_logout' %}"><i class="material-icons" role="presentation">close</i>{% trans "Sign Out" context "general_sign_out" %}</li>
+          {% if user.is_staff %}<a class="mdl-navigation__link" href="{% url 'admin:index' %}"><i class="material-icons" role="presentation">admin_panel_settings</i>{% trans "Admin Panel" %}</li>{% endif %}
+          {% else %}
+          <a class="mdl-navigation__link" href="{% url 'account_login' %}"><i class="material-icons" role="presentation">login</i>{% trans "Login" %}</li>
+          <a class="mdl-navigation__link" href="{% url 'account_signup' %}"><i class="material-icons" role="presentation">person_add</i>{% trans "Register" %}</li>
+          {% endif %}
+          <a class="mdl-navigation__link" href="{% url 'privacy' %}"><i class="material-icons" role="presentation">privacy_tip</i>{% trans "Privacy Policy" %}</a>
+          <a class="mdl-navigation__link" href="{% url 'terms' %}"><i class="material-icons" role="presentation">info</i>{% trans 'Terms of Service' %}</a>
+          <a class="mdl-navigation__link" href="http://discord.trainerdex.co.uk"><i class="material-icons" role="presentation">help</i>{% trans 'Help' %}</a>
         </nav>
       </div>
 
@@ -154,6 +172,5 @@
     {% endif %}
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mdl-ext@0.17.1/lib/mdl-ext.min.js"></script>
-    <script src="{% static 'cookielaw/js/cookielaw.js' %}"></script>
   </body>
 </html>

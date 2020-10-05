@@ -1,4 +1,4 @@
-﻿from django.conf.urls import url
+from django.urls import include, path
 from pokemongo.api.v1.views import (
     TrainerListView,
     TrainerDetailView,
@@ -8,41 +8,51 @@ from pokemongo.api.v1.views import (
     UserViewSet,
     SocialLookupView,
     LeaderboardView,
-    DiscordLeaderboardAPIView,
+    DetailedLeaderboardView,
 )
 
 app_name = "trainerdex.api.1"
 
 urlpatterns = [
-    # /leaderboard/
-    url(
-        r"^leaderboard\/discord\/(?P<guild>[0-9]+)\/(?P<stat>[a-z_]+)\/$",
-        DiscordLeaderboardAPIView.as_view(),
+    path(
+        "leaderboard/",
+        include(
+            [
+                path("", LeaderboardView.as_view()),
+                path("./", DetailedLeaderboardView.as_view()),
+                path("./<str:stat>/", DetailedLeaderboardView.as_view()),
+                path("discord/<int:guild>/", DetailedLeaderboardView.as_view()),
+                path(
+                    "discord/<int:guild>/<str:stat>/",
+                    DetailedLeaderboardView.as_view(),
+                ),
+                path("country/<str:country>/", DetailedLeaderboardView.as_view()),
+                path(
+                    "country/<str:country>/<str:stat>/",
+                    DetailedLeaderboardView.as_view(),
+                ),
+                path("community/<slug:community>/", DetailedLeaderboardView.as_view()),
+                path(
+                    "community/<slug:community>/<str:stat>/",
+                    DetailedLeaderboardView.as_view(),
+                ),
+                path("<str:stat>/", LeaderboardView.as_view()),
+            ]
+        ),
     ),
-    url(
-        r"^leaderboard\/discord\/(?P<guild>[0-9]+)\/$",
-        DiscordLeaderboardAPIView.as_view(),
+    path("trainers/", TrainerListView.as_view()),
+    path(
+        "trainers/<int:pk>/",
+        include(
+            [
+                path("", TrainerDetailView.as_view()),
+                path("updates/", UpdateListView.as_view()),
+                path("updates/latest/", LatestUpdateView.as_view(), name="latest_update"),
+                path("updates/<uuid:uuid>/", UpdateDetailView.as_view()),
+            ]
+        ),
     ),
-    url(r"^leaderboard\/$", LeaderboardView.as_view()),
-    url(r"^leaderboard\/(?P<stat>[a-z_]+)\/$", LeaderboardView.as_view()),
-    # /trainers/
-    url(r"^trainers\/$", TrainerListView.as_view()),
-    url(r"^trainers\/(?P<pk>[0-9]+)\/$", TrainerDetailView.as_view()),
-    url(r"^trainers\/(?P<pk>[0-9]+)\/updates\/$", UpdateListView.as_view()),
-    url(
-        r"^trainers\/(?P<pk>[0-9]+)\/updates\/latest\/$",
-        LatestUpdateView.as_view(),
-        name="latest_update",
-    ),
-    url(
-        r"^trainers\/(?P<pk>[0-9]+)\/updates\/(?P<uuid>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})\/$",
-        UpdateDetailView.as_view(),
-    ),
-    # /users/
-    url(r"^users\/$", UserViewSet.as_view({"get": "list", "post": "create"})),
-    url(
-        r"^users\/(?P<pk>[0-9]+)\/$",
-        UserViewSet.as_view({"get": "retrieve", "patch": "partial_update"}),
-    ),
-    url(r"^users\/social\/$", SocialLookupView.as_view()),
+    path("users/", UserViewSet.as_view({"get": "list", "post": "create"})),
+    path("users/<int:pk>/", UserViewSet.as_view({"get": "retrieve", "patch": "partial_update"})),
+    path("users/social/", SocialLookupView.as_view()),
 ]

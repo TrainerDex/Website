@@ -7,7 +7,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.contrib.postgres import fields as postgres_fields
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.encoding import force_text
@@ -126,6 +126,7 @@ class DiscordGuild(models.Model):
     def __str__(self) -> str:
         return self.name or f"Discord Guild with ID {self.id}"
 
+    @transaction.atomic
     def refresh_from_api(self) -> None:
         logging.info(f"Updating {self}")
         try:
@@ -138,76 +139,85 @@ class DiscordGuild(models.Model):
             logger.exception("Failed to get server information from Discord")
         else:
             self.sync_roles()
-        finally:
-            self.save()
 
+    @transaction.atomic
     def sync_members(self) -> Dict[str, List[str]]:
         try:
             guild_api_members = get_guild_members(self.id)
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
             return {"warning": ["Failed to get server information from Discord"]}
-        added_people = []
-        amended_people = []
-        for x in guild_api_members:
-            if SocialAccount.objects.filter(provider="discord", uid=x["user"]["id"]).exists():
-                x, y = DiscordGuildMembership.objects.update_or_create(
-                    guild=self,
-                    user=SocialAccount.objects.get(provider="discord", uid=x["user"]["id"]),
-                    defaults={"active": True, "data": x, "cached_date": timezone.now()},
-                )
-                if y:
-                    added_people.append(x)
-                else:
-                    amended_people.append(x)
-
-        inactive_members = DiscordGuildMembership.objects.filter(guild=self, active=True).exclude(
-            user__uid__in=[x["user"]["id"] for x in guild_api_members]
+        existing_social_accounts_uids = DiscordUser.objects.values_list("uid", flat=True)
+        existing_social_accounts = list(DiscordUser.objects.all())
+        existing_discord_memberships = list(
+            DiscordGuildMembership.objects.filter(guild=self).prefetch_related("user")
         )
-        inactive_members.update(active=False)
+        new_discord_memberships = []
+        amended_discord_memberships = []
+        for x in guild_api_members:
+            if x["user"]["id"] in existing_social_accounts_uids:
+                existing_membership = [
+                    y for y in existing_discord_memberships if y.user.uid == x["user"]["id"]
+                ]
+                if existing_membership:
+                    e = existing_membership[0]
+                    e.data = x
+                    e.cached_date = timezone.now()
+                    amended_discord_memberships.append(e)
+                else:
+                    new_discord_memberships.append(
+                        DiscordGuildMembership(
+                            guild=self,
+                            user=[y for y in existing_social_accounts if y.uid == x["user"]["id"]][
+                                0
+                            ],
+                            active=True,
+                            data=x,
+                            cached_date=timezone.now(),
+                        )
+                    )
+        DiscordGuildMembership.objects.filter(guild=self, active=False).filter(
+            user__uid__in=[x["user"]["id"] for x in guild_api_members]
+        ).update(active=True)
+        DiscordGuildMembership.objects.bulk_update(
+            amended_discord_memberships, ["data", "cached_date"]
+        )
+        DiscordGuildMembership.objects.bulk_create(new_discord_memberships, ignore_conflicts=True)
+        DiscordGuildMembership.objects.filter(guild=self, active=True).exclude(
+            user__uid__in=[x["user"]["id"] for x in guild_api_members]
+        ).update(active=False)
 
-        return {
-            "success": [
-                ngettext(
-                    "Succesfully imported {success} of {total} new member to {guild}",
-                    "Succesfully imported {success} of {total} new members to {guild}",
-                    len(guild_api_members),
-                ).format(
-                    success=len(added_people) + len(amended_people),
-                    total=len(guild_api_members),
-                    guild=self,
-                )
-            ],
-            "warning": [
-                ngettext(
-                    "{count} member left {guild}",
-                    "{count} members left {guild}",
-                    inactive_members.count(),
-                ).format(count=inactive_members.count(), guild=self)
-            ],
-        }
+        return _("Succesfully updated {x} of {y} {guild} members").format(
+            x=DiscordGuildMembership.objects.filter(guild=self).count(),
+            y=len(guild_api_members),
+            guild=self,
+        )
 
+    @transaction.atomic
     def sync_roles(self) -> None:
         guild_roles = self.data.get("roles")
-        for role in guild_roles:
-            DiscordRole.objects.get_or_create(
-                id=int(role["id"]),
-                guild=self,
-                defaults={"data": role, "cached_date": timezone.now()},
-            )
+        roles = [
+            DiscordRole(id=int(role["id"]), guild=self, data=role, cached_date=timezone.now())
+            for role in guild_roles
+        ]
+        DiscordRole.objects.bulk_create(roles, ignore_conflicts=True)
+        DiscordRole.objects.bulk_update(roles, ["data", "cached_date"])
 
+    @transaction.atomic
     def download_channels(self) -> None:
         try:
             guild_channels = get_guild_channels(self.id)
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get information")
         else:
-            for channel in guild_channels:
-                DiscordChannel.objects.get_or_create(
-                    id=int(channel["id"]),
-                    guild=self,
-                    defaults={"data": channel, "cached_date": timezone.now()},
+            channels = [
+                DiscordChannel(
+                    id=int(channel["id"]), guild=self, data=channel, cached_date=timezone.now()
                 )
+                for channel in guild_channels
+            ]
+            DiscordChannel.objects.bulk_create(channels, ignore_conflicts=True)
+            DiscordChannel.objects.bulk_update(channels, ["data", "cached_date"])
 
     def clean(self) -> None:
         self.refresh_from_api()

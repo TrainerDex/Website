@@ -167,16 +167,32 @@ class Trainer(models.Model):
         return bool(self.last_cheated)
 
     has_cheated.boolean = True
-    has_cheated.short_description = _("Historic Cheater")
+    has_cheated.short_description = _("Has Cheated")
 
-    def currently_cheats(self) -> bool:
-        if self.last_cheated and self.last_cheated + timedelta(weeks=26) > timezone.now().date():
-            return True
-        else:
+    def currently_banned(self, d: date = None) -> bool:
+        # Bans are supposed to last 6 months, the change was made on 2018-09-01. However, my code
+        # has been bugged and since I never checked in on cheaters, since they mostly left I never
+        # spotted the bug. Given the SARS-COVID-19 outbreak, I've decided to reduce punishment time
+        # within that time period to TWELVE weeks. I have also decided to extend the 6 month period
+        # to before 2018-09-01, since it's a little unfair.
+
+        cheat_date = self.last_cheated
+        if not cheat_date:
             return False
+        current_date = d or timezone.now().date()
+        COVID_START = date(2019, 12, 31)
+        COVID_END = date(2021, 12, 31)  # 2 years in generous, adjust to suit
 
-    currently_cheats.boolean = True
-    currently_cheats.short_description = _("Cheater")
+        if COVID_START < cheat_date < COVID_END:
+            # During the SARS-COVID-19 outbreak, ban length is 12 weeks.
+            return cheat_date + timedelta(weeks=12) > current_date
+        else:
+            # Else the ban length is 26 weeks.
+            return cheat_date + timedelta(weeks=26) > current_date
+
+    currently_banned.boolean = True
+    currently_banned.short_description = _("Banned")
+    currently_cheats = currently_banned
 
     def is_prefered(self) -> bool:
         return True
@@ -210,7 +226,7 @@ class Trainer(models.Model):
     is_verified_and_saved.boolean = True
 
     def is_on_leaderboard(self) -> bool:
-        return bool(self.is_verified and self.statistics and not self.currently_cheats())
+        return bool(self.is_verified and self.statistics and not self.currently_banned())
 
     is_on_leaderboard.boolean = True
 
