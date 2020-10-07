@@ -187,6 +187,10 @@ UPDATE_FIELDS_BADGES = (
     "badge_unique_pokestops",
     "badge_7_day_streaks",
     "badge_pokedex_entries_gen6",
+    "battle_hub_stats_wins",
+    "battle_hub_stats_battles",
+    "battle_hub_stats_stardust",
+    "battle_hub_stats_streak",
 )
 
 UPDATE_FIELDS_TYPES = (
