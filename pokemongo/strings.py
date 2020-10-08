@@ -98,7 +98,7 @@ pgettext(
     "badge_pokedex_entries_gen2",
     "Register {0} Pokémon first discovered in the Johto region to the Pokédex.",
 )
-pgettext("badge_pokedex_entries_title", "Johto")
+pgettext("badge_pokedex_entries_gen2_title", "Johto")
 
 pgettext(
     "badge_pokedex_entries_gen3",
