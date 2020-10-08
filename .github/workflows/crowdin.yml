@@ -17,13 +17,15 @@ jobs:
         python-version: 3.6
     - name: Install Dependencies
       run: |
-        sudo add-apt-repository -y ppa:ubuntugis/ppa
+        sudo apt-get -y --purge remove postgresql postgresql-13
+        curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
         sudo apt-get update
-        sudo apt -y install postgresql gdal-bin python3-gdal postgis
+        sudo apt -y install postgresql-9.6 postgresql-9.6-postgis-2.4 gdal-bin python3-gdal
         sudo systemctl start postgresql
+        sudo apt -y install gettext
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
-        sudo apt -y install gettext
         chmod +x ./build_db.sh
         ./build_db.sh
     - name: Generate pot files
