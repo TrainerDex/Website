@@ -270,6 +270,13 @@ npgettext(
 )
 pgettext("badge_unique_mega_evos_title", "Mega Evolution Guru")
 
+pgettext("battle_hub_stats_battles", "Battles")
+pgettext("battle_hub_stats_friends", "Friends Battled")
+pgettext("battle_hub_stats_stardust", "Stardust Earned")
+pgettext("battle_hub_stats_streak", "Longest Streak")
+pgettext("battle_hub_stats_streak_abbrev", "Streak")
+pgettext("battle_hub_stats_wins", "Wins")
+
 npgettext("buddy_level_0", "Buddy", "Buddies", 1)
 npgettext("buddy_level_1", "Good Buddy", "Good Buddies", 1)
 npgettext("buddy_level_2", "Great Buddy", "Great Buddies", 1)
