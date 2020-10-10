@@ -1,19 +1,159 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
+{% load account %}
 
 {% block head_title %}{% trans "Account Settings" %}{% endblock %}
 
 {% block content %}
-<ol>
-  <li>
-    <a href="{% url 'account_set_password' %}">{% trans "Set/Change Password" %}</a>
-  </li>
-  <li>
-    <a href="{% url 'account_email' %}">{% trans "Email Management" %}</a>
-  </li>
-  <li>
-    <a href="{% url 'socialaccount_connections' %}">{% trans "Link Social Accounts" %}</a>
-  </li>
-</ol>
+<div class="mdl-grid">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+    <div class="mdl-card__title">
+      <h3 class="mdl-card__title-text">{% trans "User Info" %}</h2>
+    </div>
+    <ul class="mdl-list">
+      <li class="mdl-list__item mdl-list__item--two-line">
+        <span class="mdl-list__item-primary-content">
+          <span class="mdl-list__item-sub-title">{% trans "Username" %}</span>
+          <span>{{user.get_username}}</span>
+        </span>
+      </li>
+
+      <li class="mdl-list__item mdl-list__item--two-line">
+        <span class="mdl-list__item-primary-content">
+          <span class="mdl-list__item-sub-title">{% trans "Password" %}</span>
+          <span>{% if user.password %}**********{% else %}Not set.{% endif %}</span>
+        </span>
+        <span class="mdl-list__item-secondary-content">
+          <a class="mdl-list__item-secondary-action" href="{% url 'account_set_password' %}" title="{% trans "Change Password" %}"><i class="material-icons">edit</i></a>
+        </span>
+      </li>
+
+      <li class="mdl-list__item mdl-list__item--two-line">
+        <span class="mdl-list__item-primary-content">
+          <span class="mdl-list__item-sub-title">{% trans "Name" %}</span>
+          <span>{{user.get_full_name|default_if_none:"Unknown"}}</span>
+        </span>
+      </li>
+
+      <li class="mdl-list__item mdl-list__item--two-line">
+        <span class="mdl-list__item-primary-content">
+          <span class="mdl-list__item-sub-title">{% trans "Primary Email address" %}</span>
+          <span>{{user.email|default_if_none:"Unknown"}}</span>
+        </span>
+        <span class="mdl-list__item-secondary-content">
+          <a class="mdl-list__item-secondary-action" href="{% url 'account_email' %}" title="{% trans 'Email Management' %}"><i class="material-icons">edit</i></a>
+        </span>
+      </li>
+
+      <li class="mdl-list__item mdl-list__item--two-line">
+        <span class="mdl-list__item-primary-content">
+          <span class="mdl-list__item-sub-title">{% trans "Last Login" %}</span>
+          <span>{{user.last_login}}</span>
+        </span>
+      </li>
+
+      <li class="mdl-list__item mdl-list__item--two-line">
+        <span class="mdl-list__item-primary-content">
+          <span class="mdl-list__item-sub-title">{% trans "Date Registered" %}</span>
+          <span>{{user.date_joined}}</span>
+        </span>
+      </li>
+    </ul>
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'socialaccount_connections' %}">{% trans "Manage Social Network Connections" %}</a>
+    </div>
+  </div>
+
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+    <div class="mdl-card__title">
+      <h3 class="mdl-card__title-text">{% trans "Trainer Info" %}</h2>
+    </div>
+      <ul class="mdl-list">
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Nickname" context "codename" %}</span>
+            <span>{{user.trainer.nickname}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Level" %}</span>
+            <span>{{user.trainer.level}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Team" context "faction" %}</span>
+            <span>{{user.trainer.team}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Start Date" context "profile_start_date" %}</span>
+            <span>{{user.trainer.start_date|default_if_none:"N/A"}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Publicly Visible" %}</span>
+            <span>{{user.trainer.statistics}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Trainer Code" context "friend_code_title" %}</span>
+            <span>{{user.trainer.trainer_code|default_if_none:"N/A"}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Country" %}</span>
+            <span>{{user.trainer.leaderboard_country|default_if_none:"N/A"}} {{user.trainer.flag_emoji}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Last Modified" %}</span>
+            <span>{{user.trainer.last_modified}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Banned?" %}</span>
+            <span>{{user.trainer.currently_banned}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Verification Status" %}</span>
+            <span>{{user.trainer.verification_status}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Posts" %}</span>
+            <span>{{user.trainer.update_set.count}}</span>
+          </span>
+        </li>
+
+        <li class="mdl-list__item mdl-list__item--two-line">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-sub-title">{% trans "Nicknames" %}</span>
+            <span>{{user.trainer.nickname_set.all|join:", "}}</span>
+          </span>
+        </li>
+      </ul>
+  </div>
+</div>
 {% endblock%}
