@@ -1,11 +1,14 @@
+{% load i18n %}
 {% load socialaccount %}
 {% get_providers as socialaccount_providers %}
 
 {% for provider in socialaccount_providers %}
+<div class="mdl-card__actions mdl-card--border">
 {% if provider.id == "openid" %}
 {% for brand in provider.get_brands %}
-  <a href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"><li class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect socialaccount_provider {{provider.id}}" role="button">{{brand.name}}</li></a>
+  <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% provider_login_url provider.id openid=brand.openid_url process=process %}" id="{{provider.id}}">{% blocktrans with brand.name as provider %}Continue with {{provider}}{% endblocktrans %} &raquo;</a>
 {% endfor %}
 {% endif %}
-  <a href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><li class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect socialaccount_provider {{provider.id}}" role="button">{{provider.name}}</li></a>
+  <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}" id="{{provider.id}}">{% blocktrans with provider.name as provider %}Continue with {{provider}}{% endblocktrans %} &raquo;</a>
+</div>
 {% endfor %}

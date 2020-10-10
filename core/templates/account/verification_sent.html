@@ -6,12 +6,13 @@
 
 {% block content %}
 <div class="mdl-grid">
-  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--4-col-phone trainerdex-card__alert">
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">{% trans "Verify Your E-mail Address" %}</h2>
     </div>
     <div class="mdl-card__supporting-text">
-      {% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</div>
+      {% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}
+    </div>
     <div class="mdl-card__actions mdl-card--border">
       <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'trainerdex:leaderboard' %}">
         {% trans 'Return to Leaderboard' %}

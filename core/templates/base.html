@@ -92,7 +92,7 @@
           <div class="trainerdex-header-navigation-container">
             <nav class="trainerdex-header-navigation mdl-navigation">
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:leaderboard' %}">{% trans "Leaderboard" %}</a>
-              {% if user.trainer.leaderboard_country %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:leaderboard' country=user.trainer.leaderboard_country.code %}">{{user.trainer.leaderboard_country}} {% trans "Leaderboard" %}</a>{% endif %}
+              {% if user.trainer.leaderboard_country %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:leaderboard' country=user.trainer.leaderboard_country.code %}">{{user.trainer.leaderboard_country.name}} {% trans "Leaderboard" %}</a>{% endif %}
               {% if user.is_authenticated %}
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:profile' %}">{% user_display user %}</a>
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'account_logout' %}">{% trans "Sign Out" context "general_sign_out" %}</a>
@@ -107,16 +107,16 @@
         <nav class="trainerdex-navigation mdl-navigation mdl-color--primary mdl-color-text--primary-contrast">
           {%if user.is_authenticated %}
           <a class="mdl-navigation__link mdl-menu__item--full-bleed-divider" href="{% url 'trainerdex:profile' %}"><i class="material-icons">person</i>{% user_display user %}</a>
-          <a class="mdl-navigation__link" href="{% url 'account_settings' %}"><i class="material-icons" role="presentation">settings</i>{% trans "Settings" %}</li>
-          <a class="mdl-navigation__link mdl-menu__item--full-bleed-divider" href="{% url 'account_logout' %}"><i class="material-icons" role="presentation">close</i>{% trans "Sign Out" context "general_sign_out" %}</li>
+          <a class="mdl-navigation__link" href="{% url 'account_settings' %}"><i class="material-icons" role="presentation">settings</i>{% trans "Settings" %}</a>
+          <a class="mdl-navigation__link mdl-menu__item--full-bleed-divider" href="{% url 'account_logout' %}"><i class="material-icons" role="presentation">close</i>{% trans "Sign Out" context "general_sign_out" %}</a>
           {% else %}
-          <a class="mdl-navigation__link" href="{% url 'account_login' %}"><i class="material-icons" role="presentation">login</i>{% trans "Login" %}</li>
+          <a class="mdl-navigation__link" href="{% url 'account_login' %}"><i class="material-icons" role="presentation">login</i>{% trans "Login" %}</a>
           {% endif %}
           <a class="mdl-navigation__link" href="{% url 'trainerdex:leaderboard' %}"><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
-          {% if user.trainer.leaderboard_country %}<a class="mdl-navigation__link" href="{% url 'trainerdex:leaderboard' country=user.trainer.leaderboard_country.code %}"><div class="material-icons" role="presentation">{{user.trainer.flag_emoji}}</div>{{user.trainer.leaderboard_country}}</a>{% endif %}
+          {% if user.trainer.leaderboard_country %}<a class="mdl-navigation__link" href="{% url 'trainerdex:leaderboard' country=user.trainer.leaderboard_country.code %}"><div class="material-icons" role="presentation">{{user.trainer.flag_emoji}}</div>{{user.trainer.leaderboard_country.name}}</a>{% endif %}
           <div class="mdl-menu__item--full-bleed-divider"></div>
           <div class="mdl-layout-spacer"></div>
-          {% if user.is_staff %}<a class="mdl-navigation__link mdl-menu__item--full-bleed-divider" href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</li>{% endif %}
+          {% if user.is_staff %}<a class="mdl-navigation__link mdl-menu__item--full-bleed-divider" href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</a>{% endif %}
           <a class="mdl-navigation__link" href="{% url 'privacy' %}">{% trans "Privacy Policy" %}</a>
           <a class="mdl-navigation__link mdl-menu__item--full-bleed-divider" href="{% url 'terms' %}">{% trans 'Terms of Service' %}</a>
           <a class="mdl-navigation__link mdl-menu__item--full-bleed-divider" href="http://discord.trainerdex.co.uk">Join our Discord server!</a>

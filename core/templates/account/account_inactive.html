@@ -6,12 +6,12 @@
 
 {% block content %}
 <div class="mdl-grid">
-  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--4-col-phone trainerdex-card__alert">
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">{% trans "Account Inactive" %}</h2>
     </div>
     <div class="mdl-card__supporting-text">
-      {% trans "This account is inactive. Please contact us on Discord, Twitter or via Email to reactivate your account." %}
+      {% trans "This account is inactive. Please contact us on Discord or Twitter for help." %}
     </div>
     <div class="mdl-card__actions mdl-card--border">
       <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="https://discord.trainerdex.co.uk/">
@@ -19,9 +19,6 @@
       </a>
       <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="https://twitter.com/TrainerDexApp">
         {% trans '@TrainerDexApp on Twitter' %}
-      </a>
-      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="mailto:jay@trainerdex.co.uk?subject=Account Reactivation&body=Hello, My username is .... and I would like to reactivate my account. Thank you!">
-        {% trans 'Email us' %}
       </a>
     </div>
   </div>
