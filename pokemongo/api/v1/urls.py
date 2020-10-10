@@ -19,8 +19,8 @@ urlpatterns = [
         include(
             [
                 path("", LeaderboardView.as_view()),
-                path("./", DetailedLeaderboardView.as_view()),
-                path("./<str:stat>/", DetailedLeaderboardView.as_view()),
+                path("v1.1/", DetailedLeaderboardView.as_view()),
+                path("v1.1/<str:stat>/", DetailedLeaderboardView.as_view()),
                 path("discord/<int:guild>/", DetailedLeaderboardView.as_view()),
                 path(
                     "discord/<int:guild>/<str:stat>/",
