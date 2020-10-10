@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Max, Sum, F, Window
+from django.db.models import Max, Sum, F, Window, Prefetch
 from django.db.models.functions import DenseRank as Rank
 from django.http import (
     HttpRequest,
@@ -20,7 +20,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language_from_request
 from math import ceil
 from pokemongo.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
-from pokemongo.models import Trainer, Update, Community
+from pokemongo.models import Trainer, Update, Community, Nickname
 from pokemongo.shortcuts import (
     filter_leaderboard_qs,
     level_parser,
@@ -34,35 +34,29 @@ from pokemongo.shortcuts import (
 logger = logging.getLogger("django.trainerdex")
 
 
-def _check_if_trainer_valid(trainer: Trainer) -> Trainer:
+def _check_if_trainer_valid(user) -> bool:
+    profile_complete = user.trainer.profile_complete
     logger.debug(
-        level=30 if trainer.profile_complete else 20,
+        level=30 if profile_complete else 20,
         msg="Checking {nickname}: Completed profile: {status}".format(
-            nickname=trainer.nickname, status=trainer.profile_complete
+            nickname=user.username, status=profile_complete
         ),
     )
+    update_count = user.trainer.update_set.exclude(total_xp__isnull=True).count()
     logger.debug(
-        level=30 if trainer.update_set.exclude(total_xp__isnull=True).count() else 20,
+        level=30 if update_count else 20,
         msg="Checking {nickname}: Update count: {count}".format(
-            nickname=trainer.nickname, count=trainer.update_set.count()
+            nickname=user.username, count=update_count
         ),
     )
 
-    if (
-        not trainer.profile_complete
-        or not trainer.update_set.exclude(total_xp__isnull=True).exists()
-    ):
-        raise Http404(_("{0} has not completed their profile.").format(trainer.owner.username))
-    return trainer
+    if not profile_complete or update_count == 0:
+        raise False
+    return True
 
 
 def _check_if_self_valid(request: HttpRequest) -> bool:
-    try:
-        _check_if_trainer_valid(request.user.trainer)
-    except Http404:
-        return False
-    else:
-        return True
+    return _check_if_trainer_valid(request.user)
 
 
 def TrainerRedirectorView(
@@ -283,7 +277,7 @@ def LeaderboardView(
             country.alt_names.filter(language_code=get_language_from_request(request)).first()
             or country
         ).name
-        QuerySet = country.leaderboard_trainers_country
+        queryset = country.leaderboard_trainers_country
     elif community:
         try:
             community = Community.objects.get(handle__iexact=community)
@@ -304,12 +298,12 @@ def LeaderboardView(
                 raise Http404(_("Access denied"))
 
         context["title"] = community.name
-        QuerySet = community.get_members()
+        queryset = community.get_members()
     else:
         context["title"] = None
-        QuerySet = Trainer.objects
+        queryset = Trainer.objects
 
-    QuerySet = filter_leaderboard_qs(QuerySet)
+    queryset = filter_leaderboard_qs(queryset)
 
     fields_to_calculate_max = {
         "total_xp",
@@ -337,7 +331,7 @@ def LeaderboardView(
         sort_by = "total_xp"
     context["sort_by"] = sort_by
 
-    context["grand_total_users"] = total_users = QuerySet.count()
+    context["grand_total_users"] = total_users = queryset.count()
 
     if total_users == 0:
         context["page"] = 0
@@ -345,23 +339,30 @@ def LeaderboardView(
         context["leaderboard"] = None
         return render(request, "leaderboard.html", context, status=404)
 
-    QuerySet = QuerySet.annotate(*[Max("update__" + x) for x in fields_to_calculate_max]).exclude(
+    queryset = queryset.annotate(*[Max("update__" + x) for x in fields_to_calculate_max]).exclude(
         **{f"update__{sort_by}__max__isnull": True}
     )
 
     Results = []
-    GRAND_TOTAL = QuerySet.aggregate(Sum("update__total_xp__max"))
+    GRAND_TOTAL = queryset.aggregate(Sum("update__total_xp__max"))
     context["grand_total_xp"] = GRAND_TOTAL["update__total_xp__max__sum"]
 
-    QuerySet = (
-        QuerySet.annotate(
+    queryset = (
+        queryset.annotate(
             rank=Window(expression=Rank(), order_by=F(f"update__{sort_by}__max").desc())
         )
-        .prefetch_related("leaderboard_country")
+        .prefetch_related(
+            "leaderboard_country",
+            Prefetch(
+                "nickname_set",
+                Nickname.objects.filter(active=True),
+                to_attr="_nickname",
+            ),
+        )
         .order_by("rank", "update__update_time__max", "faction")
     )
 
-    for trainer in QuerySet:
+    for trainer in queryset:
         if not trainer.update__total_xp__max:
             continue
         trainer_stats = {
@@ -409,14 +410,13 @@ def LeaderboardView(
 @login_required
 def SetUpProfileViewStep2(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and _check_if_self_valid(request):
-        if len(request.user.trainer.update_set.all()) == 0:
+        if request.user.trainer.update_set.count() == 0:
             return HttpResponseRedirect(reverse("profile_first_post"))
         return HttpResponseRedirect(reverse("trainerdex:profile"))
 
     form = RegistrationFormTrainer(instance=request.user.trainer)
     if not request.user.trainer.verified:
         form.fields["verification"].required = True
-    form.fields["start_date"].required = True
 
     if request.method == "POST":
         form = RegistrationFormTrainer(request.POST, request.FILES, instance=request.user.trainer)
@@ -441,7 +441,7 @@ def SetUpProfileViewStep3(request: HttpRequest) -> HttpResponse:
     if (
         request.user.is_authenticated
         and _check_if_self_valid(request)
-        and len(request.user.trainer.update_set.all()) > 0
+        and request.user.trainer.update_set.count() > 0
     ):
         return HttpResponseRedirect(reverse("trainerdex:update_stats"))
 
