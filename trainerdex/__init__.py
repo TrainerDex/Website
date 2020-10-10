@@ -15,3 +15,4 @@ commit_sha = (
 __version__ = "0.{commit_count}-{commit_sha}".format(
     commit_count=commit_count, commit_sha=commit_sha
 )
+VERSION = __version__
