@@ -5,44 +5,13 @@
 
 {% block head_title %}{% trans "Account" %}{% endblock %}
 
-{% block extra_head %}
-<script>
-$(function(){
-    $("#id_email").removeAttr('placeholder');
-    $("#form_email").removeClass('has-placeholder');
-});
-</script>
-{% endblock %}
-
 {% block content %}
 <div class="mdl-grid">
-  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">{% trans "Add E-mail Address" %}</h2>
-    </div>
-      <form method="post" action="{% url 'account_email' %}" class="add_email">
-        <div class="mdl-card__supporting-text">
-          <p>{% trans 'Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation.' %}</p>
-          <div id="form_email" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            {% csrf_token %}
-            {# Translators: This is shown in the email field when it is empty #}
-            {% trans 'Enter email...' as enter_email_trans %}
-            {% render_field form.email class+="mdl-textfield__input" placeholder=enter_email_trans %}
-            <label class="mdl-textfield__label" for="id_email">{{enter_email_trans}}</label>
-          </div>
-        </div>
-        <div class="mdl-card__actions mdl-card--border">
-          <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" name="action_add" type="submit"><i class="material-icons">done</i>{% trans "Add E-mail" %}</button>
-        </div>
-      </form>
-  </div>
-</div>
-<div class="mdl-grid">
-  <div class="trainerdex-options mdl-card mdl-shadow--2dp mdl-cell mdl-cell--5-col mdl-cell--4-col-phone trainerdex-card__alert">
+  <div class="trainerdex-options mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--4-col-phone trainerdex-card__alert">
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">{% trans "E-mail Addresses" %}</h2>
     </div>
-{% if user.emailaddress_set.all %}
+    {% if user.emailaddress_set.all %}
     <form action="{% url 'account_email' %}" class="email_list" method="post">
     {% csrf_token %}
     <fieldset class="blockLabels">
@@ -50,7 +19,7 @@ $(function(){
       {% trans 'The following e-mail addresses are associated with your account:' %}
     </div>
     <ul class="mdl-list">
-  {% for emailaddress in user.emailaddress_set.all %}
+      {% for emailaddress in user.emailaddress_set.all %}
       <li class="mdl-list__item {% if emailaddress.primary %}mdl-list__item--two-line{%endif%}">
         <label for="email_radio_{{forloop.counter}}"  class="mdl-radio mdl-js-radio mdl-js-ripple-effect mdl-list__item-primary-content">
           <input id="email_radio_{{forloop.counter}}" type="radio" class="mdl-radio__button" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
@@ -64,10 +33,10 @@ $(function(){
           </label>{% endif %}
         </span>
       </li>
-  {% endfor %}
+      {% endfor %}
     </ul>
     <div class="mdl-card__actions mdl-card--border">
-      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action_primary" ><i class="material-icons">done</i> {% trans 'Make Primary' %}</button>
+      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action_primary" ><i class="material-icons">done</i> {% trans 'Set Primary' %}</button>
       <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action_send" ><i class="material-icons">autorenew</i> {% trans 'Re-send Verification' %}</button>
       <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action_remove" ><i class="material-icons">remove_circle</i> {% trans 'Remove' %}</button>
       <div id="action_remove_message" class="mdl-js-snackbar mdl-snackbar">
@@ -77,11 +46,29 @@ $(function(){
     </div>
   </fieldset>
   </form>
-{% else %}
+    {% else %}
     <div class="mdl-card__supporting-text">
       <strong>{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}
     </div>
-{% endif %}
+    {% endif %}
+  </div>
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--4-col-phone trainerdex-card__alert">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "Add E-mail Address" %}</h2>
+    </div>
+      <form method="post" action="{% url 'account_email' %}" class="add_email">
+        <div class="mdl-card__supporting-text">
+          <p>{% trans 'Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation.' %}</p>
+          <div id="form_email" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%;">
+            {% csrf_token %}
+            {{ form.email|add_class:"mdl-textfield__input"|remove_attr:"placeholder" }}
+            <label class="mdl-textfield__label" for="{{form.email.id_for_label}}">{{form.email.label}}</label>
+          </div>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" name="action_add" type="submit"><i class="material-icons">done</i>{% trans "Add E-mail" %}</button>
+        </div>
+      </form>
   </div>
 </div>
 {% endblock %}

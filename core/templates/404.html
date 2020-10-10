@@ -6,8 +6,22 @@
 {% block head_title %}{% trans "404 Not Found" %}{% endblock %}
 
 {% block content %}
-<div id="container">
-  <h3>{% trans "404 Not Found" %}</h3>
-  <img src="https://www.trainerdex.co.uk/pokemon/404.png" alt="Luxio">
+<div class="mdl-grid mdl-grid--no-spacing">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">{% trans "404 Not Found" %}</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <p>{% trans "Sorry, we couldn't find the page you're looking for. Double check the URL or reach out to us on Discord." %}</p>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'trainerdex:leaderboard' %}">
+        {% trans 'Return to Leaderboard' %}
+      </a>
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="http://discord.trainerdex.co.uk">
+        {% trans 'Visit our Discord' %}
+      </a>
+    </div>
+  </div>
 </div>
 {% endblock %}

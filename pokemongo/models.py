@@ -212,7 +212,7 @@ class Trainer(models.Model):
         return False
 
     awaiting_verification.boolean = True
-    awaiting_verification.short_description = _("Ready to be verified!")
+    awaiting_verification.short_description = _("Awaiting Verification")
 
     def is_verified(self) -> bool:
         return self.verified
@@ -225,15 +225,32 @@ class Trainer(models.Model):
 
     is_verified_and_saved.boolean = True
 
+    def verification_status(self) -> str:
+        if self.is_verified():
+            return _("Verified")
+        elif self.awaiting_verification():
+            return _("Awaiting Verification")
+        else:
+            return _("Unverified")
+
+    is_verified.short_description = _("Verification Status")
+
     def is_on_leaderboard(self) -> bool:
         return bool(self.is_verified and self.statistics and not self.currently_banned())
 
     is_on_leaderboard.boolean = True
 
     def level(self) -> Optional[int]:
-        updates = self.update_set.exclude(total_xp__isnull=True)
-        if updates.exists():
-            return updates.latest("update_time").level()
+        try:
+            update = (
+                self.update_set.exclude(total_xp__isnull=True)
+                .only("trainer_id", "total_xp")
+                .latest("update_time")
+            )
+        except Update.DoesNotExist:
+            return None
+        else:
+            return update.level()
 
     @property
     def active(self) -> bool:
@@ -241,12 +258,7 @@ class Trainer(models.Model):
 
     @property
     def profile_complete(self) -> bool:
-        return bool(
-            bool(self.owner)
-            and bool(self.username)
-            and bool(bool(self.verification) or bool(self.verified))
-            and bool(self.start_date)
-        )
+        return bool(bool(self.verification) or self.verified)
 
     @property
     def profile_completed_optional(self) -> bool:
@@ -271,6 +283,11 @@ class Trainer(models.Model):
     def username(self) -> str:
         """Alias for nickname"""
         return self.nickname
+
+    @property
+    def user(self) -> str:
+        """Alias for owner"""
+        return self.owner
 
     def __str__(self) -> str:
         return self.nickname
