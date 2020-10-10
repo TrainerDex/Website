@@ -92,7 +92,7 @@ def TrainerRedirectorView(
     elif request.GET.get("id"):
         trainer = get_object_or_404(Trainer, pk=request.GET.get("id"), owner__is_active=True)
     elif not request.user.is_authenticated:
-        return redirect("home")
+        return redirect("account_login")
     else:
         trainer = request.user.trainer
         return HttpResponseRedirect(
