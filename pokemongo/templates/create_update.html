@@ -124,7 +124,7 @@
 </form>
 {% endblock %}
 
-{% block extra_body %}
+{% block post_body_pre_mdl %}
 <script type="text/javascript">
 const errors = {% autoescape off %}{{form.errors.as_json}}{% endautoescape %}
 
@@ -135,14 +135,6 @@ for (var key in errors) {
 
 <script type="text/javascript">
   const url = '{% url 'trainerdex.api.1:latest_update' user.trainer.pk %}'
-
-  function createNode(element) {
-    return document.createElement(element); // Create the type of element you pass in the parameters
-  }
-
-  function append(parent, el) {
-    return parent.appendChild(el); // Append the second parameter(element) to the first one
-  }
 
   fetch(url).then((resp) => resp.json()).then(function(data) {
     let update = data;

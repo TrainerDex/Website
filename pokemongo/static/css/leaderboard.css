@@ -1,0 +1,20 @@
+html, body, .spinner{
+  height:100%;
+  overflow: hidden;
+}
+
+.mdl-spinner{
+  height:100px;
+  width:100px;
+}
+
+.spinner{
+  position:relative;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.is-active {
+ display: flex;
+}

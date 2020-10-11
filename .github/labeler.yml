@@ -1,19 +1,12 @@
-npm:
-  - package.json
-  - package-lock.json
-
 pip:
   - requirements.txt
   - requirements-dev.txt
 
 dependencies:
-  - package.json
-  - package-lock.json
   - requirements.txt
   - requirements-dev.txt
 
 frontend:
-  - 'assets/**/*'
   - 'core/templates/**/*'
   - 'core/static/**/*'
   - 'pokemongo/templates/**/*'
