@@ -8,7 +8,7 @@ from rest_framework.authtoken import views
 
 from core import sitemaps
 from core.views import SettingsView, PrivacyView, TermsView
-from pokemongo.views import SetUpProfileViewStep2, SetUpProfileViewStep3
+from pokemongo.views import EditProfileView
 
 
 urlpatterns = [
@@ -32,9 +32,8 @@ urlpatterns = [
     path("help/", include("helpdesk.urls")),
     path("legal/privacy", PrivacyView, name="privacy"),
     path("legal/terms", TermsView, name="terms"),
-    path("accounts/settings", SettingsView, name="account_settings"),
-    path("accounts/profile/setup", SetUpProfileViewStep2, name="profile_set_up"),
-    path("accounts/profile/first_update", SetUpProfileViewStep3, name="profile_first_post"),
+    path("settings/", SettingsView, name="account_settings"),
+    path("settings/profile/", EditProfileView, name="profile_edit"),
     path("accounts/", include("allauth.urls")),
     path("", include("pokemongo.urls")),
 ]
