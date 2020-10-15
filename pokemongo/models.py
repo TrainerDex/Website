@@ -293,7 +293,7 @@ class Trainer(models.Model):
         return self.nickname
 
     def get_absolute_url(self):
-        return reverse("trainerdex:profile_nickname", kwargs={"nickname": self.nickname})
+        return reverse("trainerdex:profile", kwargs={"nickname": self.nickname})
 
     class Meta:
         verbose_name = _("Trainer")
