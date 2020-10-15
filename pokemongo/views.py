@@ -17,7 +17,7 @@ from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language_from_request
 from math import ceil
-from pokemongo.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
+from pokemongo.forms import UpdateForm, TrainerForm
 from pokemongo.models import Trainer, Update, Community, Nickname
 from pokemongo.shortcuts import (
     filter_leaderboard_qs,
@@ -72,9 +72,9 @@ def TrainerRedirectorView(
         return redirect("account_login")
     else:
         trainer = request.user.trainer
-        return redirect("trainerdex:profile", kwargs={"nickname": trainer.nickname})
+        return redirect("trainerdex:profile", **{"nickname": trainer.nickname})
 
-    return redirect("trainerdex:profile", permanent=True, kwargs={"nickname": trainer.nickname})
+    return redirect("trainerdex:profile", permanent=True, **{"nickname": trainer.nickname})
 
 
 def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
@@ -208,7 +208,7 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
             messages.success(request, _("Statistics updated"))
             return redirect(
                 "trainerdex:profile",
-                kwargs={"nickname": request.user.trainer.nickname},
+                **{"nickname": request.user.trainer.nickname},
             )
         else:
             form.fields["double_check_confirmation"].required = True
@@ -258,8 +258,10 @@ def LeaderboardView(
         except Community.DoesNotExist:
             if not request.user.is_authenticated:
                 return redirect(
-                    reverse("account_login")
-                    + f"?next={reverse('trainerdex:leaderboard', kwargs={'community': community})}"
+                    "{0}?next={1}".format(
+                        reverse("account_login"),
+                        reverse("trainerdex:leaderboard", **{"community": community}),
+                    )
                 )
             raise Http404(
                 _("No community found for handle {community}").format(community=community)
@@ -382,64 +384,30 @@ def LeaderboardView(
 
 
 @login_required
-def SetUpProfileViewStep2(request: HttpRequest) -> HttpResponse:
+def EditProfileView(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and _check_if_self_valid(request):
         if request.user.trainer.update_set.count() == 0:
-            return redirect("profile_first_post")
-        return redirect("trainerdex:profile")
+            messages.warning(request, "You have not posted your stats yet.")
 
-    form = RegistrationFormTrainer(instance=request.user.trainer)
-    if not request.user.trainer.verified:
-        form.fields["verification"].required = True
+    form = TrainerForm(instance=request.user.trainer)
+    form.fields["verification"].required = not request.user.trainer.verified
 
     if request.method == "POST":
-        form = RegistrationFormTrainer(request.POST, request.FILES, instance=request.user.trainer)
-        form.fields["verification"].required = True
-        if form.is_valid() and form.has_changed():
-            form.save()
-            messages.success(
-                request,
-                _(
-                    "Thank you for filling out your profile."
-                    " Your screenshots have been sent for verification."
-                    " An admin will verify you within the next couple of days."
-                    " Until then, you will not appear in the Global Leaderboard but you can still use Guild Leaderboards and and update your stats!"
-                ),
-            )
-            return redirect("profile_first_post")
-    return render(request, "account/signup2.html", {"form": form})
-
-
-@login_required
-def SetUpProfileViewStep3(request: HttpRequest) -> HttpResponse:
-    if (
-        request.user.is_authenticated
-        and _check_if_self_valid(request)
-        and request.user.trainer.update_set.count() > 0
-    ):
-        return redirect("trainerdex:update_stats")
-
-    form = RegistrationFormUpdate(initial={"trainer": request.user.trainer})
-    form.fields["screenshot"].required = True
-    form.fields["double_check_confirmation"].widget = forms.HiddenInput()
-
-    if request.method == "POST":
-        logger.info(request.FILES)
-        form_data = request.POST.copy()
-        form_data["data_source"] = "ss_registration"
-        form = RegistrationFormUpdate(form_data, request.FILES)
-        form.fields["screenshot"].required = True
-        form.trainer = request.user.trainer
-        logger.info(form.is_valid())
+        form = TrainerForm(request.POST, request.FILES, instance=request.user.trainer)
         if form.is_valid():
-            form.save()
-            messages.success(request, _("Stats updated. Screenshot included."))
-            return redirect(
-                "trainerdex:profile", kwargs={"nickname": request.user.trainer.nickname}
-            )
-        logger.info(form.cleaned_data)
-        logger.error(form.errors)
-    form.fields["update_time"].widget = forms.HiddenInput()
-    form.fields["data_source"].widget = forms.HiddenInput()
-    form.fields["trainer"].widget = forms.HiddenInput()
-    return render(request, "create_update.html", {"form": form})
+            if form.has_changed():
+                form.save()
+                if not request.user.trainer.verified:
+                    messages.success(
+                        request,
+                        _(
+                            "Thank you for filling out your profile."
+                            " Your screenshots have been sent for verification."
+                            " Join our Discord. https://discord.gg/Anz3UpM"
+                        ),
+                    )
+                    return redirect("trainerdex:update_stats")
+                else:
+                    messages.success(request, _("Profile edited successfully."))
+                    return redirect("account_settings")
+    return render(request, "edit_profile.html", {"form": form})
