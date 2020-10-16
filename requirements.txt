@@ -2,7 +2,7 @@ certifi
 discord.py>=1.5.0,<1.6.0
 django>=2.2.16,<3.0.0
 django-ajax-selects
-django-allauth~=0.42.0
+django-allauth~=0.43.0
 django-cities~=0.6
 django-cors-headers~=2.5.0
 django-exclusivebooleanfield~=0.3.0
