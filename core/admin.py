@@ -138,9 +138,10 @@ class DiscordUserAdmin(admin.ModelAdmin):
     list_display = [
         "__str__",
         "uid",
+        "user",
+        "has_data",
         "last_login",
         "date_joined",
-        "user",
     ]
     readonly_fields = ["uid", "last_login", "date_joined", "data_prettified"]
 
@@ -161,7 +162,7 @@ class DiscordChannelAdmin(admin.ModelAdmin):
     readonly_fields = fields
     autocomplete_fields = ["guild"]
     search_fields = ["guild", "data__name"]
-    list_display = ["name", "type", "guild", "cached_date"]
+    list_display = ["name", "type", "guild", "has_data", "cached_date"]
     list_filter = ["guild", "cached_date"]
 
     def get_readonly_fields(
@@ -192,6 +193,7 @@ class DiscordRoleAdmin(admin.ModelAdmin):
     list_display = [
         "name",
         "guild",
+        "has_data",
         "cached_date",
         "position",
     ]
@@ -239,6 +241,7 @@ class DiscordGuildMembershipAdmin(admin.ModelAdmin):
         "user",
         "__str__",
         "active",
+        "has_data",
         "cached_date",
     ]
     list_filter = ["guild", "active", "cached_date"]
