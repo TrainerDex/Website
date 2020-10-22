@@ -103,7 +103,7 @@ class DiscordGuild(models.Model):
         return bool(self.data)
 
     has_data.boolean = True
-    has_data.short_description = "got data"
+    has_data.short_description = _("got data")
 
     @property
     def name(self) -> str:
@@ -305,6 +305,12 @@ class DiscordChannel(models.Model):
     _outdated.boolean = True
     outdated = property(_outdated)
 
+    def has_data(self) -> bool:
+        return bool(self.data)
+
+    has_data.boolean = True
+    has_data.short_description = _("got data")
+
     def __str__(self) -> str:
         return self.name
 
@@ -379,6 +385,12 @@ class DiscordRole(models.Model):
     _outdated.boolean = True
     outdated = property(_outdated)
 
+    def has_data(self) -> bool:
+        return bool(self.data)
+
+    has_data.boolean = True
+    has_data.short_description = _("got data")
+
     def __str__(self) -> str:
         return f"{self.name} in {self.guild}"
 
@@ -446,10 +458,18 @@ class DiscordUser(SocialAccount):
     objects = DiscordUserManager()
 
     def __str__(self) -> str:
-        if "username" in self.extra_data and "discriminator" in self.extra_data:
-            return f"{self.extra_data['username']}#{self.extra_data['discriminator']}"
-        else:
-            return force_text(self.user)
+        dflt = super(DiscordUser, self).__str__()
+        prvdr = self.get_provider_account()
+        result = prvdr.to_str()
+        if result != super(type(prvdr), prvdr).to_str():
+            return result
+        return dflt
+
+    def has_data(self) -> bool:
+        return bool(self.extra_data)
+
+    has_data.boolean = True
+    has_data.short_description = _("got data")
 
     class Meta:
         proxy = True
@@ -488,6 +508,12 @@ class DiscordGuildMembership(models.Model):
 
     _outdated.boolean = True
     outdated = property(_outdated)
+
+    def has_data(self) -> bool:
+        return bool(self.data)
+
+    has_data.boolean = True
+    has_data.short_description = _("got data")
 
     def _change_nick(self, nick: str) -> None:
         base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)

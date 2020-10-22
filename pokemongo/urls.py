@@ -16,16 +16,13 @@ urlpatterns = [
         ),
     ),
     path("profile", TrainerRedirectorView, name="profile"),
-    path("profile/id/<int:id>", TrainerRedirectorView, name="profile"),
-    path("new", CreateUpdateView, name="update_stats"),
+    path("profile/id/<int:id>/", TrainerRedirectorView, name="profile"),
+    path("new/", CreateUpdateView, name="update_stats"),
     path(
         "tools/update_stats/",
         RedirectView.as_view(pattern_name="trainerdex:update_stats", permanent=True),
     ),
-    re_path(r"^(?P<nickname>[A-Za-z0-9]{3,15})\/?$", TrainerRedirectorView),
-    re_path(
-        r"^u\/(?P<nickname>[A-Za-z0-9]{3,15})\/?$", TrainerRedirectorView, name="profile_nickname"
-    ),
+    path("u/<str:nickname>", TrainerRedirectorView, name="profile"),
     path(
         "",
         RedirectView.as_view(pattern_name="trainerdex:leaderboard", permanent=False),
