@@ -11,15 +11,13 @@ from django.db.models.functions import DenseRank as Rank
 from django.http import (
     HttpRequest,
     HttpResponse,
-    HttpResponseRedirect,
-    HttpResponsePermanentRedirect,
     Http404,
 )
 from django.shortcuts import get_object_or_404, render, redirect, reverse
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import get_language_from_request
+from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _, get_language_from_request
 from math import ceil
-from pokemongo.forms import UpdateForm, RegistrationFormTrainer, RegistrationFormUpdate
+from pokemongo.forms import UpdateForm, TrainerForm
 from pokemongo.models import Trainer, Update, Community, Nickname
 from pokemongo.shortcuts import (
     filter_leaderboard_qs,
@@ -37,74 +35,49 @@ logger = logging.getLogger("django.trainerdex")
 def _check_if_trainer_valid(user) -> bool:
     profile_complete = user.trainer.profile_complete
     logger.debug(
-        level=30 if profile_complete else 20,
         msg="Checking {nickname}: Completed profile: {status}".format(
             nickname=user.username, status=profile_complete
         ),
     )
-    update_count = user.trainer.update_set.exclude(total_xp__isnull=True).count()
-    logger.debug(
-        level=30 if update_count else 20,
-        msg="Checking {nickname}: Update count: {count}".format(
-            nickname=user.username, count=update_count
-        ),
-    )
-
-    if not profile_complete or update_count == 0:
-        raise False
-    return True
+    return profile_complete
 
 
 def _check_if_self_valid(request: HttpRequest) -> bool:
-    return _check_if_trainer_valid(request.user)
+    valid = _check_if_trainer_valid(request.user)
+    if valid and request.user.trainer.start_date is None:
+        messages.warning(
+            request,
+            _(
+                "Please set your trainer start date. You can edit your profile in the settings section on the menu."
+            ),
+        )
+    return valid
 
 
 def TrainerRedirectorView(
     request: HttpRequest, nickname: Optional[str] = None, id: Optional[int] = None
 ) -> HttpResponse:
-    stay = False
-    if nickname:
+    if request.GET.get("nickname", nickname):
         trainer = get_object_or_404(
             Trainer, nickname__nickname__iexact=nickname, owner__is_active=True
         )
         if nickname == trainer.nickname:
-            stay = True
-    elif id:
+            return TrainerProfileView(request, trainer)
+    elif request.GET.get("id", id):
         trainer = get_object_or_404(Trainer, pk=id, owner__is_active=True)
-    elif request.GET.get("username"):
-        trainer = get_object_or_404(
-            Trainer,
-            nickname__nickname__iexact=request.GET.get("username"),
-            owner__is_active=True,
-        )
-    elif request.GET.get("nickname"):
-        trainer = get_object_or_404(
-            Trainer,
-            nickname__nickname__iexact=request.GET.get("nickname"),
-            owner__is_active=True,
-        )
-    elif request.GET.get("id"):
-        trainer = get_object_or_404(Trainer, pk=request.GET.get("id"), owner__is_active=True)
     elif not request.user.is_authenticated:
         return redirect("account_login")
     else:
         trainer = request.user.trainer
-        return HttpResponseRedirect(
-            reverse("trainerdex:profile_nickname", kwargs={"nickname": trainer.nickname})
-        )
+        return redirect("trainerdex:profile", **{"nickname": trainer.nickname})
 
-    if not stay:
-        return HttpResponsePermanentRedirect(
-            reverse("trainerdex:profile_nickname", kwargs={"nickname": trainer.nickname})
-        )
-    else:
-        return TrainerProfileView(request, trainer)
+    return redirect("trainerdex:profile", permanent=True, **{"nickname": trainer.nickname})
 
 
 def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
         messages.warning(request, _("Please complete your profile to continue using the website."))
-        return HttpResponseRedirect(reverse("profile_set_up"))
+        return redirect("profile_edit")
 
     context = {
         "trainer": trainer,
@@ -181,7 +154,7 @@ def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
 def CreateUpdateView(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
         messages.warning(request, _("Please complete your profile to continue using the website."))
-        return HttpResponseRedirect(reverse("profile_set_up"))
+        return redirect("profile_edit")
 
     if request.user.trainer.update_set.filter(
         update_time__gte=datetime.now() - timedelta(hours=1)
@@ -230,11 +203,9 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
         if form.is_valid():
             form.save()
             messages.success(request, _("Statistics updated"))
-            return HttpResponseRedirect(
-                reverse(
-                    "trainerdex:profile_nickname",
-                    kwargs={"nickname": request.user.trainer.nickname},
-                )
+            return redirect(
+                "trainerdex:profile",
+                **{"nickname": request.user.trainer.nickname},
             )
         else:
             form.fields["double_check_confirmation"].required = True
@@ -260,10 +231,6 @@ def LeaderboardView(
     country: Optional[str] = None,
     community: Optional[str] = None,
 ) -> HttpResponse:
-    if request.user.is_authenticated and not _check_if_self_valid(request):
-        messages.warning(request, _("Please complete your profile to continue using the website."))
-        return HttpResponseRedirect(reverse("profile_set_up"))
-
     context = {}
 
     if country:
@@ -284,8 +251,10 @@ def LeaderboardView(
         except Community.DoesNotExist:
             if not request.user.is_authenticated:
                 return redirect(
-                    reverse("account_login")
-                    + f"?next={reverse('trainerdex:leaderboard', kwargs={'community': community})}"
+                    "{0}?next={1}".format(
+                        reverse("account_login"),
+                        reverse("trainerdex:leaderboard", **{"community": community}),
+                    )
                 )
             raise Http404(
                 _("No community found for handle {community}").format(community=community)
@@ -408,67 +377,30 @@ def LeaderboardView(
 
 
 @login_required
-def SetUpProfileViewStep2(request: HttpRequest) -> HttpResponse:
+def EditProfileView(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and _check_if_self_valid(request):
         if request.user.trainer.update_set.count() == 0:
-            return HttpResponseRedirect(reverse("profile_first_post"))
-        return HttpResponseRedirect(reverse("trainerdex:profile"))
+            messages.warning(request, "You have not posted your stats yet.")
 
-    form = RegistrationFormTrainer(instance=request.user.trainer)
-    if not request.user.trainer.verified:
-        form.fields["verification"].required = True
+    form = TrainerForm(instance=request.user.trainer)
+    form.fields["verification"].required = not request.user.trainer.verified
 
     if request.method == "POST":
-        form = RegistrationFormTrainer(request.POST, request.FILES, instance=request.user.trainer)
-        form.fields["verification"].required = True
-        if form.is_valid() and form.has_changed():
-            form.save()
-            messages.success(
-                request,
-                _(
-                    "Thank you for filling out your profile."
-                    " Your screenshots have been sent for verification."
-                    " An admin will verify you within the next couple of days."
-                    " Until then, you will not appear in the Global Leaderboard but you can still use Guild Leaderboards and and update your stats!"
-                ),
-            )
-            return HttpResponseRedirect(reverse("profile_first_post"))
-    return render(request, "account/signup2.html", {"form": form})
-
-
-@login_required
-def SetUpProfileViewStep3(request: HttpRequest) -> HttpResponse:
-    if (
-        request.user.is_authenticated
-        and _check_if_self_valid(request)
-        and request.user.trainer.update_set.count() > 0
-    ):
-        return HttpResponseRedirect(reverse("trainerdex:update_stats"))
-
-    form = RegistrationFormUpdate(initial={"trainer": request.user.trainer})
-    form.fields["screenshot"].required = True
-    form.fields["double_check_confirmation"].widget = forms.HiddenInput()
-
-    if request.method == "POST":
-        logger.info(request.FILES)
-        form_data = request.POST.copy()
-        form_data["data_source"] = "ss_registration"
-        form = RegistrationFormUpdate(form_data, request.FILES)
-        form.fields["screenshot"].required = True
-        form.trainer = request.user.trainer
-        logger.info(form.is_valid())
+        form = TrainerForm(request.POST, request.FILES, instance=request.user.trainer)
         if form.is_valid():
-            form.save()
-            messages.success(request, _("Stats updated. Screenshot included."))
-            return HttpResponseRedirect(
-                reverse(
-                    "trainerdex:profile_nickname",
-                    kwargs={"nickname": request.user.trainer.nickname},
-                )
-            )
-        logger.info(form.cleaned_data)
-        logger.error(form.errors)
-    form.fields["update_time"].widget = forms.HiddenInput()
-    form.fields["data_source"].widget = forms.HiddenInput()
-    form.fields["trainer"].widget = forms.HiddenInput()
-    return render(request, "create_update.html", {"form": form})
+            if form.has_changed():
+                form.save()
+                if not request.user.trainer.verified:
+                    messages.success(
+                        request,
+                        _(
+                            "Thank you for filling out your profile."
+                            " Your screenshots have been sent for verification."
+                            " Join our Discord. https://discord.gg/Anz3UpM"
+                        ),
+                    )
+                    return redirect("trainerdex:update_stats")
+                else:
+                    messages.success(request, _("Profile edited successfully."))
+                    return redirect("account_settings")
+    return render(request, "edit_profile.html", {"form": form})
