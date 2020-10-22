@@ -21,9 +21,8 @@ jobs:
         curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
         sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
         sudo apt-get update
-        sudo apt -y install postgresql-9.6 postgresql-9.6-postgis-2.4 gdal-bin python3-gdal
+        sudo apt -y install gettext postgresql-9.6 postgresql-9.6-postgis-2.4 gdal-bin python3-gdal
         sudo systemctl start postgresql
-        sudo apt -y install gettext
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
         chmod +x ./build_db.sh

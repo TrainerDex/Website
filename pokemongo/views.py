@@ -14,7 +14,6 @@ from django.http import (
     Http404,
 )
 from django.shortcuts import get_object_or_404, render, redirect, reverse
-from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, get_language_from_request
 from math import ceil
 from pokemongo.forms import UpdateForm, TrainerForm
