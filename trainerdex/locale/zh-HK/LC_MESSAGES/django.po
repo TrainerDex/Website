@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-22 14:19+0000\n"
-"PO-Revision-Date: 2020-10-22 14:19\n"
+"POT-Creation-Date: 2020-10-22 16:16+0000\n"
+"PO-Revision-Date: 2020-10-22 16:17\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Traditional, Hong Kong\n"
 "Language: zh_HK\n"
@@ -30,25 +30,25 @@ msgid "Discord Server Settings"
 msgstr ""
 
 #: core/management/commands/gains_leaderboard.py:200 pokemongo/strings.py:383
-#: trainerdex/settings.py:256
+#: trainerdex/settings.py:255
 msgctxt "team_name_team0"
 msgid "No Team"
 msgstr "未選擇隊伍"
 
 #: core/management/commands/gains_leaderboard.py:201 pokemongo/strings.py:384
-#: trainerdex/settings.py:257
+#: trainerdex/settings.py:256
 msgctxt "team_name_team1"
 msgid "Team Mystic"
 msgstr "叡智隊"
 
 #: core/management/commands/gains_leaderboard.py:202 pokemongo/strings.py:385
-#: trainerdex/settings.py:258
+#: trainerdex/settings.py:257
 msgctxt "team_name_team2"
 msgid "Team Valor"
 msgstr "武勇隊"
 
 #: core/management/commands/gains_leaderboard.py:203 pokemongo/strings.py:386
-#: trainerdex/settings.py:259
+#: trainerdex/settings.py:258
 msgctxt "team_name_team3"
 msgid "Team Instinct"
 msgstr "靈犀隊"
@@ -2365,37 +2365,37 @@ msgstr ""
 msgid "Please set your trainer start date. You can edit your profile in the settings section on the menu."
 msgstr ""
 
-#: pokemongo/views.py:78 pokemongo/views.py:155
+#: pokemongo/views.py:80 pokemongo/views.py:157
 msgid "Please complete your profile to continue using the website."
 msgstr ""
 
-#: pokemongo/views.py:204
+#: pokemongo/views.py:206
 msgid "Statistics updated"
 msgstr ""
 
-#: pokemongo/views.py:217
+#: pokemongo/views.py:219
 msgid "Since you have posted in the past hour, you are currently updating your previous post."
 msgstr ""
 
-#: pokemongo/views.py:241
+#: pokemongo/views.py:243
 #, python-brace-format
 msgid "No country found for code {country}"
 msgstr ""
 
-#: pokemongo/views.py:259
+#: pokemongo/views.py:261
 #, python-brace-format
 msgid "No community found for handle {community}"
 msgstr ""
 
-#: pokemongo/views.py:266
+#: pokemongo/views.py:268
 msgid "Access denied"
 msgstr ""
 
-#: pokemongo/views.py:396
+#: pokemongo/views.py:398
 msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. Join our Discord. https://discord.gg/Anz3UpM"
 msgstr ""
 
-#: pokemongo/views.py:403
+#: pokemongo/views.py:405
 msgid "Profile edited successfully."
 msgstr ""
 
