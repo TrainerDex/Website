@@ -213,8 +213,7 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 # Google Analytics
 
-GOOGLE_ANALYTICS_DOMAIN = "trainerdex.co.uk"
-GOOGLE_ANALYTICS_PROPERTY_ID = "***REMOVED***"
+GOOGLE_ANALYTICS_MEASUREMENT_ID = "***REMOVED***"
 
 # Django Cities
 # https://github.com/coderholic/django-cities#configuration

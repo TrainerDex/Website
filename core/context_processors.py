@@ -3,11 +3,9 @@ from django.conf import settings
 
 
 def google_analytics(request) -> Dict[str, str]:
-    ga_prop_id = getattr(settings, "GOOGLE_ANALYTICS_PROPERTY_ID", False)
-    ga_domain = getattr(settings, "GOOGLE_ANALYTICS_DOMAIN", False)
-    if not settings.DEBUG and ga_prop_id and ga_domain:
+    ga_prop_id = getattr(settings, "GOOGLE_ANALYTICS_MEASUREMENT_ID", False)
+    if not settings.DEBUG and ga_prop_id:
         return {
-            "GOOGLE_ANALYTICS_PROPERTY_ID": ga_prop_id,
-            "GOOGLE_ANALYTICS_DOMAIN": ga_domain,
+            "GOOGLE_ANALYTICS_MEASUREMENT_ID": ga_prop_id,
         }
     return {}
