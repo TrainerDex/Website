@@ -39,8 +39,8 @@ jobs:
         translation: 'trainerdex/locale/%locale%/LC_MESSAGES/django.po'
         upload_translations: false
         download_translations: true
-        commit_message: 'chore: New Crowdin translations'
-        pull_request_title: 'chore: New Crowdin translations'
+        commit_message: 'chore: update translations via Crowdin'
+        pull_request_title: 'chore: update translations via Crowdin'
         pull_request_labels: 'i18n'
         crowdin_branch_name: 'master'
         project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
