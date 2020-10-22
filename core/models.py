@@ -10,8 +10,7 @@ from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils.encoding import force_text
-from django.utils.translation import gettext_lazy as _, ngettext
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
 from datetime import timedelta
