@@ -10,6 +10,8 @@ updates:
       - turnrdev
     assignees:
       - turnrdev
+    commit-message:
+      prefix: "dep: "
     labels:
       - "dependencies"
       - "pip"
@@ -23,6 +25,22 @@ updates:
       - turnrdev
     assignees:
       - turnrdev
+    commit-message:
+      prefix: "dep: "
     labels:
       - "dependencies"
       - "npm"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: develop
+    reviewers:
+      - turnrdev
+    assignees:
+      - turnrdev
+    commit-message:
+      prefix: "chore: "
+    labels:
+      - "dependencies"
