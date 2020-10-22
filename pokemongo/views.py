@@ -14,8 +14,8 @@ from django.http import (
     Http404,
 )
 from django.shortcuts import get_object_or_404, render, redirect, reverse
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import get_language_from_request
+from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _, get_language_from_request
 from math import ceil
 from pokemongo.forms import UpdateForm, TrainerForm
 from pokemongo.models import Trainer, Update, Community, Nickname
@@ -35,26 +35,23 @@ logger = logging.getLogger("django.trainerdex")
 def _check_if_trainer_valid(user) -> bool:
     profile_complete = user.trainer.profile_complete
     logger.debug(
-        level=30 if profile_complete else 20,
         msg="Checking {nickname}: Completed profile: {status}".format(
             nickname=user.username, status=profile_complete
         ),
     )
-    update_count = user.trainer.update_set.exclude(total_xp__isnull=True).count()
-    logger.debug(
-        level=30 if update_count else 20,
-        msg="Checking {nickname}: Update count: {count}".format(
-            nickname=user.username, count=update_count
-        ),
-    )
-
-    if not profile_complete or update_count == 0:
-        raise False
-    return True
+    return profile_complete
 
 
 def _check_if_self_valid(request: HttpRequest) -> bool:
-    return _check_if_trainer_valid(request.user)
+    valid = _check_if_trainer_valid(request.user)
+    if valid and request.user.trainer.start_date is None:
+        messages.warning(
+            request,
+            _(
+                "Please set your trainer start date. You can edit your profile in the settings section on the menu."
+            ),
+        )
+    return valid
 
 
 def TrainerRedirectorView(
@@ -80,7 +77,7 @@ def TrainerRedirectorView(
 def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
         messages.warning(request, _("Please complete your profile to continue using the website."))
-        return redirect("profile_set_up")
+        return redirect("profile_edit")
 
     context = {
         "trainer": trainer,
@@ -157,7 +154,7 @@ def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
 def CreateUpdateView(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
         messages.warning(request, _("Please complete your profile to continue using the website."))
-        return redirect("profile_set_up")
+        return redirect("profile_edit")
 
     if request.user.trainer.update_set.filter(
         update_time__gte=datetime.now() - timedelta(hours=1)
@@ -234,10 +231,6 @@ def LeaderboardView(
     country: Optional[str] = None,
     community: Optional[str] = None,
 ) -> HttpResponse:
-    if request.user.is_authenticated and not _check_if_self_valid(request):
-        messages.warning(request, _("Please complete your profile to continue using the website."))
-        return redirect("profile_set_up")
-
     context = {}
 
     if country:
