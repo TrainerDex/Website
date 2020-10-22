@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-22 13:36+0000\n"
-"PO-Revision-Date: 2020-10-22 13:37\n"
+"POT-Creation-Date: 2020-10-22 14:19+0000\n"
+"PO-Revision-Date: 2020-10-22 14:19\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -120,73 +120,73 @@ msgstr "Recordatorio de fecha límite de progreso"
 msgid "This is a reminder. The Progress Deadline is in {timedelta}."
 msgstr "Esto es un recordatorio. El tiempo límite es {timedelta}."
 
-#: core/models.py:106 core/models.py:312 core/models.py:392 core/models.py:472
-#: core/models.py:516
+#: core/models.py:105 core/models.py:311 core/models.py:391 core/models.py:471
+#: core/models.py:515
 msgid "got data"
 msgstr ""
 
-#: core/models.py:190
+#: core/models.py:189
 #, python-brace-format
 msgid "Succesfully updated {x} of {y} {guild} members"
 msgstr "Miembros actualizados correctamente {x} de {y} {guild}"
 
-#: core/models.py:226
+#: core/models.py:225
 msgid "Discord Guild"
 msgstr "Servidor de Discord"
 
-#: core/models.py:227
+#: core/models.py:226
 msgid "Discord Guilds"
 msgstr "Servidores de Discord"
 
-#: core/models.py:246
+#: core/models.py:245
 msgid "Rename users when they join."
 msgstr "Renombrar usuarios cuando se unan."
 
-#: core/models.py:248
+#: core/models.py:247
 msgid "This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."
 msgstr "Esta configuración cambiará el nombre de un usuario a su nombre de usuario de Pokémon Go cada vez que se unan a su servidor y cuando su nombre cambie aquí."
 
-#: core/models.py:253
+#: core/models.py:252
 msgid "Rename users with their level indicator"
 msgstr "Renombrar usuarios con su indicador de nivel"
 
-#: core/models.py:255
+#: core/models.py:254
 msgid "This setting will add a level to the end of their username on your server. Their name will update whenever they level up."
 msgstr "Esta opción añadirá un nivel al final de su nombre de usuario en su servidor. Su nombre se actualizará cada vez que suban de nivel."
 
-#: core/models.py:261
+#: core/models.py:260
 msgid "Level Indicator format"
 msgstr "Formato del indicador de nivel"
 
-#: core/models.py:360
+#: core/models.py:359
 msgid "Discord Channel"
 msgstr "Canal de Discord"
 
-#: core/models.py:361
+#: core/models.py:360
 msgid "Discord Channels"
 msgstr "Canales de Discord"
 
-#: core/models.py:443
+#: core/models.py:442
 msgid "Discord Role"
 msgstr "Rol en Discord"
 
-#: core/models.py:444
+#: core/models.py:443
 msgid "Discord Roles"
 msgstr "Roles en Discord"
 
-#: core/models.py:476
+#: core/models.py:475
 msgid "Discord User"
 msgstr "Usuario de Discord"
 
-#: core/models.py:477
+#: core/models.py:476
 msgid "Discord Users"
 msgstr "Usuarios de Discord"
 
-#: core/models.py:580
+#: core/models.py:579
 msgid "Discord Member"
 msgstr "Miembro de Discord"
 
-#: core/models.py:581
+#: core/models.py:580
 msgid "Discord Members"
 msgstr "Miembros de Discord"
 
@@ -2396,41 +2396,41 @@ msgstr "Parece que este entrenador no ha compartido ninguna de sus medallas."
 msgid "Trainer Code must be 12 digits long and contain only numbers and whitespace."
 msgstr "El código de entrenador debe tener 12 dígitos y sólo contiene números y espacios en blanco."
 
-#: pokemongo/views.py:51
+#: pokemongo/views.py:50
 msgid "Please set your trainer start date. You can edit your profile in the settings section on the menu."
 msgstr ""
 
-#: pokemongo/views.py:79 pokemongo/views.py:156
+#: pokemongo/views.py:78 pokemongo/views.py:155
 msgid "Please complete your profile to continue using the website."
 msgstr "Por favor, complete su perfil para continuar utilizando el sitio."
 
-#: pokemongo/views.py:205
+#: pokemongo/views.py:204
 msgid "Statistics updated"
 msgstr "Estadísticas actualizadas"
 
-#: pokemongo/views.py:218
+#: pokemongo/views.py:217
 msgid "Since you have posted in the past hour, you are currently updating your previous post."
 msgstr "Puesto que has publicado en la última hora, actualmente estás actualizando tu publicación anterior."
 
-#: pokemongo/views.py:242
+#: pokemongo/views.py:241
 #, python-brace-format
 msgid "No country found for code {country}"
 msgstr "Ningún país encontrado para el código {country}"
 
-#: pokemongo/views.py:260
+#: pokemongo/views.py:259
 #, python-brace-format
 msgid "No community found for handle {community}"
 msgstr "No se encontró ninguna comunidad {community}"
 
-#: pokemongo/views.py:267
+#: pokemongo/views.py:266
 msgid "Access denied"
 msgstr "Acceso denegado"
 
-#: pokemongo/views.py:397
+#: pokemongo/views.py:396
 msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. Join our Discord. https://discord.gg/Anz3UpM"
 msgstr ""
 
-#: pokemongo/views.py:404
+#: pokemongo/views.py:403
 msgid "Profile edited successfully."
 msgstr ""
 
