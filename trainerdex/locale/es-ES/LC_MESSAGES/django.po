@@ -944,7 +944,7 @@ msgstr "Entre. Guay"
 #, python-brace-format
 msgctxt "badge_battle_training_won"
 msgid "Train {0} times."
-msgstr "Entrena {0:,} veces."
+msgstr "Entrena {0} veces."
 
 #: pokemongo/models.py:492 pokemongo/strings.py:168
 msgctxt "badge_small_rattata_title"
