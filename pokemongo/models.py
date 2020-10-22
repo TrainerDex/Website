@@ -180,8 +180,8 @@ class Trainer(models.Model):
         if not cheat_date:
             return False
         current_date = d or timezone.now().date()
-        COVID_START = date(2019, 12, 31)
-        COVID_END = date(2021, 12, 31)  # 2 years in generous, adjust to suit
+        COVID_START: date = date(2019, 12, 31)
+        COVID_END: date = date(2021, 12, 31)  # 2 years in generous, adjust to suit
 
         if COVID_START < cheat_date < COVID_END:
             # During the SARS-COVID-19 outbreak, ban length is 12 weeks.
@@ -258,11 +258,9 @@ class Trainer(models.Model):
 
     @property
     def profile_complete(self) -> bool:
-        return bool(bool(self.verification) or self.verified)
+        return bool(self.verification) or self.verified
 
-    @property
-    def profile_completed_optional(self) -> bool:
-        return self.profile_complete
+    profile_completed_optional = profile_complete
 
     @property
     def nickname(self) -> str:
@@ -950,16 +948,21 @@ class Update(models.Model):
         soft_error_dict = defaultdict(list)
 
         # Hard Coded Dates
-        Gen2Date = date(2017, 2, 10)
-        Gen3Date = date(2017, 10, 20)
-        GymCloseDate = date(2017, 6, 19)
-        GymReworkDate = date(2017, 6, 22)
-        RaidReleaseDate = date(2017, 6, 26)
-        LegendaryReleaseDate = date(2017, 7, 22)
-        QuestReleaseDate = date(2018, 3, 30)
-        FriendReleaseDate = date(2018, 6, 21)
-        Gen4Date = date(2018, 10, 16)
-        PVPDate = date(2018, 12, 13)
+        GameReleaseDate: date = date(2016, 6, 5)
+        Gen2Date: date = date(2017, 2, 10)
+        Gen3Date: date = date(2017, 10, 20)
+        GymCloseDate: date = date(2017, 6, 19)
+        GymReworkDate: date = date(2017, 6, 22)
+        RaidReleaseDate: date = date(2017, 6, 26)
+        LegendaryReleaseDate: date = date(2017, 7, 22)
+        QuestReleaseDate: date = date(2018, 3, 30)
+        FriendReleaseDate: date = date(2018, 6, 21)
+        Gen4Date: date = date(2018, 10, 16)
+        PVPDate: date = date(2018, 12, 13)
+
+        # Soft Coded Dates
+        StartDate: Optional[date] = self.trainer.start_date
+        StartDateOrGameReleaseDate: date = self.trainer.start_date or GameReleaseDate
 
         for field in Update._meta.get_fields():
             if bool(getattr(self, field.name)):
@@ -1017,7 +1020,7 @@ class Update(models.Model):
                 if field.name == "total_xp":
 
                     # InterestDate = StartDate
-                    InterestDate = self.trainer.start_date
+                    InterestDate = StartDate
                     # DailyLimit = 1M
                     DailyLimit = 10000000
 
@@ -1069,7 +1072,7 @@ class Update(models.Model):
                 if field.name == "badge_travel_km":
 
                     # InterestDate = StartDate
-                    InterestDate = self.trainer.start_date
+                    InterestDate = StartDate
                     # DailyLimit = 60
                     DailyLimit = Decimal("60.0")
 
@@ -1133,7 +1136,7 @@ class Update(models.Model):
                 if field.name == "badge_capture_total":
 
                     # InterestDate = StartDate
-                    InterestDate = self.trainer.start_date
+                    InterestDate = StartDate
                     # DailyLimit = 800
                     DailyLimit = 800
 
@@ -1185,7 +1188,7 @@ class Update(models.Model):
                 if field.name == "badge_evolved_total":
 
                     # InterestDate = StartDate
-                    InterestDate = self.trainer.start_date
+                    InterestDate = StartDate
                     # DailyLimit = 250
                     DailyLimit = 250
 
@@ -1237,7 +1240,7 @@ class Update(models.Model):
                 if field.name == "badge_hatched_total":
 
                     # InterestDate = StartDate
-                    InterestDate = self.trainer.start_date
+                    InterestDate = StartDate
                     # DailyLimit = 60
                     DailyLimit = 60
 
@@ -1289,7 +1292,7 @@ class Update(models.Model):
                 if field.name == "badge_pokestops_visited":
 
                     # InterestDate = StartDate
-                    InterestDate = self.trainer.start_date
+                    InterestDate = StartDate
                     # DailyLimit = 500
                     DailyLimit = 500
 
@@ -1341,7 +1344,7 @@ class Update(models.Model):
                 if field.name == "badge_big_magikarp":
 
                     # InterestDate = StartDate
-                    InterestDate = self.trainer.start_date
+                    InterestDate = StartDate
                     # DailyLimit = 25
                     DailyLimit = 25
 
@@ -1393,7 +1396,7 @@ class Update(models.Model):
                 if field.name == "badge_battle_attack_won":
 
                     # InterestDate = StartDate
-                    InterestDate = self.trainer.start_date
+                    InterestDate = StartDate
                     # DailyLimit = 500
                     DailyLimit = 500
 
@@ -1502,7 +1505,7 @@ class Update(models.Model):
                 if field.name == "badge_small_rattata":
 
                     # InterestDate = StartDate
-                    InterestDate = self.trainer.start_date
+                    InterestDate = StartDate
                     # DailyLimit = 25
                     DailyLimit = 25
 
@@ -1554,7 +1557,7 @@ class Update(models.Model):
                 if field.name == "badge_pikachu":
 
                     # InterestDate = StartDate
-                    InterestDate = self.trainer.start_date
+                    InterestDate = StartDate
                     # DailyLimit = 100
                     DailyLimit = 100
 
@@ -1606,7 +1609,7 @@ class Update(models.Model):
                 if field.name == "badge_berries_fed":
 
                     # InterestDate = Max(GymReworkDate, StartDate)
-                    InterestDate = max(GymReworkDate, self.trainer.start_date)
+                    InterestDate = max(GymReworkDate, StartDateOrGameReleaseDate)
                     # DailyLimit = 3200
                     DailyLimit = 3200
 
@@ -1694,7 +1697,7 @@ class Update(models.Model):
                 if field.name == "badge_hours_defended":
 
                     # InterestDate = Max(GymReworkDate, StartDate)
-                    InterestDate = max(GymReworkDate, self.trainer.start_date)
+                    InterestDate = max(GymReworkDate, StartDateOrGameReleaseDate)
                     # DailyLimit = 480
                     DailyLimit = 480
 
@@ -1849,7 +1852,7 @@ class Update(models.Model):
                 if field.name == "badge_legendary_battle_won":
 
                     # InterestDate = Max(LegendaryReleaseDate, StartDate)
-                    InterestDate = max(LegendaryReleaseDate, self.trainer.start_date)
+                    InterestDate = max(LegendaryReleaseDate, StartDateOrGameReleaseDate)
                     # DailyLimit = 100
                     DailyLimit = 100
 
@@ -2013,7 +2016,7 @@ class Update(models.Model):
                 if field.name == "badge_challenge_quests":
 
                     # InterestDate = Max(QuestReleaseDate, StartDate)
-                    InterestDate = max(QuestReleaseDate, self.trainer.start_date)
+                    InterestDate = max(QuestReleaseDate, StartDateOrGameReleaseDate)
                     # DailyLimit = 500
                     DailyLimit = 500
 
@@ -2098,7 +2101,7 @@ class Update(models.Model):
                 if field.name == "badge_trading":
 
                     # InterestDate = Max(FriendReleaseDate, StartDate)
-                    InterestDate = max(FriendReleaseDate, self.trainer.start_date)
+                    InterestDate = max(FriendReleaseDate, StartDateOrGameReleaseDate)
                     # DailyLimit = 100
                     DailyLimit = 100
 
@@ -2165,7 +2168,7 @@ class Update(models.Model):
                 if field.name == "badge_trading_distance":
 
                     # InterestDate = Max(FriendReleaseDate, StartDate)
-                    InterestDate = max(FriendReleaseDate, self.trainer.start_date)
+                    InterestDate = max(FriendReleaseDate, StartDateOrGameReleaseDate)
                     # DailyLimit = 1.92M
                     DailyLimit = 1920000
 
