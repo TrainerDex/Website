@@ -224,7 +224,7 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
         "form": form,
         "error_fields": error_fields,
     }
-    return render(request, "create_update.html", context)
+    return render(request, "update.html", context)
 
 
 def LeaderboardView(request: HttpRequest) -> HttpResponse:
