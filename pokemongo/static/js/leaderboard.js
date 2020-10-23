@@ -5,10 +5,19 @@
 
 var main = document.getElementById("content")
 var params = new URLSearchParams(window.location.search);
+var validStats = [
+  {'query': 'total_xp', 'lookupKey': 'total_xp', 'verboseName': pgettext('profile_total_xp', 'Total XP'), 'valuePrepend': '', 'valueAppend': ''},
+  {'query': 'travel_km', 'lookupKey': 'badge_travel_km', 'verboseName': pgettext('badge_travel_km_title', 'Jogger'), 'valuePrepend': '', 'valueAppend': ' km'},
+]
+
+console.table(validStats);
 
 // Set default params
-params.set("stat", params.get("stat") || "total_xp")
-params.set("page", params.get("page") || 1)
+var activeStat = validStats.find(o => o.query === params.get("stat"))
+if (activeStat == null) {
+  activeStat = validStats.find(o => o.query === 'total_xp')
+  params.set("stat", activeStat.query)
+}
 
 // define basic information about the api
 var apiVersion = 1
@@ -56,8 +65,7 @@ function updateParamsInURL() {
 
 function getAPIUrl() {
   console.log(`TrainerDex: building api query url`);
-  let stat = params.get("stat")
-  return `${apiBase}leaderboard/v1.1/${stat}/`;
+  return `${apiBase}leaderboard/v1.1/${activeStat.lookupKey}/`;
 }
 
 const downloadLeaderboard = async() => {
@@ -80,7 +88,7 @@ function preRenderLeaderboard() {
   header.insertCell(3);
   header.cells[3].innerHTML = "Team"
   header.insertCell(4);
-  header.cells[4].innerHTML = params.get("stat")
+  header.cells[4].innerHTML = activeStat.verboseName
   header.cells[4].className = "mdl-data-table__header--sorted-descending"
   main.appendChild(table);
   componentHandler.upgradeElement(table);
@@ -105,7 +113,7 @@ function renderLeaderboard(entries) {
     row.cells[3].innerHTML = e.faction.name_en
     // Value
     row.insertCell(4);
-    row.cells[4].innerHTML = e.value
+    row.cells[4].innerHTML = activeStat.valuePrepend+e.value+activeStat.valueAppend
   })
   componentHandler.upgradeElement(table);
 }

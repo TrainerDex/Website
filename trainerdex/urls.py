@@ -4,6 +4,8 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 from django.utils.translation import gettext_lazy as _
+from django.views.i18n import JavaScriptCatalog
+
 from rest_framework.authtoken import views
 
 from core import sitemaps
@@ -27,8 +29,13 @@ urlpatterns = [
     ),
     path("api/admin/", admin.site.urls),
     path("api/v1/", include("pokemongo.api.v1.urls")),
-    path("api/token-auth/", views.obtain_auth_token),
     path("api/ajax_select/", include("ajax_select.urls")),
+    path("api/token-auth/", views.obtain_auth_token),
+    path(
+        "api/jsi18n/",
+        JavaScriptCatalog.as_view(),
+        name="javascript-catalog",
+    ),
     path("help/", include("helpdesk.urls")),
     path("legal/privacy/", PrivacyView, name="privacy"),
     path("legal/terms/", TermsView, name="terms"),
