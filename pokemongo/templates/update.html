@@ -10,6 +10,10 @@
 {% block extra_head %}
 <script src="https://cdn.jsdelivr.net/npm/humanize-plus@1.8.2/dist/humanize.min.js"></script>
 <link rel="stylesheet" href="{% static "css/update.css" %}">
+<script type="text/javascript">
+  var trainer_id = {{user.trainer.pk}}
+  var apiURL= "{% url 'trainerdex.api.1:latest_update' user.trainer.pk %}"
+</script>
 {% endblock %}
 
 {% block content %}
@@ -124,28 +128,6 @@
 </form>
 {% endblock %}
 
-{% block post_body_pre_mdl %}
-<script type="text/javascript">
-const errors = {% autoescape off %}{{form.errors.as_json}}{% endautoescape %}
-
-for (var key in errors) {
-  console.error(key, errors[key][0]);
-}
-</script>
-
-<script type="text/javascript">
-  const url = '{% url 'trainerdex.api.1:latest_update' user.trainer.pk %}'
-
-  fetch(url).then((resp) => resp.json()).then(function(data) {
-    let update = data;
-    console.table(update);
-    for (var key in update) {
-      if (update[key]) {
-        if (document.getElementById('id_'+key+'_label')) {
-          document.getElementById('id_'+key+'_label').innerHTML = `Latest: ${Humanize.intComma(update[key])}`
-        }
-      }
-    }
-  })
-</script>
+{% block post_body_post_mdl %}
+<script src="{% static 'js/update.js' %}" defer></script>
 {% endblock %}
