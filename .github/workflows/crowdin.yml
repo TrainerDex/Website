@@ -29,21 +29,19 @@ jobs:
         ./build_db.sh
     - name: Generate pot files
       run: |
-        python manage.py makemessages --all --keep-pot --ignore=env/*
+        python manage.py makemessages --domain django --all --keep-pot --ignore=env/*
+        python manage.py makemessages --domain djangojs --all --keep-pot --ignore=env/*
     - name: Update Crowdin
       uses: crowdin/github-action@1.0.10
       with:
         upload_sources: true
-        source: 'trainerdex/locale/django.pot'
-        translation: 'trainerdex/locale/%locale%/LC_MESSAGES/django.po'
+        config: 'crowdin.yml'
         upload_translations: false
         download_translations: true
         commit_message: 'chore: update translations via Crowdin'
         pull_request_title: 'chore: update translations via Crowdin'
         pull_request_labels: 'i18n'
         crowdin_branch_name: 'master'
-        project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
-        token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
