@@ -31,6 +31,8 @@ class LeaderboardView(APIView):
     Limited to 1000
     """
 
+    pagination_class = None
+
     def get(
         self,
         request: HttpRequest,
@@ -75,6 +77,8 @@ class LeaderboardView(APIView):
 
 
 class DetailedLeaderboardView(APIView):
+    pagination_class = None
+
     def get(
         self,
         request: HttpRequest,

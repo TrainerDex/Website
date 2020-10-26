@@ -19,6 +19,7 @@ class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.exclude(is_active=False)
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    pagination_class = None
 
 
 class SocialLookupView(APIView):
@@ -34,6 +35,8 @@ class SocialLookupView(APIView):
     patch:
     Register a SocialAccount. Patch if exists, post if not.
     """
+
+    pagination_class = None
 
     def get(self, request: HttpRequest) -> Response:
         query = SocialAccount.objects.exclude(user__is_active=False).filter(

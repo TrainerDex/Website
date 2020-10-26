@@ -34,6 +34,7 @@ class TrainerListView(APIView):
     """
 
     authentication_classes = (authentication.TokenAuthentication,)
+    pagination_class = None
 
     def get(self, request: HttpRequest) -> Response:
         queryset = Trainer.objects.exclude(owner__is_active=False)
@@ -83,6 +84,7 @@ class TrainerDetailView(APIView):
     """
 
     authentication_classes = (authentication.TokenAuthentication,)
+    pagination_class = None
 
     def get_object(self, pk: int) -> Trainer:
         return get_object_or_404(Trainer, pk=pk, owner__is_active=True)
@@ -137,6 +139,7 @@ class UpdateListView(APIView):
     """
 
     authentication_classes = (authentication.TokenAuthentication,)
+    pagination_class = None
 
     def get(self, request: HttpRequest, pk: int) -> Response:
         updates = Update.objects.filter(trainer=pk, trainer__owner__is_active=True)
@@ -169,6 +172,7 @@ class LatestUpdateView(APIView):
     """
 
     authentication_classes = (authentication.TokenAuthentication,)
+    pagination_class = None
 
     def get(self, request: HttpRequest, pk: int) -> Response:
         try:
@@ -203,6 +207,7 @@ class UpdateDetailView(APIView):
     Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked"""
 
     authentication_classes = (authentication.TokenAuthentication,)
+    pagination_class = None
 
     def get(self, request: HttpRequest, uuid: str, pk: int) -> Response:
         update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
