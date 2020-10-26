@@ -10,12 +10,13 @@ django-form-utils~=1.0.3
 git+https://github.com/django-helpdesk/django-helpdesk@0.2.x#egg=django-helpdesk>=0.2.22,<0.3.0
 django-widget-tweaks~=1.4.5
 djangorestframework~=3.11.2
+git+https://github.com/TurnrDev/django-rest-versioning@patch-1#egg=djangorestversioning>=0.2.3,<0.3.0
 humanize==3.1.0
 gunicorn==19.7.1
-markdown~=2.1.0
-pendulum~=2.0.5
+markdown
+pendulum
 Pillow
 psycopg2
-Pygments~=2.4.2
-python-dateutil~=2.8.1
+Pygments
+python-dateutil
 requests

@@ -28,7 +28,8 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
     path("api/admin/", admin.site.urls),
-    path("api/v1/", include("pokemongo.api.v1.urls")),
+    path("api/v1/", include("pokemongo.api.urls", namespace="1.0")),
+    path("api/v2/", include("pokemongo.api.urls", namespace="2.0")),
     path("api/ajax_select/", include("ajax_select.urls")),
     path("api/token-auth/", views.obtain_auth_token),
     path(
