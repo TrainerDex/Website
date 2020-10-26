@@ -20,6 +20,7 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.exclude(is_active=False)
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
+
 class SocialLookupView(APIView):
     """
     get:

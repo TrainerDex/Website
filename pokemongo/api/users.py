@@ -5,6 +5,7 @@ from pokemongo.api.v1.users import UserViewSet
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
+
 class SocialLookupView(VersionedEndpoint, APIView):
     versions = {
         1.0: "pokemongo.api.v1.users.SocialLookupView",

@@ -18,7 +18,6 @@ class LatestUpdateRedirector(APIView):
     Redirects to the Latest Update
     """
 
-
     def get(self, request: HttpRequest, pk: int) -> Response:
         try:
             update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest(
@@ -26,4 +25,6 @@ class LatestUpdateRedirector(APIView):
             )
         except Update.DoesNotExist:
             return Response(None, status=404)
-        return redirect(reverse("api:trainer-update-detail", kwargs={"pk": pk, "uuid": update.uuid}))
+        return redirect(
+            reverse("api:trainer-update-detail", kwargs={"pk": pk, "uuid": update.uuid})
+        )

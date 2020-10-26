@@ -27,10 +27,6 @@ VALID_LB_STATS = UPDATE_FIELDS_BADGES + (
 )
 
 
-
-
-
-
 class LeaderboardSerializer(serializers.Serializer):
     level = serializers.SerializerMethodField()
     position = serializers.SerializerMethodField()
@@ -92,6 +88,7 @@ class LeaderboardSerializer(serializers.Serializer):
             "last_updated",
             "user_id",
         )
+
 
 class LeaderboardView(APIView):
     def get(
