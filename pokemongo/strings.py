@@ -6,6 +6,8 @@ from django.utils.translation import pgettext, npgettext
 
 apk_job = 4141883
 
+pgettext("alola_pokedex_header", "Alolan Form")
+
 pgettext("avatar_detail_battle_won", "Battles Won")
 pgettext("avatar_detail_pokemon_caught", "Pokémon Caught")
 pgettext("avatar_detail_total_activities", "Total Activity")
@@ -289,9 +291,7 @@ pgettext("codename_reassign_success", "You're now known as {0}.")
 pgettext("date_format", "MMM dd, yyyy")
 
 pgettext("encounter_score_total_exp", "{0} XP")
-pgettext("feedback_added_xp", "+{0} XP")
 
-npgettext("friend", "friend", "friends", 1)
 pgettext("friend_code_title", "Trainer Code")
 pgettext("friend_full_name", "{0} ({1})")
 pgettext("friends_list_level_format", "Lv {0}")
@@ -302,7 +302,6 @@ npgettext("friendship_level_2", "Great Friend", "Great Friends", 1)
 npgettext("friendship_level_3", "Ultra Friend", "Ultra Friends", 1)
 npgettext("friendship_level_4", "Best Friend", "Best Friends", 1)
 
-pgettext("alola_pokedex_header", "Alolan Form")
 pgettext("galarian_pokedex_header", "Galarian Form")
 
 pgettext("general_accept", "Accept")
