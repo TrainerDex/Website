@@ -4,7 +4,7 @@ and out of use within the codebase.
 """
 from django.utils.translation import pgettext, npgettext
 
-apk_job = 4005630
+apk_job = 4141883
 
 pgettext("avatar_detail_battle_won", "Battles Won")
 pgettext("avatar_detail_pokemon_caught", "Pokémon Caught")
@@ -327,6 +327,8 @@ pgettext("general_sign_out_confirm", "Are you sure you want to sign out?")
 pgettext("general_stamina", "HP")
 pgettext("general_xp", "XP")
 pgettext("general_yes", "Yes")
+
+pgettext("mega_energy", "Mega Energy")
 
 pgettext("onboard_name_fail", "An error has occurred. Try another name.")
 pgettext("onboard_name_invalid_characters_error", "Only letters and numbers are allowed.")
