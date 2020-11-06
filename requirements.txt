@@ -1,5 +1,6 @@
 certifi
 discord.py>=1.5.0,<1.6.0
+dj-stripe==2.3.0
 django>=2.2.16,<3.0.0
 django-ajax-selects
 django-allauth~=0.43.0
@@ -12,10 +13,10 @@ django-widget-tweaks~=1.4.5
 djangorestframework~=3.11.2
 humanize==3.1.0
 gunicorn==19.7.1
-markdown~=2.1.0
-pendulum~=2.0.5
+markdown>=2.1.0,<2.2.0
+pendulum>=2.0.5,<2.1.0
 Pillow
 psycopg2
-Pygments~=2.4.2
-python-dateutil~=2.8.1
+Pygments>=2.4.2,<2.5.0
+python-dateutil
 requests

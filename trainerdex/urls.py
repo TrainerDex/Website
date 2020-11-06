@@ -29,6 +29,7 @@ urlpatterns = [
     path("api/v1/", include("pokemongo.api.v1.urls")),
     path("api/token-auth/", views.obtain_auth_token),
     path("api/ajax_select/", include("ajax_select.urls")),
+    path("api/stripe/", include("djstripe.urls", namespace="djstripe")),
     path("help/", include("helpdesk.urls")),
     path("legal/privacy/", PrivacyView, name="privacy"),
     path("legal/terms/", TermsView, name="terms"),
