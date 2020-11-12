@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 08:15+0000\n"
-"PO-Revision-Date: 2020-11-05 08:15\n"
+"PO-Revision-Date: 2020-11-06 08:14\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -204,7 +204,7 @@ msgstr "Lo sentimos, no hemos podido encontrar la página que estás buscando. C
 #: core/templates/account/signup_closed.html:19
 #: core/templates/account/verification_sent.html:18
 msgid "Return to Leaderboard"
-msgstr "Volver a la Tabla de clasificación de Reputación"
+msgstr "Volver a la Tabla de clasificación"
 
 #: core/templates/404.html:22
 msgid "Visit our Discord"
@@ -2086,7 +2086,7 @@ msgstr "Sí"
 #: pokemongo/strings.py:330
 msgctxt "mega_energy"
 msgid "Mega Energy"
-msgstr "Mega Energía"
+msgstr "Mega Energy"
 
 #: pokemongo/strings.py:332
 msgctxt "onboard_name_fail"

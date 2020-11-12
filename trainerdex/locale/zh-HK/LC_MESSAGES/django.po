@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 08:15+0000\n"
-"PO-Revision-Date: 2020-11-05 08:15\n"
+"PO-Revision-Date: 2020-11-06 08:14\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Traditional, Hong Kong\n"
 "Language: zh_HK\n"
@@ -2052,7 +2052,7 @@ msgstr "Yes"
 #: pokemongo/strings.py:330
 msgctxt "mega_energy"
 msgid "Mega Energy"
-msgstr ""
+msgstr "Mega Energy"
 
 #: pokemongo/strings.py:332
 msgctxt "onboard_name_fail"
