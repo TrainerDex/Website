@@ -4,7 +4,8 @@ and out of use within the codebase.
 """
 from django.utils.translation import pgettext, npgettext
 
-apk_job = 4141883
+apk_job = 4304935
+remote_patch = "6dda414f8feee54ec8f4aaaeffa7a78a4d17a241"
 
 pgettext("alola_pokedex_header", "Alolan Form")
 
@@ -313,6 +314,7 @@ pgettext("general_continue", "Continue")
 pgettext("general_cp", "CP")
 pgettext("general_dismiss", "Dismiss")
 pgettext("general_do_not_allow", "Don’t Allow")
+pgettext("general_done", "Done")
 pgettext("general_error", "Error")
 pgettext("general_go", "GO")
 pgettext("general_kg", "kg")
