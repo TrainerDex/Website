@@ -5,7 +5,7 @@ and out of use within the codebase.
 from django.utils.translation import pgettext, npgettext
 
 apk_job = 4304935
-remote_patch = "6dda414f8feee54ec8f4aaaeffa7a78a4d17a241"
+remote_patch = "543e7b855f950702a511f1fdc8d6635104ba70b7"
 
 pgettext("alola_pokedex_header", "Alolan Form")
 
@@ -66,6 +66,9 @@ pgettext("badge_hours_defended_title", "Gym Leader")
 
 pgettext("badge_legendary_battle_won", "Win {0} Legendary raids.")
 pgettext("badge_legendary_battle_won_title", "Battle Legend")
+
+pgettext("badge_level_40", "Achieve level 40 by December 31, 2020.")
+pgettext("badge_level_40_title", "Legacy 40")
 
 npgettext(
     "badge_master_league",
@@ -141,6 +144,14 @@ pgettext("badge_pokedex_entries_gen8_title", "Galar")
 
 pgettext("badge_pokedex_entries_unknown_title", "Unknown")
 
+npgettext(
+    "badge_pokemon_caught_at_your_lures",
+    "Catch a Pokémon attracted by a Lure Module.",
+    "Catch {0} Pokémon attracted by a Lure Module.",
+    1,
+)
+pgettext("badge_pokemon_caught_at_your_lures_title", "Picnicker")
+
 pgettext("badge_pokemon_purified", "Purify {0} Shadow Pokémon.")
 pgettext("badge_pokemon_purified_title", "Purifier")
 
@@ -155,6 +166,14 @@ pgettext("badge_prestige_raised_title", "Prestige Raised")
 
 pgettext("badge_raid_battle_won", "Win {0} raids.")
 pgettext("badge_raid_battle_won_title", "Champion")
+
+npgettext(
+    "badge_raids_with_friends",
+    "Win a raid with a friend.",
+    "Win {0} raids with a friend.",
+    1,
+)
+pgettext("badge_raids_with_friends_title", "Rising Star Duo")
 
 npgettext(
     "badge_rocket_giovanni_defeated",
@@ -243,8 +262,16 @@ npgettext(
 )
 pgettext("badge_ultra_league_title", "Ultra League Veteran")
 
-pgettext("badge_unique_pokestops", "Visit {0} unique PokéStops.")
-pgettext("badge_unique_pokestops_title", "Unique PokéStops")
+npgettext("badge_unique_pokestops", "Visit a PokéStop.", "Visit {0} unique PokéStops.", 1)
+pgettext("badge_unique_pokestops_title", "Sightseer")
+
+npgettext(
+    "badge_unique_raid_bosses_defeated",
+    "Defeat a Pokémon in a raid.",
+    "Defeat {0} different species of Pokémon in raids.",
+    1,
+)
+pgettext("badge_unique_pokestops_title", "Rising Star")
 
 pgettext("badge_unown", "Catch {0} Unown.")
 pgettext("badge_unown_title", "Unown")
@@ -328,6 +355,8 @@ pgettext("general_sign_out_confirm", "Are you sure you want to sign out?")
 pgettext("general_stamina", "HP")
 pgettext("general_xp", "XP")
 pgettext("general_yes", "Yes")
+
+pgettext("level_up_details_gui_title", "Level {0} Requirements")
 
 pgettext("mega_energy", "Mega Energy")
 
