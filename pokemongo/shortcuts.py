@@ -267,7 +267,13 @@ BADGES = [
     {"name": "badge_unown", "bronze": 3, "silver": 10, "gold": 26, "platinum": 28},
     {"name": "badge_pokedex_entries_gen2", "bronze": 3, "silver": 10, "gold": 26, "platinum": 100},
     {"name": "badge_raid_battle_won", "bronze": 10, "silver": 100, "gold": 1000, "platinum": 2000},
-    {"name": "badge_legendary_battle_won", "bronze": 10, "silver": 100, "gold": 1000},
+    {
+        "name": "badge_legendary_battle_won",
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 2000,
+    },
     {"name": "badge_berries_fed", "bronze": 10, "silver": 100, "gold": 1000, "platinum": 15000},
     {"name": "badge_hours_defended", "bronze": 10, "silver": 100, "gold": 1000, "platinum": 15000},
     {"name": "badge_pokedex_entries_gen3", "bronze": 5, "silver": 40, "gold": 90, "platinum": 135},
@@ -279,7 +285,7 @@ BADGES = [
         "platinum": 2500,
     },
     {"name": "badge_max_level_friends", "bronze": 1, "silver": 2, "gold": 3, "platinum": 20},
-    {"name": "badge_trading", "bronze": 10, "silver": 100, "gold": 1000},
+    {"name": "badge_trading", "bronze": 10, "silver": 100, "gold": 1000, "platinum": 2500},
     {
         "name": "badge_trading_distance",
         "bronze": 1000,
@@ -291,7 +297,7 @@ BADGES = [
     {"name": "badge_great_league", "bronze": 5, "silver": 50, "gold": 200, "platinum": 1000},
     {"name": "badge_ultra_league", "bronze": 5, "silver": 50, "gold": 200, "platinum": 1000},
     {"name": "badge_master_league", "bronze": 5, "silver": 50, "gold": 200, "platinum": 1000},
-    {"name": "badge_photobomb", "bronze": 10, "silver": 50, "gold": 200, "platinum": 2500},
+    {"name": "badge_photobomb", "bronze": 10, "silver": 50, "gold": 200, "platinum": 400},
     {
         "name": "badge_pokedex_entries_gen5",
         "bronze": 5,
