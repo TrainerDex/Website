@@ -824,13 +824,13 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_normal_title", "Schoolkid"),
-        help_text=pgettext_lazy("badge_type_normal", "Catch {0} Normal-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_normal", "Catch {0} Normal-type Pokémon.").format(200),
     )
     badge_type_fighting = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_fighting_title", "Black Belt"),
-        help_text=pgettext_lazy("badge_type_fighting", "Catch {0} Fighting-type Pokémon").format(
+        help_text=pgettext_lazy("badge_type_fighting", "Catch {0} Fighting-type Pokémon.").format(
             200
         ),
     )
@@ -838,67 +838,67 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_flying_title", "Bird Keeper"),
-        help_text=pgettext_lazy("badge_type_flying", "Catch {0} Flying-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_flying", "Catch {0} Flying-type Pokémon.").format(200),
     )
     badge_type_poison = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_poison_title", "Punk Girl"),
-        help_text=pgettext_lazy("badge_type_poison", "Catch {0} Poison-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_poison", "Catch {0} Poison-type Pokémon.").format(200),
     )
     badge_type_ground = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_ground_title", "Ruin Maniac"),
-        help_text=pgettext_lazy("badge_type_ground", "Catch {0} Ground-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_ground", "Catch {0} Ground-type Pokémon.").format(200),
     )
     badge_type_rock = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_rock_title", "Hiker"),
-        help_text=pgettext_lazy("badge_type_rock", "Catch {0} Rock-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_rock", "Catch {0} Rock-type Pokémon.").format(200),
     )
     badge_type_bug = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_bug_title", "Bug Catcher"),
-        help_text=pgettext_lazy("badge_type_bug", "Catch {0} Bug-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_bug", "Catch {0} Bug-type Pokémon.").format(200),
     )
     badge_type_ghost = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_ghost_title", "Hex Maniac"),
-        help_text=pgettext_lazy("badge_type_ghost", "Catch {0} Ghost-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_ghost", "Catch {0} Ghost-type Pokémon.").format(200),
     )
     badge_type_steel = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_steel_title", "Rail Staff"),
-        help_text=pgettext_lazy("badge_type_steel", "Catch {0} Steel-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_steel", "Catch {0} Steel-type Pokémon.").format(200),
     )
     badge_type_fire = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_fire_title", "Kindler"),
-        help_text=pgettext_lazy("badge_type_fire", "Catch {0} Fire-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_fire", "Catch {0} Fire-type Pokémon.").format(200),
     )
     badge_type_water = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_water_title", "Swimmer"),
-        help_text=pgettext_lazy("badge_type_water", "Catch {0} Water-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_water", "Catch {0} Water-type Pokémon.").format(200),
     )
     badge_type_grass = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_grass_title", "Gardener"),
-        help_text=pgettext_lazy("badge_type_grass", "Catch {0} Grass-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_grass", "Catch {0} Grass-type Pokémon.").format(200),
     )
     badge_type_electric = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_electric_title", "Rocker"),
-        help_text=pgettext_lazy("badge_type_electric", "Catch {0} Electric-type Pokémon").format(
+        help_text=pgettext_lazy("badge_type_electric", "Catch {0} Electric-type Pokémon.").format(
             200
         ),
     )
@@ -906,31 +906,33 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_psychic_title", "Psychic"),
-        help_text=pgettext_lazy("badge_type_psychic", "Catch {0} Pychic-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_psychic", "Catch {0} Psychic-type Pokémon.").format(
+            200
+        ),
     )
     badge_type_ice = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_ice_title", "Skier"),
-        help_text=pgettext_lazy("badge_type_ice", "Catch {0} Ice-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_ice", "Catch {0} Ice-type Pokémon.").format(200),
     )
     badge_type_dragon = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_dragon_title", "Dragon Tamer"),
-        help_text=pgettext_lazy("badge_type_dragon", "Catch {0} Dragon-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_dragon", "Catch {0} Dragon-type Pokémon.").format(200),
     )
     badge_type_dark = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_dark_title", "Delinquent"),
-        help_text=pgettext_lazy("badge_type_dark", "Catch {0} Dark-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_dark", "Catch {0} Dark-type Pokémon.").format(200),
     )
     badge_type_fairy = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_fairy_title", "Fairy Tale Girl"),
-        help_text=pgettext_lazy("badge_type_fairy", "Catch {0} Fairy-type Pokémon").format(200),
+        help_text=pgettext_lazy("badge_type_fairy", "Catch {0} Fairy-type Pokémon.").format(200),
     )
 
     # Extra Questions
