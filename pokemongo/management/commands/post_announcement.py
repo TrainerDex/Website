@@ -23,7 +23,7 @@ class Command(BaseCommand):
             byweekday=MO,
         )
         deadline = rule.after(current_time)
-        print("Starting Client")
+        self.stdout.write(self.style.NOTICE("Starting Client"))
         intents = discord.Intents(guilds=True, guild_messages=True)
         client = discord.Client(
             intents=intents,

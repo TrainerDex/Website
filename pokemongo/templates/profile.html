@@ -11,55 +11,66 @@
 {% block extra_head %}
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:site" content="@TrainerDexApp"/>
-<meta property="og:title" content="{{trainer.nickname}}" />
+<meta property="og:title" content="{{trainer.nickname}} - {% trans "Level" context "profile_player_level" %} {{trainer.level}}" />
 <meta property="og:image" content="{{trainer.team.get_image_url}}"/>
 <meta property="og:type" content="profile" />
 <meta property="og:ttl" content="345600" />
-<meta property="og:description" content="{% trans 'Team' context 'faction' %}: {{trainer.team}}
-{% trans 'Level' context profile_player_level %}: {{level}}
-{% trans 'XP' context 'general_xp' %}: {{xp|intcomma}}" />
+<meta property="og:description" content="{% if badge_travel_km %}{% trans "Distance Walked" context "avatar_detail_walking_distance" %}: {{badge_travel_km|intcomma}}{% endif%}
+{% if badge_capture_total %}{% trans "Pokémon Caught" context "avatar_detail_pokemon_caught" %}: {{badge_capture_total|intcomma}}{% endif%}
+{% if badge_pokestops_visited %}{% trans "PokéStops Visited" context "profile_pokestops_visited" %}: {{badge_pokestops_visited|intcomma}}{% endif%}
+{% if total_xp %}{% trans "Total XP" context "profile_total_xp" %} {{total_xp|intcomma}}{% endif%}
+{% if trainer.start_date %}{% trans "Start Date" context "profile_start_date" %}: {{trainer.start_date}}{% endif%}" />
 <meta property="profile:username" content="{{trainer.nickname}}" />
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
 
 {%block content%}
-<div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top ">
-  <div class="mdl-cell mdl-cell--1-col mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="{{trainer.team.get_image_url}}" /></div>
-  <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-    <ul class="mdl-list">
-      <i class="mdl-card__title-text trainerdex-profile-username">{{trainer.nickname}}</i>
-      {% if badge_travel_km %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="badge_travel_km">
-          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_travel_km.png" %}"></i>
-          {{badge_travel_km|intcomma}}
-        </span>
-      </li>{% endif%}
-      {% if badge_capture_total %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="badge_capture_total">
-          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_capture_total.png" %}"></i>
-          {{badge_capture_total|intcomma}}
-        </span>
-      </li>{% endif%}
-      {% if badge_pokestops_visited %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="badge_pokestops_visited">
-          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_pokestops_visited.png" %}"></i>
-          {{badge_pokestops_visited|intcomma}}
-        </span>
-      </li>{% endif%}
-      {% if total_xp %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="total_xp">
-          <i class="pogo-icons mdl-list__item-icon"><img src="{% get_static_prefix %}img/profile_xp.png"></i>
-          {{total_xp|intcomma}}
-        </span>
-      </li>{% endif%}
-      {% if trainer.start_date %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="start_date">
-          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_start_date.png" %}"></i>
-          {{trainer.start_date}}
-        </span>
-      </li>{% endif%}
-    </ul>
-  </div>
+<div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top team{{trainer.faction}}">
+  <ul class="mdl-cell mdl-cell--stretch mdl-list">
+    <h2 class="mdl-card__title-text trainerdex-profile-username">{{trainer.nickname}} - {% trans "Level" context "profile_player_level" %} {{trainer.level}}</h2>
+    {% if badge_travel_km %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="badge_travel_km">
+        <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_travel_km.png" %}"></i>
+        <span>{{badge_travel_km|intcomma}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Distance Walked" context "avatar_detail_walking_distance" %}</span>
+      </span>
+    </li>{% endif%}
+    {% if badge_capture_total %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="badge_capture_total">
+        <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_capture_total.png" %}"></i>
+        <span>{{badge_capture_total|intcomma}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Pokémon Caught" context "avatar_detail_pokemon_caught" %}</span>
+      </span>
+    </li>{% endif%}
+    {% if badge_pokestops_visited %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="badge_pokestops_visited">
+        <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_pokestops_visited.png" %}"></i>
+        <span>{{badge_pokestops_visited|intcomma}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "PokéStops Visited" context "profile_pokestops_visited" %}</span>
+      </span>
+    </li>{% endif%}
+    {% if total_xp %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="total_xp">
+        <i class="pogo-icons mdl-list__item-icon"><img src="{% get_static_prefix %}img/profile_xp.png"></i>
+        <span>{{total_xp|intcomma}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Total XP" context "profile_total_xp" %}</span>
+      </span>
+    </li>{% endif%}
+    {% if trainer.start_date %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="start_date">
+        <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_start_date.png" %}"></i>
+        <span>{{trainer.start_date}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Start Date" context "profile_start_date" %}</span>
+      </span>
+    </li>{% endif%}
+    {% if trainer.legacy_40 %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="legacy_40">
+        <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/badges/legacy_40.png" %}"></i>
+        <span>{% trans "Legacy 40" context "badge_level_40_title" %}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Achieve level 40 by December 31, 2020." context "badge_level_40" %}</span>
+      </span>
+    </li>{% endif%}
+  </ul>
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
   <div class="mdl-tabs__tab-bar">
