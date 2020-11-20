@@ -271,7 +271,7 @@ npgettext(
     "Defeat {0} different species of Pokémon in raids.",
     1,
 )
-pgettext("badge_unique_pokestops_title", "Rising Star")
+pgettext("badge_unique_raid_bosses_defeated_title", "Rising Star")
 
 pgettext("badge_unown", "Catch {0} Unown.")
 pgettext("badge_unown_title", "Unown")
@@ -299,6 +299,14 @@ npgettext(
     1,
 )
 pgettext("badge_unique_mega_evos_title", "Mega Evolution Guru")
+
+npgettext(
+    "badge_7_day_streaks",
+    "Achieve a Pokémon catch streak or PokéStop spin streak of seven days.",
+    "Achieve a Pokémon catch streak or PokéStop spin streak of seven days {0} times.",
+    1,
+)
+pgettext("badge_7_day_streaks_title", "Triathlete")
 
 pgettext("battle_hub_stats_battles", "Battles")
 pgettext("battle_hub_stats_friends", "Friends Battled")
