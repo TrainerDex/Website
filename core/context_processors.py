@@ -1,8 +1,8 @@
-from typing import Dict
+import typing
 from django.conf import settings
 
 
-def google_analytics(request) -> Dict[str, str]:
+def google_analytics(request) -> typing.Dict[str, str]:
     ga_prop_id = getattr(settings, "GOOGLE_ANALYTICS_MEASUREMENT_ID", False)
     if not settings.DEBUG and ga_prop_id:
         return {

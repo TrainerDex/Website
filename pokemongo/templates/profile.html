@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load account %}
+{% load filters %}
 {% load static %}
 {% load humanize %}
 {% load widget_tweaks %}
@@ -11,124 +12,130 @@
 {% block extra_head %}
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:site" content="@TrainerDexApp"/>
-<meta property="og:title" content="{{trainer.nickname}}" />
+<meta property="og:title" content="{{trainer.nickname}} - {% trans "Level" context "profile_player_level" %} {{level}}" />
 <meta property="og:image" content="{{trainer.team.get_image_url}}"/>
 <meta property="og:type" content="profile" />
 <meta property="og:ttl" content="345600" />
-<meta property="og:description" content="{% trans 'Team' context 'faction' %}: {{trainer.team}}
-{% trans 'Level' context profile_player_level %}: {{level}}
-{% trans 'XP' context 'general_xp' %}: {{xp|intcomma}}" />
+<meta property="og:description" content="{% if stats.badge_travel_km %}{% trans "Distance Walked" context "avatar_detail_walking_distance" %}: {{stats.badge_travel_km|intcomma}}{% endif%}
+{% if stats.badge_capture_total %}{% trans "Pokémon Caught" context "avatar_detail_pokemon_caught" %}: {{stats.badge_capture_total|intcomma}}{% endif%}
+{% if stats.badge_pokestops_visited %}{% trans "PokéStops Visited" context "profile_pokestops_visited" %}: {{stats.badge_pokestops_visited|intcomma}}{% endif%}
+{% if stats.total_xp %}{% trans "Total XP" context "profile_total_xp" %} {{stats.total_xp|intcomma}}{% endif%}
+{% if trainer.start_date %}{% trans "Start Date" context "profile_start_date" %}: {{trainer.start_date}}{% endif%}" />
 <meta property="profile:username" content="{{trainer.nickname}}" />
 <link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
 
 {%block content%}
-<div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top ">
-  <div class="mdl-cell mdl-cell--1-col mdl-cell--3-offset-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-cell--gravatar-box"><img class="gravatar" src="{{trainer.team.get_image_url}}" /></div>
-  <div class="mdl-cell mdl-cell--2-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-    <ul class="mdl-list">
-      <i class="mdl-card__title-text trainerdex-profile-username">{{trainer.nickname}}</i>
-      {% if badge_travel_km %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="badge_travel_km">
-          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_travel_km.png" %}"></i>
-          {{badge_travel_km|intcomma}}
-        </span>
-      </li>{% endif%}
-      {% if badge_capture_total %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="badge_capture_total">
-          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_capture_total.png" %}"></i>
-          {{badge_capture_total|intcomma}}
-        </span>
-      </li>{% endif%}
-      {% if badge_pokestops_visited %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="badge_pokestops_visited">
-          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_pokestops_visited.png" %}"></i>
-          {{badge_pokestops_visited|intcomma}}
-        </span>
-      </li>{% endif%}
-      {% if total_xp %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="total_xp">
-          <i class="pogo-icons mdl-list__item-icon"><img src="{% get_static_prefix %}img/profile_xp.png"></i>
-          {{total_xp|intcomma}}
-        </span>
-      </li>{% endif%}
-      {% if trainer.start_date %}<li class="mdl-list__item">
-        <span class="mdl-list__item-primary-content" id="start_date">
-          <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/profile_start_date.png" %}"></i>
-          {{trainer.start_date}}
-        </span>
-      </li>{% endif%}
-    </ul>
-  </div>
+<div class="mdl-grid mdl-card mdl-shadow--2dp trainerdex--profile-top team{{trainer.faction}}">
+  <ul class="mdl-cell mdl-cell--stretch mdl-list">
+    <h2 class="mdl-card__title-text trainerdex-profile-username">{{trainer.nickname}} - {% trans "Level" context "profile_player_level" %} {{level}}</h2>
+    {% if stats.badge_travel_km %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="badge_travel_km">
+        <i class="pogo-icons mdl-list__item-icon"><img class="invert" src="{% static "img/profile_travel_km.png" %}"></i>
+        <span>{{stats.badge_travel_km|intcomma}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Distance Walked" context "avatar_detail_walking_distance" %}</span>
+      </span>
+    </li>{% endif%}
+    {% if stats.badge_capture_total %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="badge_capture_total">
+        <i class="pogo-icons mdl-list__item-icon"><img class="invert" src="{% static "img/profile_capture_total.png" %}"></i>
+        <span>{{stats.badge_capture_total|intcomma}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Pokémon Caught" context "avatar_detail_pokemon_caught" %}</span>
+      </span>
+    </li>{% endif%}
+    {% if stats.badge_pokestops_visited %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="badge_pokestops_visited">
+        <i class="pogo-icons mdl-list__item-icon"><img class="invert" src="{% static "img/profile_pokestops_visited.png" %}"></i>
+        <span>{{stats.badge_pokestops_visited|intcomma}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "PokéStops Visited" context "profile_pokestops_visited" %}</span>
+      </span>
+    </li>{% endif%}
+    {% if stats.total_xp %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="total_xp">
+        <i class="pogo-icons mdl-list__item-icon"><img class="invert" src="{% get_static_prefix %}img/profile_xp.png"></i>
+        <span>{{stats.total_xp|intcomma}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Total XP" context "profile_total_xp" %}</span>
+      </span>
+    </li>{% endif%}
+    {% if trainer.start_date %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="start_date">
+        <i class="pogo-icons mdl-list__item-icon"><img class="invert" src="{% static "img/profile_start_date.png" %}"></i>
+        <span>{{trainer.start_date}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Start Date" context "profile_start_date" %}</span>
+      </span>
+    </li>{% endif%}
+    {% if trainer.legacy_40 %}<li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="legacy_40">
+        <i class="pogo-icons mdl-list__item-icon"><img src="{% static "img/badges/legacy_40.png" %}"></i>
+        <span>{% trans "Legacy 40" context "badge_level_40_title" %}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Achieve level 40 by December 31, 2020." context "badge_level_40" %}</span>
+      </span>
+    </li>{% endif%}
+  </ul>
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
   <div class="mdl-tabs__tab-bar">
-    <a href="#history-panel" class="mdl-tabs__tab is-active">{% trans "History" context "profile_category_history" %}</a>
-    <a href="#badges-panel" class="mdl-tabs__tab">{% trans "Medals" context "profile_category_medals" %}</a>
+    <a href="#history-panel" class="mdl-tabs__tab is-active">{% trans "Journal" context "profile_button_activity_log" %}</a>
+    <a href="#medals-panel" class="mdl-tabs__tab">{% trans "Medals" context "profile_category_medals" %}</a>
   </div>
 
-  <div class="mdl-tabs__panel is-active" id="history-panel">
-    <div class="mdl-grid table-responsive">
-      <table class="mdl-cell mdl-data-table mdl-js-data-table mdl-shadow--2dp trainerdex-card-center">
-        {% for update in update_history %}
-        {% if forloop.first %}
-        <thead>
-          <tr>
-            {% for field in update %}
-            <th id="{{field.attname}}">{{field.readable_name}}</th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
+  <div class="mdl-tabs__panel is-active mdl-grid mdl-grid--no-spacing table-responsive" id="history-panel">
+    <table class="mdl-cell mdl-cell--12-col mdl-data-table mdl-js-data-table mdl-shadow--2dp trainerdex-card-center">
+      <thead>
+        <tr id="header">
+          <th id="header:update_time">{% trans "Time Updated" %}</th>
+          <th id="header:total_xp">{% trans "Total XP" context "profile_total_xp" %}</th>
+          {% for medal in medal_data.values %}
+          <th id="header:{{medal.name}}">{{medal.verbose_name}}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+      {% for update in updates %}
+        <tr id="{{update.uuid}}">
+          <td id="{{update.uuid}}:update_time">{{update.update_time|default_if_none:"---"|naturalday}}</td>
+          <td id="{{update.uuid}}:total_xp">{{update.total_xp|default_if_none:"---"|intcomma}}</td>
+          {% for key in medal_data %}
+          <td id="{{update.uuid}}:{{key}}">{{update|get:key|default_if_none:"---"|intcomma}}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mdl-tabs__panel mdl-grid mdl-grid--no-spacing" id="medals-panel">
+    <table class="mdl-cell mdl-cell--12-col mdl-data-table mdl-js-data-table" id="medals-table">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric"></th>
+          <th id="bronze">{% trans "Bronze" %}</th>
+          <th id="silver">{% trans "Silver" %}</th>
+          <th id="gold">{% trans "Gold" %}</th>
+          <th id="platinum" colspan="2">{% trans "Platinum" %}</th>
+          <div class="mdl-tooltip" for="platinum">{% blocktrans %}These values have been datamined from the Beyond update and may be subject to change.{% endblocktrans %}</div>
+        </tr>
+      </thead>
+      <tbody>
+      {% for key, medal in medal_data.items %}
+        <tr id="{{key}}">
+          <td id="{{key}}:name" class="mdl-data-table__cell--non-numeric">{{medal.verbose_name}}</td>
+          <div class="mdl-tooltip" for="{{key}}:name">{{medal.tooltip}}</div>
+          {% if stats|get:key %}
+          <td id="{{key}}:bronze">{% if stats|get:key < medal.bronze %}{{stats|get:key|intcomma}} / {% endif %}{{medal.bronze|intcomma}}</td>
+          <td id="{{key}}:silver">{% if stats|get:key < medal.silver %}{{stats|get:key|intcomma}} / {% endif %}{{medal.silver|intcomma}}</td>
+          <td id="{{key}}:gold">{% if stats|get:key < medal.gold %}{{stats|get:key|intcomma}} / {% endif %}{{medal.gold|intcomma}}</td>
+          <td id="{{key}}:platinum">{{stats|get:key|intcomma}} / {{medal.platinum|intcomma}}</td>
+          <td id="{{key}}:checkmark">{% if stats|get:key < medal.platinum %}❌{% else %}✔️{% endif %}</td>
+          <div class="mdl-tooltip" for="{{key}}:checkmark">{% if stats|get:key < medal.platinum %}{{trainer.nickname}} <b>has not</b> completed this medal all the way up to Platinum.{% else %}{{trainer.nickname}} <b>has</b> completed this medal all the way up to Platinum.{% endif %}</div>
+          {% else %}
+          <td class="mdl-data-table__cell--non-numeric" colspan="4">{% trans "No data provided." %}</td>
+          <td id="{{key}}:checkmark">❗</td>
+          <div class="mdl-tooltip" for="{{key}}:checkmark">{{trainer.nickname}} <b>has not</b> provided any data for this medal.</div>
           {% endif %}
-
-          <tr id="{{update.1.value}}">
-            {% for field in update %}
-            {% if field.attname == 'update_time' %}
-            <td id="{{update.1.value}}.{{field.attname}}">{{field.value|default_if_none:"---"|naturalday}}</td>
-            {% else %}
-            <td id="{{update.1.value}}.{{field.attname}}">{{field.value|default_if_none:"---"|intcomma}}</td>
-            {% endif %}
-            {% endfor %}
-          </tr>
-          {% if forloop.last %}
-        </tbody>
-        {% endif %}
-        {% endfor %}
-      </table>
-    </div>
-  </div>
-
-  <div class="mdl-tabs__panel" id="badges-panel">
-    {% for badge in badges %}
-    {% if forloop.first %}
-    <div class="mdl-grid mdl-grid--no-spacing">
-      {% endif %}
-      <div class="mdl-card mdl-cell mdl-shadow--2dp mdl-cell--1-col-desktop mdl-cell--2-col-tablet mdl-cell--2-col-phone trainerdex--profile__badges-individual">
-        <div class="progress-circle  {% if badge.percent > 50 %}over50 {% endif %}p{{ badge.percent }}" id="{{ badge.name }}">
-          <div class="mdl-tooltip" data-mdl-for="{{ badge.name }}">{{badge.tooltip}}</div>
-          <span>{{ badge.value }}</span>
-          <div class="left-half-clipper">
-            <div class="first50-bar"></div>
-            <div class="value-bar"></div>
-          </div>
-        </div>
-        <span>{{ badge.readable_name }}</span>
-      </div>
-      {% if forloop.last %}
-    </div>
-    {% endif %}
-    {% empty %}
-    <div class="mdl-grid">
-      <div class="trainerdex-card-wide mdl-card mdl-cell mdl-shadow--2dp" style="margin-left: auto; margin-right: auto;">
-        <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">Oh no!</h2>
-        </div>
-        <div class="mdl-card__supporting-text">
-          {% trans "It seems this trainer hasn't shared any of their medals." %}
-        </div>
-      </div>
-    </div>
-    {% endfor %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endblock %}

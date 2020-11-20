@@ -394,17 +394,23 @@ background-repeat: no-repeat;
   margin: 0px;
   border-radius: 0px;
   width: 100%;
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-size: auto min(95%, 384px);
 }
-.trainerdex--profile__badges-individual {
-  min-width:140px;
+.trainerdex--profile-top.team0 {
+  background-image: url("/static/img/faction/0-bg.png");
 }
-.trainerdex--profile__badges-individual {
-  min-width:140px;
+.trainerdex--profile-top.team1 {
+  background-image: url("/static/img/faction/1-bg.png");
 }
-.trainerdex--profile__badges-individual span{
-  text-align: center;
-  margin-bottom: 20px;
+.trainerdex--profile-top.team2 {
+  background-image: url("/static/img/faction/2-bg.png");
 }
+.trainerdex--profile-top.team3 {
+  background-image: url("/static/img/faction/3-bg.png");
+}
+
 
 .social-btn {
   background-position: center;
@@ -573,6 +579,9 @@ iframe[scrolling='no'] { overflow: hidden; }
 }
 
 .pogo-icons > img {
-  filter: invert(0.7);
   height: 24px;
+}
+
+img.invert {
+  filter: invert(0.7);
 }

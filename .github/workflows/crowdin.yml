@@ -31,7 +31,7 @@ jobs:
       run: |
         python manage.py makemessages --all --keep-pot --ignore=env/*
     - name: Update Crowdin
-      uses: crowdin/github-action@1.0.10
+      uses: crowdin/github-action@1.0.13
       with:
         upload_sources: true
         source: 'trainerdex/locale/django.pot'
@@ -45,6 +45,6 @@ jobs:
         project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
         token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
         CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
