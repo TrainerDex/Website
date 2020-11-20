@@ -579,6 +579,9 @@ iframe[scrolling='no'] { overflow: hidden; }
 }
 
 .pogo-icons > img {
-  filter: invert(0.7);
   height: 24px;
+}
+
+img.invert {
+  filter: invert(0.7);
 }
