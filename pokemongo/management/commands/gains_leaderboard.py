@@ -96,8 +96,9 @@ class Command(BaseCommand):
             this_week = (rule.before(next_week[0]), next_week[0])
             last_week = (rule.before(this_week[0]), this_week[0])
             week_number = this_week[0].isocalendar()[:2]
+
         print(next_week, this_week, last_week, week_number, stat)
-        print("Starting Client")
+        self.stdout.write(self.style.NOTICE("Starting Client"))
         intents = discord.Intents(
             guilds=True, members=True, emojis=True, guild_messages=True, guild_typing=True
         )

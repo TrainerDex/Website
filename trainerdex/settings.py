@@ -133,13 +133,17 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-US"
 LANGUAGES = [
-    ("en-US", _("English")),
     ("de-DE", _("German")),
+    ("en-US", _("English")),
     ("es-ES", _("Spanish")),
     ("fr-FR", _("French")),
     ("it-IT", _("Italian")),
     ("ja-JP", _("Japanese")),
     ("ko-KR", _("Korean")),
+    ("nl-NL", _("Dutch")),
+    ("nl-BE", _("Dutch, Belgium")),
+    ("ro-RO", _("Romanian")),
+    ("ru-RU", _("Russian")),
     ("pt-BR", _("Brazilian Portuguese")),
     ("th-TH", _("Thai")),
     ("zh-HK", _("Traditional Chinese")),

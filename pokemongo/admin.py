@@ -1,5 +1,5 @@
 from django.contrib import admin, messages
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from pokemongo.models import (
     Community,
     CommunityMembershipDiscord,
@@ -9,6 +9,7 @@ from pokemongo.models import (
     Nickname,
     Trainer,
 )
+from pokemongo.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 
 def sync_members(modeladmin, request, queryset):
@@ -66,6 +67,46 @@ class UpdateAdmin(admin.ModelAdmin):
     search_fields = ("trainer__nickname__nickname", "trainer__owner__username")
     ordering = ("-update_time",)
     date_hierarchy = "update_time"
+
+    readonly_fields = ["uuid", "submission_date"]
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "uuid",
+                    "trainer",
+                    "submission_date",
+                    "update_time",
+                    "data_source",
+                    "screenshot",
+                    "double_check_confirmation",
+                )
+            },
+        ),
+        (
+            None,
+            {
+                "fields": (
+                    "total_xp",
+                    "pokedex_caught",
+                    "pokedex_seen",
+                    "gymbadges_total",
+                    "gymbadges_gold",
+                    "pokemon_info_stardust",
+                ),
+                "classes": ("wide",),
+            },
+        ),
+        (
+            pgettext_lazy("profile_category_medals", "Medals"),
+            {"fields": UPDATE_FIELDS_BADGES, "classes": ("wide",)},
+        ),
+        (
+            pgettext_lazy("pokemon_info_type", "Type"),
+            {"fields": UPDATE_FIELDS_TYPES, "classes": ("collapse",)},
+        ),
+    )
 
 
 @admin.register(Nickname)
@@ -131,6 +172,6 @@ class TrainerAdmin(admin.ModelAdmin):
         (_("Reports"), {"fields": ("last_cheated", "verified", "verification")}),
         (
             _("Leaderboard"),
-            {"fields": ("leaderboard_country", "statistics")},
+            {"fields": ("leaderboard_country", "statistics", "legacy_40")},
         ),
     )
