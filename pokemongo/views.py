@@ -83,70 +83,23 @@ def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
     context = {
         "trainer": trainer,
         "updates": trainer.update_set.all(),
-        "badges": trainer.profilebadge_set.all(),
+        "stats": trainer.update_set.aggregate(
+            **{x: Max(x) for x in UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES}
+        ),
     }
-    _badges = context["updates"].aggregate(
-        *[Max(x) for x in UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES]
-    )
-    badges = []
-    for badge in _badges:
-        if not bool(_badges[badge]):
-            continue
-        badge_dict = {
-            "name": badge,
-            "readable_name": Update._meta.get_field(badge[:-5]).verbose_name,
-            "tooltip": Update._meta.get_field(badge[:-5]).help_text,
-            "value": _badges[badge],
-        }
-        badge_info = [x for x in BADGES if x["name"] == badge[:-5]][0]
-        if badge_dict["value"] < badge_info["gold"]:
-            badge_dict["percent"] = int((badge_dict["value"] / badge_info["gold"]) * 100)
-        else:
-            badge_dict["percent"] = 100
-        badges.append(badge_dict)
-    _values = context["updates"].aggregate(
-        *[
-            Max(x)
-            for x in (
-                "badge_travel_km",
-                "badge_capture_total",
-                "badge_pokestops_visited",
-                "total_xp",
-            )
-        ]
-    )
-    for value in _values:
-        context[value[:-5]] = _values[value]
-    context["level"] = trainer.level()
-    context["badges"] = badges
-    context["update_history"] = []
 
-    UPDATE_FIELDS = [
-        x
-        for x in Update._meta.get_fields()
-        if x.name
-        not in [
-            "id",
-            "uuid",
-            "trainer",
-            "submission_date",
-            "data_source",
-            "screenshot",
-            "double_check_confirmation",
-        ]
-    ]
-    for update in trainer.update_set.all():
-        update_obj = []
-        for x in UPDATE_FIELDS:
-            update_obj.append(
-                {
-                    "attname": x.attname,
-                    "readable_name": x.verbose_name,
-                    "tooltip": x.help_text,
-                    "value": getattr(update, x.column),
-                },
-            )
-        context["update_history"].append(update_obj)
+    context["medal_data"] = {
+        x.get("name"): {
+            **x,
+            **{
+                "verbose_name": Update._meta.get_field(x.get("name")).verbose_name,
+                "tooltip": Update._meta.get_field(x.get("name")).help_text,
+            },
+        }
+        for x in BADGES
+        if x.get("name") in (x.name for x in Update._meta.get_fields())
+    }
+    context["level"] = trainer.level()
 
     return render(request, "profile.html", context)
 
