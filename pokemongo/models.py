@@ -787,16 +787,16 @@ class Update(models.Model):
 
     # Unreleased badges
 
-    # badge_pokedex_entries_gen6 = models.PositiveIntegerField(
-    #     null=True,
-    #     blank=True,
-    #     verbose_name=pgettext_lazy("badge_pokedex_entries_gen6__title", "Kalos"),
-    #     help_text=pgettext_lazy(
-    #         "badge_pokedex_entries_gen6",
-    #         "Register {0} Pokémon first discovered in the Kalos region to the Pokédex.",
-    #     ).format(72),
-    #     validators=[MaxValueValidator(72)],
-    # )
+    badge_pokedex_entries_gen6 = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_pokedex_entries_gen6__title", "Kalos"),
+        help_text=pgettext_lazy(
+            "badge_pokedex_entries_gen6",
+            "Register {0} Pokémon first discovered in the Kalos region to the Pokédex.",
+        ).format(72),
+        validators=[MaxValueValidator(72)],
+    )
     # badge_pokedex_entries_gen7 = models.PositiveIntegerField(
     #     null=True,
     #     blank=True,
