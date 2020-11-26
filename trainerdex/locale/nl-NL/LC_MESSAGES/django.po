@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-20 22:55+0000\n"
-"PO-Revision-Date: 2020-11-20 22:55\n"
+"POT-Creation-Date: 2020-11-26 08:17+0000\n"
+"PO-Revision-Date: 2020-11-26 08:17\n"
 "Last-Translator: \n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -1251,7 +1251,7 @@ msgid_plural "Mega Evolve a Pokémon {0} times."
 msgstr[0] ""
 msgstr[1] ""
 
-#: pokemongo/models.py:724 pokemongo/models.py:735 pokemongo/strings.py:301
+#: pokemongo/models.py:724 pokemongo/strings.py:301
 msgctxt "badge_unique_mega_evos_title"
 msgid "Mega Evolution Guru"
 msgstr ""
@@ -1263,6 +1263,11 @@ msgid "Mega Evolve {0} Pokémon."
 msgid_plural "Mega Evolve {0} different species of Pokémon."
 msgstr[0] ""
 msgstr[1] ""
+
+#: pokemongo/models.py:735
+msgctxt "badge_unique_mega_evos_title"
+msgid "Picnicker"
+msgstr ""
 
 #: pokemongo/models.py:738 pokemongo/strings.py:149
 #, python-brace-format
