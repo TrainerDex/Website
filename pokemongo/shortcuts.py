@@ -186,6 +186,7 @@ UPDATE_FIELDS_BADGES = (
     "badge_pokemon_caught_at_your_lures",
     "badge_unique_pokestops",
     "badge_7_day_streaks",
+    "badge_pokedex_entries_gen6",
 )
 
 UPDATE_FIELDS_TYPES = (
@@ -352,6 +353,13 @@ BADGES = [
         "silver": 10,
         "gold": 50,
         "platinum": 100,
+    },
+    {
+        "name": "badge_pokedex_entries_gen5",
+        "bronze": 5,  # Guess
+        "silver": 25,  # Guess
+        "gold": 50,  # Guess
+        "platinum": 72,
     },
 ] + [
     {"name": x, "bronze": 10, "silver": 50, "gold": 200, "platinum": 2500}
