@@ -735,9 +735,9 @@ class Update(models.Model):
         verbose_name=pgettext_lazy("badge_unique_mega_evos_title", "Picnicker"),
         help_text=npgettext_lazy(
             "badge_pokemon_caught_at_your_lures",
-            "Catch a Pokémon attracted by a Lure Module.",
-            "Catch {0} Pokémon attracted by a Lure Module.",
-            2500,
+            "Use a Lure Module to help another Trainer catch a Pokémon.",
+            "Use a Lure Module to help another Trainer catch {0} Pokémon.",
+            1,
         ).format(2500),
     )
     badge_unique_pokestops = models.PositiveIntegerField(
