@@ -416,7 +416,8 @@ class Update(models.Model):
 
     # Can be seen on main profile
     total_xp = models.PositiveIntegerField(
-        null=True,  # Are you sure you want this?
+        null=True,
+        blank=True,
         verbose_name=pgettext_lazy("profile_total_xp", "Total XP"),
     )
 
@@ -1095,21 +1096,33 @@ class Update(models.Model):
         if not self.trainer:
             return
 
+        if not any(
+            [
+                True if getattr(self, x) is not None else False
+                for x in UPDATE_NON_REVERSEABLE_FIELDS
+            ]
+        ):
+            raise ValidationError(
+                _("You must fill out at least ONE of the following stats.\n{stats}").format(
+                    stats=", ".join(
+                        [
+                            str(Update._meta.get_field(x).verbose_name)
+                            for x in UPDATE_NON_REVERSEABLE_FIELDS
+                        ]
+                    )
+                )
+            )
+
         hard_error_dict = defaultdict(list)
         soft_error_dict = defaultdict(list)
 
         # Hard Coded Dates
         GameReleaseDate: date = date(2016, 6, 5)
-        Gen2Date: date = date(2017, 2, 10)
-        Gen3Date: date = date(2017, 10, 20)
-        GymCloseDate: date = date(2017, 6, 19)
         GymReworkDate: date = date(2017, 6, 22)
         RaidReleaseDate: date = date(2017, 6, 26)
         LegendaryReleaseDate: date = date(2017, 7, 22)
         QuestReleaseDate: date = date(2018, 3, 30)
         FriendReleaseDate: date = date(2018, 6, 21)
-        Gen4Date: date = date(2018, 10, 16)
-        PVPDate: date = date(2018, 12, 13)
         BeyondUpdate: date = date(2020, 11, 30)
 
         # Soft Coded Dates
@@ -1276,13 +1289,6 @@ class Update(models.Model):
                                     )
                                 )
                             )
-
-                # 3 - badge_pokedex_entries - Kanto
-                if field.name == "badge_pokedex_entries":
-
-                    # Max Value = 151
-                    # Handled at field level
-                    pass
 
                 # 4 - badge_capture_total - Collector
                 if field.name == "badge_capture_total":
@@ -1596,63 +1602,6 @@ class Update(models.Model):
                                 )
                             )
 
-                # 10 - badge_battle_training_won - Ace Trainer
-                if field.name == "badge_battle_training_won":
-
-                    # InterestDate = StartDate
-                    InterestDate = PVPDate
-                    # DailyLimit = 25
-                    DailyLimit = 100
-
-                    # Checks Daily Limit between now and InterestDate
-                    if InterestDate:
-                        _timedelta = self.update_time.date() - InterestDate
-                        _xdelta = getattr(self, field.name) / (_timedelta.total_seconds() / 86400)
-                        if _xdelta >= DailyLimit:
-                            # Failed Verification, raise error!
-                            soft_error_dict[field.name].append(
-                                ValidationError(
-                                    _(
-                                        "The {badge} you entered is high."
-                                        " Please check for typos and other mistakes."
-                                        " {delta:,}/{expected:,} per day from {date1} to {date2}"
-                                    ).format(
-                                        badge=field.verbose_name,
-                                        delta=_xdelta,
-                                        expected=DailyLimit,
-                                        date1=InterestDate,
-                                        date2=self.update_time.date(),
-                                    )
-                                )
-                            )
-
-                    # Checks Daily Limit between now and last_update
-                    if bool(last_update):
-                        _xdelta = getattr(self, field.name) - getattr(last_update, field.name)
-                        _timedelta = self.update_time - last_update.update_time
-                        if _xdelta / (_timedelta.total_seconds() / 86400) >= DailyLimit:
-                            # Failed Verification, raise error!
-                            soft_error_dict[field.name].append(
-                                ValidationError(
-                                    _(
-                                        "The {badge} you entered is high."
-                                        " Please check for typos and other mistakes."
-                                        " {delta:,}/{expected:,} per day from {date1} to {date2}"
-                                    ).format(
-                                        badge=field.verbose_name,
-                                        delta=_xdelta,
-                                        expected=DailyLimit,
-                                        date1=last_update.update_time,
-                                        date2=self.update_time.date(),
-                                    )
-                                )
-                            )
-
-                    if (
-                        GymCloseDate < self.update_time.date() < PVPDate
-                    ):  # If update is when Ace Trainer was closed, clear it.
-                        setattr(self, field.name, None)
-
                 # 11 - badge_small_rattata - Youngster
                 if field.name == "badge_small_rattata":
 
@@ -1809,42 +1758,6 @@ class Update(models.Model):
                                 )
                             )
 
-                    # Handle Early Updates
-                    if self.update_time.date() < GymReworkDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=GymReworkDate,
-                                )
-                            )
-                        )
-
-                # 14 - badge_pokedex_entries_gen2 - Johto
-                if field.name == "badge_pokedex_entries_gen2":
-
-                    # Max Value = 99
-                    # Handled at field level
-
-                    # Handle Early Updates
-                    if self.update_time.date() < Gen2Date:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=Gen2Date,
-                                )
-                            )
-                        )
-
                 # 15 - badge_hours_defended - Gym Leader
                 if field.name == "badge_hours_defended":
 
@@ -1896,42 +1809,6 @@ class Update(models.Model):
                                     )
                                 )
                             )
-
-                    # Handle Early Updates
-                    if self.update_time.date() < GymReworkDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=GymReworkDate,
-                                )
-                            )
-                        )
-
-                # 16 - badge_unown - Unown
-                if field.name == "badge_unown":
-
-                    # Max Value = 28
-                    # Handled at field level
-
-                    # Handle Early Updates
-                    if self.update_time.date() < Gen2Date:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=Gen2Date,
-                                )
-                            )
-                        )
 
                 # 17 - badge_raid_battle_won - Champion
                 if field.name == "badge_raid_battle_won":
@@ -1985,21 +1862,6 @@ class Update(models.Model):
                                 )
                             )
 
-                    # Handle Early Updates
-                    if self.update_time.date() < RaidReleaseDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=RaidReleaseDate,
-                                )
-                            )
-                        )
-
                 # 17 - badge_legendary_battle_won - Champion
                 if field.name == "badge_legendary_battle_won":
 
@@ -2052,21 +1914,6 @@ class Update(models.Model):
                                 )
                             )
 
-                    # Handle Early Updates
-                    if self.update_time.date() < LegendaryReleaseDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=LegendaryReleaseDate,
-                                )
-                            )
-                        )
-
                 # 19 - gymbadges_gold - Gold Gyms
                 if field.name == "gymbadges_gold":
 
@@ -2103,63 +1950,6 @@ class Update(models.Model):
                                     other_badge=Update._meta.get_field(
                                         "gymbadges_total"
                                     ).verbose_name,
-                                )
-                            )
-                        )
-
-                    # Handle Early Updates
-                    if self.update_time.date() < GymReworkDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=GymReworkDate,
-                                )
-                            )
-                        )
-
-                # 20 - gymbadges_total - Gyms Seen
-                if field.name == "gymbadges_total":
-
-                    # Max Value = 1000
-                    # Handled at field level
-
-                    # Handle Early Updates
-                    if self.update_time.date() < GymReworkDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=GymReworkDate,
-                                )
-                            )
-                        )
-
-                # 21 - badge_pokedex_entries_gen3 - Hoenn
-                if field.name == "badge_pokedex_entries_gen3":
-
-                    # Max Value = 130
-                    # Handled at field level
-
-                    # Handle Early Updates
-                    if self.update_time.date() < Gen3Date:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=Gen3Date,
                                 )
                             )
                         )
@@ -2216,39 +2006,6 @@ class Update(models.Model):
                                 )
                             )
 
-                    # Handle Early Updates
-                    if self.update_time.date() < QuestReleaseDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=QuestReleaseDate,
-                                )
-                            )
-                        )
-
-                # 23 - badge_max_level_friends - Idol
-                if field.name == "badge_max_level_friends":
-
-                    # Handle Early Updates
-                    if self.update_time.date() < FriendReleaseDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=FriendReleaseDate,
-                                )
-                            )
-                        )
-
                 # 24 - badge_trading - Gentleman
                 if field.name == "badge_trading":
 
@@ -2300,21 +2057,6 @@ class Update(models.Model):
                                     )
                                 )
                             )
-
-                    # Handle Early Updates
-                    if self.update_time.date() < FriendReleaseDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=FriendReleaseDate,
-                                )
-                            )
-                        )
 
                 # 24 - badge_trading_distance - Pilot
                 if field.name == "badge_trading_distance":
@@ -2395,96 +2137,6 @@ class Update(models.Model):
                                     )
                                 )
                             )
-
-                    # Handle Early Updates
-                    if self.update_time.date() < FriendReleaseDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=FriendReleaseDate,
-                                )
-                            )
-                        )
-
-                # 25 - badge_pokedex_entries_gen4 - Sinnoh
-                if field.name == "badge_pokedex_entries_gen4":
-
-                    # Max Value = 107
-                    # Handled at field level
-
-                    # Handle Early Updates
-                    if self.update_time.date() < Gen3Date:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=Gen4Date,
-                                )
-                            )
-                        )
-
-                # 25 - badge_great_league - Great League Veteran
-                if field.name == "badge_great_league":
-
-                    # Handle Early Updates
-                    if self.update_time.date() < PVPDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=PVPDate,
-                                )
-                            )
-                        )
-
-                # 25 - badge_ultra_league - Ultra League Veteran
-                if field.name == "badge_ultra_league":
-
-                    # Handle Early Updates
-                    if self.update_time.date() < PVPDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=PVPDate,
-                                )
-                            )
-                        )
-
-                # 25 - badge_master_league - Master League Veteran
-                if field.name == "badge_master_league":
-
-                    # Handle Early Updates
-                    if self.update_time.date() < PVPDate:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You entered {badge} for a date before it's release."
-                                    " {value:,}/{expected:,}"
-                                ).format(
-                                    badge=field.verbose_name,
-                                    delta=self.update_time.date(),
-                                    expected=PVPDate,
-                                )
-                            )
-                        )
 
         # Raise Soft Errors
         soft_error_override = any(

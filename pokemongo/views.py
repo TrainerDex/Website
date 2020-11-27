@@ -193,7 +193,6 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
     form.fields["data_source"].disabled = True
     form.fields["trainer"].widget = forms.HiddenInput()
     form.trainer = request.user.trainer
-    error_fields = None
 
     if request.method == "POST":
         form.data_source = "web_detailed"
@@ -206,7 +205,6 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
             )
         else:
             form.fields["double_check_confirmation"].required = True
-            error_fields = [Update._meta.get_field(x) for x in form.errors.as_data().keys()]
 
     if existing:
         messages.info(
@@ -218,7 +216,6 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
 
     context = {
         "form": form,
-        "error_fields": error_fields,
     }
     return render(request, "create_update.html", context)
 
