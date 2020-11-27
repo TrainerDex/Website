@@ -784,9 +784,6 @@ class Update(models.Model):
             100,
         ).format(100),
     )
-
-    # Unreleased badges
-
     badge_pokedex_entries_gen6 = models.PositiveIntegerField(
         null=True,
         blank=True,
@@ -797,6 +794,49 @@ class Update(models.Model):
         ).format(72),
         validators=[MaxValueValidator(72)],
     )
+
+    battle_hub_stats_wins = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="{}: {}".format(
+            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
+            pgettext_lazy("battle_hub_stats_wins", "Wins"),
+        ),
+        help_text=pgettext_lazy("battle_hub_help", "PVP Wins. Can be found in the Battle Hub."),
+    )
+    battle_hub_stats_battles = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="{}: {}".format(
+            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
+            pgettext_lazy("battle_hub_stats_battles", "Battles"),
+        ),
+        help_text=pgettext_lazy("battle_hub_help", "PVP Battles. Can be found in the Battle Hub."),
+    )
+    battle_hub_stats_stardust = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="{}: {}".format(
+            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
+            pgettext_lazy("battle_hub_stats_stardust", "Stardust Earned"),
+        ),
+        help_text=pgettext_lazy(
+            "battle_hub_help", "PVP Stardust Earned. Can be found in the Battle Hub."
+        ),
+    )
+    battle_hub_stats_streak = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="{}: {}".format(
+            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
+            pgettext_lazy("battle_hub_stats_streak", "Longest Streak"),
+        ),
+        help_text=pgettext_lazy(
+            "battle_hub_help", "PVP Longest Streak. Can be found in the Battle Hub."
+        ),
+    )
+
+    # Unreleased badges
     # badge_pokedex_entries_gen7 = models.PositiveIntegerField(
     #     null=True,
     #     blank=True,

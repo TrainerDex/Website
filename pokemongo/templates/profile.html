@@ -72,6 +72,35 @@
       </span>
     </li>{% endif%}
   </ul>
+  {% if stats.battle_hub_stats_wins and stats.battle_hub_stats_battles and stats.battle_hub_stats_stardust and stats.battle_hub_stats_streak %}
+  <ul class="mdl-cell mdl-cell--stretch mdl-list">
+    <h3 class="mdl-card__title-text">{% trans "GO Battle League" context "battle_hub_category_league" %}</h3>
+    <li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="battle_hub_stats_wins">
+        <span>{{stats.battle_hub_stats_wins|intcomma|default_if_none:"NA"}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Wins" context "battle_hub_stats_wins" %}</span>
+      </span>
+    </li>
+    <li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="battle_hub_stats_battles">
+        <span>{{stats.battle_hub_stats_battles|intcomma|default_if_none:"NA"}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Battles" context "battle_hub_stats_battles" %}</span>
+      </span>
+    </li>
+    <li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="battle_hub_stats_stardust">
+        <span>{{stats.battle_hub_stats_stardust|intcomma|default_if_none:"NA"}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Stardust Earned" context "battle_hub_stats_stardust" %}</span>
+      </span>
+    </li>
+    <li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="battle_hub_stats_streak">
+        <span>{{stats.battle_hub_stats_streak|intcomma|default_if_none:"NA"}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Longest Streak" context "battle_hub_stats_streak" %}</span>
+      </span>
+    </li>
+    {% endif %}
+  </ul>
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
   <div class="mdl-tabs__tab-bar">

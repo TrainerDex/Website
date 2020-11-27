@@ -308,6 +308,7 @@ npgettext(
 )
 pgettext("badge_7_day_streaks_title", "Triathlete")
 
+pgettext("battle_hub_category_league", "GO Battle League")
 pgettext("battle_hub_stats_battles", "Battles")
 pgettext("battle_hub_stats_friends", "Friends Battled")
 pgettext("battle_hub_stats_stardust", "Stardust Earned")
