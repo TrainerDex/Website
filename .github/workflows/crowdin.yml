@@ -35,7 +35,7 @@ jobs:
       with:
         upload_sources: true
         source: 'trainerdex/locale/django.pot'
-        translation: 'trainerdex/locale/%locale%/LC_MESSAGES/django.po'
+        translation: 'trainerdex/locale/%locale_with_underscore%/LC_MESSAGES/django.po'
         upload_translations: false
         download_translations: true
         commit_message: 'chore: update translations via Crowdin'

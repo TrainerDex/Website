@@ -239,7 +239,7 @@ class Command(BaseCommand):
 
             return _(
                 """**{title}**
-Week: `{year}W{week}` Dealine: `{this_week_deadline} UTC`
+Week: `{year}W{week}` Deadline: `{this_week_deadline} UTC`
 
 {ranked}
 
