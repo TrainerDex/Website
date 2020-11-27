@@ -72,6 +72,35 @@
       </span>
     </li>{% endif%}
   </ul>
+  {% if stats.battle_hub_stats_wins and stats.battle_hub_stats_battles and stats.battle_hub_stats_stardust and stats.battle_hub_stats_streak %}
+  <ul class="mdl-cell mdl-cell--stretch mdl-list">
+    <h3 class="mdl-card__title-text">{% trans "GO Battle League" context "battle_hub_category_league" %}</h3>
+    <li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="battle_hub_stats_wins">
+        <span>{{stats.battle_hub_stats_wins|intcomma|default_if_none:"NA"}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Wins" context "battle_hub_stats_wins" %}</span>
+      </span>
+    </li>
+    <li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="battle_hub_stats_battles">
+        <span>{{stats.battle_hub_stats_battles|intcomma|default_if_none:"NA"}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Battles" context "battle_hub_stats_battles" %}</span>
+      </span>
+    </li>
+    <li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="battle_hub_stats_stardust">
+        <span>{{stats.battle_hub_stats_stardust|intcomma|default_if_none:"NA"}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Stardust Earned" context "battle_hub_stats_stardust" %}</span>
+      </span>
+    </li>
+    <li class="mdl-list__item mdl-list__item--two-line">
+      <span class="mdl-list__item-primary-content" id="battle_hub_stats_streak">
+        <span>{{stats.battle_hub_stats_streak|intcomma|default_if_none:"NA"}}</span>
+        <span class="mdl-list__item-sub-title">{% trans "Longest Streak" context "battle_hub_stats_streak" %}</span>
+      </span>
+    </li>
+    {% endif %}
+  </ul>
 </div>
 <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
   <div class="mdl-tabs__tab-bar">
@@ -86,17 +115,21 @@
           <th id="header:update_time">{% trans "Time Updated" %}</th>
           <th id="header:total_xp">{% trans "Total XP" context "profile_total_xp" %}</th>
           {% for medal in medal_data.values %}
+          {% if stats|get:medal.name %}
           <th id="header:{{medal.name}}">{{medal.verbose_name}}</th>
+          {% endif %}
           {% endfor %}
         </tr>
       </thead>
       <tbody>
       {% for update in updates %}
         <tr id="{{update.uuid}}">
-          <td id="{{update.uuid}}:update_time">{{update.update_time|default_if_none:"---"|naturalday}}</td>
-          <td id="{{update.uuid}}:total_xp">{{update.total_xp|default_if_none:"---"|intcomma}}</td>
+          <td id="{{update.uuid}}:update_time">{{update.update_time|default_if_none:""|naturalday}}</td>
+          <td id="{{update.uuid}}:total_xp">{{update.total_xp|default_if_none:""|intcomma}}</td>
           {% for key in medal_data %}
-          <td id="{{update.uuid}}:{{key}}">{{update|get:key|default_if_none:"---"|intcomma}}</td>
+          {% if stats|get:key %}
+          <td id="{{update.uuid}}:{{key}}">{{update|get:key|default_if_none:""|intcomma}}</td>
+          {% endif %}
           {% endfor %}
         </tr>
       {% endfor %}
@@ -109,31 +142,38 @@
       <thead>
         <tr>
           <th class="mdl-data-table__cell--non-numeric"></th>
-          <th id="bronze">{% trans "Bronze" %}</th>
-          <th id="silver">{% trans "Silver" %}</th>
-          <th id="gold">{% trans "Gold" %}</th>
-          <th id="platinum" colspan="2">{% trans "Platinum" %}</th>
+          <th id="bronze">{% trans "Bronze" %} ({{bronze_medals}}/{{medals_count}})</th>
+          <th id="silver">{% trans "Silver" %} ({{silver_medals}}/{{medals_count}})</th>
+          <th id="gold">{% trans "Gold" %} ({{gold_medals}}/{{medals_count}})</th>
+          <th id="platinum" colspan="2">{% trans "Platinum" %} ({{platinum_medals}}/{{medals_count}})</th>
           <div class="mdl-tooltip" for="platinum">{% blocktrans %}These values have been datamined from the Beyond update and may be subject to change.{% endblocktrans %}</div>
         </tr>
       </thead>
       <tbody>
       {% for key, medal in medal_data.items %}
+        {% if stats|get:key %}
         <tr id="{{key}}">
           <td id="{{key}}:name" class="mdl-data-table__cell--non-numeric">{{medal.verbose_name}}</td>
           <div class="mdl-tooltip" for="{{key}}:name">{{medal.tooltip}}</div>
-          {% if stats|get:key %}
           <td id="{{key}}:bronze">{% if stats|get:key < medal.bronze %}{{stats|get:key|intcomma}} / {% endif %}{{medal.bronze|intcomma}}</td>
           <td id="{{key}}:silver">{% if stats|get:key < medal.silver %}{{stats|get:key|intcomma}} / {% endif %}{{medal.silver|intcomma}}</td>
           <td id="{{key}}:gold">{% if stats|get:key < medal.gold %}{{stats|get:key|intcomma}} / {% endif %}{{medal.gold|intcomma}}</td>
           <td id="{{key}}:platinum">{{stats|get:key|intcomma}} / {{medal.platinum|intcomma}}</td>
           <td id="{{key}}:checkmark">{% if stats|get:key < medal.platinum %}❌{% else %}✔️{% endif %}</td>
           <div class="mdl-tooltip" for="{{key}}:checkmark">{% if stats|get:key < medal.platinum %}{{trainer.nickname}} <b>has not</b> completed this medal all the way up to Platinum.{% else %}{{trainer.nickname}} <b>has</b> completed this medal all the way up to Platinum.{% endif %}</div>
-          {% else %}
-          <td class="mdl-data-table__cell--non-numeric" colspan="4">{% trans "No data provided." %}</td>
-          <td id="{{key}}:checkmark">❗</td>
-          <div class="mdl-tooltip" for="{{key}}:checkmark">{{trainer.nickname}} <b>has not</b> provided any data for this medal.</div>
-          {% endif %}
         </tr>
+        {% endif %}
+      {% endfor %}
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric" colspan="6"><center>{% trans "Medals with no data." %}</center></td>
+      </tr>
+      {% for key, medal in medal_data.items %}
+        {% if not stats|get:key %}
+        <tr id="{{key}}">
+          <td id="{{key}}:name" class="mdl-data-table__cell--non-numeric" colspan="6"><center>{{medal.verbose_name}}</center></td>
+          <div class="mdl-tooltip" for="{{key}}:name">{{medal.tooltip}}</div>
+        </tr>
+        {% endif %}
       {% endfor %}
       </tbody>
     </table>

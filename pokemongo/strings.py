@@ -4,8 +4,8 @@ and out of use within the codebase.
 """
 from django.utils.translation import pgettext, npgettext
 
-apk_job = 4304935
-remote_patch = "543e7b855f950702a511f1fdc8d6635104ba70b7"
+apk_job = 4474644
+remote_patch = "907d7edbfe3c4cd440151506190713b3735b82ad"
 
 pgettext("alola_pokedex_header", "Alolan Form")
 
@@ -146,8 +146,8 @@ pgettext("badge_pokedex_entries_unknown_title", "Unknown")
 
 npgettext(
     "badge_pokemon_caught_at_your_lures",
-    "Catch a Pokémon attracted by a Lure Module.",
-    "Catch {0} Pokémon attracted by a Lure Module.",
+    "Use a Lure Module to help another Trainer catch a Pokémon.",
+    "Use a Lure Module to help another Trainer catch {0} Pokémon.",
     1,
 )
 pgettext("badge_pokemon_caught_at_your_lures_title", "Picnicker")
@@ -308,6 +308,7 @@ npgettext(
 )
 pgettext("badge_7_day_streaks_title", "Triathlete")
 
+pgettext("battle_hub_category_league", "GO Battle League")
 pgettext("battle_hub_stats_battles", "Battles")
 pgettext("battle_hub_stats_friends", "Friends Battled")
 pgettext("battle_hub_stats_stardust", "Stardust Earned")

@@ -86,20 +86,63 @@ def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
         "stats": trainer.update_set.aggregate(
             **{x: Max(x) for x in UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES}
         ),
+        "level": trainer.level(),
+        "medal_data": {
+            x.get("name"): {
+                **x,
+                **{
+                    "verbose_name": Update._meta.get_field(x.get("name")).verbose_name,
+                    "tooltip": Update._meta.get_field(x.get("name")).help_text,
+                },
+            }
+            for x in BADGES
+            if x.get("name") in (x.name for x in Update._meta.get_fields())
+        },
     }
 
-    context["medal_data"] = {
-        x.get("name"): {
-            **x,
-            **{
-                "verbose_name": Update._meta.get_field(x.get("name")).verbose_name,
-                "tooltip": Update._meta.get_field(x.get("name")).help_text,
-            },
-        }
-        for x in BADGES
-        if x.get("name") in (x.name for x in Update._meta.get_fields())
-    }
-    context["level"] = trainer.level()
+    context["bronze_medals"] = len(
+        [
+            True
+            for x in context["medal_data"].values()
+            if x.get("bronze")
+            and context["stats"].get(x["name"])
+            and (context["stats"].get(x["name"]) >= x["bronze"])
+        ]
+    )
+    context["silver_medals"] = len(
+        [
+            True
+            for x in context["medal_data"].values()
+            if x.get("silver")
+            and context["stats"].get(x["name"])
+            and (context["stats"].get(x["name"]) >= x["silver"])
+        ]
+    )
+    context["gold_medals"] = len(
+        [
+            True
+            for x in context["medal_data"].values()
+            if x.get("gold")
+            and context["stats"].get(x["name"])
+            and (context["stats"].get(x["name"]) >= x["gold"])
+        ]
+    )
+    context["platinum_medals"] = len(
+        [
+            True
+            for x in context["medal_data"].values()
+            if x.get("platinum")
+            and context["stats"].get(x["name"])
+            and (context["stats"].get(x["name"]) >= x["platinum"])
+        ]
+    )
+    context["medals_count"] = len(
+        [
+            True
+            for x in context["medal_data"].values()
+            if x.get("platinum") and context["stats"].get(x["name"])
+        ]
+    )
 
     return render(request, "profile.html", context)
 

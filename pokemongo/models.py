@@ -732,12 +732,12 @@ class Update(models.Model):
     badge_pokemon_caught_at_your_lures = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name=pgettext_lazy("badge_unique_mega_evos_title", "Picnicker"),
+        verbose_name=pgettext_lazy("badge_pokemon_caught_at_your_lures_title", "Picnicker"),
         help_text=npgettext_lazy(
             "badge_pokemon_caught_at_your_lures",
-            "Catch a Pokémon attracted by a Lure Module.",
-            "Catch {0} Pokémon attracted by a Lure Module.",
-            2500,
+            "Use a Lure Module to help another Trainer catch a Pokémon.",
+            "Use a Lure Module to help another Trainer catch {0} Pokémon.",
+            1,
         ).format(2500),
     )
     badge_unique_pokestops = models.PositiveIntegerField(
@@ -784,19 +784,59 @@ class Update(models.Model):
             100,
         ).format(100),
     )
+    badge_pokedex_entries_gen6 = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_pokedex_entries_gen6__title", "Kalos"),
+        help_text=pgettext_lazy(
+            "badge_pokedex_entries_gen6",
+            "Register {0} Pokémon first discovered in the Kalos region to the Pokédex.",
+        ).format(72),
+        validators=[MaxValueValidator(72)],
+    )
+
+    battle_hub_stats_wins = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="{}: {}".format(
+            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
+            pgettext_lazy("battle_hub_stats_wins", "Wins"),
+        ),
+        help_text=pgettext_lazy("battle_hub_help", "PVP Wins. Can be found in the Battle Hub."),
+    )
+    battle_hub_stats_battles = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="{}: {}".format(
+            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
+            pgettext_lazy("battle_hub_stats_battles", "Battles"),
+        ),
+        help_text=pgettext_lazy("battle_hub_help", "PVP Battles. Can be found in the Battle Hub."),
+    )
+    battle_hub_stats_stardust = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="{}: {}".format(
+            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
+            pgettext_lazy("battle_hub_stats_stardust", "Stardust Earned"),
+        ),
+        help_text=pgettext_lazy(
+            "battle_hub_help", "PVP Stardust Earned. Can be found in the Battle Hub."
+        ),
+    )
+    battle_hub_stats_streak = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="{}: {}".format(
+            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
+            pgettext_lazy("battle_hub_stats_streak", "Longest Streak"),
+        ),
+        help_text=pgettext_lazy(
+            "battle_hub_help", "PVP Longest Streak. Can be found in the Battle Hub."
+        ),
+    )
 
     # Unreleased badges
-
-    # badge_pokedex_entries_gen6 = models.PositiveIntegerField(
-    #     null=True,
-    #     blank=True,
-    #     verbose_name=pgettext_lazy("badge_pokedex_entries_gen6__title", "Kalos"),
-    #     help_text=pgettext_lazy(
-    #         "badge_pokedex_entries_gen6",
-    #         "Register {0} Pokémon first discovered in the Kalos region to the Pokédex.",
-    #     ).format(72),
-    #     validators=[MaxValueValidator(72)],
-    # )
     # badge_pokedex_entries_gen7 = models.PositiveIntegerField(
     #     null=True,
     #     blank=True,
