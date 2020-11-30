@@ -229,12 +229,12 @@ CITIES_POSTAL_CODES = []
 # https://docs.djangoproject.com/en/2.2/topics/email/
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_HOST = "smtp.eu.mailgun.org"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "noreply@mg.trainerdex.co.uk"
-EMAIL_HOST_PASSWORD = "Xgx7AEsAyBchdCtbuSdj9f69v"
-DEFAULT_FROM_EMAIL = "TrainerDex Support <jay@trainerdex.co.uk>"
+EMAIL_HOST_USER = "postmaster@mmg.trainerdex.app"
+EMAIL_HOST_PASSWORD = "2a12957441c7165d6e8fff4bf00a7d71-95f6ca46-a420a7d0"
+DEFAULT_FROM_EMAIL = "TrainerDex Support <jay@trainerdex.app>"
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 FILE_UPLOAD_PERMISSIONS = 0x775
