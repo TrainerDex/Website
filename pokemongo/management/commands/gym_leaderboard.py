@@ -51,8 +51,8 @@ class Gain:
 class Command(BaseCommand):
     help = "Runs the weekly gains leaderboards."
 
-    def add_arguments(self, parser):
-        parser.add_argument("stat", default="total_xp")
+    # def add_arguments(self, parser):
+    #     parser.add_argument("stat", default="total_xp")
 
     def handle(self, *args, **kwargs):
         key = settings.DISCORD_TOKEN
@@ -290,7 +290,7 @@ New entries will be ranked next week if they update by the deadline.
                                     message += part + "\n"
                             message_parts.append(message)
 
-                            for x in message_part:
+                            for x in message_parts:
                                 # await channel.send(x)
                                 print(x)
 
