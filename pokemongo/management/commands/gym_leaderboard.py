@@ -57,16 +57,32 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         key = settings.DISCORD_TOKEN
         current_time = timezone.now()
-        stat = kwargs.get("stat", "total_xp")
+        # stat = kwargs.get("stat", "total_xp")
+        stat = "gymbadges_gold"
         rule = rrule(
             WEEKLY,
             dtstart=datetime(2016, 7, 4, 12, 0, tzinfo=timezone.utc),
             byweekday=MO,
         )
-        next_week = (rule.before(current_time, inc=True), rule.after(current_time))
-        this_week = (rule.before(next_week[0]), next_week[0])
-        last_week = (rule.before(this_week[0]), this_week[0])
-        week_number = this_week[0].isocalendar()[:2]
+        if current_time.date() == date(2020, 11, 30):
+            next_week = (
+                datetime(2020, 11, 30, 12, 0, tzinfo=timezone.utc),
+                datetime(2020, 12, 7, 12, 0, tzinfo=timezone.utc),
+            )
+            this_week = (
+                datetime(2020, 11, 22, 20, 0, tzinfo=timezone.utc),
+                datetime(2020, 11, 30, 12, 0, tzinfo=timezone.utc),
+            )
+            last_week = (
+                datetime(2020, 11, 15, 20, 0, tzinfo=timezone.utc),
+                datetime(2020, 11, 22, 20, 0, tzinfo=timezone.utc),
+            )
+            week_number = (2020, 39)
+        else:
+            next_week = (rule.before(current_time, inc=True), rule.after(current_time))
+            this_week = (rule.before(next_week[0]), next_week[0])
+            last_week = (rule.before(this_week[0]), this_week[0])
+            week_number = this_week[0].isocalendar()[:2]
 
         print(next_week, this_week, last_week, week_number, stat)
         self.stdout.write(self.style.NOTICE("Starting Client"))
@@ -166,6 +182,7 @@ class Command(BaseCommand):
                 "pokestops_visited": client.get_emoji(743122864303243355),
                 "badge_pokestops_visited": client.get_emoji(743122864303243355),
                 "total_xp": client.get_emoji(743121748630831165),
+                "gymbadges_gold": client.get_emoji(743853262469333042),
                 "number": "#",
             }
             verbose_names = {
@@ -177,6 +194,7 @@ class Command(BaseCommand):
                 "badge_capture_total": pgettext("badge_capture_total_title", "Collector"),
                 "badge_pokestops_visited": pgettext("badge_pokestops_visited_title", "Backpacker"),
                 "total_xp": pgettext("profile_total_xp", "Total XP"),
+                "gymbadges_gold": pgettext("gymbadges_gold", "Gold Gyms"),
             }
 
             title = _(
@@ -234,7 +252,9 @@ New entries will be ranked next week if they update by the deadline.
 
         @client.event
         async def on_ready():
-            for guild in client.guilds:
+            ek_pogo = client.get_guild(319811219093716993)
+            guilds = [ek_pogo]
+            for guild in guilds:
                 if DiscordGuildSettings.objects.filter(id=guild.id).exists():
                     g: DiscordGuildSettings = DiscordGuildSettings.objects.get(id=guild.id)
                 else:
@@ -242,8 +262,8 @@ New entries will be ranked next week if they update by the deadline.
 
                 translation.activate(g.language)
 
-                if g.monthly_gains_channel:
-                    channel = client.get_channel(g.monthly_gains_channel.id)
+                if guild is ek_pogo:
+                    channel = client.get_channel(608770319552872452)
                     if channel:
                         async with channel.typing():
                             (
@@ -270,8 +290,9 @@ New entries will be ranked next week if they update by the deadline.
                                     message += part + "\n"
                             message_parts.append(message)
 
-                            for x in message_parts:
-                                await channel.send(x)
+                            for x in message_part:
+                                # await channel.send(x)
+                                print(x)
 
                 translation.deactivate()
 
