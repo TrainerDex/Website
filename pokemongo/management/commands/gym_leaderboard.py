@@ -186,7 +186,7 @@ class Command(BaseCommand):
             }
 
             title = _(
-                "Weekly {stat_emoji} {stat_name} Totals Leaderboard for \N{BUSTS IN SILHOUETTE} **{guild.name}**"
+                "Weekly {stat_emoji} {stat_name} Totals Leaderboard for \N{BUSTS IN SILHOUETTE} _{guild.name}_"
             ).format(
                 stat_emoji=emoji.get(stat, ""),
                 stat_name=verbose_names.get(stat, stat),
