@@ -13,10 +13,10 @@ from humanize import intcomma, naturaldelta
 
 from core.models import DiscordGuildSettings
 from pokemongo.models import Trainer, Update
-from pokemongo.shortcuts import filter_leaderboard_qs
+from pokemongo.shortcuts import filter_leaderboard_qs, filter_leaderboard_qs__update
 
 
-class Gain:
+class Entry:
     def __init__(self, *args, **kwargs):
         self.trainer = kwargs.get("trainer")
         self.this_week = kwargs.get("this_week")
@@ -29,23 +29,28 @@ class Gain:
 
     @property
     def last_week_stat(self):
-        return getattr(self.last_week, self.stat)
+        if self.last_week:
+            return getattr(self.last_week, self.stat)
 
     @property
     def stat_delta(self):
-        return self.this_week_stat - self.last_week_stat
+        if self.last_week:
+            return self.this_week_stat - self.last_week_stat
 
     @property
     def time_delta(self):
-        return self.this_week.update_time - self.last_week.update_time
+        if self.last_week:
+            return self.this_week.update_time - self.last_week.update_time
 
     @property
     def days(self):
-        return max(round(self.time_delta.total_seconds() / 86400), 1)
+        if self.last_week:
+            return max(round(self.time_delta.total_seconds() / 86400), 1)
 
     @property
     def rate(self):
-        return self.stat_delta / self.days
+        if self.last_week:
+            return self.stat_delta / self.days
 
 
 class Command(BaseCommand):
@@ -77,7 +82,7 @@ class Command(BaseCommand):
                 datetime(2020, 11, 15, 20, 0, tzinfo=timezone.utc),
                 datetime(2020, 11, 22, 20, 0, tzinfo=timezone.utc),
             )
-            week_number = (2020, 39)
+            week_number = (2020, 48)
         else:
             next_week = (rule.before(current_time, inc=True), rule.after(current_time))
             this_week = (rule.before(next_week[0]), next_week[0])
@@ -94,7 +99,7 @@ class Command(BaseCommand):
         async def generate_leaderboard(
             guild: discord.Guild,
             stat: str,
-        ) -> Iterable[Union[List[Gain], List[Trainer]]]:
+        ) -> Iterable[Union[List[Entry], List[Trainer]]]:
             ex_roles: List[discord.Roles] = [
                 x for x in guild.roles if x.name in ("NoLB", "TrainerDex Exclude")
             ]
@@ -109,10 +114,9 @@ class Command(BaseCommand):
                 )
             )
 
-            this_weeks_submissions: Iterable[Update] = (
+            this_weeks_submissions: Iterable[Update] = filter_leaderboard_qs__update(
                 Update.objects.filter(
                     trainer__in=trainers,
-                    update_time__gte=this_week[0],
                     update_time__lt=this_week[1],
                 )
                 .annotate(value=F(stat))
@@ -120,10 +124,9 @@ class Command(BaseCommand):
                 .order_by("trainer", "-update_time")
                 .distinct("trainer")
             )
-            last_weeks_submissions: Iterable[Update] = (
+            last_weeks_submissions: Iterable[Update] = filter_leaderboard_qs__update(
                 Update.objects.filter(
                     trainer__in=trainers,
-                    update_time__gte=last_week[0],
                     update_time__lt=last_week[1],
                 )
                 .annotate(value=F(stat))
@@ -132,41 +135,25 @@ class Command(BaseCommand):
                 .distinct("trainer")
             )
 
-            eligible_entries: Iterable[Update] = this_weeks_submissions.filter(
-                trainer__in=last_weeks_submissions.values_list("trainer", flat=True)
-            )
-            gains = [
-                Gain(
-                    trainer=x.trainer,
-                    this_week=x,
-                    last_week=last_weeks_submissions.get(trainer=x.trainer),
-                    stat=stat,
+            entries = [
+                (
+                    Entry(
+                        trainer=x.trainer,
+                        this_week=x,
+                        last_week=last_weeks_submissions.get(trainer=x.trainer),
+                        stat=stat,
+                    )
+                    if last_weeks_submissions.filter(trainer=x.trainer).exists()
+                    else Entry(trainer=x.trainer, this_week=x.value, last_week=None, stat=stat)
                 )
-                for x in eligible_entries
-            ]
-            gains.sort(key=lambda x: x.rate, reverse=True)
-
-            new_entries: List[Trainer] = [
-                x.trainer
-                for x in this_weeks_submissions.exclude(
-                    trainer__in=last_weeks_submissions.values_list("trainer", flat=True)
-                )
+                for x in this_weeks_submissions
             ]
 
-            dropped_trainers: List[Trainer] = [
-                x.trainer
-                for x in last_weeks_submissions.exclude(
-                    trainer__in=this_weeks_submissions.values_list("trainer", flat=True)
-                )
-            ]
-
-            return (gains, new_entries, dropped_trainers)
+            return entries
 
         async def format_leaderboard_as_text(
             guild: discord.Guild,
-            gains: List[Gain],
-            new_entries: List[Trainer],
-            dropped_trainers: List[Trainer],
+            entries: List[Entry],
             deadline: datetime,
             stat: str,
         ):
@@ -198,32 +185,30 @@ class Command(BaseCommand):
             }
 
             title = _(
-                "Weekly {stat_emoji} {stat_name} Progress for \N{BUSTS IN SILHOUETTE} {guild.name}"
+                "Weekly {stat_emoji} {stat_name} Totals Leaderboard for \N{BUSTS IN SILHOUETTE} **{guild.name}**"
             ).format(
                 stat_emoji=emoji.get(stat, ""),
                 stat_name=verbose_names.get(stat, stat),
                 guild=guild,
             )
 
-            if not gains:
-                return _(
-                    "**{title}**\nUnfortunately, there were not valid entries this week."
-                ).format(title=title)
+            if not entries:
+                return
 
             ranked = [
-                _(
-                    "#{position} **{trainer}** @ {rate}/day (+{delta})"
-                    + " `Interval: {interval}` `Gain: {then} ⇒ {now}`"
-                ).format(
+                _("#{position} **{trainer}** {stat} (+{delta})").format(
                     position=position + 1,
                     trainer=entry.trainer,
-                    rate=intcomma(round(entry.rate)),
                     delta=intcomma(entry.stat_delta),
-                    interval=naturaldelta(entry.time_delta),
-                    then=intcomma(entry.last_week_stat),
-                    now=intcomma(entry.this_week_stat),
+                    stat=intcomma(entry.this_week_stat),
                 )
-                for position, entry in enumerate(gains)
+                if entry.last_week
+                else _("#{position} **{trainer}** {stat}").format(
+                    position=position + 1,
+                    trainer=entry.trainer,
+                    stat=intcomma(entry.this_week_stat),
+                )
+                for position, entry in enumerate(entries)
             ]
 
             return _(
@@ -231,11 +216,6 @@ class Command(BaseCommand):
 Week: `{year}W{week}` Deadline: `{this_week_deadline} UTC`
 
 {ranked}
-
-**{new_count}** New entries: {new}
-
-New entries will be ranked next week if they update by the deadline.
-**{lost_count}** Trainers from last week didn't update again this week.
 **Next weeks deadline is: `{deadline} UTC`**
 """
             ).format(
@@ -244,9 +224,6 @@ New entries will be ranked next week if they update by the deadline.
                 week=week_number[1],
                 this_week_deadline=this_week[1],
                 ranked="\n".join(ranked),
-                new=", ".join([str(x) for x in new_entries]),
-                new_count=intcomma(len(new_entries)),
-                lost_count=intcomma(len(dropped_trainers)),
                 deadline=deadline,
             )
 
@@ -266,16 +243,10 @@ New entries will be ranked next week if they update by the deadline.
                     channel = client.get_channel(608770319552872452)
                     if channel:
                         async with channel.typing():
-                            (
-                                gains,
-                                new_entries,
-                                dropped_trainers,
-                            ) = await generate_leaderboard(guild, stat)
+                            entries = await generate_leaderboard(guild, stat)
                             text = await format_leaderboard_as_text(
                                 guild,
-                                gains,
-                                new_entries,
-                                dropped_trainers,
+                                entries,
                                 next_week[1],
                                 stat,
                             )
