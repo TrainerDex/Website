@@ -9,7 +9,7 @@ from django.utils import translation, timezone
 from django.utils.translation import gettext as _, pgettext
 from dateutil.relativedelta import MO
 from dateutil.rrule import rrule, WEEKLY
-from humanize import intcomma, naturaldelta
+from humanize import intcomma
 
 from core.models import DiscordGuildSettings
 from pokemongo.models import Trainer, Update
@@ -144,7 +144,7 @@ class Command(BaseCommand):
                         stat=stat,
                     )
                     if last_weeks_submissions.filter(trainer=x.trainer).exists()
-                    else Entry(trainer=x.trainer, this_week=x.value, last_week=None, stat=stat)
+                    else Entry(trainer=x.trainer, this_week=x, last_week=None, stat=stat)
                 )
                 for x in this_weeks_submissions
             ]
