@@ -264,8 +264,8 @@ It's all manual atm, sorry!
                             message_parts.append(message)
 
                             for x in message_parts:
-                                # await channel.send(x)
-                                print(x)
+                                await channel.send(x)
+                                # print(x)
 
                 translation.deactivate()
 
