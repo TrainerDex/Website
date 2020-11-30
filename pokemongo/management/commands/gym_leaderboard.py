@@ -148,6 +148,7 @@ class Command(BaseCommand):
                 )
                 for x in this_weeks_submissions
             ]
+            entries.sort(key=lambda x: x.this_week_stat, reverse=True)
 
             return entries
 
@@ -211,14 +212,15 @@ class Command(BaseCommand):
                 for position, entry in enumerate(entries)
             ]
 
-            return _(
-                """**{title}**
+            return """**{title}**
 Week: `{year}W{week}` Deadline: `{this_week_deadline} UTC`
 
 {ranked}
+
+Robot 🤖 is returning soon! Beautification soon too!
+It's all manual atm, sorry!
 **Next weeks deadline is: `{deadline} UTC`**
-"""
-            ).format(
+""".format(
                 title=title,
                 year=week_number[0],
                 week=week_number[1],
