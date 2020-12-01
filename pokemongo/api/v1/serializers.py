@@ -49,7 +49,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Update
         fields = (
-            (
+            [
                 "uuid",
                 "trainer",
                 "update_time",
@@ -60,10 +60,10 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
                 "gymbadges_total",
                 "gymbadges_gold",
                 "pokemon_info_stardust",
-            )
+            ]
             + UPDATE_FIELDS_BADGES
             + UPDATE_FIELDS_TYPES
-            + ("data_source",)
+            + ["data_source"]
         )
 
 
