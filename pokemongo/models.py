@@ -1056,14 +1056,14 @@ class Update(models.Model):
             for x in (
                 UPDATE_FIELDS_BADGES
                 + UPDATE_FIELDS_TYPES
-                + (
+                + [
                     "pokedex_caught",
                     "pokedex_seen",
                     "gymbadges_total",
                     "gymbadges_gold",
                     "pokemon_info_stardust",
                     "total_xp",
-                )
+                ]
             )
             if getattr(self, x)
         ]
@@ -1074,13 +1074,13 @@ class Update(models.Model):
             for x in (
                 UPDATE_FIELDS_BADGES
                 + UPDATE_FIELDS_TYPES
-                + (
+                + [
                     "pokedex_caught",
                     "pokedex_seen",
                     "gymbadges_total",
                     "gymbadges_gold",
                     "pokemon_info_stardust",
-                )
+                ]
             )
             if getattr(self, x)
         ]
