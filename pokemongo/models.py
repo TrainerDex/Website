@@ -762,17 +762,17 @@ class Update(models.Model):
             150,
         ).format(150),
     )
-    # badge_raids_with_friends = models.PositiveIntegerField(
-    #     null=True,
-    #     blank=True,
-    #     verbose_name=pgettext_lazy("badge_raids_with_friends_title", "Rising Star Duo"),
-    #     help_text=npgettext_lazy(
-    #         "badge_raids_with_friends",
-    #         "Win a raid with a friend.",
-    #         "Win {0} raids with a friend.",
-    #         0,
-    #     ),
-    # )
+    badge_raids_with_friends = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("badge_raids_with_friends_title", "Rising Star Duo"),
+        help_text=npgettext_lazy(
+            "badge_raids_with_friends",
+            "Win a raid with a friend.",
+            "Win {0} raids with a friend.",
+            2000,
+        ).format(2000),
+    )
     badge_7_day_streaks = models.PositiveIntegerField(
         null=True,
         blank=True,
@@ -1064,6 +1064,7 @@ class Update(models.Model):
         FriendReleaseDate: date = date(2018, 6, 21)
         Gen4Date: date = date(2018, 10, 16)
         PVPDate: date = date(2018, 12, 13)
+        BeyondUpdate: date = date(2020, 11, 31)
 
         # Soft Coded Dates
         StartDate: Optional[date] = self.trainer.start_date
@@ -1890,7 +1891,7 @@ class Update(models.Model):
                 if field.name == "badge_raid_battle_won":
 
                     # InterestDate = Max(RaidReleaseDate, StartDate)
-                    InterestDate = max(RaidReleaseDate, self.trainer.start_date)
+                    InterestDate = max(RaidReleaseDate, StartDateOrGameReleaseDate)
                     # DailyLimit = 100
                     DailyLimit = 100
 

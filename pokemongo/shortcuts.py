@@ -336,7 +336,13 @@ BADGES = [
         "gold": 50,
         "platinum": 150,
     },
-    {"name": "badge_raids_with_friends", "bronze": 0, "silver": 0, "gold": 0, "platinum": 0},
+    {
+        "name": "badge_raids_with_friends",
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 2000,
+    },
     {
         "name": "badge_pokemon_caught_at_your_lures",
         "bronze": 5,
@@ -359,10 +365,10 @@ BADGES = [
         "platinum": 100,
     },
     {
-        "name": "badge_pokedex_entries_gen5",
-        "bronze": 5,  # Guess
-        "silver": 25,  # Guess
-        "gold": 50,  # Guess
+        "name": "badge_pokedex_entries_gen6",
+        "bronze": 5,
+        "silver": 25,
+        "gold": 50,
         "platinum": 72,
     },
 ] + [
