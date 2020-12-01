@@ -2,3 +2,4 @@
 django-debug-toolbar
 flake8
 black
+python-language-server[all]
