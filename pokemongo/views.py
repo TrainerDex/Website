@@ -20,7 +20,7 @@ from pokemongo.forms import UpdateForm, TrainerForm
 from pokemongo.models import Trainer, Update, Community, Nickname
 from pokemongo.shortcuts import (
     filter_leaderboard_qs,
-    level_parser,
+    get_possible_levels_from_total_xp,
     UPDATE_FIELDS_BADGES,
     UPDATE_FIELDS_TYPES,
     UPDATE_SORTABLE_FIELDS,
@@ -334,10 +334,17 @@ def LeaderboardView(
         trainer_stats = {
             "position": trainer.rank,
             "trainer": trainer,
-            "level": level_parser(xp=trainer.update__total_xp__max).level,
             "xp": trainer.update__total_xp__max,
             "update_time": trainer.update__update_time__max,
         }
+
+        possible_levels = [
+            x.level for x in get_possible_levels_from_total_xp(xp=trainer.update__total_xp__max)
+        ]
+        if min(possible_levels) == max(possible_levels):
+            trainer_stats["level"] = str(min(possible_levels))
+        else:
+            trainer_stats["level"] = f"{min(possible_levels)}-{max(possible_levels)}"
 
         FIELDS = fields_to_calculate_max.copy()
         FIELDS.remove("update_time")
