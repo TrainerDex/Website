@@ -1,6 +1,6 @@
 import uuid
 import logging
-from typing import List, Optional, NoReturn
+from typing import List, Optional, NoReturn, Union
 from collections import defaultdict
 from datetime import date, datetime, timedelta
 from decimal import Decimal
@@ -30,7 +30,7 @@ from core.models import (
 )
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from pokemongo.shortcuts import (
-    level_parser,
+    get_possible_levels_from_total_xp,
     circled_level,
     UPDATE_FIELDS_BADGES,
     UPDATE_FIELDS_TYPES,
@@ -246,7 +246,7 @@ class Trainer(models.Model):
 
     is_on_leaderboard.boolean = True
 
-    def level(self) -> Optional[int]:
+    def level(self) -> Union[str, int]:
         try:
             update = (
                 self.update_set.exclude(total_xp__isnull=True)
@@ -1034,9 +1034,15 @@ class Update(models.Model):
         verbose_name=pgettext_lazy("pokemon_info_stardust_label", "Stardust"),
     )
 
-    def level(self) -> Optional[int]:
+    def level(self) -> Union[int, str]:
         if self.total_xp:
-            return level_parser(xp=self.total_xp).level
+            possible_levels = [
+                x.level for x in get_possible_levels_from_total_xp(xp=self.total_xp)
+            ]
+            if min(possible_levels) == max(possible_levels):
+                return min(possible_levels)
+            else:
+                return f"{min(possible_levels)}-{max(possible_levels)}"
 
     def __str__(self) -> str:
         return "Update(trainer: {trainer}, update_time: {time}, {stats})".format(
@@ -2502,6 +2508,11 @@ class Update(models.Model):
 def update_discord_level(sender, **kwargs) -> None:
     if kwargs["created"] and not kwargs["raw"] and kwargs["instance"].total_xp:
         level = kwargs["instance"].level()
+        if isinstance(level, str):
+            level = int(level.split("-")[0])
+            fortyplus = True
+        else:
+            fortyplus = False
         for discord in DiscordGuildMembership.objects.exclude(active=False).filter(
             guild__discordguildsettings__renamer=True,
             guild__discordguildsettings__renamer_with_level=True,
@@ -2516,6 +2527,9 @@ def update_discord_level(sender, **kwargs) -> None:
                 ext = str(level)
             elif discord.guild.discordguildsettings.renamer_with_level_format == "circled_level":
                 ext = circled_level(level)
+
+            if fortyplus:
+                ext += "+"
 
             if len(base) + len(ext) > 32:
                 chopped_base = base[slice(0, 32 - len(ext) - 1)]
