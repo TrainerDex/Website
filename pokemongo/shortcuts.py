@@ -509,7 +509,7 @@ BADGES = [
         "bronze": 5,
         "silver": 50,
         "gold": 100,
-        "platinum": 100,
+        "platinum": 156,
     },
     {
         "id": 57,
