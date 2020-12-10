@@ -2,7 +2,7 @@ import logging
 from typing import Optional
 
 from cities.models import Country
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -14,13 +14,15 @@ from django.http import (
     Http404,
 )
 from django.shortcuts import get_object_or_404, render, redirect, reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, get_language_from_request
+
 from math import ceil
 from pokemongo.forms import UpdateForm, TrainerForm
 from pokemongo.models import Trainer, Update, Community, Nickname
 from pokemongo.shortcuts import (
     filter_leaderboard_qs,
-    level_parser,
+    get_possible_levels_from_total_xp,
     UPDATE_FIELDS_BADGES,
     UPDATE_FIELDS_TYPES,
     UPDATE_SORTABLE_FIELDS,
@@ -153,13 +155,11 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
         messages.warning(request, _("Please complete your profile to continue using the website."))
         return redirect("profile_edit")
 
-    if request.user.trainer.update_set.filter(
-        update_time__gte=datetime.now() - timedelta(hours=1)
-    ).exists():
+    try:
         existing = request.user.trainer.update_set.filter(
-            update_time__gte=datetime.now() - timedelta(hours=1)
+            update_time__gte=timezone.now() - timedelta(hours=6)
         ).latest("update_time")
-    else:
+    except Update.DoesNotExist:
         existing = None
 
     if existing:
@@ -193,7 +193,6 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
     form.fields["data_source"].disabled = True
     form.fields["trainer"].widget = forms.HiddenInput()
     form.trainer = request.user.trainer
-    error_fields = None
 
     if request.method == "POST":
         form.data_source = "web_detailed"
@@ -206,7 +205,6 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
             )
         else:
             form.fields["double_check_confirmation"].required = True
-            error_fields = [Update._meta.get_field(x) for x in form.errors.as_data().keys()]
 
     if existing:
         messages.info(
@@ -218,7 +216,6 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
 
     context = {
         "form": form,
-        "error_fields": error_fields,
     }
     return render(request, "create_update.html", context)
 
@@ -334,10 +331,17 @@ def LeaderboardView(
         trainer_stats = {
             "position": trainer.rank,
             "trainer": trainer,
-            "level": level_parser(xp=trainer.update__total_xp__max).level,
             "xp": trainer.update__total_xp__max,
             "update_time": trainer.update__update_time__max,
         }
+
+        possible_levels = [
+            x.level for x in get_possible_levels_from_total_xp(xp=trainer.update__total_xp__max)
+        ]
+        if min(possible_levels) == max(possible_levels):
+            trainer_stats["level"] = str(min(possible_levels))
+        else:
+            trainer_stats["level"] = f"{min(possible_levels)}-{max(possible_levels)}"
 
         FIELDS = fields_to_calculate_max.copy()
         FIELDS.remove("update_time")

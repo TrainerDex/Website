@@ -5,7 +5,7 @@ from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from pokemongo.models import Update, Trainer, Faction
-from pokemongo.shortcuts import level_parser, UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
+from pokemongo.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
 User = get_user_model()
 
@@ -153,11 +153,8 @@ class LeaderboardSerializer(serializers.Serializer):
     def get_position(self, obj: Update) -> int:
         return obj.rank
 
-    def get_level(self, obj: Update) -> Optional[int]:
-        try:
-            return level_parser(xp=obj.total_xp).level
-        except ValueError:
-            return None
+    def get_level(self, obj: Update) -> str:
+        return str(obj.level())
 
     def get_id(self, obj: Update) -> int:
         return obj.trainer.id
