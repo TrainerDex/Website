@@ -695,7 +695,7 @@ class Update(models.Model):
         help_text=pgettext_lazy(
             "badge_pokedex_entries_gen5",
             "Register {0} Pokémon first discovered in the Unova region to the Pokédex.",
-        ).format(100),
+        ).format(156),
         validators=[MaxValueValidator(156)],
     )
     # Badge_57
