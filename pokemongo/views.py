@@ -153,13 +153,11 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
         messages.warning(request, _("Please complete your profile to continue using the website."))
         return redirect("profile_edit")
 
-    if request.user.trainer.update_set.filter(
-        update_time__gte=datetime.now() - timedelta(hours=1)
-    ).exists():
+    try:
         existing = request.user.trainer.update_set.filter(
-            update_time__gte=datetime.now() - timedelta(hours=1)
+            update_time__gte=datetime.now() - timedelta(hours=6)
         ).latest("update_time")
-    else:
+    except Update.DoesNotExist:
         existing = None
 
     if existing:

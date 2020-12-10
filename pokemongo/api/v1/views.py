@@ -186,7 +186,8 @@ class LatestUpdateView(APIView):
     Gets detailed view of the latest update
 
     patch:
-    Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked.
+    Allows editting of update within 12 hours of creation, after that time, all updates are denied.
+    Trainer, UUID and PK are locked.
     """
 
     authentication_classes = (authentication.TokenAuthentication,)
@@ -205,7 +206,7 @@ class LatestUpdateView(APIView):
         update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest(
             "update_time"
         )
-        if update.meta_time_created > datetime.now(utc) - timedelta(minutes=32):
+        if update.meta_time_created > (timezone.now() - timedelta(hours=12)):
             serializer = DetailedUpdateSerializer(update, data=request.data)
             if serializer.is_valid():
                 serializer.clean()
@@ -213,6 +214,8 @@ class LatestUpdateView(APIView):
                 return Response(serializer.data)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"error": "OutOfTime"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UpdateDetailView(APIView):
