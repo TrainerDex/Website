@@ -1,7 +1,7 @@
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext
 from form_utils.forms import BetterModelForm
 from pokemongo.models import Update, Trainer
-from pokemongo.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
+from pokemongo.shortcuts import STANDARD_MEDALS, BATTLE_HUB_STATS, UPDATE_FIELDS_TYPES
 
 
 class UpdateForm(BetterModelForm):
@@ -9,7 +9,7 @@ class UpdateForm(BetterModelForm):
         model = Update
         fieldsets = [
             (
-                "main",
+                "stats",
                 {
                     "fields": [
                         "trainer",
@@ -17,18 +17,32 @@ class UpdateForm(BetterModelForm):
                         "data_source",
                         "double_check_confirmation",
                         "total_xp",
-                        "pokemon_info_stardust",
                         "pokedex_caught",
                         "pokedex_seen",
                         "gymbadges_total",
                         "gymbadges_gold",
-                    ]
-                    + list(UPDATE_FIELDS_BADGES),
-                    "legend": _("Main"),
-                    "classes": ["is-active"],
+                    ],
+                    "legend": pgettext("profile_category_stats", "Stats"),
                 },
             ),
-            ("badges", {"fields": UPDATE_FIELDS_TYPES, "legend": _("Type Medals")}),
+            (
+                "medals",
+                {
+                    "fields": STANDARD_MEDALS,
+                    "legend": pgettext("profile_category_medals", "Medals"),
+                },
+            ),
+            (
+                "battle_hub",
+                {
+                    "fields": BATTLE_HUB_STATS,
+                    "legend": pgettext("battle_hub_category_league", "GO Battle League"),
+                },
+            ),
+            (
+                "types",
+                {"fields": UPDATE_FIELDS_TYPES, "legend": pgettext("pokemon_info_type", "Type")},
+            ),
         ]
 
 

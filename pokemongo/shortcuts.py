@@ -194,7 +194,7 @@ def get_level(level: int) -> Level:
         raise ValueError
 
 
-UPDATE_FIELDS_BADGES = [
+STANDARD_MEDALS = [
     "badge_travel_km",
     "badge_pokedex_entries",
     "badge_capture_total",
@@ -236,11 +236,16 @@ UPDATE_FIELDS_BADGES = [
     "badge_wayfarer",
     "badge_total_mega_evos",
     "badge_unique_mega_evos",
+]
+
+BATTLE_HUB_STATS = [
     "battle_hub_stats_wins",
     "battle_hub_stats_battles",
     "battle_hub_stats_stardust",
     "battle_hub_stats_streak",
 ]
+
+UPDATE_FIELDS_BADGES = STANDARD_MEDALS + BATTLE_HUB_STATS
 
 UPDATE_FIELDS_TYPES = [
     "badge_type_normal",

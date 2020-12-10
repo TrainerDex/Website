@@ -2,7 +2,7 @@ import logging
 from typing import Optional
 
 from cities.models import Country
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -14,7 +14,9 @@ from django.http import (
     Http404,
 )
 from django.shortcuts import get_object_or_404, render, redirect, reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, get_language_from_request
+
 from math import ceil
 from pokemongo.forms import UpdateForm, TrainerForm
 from pokemongo.models import Trainer, Update, Community, Nickname
@@ -155,7 +157,7 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
 
     try:
         existing = request.user.trainer.update_set.filter(
-            update_time__gte=datetime.now() - timedelta(hours=6)
+            update_time__gte=timezone.now() - timedelta(hours=6)
         ).latest("update_time")
     except Update.DoesNotExist:
         existing = None
