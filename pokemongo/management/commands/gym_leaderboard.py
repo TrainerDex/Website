@@ -203,7 +203,7 @@ class Command(BaseCommand):
                     delta=intcomma(entry.stat_delta),
                     stat=intcomma(entry.this_week_stat),
                 )
-                if entry.last_week
+                if (entry.last_week and entry.this_week_stat != entry.last_week_stat)
                 else _("#{position} **{trainer}** {stat}").format(
                     position=position + 1,
                     trainer=entry.trainer,
@@ -217,7 +217,6 @@ Week: `{year}W{week}` Deadline: `{this_week_deadline} UTC`
 
 {ranked}
 
-Robot 🤖 is returning soon! Beautification soon too!
 It's all manual atm, sorry!
 **Next weeks deadline is: `{deadline} UTC`**
 """.format(
