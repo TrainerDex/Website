@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-10 03:14+0000\n"
-"PO-Revision-Date: 2020-12-10 03:14\n"
+"POT-Creation-Date: 2020-12-10 03:33+0000\n"
+"PO-Revision-Date: 2020-12-10 03:33\n"
 "Last-Translator: \n"
 "Language-Team: Dutch, Belgium\n"
 "Language: nl_BE\n"
@@ -19,93 +19,93 @@ msgstr ""
 
 #: core/admin.py:30
 msgid "Sync members with Discord"
-msgstr "Synchroniseer leden met Discord"
+msgstr ""
 
 #: core/admin.py:39
 msgid "Download channels from Discord. Currently doesn't delete them."
-msgstr "Kanalen downloaden van Discord. Momenteel wordt deze niet verwijderd."
+msgstr ""
 
 #: core/admin.py:70 core/admin.py:71
 msgid "Discord Server Settings"
-msgstr "Discord server instellingen"
+msgstr ""
 
 #: core/models.py:105 core/models.py:311 core/models.py:391 core/models.py:471
 #: core/models.py:515
 msgid "got data"
-msgstr "gegevens ontvangen"
+msgstr ""
 
 #: core/models.py:189
 #, python-brace-format
 msgid "Succesfully updated {x} of {y} {guild} members"
-msgstr "{x} van {y} {guild} leden succesvol bijgewerkt"
+msgstr ""
 
 #: core/models.py:225
 msgid "Discord Guild"
-msgstr "Discord Gilde"
+msgstr ""
 
 #: core/models.py:226
 msgid "Discord Guilds"
-msgstr "Discord Gildes"
+msgstr ""
 
 #: core/models.py:245
 msgid "Rename users when they join."
-msgstr "Wijzig de naam van gebruikers wanneer ze toetreden."
+msgstr ""
 
 #: core/models.py:247
 msgid "This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."
-msgstr "Deze instelling zal een gebruiker een andere naam geven op zijn PokePovermon Go gebruikersnaam wanneer ze op uw server komen en wanneer hun naam hier verandert."
+msgstr ""
 
 #: core/models.py:252
 msgid "Rename users with their level indicator"
-msgstr "Wijzig de naam van gebruikers met hun niveau indicator"
+msgstr ""
 
 #: core/models.py:254
 msgid "This setting will add a level to the end of their username on your server. Their name will update whenever they level up."
-msgstr "Deze instelling voegt een niveau toe aan het einde van hun gebruikersnaam op uw server. Hun naam wordt bijgewerkt wanneer ze een level omhoog gaan."
+msgstr ""
 
 #: core/models.py:260
 msgid "Level Indicator format"
-msgstr "Niveau indicator formaat"
+msgstr ""
 
 #: core/models.py:359
 msgid "Discord Channel"
-msgstr "Discord kanaal"
+msgstr ""
 
 #: core/models.py:360
 msgid "Discord Channels"
-msgstr "Discord Kanalen"
+msgstr ""
 
 #: core/models.py:442
 msgid "Discord Role"
-msgstr "Discord Rol"
+msgstr ""
 
 #: core/models.py:443
 msgid "Discord Roles"
-msgstr "Discord rollen"
+msgstr ""
 
 #: core/models.py:475
 msgid "Discord User"
-msgstr "Discord gebruiker"
+msgstr ""
 
 #: core/models.py:476
 msgid "Discord Users"
-msgstr "Discord gebruikers"
+msgstr ""
 
 #: core/models.py:579
 msgid "Discord Member"
-msgstr "Discord lid"
+msgstr ""
 
 #: core/models.py:580
 msgid "Discord Members"
-msgstr "Discord leden"
+msgstr ""
 
 #: core/templates/404.html:6 core/templates/404.html:12
 msgid "404 Not Found"
-msgstr "404 niet gevonden"
+msgstr ""
 
 #: core/templates/404.html:15
 msgid "Sorry, we couldn't find the page you're looking for. Double check the URL or reach out to us on Discord."
-msgstr "Sorry, we konden de pagina die je zoekt niet vinden. Controleer de URL of bereik ons op Discord."
+msgstr ""
 
 #: core/templates/404.html:19
 #: core/templates/account/password_reset_done.html:20
@@ -113,106 +113,106 @@ msgstr "Sorry, we konden de pagina die je zoekt niet vinden. Controleer de URL o
 #: core/templates/account/signup_closed.html:19
 #: core/templates/account/verification_sent.html:18
 msgid "Return to Leaderboard"
-msgstr "Terug naar Scorebord"
+msgstr ""
 
 #: core/templates/404.html:22
 msgid "Visit our Discord"
-msgstr "Bezoek onze Discord"
+msgstr ""
 
 #: core/templates/account/account_inactive.html:5
 #: core/templates/account/account_inactive.html:11
 msgid "Account Inactive"
-msgstr "Account inactief"
+msgstr ""
 
 #: core/templates/account/account_inactive.html:14
 msgid "This account is inactive. Please contact us on Discord or Twitter for help."
-msgstr "Dit account is inactief. Neem contact met ons op via Discord of Twitter voor hulp."
+msgstr ""
 
 #: core/templates/account/account_inactive.html:18
 msgid "Discord Server"
-msgstr "Discord server"
+msgstr ""
 
 #: core/templates/account/account_inactive.html:21
 msgid "@TrainerDexApp on Twitter"
-msgstr "@TrainerDexApp op Twitter"
+msgstr ""
 
 #: core/templates/account/account_settings.html:6
 msgid "Account Settings"
-msgstr "Account Instellingen"
+msgstr ""
 
 #: core/templates/account/account_settings.html:12
 msgid "User Info"
-msgstr "Gebruikers Info"
+msgstr ""
 
 #: core/templates/account/account_settings.html:17
 msgid "Username"
-msgstr "Gebruikersnaam"
+msgstr ""
 
 #: core/templates/account/account_settings.html:24
 msgid "Password"
-msgstr "Wachtwoord"
+msgstr ""
 
 #: core/templates/account/account_settings.html:28
 #: core/templates/account/password_change.html:6
 #: core/templates/account/password_change.html:12
 #: core/templates/account/password_change.html:42
 msgid "Change Password"
-msgstr "Wachtwoord wijzigen"
+msgstr ""
 
 #: core/templates/account/account_settings.html:34
 msgid "Name"
-msgstr "naam"
+msgstr ""
 
 #: core/templates/account/account_settings.html:41
 msgid "Primary Email address"
-msgstr "Primair e-mailadres"
+msgstr ""
 
 #: core/templates/account/account_settings.html:45
 msgid "Email Management"
-msgstr "E-mail beheer"
+msgstr ""
 
 #: core/templates/account/account_settings.html:51
 msgid "Last Login"
-msgstr "Laatste aanmelding"
+msgstr ""
 
 #: core/templates/account/account_settings.html:58
 msgid "Date Registered"
-msgstr "Datum geregistreerd"
+msgstr ""
 
 #: core/templates/account/account_settings.html:64
 msgid "Manage Social Network Connections"
-msgstr "Beheer social netwerk verbindingen"
+msgstr ""
 
 #: core/templates/account/account_settings.html:70
 msgid "Trainer Info"
-msgstr "Trainer Info"
+msgstr ""
 
 #: core/templates/account/account_settings.html:75 pokemongo/models.py:326
 msgctxt "codename"
 msgid "Nickname"
-msgstr "Gebruikersnaam"
+msgstr ""
 
 #: core/templates/account/account_settings.html:82
 #: pokemongo/templates/profile.html:10
 msgid "Level"
-msgstr "Niveau"
+msgstr ""
 
 #: core/templates/account/account_settings.html:89 pokemongo/models.py:109
 #: pokemongo/templates/leaderboard.html:50
 msgctxt "faction"
 msgid "Team"
-msgstr "Team"
+msgstr ""
 
 #: core/templates/account/account_settings.html:96 pokemongo/models.py:103
 #: pokemongo/strings.py:415 pokemongo/templates/profile.html:23
-#: pokemongo/templates/profile.html:64
+#: pokemongo/templates/profile.html:63
 msgctxt "profile_start_date"
 msgid "Start Date"
 msgstr ""
 
 #: core/templates/account/account_settings.html:103
 msgid "Publicly Visible"
-msgstr "Openbaar zichtbaar"
+msgstr ""
 
 #: core/templates/account/account_settings.html:110 pokemongo/models.py:134
 #: pokemongo/strings.py:332
@@ -222,161 +222,155 @@ msgstr ""
 
 #: core/templates/account/account_settings.html:117 pokemongo/models.py:143
 msgid "Country"
-msgstr "Land:"
+msgstr ""
 
 #: core/templates/account/account_settings.html:124 pokemongo/models.py:151
 msgid "Last Modified"
-msgstr "Laatst gewijzigd"
+msgstr ""
 
 #: core/templates/account/account_settings.html:131
 msgid "Banned?"
-msgstr "Geblokkeerd?"
+msgstr ""
 
 #: core/templates/account/account_settings.html:138 pokemongo/models.py:242
 msgid "Verification Status"
-msgstr "Verificatie status"
+msgstr ""
 
 #: core/templates/account/account_settings.html:145
 msgid "Posts"
-msgstr "Berichten"
+msgstr ""
 
 #: core/templates/account/account_settings.html:152
 msgid "Nicknames"
-msgstr "Bijnamen"
+msgstr ""
 
 #: core/templates/account/email.html:6
 msgid "Account"
-msgstr "Rekening"
+msgstr ""
 
 #: core/templates/account/email.html:12
 msgid "E-mail Addresses"
-msgstr "E-mail adressen"
+msgstr ""
 
 #: core/templates/account/email.html:19
 msgid "The following e-mail addresses are associated with your account:"
-msgstr "De volgende e-mailadressen zijn gekoppeld aan uw account:"
+msgstr ""
 
 #: core/templates/account/email.html:27
 msgid "Primary"
-msgstr "Primair"
+msgstr ""
 
 #: core/templates/account/email.html:39
 msgid "Set Primary"
-msgstr "Primaire instellen"
+msgstr ""
 
 #: core/templates/account/email.html:40
 msgid "Re-send Verification"
-msgstr "Verificatie opnieuw verzenden"
+msgstr ""
 
 #: core/templates/account/email.html:41
 #: core/templates/socialaccount/connections.html:46
 msgid "Remove"
-msgstr "Verwijderen"
+msgstr ""
 
 #: core/templates/account/email.html:51
 msgid "Warning:"
-msgstr "Waarschuwing:"
+msgstr ""
 
 #: core/templates/account/email.html:51
 msgid "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc."
-msgstr "U heeft momenteel geen e-mailadres ingesteld. U moet echt een e-mailadres toevoegen zodat u meldingen kunt ontvangen, uw wachtwoord kunt resetten, enz."
+msgstr ""
 
 #: core/templates/account/email.html:57
 msgid "Add E-mail Address"
-msgstr "E-mailadres toevoegen"
+msgstr ""
 
 #: core/templates/account/email.html:61
 msgid "Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation."
-msgstr "Voeg een e-mailadres toe aan je account om terug te komen als je je wachtwoord vergeet. Ook wordt je primaire email gebruikt voor gravatar generatie."
+msgstr ""
 
 #: core/templates/account/email.html:69
 msgid "Add E-mail"
-msgstr "E-mail toevoegen"
+msgstr ""
 
 #: core/templates/account/email.html:80
 msgid "Do you really want to remove the selected e-mail address?"
-msgstr "Weet u zeker dat u het geselecteerde e-mailadres wilt verwijderen?"
+msgstr ""
 
 #: core/templates/account/email/email_confirmation_message.txt:5
 #, python-format
 msgid "Hello from %(site_name)s!\n\n"
 "You're receiving this e-mail because user %(user_display)s has connected this e-mail address to their account. If this is not you, just ignore this email.\n\n"
 "To confirm this is correct, go to %(activate_url)s\n"
-msgstr "Hallo van %(site_name)s!\n\n"
-"Je ontvangt deze e-mail omdat gebruiker %(user_display)s dit e-mailadres heeft gekoppeld aan zijn account. Als u dit niet bent, negeer dan gewoon deze e-mail.\n\n"
-"Om te bevestigen dat dit juist is, ga naar %(activate_url)s\n"
+msgstr ""
 
 #: core/templates/account/email/email_confirmation_message.txt:12
 #, python-format
 msgid "Thank you from %(site_name)s!\n"
 "%(site_domain)s\n"
-msgstr "Bedankt van %(site_name)s!\n"
-"%(site_domain)s\n"
+msgstr ""
 
 #: core/templates/account/email/email_confirmation_subject.txt:3
 msgid "Please confirm your E-mail Address"
-msgstr "Bevestig uw e-mailadres"
+msgstr ""
 
 #: core/templates/account/email/password_reset_key_message.txt:1
 #, python-format
 msgid "Hello from %(site_name)s!\n\n"
 "You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
 "It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
-msgstr "Hallo van %(site_name)s!\n\n"
-"U ontvangt dit e-mailbericht omdat u of iemand anders een wachtwoord voor uw gebruikersaccount heeft aangevraagd.\n"
-"Het kan veilig genegeerd worden als u geen wachtwoord reset hebt aangevraagd. Klik op de onderstaande link om uw wachtwoord opnieuw in te stellen."
+msgstr ""
 
 #: core/templates/account/email/password_reset_key_message.txt:8
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
-msgstr "In het geval dat je vergeten bent, is je gebruikersnaam %(username)s."
+msgstr ""
 
 #: core/templates/account/email/password_reset_key_message.txt:10
 #, python-format
 msgid "Thank you for using %(site_name)s!\n"
 "%(site_domain)s"
-msgstr "Bedankt voor het gebruiken van %(site_name)s!\n"
-"%(site_domain)s"
+msgstr ""
 
 #: core/templates/account/email/password_reset_key_subject.txt:3
 msgid "Password Reset E-mail"
-msgstr "E-mail om wachtwoord te resetten"
+msgstr ""
 
 #: core/templates/account/email_confirm.html:6
 #: core/templates/account/email_confirm.html:12
 msgid "Confirm E-mail Address"
-msgstr "Bevestig uw e-mailadres"
+msgstr ""
 
 #: core/templates/account/email_confirm.html:17
 #, python-format
 msgid "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s."
-msgstr "Bevestig dat <a href=\"mailto:%(email)s\">%(email)s</a> een e-mailadres is voor gebruiker %(user_display)s."
+msgstr ""
 
 #: core/templates/account/email_confirm.html:22
 msgid "Confirm"
-msgstr "Bevestigen"
+msgstr ""
 
 #: core/templates/account/email_confirm.html:28
 msgid "This e-mail confirmation link expired or is invalid."
-msgstr "Deze e-mail bevestigingslink is verlopen of is ongeldig."
+msgstr ""
 
 #: core/templates/account/email_confirm.html:32
 msgid "Resend confirmation email"
-msgstr "Bevestigingsmail opnieuw versturen"
+msgstr ""
 
 #: core/templates/account/login.html:7 core/templates/account/login.html:15
 #: core/templates/account/login.html:51 core/templates/base.html:99
 #: core/templates/base.html:112
 msgid "Login"
-msgstr "Aanmelden"
+msgstr ""
 
 #: core/templates/account/login.html:20
 msgid "If you already have an account, you can login below or via a third party account."
-msgstr "Als je al een account hebt, kun je hieronder inloggen of via een account van een derde partij."
+msgstr ""
 
 #: core/templates/account/login.html:56
 msgid "Forget/Reset Password"
-msgstr "Wachtwoord vergeten/opnieuw instellen"
+msgstr ""
 
 #: core/templates/account/logout.html:5 core/templates/account/logout.html:11
 #: core/templates/account/logout.html:22 core/templates/base.html:97
@@ -393,47 +387,47 @@ msgstr ""
 #: core/templates/account/messages/cannot_delete_primary_email.txt:2
 #, python-format
 msgid "You cannot remove your primary e-mail address (%(email)s)."
-msgstr "U kunt uw primaire e-mailadres niet verwijderen (%(email)s)."
+msgstr ""
 
 #: core/templates/account/messages/email_confirmation_sent.txt:2
 #, python-format
 msgid "Confirmation e-mail sent to %(email)s."
-msgstr "Bevestigings-e-mail verzonden naar %(email)s."
+msgstr ""
 
 #: core/templates/account/messages/email_confirmed.txt:2
 #, python-format
 msgid "You have confirmed %(email)s."
-msgstr "Je hebt %(email)s bevestigd."
+msgstr ""
 
 #: core/templates/account/messages/email_deleted.txt:2
 #, python-format
 msgid "Removed e-mail address %(email)s."
-msgstr "Emailadres %(email)s verwijderd."
+msgstr ""
 
 #: core/templates/account/messages/logged_in.txt:4
 #, python-format
 msgid "Successfully signed in as %(name)s."
-msgstr "Succesvol ingelogd als %(name)s."
+msgstr ""
 
 #: core/templates/account/messages/logged_out.txt:2
 msgid "You have signed out."
-msgstr "U heeft zich afgemeld."
+msgstr ""
 
 #: core/templates/account/messages/password_changed.txt:2
 msgid "Password successfully changed."
-msgstr "Wachtwoord succesvol gewijzigd."
+msgstr ""
 
 #: core/templates/account/messages/password_set.txt:2
 msgid "Password successfully set."
-msgstr "Wachtwoord met succes ingesteld."
+msgstr ""
 
 #: core/templates/account/messages/primary_email_set.txt:2
 msgid "Primary e-mail address set."
-msgstr "Primair e-mailadres ingesteld."
+msgstr ""
 
 #: core/templates/account/messages/unverified_primary_email.txt:2
 msgid "Your primary e-mail address must be verified."
-msgstr "Uw primaire e-mailadres moet worden geverifieerd."
+msgstr ""
 
 #: core/templates/account/password_reset.html:7
 #: core/templates/account/password_reset.html:13
@@ -442,114 +436,114 @@ msgstr "Uw primaire e-mailadres moet worden geverifieerd."
 #: core/templates/account/password_reset_from_key.html:6
 #: core/templates/account/password_reset_from_key.html:12
 msgid "Password Reset"
-msgstr "Wachtwoord opnieuw instellen"
+msgstr ""
 
 #: core/templates/account/password_reset.html:19
 msgid "Forgotten your password? Enter your e-mail address below, and we'll send you an e-mail allowing you to reset it."
-msgstr "Bent u uw wachtwoord vergeten? Voer hieronder uw e-mailadres in en wij sturen u een e-mail waarmee u het opnieuw kunt instellen."
+msgstr ""
 
 #: core/templates/account/password_reset.html:20
 msgid "Please contact us if you have any trouble resetting your password."
-msgstr "Neem contact met ons op als je problemen hebt met het opnieuw instellen van je wachtwoord."
+msgstr ""
 
 #: core/templates/account/password_reset.html:27
 msgid "Reset My Password"
-msgstr "Mijn wachtwoord opnieuw instellen"
+msgstr ""
 
 #: core/templates/account/password_reset_done.html:16
 msgid "If that email is valid, we have sent you an e-mail. Please follow the instructions in the email to continue."
-msgstr "Als dat e-mailadres geldig is, hebben we u een e-mail gestuurd. Volg de instructies in de e-mail om door te gaan."
+msgstr ""
 
 #: core/templates/account/password_reset_from_key.html:6
 #: core/templates/account/password_reset_from_key.html:12
 msgid "Bad Token"
-msgstr "Slechte Token"
+msgstr ""
 
 #: core/templates/account/password_reset_from_key.html:17
 msgid "The password reset link was invalid, possibly because it has already been used."
-msgstr "Wachtwoord reset link was ongeldig, mogelijk omdat deze al gebruikt is."
+msgstr ""
 
 #: core/templates/account/password_reset_from_key.html:21
 msgid "New password reset key"
-msgstr "Nieuw wachtwoord reset sleutel"
+msgstr ""
 
 #: core/templates/account/password_reset_from_key.html:47
 msgid "change password"
-msgstr "wachtwoord wijzigen"
+msgstr ""
 
 #: core/templates/account/password_reset_from_key.html:52
 msgid "Your password has now been changed."
-msgstr "Je wachtwoord is nu gewijzigd."
+msgstr ""
 
 #: core/templates/account/password_reset_from_key.html:56
 #: core/templates/socialaccount/authentication_error.html:18
 #: core/templates/socialaccount/login_cancelled.html:18
 msgid "Return to login page"
-msgstr "Terug naar de inlogpagina"
+msgstr ""
 
 #: core/templates/account/password_reset_from_key_done.html:4
 #: core/templates/account/password_reset_from_key_done.html:10
 msgid "Password Changed"
-msgstr "Wachtwoord gewijzigd"
+msgstr ""
 
 #: core/templates/account/password_reset_from_key_done.html:13
 msgid "Your password is now changed."
-msgstr "Je wachtwoord is nu gewijzigd."
+msgstr ""
 
 #: core/templates/account/password_set.html:6
 #: core/templates/account/password_set.html:12
 #: core/templates/account/password_set.html:37
 msgid "Set Password"
-msgstr "Wachtwoord instellen"
+msgstr ""
 
 #: core/templates/account/password_set.html:17
 msgid "Please set a password."
-msgstr "Stel een wachtwoord in."
+msgstr ""
 
 #: core/templates/account/signup_closed.html:5
 msgid "Sign Up Closed"
-msgstr "Aanmelden gesloten"
+msgstr ""
 
 #: core/templates/account/signup_closed.html:11
 msgid "We are sorry, but registrations via the website are currently disabled."
-msgstr "Het spijt ons, maar registraties via de website zijn momenteel uitgeschakeld."
+msgstr ""
 
 #: core/templates/account/signup_closed.html:14
 msgid "This is preperation for transition to the NEW TrainerDex website. We apologise for the inconvenience."
-msgstr "Dit is preperatie voor de overgang naar de NIEUWE TrainerDex website. Onze excuses voor het ongemak."
+msgstr ""
 
 #: core/templates/account/signup_closed.html:22
 msgid "Join Discord"
-msgstr "Deelnemen aan Discord"
+msgstr ""
 
 #: core/templates/account/snippets/already_logged_in.html:5
 #, python-format
 msgid "You are already logged in as %(user_display)s."
-msgstr "Je bent al ingelogd als %(user_display)s."
+msgstr ""
 
 #: core/templates/account/verification_sent.html:5
 #: core/templates/account/verification_sent.html:11
 #: core/templates/account/verified_email_required.html:5
 #: core/templates/account/verified_email_required.html:11
 msgid "Verify Your E-mail Address"
-msgstr "Verifieer je e-mailadres"
+msgstr ""
 
 #: core/templates/account/verification_sent.html:14
 msgid "We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes."
-msgstr "We hebben een e-mail naar u gestuurd voor verificatie. Volg de link in de opgegeven om het inschrijvingsproces te voltooien. Neem contact met ons op als u het niet binnen een paar minuten ontvangt."
+msgstr ""
 
 #: core/templates/account/verified_email_required.html:15
 msgid "This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address."
-msgstr "Dit deel van de site vereist van ons om te controleren of u degene bent die u beweert te zijn. Om dit doel te bereiken moeten we u het eigendom van uw e-mailadres verifiëren."
+msgstr ""
 
 #: core/templates/account/verified_email_required.html:16
 msgid "We have sent an e-mail to you for verification. Please click on the link inside this e-mail. Please contact us if you do not receive it within a few minutes."
-msgstr "We hebben u een e-mail gestuurd voor verificatie. Klik op de link in deze e-mail. Neem contact met ons op als u het niet binnen een paar minuten ontvangt."
+msgstr ""
 
 #: core/templates/base.html:13
 msgctxt "meta tag in head"
 msgid "TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!"
-msgstr "TrainerDex biedt scoreborden en statistieken gerelateerd aan Pokemon Go. Word nu lid!"
+msgstr ""
 
 #: core/templates/base.html:58 pokemongo/strings.py:360
 msgctxt "general_ok"
@@ -562,30 +556,30 @@ msgstr ""
 
 #: core/templates/base.html:60
 msgid "This website uses cookies to ensure you get the best experience on our website."
-msgstr "Deze website maakt gebruik van cookies om ervoor te zorgen dat u de beste ervaring op onze website heeft."
+msgstr ""
 
 #: core/templates/base.html:93 core/templates/base.html:94
 #: core/templates/base.html:114 pokemongo/admin.py:176
 #: pokemongo/templates/leaderboard.html:28
 msgid "Leaderboard"
-msgstr "Scorebord"
+msgstr ""
 
 #: core/templates/base.html:109
 msgid "Settings"
-msgstr "Instellingen"
+msgstr ""
 
 #: core/templates/base.html:118
 msgid "Admin Panel"
-msgstr "Beheerder paneel"
+msgstr ""
 
 #: core/templates/base.html:119 core/templates/privacy.html:6
 msgid "Privacy Policy"
-msgstr "Privacy Beleid"
+msgstr ""
 
 #: core/templates/base.html:120 core/templates/terms.html:6
 #: core/templates/terms.html:12
 msgid "Terms of Service"
-msgstr "Algemene gebruiksvoorwaarden"
+msgstr ""
 
 #: core/templates/base.html:121
 msgid "Join our Discord server!"
@@ -593,72 +587,72 @@ msgstr ""
 
 #: core/templates/base.html:122
 msgid "Author"
-msgstr "Auteur"
+msgstr ""
 
 #: core/templates/base.html:123
 msgid "Version"
-msgstr "Versie"
+msgstr ""
 
 #: core/templates/privacy.html:15 core/templates/terms.html:15
 msgid "For various reasons, this document is only available in English."
-msgstr "Om verschillende redenen is dit document alleen in het Engels beschikbaar."
+msgstr ""
 
 #: core/templates/socialaccount/authentication_error.html:5
 #: core/templates/socialaccount/authentication_error.html:11
 #: core/templates/socialaccount/login_cancelled.html:5
 msgid "Social Network Login Failure"
-msgstr "Social netwerk login mislukt"
+msgstr ""
 
 #: core/templates/socialaccount/authentication_error.html:14
 msgid "An error occurred while attempting to login via your social network account."
-msgstr "Er is een fout opgetreden bij het inloggen via uw sociale netwerkaccount."
+msgstr ""
 
 #: core/templates/socialaccount/connections.html:5
 #: core/templates/socialaccount/connections.html:25
 msgid "Account Connections"
-msgstr "Account connecties"
+msgstr ""
 
 #: core/templates/socialaccount/connections.html:11
 msgid "Connect Social Media"
-msgstr "Sociale Media verbinden"
+msgstr ""
 
 #: core/templates/socialaccount/connections.html:14
 msgid "You can connect any of these social media networks."
-msgstr "Je kunt elk van deze sociale media netwerken koppelen."
+msgstr ""
 
 #: core/templates/socialaccount/connections.html:28
 msgid "You can sign in to your account using any of the following third party accounts:"
-msgstr "U kunt inloggen op uw account met een van de volgende accounts van derden:"
+msgstr ""
 
 #: core/templates/socialaccount/login_cancelled.html:11
 msgid "Login Cancelled"
-msgstr "Inloggen geannuleerd"
+msgstr ""
 
 #: core/templates/socialaccount/login_cancelled.html:14
 msgid "Login was cancelled."
-msgstr "Inloggen geannuleerd."
+msgstr ""
 
 #: core/templates/socialaccount/messages/account_connected.txt:2
 msgid "The social account has been connected."
-msgstr "De sociale account is verbonden."
+msgstr ""
 
 #: core/templates/socialaccount/messages/account_connected_other.txt:2
 msgid "The social account is already connected to a different account."
-msgstr "De sociale account is al gekoppeld aan een ander account."
+msgstr ""
 
 #: core/templates/socialaccount/messages/account_disconnected.txt:2
 msgid "The social account has been disconnected."
-msgstr "De verbinding met de sociale account is verbroken."
+msgstr ""
 
 #: core/templates/socialaccount/snippets/provider_list.html:9
 #: core/templates/socialaccount/snippets/provider_list.html:12
 #, python-format
 msgid "Continue with %(provider)s"
-msgstr "Ga verder met %(provider)s"
+msgstr ""
 
 #: pokemongo/admin.py:25
 msgid "Sync Members for all eligible Discords"
-msgstr "Synchroniseer leden voor alle geldige Discords"
+msgstr ""
 
 #: pokemongo/admin.py:88 pokemongo/forms.py:25 pokemongo/models.py:119
 #: pokemongo/strings.py:407
@@ -667,13 +661,13 @@ msgid "Stats"
 msgstr ""
 
 #: pokemongo/admin.py:100 pokemongo/forms.py:32 pokemongo/strings.py:406
-#: pokemongo/templates/profile.html:108
+#: pokemongo/templates/profile.html:107
 msgctxt "profile_category_medals"
 msgid "Medals"
 msgstr ""
 
 #: pokemongo/admin.py:104 pokemongo/forms.py:39 pokemongo/strings.py:311
-#: pokemongo/templates/profile.html:77
+#: pokemongo/templates/profile.html:76
 msgctxt "battle_hub_category_league"
 msgid "GO Battle League"
 msgstr ""
@@ -685,7 +679,7 @@ msgstr ""
 
 #: pokemongo/admin.py:174
 msgid "Reports"
-msgstr "Rapporten"
+msgstr ""
 
 #: pokemongo/management/commands/gains_leaderboard.py:172
 #: pokemongo/management/commands/gym_leaderboard.py:177
@@ -739,26 +733,25 @@ msgstr ""
 #: pokemongo/management/commands/gains_leaderboard.py:179
 #: pokemongo/management/commands/gym_leaderboard.py:184 pokemongo/models.py:421
 #: pokemongo/strings.py:416 pokemongo/templates/profile.html:22
-#: pokemongo/templates/profile.html:57 pokemongo/templates/profile.html:116
+#: pokemongo/templates/profile.html:56 pokemongo/templates/profile.html:115
 msgctxt "profile_total_xp"
 msgid "Total XP"
 msgstr ""
 
 #: pokemongo/management/commands/gains_leaderboard.py:183
 msgid "Weekly {stat_emoji} {stat_name} Progress for \\N{BUSTS IN SILHOUETTE} {guild.name}"
-msgstr "Wekelijkse {stat_emoji} {stat_name} Voortgang voor \\N{BUSTS IN SILHOUETTE} {guild.name}"
+msgstr ""
 
 #: pokemongo/management/commands/gains_leaderboard.py:192
 #, python-brace-format
 msgid "**{title}**\n"
 "Unfortunately, there were not valid entries this week."
-msgstr "**{title}**\n"
-"Helaas waren er deze week geen geldige invoeringen."
+msgstr ""
 
 #: pokemongo/management/commands/gains_leaderboard.py:197
 #, python-brace-format
 msgid "#{position} **{trainer}** @ {rate}/day (+{delta}) `Interval: {interval}` `Gain: {then} ⇒ {now}`"
-msgstr "#{position} **{trainer}** @ {rate}/day (+{delta}) `Interval: {interval}` `Gain: {then} ² {now}`"
+msgstr ""
 
 #: pokemongo/management/commands/gains_leaderboard.py:212
 #, python-brace-format
@@ -769,13 +762,7 @@ msgid "**{title}**\n"
 "New entries will be ranked next week if they update by the deadline.\n"
 "**{lost_count}** Trainers from last week didn't update again this week.\n"
 "**Next weeks deadline is: `{deadline} UTC`**\n"
-msgstr "**{title}**\n"
-"Wek: `{year}W{week}` Deadline: `{this_week_deadline} UTC`\n\n"
-"{ranked}\n\n"
-"**{new_count}** Nieuwe inschrijven: {new}\n\n"
-"Nieuwe items worden volgende week gerangschikt als ze de deadline bijwerken.\n"
-"**{lost_count}** Trainers van vorige week zijn deze week niet meer bijgewerkt.\n"
-"**Volgende weken deadline is: `{deadline} UTC`**\n"
+msgstr ""
 
 #: pokemongo/management/commands/gym_leaderboard.py:185
 msgctxt "gymbadges_gold"
@@ -798,119 +785,119 @@ msgstr ""
 
 #: pokemongo/management/commands/post_announcement.py:48
 msgid "Progress Deadline Reminder"
-msgstr "Voortgang Deadline Herinnering"
+msgstr ""
 
 #: pokemongo/management/commands/post_announcement.py:50
 #: pokemongo/management/commands/post_announcement.py:68
 #, python-brace-format
 msgid "This is a reminder. The Progress Deadline is in {timedelta}."
-msgstr "Dit is een herinnering. De Dodingslijn is in {timedelta}."
+msgstr ""
 
 #: pokemongo/models.py:97
 msgid "User"
-msgstr "Gebruiker"
+msgstr ""
 
 #: pokemongo/models.py:104
 msgid "The date you created your Pokémon Go account."
-msgstr "De datum waarop je je Pokeşmon Go account hebt aangemaakt."
+msgstr ""
 
 #: pokemongo/models.py:114
 msgid "Last Cheated"
-msgstr "Laatst gecontroleerd"
+msgstr ""
 
 #: pokemongo/models.py:115
 msgid "When did this Trainer last cheat?"
-msgstr "Wanneer heeft deze Trainer het laatst gecheat?"
+msgstr ""
 
 #: pokemongo/models.py:121
 msgid "Would you like to be shown on the leaderboard? Ticking this box gives us permission to process your data."
-msgstr "Wil je worden weergegeven op het leaderboard? Als je dit selectievakje aankruist geeft je ons toestemming om je gegevens te verwerken."
+msgstr ""
 
 #: pokemongo/models.py:135
 msgid "Fancy sharing your trainer code? (This information is public.)"
-msgstr "Mooi uw trainerscode delen? (Deze informatie is openbaar)"
+msgstr ""
 
 #: pokemongo/models.py:145
 msgid "Where are you based?"
-msgstr "Waar ben je op gebaseerd?"
+msgstr ""
 
 #: pokemongo/models.py:148 pokemongo/models.py:227 pokemongo/models.py:236
 msgid "Verified"
-msgstr "Geverifieerd"
+msgstr ""
 
 #: pokemongo/models.py:159 pokemongo/strings.py:71
-#: pokemongo/templates/profile.html:70
+#: pokemongo/templates/profile.html:69
 msgctxt "badge_level_40_title"
 msgid "Legacy 40"
 msgstr ""
 
 #: pokemongo/models.py:160 pokemongo/strings.py:70
-#: pokemongo/templates/profile.html:71
+#: pokemongo/templates/profile.html:70
 msgctxt "badge_level_40"
 msgid "Achieve level 40 by December 31, 2020."
 msgstr ""
 
 #: pokemongo/models.py:166 pokemongo/models.py:406
 msgid "Screenshot"
-msgstr "Schermafbeelding"
+msgstr ""
 
 #: pokemongo/models.py:176
 msgid "Has Cheated"
-msgstr "Heeft Cheated"
+msgstr ""
 
 #: pokemongo/models.py:200
 msgid "Banned"
-msgstr "Geblokkeerd"
+msgstr ""
 
 #: pokemongo/models.py:221 pokemongo/models.py:238
 msgid "Awaiting Verification"
-msgstr "Wachten op verificatie"
+msgstr ""
 
 #: pokemongo/models.py:240
 msgid "Unverified"
-msgstr "Ongeverifieerd"
+msgstr ""
 
 #: pokemongo/models.py:303 pokemongo/models.py:363
 msgid "Trainer"
-msgstr "Trainer"
+msgstr ""
 
 #: pokemongo/models.py:304
 msgid "Trainers"
-msgstr "Trainers"
+msgstr ""
 
 #: pokemongo/models.py:319
 msgctxt "player_term"
 msgid "Trainer"
-msgstr "Trainer"
+msgstr ""
 
-#: pokemongo/models.py:367 pokemongo/templates/profile.html:115
+#: pokemongo/models.py:367 pokemongo/templates/profile.html:114
 msgid "Time Updated"
-msgstr "Tijd bijgewerkt"
+msgstr ""
 
 #: pokemongo/models.py:395
 msgid "Submission Datetime"
-msgstr "Datum inzending"
+msgstr ""
 
 #: pokemongo/models.py:401
 msgid "Source"
-msgstr "Bron"
+msgstr ""
 
 #: pokemongo/models.py:407
 msgid "This should be your TOTAL XP screenshot."
-msgstr "Dit moet je TOTAL XP schermafbeelding zijn."
+msgstr ""
 
 #: pokemongo/models.py:413
 msgid "I have double checked this information and it is correct."
-msgstr "Ik heb deze gegevens dubbel en dwars nagekeken."
+msgstr ""
 
 #: pokemongo/models.py:414
 msgid "This will silence some errors."
-msgstr "Dit zal enkele fouten tot zwijgen brengen."
+msgstr ""
 
 #: pokemongo/models.py:428
 msgctxt "pokedex_page_caught"
 msgid "Unique Species Caught"
-msgstr "Unieke soorten gevangen"
+msgstr ""
 
 #: pokemongo/models.py:431 pokemongo/models.py:440
 #, python-brace-format
@@ -926,7 +913,7 @@ msgstr ""
 #: pokemongo/models.py:437
 msgctxt "pokedex_page_seen"
 msgid "Unique Species Seen"
-msgstr "Unieke soort gezien"
+msgstr ""
 
 #: pokemongo/models.py:452 pokemongo/strings.py:199
 msgctxt "badge_travel_km"
@@ -1172,7 +1159,7 @@ msgstr ""
 #: pokemongo/models.py:643
 msgctxt "badge_pokedex_entries_gen4__title"
 msgid "Sinnoh"
-msgstr "Sinnoh"
+msgstr ""
 
 #: pokemongo/models.py:646 pokemongo/strings.py:117
 #, python-brace-format
@@ -1235,7 +1222,7 @@ msgstr[1] ""
 #: pokemongo/models.py:702
 msgctxt "badge_pokedex_entries_gen5__title"
 msgid "Unova"
-msgstr "Unova"
+msgstr ""
 
 #: pokemongo/models.py:705 pokemongo/strings.py:123
 #, python-brace-format
@@ -1263,7 +1250,7 @@ msgstr ""
 #, python-brace-format
 msgctxt "badge_rocket_grunts_defeated"
 msgid "Defeat {0} Team GO Rocket Grunts."
-msgstr "Versla {0} Team GO Raket Grunts."
+msgstr ""
 
 #: pokemongo/models.py:731 pokemongo/strings.py:184
 msgctxt "badge_rocket_giovanni_defeated_title"
@@ -1394,7 +1381,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: pokemongo/models.py:872 pokemongo/strings.py:317
-#: pokemongo/templates/profile.html:81
+#: pokemongo/templates/profile.html:80
 msgctxt "battle_hub_stats_wins"
 msgid "Wins"
 msgstr ""
@@ -1413,19 +1400,19 @@ msgid "Battle"
 msgstr ""
 
 #: pokemongo/models.py:881 pokemongo/strings.py:312
-#: pokemongo/templates/profile.html:87
+#: pokemongo/templates/profile.html:86
 msgctxt "battle_hub_stats_battles"
 msgid "Battles"
 msgstr ""
 
 #: pokemongo/models.py:890 pokemongo/strings.py:314
-#: pokemongo/templates/profile.html:93
+#: pokemongo/templates/profile.html:92
 msgctxt "battle_hub_stats_stardust"
 msgid "Stardust Earned"
 msgstr ""
 
 #: pokemongo/models.py:899 pokemongo/strings.py:315
-#: pokemongo/templates/profile.html:99
+#: pokemongo/templates/profile.html:98
 msgctxt "battle_hub_stats_streak"
 msgid "Longest Streak"
 msgstr ""
@@ -1543,7 +1530,7 @@ msgstr ""
 #: pokemongo/models.py:973
 msgctxt "badge_type_water_title"
 msgid "Swimmer"
-msgstr "Moeilijker"
+msgstr ""
 
 #: pokemongo/models.py:974 pokemongo/strings.py:254
 #, python-brace-format
@@ -1668,11 +1655,11 @@ msgstr ""
 
 #: pokemongo/models.py:1169
 msgid "This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."
-msgstr "Deze waarde is eerder ingevoerd met een hogere waarde. Probeer het opnieuw en zorg ervoor dat de waarde die u hebt ingevoerd juist is."
+msgstr ""
 
 #: pokemongo/models.py:1192
 msgid "This value will make you the leader. Are you sure what you entered is correct?"
-msgstr "Deze waarde maakt je de leider. Weet je zeker dat wat je hebt ingevoerd juist is?"
+msgstr ""
 
 #: pokemongo/models.py:1219 pokemongo/models.py:1241 pokemongo/models.py:1273
 #: pokemongo/models.py:1298 pokemongo/models.py:1328 pokemongo/models.py:1350
@@ -1687,28 +1674,28 @@ msgstr "Deze waarde maakt je de leider. Weet je zeker dat wat je hebt ingevoerd 
 #: pokemongo/models.py:2044 pokemongo/models.py:2066 pokemongo/models.py:2096
 #: pokemongo/models.py:2118
 msgid "The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}"
-msgstr "De {badge} die je hebt ingevoerd is hoog. Controleer op typos en andere fouten. {delta:,}/{expected:,} per dag van {date1} tot {date2}"
+msgstr ""
 
 #: pokemongo/models.py:1950
 msgid "The {badge} you entered is too high. Please check for typos and other mistakes. You can't have more gold gyms than gyms in Total. {value:,}/{expected:,}"
-msgstr "De {badge} die je hebt ingevoerd is te hoog. Controleer op typos en andere fouten. Je kunt niet meer gouden fitnesscentra hebben dan fitnesscentra in Total. {value:,}/{expected:,}"
+msgstr ""
 
 #: pokemongo/models.py:1965
 #, python-brace-format
 msgid "You must fill in {other_badge} if filling in {this_badge}."
-msgstr "U moet {other_badge} invullen bij het invullen van {this_badge}."
+msgstr ""
 
 #: pokemongo/models.py:2147
 msgid "The {badge} you entered is too high. Please check for typos and other mistakes. You can only gain so much in a day. {value:,}/{expected:,}"
-msgstr "De {badge} die je hebt ingevoerd is te hoog. Controleer op typos en andere fouten. Je kunt alleen zoveel krijgen in één dag. {value:,}/{expected:,}"
+msgstr ""
 
 #: pokemongo/models.py:2173
 msgid "Update"
-msgstr "Vernieuwen"
+msgstr ""
 
 #: pokemongo/models.py:2174
 msgid "Updates"
-msgstr "Bijwerken"
+msgstr ""
 
 #: pokemongo/models.py:2230
 msgid "Badge"
@@ -1720,47 +1707,47 @@ msgstr ""
 
 #: pokemongo/models.py:2274
 msgid "Publicly Viewable"
-msgstr "Openbaar zichtbaar"
+msgstr ""
 
 #: pokemongo/models.py:2276
 msgid "By default, this is off. Turn this on to share your community with the world."
-msgstr "Standaard is dit uitgeschakeld. Zet dit aan om je gemeenschap met de wereld te delen."
+msgstr ""
 
 #: pokemongo/models.py:2281
 msgid "Publicly Joinable"
-msgstr "Publiekelijk inschrijfbaar"
+msgstr ""
 
 #: pokemongo/models.py:2283
 msgid "By default, this is off. Turn this on to make your community free to join. No invites required."
-msgstr "Dit is standaard uitgeschakeld. Schakel dit in om je community gratis te laten deelnemen. Geen uitnodigingen nodig."
+msgstr ""
 
 #: pokemongo/models.py:2290
 msgid "Tournament: Publicly Viewable"
-msgstr "Toernooi: Openbaar Zichtbaar"
+msgstr ""
 
 #: pokemongo/models.py:2292
 msgid "By default, this is off. Turn this on to share your tournament results with the world."
-msgstr "Standaard is dit uitgeschakeld. Schakel dit in om de resultaten van je toernooi met de wereld te delen."
+msgstr ""
 
 #: pokemongo/models.py:2320
 msgid "Community"
-msgstr "Gemeenschap"
+msgstr ""
 
 #: pokemongo/models.py:2321
 msgid "Communities"
-msgstr "Gemeenschappen"
+msgstr ""
 
 #: pokemongo/models.py:2330
 msgid "Members in this Discord are automatically included in the community."
-msgstr "Leden van deze Discord zijn automatisch opgenomen in de community."
+msgstr ""
 
 #: pokemongo/models.py:2377
 msgid "Community Discord Connection"
-msgstr "Gemeenschap Discord verbinding"
+msgstr ""
 
 #: pokemongo/models.py:2378
 msgid "Community Discord Connections"
-msgstr "Community Discord verbindingen"
+msgstr ""
 
 #: pokemongo/shortcuts.py:107
 msgid "profile_player_level"
@@ -1777,7 +1764,7 @@ msgid "Battles Won"
 msgstr ""
 
 #: pokemongo/strings.py:13 pokemongo/templates/profile.html:20
-#: pokemongo/templates/profile.html:43
+#: pokemongo/templates/profile.html:42
 msgctxt "avatar_detail_pokemon_caught"
 msgid "Pokémon Caught"
 msgstr ""
@@ -1788,7 +1775,7 @@ msgid "Total Activity"
 msgstr ""
 
 #: pokemongo/strings.py:15 pokemongo/templates/profile.html:19
-#: pokemongo/templates/profile.html:36
+#: pokemongo/templates/profile.html:35
 msgctxt "avatar_detail_walking_distance"
 msgid "Distance Walked"
 msgstr ""
@@ -2268,7 +2255,7 @@ msgctxt "pokemon_type_water"
 msgid "Water"
 msgstr ""
 
-#: pokemongo/strings.py:403 pokemongo/templates/profile.html:107
+#: pokemongo/strings.py:403 pokemongo/templates/profile.html:106
 msgctxt "profile_button_activity_log"
 msgid "Journal"
 msgstr ""
@@ -2304,13 +2291,13 @@ msgid "You don't have any Gym Badges."
 msgstr ""
 
 #: pokemongo/strings.py:413 pokemongo/templates/profile.html:15
-#: pokemongo/templates/profile.html:31
+#: pokemongo/templates/profile.html:30
 msgctxt "profile_player_level"
 msgid "Level"
 msgstr ""
 
 #: pokemongo/strings.py:414 pokemongo/templates/profile.html:21
-#: pokemongo/templates/profile.html:50
+#: pokemongo/templates/profile.html:49
 msgctxt "profile_pokestops_visited"
 msgid "PokéStops Visited"
 msgstr ""
@@ -2347,177 +2334,177 @@ msgstr ""
 
 #: pokemongo/templates/create_update.html:8
 msgid "Update Stats"
-msgstr "Statistieken bijwerken"
+msgstr ""
 
 #: pokemongo/templates/create_update.html:19
 msgid "Welcome to the TrainerDex. Please be honest and truthful, if caught intentionally providing false information, you may be banned."
-msgstr "Welkom bij TrainerDex. Wees eerlijk en waardig, indien betrapt op het verstrekken van valse informatie, kunt u verbannen worden."
+msgstr ""
 
 #: pokemongo/templates/create_update.html:20
 msgid "All the questions relate to a section in the game and examples are provided to help if you get stuck."
-msgstr "Alle vragen hebben betrekking op een deel van het spel en er worden voorbeelden gegeven om te helpen als je vastloopt."
+msgstr ""
 
 #: pokemongo/templates/edit_profile.html:7
 #: pokemongo/templates/edit_profile.html:13
 msgid "Edit Profile"
-msgstr "Profiel bewerken"
+msgstr ""
 
 #: pokemongo/templates/edit_profile.html:78
 msgid "Save Changes"
-msgstr "Wijzigingen opslaan"
+msgstr ""
 
 #: pokemongo/templates/leaderboard.html:7
 #: pokemongo/templates/leaderboard.html:12
 msgid "International"
-msgstr "Internationaal"
+msgstr ""
 
 #: pokemongo/templates/leaderboard.html:7
 #: pokemongo/templates/leaderboard.html:12
 #, python-format
 msgctxt "This is the title, loc is defined as the country/continent name, or the word International (which is translated seperately)."
 msgid "%(loc)s Leaderboard"
-msgstr "%(loc)s Scorebord"
+msgstr ""
 
 #: pokemongo/templates/leaderboard.html:40
 msgctxt "Total XP of all Trainers on leaderboard"
 msgid "Total XP"
-msgstr "Totaal XP"
+msgstr ""
 
 #: pokemongo/templates/leaderboard.html:40
 msgid "Trainers Considered"
-msgstr "Trainers beschouwd"
+msgstr ""
 
 #: pokemongo/templates/leaderboard.html:49
 msgctxt "onboard_enter_name_hint"
 msgid "Nickname"
-msgstr "Gebruikersnaam"
+msgstr ""
 
 #: pokemongo/templates/leaderboard.html:49
 msgctxt "Short form of Trainer Level"
 msgid "TL"
-msgstr "TL"
+msgstr ""
 
 #: pokemongo/templates/leaderboard.html:57
 msgid "Last Updated"
-msgstr "Laatst bijgewerkt"
+msgstr ""
 
 #: pokemongo/templates/leaderboard.html:79
 msgid "There is no information to include in this leaderboard. Why not be the first?"
-msgstr "Er valt geen informatie op te nemen in dit leiderbord. Waarom zijn we niet de eerste."
+msgstr ""
 
-#: pokemongo/templates/profile.html:145
+#: pokemongo/templates/profile.html:144
 msgid "Bronze"
 msgstr ""
 
-#: pokemongo/templates/profile.html:146
+#: pokemongo/templates/profile.html:145
 msgid "Silver"
 msgstr ""
 
-#: pokemongo/templates/profile.html:147
+#: pokemongo/templates/profile.html:146
 msgid "Gold"
 msgstr ""
 
-#: pokemongo/templates/profile.html:148
+#: pokemongo/templates/profile.html:147
 msgid "Platinum"
-msgstr "Platinum"
+msgstr ""
 
-#: pokemongo/templates/profile.html:149
+#: pokemongo/templates/profile.html:148
 msgid "These values have been datamined from the Beyond update and may be subject to change."
-msgstr "Deze waarden zijn uit de update van de Beyond gedateerd en kunnen aan verandering onderhevig zijn."
+msgstr ""
 
-#: pokemongo/templates/profile.html:168
+#: pokemongo/templates/profile.html:167
 msgid "Medals with no data."
 msgstr ""
 
 #: pokemongo/validators.py:15
 msgid "Trainer Code must be 12 digits long and contain only numbers and whitespace."
-msgstr "Trainercode moet uit 12 cijfers bestaan en mag alleen getallen en spaties bevatten."
+msgstr ""
 
 #: pokemongo/views.py:52
 msgid "Please set your trainer start date. You can edit your profile in the settings section on the menu."
-msgstr "Stel de begindatum van uw trainer in. U kunt uw profiel bewerken in de sectie instellingen in het menu."
+msgstr ""
 
 #: pokemongo/views.py:82 pokemongo/views.py:155
 msgid "Please complete your profile to continue using the website."
-msgstr "Voltooi uw profiel om de website te blijven gebruiken."
+msgstr ""
 
 #: pokemongo/views.py:201
 msgid "Statistics updated"
-msgstr "Statistieken bijgewerkt"
+msgstr ""
 
 #: pokemongo/views.py:213
 msgid "Since you have posted in the past hour, you are currently updating your previous post."
-msgstr "Aangezien je een bericht hebt geplaatst in het afgelopen uur, ben je momenteel je vorige bericht aan het bijwerken."
+msgstr ""
 
 #: pokemongo/views.py:236
 #, python-brace-format
 msgid "No country found for code {country}"
-msgstr "Geen land gevonden voor code {country}"
+msgstr ""
 
 #: pokemongo/views.py:254
 #, python-brace-format
 msgid "No community found for handle {community}"
-msgstr "Geen gemeenschap gevonden om {community} te behandelen"
+msgstr ""
 
 #: pokemongo/views.py:261
 msgid "Access denied"
-msgstr "Toegang geweigerd"
+msgstr ""
 
 #: pokemongo/views.py:398
 msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. Join our Discord. https://discord.gg/Anz3UpM"
-msgstr "Bedankt voor het invullen van je profiel. Je screenshots zijn verzonden voor verificatie. Meld je aan bij onze Discord. https://discord.gg/Anz3UpM"
+msgstr ""
 
 #: pokemongo/views.py:405
 msgid "Profile edited successfully."
-msgstr "Profiel succesvol gewijzigd."
+msgstr ""
 
 #: trainerdex/settings.py:136
 msgid "German"
-msgstr "Duits"
+msgstr ""
 
 #: trainerdex/settings.py:137
 msgid "English"
-msgstr "Nederlands"
+msgstr ""
 
 #: trainerdex/settings.py:138
 msgid "Spanish"
-msgstr "Spaans"
+msgstr ""
 
 #: trainerdex/settings.py:139
 msgid "French"
-msgstr "Frans"
+msgstr ""
 
 #: trainerdex/settings.py:140
 msgid "Italian"
-msgstr "Italiaans"
+msgstr ""
 
 #: trainerdex/settings.py:141
 msgid "Japanese"
-msgstr "Afrikaans"
+msgstr ""
 
 #: trainerdex/settings.py:142
 msgid "Korean"
-msgstr "Koreaans"
+msgstr ""
 
 #: trainerdex/settings.py:143
 msgid "Dutch"
-msgstr "Nederlands"
+msgstr ""
 
 #: trainerdex/settings.py:144
 msgid "Dutch, Belgium"
-msgstr "Nederlands, België"
+msgstr ""
 
 #: trainerdex/settings.py:145
 msgid "Romanian"
-msgstr "Roemeens"
+msgstr ""
 
 #: trainerdex/settings.py:146
 msgid "Russian"
-msgstr "Russisch"
+msgstr ""
 
 #: trainerdex/settings.py:147
 msgid "Brazilian Portuguese"
-msgstr "Braziliaans Portugees"
+msgstr ""
 
 #: trainerdex/settings.py:148
 msgid "Thai"
@@ -2525,10 +2512,10 @@ msgstr "Thais"
 
 #: trainerdex/settings.py:149
 msgid "Traditional Chinese"
-msgstr "Traditioneel Chinees"
+msgstr ""
 
 #: trainerdex/urls.py:48
 #, python-brace-format
 msgid "{site_name} Admin"
-msgstr "{site_name} Beheerder"
+msgstr ""
 
