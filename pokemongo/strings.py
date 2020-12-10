@@ -365,6 +365,8 @@ pgettext("general_stamina", "HP")
 pgettext("general_xp", "XP")
 pgettext("general_yes", "Yes")
 
+pgettext("gym_badge_list_button", "List")
+
 pgettext("level_up_details_gui_title", "Level {0} Requirements")
 
 pgettext("mega_energy", "Mega Energy")
@@ -415,6 +417,7 @@ pgettext("profile_total_xp", "Total XP")
 
 pgettext("screen_friends_title", "friends")
 pgettext("screen_title_badge_collection", "Gym Badges")
+pgettext("screen_title_battle_hub", "Battle")
 pgettext("screen_title_friend_requests", "Friend Requests")
 pgettext("screen_title_news", "News")
 pgettext("screen_title_notification", "Notifications")

@@ -426,11 +426,19 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_page_caught", "Unique Species Caught"),
+        help_text=pgettext_lazy(
+            "pokedex_help",
+            "You can find this by clicking the {screen_title_pokedex} button in your game. It should then be listed at the top of the screen.",
+        ).format(screen_title_pokedex=pgettext_lazy("screen_title_pokedex", "POKÉDEX")),
     )
     pokedex_seen = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_page_seen", "Unique Species Seen"),
+        help_text=pgettext_lazy(
+            "pokedex_help",
+            "You can find this by clicking the {screen_title_pokedex} button in your game. It should then be listed at the top of the screen.",
+        ).format(screen_title_pokedex=pgettext_lazy("screen_title_pokedex", "POKÉDEX")),
     )
 
     # Medals
@@ -861,42 +869,38 @@ class Update(models.Model):
     battle_hub_stats_wins = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="{}: {}".format(
-            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
-            pgettext_lazy("battle_hub_stats_wins", "Wins"),
-        ),
-        help_text=pgettext_lazy("battle_hub_help", "PVP Wins. Can be found in the Battle Hub."),
+        verbose_name=pgettext_lazy("battle_hub_stats_wins", "Wins"),
+        help_text=pgettext_lazy(
+            "battle_hub_help",
+            "You can find this by clicking the {screen_title_battle_hub} button in your game.",
+        ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
     )
     battle_hub_stats_battles = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="{}: {}".format(
-            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
-            pgettext_lazy("battle_hub_stats_battles", "Battles"),
-        ),
-        help_text=pgettext_lazy("battle_hub_help", "PVP Battles. Can be found in the Battle Hub."),
+        verbose_name=pgettext_lazy("battle_hub_stats_battles", "Battles"),
+        help_text=pgettext_lazy(
+            "battle_hub_help",
+            "You can find this by clicking the {screen_title_battle_hub} button in your game.",
+        ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
     )
     battle_hub_stats_stardust = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="{}: {}".format(
-            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
-            pgettext_lazy("battle_hub_stats_stardust", "Stardust Earned"),
-        ),
+        verbose_name=pgettext_lazy("battle_hub_stats_stardust", "Stardust Earned"),
         help_text=pgettext_lazy(
-            "battle_hub_help", "PVP Stardust Earned. Can be found in the Battle Hub."
-        ),
+            "battle_hub_help",
+            "You can find this by clicking the {screen_title_battle_hub} button in your game.",
+        ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
     )
     battle_hub_stats_streak = models.PositiveIntegerField(
         null=True,
         blank=True,
-        verbose_name="{}: {}".format(
-            pgettext_lazy("battle_hub_category_league", "GO Battle League"),
-            pgettext_lazy("battle_hub_stats_streak", "Longest Streak"),
-        ),
+        verbose_name=pgettext_lazy("battle_hub_stats_streak", "Longest Streak"),
         help_text=pgettext_lazy(
-            "battle_hub_help", "PVP Longest Streak. Can be found in the Battle Hub."
-        ),
+            "battle_hub_help",
+            "You can find this by clicking the {screen_title_battle_hub} button in your game.",
+        ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
     )
 
     # Type Medals
@@ -1021,12 +1025,26 @@ class Update(models.Model):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
+        help_text=pgettext_lazy(
+            "gymbadges_total_help",
+            "You can find this by clicking the {gym_badge_list_button} button under the {profile_category_gymbadges} category on your profile in game, and then clicking through to your map.",
+        ).format(
+            gym_badge_list_button=pgettext_lazy("gym_badge_list_button", "List"),
+            profile_category_gymbadges=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
+        ),
         validators=[MaxValueValidator(1000)],
     )
     gymbadges_gold = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=_("Gold Gym Badges"),
+        help_text=pgettext_lazy(
+            "gymbadges_gold_help",
+            "You can find this by clicking the {gym_badge_list_button} button under the {profile_category_gymbadges} category on your profile in game, and then counting how many are gold.",
+        ).format(
+            gym_badge_list_button=pgettext_lazy("gym_badge_list_button", "List"),
+            profile_category_gymbadges=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
+        ),
         validators=[MaxValueValidator(1000)],
     )
     pokemon_info_stardust = models.PositiveIntegerField(
