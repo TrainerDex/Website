@@ -1,5 +1,5 @@
 from django.contrib import admin, messages
-from django.utils.translation import gettext_lazy as _, pgettext_lazy
+from django.utils.translation import gettext_lazy as _, pgettext_lazy as pgettext
 from pokemongo.models import (
     Community,
     CommunityMembershipDiscord,
@@ -9,7 +9,7 @@ from pokemongo.models import (
     Nickname,
     Trainer,
 )
-from pokemongo.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
+from pokemongo.shortcuts import STANDARD_MEDALS, BATTLE_HUB_STATS, UPDATE_FIELDS_TYPES
 
 
 def sync_members(modeladmin, request, queryset):
@@ -69,11 +69,11 @@ class UpdateAdmin(admin.ModelAdmin):
     date_hierarchy = "update_time"
 
     readonly_fields = ["uuid", "submission_date"]
-    fieldsets = (
+    fieldsets = [
         (
             None,
             {
-                "fields": (
+                "fields": [
                     "uuid",
                     "trainer",
                     "submission_date",
@@ -81,32 +81,34 @@ class UpdateAdmin(admin.ModelAdmin):
                     "data_source",
                     "screenshot",
                     "double_check_confirmation",
-                )
+                ]
             },
         ),
         (
-            None,
+            pgettext("profile_category_stats", "Stats"),
             {
-                "fields": (
+                "fields": [
                     "total_xp",
                     "pokedex_caught",
                     "pokedex_seen",
                     "gymbadges_total",
                     "gymbadges_gold",
-                    "pokemon_info_stardust",
-                ),
-                "classes": ("wide",),
+                ],
             },
         ),
         (
-            pgettext_lazy("profile_category_medals", "Medals"),
-            {"fields": UPDATE_FIELDS_BADGES, "classes": ("wide",)},
+            pgettext("profile_category_medals", "Medals"),
+            {"fields": STANDARD_MEDALS},
         ),
         (
-            pgettext_lazy("pokemon_info_type", "Type"),
-            {"fields": UPDATE_FIELDS_TYPES, "classes": ("collapse",)},
+            pgettext("battle_hub_category_league", "GO Battle League"),
+            {"fields": BATTLE_HUB_STATS},
         ),
-    )
+        (
+            pgettext("pokemon_info_type", "Type"),
+            {"fields": UPDATE_FIELDS_TYPES},
+        ),
+    ]
 
 
 @admin.register(Nickname)
