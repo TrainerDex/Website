@@ -200,10 +200,9 @@ class LatestUpdateView(APIView):
         update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest(
             "update_time"
         )
-        if update.meta_time_created > (timezone.now() - timedelta(hours=12)):
+        if update.submission_date > (timezone.now() - timedelta(hours=12)):
             serializer = DetailedUpdateSerializer(update, data=request.data)
             if serializer.is_valid():
-                serializer.clean()
                 serializer.save(trainer=update.trainer, uuid=update.uuid, pk=update.pk)
                 return Response(serializer.data)
             else:
@@ -231,10 +230,9 @@ class UpdateDetailView(APIView):
 
     def patch(self, request: HttpRequest, uuid: str, pk: int) -> Response:
         update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
-        if update.meta_time_created > datetime.now(utc) - timedelta(minutes=32):
+        if update.submission_date > (timezone.now() - timedelta(hours=12)):
             serializer = DetailedUpdateSerializer(update, data=request.data)
             if serializer.is_valid():
-                serializer.clean()
                 serializer.save(trainer=update.trainer, uuid=update.uuid, pk=update.pk)
                 return Response(serializer.data)
             else:
