@@ -57,9 +57,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
                 "total_xp",
                 "pokedex_caught",
                 "pokedex_seen",
-                "gymbadges_total",
                 "gymbadges_gold",
-                "pokemon_info_stardust",
             ]
             + UPDATE_FIELDS_BADGES
             + UPDATE_FIELDS_TYPES

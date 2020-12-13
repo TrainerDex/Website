@@ -159,12 +159,8 @@ class UpdateListView(APIView):
 
     def get(self, request: HttpRequest, pk: int) -> Response:
         updates = Update.objects.filter(trainer=pk, trainer__owner__is_active=True)
-        serializer = (
-            BriefUpdateSerializer(updates, many=True)
-            if request.GET.get("detail") != "1"
-            else DetailedUpdateSerializer(updates, many=True)
-        )
-        return Response(serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
+        serializer = DetailedUpdateSerializer(updates, many=True)
+        return Response(serializer.data)
 
     def post(self, request: HttpRequest, pk: int) -> Response:
         serializer = DetailedUpdateSerializer(data=request.data)
