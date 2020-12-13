@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-10 03:14+0000\n"
-"PO-Revision-Date: 2020-12-10 03:14\n"
+"POT-Creation-Date: 2020-12-10 03:33+0000\n"
+"PO-Revision-Date: 2020-12-10 03:33\n"
 "Last-Translator: \n"
 "Language-Team: Thai\n"
 "Language: th_TH\n"
@@ -205,7 +205,7 @@ msgstr ""
 
 #: core/templates/account/account_settings.html:96 pokemongo/models.py:103
 #: pokemongo/strings.py:415 pokemongo/templates/profile.html:23
-#: pokemongo/templates/profile.html:64
+#: pokemongo/templates/profile.html:63
 msgctxt "profile_start_date"
 msgid "Start Date"
 msgstr "วันที่เริ่มเล่น"
@@ -661,13 +661,13 @@ msgid "Stats"
 msgstr "ค่าพลัง"
 
 #: pokemongo/admin.py:100 pokemongo/forms.py:32 pokemongo/strings.py:406
-#: pokemongo/templates/profile.html:108
+#: pokemongo/templates/profile.html:107
 msgctxt "profile_category_medals"
 msgid "Medals"
 msgstr "เหรียญรางวัล"
 
 #: pokemongo/admin.py:104 pokemongo/forms.py:39 pokemongo/strings.py:311
-#: pokemongo/templates/profile.html:77
+#: pokemongo/templates/profile.html:76
 msgctxt "battle_hub_category_league"
 msgid "GO Battle League"
 msgstr ""
@@ -733,7 +733,7 @@ msgstr "แบ็กแพ็กเกอร์"
 #: pokemongo/management/commands/gains_leaderboard.py:179
 #: pokemongo/management/commands/gym_leaderboard.py:184 pokemongo/models.py:421
 #: pokemongo/strings.py:416 pokemongo/templates/profile.html:22
-#: pokemongo/templates/profile.html:57 pokemongo/templates/profile.html:116
+#: pokemongo/templates/profile.html:56 pokemongo/templates/profile.html:115
 msgctxt "profile_total_xp"
 msgid "Total XP"
 msgstr "XP ทั้งหมด"
@@ -826,13 +826,13 @@ msgid "Verified"
 msgstr ""
 
 #: pokemongo/models.py:159 pokemongo/strings.py:71
-#: pokemongo/templates/profile.html:70
+#: pokemongo/templates/profile.html:69
 msgctxt "badge_level_40_title"
 msgid "Legacy 40"
 msgstr "เลกาซี่ 40 "
 
 #: pokemongo/models.py:160 pokemongo/strings.py:70
-#: pokemongo/templates/profile.html:71
+#: pokemongo/templates/profile.html:70
 msgctxt "badge_level_40"
 msgid "Achieve level 40 by December 31, 2020."
 msgstr "เลเวลถึง 40 ก่อนวันที่ 31 ธันวาคม 2020"
@@ -870,7 +870,7 @@ msgctxt "player_term"
 msgid "Trainer"
 msgstr ""
 
-#: pokemongo/models.py:367 pokemongo/templates/profile.html:115
+#: pokemongo/models.py:367 pokemongo/templates/profile.html:114
 msgid "Time Updated"
 msgstr ""
 
@@ -1366,7 +1366,7 @@ msgid_plural "Mega Evolve {0} different species of Pokémon."
 msgstr[0] "วิวัฒนาการเมก้าโปเกมอนไม่ซ้ำกัน {0} ตัว"
 
 #: pokemongo/models.py:872 pokemongo/strings.py:317
-#: pokemongo/templates/profile.html:81
+#: pokemongo/templates/profile.html:80
 msgctxt "battle_hub_stats_wins"
 msgid "Wins"
 msgstr "ชนะ"
@@ -1385,19 +1385,19 @@ msgid "Battle"
 msgstr ""
 
 #: pokemongo/models.py:881 pokemongo/strings.py:312
-#: pokemongo/templates/profile.html:87
+#: pokemongo/templates/profile.html:86
 msgctxt "battle_hub_stats_battles"
 msgid "Battles"
 msgstr "แบตเทิล"
 
 #: pokemongo/models.py:890 pokemongo/strings.py:314
-#: pokemongo/templates/profile.html:93
+#: pokemongo/templates/profile.html:92
 msgctxt "battle_hub_stats_stardust"
 msgid "Stardust Earned"
 msgstr "สตาร์ดัสต์ที่ได้รับ"
 
 #: pokemongo/models.py:899 pokemongo/strings.py:315
-#: pokemongo/templates/profile.html:99
+#: pokemongo/templates/profile.html:98
 msgctxt "battle_hub_stats_streak"
 msgid "Longest Streak"
 msgstr "ชนะต่อเนื่องสูงสุด"
@@ -1615,7 +1615,7 @@ msgstr ""
 #: pokemongo/models.py:1032 pokemongo/models.py:1045 pokemongo/strings.py:368
 msgctxt "gym_badge_list_button"
 msgid "List"
-msgstr ""
+msgstr "รายการ"
 
 #: pokemongo/models.py:1040
 msgid "Gold Gym Badges"
@@ -1749,7 +1749,7 @@ msgid "Battles Won"
 msgstr "แบตเทิลที่ชนะ"
 
 #: pokemongo/strings.py:13 pokemongo/templates/profile.html:20
-#: pokemongo/templates/profile.html:43
+#: pokemongo/templates/profile.html:42
 msgctxt "avatar_detail_pokemon_caught"
 msgid "Pokémon Caught"
 msgstr "โปเกมอนที่จับได้"
@@ -1760,7 +1760,7 @@ msgid "Total Activity"
 msgstr "กิจกรรมทั้งหมด"
 
 #: pokemongo/strings.py:15 pokemongo/templates/profile.html:19
-#: pokemongo/templates/profile.html:36
+#: pokemongo/templates/profile.html:35
 msgctxt "avatar_detail_walking_distance"
 msgid "Distance Walked"
 msgstr "ระยะทางที่เดิน"
@@ -2230,7 +2230,7 @@ msgctxt "pokemon_type_water"
 msgid "Water"
 msgstr "น้ำ"
 
-#: pokemongo/strings.py:403 pokemongo/templates/profile.html:107
+#: pokemongo/strings.py:403 pokemongo/templates/profile.html:106
 msgctxt "profile_button_activity_log"
 msgid "Journal"
 msgstr "บันทึกประจำวัน"
@@ -2266,13 +2266,13 @@ msgid "You don't have any Gym Badges."
 msgstr "คุณยังไม่มีเหรียญตรายิม"
 
 #: pokemongo/strings.py:413 pokemongo/templates/profile.html:15
-#: pokemongo/templates/profile.html:31
+#: pokemongo/templates/profile.html:30
 msgctxt "profile_player_level"
 msgid "Level"
 msgstr "เลเวล"
 
 #: pokemongo/strings.py:414 pokemongo/templates/profile.html:21
-#: pokemongo/templates/profile.html:50
+#: pokemongo/templates/profile.html:49
 msgctxt "profile_pokestops_visited"
 msgid "PokéStops Visited"
 msgstr "เสาโปเกสต็อปที่เคยไป"
@@ -2367,27 +2367,27 @@ msgstr ""
 msgid "There is no information to include in this leaderboard. Why not be the first?"
 msgstr ""
 
-#: pokemongo/templates/profile.html:145
+#: pokemongo/templates/profile.html:144
 msgid "Bronze"
 msgstr ""
 
-#: pokemongo/templates/profile.html:146
+#: pokemongo/templates/profile.html:145
 msgid "Silver"
 msgstr ""
 
-#: pokemongo/templates/profile.html:147
+#: pokemongo/templates/profile.html:146
 msgid "Gold"
 msgstr ""
 
-#: pokemongo/templates/profile.html:148
+#: pokemongo/templates/profile.html:147
 msgid "Platinum"
 msgstr ""
 
-#: pokemongo/templates/profile.html:149
+#: pokemongo/templates/profile.html:148
 msgid "These values have been datamined from the Beyond update and may be subject to change."
 msgstr ""
 
-#: pokemongo/templates/profile.html:168
+#: pokemongo/templates/profile.html:167
 msgid "Medals with no data."
 msgstr ""
 

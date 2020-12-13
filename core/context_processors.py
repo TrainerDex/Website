@@ -1,4 +1,5 @@
 import typing
+
 from django.conf import settings
 
 

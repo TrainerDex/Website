@@ -22,7 +22,6 @@
 {% if stats.total_xp %}{% trans "Total XP" context "profile_total_xp" %} {{stats.total_xp|intcomma}}{% endif%}
 {% if trainer.start_date %}{% trans "Start Date" context "profile_start_date" %}: {{trainer.start_date}}{% endif%}" />
 <meta property="profile:username" content="{{trainer.nickname}}" />
-<link href="{% static 'css/css-circular-prog-bar.css' %}" media="all" rel="stylesheet" />
 {% endblock %}
 
 {%block content%}

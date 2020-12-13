@@ -1,33 +1,31 @@
 import logging
 from datetime import datetime, timedelta
 
+import requests
+from allauth.socialaccount.models import SocialAccount
+from cities.models import Country
+from core.models import DiscordGuildSettings, get_guild_info
 from django.contrib.auth import get_user_model
 from django.db.models import Avg, Count, F, Max, Min, Prefetch, Q, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from rest_framework import authentication, permissions, status
-from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.response import Response
-
-import requests
-from allauth.socialaccount.models import SocialAccount
-from cities.models import Country
-from pytz import utc
-
-from pokemongo.models import Community, Trainer, Update, Nickname
 from pokemongo.api.v1.serializers import (
-    UserSerializer,
-    DetailedTrainerSerializer,
     BriefUpdateSerializer,
+    DetailedTrainerSerializer,
     DetailedUpdateSerializer,
     LeaderboardSerializer,
     SocialAllAuthSerializer,
+    UserSerializer,
 )
-from pokemongo.shortcuts import filter_leaderboard_qs__update, UPDATE_FIELDS_BADGES
-from core.models import DiscordGuildSettings, get_guild_info
+from pokemongo.models import Community, Nickname, Trainer, Update
+from pokemongo.shortcuts import UPDATE_FIELDS_BADGES, filter_leaderboard_qs__update
+from pytz import utc
+from rest_framework import authentication, permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
 logger = logging.getLogger("django.trainerdex")
 User = get_user_model()

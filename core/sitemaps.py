@@ -1,11 +1,11 @@
 import datetime
-from typing import Any, List, Iterable, Union
+from typing import Any, Iterable, List, Union
 
+from cities.models import Country
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from pokemongo.models import Trainer, Community
+from pokemongo.models import Community, Trainer
 from pokemongo.shortcuts import filter_leaderboard_qs
-from cities.models import Country
 
 
 class BaseSitemap(Sitemap):

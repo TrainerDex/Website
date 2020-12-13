@@ -1,42 +1,37 @@
-import uuid
 import logging
-from typing import List, Optional, NoReturn, Union
+import uuid
 from collections import defaultdict
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 from os.path import splitext
-from pytz import common_timezones
+from typing import List, NoReturn, Optional, Union
 
-from django.core.validators import MaxValueValidator, MinValueValidator
+from cities.models import Country
+from core.models import DiscordGuild, DiscordGuildMembership, DiscordRole
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.postgres import fields as postgres_fields
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _, pgettext_lazy, npgettext_lazy
-
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import npgettext_lazy, pgettext_lazy
 from exclusivebooleanfield.fields import ExclusiveBooleanField
-from cities.models import Country
-
-from core.models import (
-    DiscordGuild,
-    DiscordRole,
-    DiscordGuildMembership,
-)
-from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from pokemongo.shortcuts import (
-    get_possible_levels_from_total_xp,
-    circled_level,
     UPDATE_FIELDS_BADGES,
     UPDATE_FIELDS_TYPES,
-    lookup,
     UPDATE_NON_REVERSEABLE_FIELDS,
+    circled_level,
+    get_possible_levels_from_total_xp,
+    lookup,
 )
+from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
+from pytz import common_timezones
 
 logger = logging.getLogger("django.trainerdex")
 User = get_user_model()
@@ -1020,20 +1015,6 @@ class Update(models.Model):
         help_text=pgettext_lazy("badge_type_fairy", "Catch {0} Fairy-type Pokémon.").format(200),
     )
 
-    # Extra Questions
-    gymbadges_total = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        verbose_name=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
-        help_text=pgettext_lazy(
-            "gymbadges_total_help",
-            "You can find this by clicking the {gym_badge_list_button} button under the {profile_category_gymbadges} category on your profile in game, and then clicking through to your map.",
-        ).format(
-            gym_badge_list_button=pgettext_lazy("gym_badge_list_button", "List"),
-            profile_category_gymbadges=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
-        ),
-        validators=[MaxValueValidator(1000)],
-    )
     gymbadges_gold = models.PositiveIntegerField(
         null=True,
         blank=True,
@@ -1046,11 +1027,6 @@ class Update(models.Model):
             profile_category_gymbadges=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
         ),
         validators=[MaxValueValidator(1000)],
-    )
-    pokemon_info_stardust = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        verbose_name=pgettext_lazy("pokemon_info_stardust_label", "Stardust"),
     )
 
     def level(self) -> Union[int, str]:
@@ -1084,9 +1060,7 @@ class Update(models.Model):
                 + [
                     "pokedex_caught",
                     "pokedex_seen",
-                    "gymbadges_total",
                     "gymbadges_gold",
-                    "pokemon_info_stardust",
                     "total_xp",
                 ]
             )
@@ -1102,9 +1076,7 @@ class Update(models.Model):
                 + [
                     "pokedex_caught",
                     "pokedex_seen",
-                    "gymbadges_total",
                     "gymbadges_gold",
-                    "pokemon_info_stardust",
                 ]
             )
             if getattr(self, x)
@@ -1141,7 +1113,6 @@ class Update(models.Model):
         LegendaryReleaseDate: date = date(2017, 7, 22)
         QuestReleaseDate: date = date(2018, 3, 30)
         FriendReleaseDate: date = date(2018, 6, 21)
-        BeyondUpdate: date = date(2020, 11, 30)
 
         # Soft Coded Dates
         StartDate: Optional[date] = self.trainer.start_date
@@ -1932,46 +1903,6 @@ class Update(models.Model):
                                 )
                             )
 
-                # 19 - gymbadges_gold - Gold Gyms
-                if field.name == "gymbadges_gold":
-
-                    # Max Value = 1000
-                    # Handled at field level
-
-                    _xcompare = self.gymbadges_total
-                    # Check if gymbadges_total is filled in
-                    if _xcompare:
-                        # GoldGyms < GymsSeen
-                        # Check if gymbadges_gold is more of less than gymbadges_total
-                        if getattr(self, field.name) > _xcompare:
-                            soft_error_dict[field.name].append(
-                                ValidationError(
-                                    _(
-                                        "The {badge} you entered is too high."
-                                        " Please check for typos and other mistakes."
-                                        " You can't have more gold gyms than gyms in Total."
-                                        " {value:,}/{expected:,}"
-                                    ).format(
-                                        badge=field.verbose_name,
-                                        value=getattr(self, field.name),
-                                        expected=_xcompare,
-                                    )
-                                )
-                            )
-                    else:
-                        hard_error_dict[field.name].append(
-                            ValidationError(
-                                _(
-                                    "You must fill in {other_badge} if filling in {this_badge}."
-                                ).format(
-                                    this_badge=field.verbose_name,
-                                    other_badge=Update._meta.get_field(
-                                        "gymbadges_total"
-                                    ).verbose_name,
-                                )
-                            )
-                        )
-
                 # 22 - badge_challenge_quests - Ranger
                 if field.name == "badge_challenge_quests":
 
@@ -2124,34 +2055,6 @@ class Update(models.Model):
                                         expected=DailyLimit,
                                         date1=last_update.update_time,
                                         date2=self.update_time.date(),
-                                    )
-                                )
-                            )
-
-                    _xcompare = (
-                        self.badge_trading
-                        or self.trainer.update_set.filter(update_time__lt=self.update_time)
-                        .exclude(**{"badge_trading": None})
-                        .order_by("-badge_trading", "-update_time")
-                        .only("badge_trading", "update_time")
-                        .first()
-                        .badge_trading
-                    )
-                    # Check if gymbadges_total is filled in, or has been filled in in the past
-                    if _xcompare:
-                        # Pilot / Gentleman < 19200
-                        if (getattr(self, field.name) / _xcompare) >= 19200:
-                            soft_error_dict[field.name].append(
-                                ValidationError(
-                                    _(
-                                        "The {badge} you entered is too high."
-                                        " Please check for typos and other mistakes."
-                                        " You can only gain so much in a day."
-                                        " {value:,}/{expected:,}"
-                                    ).format(
-                                        badge=field.verbose_name,
-                                        value=getattr(self, field.name),
-                                        expected=19200,
                                     )
                                 )
                             )

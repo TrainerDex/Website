@@ -1,14 +1,14 @@
 from django.urls import include, path
 from pokemongo.api.v1.views import (
-    TrainerListView,
-    TrainerDetailView,
-    UpdateListView,
-    LatestUpdateView,
-    UpdateDetailView,
-    UserViewSet,
-    SocialLookupView,
-    LeaderboardView,
     DetailedLeaderboardView,
+    LatestUpdateView,
+    LeaderboardView,
+    SocialLookupView,
+    TrainerDetailView,
+    TrainerListView,
+    UpdateDetailView,
+    UpdateListView,
+    UserViewSet,
 )
 
 app_name = "trainerdex.api.1"

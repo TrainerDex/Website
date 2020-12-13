@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 from distutils.util import strtobool
-from typing import Dict, Union, Optional, List
+from typing import Dict, List, Optional, Union
 
 from dateutil.relativedelta import relativedelta
 from django.utils import timezone
@@ -273,9 +273,7 @@ UPDATE_SORTABLE_FIELDS = (
         "total_xp",
         "pokedex_caught",
         "pokedex_seen",
-        "gymbadges_total",
         "gymbadges_gold",
-        "pokemon_info_stardust",
     ]
     + UPDATE_FIELDS_BADGES
     + UPDATE_FIELDS_TYPES
@@ -286,7 +284,6 @@ UPDATE_NON_REVERSEABLE_FIELDS = (
         "total_xp",
         "pokedex_caught",
         "pokedex_seen",
-        "gymbadges_total",
     ]
     + UPDATE_FIELDS_BADGES
     + UPDATE_FIELDS_TYPES

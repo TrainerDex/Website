@@ -1,7 +1,7 @@
 from django.utils.translation import pgettext
 from form_utils.forms import BetterModelForm
-from pokemongo.models import Update, Trainer
-from pokemongo.shortcuts import STANDARD_MEDALS, BATTLE_HUB_STATS, UPDATE_FIELDS_TYPES
+from pokemongo.models import Trainer, Update
+from pokemongo.shortcuts import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES
 
 
 class UpdateForm(BetterModelForm):
@@ -19,7 +19,6 @@ class UpdateForm(BetterModelForm):
                         "total_xp",
                         "pokedex_caught",
                         "pokedex_seen",
-                        "gymbadges_total",
                         "gymbadges_gold",
                     ],
                     "legend": pgettext("profile_category_stats", "Stats"),
