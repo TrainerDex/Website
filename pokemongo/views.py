@@ -1,33 +1,29 @@
 import logging
+from datetime import timedelta
+from math import ceil
 from typing import Optional
 
 from cities.models import Country
-from datetime import timedelta
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Max, Sum, F, Window, Prefetch
+from django.db.models import F, Max, Prefetch, Sum, Window
 from django.db.models.functions import DenseRank as Rank
-from django.http import (
-    HttpRequest,
-    HttpResponse,
-    Http404,
-)
-from django.shortcuts import get_object_or_404, render, redirect, reverse
+from django.http import Http404, HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _, get_language_from_request
-
-from math import ceil
-from pokemongo.forms import UpdateForm, TrainerForm
-from pokemongo.models import Trainer, Update, Community, Nickname
+from django.utils.translation import get_language_from_request
+from django.utils.translation import gettext_lazy as _
+from pokemongo.forms import TrainerForm, UpdateForm
+from pokemongo.models import Community, Nickname, Trainer, Update
 from pokemongo.shortcuts import (
-    filter_leaderboard_qs,
-    get_possible_levels_from_total_xp,
+    BADGES,
     UPDATE_FIELDS_BADGES,
     UPDATE_FIELDS_TYPES,
     UPDATE_SORTABLE_FIELDS,
-    BADGES,
     chunks,
+    filter_leaderboard_qs,
+    get_possible_levels_from_total_xp,
 )
 
 logger = logging.getLogger("django.trainerdex")

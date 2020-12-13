@@ -1,42 +1,37 @@
-import uuid
 import logging
-from typing import List, Optional, NoReturn, Union
+import uuid
 from collections import defaultdict
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 from os.path import splitext
-from pytz import common_timezones
+from typing import List, NoReturn, Optional, Union
 
-from django.core.validators import MaxValueValidator, MinValueValidator
+from cities.models import Country
+from core.models import DiscordGuild, DiscordGuildMembership, DiscordRole
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.postgres import fields as postgres_fields
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _, pgettext_lazy, npgettext_lazy
-
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import npgettext_lazy, pgettext_lazy
 from exclusivebooleanfield.fields import ExclusiveBooleanField
-from cities.models import Country
-
-from core.models import (
-    DiscordGuild,
-    DiscordRole,
-    DiscordGuildMembership,
-)
-from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from pokemongo.shortcuts import (
-    get_possible_levels_from_total_xp,
-    circled_level,
     UPDATE_FIELDS_BADGES,
     UPDATE_FIELDS_TYPES,
-    lookup,
     UPDATE_NON_REVERSEABLE_FIELDS,
+    circled_level,
+    get_possible_levels_from_total_xp,
+    lookup,
 )
+from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
+from pytz import common_timezones
 
 logger = logging.getLogger("django.trainerdex")
 User = get_user_model()
@@ -1118,7 +1113,6 @@ class Update(models.Model):
         LegendaryReleaseDate: date = date(2017, 7, 22)
         QuestReleaseDate: date = date(2018, 3, 30)
         FriendReleaseDate: date = date(2018, 6, 21)
-        BeyondUpdate: date = date(2020, 11, 30)
 
         # Soft Coded Dates
         StartDate: Optional[date] = self.trainer.start_date

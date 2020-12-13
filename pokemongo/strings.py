@@ -2,7 +2,7 @@
 This file only exists to make sure certain strings stay in the translation files as they become in
 and out of use within the codebase.
 """
-from django.utils.translation import pgettext, npgettext
+from django.utils.translation import npgettext, pgettext
 
 apk_job = 4474644
 remote_patch = "907d7edbfe3c4cd440151506190713b3735b82ad"

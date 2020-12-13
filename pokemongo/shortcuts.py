@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 from distutils.util import strtobool
-from typing import Dict, Union, Optional, List
+from typing import Dict, List, Optional, Union
 
 from dateutil.relativedelta import relativedelta
 from django.utils import timezone

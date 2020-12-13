@@ -8,9 +8,9 @@ https://docs.djangoproject.com/en/1.11/howto/deployment/wsgi/
 """
 
 import os
-from trainerdex import __version__
 
 from django.core.wsgi import get_wsgi_application
+from trainerdex import __version__
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "trainerdex.settings")
 

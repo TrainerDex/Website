@@ -1,15 +1,16 @@
 from django.contrib import admin, messages
-from django.utils.translation import gettext_lazy as _, pgettext_lazy as pgettext
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy as pgettext
 from pokemongo.models import (
     Community,
     CommunityMembershipDiscord,
+    Nickname,
     ProfileBadge,
     ProfileBadgeHoldership,
-    Update,
-    Nickname,
     Trainer,
+    Update,
 )
-from pokemongo.shortcuts import STANDARD_MEDALS, BATTLE_HUB_STATS, UPDATE_FIELDS_TYPES
+from pokemongo.shortcuts import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES
 
 
 def sync_members(modeladmin, request, queryset):
