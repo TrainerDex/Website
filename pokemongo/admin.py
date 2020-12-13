@@ -91,7 +91,6 @@ class UpdateAdmin(admin.ModelAdmin):
                     "total_xp",
                     "pokedex_caught",
                     "pokedex_seen",
-                    "gymbadges_total",
                     "gymbadges_gold",
                 ],
             },
