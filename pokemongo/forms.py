@@ -19,7 +19,6 @@ class UpdateForm(BetterModelForm):
                         "total_xp",
                         "pokedex_caught",
                         "pokedex_seen",
-                        "gymbadges_total",
                         "gymbadges_gold",
                     ],
                     "legend": pgettext("profile_category_stats", "Stats"),
