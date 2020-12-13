@@ -25,6 +25,7 @@ from exclusivebooleanfield.fields import ExclusiveBooleanField
 from pokemongo.shortcuts import (
     UPDATE_FIELDS_BADGES,
     UPDATE_FIELDS_TYPES,
+    UPDATE_SORTABLE_FIELDS,
     UPDATE_NON_REVERSEABLE_FIELDS,
     circled_level,
     get_possible_levels_from_total_xp,
@@ -1089,7 +1090,7 @@ class Update(models.Model):
         if not any(
             [
                 True if getattr(self, x) is not None else False
-                for x in UPDATE_NON_REVERSEABLE_FIELDS
+                for x in UPDATE_SORTABLE_FIELDS
             ]
         ):
             raise ValidationError(
@@ -1097,7 +1098,7 @@ class Update(models.Model):
                     stats=", ".join(
                         [
                             str(Update._meta.get_field(x).verbose_name)
-                            for x in UPDATE_NON_REVERSEABLE_FIELDS
+                            for x in UPDATE_SORTABLE_FIELDS
                         ]
                     )
                 )
