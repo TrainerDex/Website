@@ -1,8 +1,9 @@
 import logging
-import requests
 import re
-from typing import Dict, List, Union, Optional
+from datetime import timedelta
+from typing import Dict, List, Optional, Union
 
+import requests
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.contrib.postgres import fields as postgres_fields
@@ -10,10 +11,8 @@ from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-
-from datetime import timedelta
+from django.utils.translation import gettext_lazy as _
 from pytz import common_timezones
 
 logger = logging.getLogger("django.trainerdex")

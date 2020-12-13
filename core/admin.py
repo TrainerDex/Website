@@ -3,23 +3,21 @@ from typing import List, Optional
 
 from allauth.socialaccount.admin import SocialAccountAdmin as BaseSocialAccountAdmin
 from allauth.socialaccount.models import SocialAccount
-from django.contrib import admin, messages
-from django.http import HttpRequest
-from django.utils.safestring import mark_safe, SafeString
-from django.utils.translation import gettext_lazy as _
-
 from core.models import (
-    DiscordGuild,
-    DiscordGuildSettings,
     DiscordChannel,
-    DiscordRole,
+    DiscordGuild,
     DiscordGuildMembership,
+    DiscordGuildSettings,
+    DiscordRole,
     DiscordUser,
 )
-
+from django.contrib import admin, messages
+from django.http import HttpRequest
+from django.utils.safestring import SafeString, mark_safe
+from django.utils.translation import gettext_lazy as _
 from pygments import highlight
-from pygments.lexers import JsonLexer
 from pygments.formatters import HtmlFormatter
+from pygments.lexers import JsonLexer
 
 
 def sync_members(modeladmin, request, queryset) -> None:

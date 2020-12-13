@@ -1,4 +1,5 @@
 import datetime
+
 from pokemongo.models import Trainer
 
 LEVEL_40_BADGE_ASSIGNMENT_DATE = datetime.datetime(2021, 1, 1, 0, 0, tzinfo=datetime.timezone.utc)

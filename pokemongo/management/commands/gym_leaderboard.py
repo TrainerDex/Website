@@ -2,16 +2,16 @@ from datetime import date, datetime
 from typing import Iterable, List, Union
 
 import discord
-from django.db.models import F
+from core.models import DiscordGuildSettings
+from dateutil.relativedelta import MO
+from dateutil.rrule import WEEKLY, rrule
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.utils import translation, timezone
-from django.utils.translation import gettext as _, pgettext
-from dateutil.relativedelta import MO
-from dateutil.rrule import rrule, WEEKLY
+from django.db.models import F
+from django.utils import timezone, translation
+from django.utils.translation import gettext as _
+from django.utils.translation import pgettext
 from humanize import intcomma
-
-from core.models import DiscordGuildSettings
 from pokemongo.models import Trainer, Update
 from pokemongo.shortcuts import filter_leaderboard_qs, filter_leaderboard_qs__update
 
