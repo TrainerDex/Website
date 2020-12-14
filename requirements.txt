@@ -4,7 +4,7 @@ git+https://github.com/TurnrDev/django@fix-italian-trans#egg=django==2.2.18.dev2
 django-ajax-selects
 django-allauth~=0.44.0
 django-cities~=0.6
-django-cors-headers~=2.5.0
+django-cors-headers~=3.6.0
 django-exclusivebooleanfield~=0.3.0
 django-form-utils~=1.0.3
 git+https://github.com/django-helpdesk/django-helpdesk@0.2.x#egg=django-helpdesk>=0.2.22,<0.3.0
