@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-17 08:21+0000\n"
-"PO-Revision-Date: 2020-12-17 08:21\n"
+"PO-Revision-Date: 2020-12-31 08:29\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -780,21 +780,21 @@ msgstr "**{title}**\n"
 #: pokemongo/management/commands/gym_leaderboard.py:185
 msgctxt "gymbadges_gold"
 msgid "Gold Gyms"
-msgstr ""
+msgstr "Palestre Dorate"
 
 #: pokemongo/management/commands/gym_leaderboard.py:189
 msgid "Weekly {stat_emoji} {stat_name} Totals Leaderboard for \\N{BUSTS IN SILHOUETTE} _{guild.name}_"
-msgstr ""
+msgstr "Classifica Settimanale {stat_emoji} {stat_name} Totale di \\N{BUSTS IN SILHOUETTE} _{guild.name}_"
 
 #: pokemongo/management/commands/gym_leaderboard.py:200
 #, python-brace-format
 msgid "#{position} **{trainer}** {stat} (+{delta})"
-msgstr ""
+msgstr "#{position} **{trainer}** {stat} (+{delta})"
 
 #: pokemongo/management/commands/gym_leaderboard.py:207
 #, python-brace-format
 msgid "#{position} **{trainer}** {stat}"
-msgstr ""
+msgstr "#{position} **{trainer}** {stat}"
 
 #: pokemongo/management/commands/post_announcement.py:47
 msgid "Progress Deadline Reminder"
@@ -916,7 +916,7 @@ msgstr "Specie Uniche Catturate"
 #, python-brace-format
 msgctxt "pokedex_help"
 msgid "You can find this by clicking the {screen_title_pokedex} button in your game. It should then be listed at the top of the screen."
-msgstr ""
+msgstr "Puoi trovarlo cliccando sul pulsante {screen_title_pokedex} nel tuo gioco. Dovrebbe quindi essere elencato nella parte superiore dello schermo."
 
 #: pokemongo/models.py:427 pokemongo/models.py:436 pokemongo/strings.py:424
 msgctxt "screen_title_pokedex"
@@ -1404,7 +1404,7 @@ msgstr "Vittorie"
 #, python-brace-format
 msgctxt "battle_hub_help"
 msgid "You can find this by clicking the {screen_title_battle_hub} button in your game."
-msgstr ""
+msgstr "Puoi trovarlo cliccando sul pulsante {screen_title_battle_hub} nel tuo gioco."
 
 #: pokemongo/models.py:871 pokemongo/models.py:880 pokemongo/models.py:889
 #: pokemongo/models.py:898 pokemongo/strings.py:420
@@ -1636,7 +1636,7 @@ msgstr ""
 #, python-brace-format
 msgctxt "gymbadges_gold_help"
 msgid "You can find this by clicking the {gym_badge_list_button} button under the {profile_category_gymbadges} category on your profile in game, and then counting how many are gold."
-msgstr ""
+msgstr "Puoi trovarlo cliccando il pulsante {gym_badge_list_button} sotto la categoria {profile_category_gymbadges} sul tuo profilo nel gioco, e poi contando quante sono dorate."
 
 #: pokemongo/models.py:1026 pokemongo/strings.py:368
 msgctxt "gym_badge_list_button"
@@ -1652,7 +1652,8 @@ msgstr "Medaglie"
 #, python-brace-format
 msgid "You must fill out at least ONE of the following stats.\n"
 "{stats}"
-msgstr ""
+msgstr "Devi compilare almeno UNA delle seguenti statistiche.\n"
+"{stats}"
 
 #: pokemongo/models.py:1140
 msgid "This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."
