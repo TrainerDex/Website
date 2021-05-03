@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-17 08:21+0000\n"
-"PO-Revision-Date: 2020-12-17 08:21\n"
+"PO-Revision-Date: 2021-04-29 08:07\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Traditional, Hong Kong\n"
 "Language: zh_HK\n"
@@ -19,93 +19,93 @@ msgstr ""
 
 #: core/admin.py:28
 msgid "Sync members with Discord"
-msgstr ""
+msgstr "與Discord同步成員"
 
 #: core/admin.py:37
 msgid "Download channels from Discord. Currently doesn't delete them."
-msgstr ""
+msgstr "從Discord下載頻道。目前不會刪除它們。"
 
 #: core/admin.py:68 core/admin.py:69
 msgid "Discord Server Settings"
-msgstr ""
+msgstr "Discord服務器設置"
 
 #: core/models.py:104 core/models.py:310 core/models.py:390 core/models.py:470
 #: core/models.py:514
 msgid "got data"
-msgstr ""
+msgstr "得到數據"
 
 #: core/models.py:188
 #, python-brace-format
 msgid "Succesfully updated {x} of {y} {guild} members"
-msgstr ""
+msgstr "已成功更新{x}的{y} {guild} 成員"
 
 #: core/models.py:224
 msgid "Discord Guild"
-msgstr ""
+msgstr "Discord公會"
 
 #: core/models.py:225
 msgid "Discord Guilds"
-msgstr ""
+msgstr "Discord公會"
 
 #: core/models.py:244
 msgid "Rename users when they join."
-msgstr ""
+msgstr "加入時重命名用​​戶。"
 
 #: core/models.py:246
 msgid "This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."
-msgstr ""
+msgstr "每當用戶加入您的服務器並在此處更改名稱時，此設置都會將用戶重命名為其神奇宝可梦Go用戶名。"
 
 #: core/models.py:251
 msgid "Rename users with their level indicator"
-msgstr ""
+msgstr "使用級別指示器重命名用戶"
 
 #: core/models.py:253
 msgid "This setting will add a level to the end of their username on your server. Their name will update whenever they level up."
-msgstr ""
+msgstr "此設置將在您的服務器上其用戶名末尾添加一個級別。他們的名字將在他們升級時更新。"
 
 #: core/models.py:259
 msgid "Level Indicator format"
-msgstr ""
+msgstr "等級指示器格式"
 
 #: core/models.py:358
 msgid "Discord Channel"
-msgstr ""
+msgstr "Discord 路線"
 
 #: core/models.py:359
 msgid "Discord Channels"
-msgstr ""
+msgstr "Discord 路線"
 
 #: core/models.py:441
 msgid "Discord Role"
-msgstr ""
+msgstr "Discord 角色"
 
 #: core/models.py:442
 msgid "Discord Roles"
-msgstr ""
+msgstr "Discord 角色"
 
 #: core/models.py:474
 msgid "Discord User"
-msgstr ""
+msgstr "Discord 用戶"
 
 #: core/models.py:475
 msgid "Discord Users"
-msgstr ""
+msgstr "Discord 用戶"
 
 #: core/models.py:578
 msgid "Discord Member"
-msgstr ""
+msgstr "Discord 成員"
 
 #: core/models.py:579
 msgid "Discord Members"
-msgstr ""
+msgstr "Discord 成員"
 
 #: core/templates/404.html:6 core/templates/404.html:12
 msgid "404 Not Found"
-msgstr ""
+msgstr "404 無法找到網頁"
 
 #: core/templates/404.html:15
 msgid "Sorry, we couldn't find the page you're looking for. Double check the URL or reach out to us on Discord."
-msgstr ""
+msgstr "抱歉，我們找不到您要查找的頁面。請仔細檢查網址，或在Discord上與我們聯繫。"
 
 #: core/templates/404.html:19
 #: core/templates/account/password_reset_done.html:20
@@ -113,84 +113,86 @@ msgstr ""
 #: core/templates/account/signup_closed.html:19
 #: core/templates/account/verification_sent.html:18
 msgid "Return to Leaderboard"
-msgstr ""
+msgstr "返回排行榜"
 
 #: core/templates/404.html:22
 msgid "Visit our Discord"
-msgstr ""
+msgstr "拜訪我們的Discord"
 
 #: core/templates/account/account_inactive.html:5
 #: core/templates/account/account_inactive.html:11
 msgid "Account Inactive"
-msgstr ""
+msgstr "帳戶無效"
 
 #: core/templates/account/account_inactive.html:14
 msgid "This account is inactive. Please contact us on Discord or Twitter for help."
-msgstr ""
+msgstr "這個賬號未激活。請通過Discord或Twitter與我們聯繫以獲取幫助。"
 
 #: core/templates/account/account_inactive.html:18
 msgid "Discord Server"
-msgstr ""
+msgstr "Discord 服務器"
 
 #: core/templates/account/account_inactive.html:21
 msgid "@TrainerDexApp on Twitter"
-msgstr ""
+msgstr "@TrainerDexApp 的 Twitter"
 
 #: core/templates/account/account_settings.html:6
 msgid "Account Settings"
-msgstr ""
+msgstr "帳戶設定"
 
 #: core/templates/account/account_settings.html:12
 msgid "User Info"
-msgstr ""
+msgstr "用戶資訊"
 
 #: core/templates/account/account_settings.html:17
 msgid "Username"
-msgstr ""
+msgstr "用戶名稱"
 
 #: core/templates/account/account_settings.html:24
 msgid "Password"
-msgstr ""
+msgstr "密碼"
 
 #: core/templates/account/account_settings.html:28
 #: core/templates/account/password_change.html:6
 #: core/templates/account/password_change.html:12
 #: core/templates/account/password_change.html:42
 msgid "Change Password"
-msgstr ""
+msgstr "更改密碼"
 
 #: core/templates/account/account_settings.html:34
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 #: core/templates/account/account_settings.html:41
 msgid "Primary Email address"
-msgstr ""
+msgstr "主要電子郵件地址"
 
 #: core/templates/account/account_settings.html:45
 msgid "Email Management"
-msgstr ""
+msgstr "郵件管理"
 
 #: core/templates/account/account_settings.html:51
 msgid "Last Login"
-msgstr ""
+msgstr "\n"
+"上次登錄"
 
 #: core/templates/account/account_settings.html:58
 msgid "Date Registered"
-msgstr ""
+msgstr "已登記日期了"
 
 #: core/templates/account/account_settings.html:64
 msgid "Manage Social Network Connections"
-msgstr ""
+msgstr "\n"
+"管理社交網絡連接"
 
 #: core/templates/account/account_settings.html:70
 msgid "Trainer Info"
-msgstr ""
+msgstr "培訓師信息"
 
 #: core/templates/account/account_settings.html:75 pokemongo/models.py:321
 msgctxt "codename"
 msgid "Nickname"
-msgstr ""
+msgstr "外號"
 
 #: core/templates/account/account_settings.html:82
 #: pokemongo/templates/profile.html:10
@@ -212,7 +214,8 @@ msgstr "開始日"
 
 #: core/templates/account/account_settings.html:103
 msgid "Publicly Visible"
-msgstr ""
+msgstr "\n"
+"公開可見"
 
 #: core/templates/account/account_settings.html:110 pokemongo/models.py:129
 #: pokemongo/strings.py:332
@@ -222,155 +225,164 @@ msgstr "訓練家代碼"
 
 #: core/templates/account/account_settings.html:117 pokemongo/models.py:138
 msgid "Country"
-msgstr ""
+msgstr "國家/地區"
 
 #: core/templates/account/account_settings.html:124 pokemongo/models.py:146
 msgid "Last Modified"
-msgstr ""
+msgstr "最後修改"
 
 #: core/templates/account/account_settings.html:131
 msgid "Banned?"
-msgstr ""
+msgstr "已封鎖?"
 
 #: core/templates/account/account_settings.html:138 pokemongo/models.py:237
 msgid "Verification Status"
-msgstr ""
+msgstr "確認狀態"
 
 #: core/templates/account/account_settings.html:145
 msgid "Posts"
-msgstr ""
+msgstr "文章"
 
 #: core/templates/account/account_settings.html:152
 msgid "Nicknames"
-msgstr ""
+msgstr "外號"
 
 #: core/templates/account/email.html:6
 msgid "Account"
-msgstr ""
+msgstr "帳戶"
 
 #: core/templates/account/email.html:12
 msgid "E-mail Addresses"
-msgstr ""
+msgstr "電子郵件地址"
 
 #: core/templates/account/email.html:19
 msgid "The following e-mail addresses are associated with your account:"
-msgstr ""
+msgstr "以下電子郵件地址與您的帳戶相關聯："
 
 #: core/templates/account/email.html:27
 msgid "Primary"
-msgstr ""
+msgstr "主要"
 
 #: core/templates/account/email.html:39
 msgid "Set Primary"
-msgstr ""
+msgstr "设为主要"
 
 #: core/templates/account/email.html:40
 msgid "Re-send Verification"
-msgstr ""
+msgstr "重新發送驗證"
 
 #: core/templates/account/email.html:41
 #: core/templates/socialaccount/connections.html:46
 msgid "Remove"
-msgstr ""
+msgstr "拆除"
 
 #: core/templates/account/email.html:51
 msgid "Warning:"
-msgstr ""
+msgstr "警告:"
 
 #: core/templates/account/email.html:51
 msgid "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc."
-msgstr ""
+msgstr "您當前沒有設置任何電子郵件地址。您實際上應該添加一個電子郵件地址，以便可以接收通知，重設密碼等。"
 
 #: core/templates/account/email.html:57
 msgid "Add E-mail Address"
-msgstr ""
+msgstr "\n"
+"添加電子郵件地址"
 
 #: core/templates/account/email.html:61
 msgid "Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation."
-msgstr ""
+msgstr "如果您忘記密碼，請在您的帳戶中添加一個電子郵件地址以重新登錄。另外，您的主電子郵件用於生成圖形表達。"
 
 #: core/templates/account/email.html:69
 msgid "Add E-mail"
-msgstr ""
+msgstr "添加電子郵件"
 
 #: core/templates/account/email.html:80
 msgid "Do you really want to remove the selected e-mail address?"
-msgstr ""
+msgstr "您是否真的要刪除所選的電子郵件地址？"
 
 #: core/templates/account/email/email_confirmation_message.txt:5
 #, python-format
 msgid "Hello from %(site_name)s!\n\n"
 "You're receiving this e-mail because user %(user_display)s has connected this e-mail address to their account. If this is not you, just ignore this email.\n\n"
 "To confirm this is correct, go to %(activate_url)s\n"
-msgstr ""
+msgstr "您好，%(site_name)s!\n\n"
+"您收到此電子郵件是因為用戶%(user_display)s已將此電子郵件地址連接到他們的帳戶。如果不是您，請忽略此電子郵件。\n\n"
+"要確認這是正確的，請轉到%(activate_url)s\n"
 
 #: core/templates/account/email/email_confirmation_message.txt:12
 #, python-format
 msgid "Thank you from %(site_name)s!\n"
 "%(site_domain)s\n"
-msgstr ""
+msgstr "感謝您%(site_name)s!\n"
+"%(site_domain)s\n"
 
 #: core/templates/account/email/email_confirmation_subject.txt:3
 msgid "Please confirm your E-mail Address"
-msgstr ""
+msgstr "請確認您的電子郵件地址"
 
 #: core/templates/account/email/password_reset_key_message.txt:1
 #, python-format
 msgid "Hello from %(site_name)s!\n\n"
 "You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
 "It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
-msgstr ""
+msgstr "\n"
+"您好，%(site_name)s!\n\n"
+"您收到此電子郵件的原因是您或其他人已請求您的用戶帳戶密碼。\n"
+"如果您不要求重設密碼，可以安全地忽略它。點擊下面的鏈接以重置密碼。"
 
 #: core/templates/account/email/password_reset_key_message.txt:8
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
-msgstr ""
+msgstr "\n"
+"萬一您忘記了，您的用戶名是 %(username)s."
 
 #: core/templates/account/email/password_reset_key_message.txt:10
 #, python-format
 msgid "Thank you for using %(site_name)s!\n"
 "%(site_domain)s"
-msgstr ""
+msgstr "感謝您使用%(site_name)s!\n"
+"%(site_domain)s"
 
 #: core/templates/account/email/password_reset_key_subject.txt:3
 msgid "Password Reset E-mail"
-msgstr ""
+msgstr "密碼重置電子郵件"
 
 #: core/templates/account/email_confirm.html:6
 #: core/templates/account/email_confirm.html:12
 msgid "Confirm E-mail Address"
-msgstr ""
+msgstr "確認電郵地址"
 
 #: core/templates/account/email_confirm.html:17
 #, python-format
 msgid "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s."
-msgstr ""
+msgstr "請確認<a href=\"mailto:%(email)s\">%(email)s</a>是用戶%(user_display)s."
 
 #: core/templates/account/email_confirm.html:22
 msgid "Confirm"
-msgstr ""
+msgstr "確認"
 
 #: core/templates/account/email_confirm.html:28
 msgid "This e-mail confirmation link expired or is invalid."
-msgstr ""
+msgstr "該電子郵件確認鏈接已過期或無效。"
 
 #: core/templates/account/email_confirm.html:32
 msgid "Resend confirmation email"
-msgstr ""
+msgstr "重新发送确认邮件"
 
 #: core/templates/account/login.html:7 core/templates/account/login.html:15
 #: core/templates/account/login.html:51 core/templates/base.html:99
 #: core/templates/base.html:112
 msgid "Login"
-msgstr ""
+msgstr "登入"
 
 #: core/templates/account/login.html:20
 msgid "If you already have an account, you can login below or via a third party account."
-msgstr ""
+msgstr "如果您已經有一個帳戶，則可以在下面登錄或通過第三方帳戶登錄。"
 
 #: core/templates/account/login.html:56
 msgid "Forget/Reset Password"
-msgstr ""
+msgstr "忘記/重置密碼"
 
 #: core/templates/account/logout.html:5 core/templates/account/logout.html:11
 #: core/templates/account/logout.html:22 core/templates/base.html:97
@@ -387,47 +399,47 @@ msgstr "確定要登出嗎？"
 #: core/templates/account/messages/cannot_delete_primary_email.txt:2
 #, python-format
 msgid "You cannot remove your primary e-mail address (%(email)s)."
-msgstr ""
+msgstr "您不能刪除您的主要電子郵件地址(%(email)s)。"
 
 #: core/templates/account/messages/email_confirmation_sent.txt:2
 #, python-format
 msgid "Confirmation e-mail sent to %(email)s."
-msgstr ""
+msgstr "驗證連結傳送到%(email)s."
 
 #: core/templates/account/messages/email_confirmed.txt:2
 #, python-format
 msgid "You have confirmed %(email)s."
-msgstr ""
+msgstr "您已確認 %(email)s."
 
 #: core/templates/account/messages/email_deleted.txt:2
 #, python-format
 msgid "Removed e-mail address %(email)s."
-msgstr ""
+msgstr "已刪除電子郵件地址%(email)s."
 
 #: core/templates/account/messages/logged_in.txt:4
 #, python-format
 msgid "Successfully signed in as %(name)s."
-msgstr ""
+msgstr "成功登錄身份以 %(name)s."
 
 #: core/templates/account/messages/logged_out.txt:2
 msgid "You have signed out."
-msgstr ""
+msgstr "您已登出了。"
 
 #: core/templates/account/messages/password_changed.txt:2
 msgid "Password successfully changed."
-msgstr ""
+msgstr "密碼修改成功。"
 
 #: core/templates/account/messages/password_set.txt:2
 msgid "Password successfully set."
-msgstr ""
+msgstr "密碼設置成功。"
 
 #: core/templates/account/messages/primary_email_set.txt:2
 msgid "Primary e-mail address set."
-msgstr ""
+msgstr "主要子郵件地址集。"
 
 #: core/templates/account/messages/unverified_primary_email.txt:2
 msgid "Your primary e-mail address must be verified."
-msgstr ""
+msgstr "您的主要電子郵件地址必須經過驗證。"
 
 #: core/templates/account/password_reset.html:7
 #: core/templates/account/password_reset.html:13
@@ -436,114 +448,115 @@ msgstr ""
 #: core/templates/account/password_reset_from_key.html:6
 #: core/templates/account/password_reset_from_key.html:12
 msgid "Password Reset"
-msgstr ""
+msgstr "重設密碼"
 
 #: core/templates/account/password_reset.html:19
 msgid "Forgotten your password? Enter your e-mail address below, and we'll send you an e-mail allowing you to reset it."
-msgstr ""
+msgstr "忘記密碼了？在下面輸入您的電子郵件地址，我們將向您發送一封電子郵件，讓您重置它。"
 
 #: core/templates/account/password_reset.html:20
 msgid "Please contact us if you have any trouble resetting your password."
-msgstr ""
+msgstr "如果您在重置密碼時遇到任何麻煩，請與我們聯繫。"
 
 #: core/templates/account/password_reset.html:27
 msgid "Reset My Password"
-msgstr ""
+msgstr "重設我的密碼"
 
 #: core/templates/account/password_reset_done.html:16
 msgid "If that email is valid, we have sent you an e-mail. Please follow the instructions in the email to continue."
-msgstr ""
+msgstr "如果該電子郵件有效，我們已經向您發送了一封電子郵件。請按照電子郵件中的說明繼續。"
 
 #: core/templates/account/password_reset_from_key.html:6
 #: core/templates/account/password_reset_from_key.html:12
 msgid "Bad Token"
-msgstr ""
+msgstr "壞令牌"
 
 #: core/templates/account/password_reset_from_key.html:17
 msgid "The password reset link was invalid, possibly because it has already been used."
-msgstr ""
+msgstr "密碼重置鏈接無效，可能是因為該鏈接已被使用。"
 
 #: core/templates/account/password_reset_from_key.html:21
 msgid "New password reset key"
-msgstr ""
+msgstr "新密碼重置密鑰"
 
 #: core/templates/account/password_reset_from_key.html:47
 msgid "change password"
-msgstr ""
+msgstr "更改密碼"
 
 #: core/templates/account/password_reset_from_key.html:52
 msgid "Your password has now been changed."
-msgstr ""
+msgstr "您的密碼現已更改。"
 
 #: core/templates/account/password_reset_from_key.html:56
 #: core/templates/socialaccount/authentication_error.html:18
 #: core/templates/socialaccount/login_cancelled.html:18
 msgid "Return to login page"
-msgstr ""
+msgstr "返回登錄頁面"
 
 #: core/templates/account/password_reset_from_key_done.html:4
 #: core/templates/account/password_reset_from_key_done.html:10
 msgid "Password Changed"
-msgstr ""
+msgstr "密碼已被更改"
 
 #: core/templates/account/password_reset_from_key_done.html:13
 msgid "Your password is now changed."
-msgstr ""
+msgstr "您的密碼已被更改。"
 
 #: core/templates/account/password_set.html:6
 #: core/templates/account/password_set.html:12
 #: core/templates/account/password_set.html:37
 msgid "Set Password"
-msgstr ""
+msgstr "設定密碼"
 
 #: core/templates/account/password_set.html:17
 msgid "Please set a password."
-msgstr ""
+msgstr "請提供一個密碼。"
 
 #: core/templates/account/signup_closed.html:5
 msgid "Sign Up Closed"
-msgstr ""
+msgstr "報名已關閉"
 
 #: core/templates/account/signup_closed.html:11
 msgid "We are sorry, but registrations via the website are currently disabled."
-msgstr ""
+msgstr "我們非常抱歉，目前無法通過該網站進行註冊。"
 
 #: core/templates/account/signup_closed.html:14
 msgid "This is preperation for transition to the NEW TrainerDex website. We apologise for the inconvenience."
-msgstr ""
+msgstr "這是過渡到新的 TrainerDex網站的準備工作。不便之處，我們敬請原諒。"
 
 #: core/templates/account/signup_closed.html:22
 msgid "Join Discord"
-msgstr ""
+msgstr "\n"
+"加入Discord"
 
 #: core/templates/account/snippets/already_logged_in.html:5
 #, python-format
 msgid "You are already logged in as %(user_display)s."
-msgstr ""
+msgstr "您已經以 %(user_display)s身份登錄。"
 
 #: core/templates/account/verification_sent.html:5
 #: core/templates/account/verification_sent.html:11
 #: core/templates/account/verified_email_required.html:5
 #: core/templates/account/verified_email_required.html:11
 msgid "Verify Your E-mail Address"
-msgstr ""
+msgstr "請驗證您的郵箱地址"
 
 #: core/templates/account/verification_sent.html:14
 msgid "We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes."
-msgstr ""
+msgstr "我們已經發送了一封電子郵件給您進行驗證。按照提供的鏈接完成註冊過程。如果您在幾分鐘之內仍未收到，請與我們聯繫。"
 
 #: core/templates/account/verified_email_required.html:15
 msgid "This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address."
-msgstr ""
+msgstr "網站的這一部分要求我們驗證您是否是您聲稱的身份。為此，我們要求您驗證電子郵件地址的所有權。"
 
 #: core/templates/account/verified_email_required.html:16
 msgid "We have sent an e-mail to you for verification. Please click on the link inside this e-mail. Please contact us if you do not receive it within a few minutes."
-msgstr ""
+msgstr "我們已經發送了一封電子郵件給您進行驗證。請單擊此電子郵件中的鏈接。如果您在幾分鐘之內仍未收到，請與我們聯繫。"
 
 #: core/templates/base.html:13
 msgctxt "meta tag in head"
 msgid "TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!"
-msgstr ""
+msgstr "TrainerDex提供與神奇宝可梦Go相關的排行榜和統計數據。立即加入！"
 
 #: core/templates/base.html:58 pokemongo/strings.py:360
 msgctxt "general_ok"
@@ -552,11 +565,11 @@ msgstr "OK"
 
 #: core/templates/base.html:59
 msgid "Learn more"
-msgstr ""
+msgstr "了解更多"
 
 #: core/templates/base.html:60
 msgid "This website uses cookies to ensure you get the best experience on our website."
-msgstr ""
+msgstr "本網站使用Cookie來確保您在我們的網站上獲得最佳體驗。"
 
 #: core/templates/base.html:93 core/templates/base.html:94
 #: core/templates/base.html:114 pokemongo/admin.py:176
@@ -566,93 +579,93 @@ msgstr "排行榜"
 
 #: core/templates/base.html:109
 msgid "Settings"
-msgstr ""
+msgstr "設置"
 
 #: core/templates/base.html:118
 msgid "Admin Panel"
-msgstr ""
+msgstr "管理面板"
 
 #: core/templates/base.html:119 core/templates/privacy.html:6
 msgid "Privacy Policy"
-msgstr ""
+msgstr "隱私權政策"
 
 #: core/templates/base.html:120 core/templates/terms.html:6
 #: core/templates/terms.html:12
 msgid "Terms of Service"
-msgstr ""
+msgstr "服务条款"
 
 #: core/templates/base.html:121
 msgid "Join our Discord server!"
-msgstr ""
+msgstr "加入我們的Discord服務器！"
 
 #: core/templates/base.html:122
 msgid "Author"
-msgstr ""
+msgstr "作者"
 
 #: core/templates/base.html:123
 msgid "Version"
-msgstr ""
+msgstr "版本"
 
 #: core/templates/privacy.html:15 core/templates/terms.html:15
 msgid "For various reasons, this document is only available in English."
-msgstr ""
+msgstr "由於各種原因，本文檔僅提供英文版本。"
 
 #: core/templates/socialaccount/authentication_error.html:5
 #: core/templates/socialaccount/authentication_error.html:11
 #: core/templates/socialaccount/login_cancelled.html:5
 msgid "Social Network Login Failure"
-msgstr ""
+msgstr "社交網絡登錄失敗"
 
 #: core/templates/socialaccount/authentication_error.html:14
 msgid "An error occurred while attempting to login via your social network account."
-msgstr ""
+msgstr "嘗試通過您的社交網絡帳戶登錄時發生錯誤。"
 
 #: core/templates/socialaccount/connections.html:5
 #: core/templates/socialaccount/connections.html:25
 msgid "Account Connections"
-msgstr ""
+msgstr "帳戶連接"
 
 #: core/templates/socialaccount/connections.html:11
 msgid "Connect Social Media"
-msgstr ""
+msgstr "連接社交媒體"
 
 #: core/templates/socialaccount/connections.html:14
 msgid "You can connect any of these social media networks."
-msgstr ""
+msgstr "您可以連接任何這些社交媒體網絡。"
 
 #: core/templates/socialaccount/connections.html:28
 msgid "You can sign in to your account using any of the following third party accounts:"
-msgstr ""
+msgstr "您可以使用以下任何第三方帳戶登錄到您的帳戶："
 
 #: core/templates/socialaccount/login_cancelled.html:11
 msgid "Login Cancelled"
-msgstr ""
+msgstr "登錄已取消"
 
 #: core/templates/socialaccount/login_cancelled.html:14
 msgid "Login was cancelled."
-msgstr ""
+msgstr "登錄已取消了。"
 
 #: core/templates/socialaccount/messages/account_connected.txt:2
 msgid "The social account has been connected."
-msgstr ""
+msgstr "該社交帳戶已連接了。"
 
 #: core/templates/socialaccount/messages/account_connected_other.txt:2
 msgid "The social account is already connected to a different account."
-msgstr ""
+msgstr "該社交帳戶已經連接到其他帳戶。"
 
 #: core/templates/socialaccount/messages/account_disconnected.txt:2
 msgid "The social account has been disconnected."
-msgstr ""
+msgstr "你的賬戶連接已經被中斷了。"
 
 #: core/templates/socialaccount/snippets/provider_list.html:9
 #: core/templates/socialaccount/snippets/provider_list.html:12
 #, python-format
 msgid "Continue with %(provider)s"
-msgstr ""
+msgstr "繼續跟%(provider)s"
 
 #: pokemongo/admin.py:26
 msgid "Sync Members for all eligible Discords"
-msgstr ""
+msgstr "同步所有合格不和諧成員"
 
 #: pokemongo/admin.py:89 pokemongo/forms.py:24 pokemongo/models.py:114
 #: pokemongo/strings.py:407
@@ -679,7 +692,7 @@ msgstr "屬性"
 
 #: pokemongo/admin.py:174
 msgid "Reports"
-msgstr ""
+msgstr "報告"
 
 #: pokemongo/management/commands/gains_leaderboard.py:172
 #: pokemongo/management/commands/gym_leaderboard.py:177
@@ -740,18 +753,19 @@ msgstr "總XP"
 
 #: pokemongo/management/commands/gains_leaderboard.py:183
 msgid "Weekly {stat_emoji} {stat_name} Progress for \\N{BUSTS IN SILHOUETTE} {guild.name}"
-msgstr ""
+msgstr "每週{stat_emoji} {stat_name} \\ N {BUSTS IN SILHOUETTE} {guild.name}的進度"
 
 #: pokemongo/management/commands/gains_leaderboard.py:192
 #, python-brace-format
 msgid "**{title}**\n"
 "Unfortunately, there were not valid entries this week."
-msgstr ""
+msgstr "**{title}**\n"
+"不幸的是，本週沒有有效的條目。"
 
 #: pokemongo/management/commands/gains_leaderboard.py:197
 #, python-brace-format
 msgid "#{position} **{trainer}** @ {rate}/day (+{delta}) `Interval: {interval}` `Gain: {then} ⇒ {now}`"
-msgstr ""
+msgstr " #{position}** {trainer} ** @ {rate} /天（+ {delta}）`間隔：{interval}``獲得：{then}⇒{now}`"
 
 #: pokemongo/management/commands/gains_leaderboard.py:212
 #, python-brace-format
@@ -762,68 +776,76 @@ msgid "**{title}**\n"
 "New entries will be ranked next week if they update by the deadline.\n"
 "**{lost_count}** Trainers from last week didn't update again this week.\n"
 "**Next weeks deadline is: `{deadline} UTC`**\n"
-msgstr ""
+msgstr "**{title}**\n"
+"星期：`{year} W {week}`截止日期：`{this_week_deadline} UTC`\n\n"
+"{ranked}\n\n"
+"** {new_count} **新條目：{new}\n\n"
+"如果新條目在截止日期之前更新，則它們將在下週進行排名。\n"
+"** {lost_count} **上週的培訓師本週未再更新。\n"
+"**下個星期的截止日期是：`{deadline} UTC` **\n"
 
 #: pokemongo/management/commands/gym_leaderboard.py:185
 msgctxt "gymbadges_gold"
 msgid "Gold Gyms"
-msgstr ""
+msgstr "金體育館"
 
 #: pokemongo/management/commands/gym_leaderboard.py:189
 msgid "Weekly {stat_emoji} {stat_name} Totals Leaderboard for \\N{BUSTS IN SILHOUETTE} _{guild.name}_"
-msgstr ""
+msgstr "每週{stat_emoji} {stat_name}總計\\ N {BUSTS IN SILHOUETTE} _ {guild.name} _的排行榜"
 
 #: pokemongo/management/commands/gym_leaderboard.py:200
 #, python-brace-format
 msgid "#{position} **{trainer}** {stat} (+{delta})"
-msgstr ""
+msgstr "#{position} **{trainer}** {stat} (+{delta})"
 
 #: pokemongo/management/commands/gym_leaderboard.py:207
 #, python-brace-format
 msgid "#{position} **{trainer}** {stat}"
-msgstr ""
+msgstr "#{position} **{trainer}** {stat}"
 
 #: pokemongo/management/commands/post_announcement.py:47
 msgid "Progress Deadline Reminder"
-msgstr ""
+msgstr "\n"
+"進度截止提醒"
 
 #: pokemongo/management/commands/post_announcement.py:49
 #: pokemongo/management/commands/post_announcement.py:67
 #, python-brace-format
 msgid "This is a reminder. The Progress Deadline is in {timedelta}."
-msgstr ""
+msgstr "這是一個提醒。進度截止日期為{timedelta}。"
 
 #: pokemongo/models.py:92
 msgid "User"
-msgstr ""
+msgstr "使用者"
 
 #: pokemongo/models.py:99
 msgid "The date you created your Pokémon Go account."
-msgstr ""
+msgstr "\n"
+"您創建PokémonGo帳戶的日期。"
 
 #: pokemongo/models.py:109
 msgid "Last Cheated"
-msgstr ""
+msgstr "最後作弊"
 
 #: pokemongo/models.py:110
 msgid "When did this Trainer last cheat?"
-msgstr ""
+msgstr "這位培訓師上次作弊是什麼時候？"
 
 #: pokemongo/models.py:116
 msgid "Would you like to be shown on the leaderboard? Ticking this box gives us permission to process your data."
-msgstr ""
+msgstr "您想出現在排行榜上嗎？勾選此框可授予我們處理您的數據的權限。"
 
 #: pokemongo/models.py:130
 msgid "Fancy sharing your trainer code? (This information is public.)"
-msgstr ""
+msgstr "想分享您的教練代碼嗎？ （此信息是公開的。）"
 
 #: pokemongo/models.py:140
 msgid "Where are you based?"
-msgstr ""
+msgstr "你來自哪個國家?"
 
 #: pokemongo/models.py:143 pokemongo/models.py:222 pokemongo/models.py:231
 msgid "Verified"
-msgstr ""
+msgstr "驗證完畢"
 
 #: pokemongo/models.py:154 pokemongo/strings.py:71
 #: pokemongo/templates/profile.html:69
@@ -839,71 +861,71 @@ msgstr "在2020年結束前升上40級"
 
 #: pokemongo/models.py:161 pokemongo/models.py:401
 msgid "Screenshot"
-msgstr ""
+msgstr "螢幕擷取畫面"
 
 #: pokemongo/models.py:171
 msgid "Has Cheated"
-msgstr ""
+msgstr "作弊了"
 
 #: pokemongo/models.py:195
 msgid "Banned"
-msgstr ""
+msgstr "已封鎖"
 
 #: pokemongo/models.py:216 pokemongo/models.py:233
 msgid "Awaiting Verification"
-msgstr ""
+msgstr "等待驗證"
 
 #: pokemongo/models.py:235
 msgid "Unverified"
-msgstr ""
+msgstr "未驗證"
 
 #: pokemongo/models.py:298 pokemongo/models.py:358
 msgid "Trainer"
-msgstr ""
+msgstr "培訓師"
 
 #: pokemongo/models.py:299
 msgid "Trainers"
-msgstr ""
+msgstr "培訓師"
 
 #: pokemongo/models.py:314
 msgctxt "player_term"
 msgid "Trainer"
-msgstr ""
+msgstr "培訓師"
 
 #: pokemongo/models.py:362 pokemongo/templates/profile.html:114
 msgid "Time Updated"
-msgstr ""
+msgstr "更新時間完畢"
 
 #: pokemongo/models.py:390
 msgid "Submission Datetime"
-msgstr ""
+msgstr "提交日期時間"
 
 #: pokemongo/models.py:396
 msgid "Source"
-msgstr ""
+msgstr "來源"
 
 #: pokemongo/models.py:402
 msgid "This should be your TOTAL XP screenshot."
-msgstr ""
+msgstr "這應該是您的總額XP屏幕截圖。"
 
 #: pokemongo/models.py:408
 msgid "I have double checked this information and it is correct."
-msgstr ""
+msgstr "我已經仔細檢查了此信息，它是正確的。"
 
 #: pokemongo/models.py:409
 msgid "This will silence some errors."
-msgstr ""
+msgstr "這將使某些錯誤消失。"
 
 #: pokemongo/models.py:423
 msgctxt "pokedex_page_caught"
 msgid "Unique Species Caught"
-msgstr ""
+msgstr "捕獲獨特物種"
 
 #: pokemongo/models.py:426 pokemongo/models.py:435
 #, python-brace-format
 msgctxt "pokedex_help"
 msgid "You can find this by clicking the {screen_title_pokedex} button in your game. It should then be listed at the top of the screen."
-msgstr ""
+msgstr "您可以通過單擊遊戲中的{screen_title_pokedex}按鈕來找到它。然後，它應該在屏幕頂部列出。"
 
 #: pokemongo/models.py:427 pokemongo/models.py:436 pokemongo/strings.py:424
 msgctxt "screen_title_pokedex"
@@ -913,7 +935,7 @@ msgstr "寶可夢圖鑑"
 #: pokemongo/models.py:432
 msgctxt "pokedex_page_seen"
 msgid "Unique Species Seen"
-msgstr ""
+msgstr "看到獨特物種"
 
 #: pokemongo/models.py:447 pokemongo/strings.py:199
 msgctxt "badge_travel_km"
@@ -1216,7 +1238,7 @@ msgstr[0] " 有過 {0} 次驚喜邂逅"
 #: pokemongo/models.py:697
 msgctxt "badge_pokedex_entries_gen5__title"
 msgid "Unova"
-msgstr ""
+msgstr "烏諾娃"
 
 #: pokemongo/models.py:700 pokemongo/strings.py:123
 #, python-brace-format
@@ -1244,7 +1266,7 @@ msgstr "英雄"
 #, python-brace-format
 msgctxt "badge_rocket_grunts_defeated"
 msgid "Defeat {0} Team GO Rocket Grunts."
-msgstr ""
+msgstr "打敗 {0} 個GO火箭隊成員"
 
 #: pokemongo/models.py:726 pokemongo/strings.py:184
 msgctxt "badge_rocket_giovanni_defeated_title"
@@ -1376,7 +1398,7 @@ msgstr "獲勝次數"
 #, python-brace-format
 msgctxt "battle_hub_help"
 msgid "You can find this by clicking the {screen_title_battle_hub} button in your game."
-msgstr ""
+msgstr "您可以通過單擊遊戲中的{screen_title_battle_hub}按鈕來找到它。"
 
 #: pokemongo/models.py:871 pokemongo/models.py:880 pokemongo/models.py:889
 #: pokemongo/models.py:898 pokemongo/strings.py:420
@@ -1602,13 +1624,13 @@ msgstr "捉到 {0} 隻妖精屬性的寶可夢"
 
 #: pokemongo/models.py:1021
 msgid "Gold Gym Badges"
-msgstr ""
+msgstr "金牌體育館徽章"
 
 #: pokemongo/models.py:1024
 #, python-brace-format
 msgctxt "gymbadges_gold_help"
 msgid "You can find this by clicking the {gym_badge_list_button} button under the {profile_category_gymbadges} category on your profile in game, and then counting how many are gold."
-msgstr ""
+msgstr "您可以通過以下方式找到它：單擊遊戲中個人資料的{profile_category_gymbadges}類別下的{gym_badge_list_button}按鈕，然後計算有多少的是金。"
 
 #: pokemongo/models.py:1026 pokemongo/strings.py:368
 msgctxt "gym_badge_list_button"
@@ -1624,15 +1646,16 @@ msgstr "冒險筆記"
 #, python-brace-format
 msgid "You must fill out at least ONE of the following stats.\n"
 "{stats}"
-msgstr ""
+msgstr "您必須至少填寫以下一項統計信息。\n"
+"{stats}"
 
 #: pokemongo/models.py:1140
 msgid "This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."
-msgstr ""
+msgstr "先前已以較高的值輸入了該值。請重試以確保您輸入的值正確。"
 
 #: pokemongo/models.py:1163
 msgid "This value will make you the leader. Are you sure what you entered is correct?"
-msgstr ""
+msgstr "這個價值將使您成為領導者。您確定輸入的內容正確嗎？"
 
 #: pokemongo/models.py:1190 pokemongo/models.py:1212 pokemongo/models.py:1244
 #: pokemongo/models.py:1269 pokemongo/models.py:1299 pokemongo/models.py:1321
@@ -1647,15 +1670,15 @@ msgstr ""
 #: pokemongo/models.py:1975 pokemongo/models.py:1997 pokemongo/models.py:2027
 #: pokemongo/models.py:2049
 msgid "The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}"
-msgstr ""
+msgstr "您輸入的{badge} 很高。請檢查輸入錯誤和其他錯誤。從{date1}到{date2}每天{delta:,}/{expected:,}"
 
 #: pokemongo/models.py:2076
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: pokemongo/models.py:2077
 msgid "Updates"
-msgstr ""
+msgstr "更新"
 
 #: pokemongo/models.py:2133
 msgid "Badge"
@@ -1667,47 +1690,48 @@ msgstr ""
 
 #: pokemongo/models.py:2177
 msgid "Publicly Viewable"
-msgstr ""
+msgstr "公開可見"
 
 #: pokemongo/models.py:2179
 msgid "By default, this is off. Turn this on to share your community with the world."
-msgstr ""
+msgstr "默認情況下，此功能處於關閉狀態。啟用此功能可以與世界分享您的社區。"
 
 #: pokemongo/models.py:2184
 msgid "Publicly Joinable"
-msgstr ""
+msgstr "\n"
+"可公開加入"
 
 #: pokemongo/models.py:2186
 msgid "By default, this is off. Turn this on to make your community free to join. No invites required."
-msgstr ""
+msgstr "默認情況下，此功能處於關閉狀態。啟用此選項可以使您的社區自由加入。無需邀請。"
 
 #: pokemongo/models.py:2193
 msgid "Tournament: Publicly Viewable"
-msgstr ""
+msgstr "比賽：公開可見"
 
 #: pokemongo/models.py:2195
 msgid "By default, this is off. Turn this on to share your tournament results with the world."
-msgstr ""
+msgstr "默認情況下，此功能處於關閉狀態。啟用此功能可以與世界分享您的比賽結果。"
 
 #: pokemongo/models.py:2223
 msgid "Community"
-msgstr ""
+msgstr "社區"
 
 #: pokemongo/models.py:2224
 msgid "Communities"
-msgstr ""
+msgstr "社區"
 
 #: pokemongo/models.py:2233
 msgid "Members in this Discord are automatically included in the community."
-msgstr ""
+msgstr "此Discord中的成員自動包含在社區中。"
 
 #: pokemongo/models.py:2280
 msgid "Community Discord Connection"
-msgstr ""
+msgstr "Discord社區聯繫"
 
 #: pokemongo/models.py:2281
 msgid "Community Discord Connections"
-msgstr ""
+msgstr "Discord社區聯繫"
 
 #: pokemongo/shortcuts.py:107
 msgid "profile_player_level"
@@ -2289,24 +2313,24 @@ msgstr "設定"
 
 #: pokemongo/templates/create_update.html:8
 msgid "Update Stats"
-msgstr ""
+msgstr "更新統計"
 
 #: pokemongo/templates/create_update.html:19
 msgid "Welcome to the TrainerDex. Please be honest and truthful, if caught intentionally providing false information, you may be banned."
-msgstr ""
+msgstr "歡迎來到TrainerDex。請誠實誠實，如果故意提供虛假信息而被捕，您可能會被禁止。"
 
 #: pokemongo/templates/create_update.html:20
 msgid "All the questions relate to a section in the game and examples are provided to help if you get stuck."
-msgstr ""
+msgstr "所有問題都與遊戲的某個部分相關，如果遇到問題，將提供示例以幫助您。"
 
 #: pokemongo/templates/edit_profile.html:7
 #: pokemongo/templates/edit_profile.html:13
 msgid "Edit Profile"
-msgstr ""
+msgstr "編輯個人資料"
 
 #: pokemongo/templates/edit_profile.html:78
 msgid "Save Changes"
-msgstr ""
+msgstr "儲存更改"
 
 #: pokemongo/templates/leaderboard.html:7
 #: pokemongo/templates/leaderboard.html:12
@@ -2327,7 +2351,7 @@ msgstr "總XP"
 
 #: pokemongo/templates/leaderboard.html:40
 msgid "Trainers Considered"
-msgstr ""
+msgstr "培訓師考慮完畢"
 
 #: pokemongo/templates/leaderboard.html:49
 msgctxt "onboard_enter_name_hint"
@@ -2337,81 +2361,81 @@ msgstr "暱稱"
 #: pokemongo/templates/leaderboard.html:49
 msgctxt "Short form of Trainer Level"
 msgid "TL"
-msgstr ""
+msgstr "TL"
 
 #: pokemongo/templates/leaderboard.html:57
 msgid "Last Updated"
-msgstr ""
+msgstr "最後更新"
 
 #: pokemongo/templates/leaderboard.html:79
 msgid "There is no information to include in this leaderboard. Why not be the first?"
-msgstr ""
+msgstr "沒有任何信息可包含在此排行榜中。為什麼不成為第一個？"
 
 #: pokemongo/templates/profile.html:144
 msgid "Bronze"
-msgstr ""
+msgstr "銅"
 
 #: pokemongo/templates/profile.html:145
 msgid "Silver"
-msgstr ""
+msgstr "銀"
 
 #: pokemongo/templates/profile.html:146
 msgid "Gold"
-msgstr ""
+msgstr "金"
 
 #: pokemongo/templates/profile.html:147
 msgid "Platinum"
-msgstr ""
+msgstr "鉑"
 
 #: pokemongo/templates/profile.html:148
 msgid "These values have been datamined from the Beyond update and may be subject to change."
-msgstr ""
+msgstr "這些值是從以外更新中獲取的，可能會隨時更改。"
 
 #: pokemongo/templates/profile.html:167
 msgid "Medals with no data."
-msgstr ""
+msgstr "沒有獎牌的數據。"
 
 #: pokemongo/validators.py:15
 msgid "Trainer Code must be 12 digits long and contain only numbers and whitespace."
-msgstr ""
+msgstr "培訓師代碼必須為12位數字，並且只能包含數字和空格。"
 
 #: pokemongo/views.py:48
 msgid "Please set your trainer start date. You can edit your profile in the settings section on the menu."
-msgstr ""
+msgstr "請設置您的教練開始日期。您可以在菜單上的“設置”部分中編輯個人資料。"
 
 #: pokemongo/views.py:78 pokemongo/views.py:151
 msgid "Please complete your profile to continue using the website."
-msgstr ""
+msgstr "請完成您的個人資料以繼續使用該網站。"
 
 #: pokemongo/views.py:197
 msgid "Statistics updated"
-msgstr ""
+msgstr "統計資料已更新"
 
 #: pokemongo/views.py:209
 msgid "Since you have posted in the past hour, you are currently updating your previous post."
-msgstr ""
+msgstr "由於您是在過去一個小時內發布的信息，因此您當前正在更新您以前的信息。"
 
 #: pokemongo/views.py:232
 #, python-brace-format
 msgid "No country found for code {country}"
-msgstr ""
+msgstr "找不到代碼為{country}的國家/地區"
 
 #: pokemongo/views.py:250
 #, python-brace-format
 msgid "No community found for handle {community}"
-msgstr ""
+msgstr "找不到要處理的社區{community}"
 
 #: pokemongo/views.py:257
 msgid "Access denied"
-msgstr ""
+msgstr "拒絕被使用"
 
 #: pokemongo/views.py:394
 msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. Join our Discord. https://discord.gg/Anz3UpM"
-msgstr ""
+msgstr "感謝您填寫個人資料。您的屏幕截圖已發送進行驗證。加入我們的Discord。 https://discord.gg/Anz3UpM"
 
 #: pokemongo/views.py:401
 msgid "Profile edited successfully."
-msgstr ""
+msgstr "個人資料編輯成功。"
 
 #: trainerdex/settings.py:138
 msgid "German"
@@ -2443,19 +2467,19 @@ msgstr "韩国"
 
 #: trainerdex/settings.py:145
 msgid "Dutch"
-msgstr ""
+msgstr "荷蘭人"
 
 #: trainerdex/settings.py:146
 msgid "Dutch, Belgium"
-msgstr ""
+msgstr "荷蘭人, 比利時人"
 
 #: trainerdex/settings.py:147
 msgid "Romanian"
-msgstr ""
+msgstr "羅馬尼亞人"
 
 #: trainerdex/settings.py:148
 msgid "Russian"
-msgstr ""
+msgstr "俄羅斯人"
 
 #: trainerdex/settings.py:149
 msgid "Brazilian Portuguese"
@@ -2463,7 +2487,7 @@ msgstr "巴西葡萄牙语"
 
 #: trainerdex/settings.py:150
 msgid "Thai"
-msgstr ""
+msgstr "泰國人"
 
 #: trainerdex/settings.py:151
 msgid "Traditional Chinese"
@@ -2472,5 +2496,5 @@ msgstr "中国传统"
 #: trainerdex/urls.py:46
 #, python-brace-format
 msgid "{site_name} Admin"
-msgstr ""
+msgstr "{site_name}管理員"
 
