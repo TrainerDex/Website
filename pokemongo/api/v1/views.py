@@ -241,7 +241,12 @@ class UpdateDetailView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-VALID_LB_STATS = UPDATE_FIELDS_BADGES + ["pokedex_caught", "pokedex_seen", "total_xp", "gymbadges_gold"]
+VALID_LB_STATS = UPDATE_FIELDS_BADGES + [
+    "pokedex_caught",
+    "pokedex_seen",
+    "total_xp",
+    "gymbadges_gold",
+]
 
 
 class LeaderboardView(APIView):
