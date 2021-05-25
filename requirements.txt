@@ -11,7 +11,7 @@ git+https://github.com/django-helpdesk/django-helpdesk@0.2.x#egg=django-helpdesk
 django-widget-tweaks~=1.4.5
 djangorestframework~=3.11.2
 humanize==3.5.0
-gunicorn==19.7.1
+gunicorn==20.1.0
 markdown
 pendulum~=2.0.5
 Pillow
