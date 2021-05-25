@@ -173,8 +173,7 @@ msgstr "郵件管理"
 
 #: core/templates/account/account_settings.html:51
 msgid "Last Login"
-msgstr "\n"
-"上次登錄"
+msgstr "上次登錄"
 
 #: core/templates/account/account_settings.html:58
 msgid "Date Registered"
@@ -182,8 +181,7 @@ msgstr "已登記日期了"
 
 #: core/templates/account/account_settings.html:64
 msgid "Manage Social Network Connections"
-msgstr "\n"
-"管理社交網絡連接"
+msgstr "管理社交網絡連接"
 
 #: core/templates/account/account_settings.html:70
 msgid "Trainer Info"
@@ -214,8 +212,7 @@ msgstr "開始日"
 
 #: core/templates/account/account_settings.html:103
 msgid "Publicly Visible"
-msgstr "\n"
-"公開可見"
+msgstr "公開可見"
 
 #: core/templates/account/account_settings.html:110 pokemongo/models.py:130
 #: pokemongo/strings.py:332
@@ -286,8 +283,7 @@ msgstr "您當前沒有設置任何電子郵件地址。您實際上應該添加
 
 #: core/templates/account/email.html:57
 msgid "Add E-mail Address"
-msgstr "\n"
-"添加電子郵件地址"
+msgstr "添加電子郵件地址"
 
 #: core/templates/account/email.html:61
 msgid "Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation."
@@ -326,16 +322,14 @@ msgstr "請確認您的電子郵件地址"
 msgid "Hello from %(site_name)s!\n\n"
 "You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
 "It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
-msgstr "\n"
-"您好，%(site_name)s!\n\n"
+msgstr "您好，%(site_name)s!\n\n"
 "您收到此電子郵件的原因是您或其他人已請求您的用戶帳戶密碼。\n"
 "如果您不要求重設密碼，可以安全地忽略它。點擊下面的鏈接以重置密碼。"
 
 #: core/templates/account/email/password_reset_key_message.txt:8
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
-msgstr "\n"
-"萬一您忘記了，您的用戶名是 %(username)s."
+msgstr "萬一您忘記了，您的用戶名是 %(username)s."
 
 #: core/templates/account/email/password_reset_key_message.txt:10
 #, python-format
@@ -526,8 +520,7 @@ msgstr "這是過渡到新的 TrainerDex網站的準備工作。不便之處，�
 
 #: core/templates/account/signup_closed.html:22
 msgid "Join Discord"
-msgstr "\n"
-"加入Discord"
+msgstr "加入Discord"
 
 #: core/templates/account/snippets/already_logged_in.html:5
 #, python-format
