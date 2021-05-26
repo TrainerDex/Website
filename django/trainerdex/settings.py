@@ -110,10 +110,10 @@ WSGI_APPLICATION = "trainerdex.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": "ekpogo",
-        "USER": "ekpogo",
-        "PASSWORD": "***REMOVED***",
-        "HOST": "127.0.0.1",
+        "NAME": "trainerdex",
+        "USER": "trainerdex",
+        "PASSWORD": "password",
+        "HOST": "db",
     }
 }
 

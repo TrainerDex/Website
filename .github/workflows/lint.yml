@@ -31,5 +31,6 @@ jobs:
       with:
         python-version: 3.6
     - run: python -m pip install -U black
+    - run: cd django
     - name: Blacken
       uses: psf/black@stable

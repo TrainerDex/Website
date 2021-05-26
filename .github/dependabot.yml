@@ -2,7 +2,7 @@ version: 2
 updates:
 
   - package-ecosystem: "pip"
-    directory: "/"
+    directory: "/django/"
     schedule:
       interval: "daily"
     target-branch: develop
@@ -15,21 +15,6 @@ updates:
     labels:
       - "dependencies"
       - "pip"
-
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    target-branch: develop
-    reviewers:
-      - turnrdev
-    assignees:
-      - turnrdev
-    commit-message:
-      prefix: "dep: "
-    labels:
-      - "dependencies"
-      - "npm"
 
   - package-ecosystem: "github-actions"
     directory: "/"

@@ -24,7 +24,8 @@ jobs:
         sudo apt -y install gettext postgresql-9.6 postgresql-9.6-postgis-2.4 gdal-bin python3-gdal
         sudo systemctl start postgresql
         python -m pip install --upgrade pip
-        pip install -r requirements-dev.txt
+        cd django
+        pip install -r requirements.txt
         chmod +x ./build_db.sh
         ./build_db.sh
     - name: Generate pot files
