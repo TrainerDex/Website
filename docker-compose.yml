@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  db:
+    container_name: db
+    image: kartoza/postgis
+    restart: always
+    volumes:
+      - /opt/tdx_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=trainerdex
+      - POSTGRES_USER=trainerdex
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,citext
+  django:
+    container_name: django
+    build: django
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./django:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
