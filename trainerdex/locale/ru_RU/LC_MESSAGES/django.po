@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-25 17:28+0000\n"
+"POT-Creation-Date: 2021-05-27 08:36+0000\n"
 "PO-Revision-Date: 2020-12-10 03:33\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
@@ -1753,104 +1753,104 @@ msgctxt "profile_category_gymbadges"
 msgid "Gym Badges"
 msgstr "Gym Badges"
 
-#: pokemongo/models.py:1097
+#: pokemongo/models.py:1094
 #, python-brace-format
 msgid ""
 "You must fill out at least ONE of the following stats.\n"
 "{stats}"
 msgstr ""
 
-#: pokemongo/models.py:1141
+#: pokemongo/models.py:1138
 msgid ""
 "This value has previously been entered at a higher value. Please try again "
 "ensuring the value you entered was correct."
 msgstr ""
 
-#: pokemongo/models.py:1164
+#: pokemongo/models.py:1161
 msgid ""
 "This value will make you the leader. Are you sure what you entered is "
 "correct?"
 msgstr ""
 
-#: pokemongo/models.py:1191 pokemongo/models.py:1213 pokemongo/models.py:1245
-#: pokemongo/models.py:1270 pokemongo/models.py:1300 pokemongo/models.py:1322
-#: pokemongo/models.py:1352 pokemongo/models.py:1374 pokemongo/models.py:1404
-#: pokemongo/models.py:1426 pokemongo/models.py:1456 pokemongo/models.py:1478
-#: pokemongo/models.py:1508 pokemongo/models.py:1530 pokemongo/models.py:1560
-#: pokemongo/models.py:1582 pokemongo/models.py:1612 pokemongo/models.py:1634
-#: pokemongo/models.py:1664 pokemongo/models.py:1686 pokemongo/models.py:1716
-#: pokemongo/models.py:1738 pokemongo/models.py:1768 pokemongo/models.py:1790
-#: pokemongo/models.py:1820 pokemongo/models.py:1842 pokemongo/models.py:1872
-#: pokemongo/models.py:1894 pokemongo/models.py:1924 pokemongo/models.py:1946
-#: pokemongo/models.py:1976 pokemongo/models.py:1998 pokemongo/models.py:2028
-#: pokemongo/models.py:2050
+#: pokemongo/models.py:1188 pokemongo/models.py:1210 pokemongo/models.py:1242
+#: pokemongo/models.py:1267 pokemongo/models.py:1297 pokemongo/models.py:1319
+#: pokemongo/models.py:1349 pokemongo/models.py:1371 pokemongo/models.py:1401
+#: pokemongo/models.py:1423 pokemongo/models.py:1453 pokemongo/models.py:1475
+#: pokemongo/models.py:1505 pokemongo/models.py:1527 pokemongo/models.py:1557
+#: pokemongo/models.py:1579 pokemongo/models.py:1609 pokemongo/models.py:1631
+#: pokemongo/models.py:1661 pokemongo/models.py:1683 pokemongo/models.py:1713
+#: pokemongo/models.py:1735 pokemongo/models.py:1765 pokemongo/models.py:1787
+#: pokemongo/models.py:1817 pokemongo/models.py:1839 pokemongo/models.py:1869
+#: pokemongo/models.py:1891 pokemongo/models.py:1921 pokemongo/models.py:1943
+#: pokemongo/models.py:1973 pokemongo/models.py:1995 pokemongo/models.py:2025
+#: pokemongo/models.py:2047
 msgid ""
 "The {badge} you entered is high. Please check for typos and other mistakes. "
 "{delta:,}/{expected:,} per day from {date1} to {date2}"
 msgstr ""
 
-#: pokemongo/models.py:2077
+#: pokemongo/models.py:2074
 msgid "Update"
 msgstr ""
 
-#: pokemongo/models.py:2078
+#: pokemongo/models.py:2075
 msgid "Updates"
 msgstr ""
 
-#: pokemongo/models.py:2134
+#: pokemongo/models.py:2131
 msgid "Badge"
 msgstr ""
 
-#: pokemongo/models.py:2135
+#: pokemongo/models.py:2132
 msgid "Badges"
 msgstr ""
 
-#: pokemongo/models.py:2178
+#: pokemongo/models.py:2175
 msgid "Publicly Viewable"
 msgstr ""
 
-#: pokemongo/models.py:2180
+#: pokemongo/models.py:2177
 msgid ""
 "By default, this is off. Turn this on to share your community with the world."
 msgstr ""
 
-#: pokemongo/models.py:2185
+#: pokemongo/models.py:2182
 msgid "Publicly Joinable"
 msgstr ""
 
-#: pokemongo/models.py:2187
+#: pokemongo/models.py:2184
 msgid ""
 "By default, this is off. Turn this on to make your community free to join. "
 "No invites required."
 msgstr ""
 
-#: pokemongo/models.py:2194
+#: pokemongo/models.py:2191
 msgid "Tournament: Publicly Viewable"
 msgstr ""
 
-#: pokemongo/models.py:2196
+#: pokemongo/models.py:2193
 msgid ""
 "By default, this is off. Turn this on to share your tournament results with "
 "the world."
 msgstr ""
 
-#: pokemongo/models.py:2224
+#: pokemongo/models.py:2221
 msgid "Community"
 msgstr ""
 
-#: pokemongo/models.py:2225
+#: pokemongo/models.py:2222
 msgid "Communities"
 msgstr ""
 
-#: pokemongo/models.py:2234
+#: pokemongo/models.py:2231
 msgid "Members in this Discord are automatically included in the community."
 msgstr ""
 
-#: pokemongo/models.py:2281
+#: pokemongo/models.py:2278
 msgid "Community Discord Connection"
 msgstr ""
 
-#: pokemongo/models.py:2282
+#: pokemongo/models.py:2279
 msgid "Community Discord Connections"
 msgstr ""
 
