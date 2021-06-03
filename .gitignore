@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/django,react
-# Edit at https://www.toptal.com/developers/gitignore?templates=django,react
+# Created by https://www.toptal.com/developers/gitignore/api/django
+# Edit at https://www.toptal.com/developers/gitignore?templates=django
 
 ### Django ###
 *.log
@@ -10,7 +10,7 @@ __pycache__/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media/
+media
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
@@ -32,8 +32,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
 parts/
 sdist/
 var/
@@ -73,6 +71,8 @@ pytestdebug.log
 # Translations
 *.mo
 
+# Django stuff:
+
 # Flask stuff:
 instance/
 .webassets-cache
@@ -104,6 +104,9 @@ ipython_config.py
 #   install all needed dependencies.
 #Pipfile.lock
 
+# poetry
+#poetry.lock
+
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
@@ -116,7 +119,8 @@ celerybeat.pid
 
 # Environments
 .env
-.venv
+.env/
+.venv/
 env/
 venv/
 ENV/
@@ -146,22 +150,16 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
+# operating system-related files
+# file properties cache/storage on macOS
+*.DS_Store
+# thumbnail cache on Windows
+Thumbs.db
+
 # profiling data
 .prof
 
-### react ###
-.DS_*
-logs
-**/*.backup.*
-**/*.back.*
+# editor config
+.vscode
 
-node_modules
-bower_components
-
-*.sublime*
-
-psd
-thumb
-sketch
-
-# End of https://www.toptal.com/developers/gitignore/api/django,react
+# End of https://www.toptal.com/developers/gitignore/api/django
