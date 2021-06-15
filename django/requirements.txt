@@ -10,7 +10,7 @@ django-form-utils~=1.0.3
 django-helpdesk>=0.2.23,<0.3.0
 django-widget-tweaks~=1.4.8
 djangorestframework~=3.12.4
-humanize==3.6.0
+humanize==3.9.0
 gunicorn==20.1.0
 markdown
 pendulum~=2.1.2
