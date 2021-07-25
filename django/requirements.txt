@@ -1,6 +1,23 @@
-certifi
-discord.py>=1.5.0,<1.6.0
+# Base Django and DRF imports
 django>=2.2.24,<3.0.0
+djangorestframework~=3.12.4
+gunicorn==20.1.0
+
+# Database and Envinment imports
+psycopg2-binary
+django-environ
+
+# Standard Libaries
+certifi
+humanize~=3.10.0
+markdown
+pendulum~=2.1.2
+Pillow
+Pygments~=2.9.0
+requests
+python-dateutil~=2.8.1
+
+# Django extentions
 django-ajax-selects
 django-allauth~=0.45.0
 django-cities~=0.6
@@ -9,16 +26,11 @@ django-exclusivebooleanfield~=0.3.0
 django-form-utils~=1.0.3
 django-helpdesk>=0.2.23,<0.3.0
 django-widget-tweaks~=1.4.8
-djangorestframework~=3.12.4
-humanize==3.10.0
-gunicorn==20.1.0
-markdown
-pendulum~=2.1.2
-Pillow
-psycopg2-binary
-Pygments~=2.9.0
-python-dateutil~=2.8.1
-requests
+
+# Discord.py
+discord.py>=1.5.0,<1.6.0
+
+# Debug stuff
 django-debug-toolbar
 flake8
 black
