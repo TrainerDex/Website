@@ -9,7 +9,7 @@ django-environ
 
 # Standard Libaries
 certifi
-humanize~=3.10.0
+humanize~=3.11.0
 markdown
 pendulum~=2.1.2
 Pillow
