@@ -24,7 +24,7 @@ django-cities~=0.6
 django-cors-headers~=3.7.0
 django-exclusivebooleanfield~=0.3.0
 django-form-utils~=1.0.3
-django-helpdesk>=0.2.23,<0.3.0
+django-helpdesk>=0.2.23,<0.4.0
 django-widget-tweaks~=1.4.8
 
 # Discord.py
