@@ -261,7 +261,8 @@ class LeaderboardView(APIView):
     ) -> Response:
         if stat not in VALID_LB_STATS:
             return Response(
-                {"state": "error", "reason": "invalid stat"}, status=status.HTTP_400_BAD_REQUEST
+                {"state": "error", "reason": "invalid stat"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
         generated_time = timezone.now()
         query = filter_leaderboard_qs__update(Update.objects)
@@ -353,7 +354,8 @@ class DetailedLeaderboardView(APIView):
     ) -> Response:
         if stat not in VALID_LB_STATS:
             return Response(
-                {"state": "error", "reason": "invalid stat"}, status=status.HTTP_400_BAD_REQUEST
+                {"state": "error", "reason": "invalid stat"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         generated_time = timezone.now()
@@ -462,14 +464,22 @@ class DetailedLeaderboardView(APIView):
             community = get_community(community)
             if isinstance(community, Response):
                 return community
-            output = {"generated": generated_time, "stat": stat, "community": community.handle}
+            output = {
+                "generated": generated_time,
+                "stat": stat,
+                "community": community.handle,
+            }
             output["title"] = "{community} Leaderboard".format(community=community)
             members = get_users_for_community(community)
         elif country:
             country = get_country(country)
             if isinstance(country, Response):
                 return country
-            output = {"generated": generated_time, "stat": stat, "country": country.code}
+            output = {
+                "generated": generated_time,
+                "stat": stat,
+                "country": country.code,
+            }
             output["title"] = "{country} Leaderboard".format(country=country)
             members = get_users_for_country(country)
         else:

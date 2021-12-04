@@ -8,20 +8,24 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='DiscordGuild',
+            name="DiscordGuild",
             fields=[
-                ('id', models.BigIntegerField(primary_key=True, serialize=False)),
-                ('data', django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True)),
-                ('cached_date', models.DateTimeField(auto_now_add=True)),
+                ("id", models.BigIntegerField(primary_key=True, serialize=False)),
+                (
+                    "data",
+                    django.contrib.postgres.fields.jsonb.JSONField(
+                        blank=True, null=True
+                    ),
+                ),
+                ("cached_date", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'verbose_name': 'Discord Guild',
-                'verbose_name_plural': 'Discord Guilds',
+                "verbose_name": "Discord Guild",
+                "verbose_name_plural": "Discord Guilds",
             },
         ),
     ]

@@ -71,7 +71,11 @@ class Command(BaseCommand):
         print(next_week, this_week, last_week, week_number, stat)
         self.stdout.write(self.style.NOTICE("Starting Client"))
         intents = discord.Intents(
-            guilds=True, members=True, emojis=True, guild_messages=True, guild_typing=True
+            guilds=True,
+            members=True,
+            emojis=True,
+            guild_messages=True,
+            guild_typing=True,
         )
         client = discord.Client(intents=intents, allowed_mentions=discord.AllowedMentions.none())
 

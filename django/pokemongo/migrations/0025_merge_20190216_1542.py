@@ -6,9 +6,8 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0021_gen4mammoswine'),
-        ('pokemongo', '0024_auto_20190210_2133'),
+        ("pokemongo", "0021_gen4mammoswine"),
+        ("pokemongo", "0024_auto_20190210_2133"),
     ]
 
-    operations = [
-    ]
+    operations = []

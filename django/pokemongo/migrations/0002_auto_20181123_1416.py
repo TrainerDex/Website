@@ -6,20 +6,20 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0001_squashed_0006_remove_trainer_thesilphroad_username'),
+        ("pokemongo", "0001_squashed_0006_remove_trainer_thesilphroad_username"),
     ]
 
     operations = [
         migrations.AlterModelTable(
-            name='faction',
+            name="faction",
             table=None,
         ),
         migrations.AlterModelTable(
-            name='sponsorship',
+            name="sponsorship",
             table=None,
         ),
         migrations.AlterModelTable(
-            name='update',
+            name="update",
             table=None,
         ),
     ]

@@ -6,23 +6,39 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0011_auto_20181214_1640'),
+        ("core", "0011_auto_20181214_1640"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='discordguild',
-            name='settings_pokemongo_rename',
-            field=models.BooleanField(default=True, help_text='This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here. Pairs great with White Wine, Wensleydale and a Denied "Change Nickname" permission.', verbose_name='Rename users when they join.'),
+            model_name="discordguild",
+            name="settings_pokemongo_rename",
+            field=models.BooleanField(
+                default=True,
+                help_text='This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here. Pairs great with White Wine, Wensleydale and a Denied "Change Nickname" permission.',
+                verbose_name="Rename users when they join.",
+            ),
         ),
         migrations.AlterField(
-            model_name='discordguild',
-            name='settings_pokemongo_rename_with_level',
-            field=models.BooleanField(default=True, help_text='This setting will add a level to the end of their username on your server. Their name will update whenever they level up. Pairs great with Red Wine, Pears and the above settings.', verbose_name='Rename users with their level indicator'),
+            model_name="discordguild",
+            name="settings_pokemongo_rename_with_level",
+            field=models.BooleanField(
+                default=True,
+                help_text="This setting will add a level to the end of their username on your server. Their name will update whenever they level up. Pairs great with Red Wine, Pears and the above settings.",
+                verbose_name="Rename users with their level indicator",
+            ),
         ),
         migrations.AlterField(
-            model_name='discordguild',
-            name='settings_pokemongo_rename_with_level_format',
-            field=models.CharField(choices=[('int', "Plain ol' Numbers"), ('circled_level', 'Circled Numbers ㊵')], default='int', max_length=50, verbose_name='Level Indicator format'),
+            model_name="discordguild",
+            name="settings_pokemongo_rename_with_level_format",
+            field=models.CharField(
+                choices=[
+                    ("int", "Plain ol' Numbers"),
+                    ("circled_level", "Circled Numbers ㊵"),
+                ],
+                default="int",
+                max_length=50,
+                verbose_name="Level Indicator format",
+            ),
         ),
     ]

@@ -7,13 +7,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0047_merge_20201210_0129'),
+        ("pokemongo", "0047_merge_20201210_0129"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='update',
-            name='badge_pokedex_entries_gen5',
-            field=models.PositiveIntegerField(blank=True, help_text='Register 156 Pokémon first discovered in the Unova region to the Pokédex.', null=True, validators=[django.core.validators.MaxValueValidator(156)], verbose_name='Unova'),
+            model_name="update",
+            name="badge_pokedex_entries_gen5",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Register 156 Pokémon first discovered in the Unova region to the Pokédex.",
+                null=True,
+                validators=[django.core.validators.MaxValueValidator(156)],
+                verbose_name="Unova",
+            ),
         ),
     ]

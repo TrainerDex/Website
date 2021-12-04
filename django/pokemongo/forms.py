@@ -40,7 +40,10 @@ class UpdateForm(BetterModelForm):
             ),
             (
                 "types",
-                {"fields": UPDATE_FIELDS_TYPES, "legend": pgettext("pokemon_info_type", "Type")},
+                {
+                    "fields": UPDATE_FIELDS_TYPES,
+                    "legend": pgettext("pokemon_info_type", "Type"),
+                },
             ),
         ]
 

@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0045_battle_hub_stats'),
+        ("pokemongo", "0045_battle_hub_stats"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='update',
-            name='badge_raids_with_friends',
-            field=models.PositiveIntegerField(blank=True, help_text='Win 2000 raids with a friend.', null=True, verbose_name='Rising Star Duo'),
+            model_name="update",
+            name="badge_raids_with_friends",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Win 2000 raids with a friend.",
+                null=True,
+                verbose_name="Rising Star Duo",
+            ),
         ),
     ]

@@ -8,21 +8,37 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0006_auto_20181206_1449'),
+        ("core", "0006_auto_20181206_1449"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DiscordGuildChannel',
+            name="DiscordGuildChannel",
             fields=[
-                ('id', models.BigIntegerField(primary_key=True, serialize=False, verbose_name='ID')),
-                ('data', django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True)),
-                ('cached_date', models.DateTimeField(auto_now_add=True)),
-                ('guild', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.DiscordGuild')),
+                (
+                    "id",
+                    models.BigIntegerField(
+                        primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                (
+                    "data",
+                    django.contrib.postgres.fields.jsonb.JSONField(
+                        blank=True, null=True
+                    ),
+                ),
+                ("cached_date", models.DateTimeField(auto_now_add=True)),
+                (
+                    "guild",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="core.DiscordGuild",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Discord Channel',
-                'verbose_name_plural': 'Discord Channels',
+                "verbose_name": "Discord Channel",
+                "verbose_name_plural": "Discord Channels",
             },
         ),
     ]

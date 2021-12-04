@@ -6,23 +6,38 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0016_merge_20181213_0909'),
+        ("pokemongo", "0016_merge_20181213_0909"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='update',
-            name='badge_great_league',
-            field=models.PositiveIntegerField(blank=True, help_text='Win 200 Trainer Battles in the Great League.', null=True, verbose_name='Great League Veteran'),
+            model_name="update",
+            name="badge_great_league",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Win 200 Trainer Battles in the Great League.",
+                null=True,
+                verbose_name="Great League Veteran",
+            ),
         ),
         migrations.AlterField(
-            model_name='update',
-            name='badge_master_league',
-            field=models.PositiveIntegerField(blank=True, help_text='Win 200 Trainer Battles in the Master League.', null=True, verbose_name='Master League Veteran'),
+            model_name="update",
+            name="badge_master_league",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Win 200 Trainer Battles in the Master League.",
+                null=True,
+                verbose_name="Master League Veteran",
+            ),
         ),
         migrations.AlterField(
-            model_name='update',
-            name='badge_ultra_league',
-            field=models.PositiveIntegerField(blank=True, help_text='Win 200 Trainer Battles in the Ultra League.', null=True, verbose_name='Ultra League Veteran'),
+            model_name="update",
+            name="badge_ultra_league",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Win 200 Trainer Battles in the Ultra League.",
+                null=True,
+                verbose_name="Ultra League Veteran",
+            ),
         ),
     ]

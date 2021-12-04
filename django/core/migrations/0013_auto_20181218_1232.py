@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0012_auto_20181218_1125'),
+        ("core", "0012_auto_20181218_1125"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='discordguild',
-            name='settings_pokemongo_rename_with_level',
-            field=models.BooleanField(default=False, help_text='This setting will add a level to the end of their username on your server. Their name will update whenever they level up. Pairs great with Red Wine, Pears and the above settings.', verbose_name='Rename users with their level indicator'),
+            model_name="discordguild",
+            name="settings_pokemongo_rename_with_level",
+            field=models.BooleanField(
+                default=False,
+                help_text="This setting will add a level to the end of their username on your server. Their name will update whenever they level up. Pairs great with Red Wine, Pears and the above settings.",
+                verbose_name="Rename users with their level indicator",
+            ),
         ),
     ]

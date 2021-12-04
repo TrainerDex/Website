@@ -1147,10 +1147,7 @@ class Update(models.Model):
             return
 
         if not any(
-            [
-                True if getattr(self, x) is not None else False
-                for x in UPDATE_SORTABLE_FIELDS
-            ]
+            [True if getattr(self, x) is not None else False for x in UPDATE_SORTABLE_FIELDS]
         ):
             raise ValidationError(
                 _("You must fill out at least ONE of the following stats.\n{stats}").format(

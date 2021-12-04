@@ -6,18 +6,18 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0036_auto_20200829_1503'),
+        ("pokemongo", "0036_auto_20200829_1503"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='update',
-            old_name='badge_total_megas',
-            new_name='badge_total_mega_evos',
+            model_name="update",
+            old_name="badge_total_megas",
+            new_name="badge_total_mega_evos",
         ),
         migrations.RenameField(
-            model_name='update',
-            old_name='badge_unique_megas',
-            new_name='badge_unique_mega_evos',
+            model_name="update",
+            old_name="badge_unique_megas",
+            new_name="badge_unique_mega_evos",
         ),
     ]

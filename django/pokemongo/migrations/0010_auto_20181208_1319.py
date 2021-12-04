@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0009_auto_20181208_0155'),
+        ("pokemongo", "0009_auto_20181208_0155"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='update',
-            name='badge_great_league',
+            model_name="update",
+            name="badge_great_league",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='update',
-            name='badge_master_league',
+            model_name="update",
+            name="badge_master_league",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='update',
-            name='badge_ultra_league',
+            model_name="update",
+            name="badge_ultra_league",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
     ]

@@ -53,6 +53,9 @@ urlpatterns = [
         ),
     ),
     path("users/", UserViewSet.as_view({"get": "list", "post": "create"})),
-    path("users/<int:pk>/", UserViewSet.as_view({"get": "retrieve", "patch": "partial_update"})),
+    path(
+        "users/<int:pk>/",
+        UserViewSet.as_view({"get": "retrieve", "patch": "partial_update"}),
+    ),
     path("users/social/", SocialLookupView.as_view()),
 ]

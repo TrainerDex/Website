@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0041_auto_20201120_1919'),
+        ("pokemongo", "0041_auto_20201120_1919"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='update',
-            name='badge_pokemon_caught_at_your_lures',
-            field=models.PositiveIntegerField(blank=True, help_text='Catch 2500 Pokémon attracted by a Lure Module.', null=True, verbose_name='Picnicker'),
+            model_name="update",
+            name="badge_pokemon_caught_at_your_lures",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Catch 2500 Pokémon attracted by a Lure Module.",
+                null=True,
+                verbose_name="Picnicker",
+            ),
         ),
     ]

@@ -29,7 +29,10 @@ class Migration(migrations.Migration):
             model_name="update",
             name="badge_battle_training_won",
             field=models.BigIntegerField(
-                blank=True, help_text="Train 2000 times.", null=True, verbose_name="Ace Trainer"
+                blank=True,
+                help_text="Train 2000 times.",
+                null=True,
+                verbose_name="Ace Trainer",
             ),
         ),
         migrations.AlterField(
@@ -46,7 +49,10 @@ class Migration(migrations.Migration):
             model_name="update",
             name="badge_big_magikarp",
             field=models.BigIntegerField(
-                blank=True, help_text="Catch 1000 big Magikarp.", null=True, verbose_name="Fisher"
+                blank=True,
+                help_text="Catch 1000 big Magikarp.",
+                null=True,
+                verbose_name="Fisher",
             ),
         ),
         migrations.AlterField(
@@ -63,7 +69,10 @@ class Migration(migrations.Migration):
             model_name="update",
             name="badge_capture_total",
             field=models.BigIntegerField(
-                blank=True, help_text="Catch 50000 Pokémon.", null=True, verbose_name="Collector"
+                blank=True,
+                help_text="Catch 50000 Pokémon.",
+                null=True,
+                verbose_name="Collector",
             ),
         ),
         migrations.AlterField(
@@ -80,7 +89,10 @@ class Migration(migrations.Migration):
             model_name="update",
             name="badge_evolved_total",
             field=models.BigIntegerField(
-                blank=True, help_text="Evolve 2000 Pokémon.", null=True, verbose_name="Scientist"
+                blank=True,
+                help_text="Evolve 2000 Pokémon.",
+                null=True,
+                verbose_name="Scientist",
             ),
         ),
         migrations.AlterField(
@@ -97,7 +109,10 @@ class Migration(migrations.Migration):
             model_name="update",
             name="badge_hatched_total",
             field=models.BigIntegerField(
-                blank=True, help_text="Hatch 2500 eggs.", null=True, verbose_name="Breeder"
+                blank=True,
+                help_text="Hatch 2500 eggs.",
+                null=True,
+                verbose_name="Breeder",
             ),
         ),
         migrations.AlterField(
@@ -144,7 +159,10 @@ class Migration(migrations.Migration):
             model_name="update",
             name="badge_pikachu",
             field=models.BigIntegerField(
-                blank=True, help_text="Catch 1000 Pikachu.", null=True, verbose_name="Pikachu Fan"
+                blank=True,
+                help_text="Catch 1000 Pikachu.",
+                null=True,
+                verbose_name="Pikachu Fan",
             ),
         ),
         migrations.AlterField(
@@ -181,7 +199,10 @@ class Migration(migrations.Migration):
             model_name="update",
             name="badge_raid_battle_won",
             field=models.BigIntegerField(
-                blank=True, help_text="Win 2000 raids.", null=True, verbose_name="Champion"
+                blank=True,
+                help_text="Win 2000 raids.",
+                null=True,
+                verbose_name="Champion",
             ),
         ),
         migrations.AlterField(
@@ -238,7 +259,10 @@ class Migration(migrations.Migration):
             model_name="update",
             name="badge_trading",
             field=models.BigIntegerField(
-                blank=True, help_text="Trade 2500 Pokémon.", null=True, verbose_name="Gentleman"
+                blank=True,
+                help_text="Trade 2500 Pokémon.",
+                null=True,
+                verbose_name="Gentleman",
             ),
         ),
         migrations.AlterField(
@@ -494,6 +518,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="update",
             name="total_xp",
-            field=models.BigIntegerField(blank=True, null=True, verbose_name="Total XP"),
+            field=models.BigIntegerField(
+                blank=True, null=True, verbose_name="Total XP"
+            ),
         ),
     ]

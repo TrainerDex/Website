@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0045_battle_hub_stats'),
+        ("pokemongo", "0045_battle_hub_stats"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='update',
-            name='total_xp',
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name='Total XP'),
+            model_name="update",
+            name="total_xp",
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="Total XP"
+            ),
         ),
     ]

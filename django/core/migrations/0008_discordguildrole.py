@@ -8,22 +8,38 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0007_discordguildchannel'),
+        ("core", "0007_discordguildchannel"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DiscordGuildRole',
+            name="DiscordGuildRole",
             fields=[
-                ('id', models.BigIntegerField(primary_key=True, serialize=False, verbose_name='ID')),
-                ('data', django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True)),
-                ('cached_date', models.DateTimeField(auto_now_add=True)),
-                ('guild', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.DiscordGuild')),
+                (
+                    "id",
+                    models.BigIntegerField(
+                        primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                (
+                    "data",
+                    django.contrib.postgres.fields.jsonb.JSONField(
+                        blank=True, null=True
+                    ),
+                ),
+                ("cached_date", models.DateTimeField(auto_now_add=True)),
+                (
+                    "guild",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="core.DiscordGuild",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Discord Role',
-                'verbose_name_plural': 'Discord Roles',
-                'ordering': ['guild__id', '-data__position'],
+                "verbose_name": "Discord Role",
+                "verbose_name_plural": "Discord Roles",
+                "ordering": ["guild__id", "-data__position"],
             },
         ),
     ]

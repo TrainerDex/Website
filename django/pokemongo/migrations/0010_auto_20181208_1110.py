@@ -7,13 +7,18 @@ import pokemongo.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0009_auto_20181208_0155'),
+        ("pokemongo", "0009_auto_20181208_0155"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='update',
-            name='screenshot',
-            field=models.ImageField(blank=True, help_text='This should be your TOTAL XP screenshot.', upload_to=pokemongo.models.VerificationUpdateImagePath, verbose_name='Screenshot'),
+            model_name="update",
+            name="screenshot",
+            field=models.ImageField(
+                blank=True,
+                help_text="This should be your TOTAL XP screenshot.",
+                upload_to=pokemongo.models.VerificationUpdateImagePath,
+                verbose_name="Screenshot",
+            ),
         ),
     ]

@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0016_auto_20190210_1954'),
+        ("core", "0016_auto_20190210_1954"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='discordguild',
-            name='settings_welcomer_message_existing',
+            model_name="discordguild",
+            name="settings_welcomer_message_existing",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='discordguild',
-            name='settings_welcomer_message_new',
+            model_name="discordguild",
+            name="settings_welcomer_message_new",
             field=models.TextField(blank=True, null=True),
         ),
     ]

@@ -6,13 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('socialaccount', '0003_extra_data_default_dict'),
-        ('core', '0003_auto_20181206_1227'),
+        ("socialaccount", "0003_extra_data_default_dict"),
+        ("core", "0003_auto_20181206_1227"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='discordguildmembership',
-            unique_together={('guild', 'user')},
+            name="discordguildmembership",
+            unique_together={("guild", "user")},
         ),
     ]

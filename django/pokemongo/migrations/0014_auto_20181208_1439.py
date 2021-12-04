@@ -6,20 +6,20 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0013_nickname'),
+        ("pokemongo", "0013_nickname"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='trainer',
-            options={'verbose_name': 'Trainer', 'verbose_name_plural': 'Trainers'},
+            name="trainer",
+            options={"verbose_name": "Trainer", "verbose_name_plural": "Trainers"},
         ),
         migrations.RemoveField(
-            model_name='trainer',
-            name='username',
+            model_name="trainer",
+            name="username",
         ),
         migrations.AlterModelTable(
-            name='trainer',
+            name="trainer",
             table=None,
         ),
     ]

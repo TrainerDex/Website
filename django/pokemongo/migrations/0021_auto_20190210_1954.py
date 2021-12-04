@@ -7,28 +7,34 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0020_auto_20190205_1635'),
+        ("pokemongo", "0020_auto_20190205_1635"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='tournamentbattlerecord',
-            name='challenger',
+            model_name="tournamentbattlerecord",
+            name="challenger",
         ),
         migrations.RemoveField(
-            model_name='tournamentbattlerecord',
-            name='host',
+            model_name="tournamentbattlerecord",
+            name="host",
         ),
         migrations.RemoveField(
-            model_name='tournamentbattlerecord',
-            name='opponent',
+            model_name="tournamentbattlerecord",
+            name="opponent",
         ),
         migrations.AddField(
-            model_name='update',
-            name='badge_pokedex_entries_unknown',
-            field=models.PositiveIntegerField(blank=True, help_text='This is the Unknown generation at the end of your Pokédex with Meltan and Melmetal.', null=True, validators=[django.core.validators.MaxValueValidator(2)], verbose_name='Unknown Generation'),
+            model_name="update",
+            name="badge_pokedex_entries_unknown",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="This is the Unknown generation at the end of your Pokédex with Meltan and Melmetal.",
+                null=True,
+                validators=[django.core.validators.MaxValueValidator(2)],
+                verbose_name="Unknown Generation",
+            ),
         ),
         migrations.DeleteModel(
-            name='TournamentBattleRecord',
+            name="TournamentBattleRecord",
         ),
     ]

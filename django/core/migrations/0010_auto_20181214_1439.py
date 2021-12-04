@@ -7,18 +7,26 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0009_auto_20181208_1340'),
+        ("core", "0009_auto_20181208_1340"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='discordguildchannel',
-            name='guild',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='channels', to='core.DiscordGuild'),
+            model_name="discordguildchannel",
+            name="guild",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="channels",
+                to="core.DiscordGuild",
+            ),
         ),
         migrations.AlterField(
-            model_name='discordguildrole',
-            name='guild',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='roles', to='core.DiscordGuild'),
+            model_name="discordguildrole",
+            name="guild",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="roles",
+                to="core.DiscordGuild",
+            ),
         ),
     ]

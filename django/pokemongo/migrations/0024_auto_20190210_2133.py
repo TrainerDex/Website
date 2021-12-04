@@ -6,15 +6,15 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0023_auto_20190210_2103'),
+        ("pokemongo", "0023_auto_20190210_2103"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='sponsorship',
-            name='members',
+            model_name="sponsorship",
+            name="members",
         ),
         migrations.DeleteModel(
-            name='Sponsorship',
+            name="Sponsorship",
         ),
     ]

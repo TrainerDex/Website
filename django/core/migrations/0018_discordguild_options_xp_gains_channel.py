@@ -7,13 +7,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0017_auto_20191024_1540'),
+        ("core", "0017_auto_20191024_1540"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='discordguild',
-            name='options_xp_gains_channel',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='core.DiscordChannel'),
+            model_name="discordguild",
+            name="options_xp_gains_channel",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="core.DiscordChannel",
+            ),
         ),
     ]

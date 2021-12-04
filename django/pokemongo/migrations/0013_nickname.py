@@ -6,25 +6,65 @@ from django.db import migrations, models
 import django.db.models.deletion
 import exclusivebooleanfield.fields
 
+
 def copy_nicknames(apps, schema_editor):
     Trainer = apps.get_model("pokemongo", "Trainer")
     Nickname = apps.get_model("pokemongo", "Nickname")
-    Nickname.objects.bulk_create([Nickname(trainer=x, nickname=x.username, active=True) for x in Trainer.objects.all()])
+    Nickname.objects.bulk_create(
+        [
+            Nickname(trainer=x, nickname=x.username, active=True)
+            for x in Trainer.objects.all()
+        ]
+    )
+
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0012_tournamentbattlerecord'),
+        ("pokemongo", "0012_tournamentbattlerecord"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Nickname',
+            name="Nickname",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nickname', django.contrib.postgres.fields.citext.CICharField(db_index=True, max_length=15, unique=True, validators=[django.core.validators.RegexValidator('^[A-Za-z0-9]{3,15}$', 'Only letters and numbers are allowed.', 'invalid')], verbose_name='Nickname')),
-                ('active', exclusivebooleanfield.fields.ExclusiveBooleanField(on=('trainer',))),
-                ('trainer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pokemongo.Trainer', verbose_name='Trainer')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "nickname",
+                    django.contrib.postgres.fields.citext.CICharField(
+                        db_index=True,
+                        max_length=15,
+                        unique=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                "^[A-Za-z0-9]{3,15}$",
+                                "Only letters and numbers are allowed.",
+                                "invalid",
+                            )
+                        ],
+                        verbose_name="Nickname",
+                    ),
+                ),
+                (
+                    "active",
+                    exclusivebooleanfield.fields.ExclusiveBooleanField(on=("trainer",)),
+                ),
+                (
+                    "trainer",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="pokemongo.Trainer",
+                        verbose_name="Trainer",
+                    ),
+                ),
             ],
         ),
         migrations.RunPython(copy_nicknames, migrations.RunPython.noop),

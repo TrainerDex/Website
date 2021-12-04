@@ -6,9 +6,8 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0046_add_rsduo'),
-        ('pokemongo', '0046_auto_20201127_0144'),
+        ("pokemongo", "0046_add_rsduo"),
+        ("pokemongo", "0046_auto_20201127_0144"),
     ]
 
-    operations = [
-    ]
+    operations = []

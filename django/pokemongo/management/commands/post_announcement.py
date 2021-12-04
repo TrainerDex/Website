@@ -51,7 +51,11 @@ class Command(BaseCommand):
                                     timedelta=precisedelta(
                                         deadline - current_time,
                                         minimum_unit="minutes",
-                                        suppress=["seconds", "milliseconds", "microseconds"],
+                                        suppress=[
+                                            "seconds",
+                                            "milliseconds",
+                                            "microseconds",
+                                        ],
                                     )
                                 ),
                                 timestamp=deadline,
@@ -69,7 +73,11 @@ class Command(BaseCommand):
                                 timedelta=precisedelta(
                                     deadline - current_time,
                                     minimum_unit="minutes",
-                                    suppress=["seconds", "milliseconds", "microseconds"],
+                                    suppress=[
+                                        "seconds",
+                                        "milliseconds",
+                                        "microseconds",
+                                    ],
                                 )
                             )
                             message += "\n\n"

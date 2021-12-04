@@ -6,18 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0035_auto_20200829_1418'),
+        ("pokemongo", "0035_auto_20200829_1418"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='update',
-            name='badge_total_megas',
-            field=models.PositiveIntegerField(blank=True, help_text='Placeholder text: 500', null=True, verbose_name='Successor'),
+            model_name="update",
+            name="badge_total_megas",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Placeholder text: 500",
+                null=True,
+                verbose_name="Successor",
+            ),
         ),
         migrations.AddField(
-            model_name='update',
-            name='badge_unique_megas',
-            field=models.PositiveIntegerField(blank=True, help_text='Placeholder text: 36', null=True, verbose_name='Mgea Evolution Guru'),
+            model_name="update",
+            name="badge_unique_megas",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Placeholder text: 36",
+                null=True,
+                verbose_name="Mgea Evolution Guru",
+            ),
         ),
     ]

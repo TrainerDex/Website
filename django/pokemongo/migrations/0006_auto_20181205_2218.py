@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0005_auto_20181205_2102'),
+        ("pokemongo", "0005_auto_20181205_2102"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='communitymembershipdiscord',
-            name='auto_import',
-            field=models.BooleanField(default=True, help_text='This is currently not automatic.\nThere is no automatic removal.'),
+            model_name="communitymembershipdiscord",
+            name="auto_import",
+            field=models.BooleanField(
+                default=True,
+                help_text="This is currently not automatic.\nThere is no automatic removal.",
+            ),
         ),
     ]

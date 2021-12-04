@@ -7,18 +7,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0026_auto_20190223_2148'),
+        ("pokemongo", "0026_auto_20190223_2148"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='update',
-            name='badge_photobomb',
-            field=models.PositiveIntegerField(blank=True, help_text='Have 200 surprise encounters in AR Snapshot.', null=True, verbose_name='Cameraman'),
+            model_name="update",
+            name="badge_photobomb",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Have 200 surprise encounters in AR Snapshot.",
+                null=True,
+                verbose_name="Cameraman",
+            ),
         ),
         migrations.AlterField(
-            model_name='update',
-            name='badge_pokedex_entries_gen4',
-            field=models.PositiveIntegerField(blank=True, help_text='Register 80 Pokémon first discovered in the Sinnoh region to the Pokédex.', null=True, validators=[django.core.validators.MaxValueValidator(99)], verbose_name='Sinnoh'),
+            model_name="update",
+            name="badge_pokedex_entries_gen4",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Register 80 Pokémon first discovered in the Sinnoh region to the Pokédex.",
+                null=True,
+                validators=[django.core.validators.MaxValueValidator(99)],
+                verbose_name="Sinnoh",
+            ),
         ),
     ]

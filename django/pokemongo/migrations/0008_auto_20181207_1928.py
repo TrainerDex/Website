@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0007_auto_20181206_1450'),
+        ("pokemongo", "0007_auto_20181206_1450"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='community',
-            name='handle',
+            model_name="community",
+            name="handle",
             field=models.SlugField(unique=True),
         ),
     ]

@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0031_auto_20200829_1245'),
+        ("pokemongo", "0031_auto_20200829_1245"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='trainer',
-            name='leaderboard_region',
+            model_name="trainer",
+            name="leaderboard_region",
         ),
     ]

@@ -6,18 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0006_auto_20181205_2218'),
+        ("pokemongo", "0006_auto_20181205_2218"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='communitymembershipdiscord',
-            name='auto_import',
-            field=models.BooleanField(default=True, help_text='Members in this Discord are automatically included in the community.'),
+            model_name="communitymembershipdiscord",
+            name="auto_import",
+            field=models.BooleanField(
+                default=True,
+                help_text="Members in this Discord are automatically included in the community.",
+            ),
         ),
         migrations.RenameField(
-            model_name='communitymembershipdiscord',
-            old_name='auto_import',
-            new_name='sync_members',
+            model_name="communitymembershipdiscord",
+            old_name="auto_import",
+            new_name="sync_members",
         ),
     ]

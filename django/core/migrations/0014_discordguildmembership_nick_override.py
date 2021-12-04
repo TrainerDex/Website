@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0013_auto_20181218_1232'),
+        ("core", "0013_auto_20181218_1232"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='discordguildmembership',
-            name='nick_override',
+            model_name="discordguildmembership",
+            name="nick_override",
             field=models.CharField(blank=True, max_length=32, null=True),
         ),
     ]

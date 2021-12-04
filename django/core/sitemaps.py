@@ -38,7 +38,8 @@ class TrainerSitemap(Sitemap):
 
     def lastmod(self, obj: Trainer) -> datetime.datetime:
         return max(
-            obj.last_modified, obj.update_set.only("update_time").latest("update_time").update_time
+            obj.last_modified,
+            obj.update_set.only("update_time").latest("update_time").update_time,
         )
 
     def priority(self, obj: Trainer) -> float:

@@ -210,7 +210,10 @@ class DiscordGuild(models.Model):
         else:
             channels = [
                 DiscordChannel(
-                    id=int(channel["id"]), guild=self, data=channel, cached_date=timezone.now()
+                    id=int(channel["id"]),
+                    guild=self,
+                    data=channel,
+                    cached_date=timezone.now(),
                 )
                 for channel in guild_channels
             ]
