@@ -63,7 +63,9 @@ def TrainerRedirectorView(
         if nickname == trainer.nickname:
             return TrainerProfileView(request, trainer)
     elif request.GET.get("id", id):
-        trainer = get_object_or_404(Trainer, pk=request.GET.get("id", id), owner__is_active=True)
+        trainer = get_object_or_404(
+            Trainer, pk=int(str(request.GET.get("id", id)).replace("/", "")), owner__is_active=True
+        )
     elif not request.user.is_authenticated:
         return redirect("account_login")
     else:
