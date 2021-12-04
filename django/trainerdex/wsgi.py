@@ -11,9 +11,12 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 from trainerdex import __version__
+from trainerdex.settings import DEBUG
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "trainerdex.settings")
 
 application = get_wsgi_application()
 
 print("TrainerDex Version:", __version__)
+if DEBUG:
+    print("Running with Debug enabled")

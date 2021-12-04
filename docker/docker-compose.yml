@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: db
+    image: kartoza/postgis
+    restart: on-failure
+    networks:
+      - bridge-network
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=tdx
+      - POSTGRES_USER=tdx
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,citext
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data: null
+
+networks:
+  bridge-network:
+    driver: bridge
+    name: bridge-network

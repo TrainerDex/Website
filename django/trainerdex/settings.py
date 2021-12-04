@@ -3,6 +3,8 @@
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
 
+from trainerdex import __version__
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -10,12 +12,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "***REMOVED***"
+SECRET_KEY = os.environ.get("SECRET_KEY", "secretkey")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get("DEBUG", 0)))
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(" ")
 
 ADMINS = [("Jay Turner", "jaynicholasturner@gmail.com")]
 
@@ -109,11 +111,12 @@ WSGI_APPLICATION = "trainerdex.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": "trainerdex",
-        "USER": "trainerdex",
-        "PASSWORD": "password",
-        "HOST": "db",
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.contrib.gis.db.backends.postgis"),
+        "NAME": os.environ.get("SQL_DATABASE", "tdx"),
+        "USER": os.environ.get("SQL_USER", "tdx"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
 
@@ -158,10 +161,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS = True
-ROSETTA_POFILE_WRAP_WIDTH = 0
-ROSETTA_SHOW_AT_ADMIN_PANEL = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -210,7 +209,7 @@ SOCIALACCOUNT_PROVIDERS = {
     "reddit": {
         "AUTH_PARAMS": {"duration": "permanent"},
         "SCOPE": ["identity", "submit"],
-        "USER_AGENT": "django:trainerdex:1.0 (by /u/jayturnr)",
+        "USER_AGENT": f"django:trainerdex:{__version__} (by /u/jayturnr)",
     },
     "google": {"SCOPE": ["profile", "email"], "AUTH_PARAMS": {"access_type": "online"}},
     "discord": {"SCOPE": ["identify", "email", "guilds", "guilds.join", "gdm.join"]},
@@ -219,7 +218,7 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 # Google Analytics
 
-GOOGLE_ANALYTICS_MEASUREMENT_ID = "***REMOVED***"
+GOOGLE_ANALYTICS_MEASUREMENT_ID = os.environ.get("GOOGLE_ANALYTICS_MEASUREMENT_ID", "")
 
 # Django Cities
 # https://github.com/coderholic/django-cities#configuration
@@ -231,12 +230,14 @@ CITIES_POSTAL_CODES = []
 # https://docs.djangoproject.com/en/2.2/topics/email/
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.eu.mailgun.org"
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "postmaster@mmg.trainerdex.app"
-EMAIL_HOST_PASSWORD = "***REMOVED***"
-DEFAULT_FROM_EMAIL = "TrainerDex Support <jay@trainerdex.app>"
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.eu.mailgun.org")
+EMAIL_USE_TLS = bool(int(os.environ.get("EMAIL_USE_TLS", 1)))
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "postmaster@mmg.trainerdex.app")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "password")
+DEFAULT_FROM_EMAIL = os.environ.get(
+    "DEFAULT_FROM_EMAIL", "TrainerDex Support <jay@trainerdex.app>"
+)
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 FILE_UPLOAD_PERMISSIONS = 0x775
@@ -250,13 +251,13 @@ HELPDESK_STAFF_ONLY_TICKET_OWNERS = True
 HELPDESK_STAFF_ONLY_TICKET_CC = True
 
 # DISCORD
-
-DISCORD_CLIENT_ID = 0  # ***REMOVED***
-DISCORD_CLIENT_SECRET = "***REMOVED***"
-DISCORD_TOKEN = "***REMOVED***"
+# Could this be stored in the database?
+DISCORD_CLIENT_ID = int(os.environ.get("DISCORD_CLIENT_ID", "0"))
+DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET", "")
+DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN", "")
 
 # CONSTANTS
-
+# This should defo me stored elsewhere
 TEAMS = {
     0: pgettext_lazy("team_name_team0", "No Team"),
     1: pgettext_lazy("team_name_team1", "Team Mystic"),
