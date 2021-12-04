@@ -449,7 +449,7 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_travel_km_title", "Jogger"),
         help_text=pgettext_lazy("badge_travel_km", "Walk {0:0,g} km.").format(10000.0),
-        validators=[MinValueValidator(0.0)],
+        validators=[MinValueValidator(Decimal(0.0))],
     )
     # Badge_2
     badge_pokedex_entries = models.PositiveIntegerField(
@@ -470,31 +470,28 @@ class Update(models.Model):
         validators=[MinValueValidator(1)],
     )
     # Badge_5
-    badge_evolved_total = models.BigIntegerField(
+    badge_evolved_total = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_evolved_total_title", "Scientist"),
         help_text=pgettext_lazy("badge_evolved_total", "Evolve {0} Pokémon.").format(2000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_6
-    badge_hatched_total = models.BigIntegerField(
+    badge_hatched_total = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_hatched_total_title", "Breeder"),
         help_text=pgettext_lazy("badge_hatched_total", "Hatch {0} eggs.").format(2500),
-        validators=[MinValueValidator(0)],
     )
     # Badge_8
-    badge_pokestops_visited = models.BigIntegerField(
+    badge_pokestops_visited = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_pokestops_visited_title", "Backpacker"),
         help_text=pgettext_lazy("badge_pokestops_visited", "Visit {0} PokéStops.").format(50000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_9
-    badge_unique_pokestops = models.BigIntegerField(
+    badge_unique_pokestops = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_unique_pokestops_title", "Sightseer"),
@@ -504,47 +501,41 @@ class Update(models.Model):
             "Visit {0} unique PokéStops.",
             2000,
         ).format(2000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_11
-    badge_big_magikarp = models.BigIntegerField(
+    badge_big_magikarp = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_big_magikarp_title", "Fisher"),
         help_text=pgettext_lazy("badge_big_magikarp", "Catch {0} big Magikarp.").format(1000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_13
-    badge_battle_attack_won = models.BigIntegerField(
+    badge_battle_attack_won = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_battle_attack_won_title", "Battle Girl"),
         help_text=pgettext_lazy("badge_battle_attack_won", "Win {0} Gym battles.").format(4000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_14
-    badge_battle_training_won = models.BigIntegerField(
+    badge_battle_training_won = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_battle_training_won_title", "Ace Trainer"),
         help_text=pgettext_lazy("badge_battle_training_won", "Train {0} times.").format(2000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_36
-    badge_small_rattata = models.BigIntegerField(
+    badge_small_rattata = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_small_rattata_title", "Youngster"),
         help_text=pgettext_lazy("badge_small_rattata", "Catch {0} tiny Rattata.").format(1000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_37
-    badge_pikachu = models.BigIntegerField(
+    badge_pikachu = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_pikachu_title", "Pikachu Fan"),
         help_text=pgettext_lazy("badge_pikachu", "Catch {0} Pikachu.").format(1000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_38
     badge_unown = models.PositiveIntegerField(
@@ -552,7 +543,9 @@ class Update(models.Model):
         blank=True,
         verbose_name=pgettext_lazy("badge_unown_title", "Unown"),
         help_text=pgettext_lazy("badge_unown", "Catch {0} Unown.").format(28),
-        validators=[MaxValueValidator(28), MinValueValidator(0)],
+        validators=[
+            MaxValueValidator(28),
+        ],
     )
     # Badge_39
     badge_pokedex_entries_gen2 = models.PositiveIntegerField(
@@ -563,33 +556,32 @@ class Update(models.Model):
             "badge_pokedex_entries_gen2",
             "Register {0} Pokémon first discovered in the Johto region to the Pokédex.",
         ).format(100),
-        validators=[MaxValueValidator(100), MinValueValidator(0)],
+        validators=[
+            MaxValueValidator(100),
+        ],
     )
     # Badge_40
-    badge_raid_battle_won = models.BigIntegerField(
+    badge_raid_battle_won = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_raid_battle_won_title", "Champion"),
         help_text=pgettext_lazy("badge_raid_battle_won", "Win {0} raids.").format(2000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_41
-    badge_legendary_battle_won = models.BigIntegerField(
+    badge_legendary_battle_won = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_legendary_battle_won_title", "Battle Legend"),
         help_text=pgettext_lazy("badge_legendary_battle_won", "Win {0} Legendary raids.").format(
             2000
         ),
-        validators=[MinValueValidator(0)],
     )
     # Badge_42
-    badge_berries_fed = models.BigIntegerField(
+    badge_berries_fed = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_berries_fed_title", "Berry Master"),
         help_text=pgettext_lazy("badge_berries_fed", "Feed {0} Berries at Gyms.").format(15000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_43
     badge_hours_defended = models.PositiveIntegerField(
@@ -599,7 +591,6 @@ class Update(models.Model):
         help_text=pgettext_lazy("badge_hours_defended", "Defend Gyms for {0} hours.").format(
             15000
         ),
-        validators=[MinValueValidator(0)],
     )
     # Badge_45
     badge_pokedex_entries_gen3 = models.PositiveIntegerField(
@@ -610,20 +601,21 @@ class Update(models.Model):
             "badge_pokedex_entries_gen3",
             "Register {0} Pokémon first discovered in the Hoenn region to the Pokédex.",
         ).format(135),
-        validators=[MaxValueValidator(135), MinValueValidator(0)],
+        validators=[
+            MaxValueValidator(135),
+        ],
     )
     # Badge_46
-    badge_challenge_quests = models.BigIntegerField(
+    badge_challenge_quests = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_challenge_quests_title", "Pokémon Ranger"),
         help_text=pgettext_lazy(
             "badge_challenge_quests", "Complete {0} Field Research tasks."
         ).format(2500),
-        validators=[MinValueValidator(0)],
     )
     # Badge_48
-    badge_max_level_friends = models.BigIntegerField(
+    badge_max_level_friends = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_max_level_friends_title", "Idol"),
@@ -633,18 +625,16 @@ class Update(models.Model):
             plural="Become Best Friends with {0} Trainers.",
             number=20,
         ).format(20),
-        validators=[MinValueValidator(0)],
     )
     # Badge_49
-    badge_trading = models.BigIntegerField(
+    badge_trading = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_trading_title", "Gentleman"),
         help_text=pgettext_lazy("badge_trading", "Trade {0} Pokémon.").format(2500),
-        validators=[MinValueValidator(0)],
     )
     # Badge_50
-    badge_trading_distance = models.BigIntegerField(
+    badge_trading_distance = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_trading_distance_title", "Pilot"),
@@ -652,7 +642,6 @@ class Update(models.Model):
             "badge_trading_distance",
             "Earn {0} km across the distance of all Pokémon trades.",
         ).format(10000000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_51
     badge_pokedex_entries_gen4 = models.PositiveIntegerField(
@@ -663,10 +652,12 @@ class Update(models.Model):
             "badge_pokedex_entries_gen4",
             "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex.",
         ).format(107),
-        validators=[MaxValueValidator(107), MinValueValidator(0)],
+        validators=[
+            MaxValueValidator(107),
+        ],
     )
     # Badge_52
-    badge_great_league = models.BigIntegerField(
+    badge_great_league = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_great_league_title", "Great League Veteran"),
@@ -676,10 +667,9 @@ class Update(models.Model):
             plural="Win {0} Trainer Battles in the Great League.",
             number=1000,
         ).format(1000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_53
-    badge_ultra_league = models.BigIntegerField(
+    badge_ultra_league = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_ultra_league_title", "Ultra League Veteran"),
@@ -689,10 +679,9 @@ class Update(models.Model):
             plural="Win {0} Trainer Battles in the Ultra League.",
             number=1000,
         ).format(1000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_54
-    badge_master_league = models.BigIntegerField(
+    badge_master_league = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_master_league_title", "Master League Veteran"),
@@ -702,10 +691,9 @@ class Update(models.Model):
             plural="Win {0} Trainer Battles in the Master League.",
             number=1000,
         ).format(1000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_55
-    badge_photobomb = models.BigIntegerField(
+    badge_photobomb = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_photobomb_title", "Cameraman"),
@@ -715,7 +703,6 @@ class Update(models.Model):
             plural="Have {0} surprise encounters in GO Snapshot.",
             number=400,
         ).format(400),
-        validators=[MinValueValidator(0)],
     )
     # Badge_56
     badge_pokedex_entries_gen5 = models.PositiveIntegerField(
@@ -726,30 +713,30 @@ class Update(models.Model):
             "badge_pokedex_entries_gen5",
             "Register {0} Pokémon first discovered in the Unova region to the Pokédex.",
         ).format(156),
-        validators=[MaxValueValidator(156), MinValueValidator(0)],
+        validators=[
+            MaxValueValidator(156),
+        ],
     )
     # Badge_57
-    badge_pokemon_purified = models.BigIntegerField(
+    badge_pokemon_purified = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_pokemon_purified_title", "Purifier"),
         help_text=pgettext_lazy("badge_pokemon_purified", "Purify {0} Shadow Pokémon.").format(
             1000
         ),
-        validators=[MinValueValidator(0)],
     )
     # Badge_58
-    badge_rocket_grunts_defeated = models.BigIntegerField(
+    badge_rocket_grunts_defeated = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_rocket_grunts_defeated_title", "Hero"),
         help_text=pgettext_lazy(
             "badge_rocket_grunts_defeated", "Defeat {0} Team GO Rocket Grunts."
         ).format(2000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_59
-    badge_rocket_giovanni_defeated = models.BigIntegerField(
+    badge_rocket_giovanni_defeated = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_rocket_giovanni_defeated_title", "Ultra Hero"),
@@ -759,10 +746,9 @@ class Update(models.Model):
             plural="Defeat the Team GO Rocket Boss {0} times. ",
             number=50,
         ).format(50),
-        validators=[MinValueValidator(0)],
     )
     # Badge_60
-    badge_buddy_best = models.BigIntegerField(
+    badge_buddy_best = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_buddy_best_title", "Best Buddy"),
@@ -772,7 +758,6 @@ class Update(models.Model):
             plural="Have {0} Best Buddies.",
             number=200,
         ).format(200),
-        validators=[MinValueValidator(0)],
     )
     # Badge_61
     badge_pokedex_entries_gen6 = models.PositiveIntegerField(
@@ -783,7 +768,9 @@ class Update(models.Model):
             "badge_pokedex_entries_gen6",
             "Register {0} Pokémon first discovered in the Kalos region to the Pokédex.",
         ).format(72),
-        validators=[MaxValueValidator(72), MinValueValidator(0)],
+        validators=[
+            MaxValueValidator(72),
+        ],
     )
     # Badge_62
     badge_pokedex_entries_gen7 = models.PositiveIntegerField(
@@ -794,7 +781,9 @@ class Update(models.Model):
             "badge_pokedex_entries_gen7",
             "Register {0} Pokémon first discovered in the Alola region to the Pokédex.",
         ).format(88),
-        validators=[MaxValueValidator(88), MinValueValidator(0)],
+        validators=[
+            MaxValueValidator(88),
+        ],
     )
     # Badge_63
     badge_pokedex_entries_gen8 = models.PositiveIntegerField(
@@ -805,7 +794,9 @@ class Update(models.Model):
             "badge_pokedex_entries_gen8",
             "Register {0} Pokémon first discovered in the Alola region to the Pokédex.",
         ).format(89),
-        validators=[MaxValueValidator(89), MinValueValidator(0)],
+        validators=[
+            MaxValueValidator(89),
+        ],
     )
     # Badge_64
     badge_7_day_streaks = models.PositiveIntegerField(
@@ -818,10 +809,9 @@ class Update(models.Model):
             "Achieve a Pokémon catch streak or PokéStop spin streak of seven days {0} times.",
             100,
         ).format(100),
-        validators=[MinValueValidator(0)],
     )
     # Badge_65
-    badge_unique_raid_bosses_defeated = models.BigIntegerField(
+    badge_unique_raid_bosses_defeated = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_unique_raid_bosses_defeated_title", "Rising Star"),
@@ -831,10 +821,9 @@ class Update(models.Model):
             "Defeat {0} different species of Pokémon in raids.",
             150,
         ).format(150),
-        validators=[MinValueValidator(0)],
     )
     # Badge_66
-    badge_raids_with_friends = models.BigIntegerField(
+    badge_raids_with_friends = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_raids_with_friends_title", "Rising Star Duo"),
@@ -844,10 +833,9 @@ class Update(models.Model):
             "Win {0} raids with a friend.",
             2000,
         ).format(2000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_67
-    badge_pokemon_caught_at_your_lures = models.BigIntegerField(
+    badge_pokemon_caught_at_your_lures = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_pokemon_caught_at_your_lures_title", "Picnicker"),
@@ -857,10 +845,9 @@ class Update(models.Model):
             "Use a Lure Module to help another Trainer catch {0} Pokémon.",
             1,
         ).format(2500),
-        validators=[MinValueValidator(0)],
     )
     # Badge_68
-    badge_wayfarer = models.BigIntegerField(
+    badge_wayfarer = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_wayfarer_title", "Wayfarer"),
@@ -870,10 +857,9 @@ class Update(models.Model):
             plural="Earn {0} Wayfarer Agreements",
             number=1500,
         ).format(1500),
-        validators=[MinValueValidator(0)],
     )
     # Badge_69
-    badge_total_mega_evos = models.BigIntegerField(
+    badge_total_mega_evos = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_total_mega_evos_title", "Successor"),
@@ -883,7 +869,6 @@ class Update(models.Model):
             "Mega Evolve a Pokémon {0} times.",
             1000,
         ).format(1000),
-        validators=[MinValueValidator(0)],
     )
     # Badge_70
     badge_unique_mega_evos = models.PositiveIntegerField(
@@ -896,10 +881,9 @@ class Update(models.Model):
             "Mega Evolve {0} different species of Pokémon.",
             46,
         ).format(46),
-        validators=[MinValueValidator(0)],
     )
 
-    battle_hub_stats_wins = models.BigIntegerField(
+    battle_hub_stats_wins = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("battle_hub_stats_wins", "Wins"),
@@ -907,9 +891,8 @@ class Update(models.Model):
             "battle_hub_help",
             "You can find this by clicking the {screen_title_battle_hub} button in your game.",
         ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
-        validators=[MinValueValidator(0)],
     )
-    battle_hub_stats_battles = models.BigIntegerField(
+    battle_hub_stats_battles = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("battle_hub_stats_battles", "Battles"),
@@ -917,9 +900,8 @@ class Update(models.Model):
             "battle_hub_help",
             "You can find this by clicking the {screen_title_battle_hub} button in your game.",
         ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
-        validators=[MinValueValidator(0)],
     )
-    battle_hub_stats_stardust = models.BigIntegerField(
+    battle_hub_stats_stardust = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("battle_hub_stats_stardust", "Stardust Earned"),
@@ -927,7 +909,6 @@ class Update(models.Model):
             "battle_hub_help",
             "You can find this by clicking the {screen_title_battle_hub} button in your game.",
         ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
-        validators=[MinValueValidator(0)],
     )
     battle_hub_stats_streak = models.PositiveIntegerField(
         null=True,
@@ -937,142 +918,123 @@ class Update(models.Model):
             "battle_hub_help",
             "You can find this by clicking the {screen_title_battle_hub} button in your game.",
         ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
-        validators=[MinValueValidator(0)],
     )
 
     # Type Medals
 
-    badge_type_normal = models.BigIntegerField(
+    badge_type_normal = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_normal_title", "Schoolkid"),
         help_text=pgettext_lazy("badge_type_normal", "Catch {0} Normal-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_fighting = models.BigIntegerField(
+    badge_type_fighting = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_fighting_title", "Black Belt"),
         help_text=pgettext_lazy("badge_type_fighting", "Catch {0} Fighting-type Pokémon.").format(
             200
         ),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_flying = models.BigIntegerField(
+    badge_type_flying = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_flying_title", "Bird Keeper"),
         help_text=pgettext_lazy("badge_type_flying", "Catch {0} Flying-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_poison = models.BigIntegerField(
+    badge_type_poison = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_poison_title", "Punk Girl"),
         help_text=pgettext_lazy("badge_type_poison", "Catch {0} Poison-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_ground = models.BigIntegerField(
+    badge_type_ground = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_ground_title", "Ruin Maniac"),
         help_text=pgettext_lazy("badge_type_ground", "Catch {0} Ground-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_rock = models.BigIntegerField(
+    badge_type_rock = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_rock_title", "Hiker"),
         help_text=pgettext_lazy("badge_type_rock", "Catch {0} Rock-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_bug = models.BigIntegerField(
+    badge_type_bug = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_bug_title", "Bug Catcher"),
         help_text=pgettext_lazy("badge_type_bug", "Catch {0} Bug-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_ghost = models.BigIntegerField(
+    badge_type_ghost = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_ghost_title", "Hex Maniac"),
         help_text=pgettext_lazy("badge_type_ghost", "Catch {0} Ghost-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_steel = models.BigIntegerField(
+    badge_type_steel = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_steel_title", "Rail Staff"),
         help_text=pgettext_lazy("badge_type_steel", "Catch {0} Steel-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_fire = models.BigIntegerField(
+    badge_type_fire = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_fire_title", "Kindler"),
         help_text=pgettext_lazy("badge_type_fire", "Catch {0} Fire-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_water = models.BigIntegerField(
+    badge_type_water = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_water_title", "Swimmer"),
         help_text=pgettext_lazy("badge_type_water", "Catch {0} Water-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_grass = models.BigIntegerField(
+    badge_type_grass = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_grass_title", "Gardener"),
         help_text=pgettext_lazy("badge_type_grass", "Catch {0} Grass-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_electric = models.BigIntegerField(
+    badge_type_electric = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_electric_title", "Rocker"),
         help_text=pgettext_lazy("badge_type_electric", "Catch {0} Electric-type Pokémon.").format(
             200
         ),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_psychic = models.BigIntegerField(
+    badge_type_psychic = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_psychic_title", "Psychic"),
         help_text=pgettext_lazy("badge_type_psychic", "Catch {0} Psychic-type Pokémon.").format(
             200
         ),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_ice = models.BigIntegerField(
+    badge_type_ice = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_ice_title", "Skier"),
         help_text=pgettext_lazy("badge_type_ice", "Catch {0} Ice-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_dragon = models.BigIntegerField(
+    badge_type_dragon = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_dragon_title", "Dragon Tamer"),
         help_text=pgettext_lazy("badge_type_dragon", "Catch {0} Dragon-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_dark = models.BigIntegerField(
+    badge_type_dark = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_dark_title", "Delinquent"),
         help_text=pgettext_lazy("badge_type_dark", "Catch {0} Dark-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
-    badge_type_fairy = models.BigIntegerField(
+    badge_type_fairy = models.PositiveIntegerField(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("badge_type_fairy_title", "Fairy Tale Girl"),
         help_text=pgettext_lazy("badge_type_fairy", "Catch {0} Fairy-type Pokémon.").format(200),
-        validators=[MinValueValidator(0)],
     )
 
     gymbadges_gold = models.PositiveIntegerField(
@@ -1086,7 +1048,7 @@ class Update(models.Model):
             gym_badge_list_button=pgettext_lazy("gym_badge_list_button", "List"),
             profile_category_gymbadges=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
         ),
-        validators=[MaxValueValidator(1000), MinValueValidator(0)],
+        validators=[MaxValueValidator(1000)],
     )
 
     def level(self) -> Union[int, str]:
