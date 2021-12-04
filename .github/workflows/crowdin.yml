@@ -2,7 +2,7 @@ name: Translations
 
 on:
   schedule:
-    - cron: '0 8 * * THU'
+    - cron: "0 8 * * THU"
   workflow_dispatch:
 
 jobs:
@@ -10,42 +10,37 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - uses: actions/checkout@v2.3.4
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v2.3.1
-      with:
-        python-version: 3.6
-    - name: Install Dependencies
-      run: |
-        sudo apt-get -y --purge remove postgresql postgresql-13
-        curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-        sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
-        sudo apt-get update
-        sudo apt -y install gettext postgresql-9.6 postgresql-9.6-postgis-2.4 gdal-bin python3-gdal
-        sudo systemctl start postgresql
-        python -m pip install --upgrade pip
-        cd django
-        pip install -r requirements.txt
-        chmod +x ./build_db.sh
-        ./build_db.sh
-    - name: Generate pot files
-      run: |
-        python manage.py makemessages --all --keep-pot --ignore=env/*
-    - name: Update Crowdin
-      uses: crowdin/github-action@1.4.1
-      with:
-        upload_sources: true
-        source: 'trainerdex/locale/django.pot'
-        translation: 'trainerdex/locale/%locale_with_underscore%/LC_MESSAGES/django.po'
-        upload_translations: false
-        download_translations: true
-        commit_message: 'chore: update translations via Crowdin'
-        pull_request_title: 'chore: update translations via Crowdin'
-        pull_request_labels: 'i18n'
-        crowdin_branch_name: 'master'
-        project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
-        token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-        CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
-        CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+      - uses: actions/checkout@v2.3.4
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v2.3.1
+        with:
+          python-version: 3.6
+          cache: "pipenv"
+      - name: Install Dependencies from APT
+        run: sudo apt-get update && sudo apt-get -y install gettext gdal-bin python3-gdal
+      - name: Setting up Python environment
+        run: |
+          pip install pipenv
+          pipenv install --dev --python $(which python3)
+      - name: Staring PostGIS (Docker)
+        run: docker-compose -f ./docker/docker-compose.yml up -d
+      - name: Generate .pot files
+        run: pipenv run python ./django/manage.py makemessages --all --keep-pot
+      - name: Update Crowdin
+        uses: crowdin/github-action@1.4.1
+        with:
+          upload_sources: true
+          source: "trainerdex/locale/django.pot"
+          translation: "trainerdex/locale/%locale_with_underscore%/LC_MESSAGES/django.po"
+          upload_translations: false
+          download_translations: true
+          commit_message: "chore: update translations via Crowdin"
+          pull_request_title: "chore: update translations via Crowdin"
+          pull_request_labels: "i18n"
+          crowdin_branch_name: "master"
+          project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
+          token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
