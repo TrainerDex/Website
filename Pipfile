@@ -25,7 +25,7 @@ django-widget-tweaks = "~=1.4.8"
 Django = "<3.0.0,>=2.2.24"
 Markdown = "*"
 Pillow = "*"
-Pygments = "~=2.9.0"
+Pygments = "~=2.10.0"
 
 [dev-packages]
 django-debug-toolbar = "*"
