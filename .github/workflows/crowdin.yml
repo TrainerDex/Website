@@ -27,7 +27,7 @@ jobs:
       - name: Generate .pot files
         run: pipenv run python ./django/manage.py makemessages --all --keep-pot
       - name: Update Crowdin
-        uses: crowdin/github-action@1.4.1
+        uses: crowdin/github-action@1.4.2
         with:
           upload_sources: true
           source: "trainerdex/locale/django.pot"
