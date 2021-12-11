@@ -25,13 +25,13 @@ jobs:
       - name: Staring PostGIS (Docker)
         run: docker-compose -f ./docker/docker-compose.yml up -d
       - name: Generate .pot files
-        run: pipenv run python ./django/manage.py makemessages --all --keep-pot
+        run: pipenv run python ./zapdos/manage.py makemessages --all --keep-pot
       - name: Update Crowdin
         uses: crowdin/github-action@1.4.1
         with:
           upload_sources: true
-          source: "config/locale/django.pot"
-          translation: "config/locale/%locale_with_underscore%/LC_MESSAGES/django.po"
+          source: "zapdos/config/locale/django.pot"
+          translation: "zapdos/config/locale/%locale_with_underscore%/LC_MESSAGES/django.po"
           upload_translations: false
           download_translations: true
           commit_message: "chore: update translations via Crowdin"

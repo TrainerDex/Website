@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    container_name: db
+    container_name: zapdos_db
     image: kartoza/postgis
     restart: on-failure
     networks:

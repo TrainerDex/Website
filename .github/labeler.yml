@@ -7,30 +7,30 @@ dependencies:
   - requirements-dev.txt
 
 frontend:
-  - 'django/core/templates/**/*'
-  - 'django/core/static/**/*'
-  - 'django/pokemongo/templates/**/*'
-  - 'django/pokemongo/static/**/*'
+  - "zapdos/core/templates/**/*"
+  - "zapdos/core/static/**/*"
+  - "zapdos/pokemongo/templates/**/*"
+  - "zapdos/pokemongo/static/**/*"
 
 gains:
-  - 'django/core/management/commands/gains_leaderboard.py'
-  - 'django/core/management/commands/post_announcement.py'
+  - "zapdos/core/management/commands/gains_leaderboard.py"
+  - "zapdos/core/management/commands/post_announcement.py"
 
 backend:
-  - 'django/core/account_adapter.py'
-  - 'django/core/admin.py'
-  - 'django/core/context_processors.py'
-  - 'django/core/models.py'
-  - 'django/core/views.py'
-  - 'django/pokemongo/api/**/*'
-  - 'django/pokemongo/admin.py'
-  - 'django/pokemongo/forms.py'
-  - 'django/pokemongo/models.py'
-  - 'django/pokemongo/shortcuts.py'
-  - 'django/pokemongo/urls.py'
-  - 'django/pokemongo/validators.py'
-  - 'django/pokemongo/views.py'
+  - "zapdos/core/account_adapter.py"
+  - "zapdos/core/admin.py"
+  - "zapdos/core/context_processors.py"
+  - "zapdos/core/models.py"
+  - "zapdos/core/views.py"
+  - "zapdos/pokemongo/api/**/*"
+  - "zapdos/pokemongo/admin.py"
+  - "zapdos/pokemongo/forms.py"
+  - "zapdos/pokemongo/models.py"
+  - "zapdos/pokemongo/shortcuts.py"
+  - "zapdos/pokemongo/urls.py"
+  - "zapdos/pokemongo/validators.py"
+  - "zapdos/pokemongo/views.py"
 
 migrations:
-  - 'django/core/migrations/*'
-  - 'django/pokemongo/migrations/*'
+  - "zapdos/core/migrations/*"
+  - "zapdos/pokemongo/migrations/*"

@@ -1,4 +1,4 @@
-name: Django Tests, Migrations, & System Check
+name: zapdos Tests, Migrations, & System Check
 
 on:
   push:
@@ -27,16 +27,16 @@ jobs:
         run: docker-compose -f ./docker/docker-compose.yml up -d
       - name: Run Tests
         run: |
-          pipenv run python ./django/manage.py test
+          pipenv run python ./zapdos/manage.py test
       - name: Check for uncommited migrations
         run: |
-          pipenv run python ./django/manage.py makemigrations --check core pokemongo
+          pipenv run python ./zapdos/manage.py makemigrations --check core pokemongo
       - name: Run Migrations
         run: |
-          pipenv run python ./django/manage.py migrate --noinput
+          pipenv run python ./zapdos/manage.py migrate --noinput
       - name: Compile Messages
         run: |
-          pipenv run python ./django/manage.py compilemessages
+          pipenv run python ./zapdos/manage.py compilemessages
       - name: System Check
         run: |
-          pipenv run python ./django/manage.py check
+          pipenv run python ./zapdos/manage.py check
