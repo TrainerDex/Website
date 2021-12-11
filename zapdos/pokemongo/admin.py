@@ -3,7 +3,18 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as pgettext
 
 from pokemongo.constants import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES
-from pokemongo.models import Community, MedalProgressPost
+from pokemongo.models import (
+    BattleHubPost,
+    Community,
+    Faction,
+    FactionAlliance,
+    GymBadgePost,
+    MedalProgressPost,
+)
+
+admin.site.register(FactionAlliance)
+admin.site.register(BattleHubPost)
+admin.site.register(GymBadgePost)
 
 
 @admin.register(Community)

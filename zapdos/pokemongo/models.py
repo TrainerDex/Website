@@ -28,12 +28,12 @@ logger = logging.getLogger("django.trainerdex")
 User = get_user_model()
 
 
-class Faction(BaseModel):
+class Faction(models.Model):
     class FactionChoices(models.IntegerChoices):
-        UNALIGNED = 0, _("Unaligned")
-        MYSTIC = 1, _("Mystic")
-        VALOR = 2, _("Valor")
-        INSTINCT = 3, _("Instinct")
+        UNALIGNED = 0, "Unaligned"
+        MYSTIC = 1, "Mystic"
+        VALOR = 2, "Valor"
+        INSTINCT = 3, "Instinct"
 
     id = models.SmallIntegerField(
         primary_key=True,
@@ -63,6 +63,10 @@ class Faction(BaseModel):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        verbose_name = "Faction"
+        verbose_name_plural = "Factions"
+
 
 class FactionAlliance(ExternalUUIDModel):
     user = models.ForeignKey(
@@ -78,7 +82,22 @@ class FactionAlliance(ExternalUUIDModel):
     date_disbanded = models.DateField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"{self.user} - {self.faction}"
+        if self.date_aligned is None and self.date_disbanded:
+            return f"{self.user} was {self.faction} until {self.date_disbanded}"
+
+        if self.date_aligned and self.date_disbanded:
+            return f"{self.user} was {self.faction} from {self.date_aligned} until {self.date_disbanded}"
+
+        if self.date_aligned and self.date_disbanded is None:
+            return f"{self.user} is {self.faction} as of {self.date_aligned}"
+
+        return f"{self.user} is {self.faction}, but we don't know when they joined"
+
+    class Meta:
+        verbose_name = "Faction Alliance"
+        verbose_name_plural = "Faction Alliances"
+        get_latest_by = ["date_aligned", "date_disbanded"]
+        ordering = ["-date_aligned", "-date_disbanded"]
 
 
 class DummyFactionAlliance:
@@ -878,6 +897,11 @@ class MedalProgressPost(FeedPost):
 
         return super().clean_fields(exclude=exclude)
 
+    class Meta:
+        verbose_name = _("Medal Progress Post")
+        verbose_name_plural = _("Medal Progress Posts")
+        ordering = ["-post_dt"]
+
 
 class BattleHubPost(FeedPost):
     battle_hub_stats_wins = models.PositiveIntegerField(
@@ -917,6 +941,11 @@ class BattleHubPost(FeedPost):
         ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
     )
 
+    class Meta:
+        verbose_name = _("BattleHub Post")
+        verbose_name_plural = _("BattleHub Posts")
+        ordering = ["-post_dt"]
+
 
 class GymBadgePost(FeedPost):
     gold = models.PositiveIntegerField(
@@ -932,6 +961,11 @@ class GymBadgePost(FeedPost):
         ),
         validators=[MaxValueValidator(1000)],
     )
+
+    class Meta:
+        verbose_name = _("Gym Badge Post")
+        verbose_name_plural = _("Gym Badge Posts")
+        ordering = ["-post_dt"]
 
 
 class Community(ExternalUUIDModel):

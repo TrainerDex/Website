@@ -1,0 +1,16 @@
+- model: pokemongo.faction
+  pk: 0
+  fields:
+    slug: unaligned
+- model: pokemongo.faction
+  pk: 1
+  fields:
+    slug: mystic
+- model: pokemongo.faction
+  pk: 2
+  fields:
+    slug: valor
+- model: pokemongo.faction
+  pk: 3
+  fields:
+    slug: instinct

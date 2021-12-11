@@ -4,8 +4,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from common.models import User
+from common.models import FeedPost, User, UsernameHistory
 
+admin.site.register(FeedPost)
+admin.site.register(UsernameHistory)
 admin.site.unregister(SocialAccount)
 
 
@@ -18,7 +20,7 @@ class ZapdosSocialAccountAdmin(SocialAccountAdmin):
 class UserAdmin(UserAdmin):
     list_display = (
         "username",
-        "get_faction",
+        "faction",
         "is_banned",
         "is_public",
         "is_verified",

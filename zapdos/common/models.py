@@ -29,6 +29,9 @@ class BaseModel(models.Model):
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} {self.id}>"
 
+    def __str__(self) -> str:
+        return self.__repr__()
+
     class Meta:
         abstract = True
 
@@ -145,10 +148,10 @@ class User(AbstractUser, ExternalUUIDModel):
 
             return DummyFactionAlliance(self)
 
-    def get_faction(self):
+    def faction(self):
         return self.get_alliance().faction
 
-    get_team = get_faction
+    team = faction
 
     def is_banned(self, date: datetime.date = None) -> bool:
         if self.is_perma_banned:
@@ -166,7 +169,11 @@ class User(AbstractUser, ExternalUUIDModel):
         return reverse("trainerdex:profile", kwargs={"nickname": self.username})
 
     def __str__(self) -> str:
-        return f"{self.username} ({self.id})"
+        return f"{self.username} (\U0001F194: {self.id})"
+
+    class Meta:
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
 
 
 class UsernameHistory(ExternalUUIDModel):
@@ -192,6 +199,11 @@ class UsernameHistory(ExternalUUIDModel):
     def __str__(self) -> str:
         return f"{self.username} ({self.user})"
 
+    class Meta:
+        verbose_name = _("Username")
+        verbose_name_plural = _("Usernames")
+        order_with_respect_to = "user"
+
 
 class FeedPost(ExternalUUIDModel):
     user = models.ForeignKey(
@@ -208,6 +220,8 @@ class FeedPost(ExternalUUIDModel):
         default=dict,
         verbose_name=_("Metadata"),
         help_text=_("Any metadata about the post, such as program that made the post etc."),
+        blank=True,
+        null=True,
     )
     body = models.CharField(max_length=240, blank=True)
 

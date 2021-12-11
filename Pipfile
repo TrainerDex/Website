@@ -24,6 +24,7 @@ Markdown = "*"
 Pillow = "*"
 django-forms-fieldset = "*"
 django-model-utils = "*"
+pyyaml = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
