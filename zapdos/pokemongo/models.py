@@ -11,7 +11,7 @@ from core.models import DiscordGuild, DiscordGuildMembership, DiscordRole
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.postgres import fields as postgres_fields
-from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.templatetags.static import static
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
