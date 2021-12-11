@@ -55,12 +55,6 @@ INSTALLED_APPS += [
     "widget_tweaks",
 ]
 
-INSTALLED_APPS += [
-    "markdown_deux",
-    "bootstrapform",
-    "helpdesk",
-]
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
