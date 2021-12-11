@@ -14,21 +14,22 @@ requests = "*"
 python-dateutil = "*"
 django-ajax-selects = "*"
 django-allauth = "==0.46.0"
-django-cities = "==0.6"
+django-countries = {extras = ["pyuca"], version = "*"}
 django-cors-headers = ">=3.7.0"
 django-exclusivebooleanfield = "==0.3.0"
-django-form-utils = "==1.0.3"
 django-widget-tweaks = "==1.4.8"
 "discord.py" = "==1.5.1"
 Django = "==3.2.10"
 Markdown = "*"
 Pillow = "*"
-Pygments = "*"
+django-forms-fieldset = "*"
+django-model-utils = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
 flake8 = "*"
 black = "*"
+isort = {extras = ["pipfile_deprecated_finder"], version = "*"}
 
 [requires]
 python_version = ">=3.6"

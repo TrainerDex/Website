@@ -1,0 +1,214 @@
+import datetime
+import uuid
+from typing import Type
+
+import pytz
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator
+from django.db import models
+from django.urls.base import reverse
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
+from django_countries.fields import CountryField
+from exclusivebooleanfield.fields import ExclusiveBooleanField
+from model_utils.managers import InheritanceManager
+from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
+
+
+class BaseModel(models.Model):
+    """
+    Base model for all models
+    """
+
+    id = models.AutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__} {self.id}>"
+
+    class Meta:
+        abstract = True
+
+
+class ExternalUUIDModel(BaseModel):
+    """
+    Base model for all models that have an external UUID
+    """
+
+    external_uuid = models.UUIDField(
+        unique=True,
+        default=uuid.uuid4,
+        editable=False,
+        db_index=True,
+        verbose_name=_("External UUID"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__} {self.id} External: {self.external_uuid}>"
+
+    class Meta:
+        abstract = True
+
+
+class User(AbstractUser, ExternalUUIDModel):
+    username = models.CharField(
+        max_length=15,
+        unique=True,
+        validators=[PokemonGoUsernameValidator],
+        error_messages={"unique": _("This username is already taken.")},
+        verbose_name=_("Username"),
+        help_text=_(
+            "Required. 15 characters or fewer. Letters and digits only. Must match your Pokémon Go username."
+        ),
+    )
+
+    timezone = models.CharField(
+        max_length=len(max(pytz.common_timezones, key=len)),
+        choices=[(tz, tz) for tz in pytz.common_timezones],
+        default="UTC",
+        verbose_name=_("Timezone"),
+        help_text=_("The timezone of the user"),
+    )
+    country = CountryField(verbose_name=_("Country"), help_text=_("The country of the user"))
+
+    is_public = models.BooleanField(
+        default=True,
+        verbose_name=_("Public"),
+        help_text=_("Whether this User's profile is public"),
+    )
+    is_perma_banned = models.BooleanField(
+        default=False, verbose_name=_("Banned"), help_text=_("Whether this user is banned")
+    )
+    is_verified = models.BooleanField(
+        default=False,
+        verbose_name=_("Verified"),
+        help_text=_("Whether this User's account has been verified"),
+    )
+
+    last_caught_cheating = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name=_("Last Cheated"),
+        help_text=_("When did this Trainer last cheat?"),
+    )
+    legacy_level_40 = models.BooleanField(
+        default=False,
+        verbose_name=pgettext_lazy("badge_level_40_title", "Legacy 40"),
+        help_text=pgettext_lazy("badge_level_40", "Achieve level 40 before 2020-12-31"),
+    )
+
+    pogo_date_created = models.DateField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(datetime.date(2016, 7, 5))],
+        verbose_name=pgettext_lazy("profile_start_date", "Start Date"),
+        help_text=_("The date this user created their Pokémon Go account"),
+    )
+    faction_alliances = models.ManyToManyField(
+        related_name="members",
+        through="pokemongo.FactionAlliance",
+        through_fields=("user", "faction"),
+        to="pokemongo.Faction",
+        verbose_name=_("Faction Alliances"),
+    )
+    trainer_code = models.CharField(
+        null=True,
+        blank=True,
+        validators=[TrainerCodeValidator],
+        max_length=15,
+        verbose_name=pgettext_lazy("friend_code_title", "Trainer Code"),
+        help_text=_("Fancy sharing your trainer code?"),
+    )
+
+    # TODO: Make goals it's own thing
+    daily_goal = models.PositiveIntegerField(null=True, blank=True)
+    total_goal = models.BigIntegerField(null=True, blank=True, validators=[MinValueValidator(100)])
+
+    def has_cheated(self) -> bool:
+        return bool(self.last_caught_cheating)
+
+    has_cheated.boolean = True
+
+    def timezone_to_python(self) -> Type[pytz.BaseTzInfo]:
+        return pytz.timezone(self.timezone)
+
+    def get_alliance(self):
+        try:
+            return self.faction_alliances.through.objects.filter(
+                date_disbanded__isnull=True
+            ).latest("date_aligned")
+        except self.faction_alliances.through.DoesNotExist:
+            from pokemongo.models import DummyFactionAlliance
+
+            return DummyFactionAlliance(self)
+
+    def get_faction(self):
+        return self.get_alliance().faction
+
+    get_team = get_faction
+
+    def is_banned(self, date: datetime.date = None) -> bool:
+        if self.is_perma_banned:
+            return True
+
+        return self.last_caught_cheating + datetime.timedelta(weeks=26) > timezone.now().date()
+
+    is_banned.boolean = True
+
+    def get_absolute_url(self):
+        return reverse("trainerdex:profile", kwargs={"nickname": self.username})
+
+    def __str__(self) -> str:
+        return f"{self.username} ({self.id})"
+
+
+class UsernameHistory(ExternalUUIDModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="username_history")
+    username = models.CharField(
+        max_length=15,
+        unique=True,
+        validators=[PokemonGoUsernameValidator],
+        error_messages={"unique": _("This username is already taken.")},
+        verbose_name=_("Username"),
+        help_text=_(
+            "Required. 15 characters or fewer. Letters and digits only. Must match your Pokémon Go username."
+        ),
+    )
+
+    date_assigned = models.DateField(blank=True, null=True)
+    currently_assigned = ExclusiveBooleanField(on="user")
+
+    def update_usermodel(self):
+        self.user.username = self.username
+        self.user.save()
+
+    def __str__(self) -> str:
+        return f"{self.username} ({self.user})"
+
+
+class FeedPost(ExternalUUIDModel):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        related_name="posts",
+    )
+    post_dt = models.DateTimeField(
+        default=timezone.now,
+    )
+    metadata = models.JSONField(
+        default=dict,
+        verbose_name=_("Metadata"),
+        help_text=_("Any metadata about the post, such as program that made the post etc."),
+    )
+    body = models.CharField(max_length=240, blank=True)
+
+    objects = InheritanceManager()
+
+    # The plan is to create a dedicated model for this, but for now it's commented out.
+    # I need to work out a good plan for storing media, and I don't want to do that now.
+    # attached_media = models.ForeignKey()

@@ -3,100 +3,74 @@ from datetime import timedelta
 from math import ceil
 from typing import Optional
 
-from cities.models import Country
 from django import forms
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Max, Prefetch, Sum, Window
+from django.db.models import F, Max, Sum, Window
 from django.db.models.functions import DenseRank as Rank
 from django.http import Http404, HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import get_language_from_request
 from django.utils.translation import gettext_lazy as _
-from pokemongo.forms import TrainerForm, UpdateForm
-from pokemongo.models import Community, Nickname, Trainer, Update
-from pokemongo.shortcuts import (
+
+from pokemongo.constants import (
     BADGES,
     UPDATE_FIELDS_BADGES,
     UPDATE_FIELDS_TYPES,
     UPDATE_SORTABLE_FIELDS,
-    chunks,
-    filter_leaderboard_qs,
-    get_possible_levels_from_total_xp,
 )
+from pokemongo.forms import MedalProgressForm
+from pokemongo.models import Community, MedalProgressPost
+from pokemongo.utils import chunks, filter_leaderboard_qs, get_possible_levels_from_total_xp
 
 logger = logging.getLogger("django.trainerdex")
+User = get_user_model()
 
 
-def _check_if_trainer_valid(user) -> bool:
-    profile_complete = user.trainer.profile_complete
-    logger.debug(
-        msg="Checking {nickname}: Completed profile: {status}".format(
-            nickname=user.username, status=profile_complete
-        ),
-    )
-    return profile_complete
-
-
-def _check_if_self_valid(request: HttpRequest) -> bool:
-    valid = _check_if_trainer_valid(request.user)
-    if valid and request.user.trainer.start_date is None:
-        messages.warning(
-            request,
-            _(
-                "Please set your trainer start date. You can edit your profile in the settings section on the menu."
-            ),
-        )
-    return valid
-
-
-def TrainerRedirectorView(
+def UserRedirectorView(
     request: HttpRequest, nickname: Optional[str] = None, id: Optional[int] = None
 ) -> HttpResponse:
     if request.GET.get("nickname", nickname):
-        trainer = get_object_or_404(
-            Trainer,
-            nickname__nickname__iexact=request.GET.get("nickname", nickname),
-            owner__is_active=True,
+        user = get_object_or_404(
+            User,
+            username_history__username__iexact=request.GET.get("nickname", nickname),
+            is_active=True,
         )
-        if nickname == trainer.nickname:
-            return TrainerProfileView(request, trainer)
+        if nickname == user.username:
+            return UserProfileView(request, user)
     elif request.GET.get("id", id):
-        trainer = get_object_or_404(
-            Trainer, pk=int(str(request.GET.get("id", id)).replace("/", "")), owner__is_active=True
+        user = get_object_or_404(
+            User, pk=int(str(request.GET.get("id", id)).replace("/", "")), is_active=True
         )
     elif not request.user.is_authenticated:
         return redirect("account_login")
     else:
-        trainer = request.user.trainer
-        return redirect("trainerdex:profile", **{"nickname": trainer.nickname})
+        user = request.user
+        return redirect("trainerdex:profile", **{"nickname": user.username})
 
-    return redirect("trainerdex:profile", permanent=True, **{"nickname": trainer.nickname})
+    return redirect("trainerdex:profile", permanent=True, **{"nickname": user.username})
 
 
-def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
-    if request.user.is_authenticated and not _check_if_self_valid(request):
-        messages.warning(request, _("Please complete your profile to continue using the website."))
-        return redirect("profile_edit")
-
+def UserProfileView(request: HttpRequest, user: User) -> HttpResponse:
     context = {
-        "trainer": trainer,
-        "updates": trainer.update_set.all(),
-        "stats": trainer.update_set.aggregate(
+        "user": user,
+        "posts": user.posts.all().select_subclasses(),
+        "stats": user.posts.select_subclasses(MedalProgressPost).aggregate(
             **{x: Max(x) for x in UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES}
         ),
-        "level": trainer.level(),
+        "level": 40,  # TODO: New level system,
         "medal_data": {
             x.get("name"): {
                 **x,
                 **{
-                    "verbose_name": Update._meta.get_field(x.get("name")).verbose_name,
-                    "tooltip": Update._meta.get_field(x.get("name")).help_text,
+                    "verbose_name": MedalProgressPost._meta.get_field(x.get("name")).verbose_name,
+                    "tooltip": MedalProgressPost._meta.get_field(x.get("name")).help_text,
                 },
             }
             for x in BADGES
-            if x.get("name") in (x.name for x in Update._meta.get_fields())
+            if x.get("name") in (x.name for x in MedalProgressPost._meta.get_fields())
         },
     }
 
@@ -149,22 +123,21 @@ def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
 
 @login_required
 def CreateUpdateView(request: HttpRequest) -> HttpResponse:
-    if request.user.is_authenticated and not _check_if_self_valid(request):
-        messages.warning(request, _("Please complete your profile to continue using the website."))
-        return redirect("profile_edit")
 
     try:
-        existing = request.user.trainer.update_set.filter(
-            update_time__gte=timezone.now() - timedelta(hours=6)
-        ).latest("update_time")
-    except Update.DoesNotExist:
+        existing = (
+            request.user.posts.select_subclass(MedalProgressPost)
+            .filter(post_dt__gte=timezone.now() - timedelta(hours=6))
+            .latest("post_dt")
+        )
+    except MedalProgressPost.DoesNotExist:
         existing = None
 
     if existing:
         if request.method == "POST":
-            form = UpdateForm(request.POST, instance=existing)
+            form = MedalProgressForm(request.POST, instance=existing)
         else:
-            form = UpdateForm(
+            form = MedalProgressForm(
                 instance=existing,
                 initial={
                     "trainer": request.user.trainer,
@@ -174,7 +147,7 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
             form.fields["double_check_confirmation"].widget = forms.HiddenInput()
     else:
         if request.method == "POST":
-            form = UpdateForm(
+            form = MedalProgressForm(
                 request.POST,
                 initial={
                     "trainer": request.user.trainer,
@@ -182,11 +155,11 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
                 },
             )
         else:
-            form = UpdateForm(
+            form = MedalProgressForm(
                 initial={"trainer": request.user.trainer, "data_source": "web_detailed"}
             )
             form.fields["double_check_confirmation"].widget = forms.HiddenInput()
-    form.fields["update_time"].widget = forms.HiddenInput()
+    form.fields["post_dt"].widget = forms.HiddenInput()
     form.fields["data_source"].widget = forms.HiddenInput()
     form.fields["data_source"].disabled = True
     form.fields["trainer"].widget = forms.HiddenInput()
@@ -226,12 +199,10 @@ def LeaderboardView(
     context = {}
 
     if country:
-        try:
-            country = Country.objects.prefetch_related("leaderboard_trainers_country").get(
-                code__iexact=country
-            )
-        except Country.DoesNotExist:
-            raise Http404(_("No country found for code {country}").format(country=country))
+        from django_countries import countries
+
+        countries[country]
+        country = dict(countries)[country]
         context["title"] = (
             country.alt_names.filter(language_code=get_language_from_request(request)).first()
             or country
@@ -280,7 +251,7 @@ def LeaderboardView(
         "badge_great_league",
         "badge_ultra_league",
         "badge_master_league",
-        "update_time",
+        "post_dt",
     }
     if request.GET.get("sort"):
         if request.GET.get("sort") in UPDATE_SORTABLE_FIELDS:
@@ -312,15 +283,8 @@ def LeaderboardView(
         queryset.annotate(
             rank=Window(expression=Rank(), order_by=F(f"update__{sort_by}__max").desc())
         )
-        .prefetch_related(
-            "leaderboard_country",
-            Prefetch(
-                "nickname_set",
-                Nickname.objects.filter(active=True),
-                to_attr="_nickname",
-            ),
-        )
-        .order_by("rank", "update__update_time__max", "faction")
+        .prefetch_related("leaderboard_country")
+        .order_by("rank", "update__post_dt__max", "faction")
     )
 
     for trainer in queryset:
@@ -347,8 +311,8 @@ def LeaderboardView(
         FIELDS = [
             {
                 "name": x,
-                "readable_name": Update._meta.get_field(x).verbose_name,
-                "tooltip": Update._meta.get_field(x).help_text,
+                "readable_name": MedalProgressPost._meta.get_field(x).verbose_name,
+                "tooltip": MedalProgressPost._meta.get_field(x).help_text,
                 "value": getattr(trainer, "update__{field}__max".format(field=x)),
             }
             for x in FIELDS
@@ -373,33 +337,3 @@ def LeaderboardView(
             break
 
     return render(request, "leaderboard.html", context)
-
-
-@login_required
-def EditProfileView(request: HttpRequest) -> HttpResponse:
-    if request.user.is_authenticated and _check_if_self_valid(request):
-        if request.user.trainer.update_set.count() == 0:
-            messages.warning(request, "You have not posted your stats yet.")
-
-    form = TrainerForm(instance=request.user.trainer)
-    form.fields["verification"].required = not request.user.trainer.verified
-
-    if request.method == "POST":
-        form = TrainerForm(request.POST, request.FILES, instance=request.user.trainer)
-        if form.is_valid():
-            if form.has_changed():
-                form.save()
-                if not request.user.trainer.verified:
-                    messages.success(
-                        request,
-                        _(
-                            "Thank you for filling out your profile."
-                            " Your screenshots have been sent for verification."
-                            " Join our Discord. https://discord.gg/Anz3UpM"
-                        ),
-                    )
-                    return redirect("trainerdex:update_stats")
-                else:
-                    messages.success(request, _("Profile edited successfully."))
-                    return redirect("account_settings")
-    return render(request, "edit_profile.html", {"form": form})

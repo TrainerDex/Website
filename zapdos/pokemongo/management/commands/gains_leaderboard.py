@@ -2,7 +2,6 @@ from datetime import date, datetime
 from typing import Iterable, List, Union
 
 import discord
-from core.models import DiscordGuildSettings
 from dateutil.relativedelta import MO
 from dateutil.rrule import WEEKLY, rrule
 from django.conf import settings
@@ -12,8 +11,8 @@ from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
 from humanize import intcomma, naturaldelta
-from pokemongo.models import Trainer, Update
-from pokemongo.shortcuts import filter_leaderboard_qs
+from pokemongo.models import MedalProgressPost, Trainer
+from pokemongo.utils import filter_leaderboard_qs
 
 
 class Gain:
@@ -97,8 +96,8 @@ class Command(BaseCommand):
                 )
             )
 
-            this_weeks_submissions: Iterable[Update] = (
-                Update.objects.filter(
+            this_weeks_submissions: Iterable[MedalProgressPost] = (
+                MedalProgressPost.objects.filter(
                     trainer__in=trainers,
                     update_time__gte=this_week[0],
                     update_time__lt=this_week[1],
@@ -108,8 +107,8 @@ class Command(BaseCommand):
                 .order_by("trainer", "-update_time")
                 .distinct("trainer")
             )
-            last_weeks_submissions: Iterable[Update] = (
-                Update.objects.filter(
+            last_weeks_submissions: Iterable[MedalProgressPost] = (
+                MedalProgressPost.objects.filter(
                     trainer__in=trainers,
                     update_time__gte=last_week[0],
                     update_time__lt=last_week[1],
@@ -120,7 +119,7 @@ class Command(BaseCommand):
                 .distinct("trainer")
             )
 
-            eligible_entries: Iterable[Update] = this_weeks_submissions.filter(
+            eligible_entries: Iterable[MedalProgressPost] = this_weeks_submissions.filter(
                 trainer__in=last_weeks_submissions.values_list("trainer", flat=True)
             )
             gains = [

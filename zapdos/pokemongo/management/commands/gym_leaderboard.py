@@ -12,8 +12,8 @@ from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
 from humanize import intcomma
-from pokemongo.models import Trainer, Update
-from pokemongo.shortcuts import filter_leaderboard_qs, filter_leaderboard_qs__update
+from pokemongo.models import MedalProgressPost, Trainer
+from pokemongo.utils import filter_leaderboard_qs, filter_leaderboard_qs__update
 
 
 class Entry:
@@ -118,8 +118,8 @@ class Command(BaseCommand):
                 )
             )
 
-            this_weeks_submissions: Iterable[Update] = filter_leaderboard_qs__update(
-                Update.objects.filter(
+            this_weeks_submissions: Iterable[MedalProgressPost] = filter_leaderboard_qs__update(
+                MedalProgressPost.objects.filter(
                     trainer__in=trainers,
                     update_time__lt=this_week[1],
                 )
@@ -128,8 +128,8 @@ class Command(BaseCommand):
                 .order_by("trainer", "-update_time")
                 .distinct("trainer")
             )
-            last_weeks_submissions: Iterable[Update] = filter_leaderboard_qs__update(
-                Update.objects.filter(
+            last_weeks_submissions: Iterable[MedalProgressPost] = filter_leaderboard_qs__update(
+                MedalProgressPost.objects.filter(
                     trainer__in=trainers,
                     update_time__lt=last_week[1],
                 )

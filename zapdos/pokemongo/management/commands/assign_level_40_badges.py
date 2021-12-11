@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from pokemongo.functions import set_legacy_40_badges
+from pokemongo.utils import set_legacy_40_badges
 
 
 class Command(BaseCommand):
