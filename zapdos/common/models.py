@@ -154,7 +154,11 @@ class User(AbstractUser, ExternalUUIDModel):
         if self.is_perma_banned:
             return True
 
-        return self.last_caught_cheating + datetime.timedelta(weeks=26) > timezone.now().date()
+        if date is None:
+            date = timezone.now().date()
+
+        if self.last_caught_cheating:
+            return self.last_caught_cheating + datetime.timedelta(weeks=26) > date
 
     is_banned.boolean = True
 
