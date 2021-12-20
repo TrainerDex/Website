@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "django_countries",
     "common",
-    "core",
     "pokemongo",
     "forms_fieldset",
 ]
