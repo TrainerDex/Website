@@ -11,10 +11,12 @@ from django.db.models import F, Max, Sum, Window
 from django.db.models.functions import DenseRank as Rank
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls.base import reverse
 from django.utils import timezone
 from django.utils.translation import get_language_from_request
 from django.utils.translation import gettext_lazy as _
 
+from community.models import Community
 from pokemongo.constants import (
     BADGES,
     UPDATE_FIELDS_BADGES,
@@ -22,7 +24,7 @@ from pokemongo.constants import (
     UPDATE_SORTABLE_FIELDS,
 )
 from pokemongo.forms import MedalProgressForm
-from pokemongo.models import Community, MedalProgressPost
+from pokemongo.models import MedalProgressPost
 from pokemongo.utils import chunks, filter_leaderboard_qs, get_possible_levels_from_total_xp
 
 logger = logging.getLogger("django.trainerdex")

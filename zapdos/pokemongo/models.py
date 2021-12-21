@@ -4,8 +4,7 @@ from datetime import date
 from decimal import Decimal
 from typing import Collection, Dict, List, Literal, Tuple, Union
 
-import pytz
-from common.models import BaseModel, ExternalUUIDModel, FeedPost
+from common.models import ExternalUUIDModel, FeedPost
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -966,63 +965,3 @@ class GymBadgePost(FeedPost):
         verbose_name = _("Gym Badge Post")
         verbose_name_plural = _("Gym Badge Posts")
         ordering = ["-post_dt"]
-
-
-class Community(ExternalUUIDModel):
-    language = models.CharField(
-        default=settings.LANGUAGE_CODE,
-        choices=settings.LANGUAGES,
-        max_length=len(max([x[0] for x in settings.LANGUAGES], key=len)),
-    )
-    timezone = models.CharField(
-        max_length=len(max(pytz.common_timezones, key=len)),
-        choices=[(tz, tz) for tz in pytz.common_timezones],
-        default="UTC",
-        verbose_name=_("Timezone"),
-        help_text=_("The timezone of the user"),
-    )
-    name = models.CharField(max_length=70)
-    description = models.TextField(null=True, blank=True)
-    handle = models.SlugField(unique=True)
-
-    privacy_public = models.BooleanField(
-        default=False,
-        verbose_name=_("Publicly Viewable"),
-        help_text=_(
-            "By default, this is off." " Turn this on to share your community with the world."
-        ),
-    )
-    privacy_public_join = models.BooleanField(
-        default=False,
-        verbose_name=_("Publicly Joinable"),
-        help_text=_(
-            "By default, this is off."
-            " Turn this on to make your community free to join."
-            " No invites required."
-        ),
-    )
-    privacy_tournaments = models.BooleanField(
-        default=False,
-        verbose_name=_("Tournament: Publicly Viewable"),
-        help_text=_(
-            "By default, this is off."
-            " Turn this on to share your tournament results with the world."
-        ),
-    )
-
-    memberships = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
-
-    def __str__(self) -> str:
-        return self.name
-
-    def get_members(self):
-        qs = self.memberships.all()
-
-        return qs
-
-    def get_absolute_url(self):
-        return reverse("trainerdex:leaderboard", kwargs={"community": self.handle})
-
-    class Meta:
-        verbose_name = _("Community")
-        verbose_name_plural = _("Communities")
