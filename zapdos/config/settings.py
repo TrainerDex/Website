@@ -106,7 +106,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "core.context_processors.google_analytics",
                 "config.context_processors.version",
             ],
         },
@@ -216,7 +215,7 @@ REST_FRAMEWORK = {
 
 SITE_ID = 1
 
-ACCOUNT_ADAPTER = "core.account_adapter.NoNewUsersAccountAdapter"
+ACCOUNT_ADAPTER = "config.account_adapter.NoNewUsersAccountAdapter"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"

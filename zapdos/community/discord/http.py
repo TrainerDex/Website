@@ -32,7 +32,7 @@ class Client:
         """
         if token is None:
             token = settings.DISCORD_TOKEN
-        self.session.headers.update({"Authorization": f"{token_type} {token}"})
+        self.session.headers.update({"Authorization": f"{token_type.value} {token}"})
         return self
 
     @property

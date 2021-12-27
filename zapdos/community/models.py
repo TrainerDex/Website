@@ -33,16 +33,6 @@ class BaseCommunity(ExternalUUIDModel):
         ),
     )
 
-    class Meta:
-        abstract = True
-
-
-class Community(BaseCommunity):
-    # Identifying information
-    handle = models.SlugField(unique=True)
-    name = models.CharField(max_length=70)
-    description = models.TextField(null=True, blank=True)
-
     preferred_locale = models.CharField(
         default=settings.LANGUAGE_CODE,
         choices=settings.LANGUAGES,
@@ -63,6 +53,16 @@ class Community(BaseCommunity):
             "The primary timezone of the community. This is used for all communications and leaderboard positions."
         ),
     )
+
+    class Meta:
+        abstract = True
+
+
+class Community(BaseCommunity):
+    # Identifying information
+    handle = models.SlugField(unique=True)
+    name = models.CharField(max_length=70)
+    description = models.TextField(null=True, blank=True)
 
     memberships = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
 

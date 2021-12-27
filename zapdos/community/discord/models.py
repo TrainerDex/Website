@@ -425,24 +425,6 @@ class DiscordCommunityManager(models.Manager):
 class DiscordCommunity(BaseCommunity):
     """This is a data model which will take a Discord Guild object from the Discord API and cache it's data."""
 
-    preferred_locale = models.CharField(
-        default="en-US",
-        max_length=50,
-        verbose_name=_("Language"),
-        help_text=_(
-            "The primary language of the community. This is used for all communications and leaderboard positions."
-        ),
-    )
-    preferred_timezone = models.CharField(
-        max_length=len(max(pytz.common_timezones, key=len)),
-        choices=[(tz, tz) for tz in pytz.common_timezones],
-        default="UTC",
-        verbose_name=_("Timezone"),
-        help_text=_(
-            "The primary timezone of the community. This is used for all communications and leaderboard positions."
-        ),
-    )
-
     # Track the history of this object
     history = HistoricalRecords()
 
@@ -467,7 +449,7 @@ class DiscordCommunity(BaseCommunity):
     # Exploded fields, all with editable=False as they are not expected to be changed manually.
     id = models.PositiveBigIntegerField(
         primary_key=True,
-        editable=False,
+        editable=True,
         help_text="guild id",
     )
     name = models.CharField(
@@ -674,3 +656,6 @@ class DiscordCommunity(BaseCommunity):
     @property
     def handle(self) -> str:
         return f"discord-{self.id}"
+
+    def __str__(self) -> str:
+        return self.handle
