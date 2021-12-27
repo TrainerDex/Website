@@ -1,11 +1,13 @@
 import datetime
 import logging
+from django.db.models.utils import resolve_callables
+from django.db.utils import IntegrityError
 import pytz
 import requests
 from requests.models import Response
 from typing import Dict, List, Optional, Tuple, TypedDict, Union
 
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
@@ -354,6 +356,72 @@ class Guild(TypedDict, total=False):
     premium_progress_bar_enabled: bool
 
 
+class DiscordCommunityQuerySet(models.QuerySet):
+    def create(self, from_api: bool = True, **kwargs) -> "DiscordCommunity":
+        """
+        Create a new object with the given kwargs, saving it to the database
+        and returning the created object.
+        """
+        obj: "DiscordCommunity" = self.model(**kwargs)
+        self._for_write = True
+        if from_api:
+            obj.get_details_from_api()
+        obj.save(force_insert=True, using=self.db)
+        return obj
+
+    def get_or_create(self, defaults=None, from_api: bool = True, **kwargs):
+        """
+        Look up an object with the given kwargs, creating one if necessary.
+        Return a tuple of (object, created), where created is a boolean
+        specifying whether an object was created.
+        """
+        # The get() needs to be targeted at the write database in order
+        # to avoid potential transaction consistency problems.
+        self._for_write = True
+        try:
+            return self.get(**kwargs), False
+        except self.model.DoesNotExist:
+            params = self._extract_model_params(defaults, **kwargs)
+            # Try to create an object using passed params.
+            try:
+                with transaction.atomic(using=self.db):
+                    params = dict(resolve_callables(params))
+                    return self.create(from_api, **params), True
+            except IntegrityError:
+                try:
+                    return self.get(**kwargs), False
+                except self.model.DoesNotExist:
+                    pass
+                raise
+
+    def update_or_create(self, defaults=None, from_api: bool = True, **kwargs):
+        """
+        Look up an object with the given kwargs, updating one with defaults
+        if it exists, otherwise create a new one.
+        Return a tuple (object, created), where created is a boolean
+        specifying whether an object was created.
+        """
+        defaults = defaults or {}
+        self._for_write = True
+        with transaction.atomic(using=self.db):
+            # Lock the row so that a concurrent update is blocked until
+            # update_or_create() has performed its save.
+            obj, created = self.select_for_update().get_or_create(defaults, from_api, **kwargs)
+            if created:
+                return obj, created
+            for k, v in resolve_callables(defaults):
+                setattr(obj, k, v)
+            if from_api:
+                obj.get_details_from_api()
+            obj.save(using=self.db)
+        return obj, False
+
+
+class DiscordCommunityManager(models.Manager):
+    def get_queryset(self) -> models.QuerySet["DiscordCommunity"]:
+        return DiscordCommunityQuerySet(self.model, using=self._db)
+
+
 class DiscordCommunity(BaseCommunity):
     """This is a data model which will take a Discord Guild object from the Discord API and cache it's data."""
 
@@ -375,8 +443,11 @@ class DiscordCommunity(BaseCommunity):
         ),
     )
 
-    # Track fhe history of this object
+    # Track the history of this object
     history = HistoricalRecords()
+
+    # Custom manager for searching and creating objects
+    objects = DiscordCommunityManager()
 
     # Store the Discord Guild object
     # We're storing this as a JSONb field because the Discord API changes the format without much warning.
@@ -580,6 +651,25 @@ class DiscordCommunity(BaseCommunity):
         self.large = self.details.get("large")
         self.unavailable = self.details.get("unavailable")
         self.member_count = self.details.get("member_count")
+
+    def get_details_from_api(self) -> bool:
+        from community.discord.http import Client
+
+        client: Client = Client().auth()
+        r = client.get_guild(self.id)
+        try:
+            r.raise_for_status()
+        except requests.HTTPError:
+            return False
+        else:
+            if r.status_code == requests.codes.ok:
+                self.details = r.json()
+                return True
+        return False
+
+    def save(self, *args, **kwargs) -> None:
+        self.explode_details()
+        return super().save(*args, **kwargs)
 
     @property
     def handle(self) -> str:
