@@ -20,13 +20,13 @@ class UserFlags(enum.IntFlag):
     BOT_HTTP_INTERACTIONS = 19
 
 
-class PremiumTypes(enum.Int):
+class PremiumTypes(enum.IntEnum):
     NONE = 0
     NITRO_CLASSIC = 1
     NITRO = 2
 
 
-class VerificationLevel(enum.Int):
+class VerificationLevel(enum.IntEnum):
     NONE = 0
     LOW = 1
     MEDIUM = 2
@@ -34,18 +34,18 @@ class VerificationLevel(enum.Int):
     VERY_HIGH = 4
 
 
-class DefaultMessageNotifications(enum.Int):
+class DefaultMessageNotifications(enum.IntEnum):
     ALL_MESSAGES = 0
     ONLY_MENTIONS = 1
 
 
-class ExplicitContentFilterLevel(enum.Int):
+class ExplicitContentFilterLevel(enum.IntEnum):
     DISABLED = 0
     MEMBERS_WITHOUT_ROLES = 1
     ALL_MEMBERS = 2
 
 
-class MFALevel(enum.Int):
+class MFALevel(enum.IntEnum):
     NONE = 0
     ELEVATED = 1
 
@@ -57,7 +57,7 @@ class SystemChannelFlags(enum.IntFlag):
     SUPPRESS_JOIN_NOTIFICATION_REPLIES = 3
 
 
-class ChannelTypes(enum.Int):
+class ChannelTypes(enum.IntEnum):
     GUILD_TEXT = 0
     DM = 1
     GUILD_VOICE = 2
@@ -71,7 +71,7 @@ class ChannelTypes(enum.Int):
     GUILD_STAGE_VOICE = 13
 
 
-class OverwriteType(enum.Int):
+class OverwriteType(enum.IntEnum):
     ROLE = 0
     USER = 1
 
@@ -120,12 +120,12 @@ class Permissions(enum.IntFlag):
     MODERATE_MEMBERS = 40
 
 
-class VideoQualityModes(enum.Int):
+class VideoQualityModes(enum.IntEnum):
     AUTO = 1
     FULL = 2
 
 
-class ActivityTypes(enum.Int):
+class ActivityTypes(enum.IntEnum):
     GAME = 0
     STREAMING = 1
     LISTENING = 2
@@ -155,48 +155,48 @@ class PresenceStatus(enum.Enum):
     OFFLINE = "offline"
 
 
-class PremiumTier(enum.Int):
+class PremiumTier(enum.IntEnum):
     NONE = 0
     TIER_1 = 1
     TIER_2 = 2
     TIER_3 = 3
 
 
-class GuildNSFWLevel(enum.Int):
+class GuildNSFWLevel(enum.IntEnum):
     DEFAULT = 0
     EXPLICIT = 1
     SAFE = 2
     AGE_RESTRICTED = 3
 
 
-class StagePrivacyLevel(enum.Int):
+class StagePrivacyLevel(enum.IntEnum):
     PUBLIC = 1
     GUILD_ONLY = 2
 
 
-class StickerType(enum.Int):
+class StickerType(enum.IntEnum):
     STANDARD = 1
     GUILD = 2
 
 
-class StickerFormat(enum.Int):
+class StickerFormat(enum.IntEnum):
     PNG = 1
     APNG = 2
     LOTTIE = 3
 
 
-class ScheduledEventPrivacyLevel(enum.Int):
+class ScheduledEventPrivacyLevel(enum.IntEnum):
     GUILD_ONLY = 2
 
 
-class ScheduledEventStatus(enum.Int):
+class ScheduledEventStatus(enum.IntEnum):
     SCHEDULED = 1
     ACTIVE = 2
     COMPLETED = 3
     CANCELED = 4
 
 
-class ScheduledEventEntityType(enum.Int):
+class ScheduledEventEntityType(enum.IntEnum):
     STAGE_INSTANCE = 1
     VOICE = 2
     EXTERNAL = 3

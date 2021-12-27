@@ -317,8 +317,8 @@ class Guild(TypedDict, total=False):
     verification_level: VerificationLevel
     default_message_notifications: DefaultMessageNotifications
     explicit_content_filter: ExplicitContentFilterLevel
-    roles: List[Dict[str, Role]]
-    emojis: List[Dict[str, Emoji]]
+    roles: List[Role]
+    emojis: List[Emoji]
     features: List[str]
     mfa_level: MFALevel
     application_id: Optional[Snowflake]
