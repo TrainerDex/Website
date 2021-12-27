@@ -25,6 +25,8 @@ Pillow = "*"
 django-forms-fieldset = "*"
 django-model-utils = "*"
 pyyaml = "*"
+django-simple-history = "*"
+numpy = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
