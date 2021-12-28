@@ -1,8 +1,10 @@
+from __future__ import annotations
+import datetime
 import logging
 from collections import defaultdict
 from datetime import date
 from decimal import Decimal
-from typing import Collection, Dict, List, Literal, Tuple, Union
+from typing import TYPE_CHECKING, Collection, Dict, List, Literal, Optional, Tuple, Union
 
 from common.models import ExternalUUIDModel, FeedPost
 from django.conf import settings
@@ -10,7 +12,6 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import npgettext_lazy, pgettext_lazy
 
@@ -26,6 +27,9 @@ from pokemongo.constants import (
 logger = logging.getLogger("django.trainerdex")
 User = get_user_model()
 
+if TYPE_CHECKING:
+    from common.models import User
+
 
 class Faction(models.Model):
     class FactionChoices(models.IntegerChoices):
@@ -34,7 +38,7 @@ class Faction(models.Model):
         VALOR = 2, "Valor"
         INSTINCT = 3, "Instinct"
 
-    id = models.SmallIntegerField(
+    id: int = models.SmallIntegerField(
         primary_key=True,
         choices=FactionChoices.choices,
         validators=[
@@ -42,7 +46,7 @@ class Faction(models.Model):
             MaxValueValidator(max(FactionChoices.values)),  # 3
         ],
     )
-    slug = models.SlugField(
+    slug: str = models.SlugField(
         db_index=True,
         unique=True,
         choices=[(x.lower(), x.lower()) for x in FactionChoices.names],
@@ -65,20 +69,21 @@ class Faction(models.Model):
     class Meta:
         verbose_name = "Faction"
         verbose_name_plural = "Factions"
+        default_permissions = ("view",)
 
 
 class FactionAlliance(ExternalUUIDModel):
-    user = models.ForeignKey(
+    user: models.ForeignKey[User] = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    faction = models.ForeignKey(
+    faction: models.ForeignKey[Faction] = models.ForeignKey(
         Faction,
         on_delete=models.CASCADE,
     )
 
-    date_aligned = models.DateField(blank=True, null=True)
-    date_disbanded = models.DateField(blank=True, null=True)
+    date_aligned: Optional[datetime.date] = models.DateField(blank=True, null=True)
+    date_disbanded: Optional[datetime.date] = models.DateField(blank=True, null=True)
 
     def __str__(self) -> str:
         if self.date_aligned is None and self.date_disbanded:
@@ -92,6 +97,17 @@ class FactionAlliance(ExternalUUIDModel):
 
         return f"{self.user} is {self.faction}, but we don't know when they joined"
 
+    def close_old_alliances(self) -> None:
+        FactionAlliance.objects.filter(
+            user=self.user,
+            date_aligned__lt=self.date_aligned,
+            date_disbanded__isnull=True,
+        ).update(date_disbanded=self.date_aligned)
+
+    @property
+    def is_active(self) -> bool:
+        return self.date_disbanded is None
+
     class Meta:
         verbose_name = "Faction Alliance"
         verbose_name_plural = "Faction Alliances"
@@ -101,10 +117,10 @@ class FactionAlliance(ExternalUUIDModel):
 
 class DummyFactionAlliance:
     def __init__(self, user: User):
-        self.user = user
-        self.faction = Faction.objects.get(pk=0)
-        self.date_aligned = None
-        self.date_disbanded = None
+        self.user: User = user
+        self.faction: Faction = Faction.objects.get(pk=0)
+        self.date_aligned: Optional[datetime.date] = None
+        self.date_disbanded: Optional[datetime.date] = None
 
     def __str__(self) -> str:
         return f"{self.user} - {self.faction}"
