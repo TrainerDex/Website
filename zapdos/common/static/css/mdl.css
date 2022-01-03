@@ -426,17 +426,17 @@ background-repeat: no-repeat;
 }
 /*
 .social-btn__twitter {
-background-image: url('http://www.trainerdex.co.uk/static/img/twitter.svg');
+background-image: url('http://trainerdex.app/static/img/twitter.svg');
 }
 */
 .social-btn__facebook {
-  background-image: url('http://www.trainerdex.co.uk/static/img/facebook.svg');
+  background-image: url('http://trainerdex.app/static/img/facebook.svg');
 }
 .social-btn__gplus {
-  background-image: url('http://www.trainerdex.co.uk/static/img/googleplus.svg');
+  background-image: url('http://trainerdex.app/static/img/googleplus.svg');
 }
 .social-btn__discord {
-  background-image: url('http://www.trainerdex.co.uk/static/img/discord.svg');
+  background-image: url('http://trainerdex.app/static/img/discord.svg');
 }
 .social-btn__share {
   color: rgba(0, 0, 0, 0.54);
