@@ -62,8 +62,8 @@ class Command(BaseCommand):
                                 colour=13252437,
                             ).set_author(
                                 name="TrainerDex",
-                                url="https://www.trainerdex.co.uk/",
-                                icon_url="https://www.trainerdex.co.uk/static/img/android-chrome-512x512.png",
+                                url="https://trainerdex.app/",
+                                icon_url="https://trainerdex.app/static/img/android-chrome-512x512.png",
                             )
                             await channel.send(embed=embed)
                         else:
