@@ -1,11 +1,8 @@
-# TrainerDex
-
-Okay, so, some history on this repo. It's old, and messy. Very messy. It was private for a very long time.
-It was started by @Azelphur for a Pokémon Go mapping project, and then I added code for what was originally supposed to be the backend of a small Discord bot for 3-4 servers.
-As such, TrainerDex was never future proofed. I have used [BFG Repo Cleaner](https://rtyley.github.io/bfg-repo-cleaner/) to remove any secret keys or passwords. 
-As of 305f5aa307ddb9ef1e7e85c6d66ce2192d83b042, the code should work with a few tweaks, however, I plan to make it Docker compatible.
-
-Thir project is now sponsored by [Wynaut Wyandotte](https://discord.gg/jJKVAPw4Pw).
+[![Support Server](https://img.shields.io/discord/364313717720219651.svg?color=7289da&label=TrainerDex&logo=discord&style=flat)](https://discord.gg/bDPnJ2)
+[![Translation status](https://hosted.weblate.org/widgets/trainerdex/-/zapdos/svg-badge.svg)](https://hosted.weblate.org/engage/trainerdex/)
+[![Maintenance](https://img.shields.io/static/v1?label=Maintained?&message=rewrite&color=orange&style=flat)](https://github.com/TrainerDex/Website/tree/423_system_rebuild)  
+[![Visit our Sponsor](https://img.shields.io/static/v1?label=Sponsored+by&message=Wynaut+Wyandotte&color=7289da&logo=discord&style=flat)](https://discord.gg/jJKVAPw4Pw)
+[![Sponsor us](https://img.shields.io/static/v1?label=Patreon&message=TrainerDexApp&color=ff424d&style=flat)](https://www.patreon.com/TrainerDexApp)
 
 Commit messages should follow the following format:
 
