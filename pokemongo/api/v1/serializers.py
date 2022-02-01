@@ -175,7 +175,7 @@ class LeaderboardSerializer(serializers.Serializer):
         return obj.value
 
     def get_last_updated(self, obj: Update) -> datetime.datetime:
-        return obj.datetime
+        return obj.update_time
 
     def get_user_id(self, obj: Update) -> Optional[int]:
         return obj.trainer.owner.pk if obj.trainer.owner else None
