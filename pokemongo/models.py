@@ -121,7 +121,7 @@ class Trainer(models.Model):
         ),
     )
 
-    daily_goa: int = models.PositiveIntegerField(null=True, blank=True)
+    daily_goal: int = models.PositiveIntegerField(null=True, blank=True)
     total_goal: int = models.BigIntegerField(
         null=True, blank=True, validators=[MinValueValidator(100)]
     )
