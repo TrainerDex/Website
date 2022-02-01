@@ -12,7 +12,6 @@ from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from pokemongo.api.v1.serializers import (
-    BriefUpdateSerializer,
     DetailedTrainerSerializer,
     DetailedUpdateSerializer,
     LeaderboardSerializer,
@@ -21,7 +20,6 @@ from pokemongo.api.v1.serializers import (
 )
 from pokemongo.models import Community, Nickname, Trainer, Update
 from pokemongo.shortcuts import UPDATE_FIELDS_BADGES, filter_leaderboard_qs__update
-from pytz import utc
 from rest_framework import authentication, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -498,18 +496,26 @@ class DetailedLeaderboardView(APIView):
                     .values("pk")
                 )
             )
-            .prefetch_related(
+            .select_related(
                 "trainer",
                 "trainer__owner",
+            )
+            .prefetch_related(
                 Prefetch(
                     "trainer__nickname_set",
                     Nickname.objects.filter(active=True),
-                    to_attr="_nickname",
                 ),
             )
-            .annotate(value=F(stat), datetime=F("update_time"))
+            .annotate(value=F(stat))
             .annotate(rank=Window(expression=DenseRank(), order_by=F("value").desc()))
-            .order_by("rank", "-value", "datetime")
+            .order_by("rank", "-value", "update_time")
+            .only(
+                "rank",
+                "trainer",
+                "total_xp",
+                "value",
+                "update_time",
+            )
         )
         serializer = LeaderboardSerializer(leaderboard, many=True)
         output["aggregations"] = leaderboard.aggregate(

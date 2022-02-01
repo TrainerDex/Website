@@ -4,12 +4,11 @@ from collections import defaultdict
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 from os.path import splitext
-from typing import List, NoReturn, Optional, Union
+from typing import TYPE_CHECKING, List, Literal, NoReturn, Optional, Union
 
 from cities.models import Country
 from core.models import DiscordGuild, DiscordGuildMembership, DiscordRole
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.contrib.postgres import fields as postgres_fields
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.exceptions import ValidationError
@@ -35,7 +34,9 @@ from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidato
 from pytz import common_timezones
 
 logger = logging.getLogger("django.trainerdex")
-User = get_user_model()
+
+if TYPE_CHECKING:
+    from django.contrib.auth.models import User
 
 
 def VerificationImagePath(instance, filename: str) -> str:
@@ -86,31 +87,31 @@ class Faction:
 
 
 class Trainer(models.Model):
-    owner = models.OneToOneField(
+    owner: User = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="trainer",
         verbose_name=_("User"),
     )
-    start_date = models.DateField(
+    start_date: Optional[date] = models.DateField(
         null=True,
         blank=True,
         validators=[MinValueValidator(date(2016, 7, 5))],
         verbose_name=pgettext_lazy("profile_start_date", "Start Date"),
         help_text=_("The date you created your Pokémon Go account."),
     )
-    faction = models.SmallIntegerField(
+    faction: Literal[0,1,2,3] = models.SmallIntegerField(
         choices=list(settings.TEAMS.items()),
         null=True,
         verbose_name=pgettext_lazy("faction", "Team"),
     )
-    last_cheated = models.DateField(
+    last_cheated: Optional[date] = models.DateField(
         null=True,
         blank=True,
         verbose_name=_("Last Cheated"),
         help_text=_("When did this Trainer last cheat?"),
     )
-    statistics = models.BooleanField(
+    statistics: bool = models.BooleanField(
         default=True,
         verbose_name=pgettext_lazy("profile_category_stats", "Stats"),
         help_text=_(
@@ -119,10 +120,10 @@ class Trainer(models.Model):
         ),
     )
 
-    daily_goal = models.PositiveIntegerField(null=True, blank=True)
-    total_goal = models.BigIntegerField(null=True, blank=True, validators=[MinValueValidator(100)])
+    daily_goa: int = models.PositiveIntegerField(null=True, blank=True)
+    total_goal: int = models.BigIntegerField(null=True, blank=True, validators=[MinValueValidator(100)])
 
-    trainer_code = models.CharField(
+    trainer_code: str = models.CharField(
         null=True,
         blank=True,
         validators=[TrainerCodeValidator],
@@ -131,7 +132,7 @@ class Trainer(models.Model):
         help_text=_("Fancy sharing your trainer code?" " (This information is public.)"),
     )
 
-    leaderboard_country = models.ForeignKey(
+    leaderboard_country: Country = models.ForeignKey(
         Country,
         on_delete=models.SET_NULL,
         null=True,
@@ -141,16 +142,16 @@ class Trainer(models.Model):
         help_text=_("Where are you based?"),
     )
 
-    verified = models.BooleanField(default=False, verbose_name=_("Verified"))
-    last_modified = models.DateTimeField(
+    verified: bool = models.BooleanField(default=False, verbose_name=_("Verified"))
+    last_modified: datetime = models.DateTimeField(
         auto_now=True,
         verbose_name=_("Last Modified"),
     )
 
-    event_10b = models.BooleanField(default=False)
-    event_1k_users = models.BooleanField(default=False)
+    event_10b: bool = models.BooleanField(default=False)
+    event_1k_users: bool = models.BooleanField(default=False)
 
-    legacy_40 = models.BooleanField(
+    legacy_40: bool = models.BooleanField(
         default=False,
         verbose_name=pgettext_lazy("badge_level_40_title", "Legacy 40"),
         help_text=pgettext_lazy("badge_level_40", "Achieve level 40 by December 31, 2020."),
@@ -196,7 +197,7 @@ class Trainer(models.Model):
     currently_banned.short_description = _("Banned")
     currently_cheats = currently_banned
 
-    def is_prefered(self) -> bool:
+    def is_prefered(self) -> Literal[True]:
         return True
 
     def flag_emoji(self) -> Optional[str]:
@@ -242,9 +243,9 @@ class Trainer(models.Model):
 
     is_on_leaderboard.boolean = True
 
-    def level(self) -> Union[str, int]:
+    def level(self) -> Union[str, int, None]:
         try:
-            update = (
+            update: Update = (
                 self.update_set.exclude(total_xp__isnull=True)
                 .only("trainer_id", "total_xp")
                 .latest("update_time")
@@ -267,17 +268,11 @@ class Trainer(models.Model):
     @property
     def nickname(self) -> str:
         """Gets nickname, fallback to User username"""
-        if getattr(self, "_nickname", None):
-            if isinstance(self._nickname, list):
-                self._nickname, *_ = self._nickname
+        self._nickname: Nickname
+        if (self._nickname := self.nickname_set.filter(active=True).first()):
             return self._nickname.nickname
         else:
-            try:
-                self._nickname = self.nickname_set.get(active=True)
-            except Nickname.DoesNotExist:
-                return self.owner.username
-            finally:
-                return self._nickname.nickname
+            return self.owner.username
 
     @property
     def username(self) -> str:
