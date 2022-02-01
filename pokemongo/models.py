@@ -100,7 +100,7 @@ class Trainer(models.Model):
         verbose_name=pgettext_lazy("profile_start_date", "Start Date"),
         help_text=_("The date you created your Pokémon Go account."),
     )
-    faction: Literal[0,1,2,3] = models.SmallIntegerField(
+    faction: Literal[0, 1, 2, 3] = models.SmallIntegerField(
         choices=list(settings.TEAMS.items()),
         null=True,
         verbose_name=pgettext_lazy("faction", "Team"),
@@ -121,7 +121,9 @@ class Trainer(models.Model):
     )
 
     daily_goa: int = models.PositiveIntegerField(null=True, blank=True)
-    total_goal: int = models.BigIntegerField(null=True, blank=True, validators=[MinValueValidator(100)])
+    total_goal: int = models.BigIntegerField(
+        null=True, blank=True, validators=[MinValueValidator(100)]
+    )
 
     trainer_code: str = models.CharField(
         null=True,
@@ -268,9 +270,9 @@ class Trainer(models.Model):
     @property
     def nickname(self) -> str:
         """Gets nickname, fallback to User username"""
-        self._nickname: Nickname
-        if (self._nickname := self.nickname_set.filter(active=True).first()):
-            return self._nickname.nickname
+        nickname: Nickname
+        if nickname := self.nickname_set.filter(active=True).first():
+            return nickname.nickname
         else:
             return self.owner.username
 
