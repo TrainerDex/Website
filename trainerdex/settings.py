@@ -37,21 +37,16 @@ INSTALLED_APPS = [
     "django.contrib.gis",
     "rest_framework",
     "rest_framework.authtoken",
+    "silk",
     "cities",
     "core",
     "pokemongo",
-]
-
-INSTALLED_APPS += [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.discord",
     "allauth.socialaccount.providers.reddit",
     "allauth.socialaccount.providers.twitter",
-]
-
-INSTALLED_APPS += [
     "widget_tweaks",
 ]
 
@@ -71,6 +66,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "silk.middleware.SilkyMiddleware",
 ]
 
 LOCALE_PATHS = [
@@ -78,12 +74,6 @@ LOCALE_PATHS = [
 ]
 
 ROOT_URLCONF = "trainerdex.urls"
-
-# DjangoDebugToolbar
-if DEBUG is True:
-    INSTALLED_APPS.append("debug_toolbar")
-    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
-    INTERNAL_IPS = ["127.0.0.1"]
 
 TEMPLATES = [
     {
@@ -263,3 +253,7 @@ TEAMS = {
     2: pgettext_lazy("team_name_team2", "Team Valor"),
     3: pgettext_lazy("team_name_team3", "Team Instinct"),
 }
+
+SILKY_AUTHENTICATION = True  # User must login
+SILKY_AUTHORISATION = True  # User must have permissions
+SILKY_META = True

@@ -34,13 +34,11 @@ urlpatterns = [
     path("settings/profile/", EditProfileView, name="profile_edit"),
     path("accounts/", include("allauth.urls")),
     path("", include("pokemongo.urls")),
+    path("silk/", include("silk.urls", namespace="silk")),
 ]
 
 if settings.DEBUG:
-    import debug_toolbar
-
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
 
 admin.site.site_title = "TrainerDex"
 admin.site.site_header = _("{site_name} Admin").format(site_name=admin.site.site_title)
