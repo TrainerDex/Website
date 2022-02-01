@@ -2,990 +2,1000 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-09 08:18+0000\n"
-"PO-Revision-Date: 2021-12-16 08:18\n"
+"POT-Creation-Date: 2021-12-21 00:51+0000\n"
+"PO-Revision-Date: 2020-12-10 03:33\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 "
+"&& n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 "
+"&& n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "X-Crowdin-Project: trainerdex\n"
 "X-Crowdin-Project-ID: 413366\n"
 "X-Crowdin-Language: ru\n"
 "X-Crowdin-File: /master/django.pot\n"
 "X-Crowdin-File-ID: 38\n"
 
-#: django/core/admin.py:28
-msgid "Sync members with Discord"
+#: common/models.py:49
+msgid "External UUID"
 msgstr ""
 
-#: django/core/admin.py:37
-msgid "Download channels from Discord. Currently doesn't delete them."
-msgstr ""
+#: common/models.py:64 common/models.py:185
+#, fuzzy
+#| msgctxt "onboard_name_owned"
+#| msgid "This name is already in use by another Trainer."
+msgid "This username is already taken."
+msgstr "Это имя уже используется другим Тренером."
 
-#: django/core/admin.py:68 django/core/admin.py:69
-msgid "Discord Server Settings"
-msgstr ""
-
-#: django/core/models.py:104 django/core/models.py:313
-#: django/core/models.py:393 django/core/models.py:473
-#: django/core/models.py:517
-msgid "got data"
-msgstr ""
-
-#: django/core/models.py:188
-#, python-brace-format
-msgid "Succesfully updated {x} of {y} {guild} members"
-msgstr ""
-
-#: django/core/models.py:227
-msgid "Discord Guild"
-msgstr ""
-
-#: django/core/models.py:228
-msgid "Discord Guilds"
-msgstr ""
-
-#: django/core/models.py:247
-msgid "Rename users when they join."
-msgstr ""
-
-#: django/core/models.py:249
-msgid "This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."
-msgstr ""
-
-#: django/core/models.py:254
-msgid "Rename users with their level indicator"
-msgstr ""
-
-#: django/core/models.py:256
-msgid "This setting will add a level to the end of their username on your server. Their name will update whenever they level up."
-msgstr ""
-
-#: django/core/models.py:262
-msgid "Level Indicator format"
-msgstr ""
-
-#: django/core/models.py:361
-msgid "Discord Channel"
-msgstr ""
-
-#: django/core/models.py:362
-msgid "Discord Channels"
-msgstr ""
-
-#: django/core/models.py:444
-msgid "Discord Role"
-msgstr ""
-
-#: django/core/models.py:445
-msgid "Discord Roles"
-msgstr ""
-
-#: django/core/models.py:477
-msgid "Discord User"
-msgstr ""
-
-#: django/core/models.py:478
-msgid "Discord Users"
-msgstr ""
-
-#: django/core/models.py:581
-msgid "Discord Member"
-msgstr ""
-
-#: django/core/models.py:582
-msgid "Discord Members"
-msgstr ""
-
-#: django/core/templates/404.html:6 django/core/templates/404.html:12
-msgid "404 Not Found"
-msgstr ""
-
-#: django/core/templates/404.html:15
-msgid "Sorry, we couldn't find the page you're looking for. Double check the URL or reach out to us on Discord."
-msgstr ""
-
-#: django/core/templates/404.html:19
-#: django/core/templates/account/password_reset_done.html:20
-#: django/core/templates/account/password_reset_from_key_done.html:17
-#: django/core/templates/account/signup_closed.html:19
-#: django/core/templates/account/verification_sent.html:18
-msgid "Return to Leaderboard"
-msgstr ""
-
-#: django/core/templates/404.html:22
-msgid "Visit our Discord"
-msgstr ""
-
-#: django/core/templates/account/account_inactive.html:5
-#: django/core/templates/account/account_inactive.html:11
-msgid "Account Inactive"
-msgstr ""
-
-#: django/core/templates/account/account_inactive.html:14
-msgid "This account is inactive. Please contact us on Discord or Twitter for help."
-msgstr ""
-
-#: django/core/templates/account/account_inactive.html:18
-msgid "Discord Server"
-msgstr ""
-
-#: django/core/templates/account/account_inactive.html:21
-msgid "@TrainerDexApp on Twitter"
-msgstr ""
-
-#: django/core/templates/account/account_settings.html:6
-msgid "Account Settings"
-msgstr ""
-
-#: django/core/templates/account/account_settings.html:12
-msgid "User Info"
-msgstr ""
-
-#: django/core/templates/account/account_settings.html:17
+#: common/models.py:65 common/models.py:186 common/models.py:203
+#: common/templates/account/account_settings.html:17
 msgid "Username"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:24
-msgid "Password"
+#: common/models.py:67 common/models.py:188
+msgid ""
+"Required. 15 characters or fewer. Letters and digits only. Must match your "
+"Pokémon Go username."
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:28
-#: django/core/templates/account/password_change.html:6
-#: django/core/templates/account/password_change.html:12
-#: django/core/templates/account/password_change.html:42
-msgid "Change Password"
+#: common/models.py:75 community/models.py:33
+msgid "Timezone"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:34
-msgid "Name"
+#: common/models.py:76
+msgid "The timezone of the user"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:41
-msgid "Primary Email address"
+#: common/models.py:78 common/templates/account/account_settings.html:117
+msgid "Country"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:45
-msgid "Email Management"
+#: common/models.py:78
+msgid "The country of the user"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:51
-msgid "Last Login"
+#: common/models.py:82
+msgid "Public"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:58
-msgid "Date Registered"
+#: common/models.py:83
+msgid "Whether this User's profile is public"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:64
-msgid "Manage Social Network Connections"
+#: common/models.py:86
+msgid "Banned"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:70
-msgid "Trainer Info"
+#: common/models.py:86
+msgid "Whether this user is banned"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:75
-#: django/pokemongo/models.py:322
-msgctxt "codename"
-msgid "Nickname"
+#: common/models.py:90
+#, fuzzy
+#| msgctxt "badge_pokemon_purified_title"
+#| msgid "Purifier"
+msgid "Verified"
+msgstr "Purifier"
+
+#: common/models.py:91
+msgid "Whether this User's account has been verified"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:82
-#: django/pokemongo/templates/profile.html:10
-msgid "Level"
+#: common/models.py:97
+msgid "Last Cheated"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:89
-#: django/pokemongo/models.py:105
-#: django/pokemongo/templates/leaderboard.html:50
-msgctxt "faction"
-msgid "Team"
+#: common/models.py:98
+msgid "When did this Trainer last cheat?"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:96
-#: django/pokemongo/models.py:99 django/pokemongo/strings.py:415
-#: django/pokemongo/templates/profile.html:23
-#: django/pokemongo/templates/profile.html:63
+#: common/models.py:102 pokemongo/templates/profile.html:69
+msgctxt "badge_level_40_title"
+msgid "Legacy 40"
+msgstr ""
+
+#: common/models.py:103
+msgctxt "badge_level_40"
+msgid "Achieve level 40 before 2020-12-31"
+msgstr ""
+
+#: common/models.py:110 common/templates/account/account_settings.html:96
+#: pokemongo/templates/profile.html:23 pokemongo/templates/profile.html:63
 msgctxt "profile_start_date"
 msgid "Start Date"
 msgstr "Дата начала игры"
 
-#: django/core/templates/account/account_settings.html:103
-msgid "Publicly Visible"
+#: common/models.py:111
+msgid "The date this user created their Pokémon Go account"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:110
-#: django/pokemongo/models.py:130 django/pokemongo/strings.py:332
+#: common/models.py:118
+msgid "Faction Alliances"
+msgstr ""
+
+#: common/models.py:125 common/templates/account/account_settings.html:110
 msgctxt "friend_code_title"
 msgid "Trainer Code"
 msgstr "Trainer Code"
 
-#: django/core/templates/account/account_settings.html:117
-#: django/pokemongo/models.py:139
-msgid "Country"
+#: common/models.py:126
+msgid "Fancy sharing your trainer code?"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:124
-#: django/pokemongo/models.py:147
+#: common/models.py:175
+msgid "User"
+msgstr ""
+
+#: common/models.py:176
+msgid "Users"
+msgstr ""
+
+#: common/models.py:204
+msgid "Usernames"
+msgstr ""
+
+#: common/models.py:221
+msgid "Metadata"
+msgstr ""
+
+#: common/models.py:222
+msgid "Any metadata about the post, such as program that made the post etc."
+msgstr ""
+
+#: common/templates/404.html:6 common/templates/404.html:12
+msgid "404 Not Found"
+msgstr ""
+
+#: common/templates/404.html:15
+msgid ""
+"Sorry, we couldn't find the page you're looking for. Double check the URL or "
+"reach out to us on Discord."
+msgstr ""
+
+#: common/templates/404.html:19
+#: common/templates/account/password_reset_done.html:20
+#: common/templates/account/password_reset_from_key_done.html:17
+#: common/templates/account/signup_closed.html:19
+#: common/templates/account/verification_sent.html:18
+msgid "Return to Leaderboard"
+msgstr ""
+
+#: common/templates/404.html:22
+msgid "Visit our Discord"
+msgstr ""
+
+#: common/templates/account/account_inactive.html:5
+#: common/templates/account/account_inactive.html:11
+msgid "Account Inactive"
+msgstr ""
+
+#: common/templates/account/account_inactive.html:14
+msgid ""
+"This account is inactive. Please contact us on Discord or Twitter for help."
+msgstr ""
+
+#: common/templates/account/account_inactive.html:18
+msgid "Discord Server"
+msgstr ""
+
+#: common/templates/account/account_inactive.html:21
+msgid "@TrainerDexApp on Twitter"
+msgstr ""
+
+#: common/templates/account/account_settings.html:6
+msgid "Account Settings"
+msgstr ""
+
+#: common/templates/account/account_settings.html:12
+msgid "User Info"
+msgstr ""
+
+#: common/templates/account/account_settings.html:24
+msgid "Password"
+msgstr ""
+
+#: common/templates/account/account_settings.html:28
+#: common/templates/account/password_change.html:6
+#: common/templates/account/password_change.html:12
+#: common/templates/account/password_change.html:42
+msgid "Change Password"
+msgstr ""
+
+#: common/templates/account/account_settings.html:34
+msgid "Name"
+msgstr ""
+
+#: common/templates/account/account_settings.html:41
+msgid "Primary Email address"
+msgstr ""
+
+#: common/templates/account/account_settings.html:45
+msgid "Email Management"
+msgstr ""
+
+#: common/templates/account/account_settings.html:51
+msgid "Last Login"
+msgstr ""
+
+#: common/templates/account/account_settings.html:58
+msgid "Date Registered"
+msgstr ""
+
+#: common/templates/account/account_settings.html:64
+msgid "Manage Social Network Connections"
+msgstr ""
+
+#: common/templates/account/account_settings.html:70
+#, fuzzy
+#| msgctxt "friend_code_title"
+#| msgid "Trainer Code"
+msgid "Trainer Info"
+msgstr "Trainer Code"
+
+#: common/templates/account/account_settings.html:75
+msgctxt "codename"
+msgid "Nickname"
+msgstr ""
+
+#: common/templates/account/account_settings.html:82
+#: pokemongo/templates/profile.html:10
+#, fuzzy
+#| msgctxt "profile_player_level"
+#| msgid "Level"
+msgid "Level"
+msgstr "Уровень"
+
+#: common/templates/account/account_settings.html:89
+#: pokemongo/templates/leaderboard.html:50
+#, fuzzy
+#| msgctxt "team_name_team0"
+#| msgid "No Team"
+msgctxt "faction"
+msgid "Team"
+msgstr "Без команды"
+
+#: common/templates/account/account_settings.html:103
+msgid "Publicly Visible"
+msgstr ""
+
+#: common/templates/account/account_settings.html:124
 msgid "Last Modified"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:131
+#: common/templates/account/account_settings.html:131
 msgid "Banned?"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:138
-#: django/pokemongo/models.py:238
+#: common/templates/account/account_settings.html:138
+#, fuzzy
+#| msgctxt "screen_title_notification"
+#| msgid "Notifications"
 msgid "Verification Status"
-msgstr ""
+msgstr "Notifications"
 
-#: django/core/templates/account/account_settings.html:145
+#: common/templates/account/account_settings.html:145
 msgid "Posts"
 msgstr ""
 
-#: django/core/templates/account/account_settings.html:152
+#: common/templates/account/account_settings.html:152
 msgid "Nicknames"
 msgstr ""
 
-#: django/core/templates/account/email.html:6
+#: common/templates/account/email.html:6
 msgid "Account"
 msgstr ""
 
-#: django/core/templates/account/email.html:12
+#: common/templates/account/email.html:12
 msgid "E-mail Addresses"
 msgstr ""
 
-#: django/core/templates/account/email.html:19
+#: common/templates/account/email.html:19
 msgid "The following e-mail addresses are associated with your account:"
 msgstr ""
 
-#: django/core/templates/account/email.html:27
+#: common/templates/account/email.html:27
 msgid "Primary"
 msgstr ""
 
-#: django/core/templates/account/email.html:39
+#: common/templates/account/email.html:39
 msgid "Set Primary"
 msgstr ""
 
-#: django/core/templates/account/email.html:40
+#: common/templates/account/email.html:40
 msgid "Re-send Verification"
 msgstr ""
 
-#: django/core/templates/account/email.html:41
-#: django/core/templates/socialaccount/connections.html:46
+#: common/templates/account/email.html:41
+#: common/templates/socialaccount/connections.html:46
 msgid "Remove"
 msgstr ""
 
-#: django/core/templates/account/email.html:51
+#: common/templates/account/email.html:51
 msgid "Warning:"
 msgstr ""
 
-#: django/core/templates/account/email.html:51
-msgid "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc."
+#: common/templates/account/email.html:51
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
 msgstr ""
 
-#: django/core/templates/account/email.html:57
+#: common/templates/account/email.html:57
 msgid "Add E-mail Address"
 msgstr ""
 
-#: django/core/templates/account/email.html:61
-msgid "Add an email address to your account to get back in if you forget your password. Also, your primary email is used for gravatar generation."
+#: common/templates/account/email.html:61
+msgid ""
+"Add an email address to your account to get back in if you forget your "
+"password. Also, your primary email is used for gravatar generation."
 msgstr ""
 
-#: django/core/templates/account/email.html:69
+#: common/templates/account/email.html:69
 msgid "Add E-mail"
 msgstr ""
 
-#: django/core/templates/account/email.html:80
+#: common/templates/account/email.html:80
 msgid "Do you really want to remove the selected e-mail address?"
 msgstr ""
 
-#: django/core/templates/account/email/email_confirmation_message.txt:5
+#: common/templates/account/email/email_confirmation_message.txt:5
 #, python-format
-msgid "Hello from %(site_name)s!\n\n"
-"You're receiving this e-mail because user %(user_display)s has connected this e-mail address to their account. If this is not you, just ignore this email.\n\n"
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because user %(user_display)s has connected "
+"this e-mail address to their account. If this is not you, just ignore this "
+"email.\n"
+"\n"
 "To confirm this is correct, go to %(activate_url)s\n"
 msgstr ""
 
-#: django/core/templates/account/email/email_confirmation_message.txt:12
+#: common/templates/account/email/email_confirmation_message.txt:12
 #, python-format
-msgid "Thank you from %(site_name)s!\n"
+msgid ""
+"Thank you from %(site_name)s!\n"
 "%(site_domain)s\n"
 msgstr ""
 
-#: django/core/templates/account/email/email_confirmation_subject.txt:3
+#: common/templates/account/email/email_confirmation_subject.txt:3
 msgid "Please confirm your E-mail Address"
 msgstr ""
 
-#: django/core/templates/account/email/password_reset_key_message.txt:1
+#: common/templates/account/email/password_reset_key_message.txt:1
 #, python-format
-msgid "Hello from %(site_name)s!\n\n"
-"You're receiving this e-mail because you or someone else has requested a password for your user account.\n"
-"It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
+msgid ""
+"Hello from %(site_name)s!\n"
+"\n"
+"You're receiving this e-mail because you or someone else has requested a "
+"password for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password."
 msgstr ""
 
-#: django/core/templates/account/email/password_reset_key_message.txt:8
+#: common/templates/account/email/password_reset_key_message.txt:8
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
 msgstr ""
 
-#: django/core/templates/account/email/password_reset_key_message.txt:10
+#: common/templates/account/email/password_reset_key_message.txt:10
 #, python-format
-msgid "Thank you for using %(site_name)s!\n"
+msgid ""
+"Thank you for using %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
 
-#: django/core/templates/account/email/password_reset_key_subject.txt:3
+#: common/templates/account/email/password_reset_key_subject.txt:3
 msgid "Password Reset E-mail"
 msgstr ""
 
-#: django/core/templates/account/email_confirm.html:6
-#: django/core/templates/account/email_confirm.html:12
+#: common/templates/account/email_confirm.html:6
+#: common/templates/account/email_confirm.html:12
 msgid "Confirm E-mail Address"
 msgstr ""
 
-#: django/core/templates/account/email_confirm.html:17
+#: common/templates/account/email_confirm.html:17
 #, python-format
-msgid "Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s."
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
 msgstr ""
 
-#: django/core/templates/account/email_confirm.html:22
+#: common/templates/account/email_confirm.html:22
 msgid "Confirm"
 msgstr ""
 
-#: django/core/templates/account/email_confirm.html:28
+#: common/templates/account/email_confirm.html:28
 msgid "This e-mail confirmation link expired or is invalid."
 msgstr ""
 
-#: django/core/templates/account/email_confirm.html:32
+#: common/templates/account/email_confirm.html:32
 msgid "Resend confirmation email"
 msgstr ""
 
-#: django/core/templates/account/login.html:7
-#: django/core/templates/account/login.html:15
-#: django/core/templates/account/login.html:51
-#: django/core/templates/base.html:99 django/core/templates/base.html:112
+#: common/templates/account/login.html:7 common/templates/account/login.html:15
+#: common/templates/account/login.html:51 common/templates/base.html:99
+#: common/templates/base.html:112
 msgid "Login"
 msgstr ""
 
-#: django/core/templates/account/login.html:20
-msgid "If you already have an account, you can login below or via a third party account."
+#: common/templates/account/login.html:20
+msgid ""
+"If you already have an account, you can login below or via a third party "
+"account."
 msgstr ""
 
-#: django/core/templates/account/login.html:56
+#: common/templates/account/login.html:56
 msgid "Forget/Reset Password"
 msgstr ""
 
-#: django/core/templates/account/logout.html:5
-#: django/core/templates/account/logout.html:11
-#: django/core/templates/account/logout.html:22
-#: django/core/templates/base.html:97 django/core/templates/base.html:110
-#: django/pokemongo/strings.py:362
+#: common/templates/account/logout.html:5
+#: common/templates/account/logout.html:11
+#: common/templates/account/logout.html:22 common/templates/base.html:97
+#: common/templates/base.html:110
 msgctxt "general_sign_out"
 msgid "Sign Out"
 msgstr "Выйти из игры"
 
-#: django/core/templates/account/logout.html:14 django/pokemongo/strings.py:363
+#: common/templates/account/logout.html:14
 msgctxt "general_sign_out_confirm"
 msgid "Are you sure you want to sign out?"
 msgstr "Хочешь выйти из игры?"
 
-#: django/core/templates/account/messages/cannot_delete_primary_email.txt:2
+#: common/templates/account/messages/cannot_delete_primary_email.txt:2
 #, python-format
 msgid "You cannot remove your primary e-mail address (%(email)s)."
 msgstr ""
 
-#: django/core/templates/account/messages/email_confirmation_sent.txt:2
+#: common/templates/account/messages/email_confirmation_sent.txt:2
 #, python-format
 msgid "Confirmation e-mail sent to %(email)s."
 msgstr ""
 
-#: django/core/templates/account/messages/email_confirmed.txt:2
+#: common/templates/account/messages/email_confirmed.txt:2
 #, python-format
 msgid "You have confirmed %(email)s."
 msgstr ""
 
-#: django/core/templates/account/messages/email_deleted.txt:2
+#: common/templates/account/messages/email_deleted.txt:2
 #, python-format
 msgid "Removed e-mail address %(email)s."
 msgstr ""
 
-#: django/core/templates/account/messages/logged_in.txt:4
+#: common/templates/account/messages/logged_in.txt:4
 #, python-format
 msgid "Successfully signed in as %(name)s."
 msgstr ""
 
-#: django/core/templates/account/messages/logged_out.txt:2
+#: common/templates/account/messages/logged_out.txt:2
 msgid "You have signed out."
 msgstr ""
 
-#: django/core/templates/account/messages/password_changed.txt:2
+#: common/templates/account/messages/password_changed.txt:2
 msgid "Password successfully changed."
 msgstr ""
 
-#: django/core/templates/account/messages/password_set.txt:2
+#: common/templates/account/messages/password_set.txt:2
 msgid "Password successfully set."
 msgstr ""
 
-#: django/core/templates/account/messages/primary_email_set.txt:2
+#: common/templates/account/messages/primary_email_set.txt:2
 msgid "Primary e-mail address set."
 msgstr ""
 
-#: django/core/templates/account/messages/unverified_primary_email.txt:2
+#: common/templates/account/messages/unverified_primary_email.txt:2
 msgid "Your primary e-mail address must be verified."
 msgstr ""
 
-#: django/core/templates/account/password_reset.html:7
-#: django/core/templates/account/password_reset.html:13
-#: django/core/templates/account/password_reset_done.html:6
-#: django/core/templates/account/password_reset_done.html:12
-#: django/core/templates/account/password_reset_from_key.html:6
-#: django/core/templates/account/password_reset_from_key.html:12
+#: common/templates/account/password_reset.html:7
+#: common/templates/account/password_reset.html:13
+#: common/templates/account/password_reset_done.html:6
+#: common/templates/account/password_reset_done.html:12
+#: common/templates/account/password_reset_from_key.html:6
+#: common/templates/account/password_reset_from_key.html:12
 msgid "Password Reset"
 msgstr ""
 
-#: django/core/templates/account/password_reset.html:19
-msgid "Forgotten your password? Enter your e-mail address below, and we'll send you an e-mail allowing you to reset it."
+#: common/templates/account/password_reset.html:19
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
 msgstr ""
 
-#: django/core/templates/account/password_reset.html:20
+#: common/templates/account/password_reset.html:20
 msgid "Please contact us if you have any trouble resetting your password."
 msgstr ""
 
-#: django/core/templates/account/password_reset.html:27
+#: common/templates/account/password_reset.html:27
 msgid "Reset My Password"
 msgstr ""
 
-#: django/core/templates/account/password_reset_done.html:16
-msgid "If that email is valid, we have sent you an e-mail. Please follow the instructions in the email to continue."
+#: common/templates/account/password_reset_done.html:16
+msgid ""
+"If that email is valid, we have sent you an e-mail. Please follow the "
+"instructions in the email to continue."
 msgstr ""
 
-#: django/core/templates/account/password_reset_from_key.html:6
-#: django/core/templates/account/password_reset_from_key.html:12
+#: common/templates/account/password_reset_from_key.html:6
+#: common/templates/account/password_reset_from_key.html:12
 msgid "Bad Token"
 msgstr ""
 
-#: django/core/templates/account/password_reset_from_key.html:17
-msgid "The password reset link was invalid, possibly because it has already been used."
+#: common/templates/account/password_reset_from_key.html:17
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used."
 msgstr ""
 
-#: django/core/templates/account/password_reset_from_key.html:21
+#: common/templates/account/password_reset_from_key.html:21
 msgid "New password reset key"
 msgstr ""
 
-#: django/core/templates/account/password_reset_from_key.html:47
+#: common/templates/account/password_reset_from_key.html:47
 msgid "change password"
 msgstr ""
 
-#: django/core/templates/account/password_reset_from_key.html:52
+#: common/templates/account/password_reset_from_key.html:52
 msgid "Your password has now been changed."
 msgstr ""
 
-#: django/core/templates/account/password_reset_from_key.html:56
-#: django/core/templates/socialaccount/authentication_error.html:18
-#: django/core/templates/socialaccount/login_cancelled.html:18
+#: common/templates/account/password_reset_from_key.html:56
+#: common/templates/socialaccount/authentication_error.html:18
+#: common/templates/socialaccount/login_cancelled.html:18
 msgid "Return to login page"
 msgstr ""
 
-#: django/core/templates/account/password_reset_from_key_done.html:4
-#: django/core/templates/account/password_reset_from_key_done.html:10
+#: common/templates/account/password_reset_from_key_done.html:4
+#: common/templates/account/password_reset_from_key_done.html:10
 msgid "Password Changed"
 msgstr ""
 
-#: django/core/templates/account/password_reset_from_key_done.html:13
+#: common/templates/account/password_reset_from_key_done.html:13
 msgid "Your password is now changed."
 msgstr ""
 
-#: django/core/templates/account/password_set.html:6
-#: django/core/templates/account/password_set.html:12
-#: django/core/templates/account/password_set.html:37
+#: common/templates/account/password_set.html:6
+#: common/templates/account/password_set.html:12
+#: common/templates/account/password_set.html:37
 msgid "Set Password"
 msgstr ""
 
-#: django/core/templates/account/password_set.html:17
+#: common/templates/account/password_set.html:17
 msgid "Please set a password."
 msgstr ""
 
-#: django/core/templates/account/signup_closed.html:5
+#: common/templates/account/signup_closed.html:5
 msgid "Sign Up Closed"
 msgstr ""
 
-#: django/core/templates/account/signup_closed.html:11
+#: common/templates/account/signup_closed.html:11
 msgid "We are sorry, but registrations via the website are currently disabled."
 msgstr ""
 
-#: django/core/templates/account/signup_closed.html:14
-msgid "This is preperation for transition to the NEW TrainerDex website. We apologise for the inconvenience."
+#: common/templates/account/signup_closed.html:14
+msgid ""
+"This is preperation for transition to the NEW TrainerDex website. We "
+"apologise for the inconvenience."
 msgstr ""
 
-#: django/core/templates/account/signup_closed.html:22
+#: common/templates/account/signup_closed.html:22
 msgid "Join Discord"
 msgstr ""
 
-#: django/core/templates/account/snippets/already_logged_in.html:5
+#: common/templates/account/snippets/already_logged_in.html:5
 #, python-format
 msgid "You are already logged in as %(user_display)s."
 msgstr ""
 
-#: django/core/templates/account/verification_sent.html:5
-#: django/core/templates/account/verification_sent.html:11
-#: django/core/templates/account/verified_email_required.html:5
-#: django/core/templates/account/verified_email_required.html:11
+#: common/templates/account/verification_sent.html:5
+#: common/templates/account/verification_sent.html:11
+#: common/templates/account/verified_email_required.html:5
+#: common/templates/account/verified_email_required.html:11
 msgid "Verify Your E-mail Address"
 msgstr ""
 
-#: django/core/templates/account/verification_sent.html:14
-msgid "We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes."
+#: common/templates/account/verification_sent.html:14
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
 msgstr ""
 
-#: django/core/templates/account/verified_email_required.html:15
-msgid "This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address."
+#: common/templates/account/verified_email_required.html:15
+msgid ""
+"This part of the site requires us to verify that you are who you claim to "
+"be. For this purpose, we require that you verify ownership of your e-mail "
+"address."
 msgstr ""
 
-#: django/core/templates/account/verified_email_required.html:16
-msgid "We have sent an e-mail to you for verification. Please click on the link inside this e-mail. Please contact us if you do not receive it within a few minutes."
+#: common/templates/account/verified_email_required.html:16
+msgid ""
+"We have sent an e-mail to you for verification. Please click on the link "
+"inside this e-mail. Please contact us if you do not receive it within a few "
+"minutes."
 msgstr ""
 
-#: django/core/templates/base.html:13
+#: common/templates/base.html:13
 msgctxt "meta tag in head"
-msgid "TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!"
+msgid ""
+"TrainerDex provides leaderboards and stats related to Pokemon Go. Join now!"
 msgstr ""
 
-#: django/core/templates/base.html:58 django/pokemongo/strings.py:360
+#: common/templates/base.html:58
 msgctxt "general_ok"
 msgid "OK"
 msgstr "ОК"
 
-#: django/core/templates/base.html:59
+#: common/templates/base.html:59
+#, fuzzy
+#| msgctxt "profile_gymbadges_help"
+#| msgid "Learn more"
 msgid "Learn more"
+msgstr "Learn more"
+
+#: common/templates/base.html:60
+msgid ""
+"This website uses cookies to ensure you get the best experience on our "
+"website."
 msgstr ""
 
-#: django/core/templates/base.html:60
-msgid "This website uses cookies to ensure you get the best experience on our website."
-msgstr ""
-
-#: django/core/templates/base.html:93 django/core/templates/base.html:94
-#: django/core/templates/base.html:114 django/pokemongo/admin.py:176
-#: django/pokemongo/templates/leaderboard.html:28
+#: common/templates/base.html:93 common/templates/base.html:94
+#: common/templates/base.html:114 pokemongo/templates/leaderboard.html:28
 msgid "Leaderboard"
 msgstr ""
 
-#: django/core/templates/base.html:109
+#: common/templates/base.html:109
 msgid "Settings"
 msgstr ""
 
-#: django/core/templates/base.html:118
+#: common/templates/base.html:118
 msgid "Admin Panel"
 msgstr ""
 
-#: django/core/templates/base.html:119 django/core/templates/privacy.html:6
+#: common/templates/base.html:119 common/templates/privacy.html:6
 msgid "Privacy Policy"
 msgstr ""
 
-#: django/core/templates/base.html:120 django/core/templates/terms.html:6
-#: django/core/templates/terms.html:12
+#: common/templates/base.html:120 common/templates/terms.html:6
+#: common/templates/terms.html:12
 msgid "Terms of Service"
 msgstr ""
 
-#: django/core/templates/base.html:121
+#: common/templates/base.html:121
 msgid "Join our Discord server!"
 msgstr ""
 
-#: django/core/templates/base.html:122
+#: common/templates/base.html:122
 msgid "Author"
 msgstr ""
 
-#: django/core/templates/base.html:123
+#: common/templates/base.html:123
 msgid "Version"
 msgstr ""
 
-#: django/core/templates/privacy.html:15 django/core/templates/terms.html:15
+#: common/templates/privacy.html:15 common/templates/terms.html:15
 msgid "For various reasons, this document is only available in English."
 msgstr ""
 
-#: django/core/templates/socialaccount/authentication_error.html:5
-#: django/core/templates/socialaccount/authentication_error.html:11
-#: django/core/templates/socialaccount/login_cancelled.html:5
+#: common/templates/socialaccount/authentication_error.html:5
+#: common/templates/socialaccount/authentication_error.html:11
+#: common/templates/socialaccount/login_cancelled.html:5
 msgid "Social Network Login Failure"
 msgstr ""
 
-#: django/core/templates/socialaccount/authentication_error.html:14
-msgid "An error occurred while attempting to login via your social network account."
+#: common/templates/socialaccount/authentication_error.html:14
+msgid ""
+"An error occurred while attempting to login via your social network account."
 msgstr ""
 
-#: django/core/templates/socialaccount/connections.html:5
-#: django/core/templates/socialaccount/connections.html:25
+#: common/templates/socialaccount/connections.html:5
+#: common/templates/socialaccount/connections.html:25
 msgid "Account Connections"
 msgstr ""
 
-#: django/core/templates/socialaccount/connections.html:11
+#: common/templates/socialaccount/connections.html:11
 msgid "Connect Social Media"
 msgstr ""
 
-#: django/core/templates/socialaccount/connections.html:14
+#: common/templates/socialaccount/connections.html:14
 msgid "You can connect any of these social media networks."
 msgstr ""
 
-#: django/core/templates/socialaccount/connections.html:28
-msgid "You can sign in to your account using any of the following third party accounts:"
+#: common/templates/socialaccount/connections.html:28
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts:"
 msgstr ""
 
-#: django/core/templates/socialaccount/login_cancelled.html:11
+#: common/templates/socialaccount/login_cancelled.html:11
 msgid "Login Cancelled"
 msgstr ""
 
-#: django/core/templates/socialaccount/login_cancelled.html:14
+#: common/templates/socialaccount/login_cancelled.html:14
 msgid "Login was cancelled."
 msgstr ""
 
-#: django/core/templates/socialaccount/messages/account_connected.txt:2
+#: common/templates/socialaccount/messages/account_connected.txt:2
 msgid "The social account has been connected."
 msgstr ""
 
-#: django/core/templates/socialaccount/messages/account_connected_other.txt:2
+#: common/templates/socialaccount/messages/account_connected_other.txt:2
 msgid "The social account is already connected to a different account."
 msgstr ""
 
-#: django/core/templates/socialaccount/messages/account_disconnected.txt:2
+#: common/templates/socialaccount/messages/account_disconnected.txt:2
 msgid "The social account has been disconnected."
 msgstr ""
 
-#: django/core/templates/socialaccount/snippets/provider_list.html:9
-#: django/core/templates/socialaccount/snippets/provider_list.html:12
+#: common/templates/socialaccount/snippets/provider_list.html:9
+#: common/templates/socialaccount/snippets/provider_list.html:12
 #, python-format
 msgid "Continue with %(provider)s"
 msgstr ""
 
-#: django/pokemongo/admin.py:26
-msgid "Sync Members for all eligible Discords"
+#: community/models.py:24
+msgid "Language"
 msgstr ""
 
-#: django/pokemongo/admin.py:89 django/pokemongo/forms.py:24
-#: django/pokemongo/models.py:115 django/pokemongo/strings.py:407
+#: community/models.py:26
+msgid ""
+"The primary language of the community. This is used for all communications "
+"and leaderboard positions."
+msgstr ""
+
+#: community/models.py:35
+msgid ""
+"The primary timezone of the community. This is used for all communications "
+"and leaderboard positions."
+msgstr ""
+
+#: community/models.py:41
+msgid "Publicly Viewable"
+msgstr ""
+
+#: community/models.py:43
+msgid ""
+"By default, this is off. Turn this on to share your community with the world."
+msgstr ""
+
+#: community/models.py:48
+msgid "Publicly Joinable"
+msgstr ""
+
+#: community/models.py:50
+msgid ""
+"By default, this is off. Turn this on to make your community free to join. "
+"No invites required."
+msgstr ""
+
+#: community/models.py:62
+msgid "Community"
+msgstr ""
+
+#: community/models.py:63
+msgid "Communities"
+msgstr ""
+
+#: pokemongo/admin.py:50
 msgctxt "profile_category_stats"
 msgid "Stats"
 msgstr "Статистика"
 
-#: django/pokemongo/admin.py:100 django/pokemongo/forms.py:31
-#: django/pokemongo/strings.py:406 django/pokemongo/templates/profile.html:107
+#: pokemongo/admin.py:61 pokemongo/templates/profile.html:107
 msgctxt "profile_category_medals"
 msgid "Medals"
 msgstr "Медали"
 
-#: django/pokemongo/admin.py:104 django/pokemongo/forms.py:38
-#: django/pokemongo/strings.py:311 django/pokemongo/templates/profile.html:76
+#: pokemongo/admin.py:65 pokemongo/templates/profile.html:76
+#, fuzzy
+#| msgctxt "badge_legendary_battle_won_title"
+#| msgid "Battle Legend"
 msgctxt "battle_hub_category_league"
 msgid "GO Battle League"
-msgstr ""
+msgstr "Легенда битвы"
 
-#: django/pokemongo/admin.py:108 django/pokemongo/forms.py:45
-#: django/pokemongo/strings.py:382
+#: pokemongo/admin.py:69
 msgctxt "pokemon_info_type"
 msgid "Type"
 msgstr "Тип"
 
-#: django/pokemongo/admin.py:174
-msgid "Reports"
-msgstr ""
-
-#: django/pokemongo/management/commands/gains_leaderboard.py:176
-#: django/pokemongo/management/commands/gym_leaderboard.py:181
-#: django/pokemongo/strings.py:427
+#: pokemongo/management/commands/gains_leaderboard.py:175
+#: pokemongo/management/commands/gym_leaderboard.py:181
 msgctxt "team_name_team0"
 msgid "No Team"
 msgstr "Без команды"
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:177
-#: django/pokemongo/management/commands/gym_leaderboard.py:182
-#: django/pokemongo/strings.py:428
+#: pokemongo/management/commands/gains_leaderboard.py:176
+#: pokemongo/management/commands/gym_leaderboard.py:182
 msgctxt "team_name_team1"
 msgid "Team Mystic"
 msgstr "Команда Мистика"
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:178
-#: django/pokemongo/management/commands/gym_leaderboard.py:183
-#: django/pokemongo/strings.py:429
+#: pokemongo/management/commands/gains_leaderboard.py:177
+#: pokemongo/management/commands/gym_leaderboard.py:183
 msgctxt "team_name_team2"
 msgid "Team Valor"
 msgstr "Команда Доблесть"
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:179
-#: django/pokemongo/management/commands/gym_leaderboard.py:184
-#: django/pokemongo/strings.py:430
+#: pokemongo/management/commands/gains_leaderboard.py:178
+#: pokemongo/management/commands/gym_leaderboard.py:184
 msgctxt "team_name_team3"
 msgid "Team Instinct"
 msgstr "Команда Инстинкт"
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:180
-#: django/pokemongo/management/commands/gym_leaderboard.py:185
-#: django/pokemongo/models.py:450 django/pokemongo/strings.py:201
+#: pokemongo/management/commands/gains_leaderboard.py:179
+#: pokemongo/management/commands/gym_leaderboard.py:185 pokemongo/models.py:159
 msgctxt "badge_travel_km_title"
 msgid "Jogger"
 msgstr "Бегун"
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:181
-#: django/pokemongo/management/commands/gym_leaderboard.py:186
-#: django/pokemongo/models.py:468 django/pokemongo/strings.py:36
+#: pokemongo/management/commands/gains_leaderboard.py:180
+#: pokemongo/management/commands/gym_leaderboard.py:186 pokemongo/models.py:177
 msgctxt "badge_capture_total_title"
 msgid "Collector"
 msgstr "Коллекционер"
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:182
-#: django/pokemongo/management/commands/gym_leaderboard.py:187
-#: django/pokemongo/models.py:490 django/pokemongo/strings.py:159
+#: pokemongo/management/commands/gains_leaderboard.py:181
+#: pokemongo/management/commands/gym_leaderboard.py:187 pokemongo/models.py:199
 msgctxt "badge_pokestops_visited_title"
 msgid "Backpacker"
 msgstr "Пеший турист"
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:183
-#: django/pokemongo/management/commands/gym_leaderboard.py:188
-#: django/pokemongo/models.py:417 django/pokemongo/strings.py:416
-#: django/pokemongo/templates/profile.html:22
-#: django/pokemongo/templates/profile.html:56
-#: django/pokemongo/templates/profile.html:115
+#: pokemongo/management/commands/gains_leaderboard.py:182
+#: pokemongo/management/commands/gym_leaderboard.py:188 pokemongo/models.py:126
+#: pokemongo/templates/profile.html:22 pokemongo/templates/profile.html:56
+#: pokemongo/templates/profile.html:115
 msgctxt "profile_total_xp"
 msgid "Total XP"
 msgstr "ВСЕГО ОО"
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:187
-msgid "Weekly {stat_emoji} {stat_name} Progress for \\N{BUSTS IN SILHOUETTE} {guild.name}"
+#: pokemongo/management/commands/gains_leaderboard.py:186
+msgid ""
+"Weekly {stat_emoji} {stat_name} Progress for \\N{BUSTS IN SILHOUETTE} {guild."
+"name}"
 msgstr ""
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:196
+#: pokemongo/management/commands/gains_leaderboard.py:195
 #, python-brace-format
-msgid "**{title}**\n"
+msgid ""
+"**{title}**\n"
 "Unfortunately, there were not valid entries this week."
 msgstr ""
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:201
+#: pokemongo/management/commands/gains_leaderboard.py:200
 #, python-brace-format
-msgid "#{position} **{trainer}** @ {rate}/day (+{delta}) `Interval: {interval}` `Gain: {then} ⇒ {now}`"
+msgid ""
+"#{position} **{trainer}** @ {rate}/day (+{delta}) `Interval: {interval}` "
+"`Gain: {then} ⇒ {now}`"
 msgstr ""
 
-#: django/pokemongo/management/commands/gains_leaderboard.py:216
+#: pokemongo/management/commands/gains_leaderboard.py:215
 #, python-brace-format
-msgid "**{title}**\n"
-"Week: `{year}W{week}` Deadline: `{this_week_deadline} UTC`\n\n"
-"{ranked}\n\n"
-"**{new_count}** New entries: {new}\n\n"
+msgid ""
+"**{title}**\n"
+"Week: `{year}W{week}` Deadline: `{this_week_deadline} UTC`\n"
+"\n"
+"{ranked}\n"
+"\n"
+"**{new_count}** New entries: {new}\n"
+"\n"
 "New entries will be ranked next week if they update by the deadline.\n"
 "**{lost_count}** Trainers from last week didn't update again this week.\n"
 "**Next weeks deadline is: `{deadline} UTC`**\n"
 msgstr ""
 
-#: django/pokemongo/management/commands/gym_leaderboard.py:189
+#: pokemongo/management/commands/gym_leaderboard.py:189
 msgctxt "gymbadges_gold"
 msgid "Gold Gyms"
 msgstr ""
 
-#: django/pokemongo/management/commands/gym_leaderboard.py:193
-msgid "Weekly {stat_emoji} {stat_name} Totals Leaderboard for \\N{BUSTS IN SILHOUETTE} _{guild.name}_"
+#: pokemongo/management/commands/gym_leaderboard.py:193
+msgid ""
+"Weekly {stat_emoji} {stat_name} Totals Leaderboard for \\N{BUSTS IN "
+"SILHOUETTE} _{guild.name}_"
 msgstr ""
 
-#: django/pokemongo/management/commands/gym_leaderboard.py:204
+#: pokemongo/management/commands/gym_leaderboard.py:204
 #, python-brace-format
 msgid "#{position} **{trainer}** {stat} (+{delta})"
 msgstr ""
 
-#: django/pokemongo/management/commands/gym_leaderboard.py:211
+#: pokemongo/management/commands/gym_leaderboard.py:211
 #, python-brace-format
 msgid "#{position} **{trainer}** {stat}"
 msgstr ""
 
-#: django/pokemongo/management/commands/post_announcement.py:47
+#: pokemongo/management/commands/post_announcement.py:47
 msgid "Progress Deadline Reminder"
 msgstr ""
 
-#: django/pokemongo/management/commands/post_announcement.py:49
-#: django/pokemongo/management/commands/post_announcement.py:71
+#: pokemongo/management/commands/post_announcement.py:49
+#: pokemongo/management/commands/post_announcement.py:71
 #, python-brace-format
 msgid "This is a reminder. The Progress Deadline is in {timedelta}."
 msgstr ""
 
-#: django/pokemongo/models.py:93
-msgid "User"
-msgstr ""
-
-#: django/pokemongo/models.py:100
-msgid "The date you created your Pokémon Go account."
-msgstr ""
-
-#: django/pokemongo/models.py:110
-msgid "Last Cheated"
-msgstr ""
-
-#: django/pokemongo/models.py:111
-msgid "When did this Trainer last cheat?"
-msgstr ""
-
-#: django/pokemongo/models.py:117
-msgid "Would you like to be shown on the leaderboard? Ticking this box gives us permission to process your data."
-msgstr ""
-
-#: django/pokemongo/models.py:131
-msgid "Fancy sharing your trainer code? (This information is public.)"
-msgstr ""
-
-#: django/pokemongo/models.py:141
-msgid "Where are you based?"
-msgstr ""
-
-#: django/pokemongo/models.py:144 django/pokemongo/models.py:223
-#: django/pokemongo/models.py:232
-msgid "Verified"
-msgstr ""
-
-#: django/pokemongo/models.py:155 django/pokemongo/strings.py:71
-#: django/pokemongo/templates/profile.html:69
-msgctxt "badge_level_40_title"
-msgid "Legacy 40"
-msgstr ""
-
-#: django/pokemongo/models.py:156 django/pokemongo/strings.py:70
-#: django/pokemongo/templates/profile.html:70
-msgctxt "badge_level_40"
-msgid "Achieve level 40 by December 31, 2020."
-msgstr ""
-
-#: django/pokemongo/models.py:162 django/pokemongo/models.py:402
-msgid "Screenshot"
-msgstr ""
-
-#: django/pokemongo/models.py:172
-msgid "Has Cheated"
-msgstr ""
-
-#: django/pokemongo/models.py:196
-msgid "Banned"
-msgstr ""
-
-#: django/pokemongo/models.py:217 django/pokemongo/models.py:234
-msgid "Awaiting Verification"
-msgstr ""
-
-#: django/pokemongo/models.py:236
-msgid "Unverified"
-msgstr ""
-
-#: django/pokemongo/models.py:299 django/pokemongo/models.py:359
-msgid "Trainer"
-msgstr ""
-
-#: django/pokemongo/models.py:300
-msgid "Trainers"
-msgstr ""
-
-#: django/pokemongo/models.py:315
-msgctxt "player_term"
-msgid "Trainer"
-msgstr ""
-
-#: django/pokemongo/models.py:363 django/pokemongo/templates/profile.html:114
-msgid "Time Updated"
-msgstr ""
-
-#: django/pokemongo/models.py:391
-msgid "Submission Datetime"
-msgstr ""
-
-#: django/pokemongo/models.py:397
-msgid "Source"
-msgstr ""
-
-#: django/pokemongo/models.py:403
-msgid "This should be your TOTAL XP screenshot."
-msgstr ""
-
-#: django/pokemongo/models.py:409
-msgid "I have double checked this information and it is correct."
-msgstr ""
-
-#: django/pokemongo/models.py:410
-msgid "This will silence some errors."
-msgstr ""
-
-#: django/pokemongo/models.py:425
+#: pokemongo/models.py:134
 msgctxt "pokedex_page_caught"
 msgid "Unique Species Caught"
 msgstr ""
 
-#: django/pokemongo/models.py:428 django/pokemongo/models.py:438
+#: pokemongo/models.py:137 pokemongo/models.py:147
 #, python-brace-format
 msgctxt "pokedex_help"
-msgid "You can find this by clicking the {screen_title_pokedex} button in your game. It should then be listed at the top of the screen."
+msgid ""
+"You can find this by clicking the {screen_title_pokedex} button in your "
+"game. It should then be listed at the top of the screen."
 msgstr ""
 
-#: django/pokemongo/models.py:429 django/pokemongo/models.py:439
-#: django/pokemongo/strings.py:424
+#: pokemongo/models.py:138 pokemongo/models.py:148
 msgctxt "screen_title_pokedex"
 msgid "POKÉDEX"
 msgstr "ПОКЕДЕКС"
 
-#: django/pokemongo/models.py:435
+#: pokemongo/models.py:144
 msgctxt "pokedex_page_seen"
 msgid "Unique Species Seen"
 msgstr ""
 
-#: django/pokemongo/models.py:451 django/pokemongo/strings.py:199
+#: pokemongo/models.py:160
 msgctxt "badge_travel_km"
 msgid "Walk {0:0,g} km."
 msgstr "Пройти {0:0,g} км."
 
-#: django/pokemongo/models.py:458 django/pokemongo/strings.py:101
+#: pokemongo/models.py:167
 msgctxt "badge_pokedex_entries_title"
 msgid "Kanto"
 msgstr "Канто"
 
-#: django/pokemongo/models.py:460 django/pokemongo/strings.py:100
+#: pokemongo/models.py:169
 #, python-brace-format
 msgctxt "badge_pokedex_entries"
 msgid "Register {0} Kanto region Pokémon in the Pokédex."
 msgstr "Зарегистрировать в Покедексе Покемонов из региона Канто: {0}."
 
-#: django/pokemongo/models.py:469 django/pokemongo/strings.py:35
+#: pokemongo/models.py:178
 #, python-brace-format
 msgctxt "badge_capture_total"
 msgid "Catch {0} Pokémon."
 msgstr "Поймать Покемонов: {0}."
 
-#: django/pokemongo/models.py:476 django/pokemongo/strings.py:51
+#: pokemongo/models.py:185
 msgctxt "badge_evolved_total_title"
 msgid "Scientist"
 msgstr "Учёный"
 
-#: django/pokemongo/models.py:477 django/pokemongo/strings.py:50
+#: pokemongo/models.py:186
 #, python-brace-format
 msgctxt "badge_evolved_total"
 msgid "Evolve {0} Pokémon."
 msgstr "Эволюционировать Покемонов: {0}."
 
-#: django/pokemongo/models.py:483 django/pokemongo/strings.py:62
+#: pokemongo/models.py:192
 msgctxt "badge_hatched_total_title"
 msgid "Breeder"
 msgstr "Бридер"
 
-#: django/pokemongo/models.py:484
+#: pokemongo/models.py:193
 #, python-brace-format
 msgctxt "badge_hatched_total"
 msgid "Hatch {0} eggs."
 msgstr "Выносить яиц: {0}."
 
-#: django/pokemongo/models.py:491 django/pokemongo/strings.py:158
+#: pokemongo/models.py:200
 #, python-brace-format
 msgctxt "badge_pokestops_visited"
 msgid "Visit {0} PokéStops."
 msgstr "Посетить Покестопы: {0}."
 
-#: django/pokemongo/models.py:497 django/pokemongo/strings.py:266
+#: pokemongo/models.py:206
 msgctxt "badge_unique_pokestops_title"
 msgid "Sightseer"
 msgstr "Разные Покестопы"
 
-#: django/pokemongo/models.py:500 django/pokemongo/strings.py:265
+#: pokemongo/models.py:209
 #, python-brace-format
 msgctxt "badge_unique_pokestops"
 msgid "Visit a PokéStop."
@@ -995,155 +1005,161 @@ msgstr[1] "Посетить разные Покестопы: {0}"
 msgstr[2] "Посетить разные Покестопы: {0}"
 msgstr[3] "Посетить разные Покестопы: {0}"
 
-#: django/pokemongo/models.py:509 django/pokemongo/strings.py:30
+#: pokemongo/models.py:218
 msgctxt "badge_big_magikarp_title"
 msgid "Fisher"
 msgstr "Рыбак"
 
-#: django/pokemongo/models.py:510 django/pokemongo/strings.py:29
+#: pokemongo/models.py:219
 #, python-brace-format
 msgctxt "badge_big_magikarp"
 msgid "Catch {0} big Magikarp."
 msgstr "Поймать больших Мэджикарпов: {0}."
 
-#: django/pokemongo/models.py:516 django/pokemongo/strings.py:18
+#: pokemongo/models.py:225
 msgctxt "badge_battle_attack_won_title"
 msgid "Battle Girl"
 msgstr "Девочка-боец"
 
-#: django/pokemongo/models.py:517 django/pokemongo/strings.py:17
+#: pokemongo/models.py:226
 #, python-brace-format
 msgctxt "badge_battle_attack_won"
 msgid "Win {0} Gym battles."
 msgstr "Победить в Гим-битвах: {0}."
 
-#: django/pokemongo/models.py:523 django/pokemongo/strings.py:24
+#: pokemongo/models.py:232
 msgctxt "badge_battle_training_won_title"
 msgid "Ace Trainer"
 msgstr "Первоклассный Тренер"
 
-#: django/pokemongo/models.py:524 django/pokemongo/strings.py:23
+#: pokemongo/models.py:233
 #, python-brace-format
 msgctxt "badge_battle_training_won"
 msgid "Train {0} times."
 msgstr "Тренировано Покемонов: {0}"
 
-#: django/pokemongo/models.py:530 django/pokemongo/strings.py:190
+#: pokemongo/models.py:239
 msgctxt "badge_small_rattata_title"
 msgid "Youngster"
 msgstr "Юнец"
 
-#: django/pokemongo/models.py:531 django/pokemongo/strings.py:189
+#: pokemongo/models.py:240
 #, python-brace-format
 msgctxt "badge_small_rattata"
 msgid "Catch {0} tiny Rattata."
 msgstr "Поймать маленьких Раттат: {0}."
 
-#: django/pokemongo/models.py:537 django/pokemongo/strings.py:98
+#: pokemongo/models.py:246
 msgctxt "badge_pikachu_title"
 msgid "Pikachu Fan"
 msgstr "Фанат Пикачу"
 
-#: django/pokemongo/models.py:538 django/pokemongo/strings.py:97
+#: pokemongo/models.py:247
 #, python-brace-format
 msgctxt "badge_pikachu"
 msgid "Catch {0} Pikachu."
 msgstr "Поймать Пикачу: {0}."
 
-#: django/pokemongo/models.py:544 django/pokemongo/strings.py:277
+#: pokemongo/models.py:253
 msgctxt "badge_unown_title"
 msgid "Unown"
 msgstr "Аноун"
 
-#: django/pokemongo/models.py:545 django/pokemongo/strings.py:276
+#: pokemongo/models.py:254
 #, python-brace-format
 msgctxt "badge_unown"
 msgid "Catch {0} Unown."
 msgstr "Поймать Аноунов: {0}"
 
-#: django/pokemongo/models.py:554 django/pokemongo/strings.py:107
+#: pokemongo/models.py:263
 msgctxt "badge_pokedex_entries_gen2_title"
 msgid "Johto"
 msgstr "Джото"
 
-#: django/pokemongo/models.py:557 django/pokemongo/strings.py:105
+#: pokemongo/models.py:266
 #, python-brace-format
 msgctxt "badge_pokedex_entries_gen2"
-msgid "Register {0} Pokémon first discovered in the Johto region to the Pokédex."
-msgstr "Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе Джото: {0}"
+msgid ""
+"Register {0} Pokémon first discovered in the Johto region to the Pokédex."
+msgstr ""
+"Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе "
+"Джото: {0}"
 
-#: django/pokemongo/models.py:567 django/pokemongo/strings.py:168
+#: pokemongo/models.py:276
 msgctxt "badge_raid_battle_won_title"
 msgid "Champion"
 msgstr "Champion"
 
-#: django/pokemongo/models.py:568 django/pokemongo/strings.py:167
+#: pokemongo/models.py:277
 #, python-brace-format
 msgctxt "badge_raid_battle_won"
 msgid "Win {0} raids."
 msgstr "Win {0} raids."
 
-#: django/pokemongo/models.py:574 django/pokemongo/strings.py:68
+#: pokemongo/models.py:283
 msgctxt "badge_legendary_battle_won_title"
 msgid "Battle Legend"
 msgstr "Легенда битвы"
 
-#: django/pokemongo/models.py:575 django/pokemongo/strings.py:67
+#: pokemongo/models.py:284
 #, python-brace-format
 msgctxt "badge_legendary_battle_won"
 msgid "Win {0} Legendary raids."
 msgstr "Победы в Легендарных рейдах: {0}."
 
-#: django/pokemongo/models.py:583 django/pokemongo/strings.py:27
+#: pokemongo/models.py:292
 msgctxt "badge_berries_fed_title"
 msgid "Berry Master"
 msgstr "Berry Master"
 
-#: django/pokemongo/models.py:584 django/pokemongo/strings.py:26
+#: pokemongo/models.py:293
 #, python-brace-format
 msgctxt "badge_berries_fed"
 msgid "Feed {0} Berries at Gyms."
 msgstr "Feed {0} Berries at Gyms."
 
-#: django/pokemongo/models.py:590 django/pokemongo/strings.py:65
+#: pokemongo/models.py:299
 msgctxt "badge_hours_defended_title"
 msgid "Gym Leader"
 msgstr "Gym Leader"
 
-#: django/pokemongo/models.py:591 django/pokemongo/strings.py:64
+#: pokemongo/models.py:300
 #, python-brace-format
 msgctxt "badge_hours_defended"
 msgid "Defend Gyms for {0} hours."
 msgstr "Defend Gyms for {0} hours."
 
-#: django/pokemongo/models.py:599 django/pokemongo/strings.py:113
+#: pokemongo/models.py:308
 msgctxt "badge_pokedex_entries_gen3_title"
 msgid "Hoenn"
 msgstr "Хоэнн"
 
-#: django/pokemongo/models.py:602 django/pokemongo/strings.py:111
+#: pokemongo/models.py:311
 #, python-brace-format
 msgctxt "badge_pokedex_entries_gen3"
-msgid "Register {0} Pokémon first discovered in the Hoenn region to the Pokédex."
-msgstr "Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе Хоэнн: {0}"
+msgid ""
+"Register {0} Pokémon first discovered in the Hoenn region to the Pokédex."
+msgstr ""
+"Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе "
+"Хоэнн: {0}"
 
-#: django/pokemongo/models.py:612 django/pokemongo/strings.py:39
+#: pokemongo/models.py:321
 msgctxt "badge_challenge_quests_title"
 msgid "Pokémon Ranger"
 msgstr "Егерь Покемонов"
 
-#: django/pokemongo/models.py:614 django/pokemongo/strings.py:38
+#: pokemongo/models.py:323
 #, python-brace-format
 msgctxt "badge_challenge_quests"
 msgid "Complete {0} Field Research tasks."
 msgstr "Заверши задания для полевого квеста: {0}."
 
-#: django/pokemongo/models.py:621 django/pokemongo/strings.py:87
+#: pokemongo/models.py:330
 msgctxt "badge_max_level_friends_title"
 msgid "Idol"
 msgstr "Idol"
 
-#: django/pokemongo/models.py:624 django/pokemongo/strings.py:83
+#: pokemongo/models.py:333
 #, python-brace-format
 msgctxt "badge_max_level_friends"
 msgid "Become Best Friends with {0} Trainer."
@@ -1153,46 +1169,55 @@ msgstr[1] "Become Best Friends with {0} Trainers."
 msgstr[2] "Become Best Friends with {0} Trainers."
 msgstr[3] "Become Best Friends with {0} Trainers."
 
-#: django/pokemongo/models.py:633 django/pokemongo/strings.py:193
+#: pokemongo/models.py:342
 msgctxt "badge_trading_title"
 msgid "Gentleman"
 msgstr "Gentleman"
 
-#: django/pokemongo/models.py:634 django/pokemongo/strings.py:192
+#: pokemongo/models.py:343
 #, python-brace-format
 msgctxt "badge_trading"
 msgid "Trade {0} Pokémon."
 msgstr "Trade {0} Pokémon."
 
-#: django/pokemongo/models.py:640 django/pokemongo/strings.py:196
+#: pokemongo/models.py:349
 msgctxt "badge_trading_distance_title"
 msgid "Pilot"
 msgstr "Pilot"
 
-#: django/pokemongo/models.py:643 django/pokemongo/strings.py:195
+#: pokemongo/models.py:352
 #, python-brace-format
 msgctxt "badge_trading_distance"
 msgid "Earn {0} km across the distance of all Pokémon trades."
 msgstr "Earn {0} km across the distance of all Pokémon trades."
 
-#: django/pokemongo/models.py:650
+#: pokemongo/models.py:359
+#, fuzzy
+#| msgctxt "badge_pokedex_entries_gen4_title"
+#| msgid "Sinnoh"
 msgctxt "badge_pokedex_entries_gen4__title"
 msgid "Sinnoh"
-msgstr ""
+msgstr "Синно"
 
-#: django/pokemongo/models.py:653 django/pokemongo/strings.py:117
+#: pokemongo/models.py:362
 #, python-brace-format
 msgctxt "badge_pokedex_entries_gen4"
-msgid "Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex."
-msgstr "Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе Синно: {0}"
+msgid ""
+"Register {0} Pokémon first discovered in the Sinnoh region to the Pokédex."
+msgstr ""
+"Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе "
+"Синно: {0}"
 
-#: django/pokemongo/models.py:663 django/pokemongo/strings.py:59
+#: pokemongo/models.py:372
 msgctxt "badge_great_league_title"
 msgid "Great League Veteran"
 msgstr "Great League Veteran"
 
-#: django/pokemongo/models.py:666 django/pokemongo/strings.py:55
-#, python-brace-format
+#: pokemongo/models.py:375
+#, fuzzy, python-brace-format
+#| msgctxt "badge_great_league"
+#| msgid "Win a Trainer Battle in the Great League."
+#| msgid_plural "Win {0} Trainer Battles in the Great League."
 msgctxt "badge_great_league"
 msgid "Win a Trainer Battle in the Great League."
 msgid_plural "Win {0} Trainer Battles in the Great League."
@@ -1201,13 +1226,16 @@ msgstr[1] "Win {0} Trainer Battles in the Great League."
 msgstr[2] "Win {0} Trainer Battles in the Great League."
 msgstr[3] "Win {0} Trainer Battles in the Great League."
 
-#: django/pokemongo/models.py:675 django/pokemongo/strings.py:263
+#: pokemongo/models.py:384
 msgctxt "badge_ultra_league_title"
 msgid "Ultra League Veteran"
 msgstr "Ultra League Veteran"
 
-#: django/pokemongo/models.py:678 django/pokemongo/strings.py:259
-#, python-brace-format
+#: pokemongo/models.py:387
+#, fuzzy, python-brace-format
+#| msgctxt "badge_ultra_league"
+#| msgid "Win a Trainer Battle in the Ultra League."
+#| msgid_plural "Win {0} Trainer Battles in the Ultra League."
 msgctxt "badge_ultra_league"
 msgid "Win a Trainer Battle in the Ultra League."
 msgid_plural "Win {0} Trainer Battles in the Ultra League."
@@ -1216,13 +1244,16 @@ msgstr[1] "Win {0} Trainer Battles in the Ultra League."
 msgstr[2] "Win {0} Trainer Battles in the Ultra League."
 msgstr[3] "Win {0} Trainer Battles in the Ultra League."
 
-#: django/pokemongo/models.py:687 django/pokemongo/strings.py:79
+#: pokemongo/models.py:396
 msgctxt "badge_master_league_title"
 msgid "Master League Veteran"
 msgstr "Master League Veteran"
 
-#: django/pokemongo/models.py:690 django/pokemongo/strings.py:75
-#, python-brace-format
+#: pokemongo/models.py:399
+#, fuzzy, python-brace-format
+#| msgctxt "badge_master_league"
+#| msgid "Win a Trainer Battle in the Master League."
+#| msgid_plural "Win {0} Trainer Battles in the Master League."
 msgctxt "badge_master_league"
 msgid "Win a Trainer Battle in the Master League."
 msgid_plural "Win {0} Trainer Battles in the Master League."
@@ -1231,12 +1262,12 @@ msgstr[1] "Win {0} Trainer Battles in the Master League."
 msgstr[2] "Win {0} Trainer Battles in the Master League."
 msgstr[3] "Win {0} Trainer Battles in the Master League."
 
-#: django/pokemongo/models.py:699 django/pokemongo/strings.py:95
+#: pokemongo/models.py:408
 msgctxt "badge_photobomb_title"
 msgid "Cameraman"
 msgstr "Фотограф"
 
-#: django/pokemongo/models.py:702 django/pokemongo/strings.py:91
+#: pokemongo/models.py:411
 #, python-brace-format
 msgctxt "badge_photobomb"
 msgid "Have {0} surprise encounter in GO Snapshot."
@@ -1246,46 +1277,57 @@ msgstr[1] "Количество неожиданных встреч в Стоп-
 msgstr[2] "Количество неожиданных встреч в Стоп-кадрe GO: {0}."
 msgstr[3] "Количество неожиданных встреч в Стоп-кадрe GO: {0}."
 
-#: django/pokemongo/models.py:711
+#: pokemongo/models.py:420
+#, fuzzy
+#| msgctxt "badge_pokedex_entries_gen5_title"
+#| msgid "Unova"
 msgctxt "badge_pokedex_entries_gen5__title"
 msgid "Unova"
-msgstr ""
+msgstr "Юнова"
 
-#: django/pokemongo/models.py:714 django/pokemongo/strings.py:123
+#: pokemongo/models.py:423
 #, python-brace-format
 msgctxt "badge_pokedex_entries_gen5"
-msgid "Register {0} Pokémon first discovered in the Unova region to the Pokédex."
-msgstr "Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе Юнова: {0}"
+msgid ""
+"Register {0} Pokémon first discovered in the Unova region to the Pokédex."
+msgstr ""
+"Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе "
+"Юнова: {0}"
 
-#: django/pokemongo/models.py:724 django/pokemongo/strings.py:156
+#: pokemongo/models.py:433
 msgctxt "badge_pokemon_purified_title"
 msgid "Purifier"
 msgstr "Purifier"
 
-#: django/pokemongo/models.py:725 django/pokemongo/strings.py:155
+#: pokemongo/models.py:434
 #, python-brace-format
 msgctxt "badge_pokemon_purified"
 msgid "Purify {0} Shadow Pokémon."
 msgstr "Purify {0} Shadow Pokémon."
 
-#: django/pokemongo/models.py:733 django/pokemongo/strings.py:187
+#: pokemongo/models.py:442
 msgctxt "badge_rocket_grunts_defeated_title"
 msgid "Hero"
 msgstr "Hero"
 
-#: django/pokemongo/models.py:735
-#, python-brace-format
+#: pokemongo/models.py:444
+#, fuzzy, python-brace-format
+#| msgctxt "badge_rocket_grunts_defeated"
+#| msgid "Defeat {0} Team GO Rocket members."
 msgctxt "badge_rocket_grunts_defeated"
 msgid "Defeat {0} Team GO Rocket Grunts."
-msgstr ""
+msgstr "Defeat {0} Team GO Rocket members."
 
-#: django/pokemongo/models.py:742 django/pokemongo/strings.py:184
+#: pokemongo/models.py:451
 msgctxt "badge_rocket_giovanni_defeated_title"
 msgid "Ultra Hero"
 msgstr "Ultra Hero"
 
-#: django/pokemongo/models.py:745 django/pokemongo/strings.py:180
-#, python-brace-format
+#: pokemongo/models.py:454
+#, fuzzy, python-brace-format
+#| msgctxt "badge_rocket_giovanni_defeated"
+#| msgid "Defeat the Team GO Rocket Boss."
+#| msgid_plural "Defeat the Team GO Rocket Boss {0} times. "
 msgctxt "badge_rocket_giovanni_defeated"
 msgid "Defeat the Team GO Rocket Boss."
 msgid_plural "Defeat the Team GO Rocket Boss {0} times. "
@@ -1294,13 +1336,16 @@ msgstr[1] "Defeat the Team GO Rocket Boss {0} times. "
 msgstr[2] "Defeat the Team GO Rocket Boss {0} times. "
 msgstr[3] "Defeat the Team GO Rocket Boss {0} times. "
 
-#: django/pokemongo/models.py:754 django/pokemongo/strings.py:33
+#: pokemongo/models.py:463
 msgctxt "badge_buddy_best_title"
 msgid "Best Buddy"
 msgstr "Лучший приятель"
 
-#: django/pokemongo/models.py:757 django/pokemongo/strings.py:32
-#, python-brace-format
+#: pokemongo/models.py:466
+#, fuzzy, python-brace-format
+#| msgctxt "badge_buddy_best"
+#| msgid "Have 1 Best Buddy."
+#| msgid_plural "Have {0} Best Buddies."
 msgctxt "badge_buddy_best"
 msgid "Have 1 Best Buddy."
 msgid_plural "Have {0} Best Buddies."
@@ -1309,60 +1354,83 @@ msgstr[1] "Иметь лучших приятелей {0}."
 msgstr[2] "Иметь лучших приятелей {0}."
 msgstr[3] "Иметь лучших приятелей {0}."
 
-#: django/pokemongo/models.py:766
+#: pokemongo/models.py:475
+#, fuzzy
+#| msgctxt "badge_pokedex_entries_gen6_title"
+#| msgid "Kalos"
 msgctxt "badge_pokedex_entries_gen6__title"
 msgid "Kalos"
-msgstr ""
+msgstr "Калос"
 
-#: django/pokemongo/models.py:769 django/pokemongo/strings.py:129
+#: pokemongo/models.py:478
 #, python-brace-format
 msgctxt "badge_pokedex_entries_gen6"
-msgid "Register {0} Pokémon first discovered in the Kalos region to the Pokédex."
-msgstr "Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе Калос: {0}"
+msgid ""
+"Register {0} Pokémon first discovered in the Kalos region to the Pokédex."
+msgstr ""
+"Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе "
+"Калос: {0}"
 
-#: django/pokemongo/models.py:779
+#: pokemongo/models.py:488
+#, fuzzy
+#| msgctxt "badge_pokedex_entries_gen7_title"
+#| msgid "Alola"
 msgctxt "badge_pokedex_entries_gen7__title"
 msgid "Alola"
-msgstr ""
+msgstr "Алола"
 
-#: django/pokemongo/models.py:782 django/pokemongo/strings.py:135
+#: pokemongo/models.py:491
 #, python-brace-format
 msgctxt "badge_pokedex_entries_gen7"
-msgid "Register {0} Pokémon first discovered in the Alola region to the Pokédex."
-msgstr "Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе Алола: {0}"
+msgid ""
+"Register {0} Pokémon first discovered in the Alola region to the Pokédex."
+msgstr ""
+"Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе "
+"Алола: {0}"
 
-#: django/pokemongo/models.py:792
+#: pokemongo/models.py:501
+#, fuzzy
+#| msgctxt "badge_pokedex_entries_gen8_title"
+#| msgid "Galar"
 msgctxt "badge_pokedex_entries_gen8__title"
 msgid "Galar"
-msgstr ""
+msgstr "Галар"
 
-#: django/pokemongo/models.py:795
-#, python-brace-format
+#: pokemongo/models.py:504
+#, fuzzy, python-brace-format
+#| msgctxt "badge_pokedex_entries_gen7"
+#| msgid ""
+#| "Register {0} Pokémon first discovered in the Alola region to the Pokédex."
 msgctxt "badge_pokedex_entries_gen8"
-msgid "Register {0} Pokémon first discovered in the Alola region to the Pokédex."
+msgid ""
+"Register {0} Pokémon first discovered in the Alola region to the Pokédex."
 msgstr ""
+"Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе "
+"Алола: {0}"
 
-#: django/pokemongo/models.py:805 django/pokemongo/strings.py:309
+#: pokemongo/models.py:514
 msgctxt "badge_7_day_streaks_title"
 msgid "Triathlete"
 msgstr ""
 
-#: django/pokemongo/models.py:808 django/pokemongo/strings.py:305
+#: pokemongo/models.py:517
 #, python-brace-format
 msgctxt "badge_7_day_streaks"
 msgid "Achieve a Pokémon catch streak or PokéStop spin streak of seven days."
-msgid_plural "Achieve a Pokémon catch streak or PokéStop spin streak of seven days {0} times."
+msgid_plural ""
+"Achieve a Pokémon catch streak or PokéStop spin streak of seven days {0} "
+"times."
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: django/pokemongo/models.py:817 django/pokemongo/strings.py:274
+#: pokemongo/models.py:526
 msgctxt "badge_unique_raid_bosses_defeated_title"
 msgid "Rising Star"
 msgstr ""
 
-#: django/pokemongo/models.py:820 django/pokemongo/strings.py:270
+#: pokemongo/models.py:529
 #, python-brace-format
 msgctxt "badge_unique_raid_bosses_defeated"
 msgid "Defeat a Pokémon in a raid."
@@ -1372,12 +1440,12 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: django/pokemongo/models.py:829 django/pokemongo/strings.py:176
+#: pokemongo/models.py:538
 msgctxt "badge_raids_with_friends_title"
 msgid "Rising Star Duo"
 msgstr ""
 
-#: django/pokemongo/models.py:832 django/pokemongo/strings.py:172
+#: pokemongo/models.py:541
 #, python-brace-format
 msgctxt "badge_raids_with_friends"
 msgid "Win a raid with a friend."
@@ -1387,12 +1455,12 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: django/pokemongo/models.py:841 django/pokemongo/strings.py:153
+#: pokemongo/models.py:550
 msgctxt "badge_pokemon_caught_at_your_lures_title"
 msgid "Picnicker"
 msgstr ""
 
-#: django/pokemongo/models.py:844 django/pokemongo/strings.py:149
+#: pokemongo/models.py:553
 #, python-brace-format
 msgctxt "badge_pokemon_caught_at_your_lures"
 msgid "Use a Lure Module to help another Trainer catch a Pokémon."
@@ -1402,13 +1470,16 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: django/pokemongo/models.py:853 django/pokemongo/strings.py:285
+#: pokemongo/models.py:562
 msgctxt "badge_wayfarer_title"
 msgid "Wayfarer"
 msgstr "Wayfarer"
 
-#: django/pokemongo/models.py:856 django/pokemongo/strings.py:281
-#, python-brace-format
+#: pokemongo/models.py:565
+#, fuzzy, python-brace-format
+#| msgctxt "badge_wayfarer"
+#| msgid "Earn a Wayfarer Agreement"
+#| msgid_plural "Earn {0} Wayfarer Agreements"
 msgctxt "badge_wayfarer"
 msgid "Earn a Wayfarer Agreement"
 msgid_plural "Earn {0} Wayfarer Agreements"
@@ -1417,12 +1488,12 @@ msgstr[1] "Заработать соглашений Wayfarer: {0}"
 msgstr[2] "Заработать соглашений Wayfarer: {0}"
 msgstr[3] "Заработать соглашений Wayfarer: {0}"
 
-#: django/pokemongo/models.py:865 django/pokemongo/strings.py:293
+#: pokemongo/models.py:574
 msgctxt "badge_total_mega_evos_title"
 msgid "Successor"
 msgstr "Successor"
 
-#: django/pokemongo/models.py:868 django/pokemongo/strings.py:289
+#: pokemongo/models.py:577
 #, python-brace-format
 msgctxt "badge_total_mega_evos"
 msgid "Mega Evolve a Pokémon {0} time."
@@ -1432,12 +1503,12 @@ msgstr[1] "Mega Evolve a Pokémon {0} times."
 msgstr[2] "Mega Evolve a Pokémon {0} times."
 msgstr[3] "Mega Evolve a Pokémon {0} times."
 
-#: django/pokemongo/models.py:877 django/pokemongo/strings.py:301
+#: pokemongo/models.py:586
 msgctxt "badge_unique_mega_evos_title"
 msgid "Mega Evolution Guru"
 msgstr "Mega Evolution Guru"
 
-#: django/pokemongo/models.py:880 django/pokemongo/strings.py:297
+#: pokemongo/models.py:589
 #, python-brace-format
 msgctxt "badge_unique_mega_evos"
 msgid "Mega Evolve {0} Pokémon."
@@ -1447,1082 +1518,1007 @@ msgstr[1] "Mega Evolve {0} different species of Pokémon."
 msgstr[2] "Mega Evolve {0} different species of Pokémon."
 msgstr[3] "Mega Evolve {0} different species of Pokémon."
 
-#: django/pokemongo/models.py:889 django/pokemongo/strings.py:317
-#: django/pokemongo/templates/profile.html:80
-msgctxt "battle_hub_stats_wins"
-msgid "Wins"
-msgstr "Wins"
-
-#: django/pokemongo/models.py:892 django/pokemongo/models.py:901
-#: django/pokemongo/models.py:910 django/pokemongo/models.py:919
-#, python-brace-format
-msgctxt "battle_hub_help"
-msgid "You can find this by clicking the {screen_title_battle_hub} button in your game."
-msgstr ""
-
-#: django/pokemongo/models.py:893 django/pokemongo/models.py:902
-#: django/pokemongo/models.py:911 django/pokemongo/models.py:920
-#: django/pokemongo/strings.py:420
-msgctxt "screen_title_battle_hub"
-msgid "Battle"
-msgstr ""
-
-#: django/pokemongo/models.py:898 django/pokemongo/strings.py:312
-#: django/pokemongo/templates/profile.html:86
-msgctxt "battle_hub_stats_battles"
-msgid "Battles"
-msgstr "Battles"
-
-#: django/pokemongo/models.py:907 django/pokemongo/strings.py:314
-#: django/pokemongo/templates/profile.html:92
-msgctxt "battle_hub_stats_stardust"
-msgid "Stardust Earned"
-msgstr "Stardust Earned"
-
-#: django/pokemongo/models.py:916 django/pokemongo/strings.py:315
-#: django/pokemongo/templates/profile.html:98
-msgctxt "battle_hub_stats_streak"
-msgid "Longest Streak"
-msgstr "Longest Streak"
-
-#: django/pokemongo/models.py:928 django/pokemongo/strings.py:240
+#: pokemongo/models.py:600
 msgctxt "badge_type_normal_title"
 msgid "Schoolkid"
 msgstr "Школьник"
 
-#: django/pokemongo/models.py:929 django/pokemongo/strings.py:239
+#: pokemongo/models.py:601
 #, python-brace-format
 msgctxt "badge_type_normal"
 msgid "Catch {0} Normal-type Pokémon."
 msgstr "Поймать Покемонов обычного типа: {0}."
 
-#: django/pokemongo/models.py:934 django/pokemongo/strings.py:219
+#: pokemongo/models.py:606
 msgctxt "badge_type_fighting_title"
 msgid "Black Belt"
 msgstr "Чёрный пояс"
 
-#: django/pokemongo/models.py:935 django/pokemongo/strings.py:218
+#: pokemongo/models.py:607
 #, python-brace-format
 msgctxt "badge_type_fighting"
 msgid "Catch {0} Fighting-type Pokémon."
 msgstr "Поймать Покемонов типа Сражение: {0}."
 
-#: django/pokemongo/models.py:942 django/pokemongo/strings.py:225
+#: pokemongo/models.py:614
 msgctxt "badge_type_flying_title"
 msgid "Bird Keeper"
 msgstr "Хранитель птиц"
 
-#: django/pokemongo/models.py:943 django/pokemongo/strings.py:224
+#: pokemongo/models.py:615
 #, python-brace-format
 msgctxt "badge_type_flying"
 msgid "Catch {0} Flying-type Pokémon."
 msgstr "Поймать Покемонов летающего типа: {0}."
 
-#: django/pokemongo/models.py:948 django/pokemongo/strings.py:243
+#: pokemongo/models.py:620
 msgctxt "badge_type_poison_title"
 msgid "Punk Girl"
 msgstr "Девочка-панк"
 
-#: django/pokemongo/models.py:949 django/pokemongo/strings.py:242
+#: pokemongo/models.py:621
 #, python-brace-format
 msgctxt "badge_type_poison"
 msgid "Catch {0} Poison-type Pokémon."
 msgstr "Поймать Покемонов ядовитого типа: {0}."
 
-#: django/pokemongo/models.py:954 django/pokemongo/strings.py:234
+#: pokemongo/models.py:626
 msgctxt "badge_type_ground_title"
 msgid "Ruin Maniac"
 msgstr "Маньяк руин"
 
-#: django/pokemongo/models.py:955 django/pokemongo/strings.py:233
+#: pokemongo/models.py:627
 #, python-brace-format
 msgctxt "badge_type_ground"
 msgid "Catch {0} Ground-type Pokémon."
 msgstr "Поймать Покемонов земного типа: {0}."
 
-#: django/pokemongo/models.py:960 django/pokemongo/strings.py:249
+#: pokemongo/models.py:632
 msgctxt "badge_type_rock_title"
 msgid "Hiker"
 msgstr "Турист"
 
-#: django/pokemongo/models.py:961 django/pokemongo/strings.py:248
+#: pokemongo/models.py:633
 #, python-brace-format
 msgctxt "badge_type_rock"
 msgid "Catch {0} Rock-type Pokémon."
 msgstr "Поймать Покемонов каменного типа: {0}."
 
-#: django/pokemongo/models.py:966 django/pokemongo/strings.py:204
+#: pokemongo/models.py:638
 msgctxt "badge_type_bug_title"
 msgid "Bug Catcher"
 msgstr "Жуколов"
 
-#: django/pokemongo/models.py:967 django/pokemongo/strings.py:203
+#: pokemongo/models.py:639
 #, python-brace-format
 msgctxt "badge_type_bug"
 msgid "Catch {0} Bug-type Pokémon."
 msgstr "Поймать Покемонов типа Насекомое: {0}."
 
-#: django/pokemongo/models.py:972 django/pokemongo/strings.py:228
+#: pokemongo/models.py:644
 msgctxt "badge_type_ghost_title"
 msgid "Hex Maniac"
 msgstr "Чародейка"
 
-#: django/pokemongo/models.py:973 django/pokemongo/strings.py:227
+#: pokemongo/models.py:645
 #, python-brace-format
 msgctxt "badge_type_ghost"
 msgid "Catch {0} Ghost-type Pokémon."
 msgstr "Поймать Покемонов типа Привидение: {0}."
 
-#: django/pokemongo/models.py:978 django/pokemongo/strings.py:252
+#: pokemongo/models.py:650
 msgctxt "badge_type_steel_title"
 msgid "Rail Staff"
 msgstr "Железнодорожный персонал"
 
-#: django/pokemongo/models.py:979 django/pokemongo/strings.py:251
+#: pokemongo/models.py:651
 #, python-brace-format
 msgctxt "badge_type_steel"
 msgid "Catch {0} Steel-type Pokémon."
 msgstr "Поймать Покемонов стального типа: {0}."
 
-#: django/pokemongo/models.py:984 django/pokemongo/strings.py:222
+#: pokemongo/models.py:656
 msgctxt "badge_type_fire_title"
 msgid "Kindler"
 msgstr "Воспламенитель"
 
-#: django/pokemongo/models.py:985 django/pokemongo/strings.py:221
+#: pokemongo/models.py:657
 #, python-brace-format
 msgctxt "badge_type_fire"
 msgid "Catch {0} Fire-type Pokémon."
 msgstr "Поймать Покемонов огненного типа: {0}."
 
-#: django/pokemongo/models.py:990
+#: pokemongo/models.py:662
 msgctxt "badge_type_water_title"
 msgid "Swimmer"
 msgstr ""
 
-#: django/pokemongo/models.py:991 django/pokemongo/strings.py:254
+#: pokemongo/models.py:663
 #, python-brace-format
 msgctxt "badge_type_water"
 msgid "Catch {0} Water-type Pokémon."
 msgstr "Поймать Покемонов водного типа: {0}."
 
-#: django/pokemongo/models.py:996 django/pokemongo/strings.py:231
+#: pokemongo/models.py:668
 msgctxt "badge_type_grass_title"
 msgid "Gardener"
 msgstr "Садовник"
 
-#: django/pokemongo/models.py:997 django/pokemongo/strings.py:230
+#: pokemongo/models.py:669
 #, python-brace-format
 msgctxt "badge_type_grass"
 msgid "Catch {0} Grass-type Pokémon."
 msgstr "Поймать Покемонов травяного типа: {0}."
 
-#: django/pokemongo/models.py:1002 django/pokemongo/strings.py:213
+#: pokemongo/models.py:674
 msgctxt "badge_type_electric_title"
 msgid "Rocker"
 msgstr "Рокер"
 
-#: django/pokemongo/models.py:1003 django/pokemongo/strings.py:212
+#: pokemongo/models.py:675
 #, python-brace-format
 msgctxt "badge_type_electric"
 msgid "Catch {0} Electric-type Pokémon."
 msgstr "Поймать Покемонов электрического типа: {0}."
 
-#: django/pokemongo/models.py:1010 django/pokemongo/strings.py:246
+#: pokemongo/models.py:682
 msgctxt "badge_type_psychic_title"
 msgid "Psychic"
 msgstr "Психо"
 
-#: django/pokemongo/models.py:1011 django/pokemongo/strings.py:245
+#: pokemongo/models.py:683
 #, python-brace-format
 msgctxt "badge_type_psychic"
 msgid "Catch {0} Psychic-type Pokémon."
 msgstr "Поймать Покемонов психического типа: {0}."
 
-#: django/pokemongo/models.py:1018 django/pokemongo/strings.py:237
+#: pokemongo/models.py:690
 msgctxt "badge_type_ice_title"
 msgid "Skier"
 msgstr "Лыжник"
 
-#: django/pokemongo/models.py:1019 django/pokemongo/strings.py:236
+#: pokemongo/models.py:691
 #, python-brace-format
 msgctxt "badge_type_ice"
 msgid "Catch {0} Ice-type Pokémon."
 msgstr "Поймать Покемонов ледяного типа: {0}."
 
-#: django/pokemongo/models.py:1024 django/pokemongo/strings.py:210
+#: pokemongo/models.py:696
 msgctxt "badge_type_dragon_title"
 msgid "Dragon Tamer"
 msgstr "Укротитель драконов"
 
-#: django/pokemongo/models.py:1025 django/pokemongo/strings.py:209
+#: pokemongo/models.py:697
 #, python-brace-format
 msgctxt "badge_type_dragon"
 msgid "Catch {0} Dragon-type Pokémon."
 msgstr "Поймать Покемонов драконьего типа: {0}."
 
-#: django/pokemongo/models.py:1030 django/pokemongo/strings.py:207
+#: pokemongo/models.py:702
 msgctxt "badge_type_dark_title"
 msgid "Delinquent"
 msgstr "Делинквент"
 
-#: django/pokemongo/models.py:1031 django/pokemongo/strings.py:206
+#: pokemongo/models.py:703
 #, python-brace-format
 msgctxt "badge_type_dark"
 msgid "Catch {0} Dark-type Pokémon."
 msgstr "Поймать Покемонов тёмного типа: {0}."
 
-#: django/pokemongo/models.py:1036 django/pokemongo/strings.py:216
+#: pokemongo/models.py:708
 msgctxt "badge_type_fairy_title"
 msgid "Fairy Tale Girl"
 msgstr "Девочка-фея"
 
-#: django/pokemongo/models.py:1037 django/pokemongo/strings.py:215
+#: pokemongo/models.py:709
 #, python-brace-format
 msgctxt "badge_type_fairy"
 msgid "Catch {0} Fairy-type Pokémon."
 msgstr "Поймать Покемонов типа Феи: {0}."
 
-#: django/pokemongo/models.py:1043
-msgid "Gold Gym Badges"
+#: pokemongo/models.py:845
+#, python-brace-format
+msgid ""
+"This value has previously been entered at a higher value. ({value}, "
+"{datetime}) Please try again ensuring the value you entered was correct."
 msgstr ""
 
-#: django/pokemongo/models.py:1046
+#: pokemongo/models.py:877
+#, python-brace-format
+msgid ""
+"The value for {medal} may be too high. Please check for typos and other "
+"mistakes."
+msgstr ""
+
+#: pokemongo/models.py:900
+msgid "Medal Progress Post"
+msgstr ""
+
+#: pokemongo/models.py:901
+msgid "Medal Progress Posts"
+msgstr ""
+
+#: pokemongo/models.py:909 pokemongo/templates/profile.html:80
+msgctxt "battle_hub_stats_wins"
+msgid "Wins"
+msgstr "Wins"
+
+#: pokemongo/models.py:912 pokemongo/models.py:921 pokemongo/models.py:930
+#: pokemongo/models.py:939
+#, python-brace-format
+msgctxt "battle_hub_help"
+msgid ""
+"You can find this by clicking the {screen_title_battle_hub} button in your "
+"game."
+msgstr ""
+
+#: pokemongo/models.py:913 pokemongo/models.py:922 pokemongo/models.py:931
+#: pokemongo/models.py:940
+#, fuzzy
+#| msgctxt "badge_defeated_fort_title"
+#| msgid "Battle"
+msgctxt "screen_title_battle_hub"
+msgid "Battle"
+msgstr "Сражение"
+
+#: pokemongo/models.py:918 pokemongo/templates/profile.html:86
+msgctxt "battle_hub_stats_battles"
+msgid "Battles"
+msgstr "Battles"
+
+#: pokemongo/models.py:927 pokemongo/templates/profile.html:92
+msgctxt "battle_hub_stats_stardust"
+msgid "Stardust Earned"
+msgstr "Stardust Earned"
+
+#: pokemongo/models.py:936 pokemongo/templates/profile.html:98
+msgctxt "battle_hub_stats_streak"
+msgid "Longest Streak"
+msgstr "Longest Streak"
+
+#: pokemongo/models.py:944
+#, fuzzy
+#| msgctxt "battle_hub_stats_battles"
+#| msgid "Battles"
+msgid "BattleHub Post"
+msgstr "Battles"
+
+#: pokemongo/models.py:945
+#, fuzzy
+#| msgctxt "battle_hub_stats_battles"
+#| msgid "Battles"
+msgid "BattleHub Posts"
+msgstr "Battles"
+
+#: pokemongo/models.py:953
+#, fuzzy
+#| msgctxt "profile_category_gymbadges"
+#| msgid "Gym Badges"
+msgid "Gold Gym Badges"
+msgstr "Gym Badges"
+
+#: pokemongo/models.py:956
 #, python-brace-format
 msgctxt "gymbadges_gold_help"
-msgid "You can find this by clicking the {gym_badge_list_button} button under the {profile_category_gymbadges} category on your profile in game, and then counting how many are gold."
+msgid ""
+"You can find this by clicking the {gym_badge_list_button} button under the "
+"{profile_category_gymbadges} category on your profile in game, and then "
+"counting how many are gold."
 msgstr ""
 
-#: django/pokemongo/models.py:1048 django/pokemongo/strings.py:368
+#: pokemongo/models.py:958
 msgctxt "gym_badge_list_button"
 msgid "List"
 msgstr "Список"
 
-#: django/pokemongo/models.py:1049 django/pokemongo/strings.py:405
+#: pokemongo/models.py:959
 msgctxt "profile_category_gymbadges"
 msgid "Gym Badges"
 msgstr "Gym Badges"
 
-#: django/pokemongo/models.py:1115
-#, python-brace-format
-msgid "You must fill out at least ONE of the following stats.\n"
-"{stats}"
+#: pokemongo/models.py:965
+#, fuzzy
+#| msgctxt "profile_category_gymbadges"
+#| msgid "Gym Badges"
+msgid "Gym Badge Post"
+msgstr "Gym Badges"
+
+#: pokemongo/models.py:966
+#, fuzzy
+#| msgctxt "profile_category_gymbadges"
+#| msgid "Gym Badges"
+msgid "Gym Badge Posts"
+msgstr "Gym Badges"
+
+#: pokemongo/templates/create_update.html:8
+msgid "Update Stats"
 msgstr ""
 
-#: django/pokemongo/models.py:1159
-msgid "This value has previously been entered at a higher value. Please try again ensuring the value you entered was correct."
+#: pokemongo/templates/create_update.html:19
+msgid ""
+"Welcome to the TrainerDex. Please be honest and truthful, if caught "
+"intentionally providing false information, you may be banned."
 msgstr ""
 
-#: django/pokemongo/models.py:1182
-msgid "This value will make you the leader. Are you sure what you entered is correct?"
+#: pokemongo/templates/create_update.html:20
+msgid ""
+"All the questions relate to a section in the game and examples are provided "
+"to help if you get stuck."
 msgstr ""
 
-#: django/pokemongo/models.py:1209 django/pokemongo/models.py:1231
-#: django/pokemongo/models.py:1263 django/pokemongo/models.py:1288
-#: django/pokemongo/models.py:1318 django/pokemongo/models.py:1340
-#: django/pokemongo/models.py:1370 django/pokemongo/models.py:1392
-#: django/pokemongo/models.py:1422 django/pokemongo/models.py:1444
-#: django/pokemongo/models.py:1474 django/pokemongo/models.py:1496
-#: django/pokemongo/models.py:1526 django/pokemongo/models.py:1548
-#: django/pokemongo/models.py:1578 django/pokemongo/models.py:1600
-#: django/pokemongo/models.py:1630 django/pokemongo/models.py:1652
-#: django/pokemongo/models.py:1682 django/pokemongo/models.py:1704
-#: django/pokemongo/models.py:1734 django/pokemongo/models.py:1756
-#: django/pokemongo/models.py:1786 django/pokemongo/models.py:1808
-#: django/pokemongo/models.py:1838 django/pokemongo/models.py:1860
-#: django/pokemongo/models.py:1890 django/pokemongo/models.py:1912
-#: django/pokemongo/models.py:1942 django/pokemongo/models.py:1964
-#: django/pokemongo/models.py:1994 django/pokemongo/models.py:2016
-#: django/pokemongo/models.py:2046 django/pokemongo/models.py:2068
-msgid "The {badge} you entered is high. Please check for typos and other mistakes. {delta:,}/{expected:,} per day from {date1} to {date2}"
-msgstr ""
-
-#: django/pokemongo/models.py:2095
-msgid "Update"
-msgstr ""
-
-#: django/pokemongo/models.py:2096
-msgid "Updates"
-msgstr ""
-
-#: django/pokemongo/models.py:2152
-msgid "Badge"
-msgstr ""
-
-#: django/pokemongo/models.py:2153
-msgid "Badges"
-msgstr ""
-
-#: django/pokemongo/models.py:2196
-msgid "Publicly Viewable"
-msgstr ""
-
-#: django/pokemongo/models.py:2198
-msgid "By default, this is off. Turn this on to share your community with the world."
-msgstr ""
-
-#: django/pokemongo/models.py:2203
-msgid "Publicly Joinable"
-msgstr ""
-
-#: django/pokemongo/models.py:2205
-msgid "By default, this is off. Turn this on to make your community free to join. No invites required."
-msgstr ""
-
-#: django/pokemongo/models.py:2212
-msgid "Tournament: Publicly Viewable"
-msgstr ""
-
-#: django/pokemongo/models.py:2214
-msgid "By default, this is off. Turn this on to share your tournament results with the world."
-msgstr ""
-
-#: django/pokemongo/models.py:2242
-msgid "Community"
-msgstr ""
-
-#: django/pokemongo/models.py:2243
-msgid "Communities"
-msgstr ""
-
-#: django/pokemongo/models.py:2252
-msgid "Members in this Discord are automatically included in the community."
-msgstr ""
-
-#: django/pokemongo/models.py:2299
-msgid "Community Discord Connection"
-msgstr ""
-
-#: django/pokemongo/models.py:2300
-msgid "Community Discord Connections"
-msgstr ""
-
-#: django/pokemongo/shortcuts.py:107
-msgid "profile_player_level"
-msgstr ""
-
-#: django/pokemongo/strings.py:10
-msgctxt "alola_pokedex_header"
-msgid "Alolan Form"
-msgstr "Алольская форма"
-
-#: django/pokemongo/strings.py:12
-msgctxt "avatar_detail_battle_won"
-msgid "Battles Won"
-msgstr "Battles Won"
-
-#: django/pokemongo/strings.py:13 django/pokemongo/templates/profile.html:20
-#: django/pokemongo/templates/profile.html:42
-msgctxt "avatar_detail_pokemon_caught"
-msgid "Pokémon Caught"
-msgstr "Pokémon Caught"
-
-#: django/pokemongo/strings.py:14
-msgctxt "avatar_detail_total_activities"
-msgid "Total Activity"
-msgstr "Total Activity"
-
-#: django/pokemongo/strings.py:15 django/pokemongo/templates/profile.html:19
-#: django/pokemongo/templates/profile.html:35
-msgctxt "avatar_detail_walking_distance"
-msgid "Distance Walked"
-msgstr "Distance Walked"
-
-#: django/pokemongo/strings.py:20
-#, python-brace-format
-msgctxt "badge_battle_defend_won"
-msgid "Win {0} defense battles!"
-msgstr "Победить в оборонительных боях: {0}!."
-
-#: django/pokemongo/strings.py:21
-msgctxt "badge_battle_defend_won_title"
-msgid "Defense Battles Won"
-msgstr "Победить в оборонительных боях"
-
-#: django/pokemongo/strings.py:41
-#, python-brace-format
-msgctxt "badge_defeated_fort"
-msgid "Win {0} battles."
-msgstr "Победить в сражениях: {0}."
-
-#: django/pokemongo/strings.py:42
-msgctxt "badge_defeated_fort_title"
-msgid "Battle"
-msgstr "Сражение"
-
-#: django/pokemongo/strings.py:44
-#, python-brace-format
-msgctxt "badge_deployed_total"
-msgid "Assign {0} Pokémon to Gyms!"
-msgstr "Назначить Покемонов в Гимы: {0}!"
-
-#: django/pokemongo/strings.py:45
-msgctxt "badge_deployed_total_title"
-msgid "Pokémon at Gyms"
-msgstr "Покемоны в Гимах"
-
-#: django/pokemongo/strings.py:47
-#, python-brace-format
-msgctxt "badge_encountered_total"
-msgid "Encounter {0} Pokémon."
-msgstr "Повстречать Покемонов: {0}."
-
-#: django/pokemongo/strings.py:48
-msgctxt "badge_encountered_total_title"
-msgid "Encounters"
-msgstr "Встречи"
-
-#: django/pokemongo/strings.py:61
-#, python-brace-format
-msgctxt "badge_hatched_total"
-msgid "Hatch {0} Eggs."
-msgstr "Выносить яиц: {0}."
-
-#: django/pokemongo/strings.py:119
-msgctxt "badge_pokedex_entries_gen4_title"
-msgid "Sinnoh"
-msgstr "Синно"
-
-#: django/pokemongo/strings.py:125
-msgctxt "badge_pokedex_entries_gen5_title"
-msgid "Unova"
-msgstr "Юнова"
-
-#: django/pokemongo/strings.py:131
-msgctxt "badge_pokedex_entries_gen6_title"
-msgid "Kalos"
-msgstr "Калос"
-
-#: django/pokemongo/strings.py:137
-msgctxt "badge_pokedex_entries_gen7_title"
-msgid "Alola"
-msgstr "Алола"
-
-#: django/pokemongo/strings.py:141
-#, python-brace-format
-msgctxt "badge_pokedex_entries_gen8"
-msgid "Register {0} Pokémon first discovered in the Galar region to the Pokédex."
-msgstr "Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе Галар: {0}"
-
-#: django/pokemongo/strings.py:143
-msgctxt "badge_pokedex_entries_gen8_title"
-msgid "Galar"
-msgstr "Галар"
-
-#: django/pokemongo/strings.py:145
-msgctxt "badge_pokedex_entries_unknown_title"
-msgid "Unknown"
-msgstr "Неизвестно"
-
-#: django/pokemongo/strings.py:161
-#, python-brace-format
-msgctxt "badge_prestige_dropped"
-msgid "Reduce {0} total Gym Prestige!"
-msgstr "Опустить престиж Гима на {0}!"
-
-#: django/pokemongo/strings.py:162
-msgctxt "badge_prestige_dropped_title"
-msgid "Reduced Prestige"
-msgstr "Престиж снижен"
-
-#: django/pokemongo/strings.py:164
-#, python-brace-format
-msgctxt "badge_prestige_raised"
-msgid "Raise {0} total Gym Prestige!"
-msgstr "Поднять престиж Гима на {0}!"
-
-#: django/pokemongo/strings.py:165
-msgctxt "badge_prestige_raised_title"
-msgid "Prestige Raised"
-msgstr "Престиж поднят"
-
-#: django/pokemongo/strings.py:186
-#, python-brace-format
-msgctxt "badge_rocket_grunts_defeated"
-msgid "Defeat {0} Team GO Rocket members."
-msgstr "Defeat {0} Team GO Rocket members."
-
-#: django/pokemongo/strings.py:255
-msgctxt "badge_type_water_title"
-msgid "Water"
-msgstr "Плавец"
-
-#: django/pokemongo/strings.py:313
-msgctxt "battle_hub_stats_friends"
-msgid "Friends Battled"
-msgstr "Friends Battled"
-
-#: django/pokemongo/strings.py:316
-msgctxt "battle_hub_stats_streak_abbrev"
-msgid "Streak"
-msgstr "Streak"
-
-#: django/pokemongo/strings.py:319
-msgctxt "buddy_level_0"
-msgid "Buddy"
-msgid_plural "Buddies"
-msgstr[0] "Buddy"
-msgstr[1] "Buddies"
-msgstr[2] "Buddies"
-msgstr[3] "Buddies"
-
-#: django/pokemongo/strings.py:320
-msgctxt "buddy_level_1"
-msgid "Good Buddy"
-msgid_plural "Good Buddies"
-msgstr[0] "Good Buddy"
-msgstr[1] "Good Buddies"
-msgstr[2] "Good Buddies"
-msgstr[3] "Good Buddies"
-
-#: django/pokemongo/strings.py:321
-msgctxt "buddy_level_2"
-msgid "Great Buddy"
-msgid_plural "Great Buddies"
-msgstr[0] "Great Buddy"
-msgstr[1] "Great Buddies"
-msgstr[2] "Great Buddies"
-msgstr[3] "Great Buddies"
-
-#: django/pokemongo/strings.py:322
-msgctxt "buddy_level_3"
-msgid "Ultra Buddy"
-msgid_plural "Ultra Buddies"
-msgstr[0] "Ultra Buddy"
-msgstr[1] "Ultra Buddies"
-msgstr[2] "Ultra Buddies"
-msgstr[3] "Ultra Buddies"
-
-#: django/pokemongo/strings.py:323
-msgctxt "buddy_level_4"
-msgid "Best Buddy"
-msgid_plural "Best Buddies"
-msgstr[0] "Best Buddy"
-msgstr[1] "Best Buddies"
-msgstr[2] "Best Buddies"
-msgstr[3] "Best Buddies"
-
-#: django/pokemongo/strings.py:325
-msgctxt "codename_already_yours"
-msgid "That's already your name!"
-msgstr "Это же твоё имя!"
-
-#: django/pokemongo/strings.py:326
-#, python-brace-format
-msgctxt "codename_reassign_success"
-msgid "You're now known as {0}."
-msgstr "Теперь тебя в игре зовут {0}."
-
-#: django/pokemongo/strings.py:328
-msgctxt "date_format"
-msgid "MMM dd, yyyy"
-msgstr "дд.мм.гггг"
-
-#: django/pokemongo/strings.py:330
-#, python-brace-format
-msgctxt "encounter_score_total_exp"
-msgid "{0} XP"
-msgstr "{0} ОО"
-
-#: django/pokemongo/strings.py:333
-#, python-brace-format
-msgctxt "friend_full_name"
-msgid "{0} ({1})"
-msgstr "{0} ({1})"
-
-#: django/pokemongo/strings.py:334
-#, python-brace-format
-msgctxt "friends_list_level_format"
-msgid "Lv {0}"
-msgstr "Lv {0}"
-
-#: django/pokemongo/strings.py:336
-msgctxt "friendship_level_0"
-msgid "Friend"
-msgid_plural "Friends"
-msgstr[0] "Friend"
-msgstr[1] "Friends"
-msgstr[2] "Friends"
-msgstr[3] "Friends"
-
-#: django/pokemongo/strings.py:337
-msgctxt "friendship_level_1"
-msgid "Good Friend"
-msgid_plural "Good Friends"
-msgstr[0] "Good Friend"
-msgstr[1] "Good Friends"
-msgstr[2] "Good Friends"
-msgstr[3] "Good Friends"
-
-#: django/pokemongo/strings.py:338
-msgctxt "friendship_level_2"
-msgid "Great Friend"
-msgid_plural "Great Friends"
-msgstr[0] "Great Friend"
-msgstr[1] "Great Friends"
-msgstr[2] "Great Friends"
-msgstr[3] "Great Friends"
-
-#: django/pokemongo/strings.py:339
-msgctxt "friendship_level_3"
-msgid "Ultra Friend"
-msgid_plural "Ultra Friends"
-msgstr[0] "Ultra Friend"
-msgstr[1] "Ultra Friends"
-msgstr[2] "Ultra Friends"
-msgstr[3] "Ultra Friends"
-
-#: django/pokemongo/strings.py:340
-msgctxt "friendship_level_4"
-msgid "Best Friend"
-msgid_plural "Best Friends"
-msgstr[0] "Best Friend"
-msgstr[1] "Best Friends"
-msgstr[2] "Best Friends"
-msgstr[3] "Best Friends"
-
-#: django/pokemongo/strings.py:342
-msgctxt "galarian_pokedex_header"
-msgid "Galarian Form"
-msgstr "Галарская форма"
-
-#: django/pokemongo/strings.py:344
-msgctxt "general_accept"
-msgid "Accept"
-msgstr "Принять"
-
-#: django/pokemongo/strings.py:345
-msgctxt "general_allow"
-msgid "Allow"
-msgstr "Разрешить"
-
-#: django/pokemongo/strings.py:346
-msgctxt "general_button_select"
-msgid "Select"
-msgstr "Выбрать"
-
-#: django/pokemongo/strings.py:347
-msgctxt "general_cancel"
-msgid "Cancel"
-msgstr "Отменить"
-
-#: django/pokemongo/strings.py:348
-msgctxt "general_close"
-msgid "Close"
-msgstr "Закрыть"
-
-#: django/pokemongo/strings.py:349
-msgctxt "general_continue"
-msgid "Continue"
-msgstr "Закрыть"
-
-#: django/pokemongo/strings.py:350
-msgctxt "general_cp"
-msgid "CP"
-msgstr "БС"
-
-#: django/pokemongo/strings.py:351
-msgctxt "general_dismiss"
-msgid "Dismiss"
-msgstr "Отклонить"
-
-#: django/pokemongo/strings.py:352
-msgctxt "general_do_not_allow"
-msgid "Don’t Allow"
-msgstr "Не разрешить"
-
-#: django/pokemongo/strings.py:353
-#: django/pokemongo/templates/create_update.html:89
+#: pokemongo/templates/create_update.html:89
 msgctxt "general_done"
 msgid "Done"
 msgstr "Done"
 
-#: django/pokemongo/strings.py:354
-msgctxt "general_error"
-msgid "Error"
-msgstr "Ошибка"
-
-#: django/pokemongo/strings.py:355
-msgctxt "general_go"
-msgid "GO"
-msgstr "GO"
-
-#: django/pokemongo/strings.py:356
-msgctxt "general_kg"
-msgid "kg"
-msgstr "kg"
-
-#: django/pokemongo/strings.py:357
-msgctxt "general_m"
-msgid "m"
-msgstr "m"
-
-#: django/pokemongo/strings.py:358
-msgctxt "general_more"
-msgid "More"
-msgstr "Ещё"
-
-#: django/pokemongo/strings.py:359
-msgctxt "general_no"
-msgid "No"
-msgstr "Нет"
-
-#: django/pokemongo/strings.py:361
-msgctxt "general_pokemon"
-msgid "Pokémon"
-msgstr "Покемоны"
-
-#: django/pokemongo/strings.py:364
-msgctxt "general_stamina"
-msgid "HP"
-msgstr "ОЖ"
-
-#: django/pokemongo/strings.py:365
-msgctxt "general_xp"
-msgid "XP"
-msgstr "ОО"
-
-#: django/pokemongo/strings.py:366
-msgctxt "general_yes"
-msgid "Yes"
-msgstr "Да"
-
-#: django/pokemongo/strings.py:370
-#, python-brace-format
-msgctxt "level_up_details_gui_title"
-msgid "Level {0} Requirements"
-msgstr ""
-
-#: django/pokemongo/strings.py:372
-msgctxt "mega_energy"
-msgid "Mega Energy"
-msgstr "Mega Energy"
-
-#: django/pokemongo/strings.py:374
-msgctxt "onboard_name_fail"
-msgid "An error has occurred. Try another name."
-msgstr "Произошла ошибка. Попробуй другое имя."
-
-#: django/pokemongo/strings.py:375 django/pokemongo/validators.py:8
-msgctxt "onboard_name_invalid_characters_error"
-msgid "Only letters and numbers are allowed."
-msgstr "Разрешены только буквы и цифры."
-
-#: django/pokemongo/strings.py:376
-msgctxt "onboard_name_not_available"
-msgid "That name isn't available."
-msgstr "Это имя не доступно."
-
-#: django/pokemongo/strings.py:377
-msgctxt "onboard_name_not_valid"
-msgid "That name is invalid."
-msgstr "Это имя неверно."
-
-#: django/pokemongo/strings.py:378
-msgctxt "onboard_name_owned"
-msgid "This name is already in use by another Trainer."
-msgstr "Это имя уже используется другим Тренером."
-
-#: django/pokemongo/strings.py:380
-msgctxt "pokemon_info_cp"
-msgid "CP"
-msgstr "БС"
-
-#: django/pokemongo/strings.py:381
-msgctxt "pokemon_info_stardust_label"
-msgid "Stardust"
-msgstr "Звёздная пыль"
-
-#: django/pokemongo/strings.py:384
-msgctxt "pokemon_type_bug"
-msgid "Bug"
-msgstr "Насекомое"
-
-#: django/pokemongo/strings.py:385
-msgctxt "pokemon_type_dark"
-msgid "Dark"
-msgstr "Темнота"
-
-#: django/pokemongo/strings.py:386
-msgctxt "pokemon_type_dragon"
-msgid "Dragon"
-msgstr "Дракон"
-
-#: django/pokemongo/strings.py:387
-msgctxt "pokemon_type_electric"
-msgid "Electric"
-msgstr "Электро"
-
-#: django/pokemongo/strings.py:388
-msgctxt "pokemon_type_fairy"
-msgid "Fairy"
-msgstr "Фея"
-
-#: django/pokemongo/strings.py:389
-msgctxt "pokemon_type_fighting"
-msgid "Fighting"
-msgstr "Сражение"
-
-#: django/pokemongo/strings.py:390
-msgctxt "pokemon_type_fire"
-msgid "Fire"
-msgstr "Огонь"
-
-#: django/pokemongo/strings.py:391
-msgctxt "pokemon_type_flying"
-msgid "Flying"
-msgstr "Летающий"
-
-#: django/pokemongo/strings.py:392
-msgctxt "pokemon_type_ghost"
-msgid "Ghost"
-msgstr "Привидение"
-
-#: django/pokemongo/strings.py:393
-msgctxt "pokemon_type_grass"
-msgid "Grass"
-msgstr "Трава"
-
-#: django/pokemongo/strings.py:394
-msgctxt "pokemon_type_ground"
-msgid "Ground"
-msgstr "Земля"
-
-#: django/pokemongo/strings.py:395
-msgctxt "pokemon_type_ice"
-msgid "Ice"
-msgstr "Лёд"
-
-#: django/pokemongo/strings.py:396
-msgctxt "pokemon_type_normal"
-msgid "Normal"
-msgstr "Обычный"
-
-#: django/pokemongo/strings.py:397
-msgctxt "pokemon_type_poison"
-msgid "Poison"
-msgstr "Яд"
-
-#: django/pokemongo/strings.py:398
-msgctxt "pokemon_type_psychic"
-msgid "Psychic"
-msgstr "Психо"
-
-#: django/pokemongo/strings.py:399
-msgctxt "pokemon_type_rock"
-msgid "Rock"
-msgstr "Камень"
-
-#: django/pokemongo/strings.py:400
-msgctxt "pokemon_type_steel"
-msgid "Steel"
-msgstr "Сталь"
-
-#: django/pokemongo/strings.py:401
-msgctxt "pokemon_type_water"
-msgid "Water"
-msgstr "Вода"
-
-#: django/pokemongo/strings.py:403 django/pokemongo/templates/profile.html:106
-msgctxt "profile_button_activity_log"
-msgid "Journal"
-msgstr "Журнал"
-
-#: django/pokemongo/strings.py:404
-msgctxt "profile_button_customize"
-msgid "Style"
-msgstr "Стиль"
-
-#: django/pokemongo/strings.py:408
-msgctxt "profile_category_total_fitness"
-msgid "TOTAL PROGRESS"
-msgstr "TOTAL PROGRESS"
-
-#: django/pokemongo/strings.py:409
-msgctxt "profile_category_weekly_fitness"
-msgid "WEEKLY PROGRESS"
-msgstr "WEEKLY PROGRESS"
-
-#: django/pokemongo/strings.py:410
-msgctxt "profile_gymbadges_help"
-msgid "Learn more"
-msgstr "Learn more"
-
-#: django/pokemongo/strings.py:411
-msgctxt "profile_gymbadges_recently_visited"
-msgid "Recently Visited"
-msgstr "Recently Visited"
-
-#: django/pokemongo/strings.py:412
-msgctxt "profile_no_gymbadges"
-msgid "You don't have any Gym Badges."
-msgstr "You don't have any Gym Badges."
-
-#: django/pokemongo/strings.py:413 django/pokemongo/templates/profile.html:15
-#: django/pokemongo/templates/profile.html:30
-msgctxt "profile_player_level"
-msgid "Level"
-msgstr "Уровень"
-
-#: django/pokemongo/strings.py:414 django/pokemongo/templates/profile.html:21
-#: django/pokemongo/templates/profile.html:49
-msgctxt "profile_pokestops_visited"
-msgid "PokéStops Visited"
-msgstr "Посещённые Покестопы"
-
-#: django/pokemongo/strings.py:418
-msgctxt "screen_friends_title"
-msgid "friends"
-msgstr "friends"
-
-#: django/pokemongo/strings.py:419
-msgctxt "screen_title_badge_collection"
-msgid "Gym Badges"
-msgstr "Gym Badges"
-
-#: django/pokemongo/strings.py:421
-msgctxt "screen_title_friend_requests"
-msgid "Friend Requests"
-msgstr "Friend Requests"
-
-#: django/pokemongo/strings.py:422
-msgctxt "screen_title_news"
-msgid "News"
-msgstr "Новости"
-
-#: django/pokemongo/strings.py:423
-msgctxt "screen_title_notification"
-msgid "Notifications"
-msgstr "Notifications"
-
-#: django/pokemongo/strings.py:425
-msgctxt "screen_title_settings"
-msgid "SETTINGS"
-msgstr "НАСТРОЙКИ"
-
-#: django/pokemongo/templates/create_update.html:8
-msgid "Update Stats"
-msgstr ""
-
-#: django/pokemongo/templates/create_update.html:19
-msgid "Welcome to the TrainerDex. Please be honest and truthful, if caught intentionally providing false information, you may be banned."
-msgstr ""
-
-#: django/pokemongo/templates/create_update.html:20
-msgid "All the questions relate to a section in the game and examples are provided to help if you get stuck."
-msgstr ""
-
-#: django/pokemongo/templates/edit_profile.html:7
-#: django/pokemongo/templates/edit_profile.html:13
+#: pokemongo/templates/edit_profile.html:7
+#: pokemongo/templates/edit_profile.html:13
 msgid "Edit Profile"
 msgstr ""
 
-#: django/pokemongo/templates/edit_profile.html:78
+#: pokemongo/templates/edit_profile.html:78
 msgid "Save Changes"
 msgstr ""
 
-#: django/pokemongo/templates/leaderboard.html:7
-#: django/pokemongo/templates/leaderboard.html:12
+#: pokemongo/templates/leaderboard.html:7
+#: pokemongo/templates/leaderboard.html:12
 msgid "International"
 msgstr ""
 
-#: django/pokemongo/templates/leaderboard.html:7
-#: django/pokemongo/templates/leaderboard.html:12
+#: pokemongo/templates/leaderboard.html:7
+#: pokemongo/templates/leaderboard.html:12
 #, python-format
-msgctxt "This is the title, loc is defined as the country/continent name, or the word International (which is translated seperately)."
+msgctxt ""
+"This is the title, loc is defined as the country/continent name, or the word "
+"International (which is translated seperately)."
 msgid "%(loc)s Leaderboard"
 msgstr ""
 
-#: django/pokemongo/templates/leaderboard.html:40
+#: pokemongo/templates/leaderboard.html:40
+#, fuzzy
+#| msgctxt "profile_total_xp"
+#| msgid "Total XP"
 msgctxt "Total XP of all Trainers on leaderboard"
 msgid "Total XP"
-msgstr ""
+msgstr "ВСЕГО ОО"
 
-#: django/pokemongo/templates/leaderboard.html:40
+#: pokemongo/templates/leaderboard.html:40
+#, fuzzy
+#| msgctxt "friend_code_title"
+#| msgid "Trainer Code"
 msgid "Trainers Considered"
-msgstr ""
+msgstr "Trainer Code"
 
-#: django/pokemongo/templates/leaderboard.html:49
+#: pokemongo/templates/leaderboard.html:49
 msgctxt "onboard_enter_name_hint"
 msgid "Nickname"
 msgstr ""
 
-#: django/pokemongo/templates/leaderboard.html:49
+#: pokemongo/templates/leaderboard.html:49
 msgctxt "Short form of Trainer Level"
 msgid "TL"
 msgstr ""
 
-#: django/pokemongo/templates/leaderboard.html:57
+#: pokemongo/templates/leaderboard.html:57
 msgid "Last Updated"
 msgstr ""
 
-#: django/pokemongo/templates/leaderboard.html:79
-msgid "There is no information to include in this leaderboard. Why not be the first?"
+#: pokemongo/templates/leaderboard.html:79
+msgid ""
+"There is no information to include in this leaderboard. Why not be the first?"
 msgstr ""
 
-#: django/pokemongo/templates/profile.html:144
+#: pokemongo/templates/profile.html:15 pokemongo/templates/profile.html:30
+msgctxt "profile_player_level"
+msgid "Level"
+msgstr "Уровень"
+
+#: pokemongo/templates/profile.html:19 pokemongo/templates/profile.html:35
+msgctxt "avatar_detail_walking_distance"
+msgid "Distance Walked"
+msgstr "Distance Walked"
+
+#: pokemongo/templates/profile.html:20 pokemongo/templates/profile.html:42
+msgctxt "avatar_detail_pokemon_caught"
+msgid "Pokémon Caught"
+msgstr "Pokémon Caught"
+
+#: pokemongo/templates/profile.html:21 pokemongo/templates/profile.html:49
+msgctxt "profile_pokestops_visited"
+msgid "PokéStops Visited"
+msgstr "Посещённые Покестопы"
+
+#: pokemongo/templates/profile.html:70
+msgctxt "badge_level_40"
+msgid "Achieve level 40 by December 31, 2020."
+msgstr ""
+
+#: pokemongo/templates/profile.html:106
+msgctxt "profile_button_activity_log"
+msgid "Journal"
+msgstr "Журнал"
+
+#: pokemongo/templates/profile.html:114
+msgid "Time Updated"
+msgstr ""
+
+#: pokemongo/templates/profile.html:144
 msgid "Bronze"
 msgstr ""
 
-#: django/pokemongo/templates/profile.html:145
+#: pokemongo/templates/profile.html:145
 msgid "Silver"
 msgstr ""
 
-#: django/pokemongo/templates/profile.html:146
+#: pokemongo/templates/profile.html:146
 msgid "Gold"
 msgstr ""
 
-#: django/pokemongo/templates/profile.html:147
+#: pokemongo/templates/profile.html:147
 msgid "Platinum"
 msgstr ""
 
-#: django/pokemongo/templates/profile.html:148
-msgid "These values have been datamined from the Beyond update and may be subject to change."
+#: pokemongo/templates/profile.html:148
+msgid ""
+"These values have been datamined from the Beyond update and may be subject "
+"to change."
 msgstr ""
 
-#: django/pokemongo/templates/profile.html:167
+#: pokemongo/templates/profile.html:167
 msgid "Medals with no data."
 msgstr ""
 
-#: django/pokemongo/validators.py:15
-msgid "Trainer Code must be 12 digits long and contain only numbers and whitespace."
+#: pokemongo/utils.py:62
+msgid "profile_player_level"
 msgstr ""
 
-#: django/pokemongo/views.py:48
-msgid "Please set your trainer start date. You can edit your profile in the settings section on the menu."
+#: pokemongo/validators.py:11
+msgid ""
+"Enter a valid username. This value may contain only English letters and "
+"numbers."
 msgstr ""
 
-#: django/pokemongo/views.py:80 django/pokemongo/views.py:153
-msgid "Please complete your profile to continue using the website."
+#: pokemongo/validators.py:18
+msgid ""
+"Trainer Code must be 12 digits long and contain only numbers and whitespace."
 msgstr ""
 
-#: django/pokemongo/views.py:199
+#: pokemongo/views.py:174
 msgid "Statistics updated"
 msgstr ""
 
-#: django/pokemongo/views.py:211
-msgid "Since you have posted in the past hour, you are currently updating your previous post."
+#: pokemongo/views.py:186
+msgid ""
+"Since you have posted in the past hour, you are currently updating your "
+"previous post."
 msgstr ""
 
-#: django/pokemongo/views.py:234
-#, python-brace-format
-msgid "No country found for code {country}"
-msgstr ""
-
-#: django/pokemongo/views.py:252
+#: pokemongo/views.py:225
 #, python-brace-format
 msgid "No community found for handle {community}"
 msgstr ""
 
-#: django/pokemongo/views.py:259
+#: pokemongo/views.py:232
 msgid "Access denied"
 msgstr ""
 
-#: django/pokemongo/views.py:396
-msgid "Thank you for filling out your profile. Your screenshots have been sent for verification. Join our Discord. https://discord.gg/Anz3UpM"
+#: config/settings.py:160
+msgid "German"
 msgstr ""
 
-#: django/pokemongo/views.py:403
-msgid "Profile edited successfully."
+#: config/settings.py:161
+msgid "English"
 msgstr ""
 
+#: config/settings.py:162
+msgid "Spanish"
+msgstr ""
+
+#: config/settings.py:163
+msgid "French"
+msgstr ""
+
+#: config/settings.py:164
+msgid "Italian"
+msgstr ""
+
+#: config/settings.py:165
+msgid "Japanese"
+msgstr ""
+
+#: config/settings.py:166
+msgid "Korean"
+msgstr ""
+
+#: config/settings.py:167
+msgid "Dutch"
+msgstr ""
+
+#: config/settings.py:168
+msgid "Dutch, Belgium"
+msgstr ""
+
+#: config/settings.py:169
+msgid "Romanian"
+msgstr ""
+
+#: config/settings.py:170
+msgid "Russian"
+msgstr ""
+
+#: config/settings.py:171
+msgid "Brazilian Portuguese"
+msgstr ""
+
+#: config/settings.py:172
+msgid "Thai"
+msgstr ""
+
+#: config/settings.py:173
+msgid "Traditional Chinese"
+msgstr ""
+
+#: config/urls.py:43
+#, python-brace-format
+msgid "{site_name} Admin"
+msgstr ""
+
+#~ msgctxt "alola_pokedex_header"
+#~ msgid "Alolan Form"
+#~ msgstr "Алольская форма"
+
+#~ msgctxt "avatar_detail_battle_won"
+#~ msgid "Battles Won"
+#~ msgstr "Battles Won"
+
+#~ msgctxt "avatar_detail_total_activities"
+#~ msgid "Total Activity"
+#~ msgstr "Total Activity"
+
+#, python-brace-format
+#~ msgctxt "badge_battle_defend_won"
+#~ msgid "Win {0} defense battles!"
+#~ msgstr "Победить в оборонительных боях: {0}!."
+
+#~ msgctxt "badge_battle_defend_won_title"
+#~ msgid "Defense Battles Won"
+#~ msgstr "Победить в оборонительных боях"
+
+#, python-brace-format
+#~ msgctxt "badge_defeated_fort"
+#~ msgid "Win {0} battles."
+#~ msgstr "Победить в сражениях: {0}."
+
+#~ msgctxt "badge_defeated_fort_title"
+#~ msgid "Battle"
+#~ msgstr "Сражение"
+
+#, python-brace-format
+#~ msgctxt "badge_deployed_total"
+#~ msgid "Assign {0} Pokémon to Gyms!"
+#~ msgstr "Назначить Покемонов в Гимы: {0}!"
+
+#~ msgctxt "badge_deployed_total_title"
+#~ msgid "Pokémon at Gyms"
+#~ msgstr "Покемоны в Гимах"
+
+#, python-brace-format
+#~ msgctxt "badge_encountered_total"
+#~ msgid "Encounter {0} Pokémon."
+#~ msgstr "Повстречать Покемонов: {0}."
+
+#~ msgctxt "badge_encountered_total_title"
+#~ msgid "Encounters"
+#~ msgstr "Встречи"
+
+#, python-brace-format
+#~ msgctxt "badge_hatched_total"
+#~ msgid "Hatch {0} Eggs."
+#~ msgstr "Выносить яиц: {0}."
+
+#~ msgctxt "badge_pokedex_entries_gen4_title"
+#~ msgid "Sinnoh"
+#~ msgstr "Синно"
+
+#~ msgctxt "badge_pokedex_entries_gen5_title"
+#~ msgid "Unova"
+#~ msgstr "Юнова"
+
+#~ msgctxt "badge_pokedex_entries_gen6_title"
+#~ msgid "Kalos"
+#~ msgstr "Калос"
+
+#~ msgctxt "badge_pokedex_entries_gen7_title"
+#~ msgid "Alola"
+#~ msgstr "Алола"
+
+#, python-brace-format
+#~ msgctxt "badge_pokedex_entries_gen8"
+#~ msgid ""
+#~ "Register {0} Pokémon first discovered in the Galar region to the Pokédex."
+#~ msgstr ""
+#~ "Зарегистрировать в Покедексе Покемонов, впервые обнаруженных в регионе "
+#~ "Галар: {0}"
+
+#~ msgctxt "badge_pokedex_entries_gen8_title"
+#~ msgid "Galar"
+#~ msgstr "Галар"
+
+#~ msgctxt "badge_pokedex_entries_unknown_title"
+#~ msgid "Unknown"
+#~ msgstr "Неизвестно"
+
+#, python-brace-format
+#~ msgctxt "badge_prestige_dropped"
+#~ msgid "Reduce {0} total Gym Prestige!"
+#~ msgstr "Опустить престиж Гима на {0}!"
+
+#~ msgctxt "badge_prestige_dropped_title"
+#~ msgid "Reduced Prestige"
+#~ msgstr "Престиж снижен"
+
+#, python-brace-format
+#~ msgctxt "badge_prestige_raised"
+#~ msgid "Raise {0} total Gym Prestige!"
+#~ msgstr "Поднять престиж Гима на {0}!"
+
+#~ msgctxt "badge_prestige_raised_title"
+#~ msgid "Prestige Raised"
+#~ msgstr "Престиж поднят"
+
+#, python-brace-format
+#~ msgctxt "badge_rocket_grunts_defeated"
+#~ msgid "Defeat {0} Team GO Rocket members."
+#~ msgstr "Defeat {0} Team GO Rocket members."
+
+#~ msgctxt "badge_type_water_title"
+#~ msgid "Water"
+#~ msgstr "Плавец"
+
+#~ msgctxt "battle_hub_stats_friends"
+#~ msgid "Friends Battled"
+#~ msgstr "Friends Battled"
+
+#~ msgctxt "battle_hub_stats_streak_abbrev"
+#~ msgid "Streak"
+#~ msgstr "Streak"
+
+#~ msgctxt "buddy_level_0"
+#~ msgid "Buddy"
+#~ msgid_plural "Buddies"
+#~ msgstr[0] "Buddy"
+#~ msgstr[1] "Buddies"
+#~ msgstr[2] "Buddies"
+#~ msgstr[3] "Buddies"
+
+#~ msgctxt "buddy_level_1"
+#~ msgid "Good Buddy"
+#~ msgid_plural "Good Buddies"
+#~ msgstr[0] "Good Buddy"
+#~ msgstr[1] "Good Buddies"
+#~ msgstr[2] "Good Buddies"
+#~ msgstr[3] "Good Buddies"
+
+#~ msgctxt "buddy_level_2"
+#~ msgid "Great Buddy"
+#~ msgid_plural "Great Buddies"
+#~ msgstr[0] "Great Buddy"
+#~ msgstr[1] "Great Buddies"
+#~ msgstr[2] "Great Buddies"
+#~ msgstr[3] "Great Buddies"
+
+#~ msgctxt "buddy_level_3"
+#~ msgid "Ultra Buddy"
+#~ msgid_plural "Ultra Buddies"
+#~ msgstr[0] "Ultra Buddy"
+#~ msgstr[1] "Ultra Buddies"
+#~ msgstr[2] "Ultra Buddies"
+#~ msgstr[3] "Ultra Buddies"
+
+#~ msgctxt "buddy_level_4"
+#~ msgid "Best Buddy"
+#~ msgid_plural "Best Buddies"
+#~ msgstr[0] "Best Buddy"
+#~ msgstr[1] "Best Buddies"
+#~ msgstr[2] "Best Buddies"
+#~ msgstr[3] "Best Buddies"
+
+#~ msgctxt "codename_already_yours"
+#~ msgid "That's already your name!"
+#~ msgstr "Это же твоё имя!"
+
+#, python-brace-format
+#~ msgctxt "codename_reassign_success"
+#~ msgid "You're now known as {0}."
+#~ msgstr "Теперь тебя в игре зовут {0}."
+
+#~ msgctxt "date_format"
+#~ msgid "MMM dd, yyyy"
+#~ msgstr "дд.мм.гггг"
+
+#, python-brace-format
+#~ msgctxt "encounter_score_total_exp"
+#~ msgid "{0} XP"
+#~ msgstr "{0} ОО"
+
+#, python-brace-format
+#~ msgctxt "friend_full_name"
+#~ msgid "{0} ({1})"
+#~ msgstr "{0} ({1})"
+
+#, python-brace-format
+#~ msgctxt "friends_list_level_format"
+#~ msgid "Lv {0}"
+#~ msgstr "Lv {0}"
+
+#~ msgctxt "friendship_level_0"
+#~ msgid "Friend"
+#~ msgid_plural "Friends"
+#~ msgstr[0] "Friend"
+#~ msgstr[1] "Friends"
+#~ msgstr[2] "Friends"
+#~ msgstr[3] "Friends"
+
+#~ msgctxt "friendship_level_1"
+#~ msgid "Good Friend"
+#~ msgid_plural "Good Friends"
+#~ msgstr[0] "Good Friend"
+#~ msgstr[1] "Good Friends"
+#~ msgstr[2] "Good Friends"
+#~ msgstr[3] "Good Friends"
+
+#~ msgctxt "friendship_level_2"
+#~ msgid "Great Friend"
+#~ msgid_plural "Great Friends"
+#~ msgstr[0] "Great Friend"
+#~ msgstr[1] "Great Friends"
+#~ msgstr[2] "Great Friends"
+#~ msgstr[3] "Great Friends"
+
+#~ msgctxt "friendship_level_3"
+#~ msgid "Ultra Friend"
+#~ msgid_plural "Ultra Friends"
+#~ msgstr[0] "Ultra Friend"
+#~ msgstr[1] "Ultra Friends"
+#~ msgstr[2] "Ultra Friends"
+#~ msgstr[3] "Ultra Friends"
+
+#~ msgctxt "friendship_level_4"
+#~ msgid "Best Friend"
+#~ msgid_plural "Best Friends"
+#~ msgstr[0] "Best Friend"
+#~ msgstr[1] "Best Friends"
+#~ msgstr[2] "Best Friends"
+#~ msgstr[3] "Best Friends"
+
+#~ msgctxt "galarian_pokedex_header"
+#~ msgid "Galarian Form"
+#~ msgstr "Галарская форма"
+
+#~ msgctxt "general_accept"
+#~ msgid "Accept"
+#~ msgstr "Принять"
+
+#~ msgctxt "general_allow"
+#~ msgid "Allow"
+#~ msgstr "Разрешить"
+
+#~ msgctxt "general_button_select"
+#~ msgid "Select"
+#~ msgstr "Выбрать"
+
+#~ msgctxt "general_cancel"
+#~ msgid "Cancel"
+#~ msgstr "Отменить"
+
+#~ msgctxt "general_close"
+#~ msgid "Close"
+#~ msgstr "Закрыть"
+
+#~ msgctxt "general_continue"
+#~ msgid "Continue"
+#~ msgstr "Закрыть"
+
+#~ msgctxt "general_cp"
+#~ msgid "CP"
+#~ msgstr "БС"
+
+#~ msgctxt "general_dismiss"
+#~ msgid "Dismiss"
+#~ msgstr "Отклонить"
+
+#~ msgctxt "general_do_not_allow"
+#~ msgid "Don’t Allow"
+#~ msgstr "Не разрешить"
+
+#~ msgctxt "general_error"
+#~ msgid "Error"
+#~ msgstr "Ошибка"
+
+#~ msgctxt "general_go"
+#~ msgid "GO"
+#~ msgstr "GO"
+
+#~ msgctxt "general_kg"
+#~ msgid "kg"
+#~ msgstr "kg"
+
+#~ msgctxt "general_m"
+#~ msgid "m"
+#~ msgstr "m"
+
+#~ msgctxt "general_more"
+#~ msgid "More"
+#~ msgstr "Ещё"
+
+#~ msgctxt "general_no"
+#~ msgid "No"
+#~ msgstr "Нет"
+
+#~ msgctxt "general_pokemon"
+#~ msgid "Pokémon"
+#~ msgstr "Покемоны"
+
+#~ msgctxt "general_stamina"
+#~ msgid "HP"
+#~ msgstr "ОЖ"
+
+#~ msgctxt "general_xp"
+#~ msgid "XP"
+#~ msgstr "ОО"
+
+#~ msgctxt "general_yes"
+#~ msgid "Yes"
+#~ msgstr "Да"
+
+#~ msgctxt "mega_energy"
+#~ msgid "Mega Energy"
+#~ msgstr "Mega Energy"
+
+#~ msgctxt "onboard_name_fail"
+#~ msgid "An error has occurred. Try another name."
+#~ msgstr "Произошла ошибка. Попробуй другое имя."
+
+#~ msgctxt "onboard_name_invalid_characters_error"
+#~ msgid "Only letters and numbers are allowed."
+#~ msgstr "Разрешены только буквы и цифры."
+
+#~ msgctxt "onboard_name_not_available"
+#~ msgid "That name isn't available."
+#~ msgstr "Это имя не доступно."
+
+#~ msgctxt "onboard_name_not_valid"
+#~ msgid "That name is invalid."
+#~ msgstr "Это имя неверно."
+
+#~ msgctxt "onboard_name_owned"
+#~ msgid "This name is already in use by another Trainer."
+#~ msgstr "Это имя уже используется другим Тренером."
+
+#~ msgctxt "pokemon_info_cp"
+#~ msgid "CP"
+#~ msgstr "БС"
+
+#~ msgctxt "pokemon_info_stardust_label"
+#~ msgid "Stardust"
+#~ msgstr "Звёздная пыль"
+
+#~ msgctxt "pokemon_type_bug"
+#~ msgid "Bug"
+#~ msgstr "Насекомое"
+
+#~ msgctxt "pokemon_type_dark"
+#~ msgid "Dark"
+#~ msgstr "Темнота"
+
+#~ msgctxt "pokemon_type_dragon"
+#~ msgid "Dragon"
+#~ msgstr "Дракон"
+
+#~ msgctxt "pokemon_type_electric"
+#~ msgid "Electric"
+#~ msgstr "Электро"
+
+#~ msgctxt "pokemon_type_fairy"
+#~ msgid "Fairy"
+#~ msgstr "Фея"
+
+#~ msgctxt "pokemon_type_fighting"
+#~ msgid "Fighting"
+#~ msgstr "Сражение"
+
+#~ msgctxt "pokemon_type_fire"
+#~ msgid "Fire"
+#~ msgstr "Огонь"
+
+#~ msgctxt "pokemon_type_flying"
+#~ msgid "Flying"
+#~ msgstr "Летающий"
+
+#~ msgctxt "pokemon_type_ghost"
+#~ msgid "Ghost"
+#~ msgstr "Привидение"
+
+#~ msgctxt "pokemon_type_grass"
+#~ msgid "Grass"
+#~ msgstr "Трава"
+
+#~ msgctxt "pokemon_type_ground"
+#~ msgid "Ground"
+#~ msgstr "Земля"
+
+#~ msgctxt "pokemon_type_ice"
+#~ msgid "Ice"
+#~ msgstr "Лёд"
+
+#~ msgctxt "pokemon_type_normal"
+#~ msgid "Normal"
+#~ msgstr "Обычный"
+
+#~ msgctxt "pokemon_type_poison"
+#~ msgid "Poison"
+#~ msgstr "Яд"
+
+#~ msgctxt "pokemon_type_psychic"
+#~ msgid "Psychic"
+#~ msgstr "Психо"
+
+#~ msgctxt "pokemon_type_rock"
+#~ msgid "Rock"
+#~ msgstr "Камень"
+
+#~ msgctxt "pokemon_type_steel"
+#~ msgid "Steel"
+#~ msgstr "Сталь"
+
+#~ msgctxt "pokemon_type_water"
+#~ msgid "Water"
+#~ msgstr "Вода"
+
+#~ msgctxt "profile_button_customize"
+#~ msgid "Style"
+#~ msgstr "Стиль"
+
+#~ msgctxt "profile_category_total_fitness"
+#~ msgid "TOTAL PROGRESS"
+#~ msgstr "TOTAL PROGRESS"
+
+#~ msgctxt "profile_category_weekly_fitness"
+#~ msgid "WEEKLY PROGRESS"
+#~ msgstr "WEEKLY PROGRESS"
+
+#~ msgctxt "profile_gymbadges_help"
+#~ msgid "Learn more"
+#~ msgstr "Learn more"
+
+#~ msgctxt "profile_gymbadges_recently_visited"
+#~ msgid "Recently Visited"
+#~ msgstr "Recently Visited"
+
+#~ msgctxt "profile_no_gymbadges"
+#~ msgid "You don't have any Gym Badges."
+#~ msgstr "You don't have any Gym Badges."
+
+#~ msgctxt "screen_friends_title"
+#~ msgid "friends"
+#~ msgstr "friends"
+
+#~ msgctxt "screen_title_badge_collection"
+#~ msgid "Gym Badges"
+#~ msgstr "Gym Badges"
+
+#~ msgctxt "screen_title_friend_requests"
+#~ msgid "Friend Requests"
+#~ msgstr "Friend Requests"
+
+#~ msgctxt "screen_title_news"
+#~ msgid "News"
+#~ msgstr "Новости"
+
+#~ msgctxt "screen_title_notification"
+#~ msgid "Notifications"
+#~ msgstr "Notifications"
+
+#~ msgctxt "screen_title_settings"
+#~ msgid "SETTINGS"
+#~ msgstr "НАСТРОЙКИ"
