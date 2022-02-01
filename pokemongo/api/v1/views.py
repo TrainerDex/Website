@@ -509,13 +509,6 @@ class DetailedLeaderboardView(APIView):
             .annotate(value=F(stat))
             .annotate(rank=Window(expression=DenseRank(), order_by=F("value").desc()))
             .order_by("rank", "-value", "update_time")
-            .only(
-                "rank",
-                "trainer",
-                "total_xp",
-                "value",
-                "update_time",
-            )
         )
         serializer = LeaderboardSerializer(leaderboard, many=True)
         output["aggregations"] = leaderboard.aggregate(
