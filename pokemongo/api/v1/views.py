@@ -503,7 +503,7 @@ class DetailedLeaderboardView(APIView):
             .prefetch_related(
                 Prefetch(
                     "trainer__nickname_set",
-                    Nickname.objects.filter(active=True),
+                    Nickname.objects.filter(active=True).only("nickname").first(),
                 ),
             )
             .annotate(value=F(stat))

@@ -272,7 +272,7 @@ class Trainer(models.Model):
     def nickname(self) -> str:
         """Gets nickname, fallback to User username"""
         nickname: Nickname
-        if nickname := self.nickname_set.filter(active=True).first():
+        if nickname := self.nickname_set.filter(active=True).only('nickname').first():
             return nickname.nickname
         else:
             return self.owner.username
