@@ -34,5 +34,5 @@ jobs:
       - name: Blacken
         uses: piotrpawlaczek/python-blacken@release/stable
         with:
-          path: "django"
+          path: "."
           line-length: "99"
