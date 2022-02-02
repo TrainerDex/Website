@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v2.3.1
         with:
-          python-version: 3.10
+          python-version: "3.10"
           cache: "pipenv"
       - name: Install Dependencies from APT
         run: sudo apt-get update && sudo apt-get -y install gettext gdal-bin python3-gdal
