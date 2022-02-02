@@ -37,8 +37,5 @@ urlpatterns = [
     path("silk/", include("silk.urls", namespace="silk")),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 admin.site.site_title = "TrainerDex"
 admin.site.site_header = _("{site_name} Admin").format(site_name=admin.site.site_title)

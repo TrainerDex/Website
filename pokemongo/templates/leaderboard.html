@@ -4,69 +4,79 @@
 {% load static %}
 {% load humanize %}
 
-{% block head_title %}{% blocktrans with title|default:_("International") as loc context "This is the title, loc is defined as the country/continent name, or the word International (which is translated seperately)." %}{{loc}} Leaderboard{% endblocktrans %}{% endblock %}
+{% block head_title %}{% blocktrans with title|default:_("International Leaderboard") as title %}{{title}}{% endblocktrans %}{% endblock %}
 
 {% block extra_head %}
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:site" content="@TrainerDexApp"/>
-<meta property="og:title" content="{% blocktrans with title|default:_("International") as loc context "This is the title, loc is defined as the country/continent name, or the word International (which is translated seperately)." %}{{loc}} Leaderboard{% endblocktrans %}" />
+<meta property="og:title" content="{% blocktrans with title|default:_("International Leaderboard") as title %}{{title}}{% endblocktrans %}" />
 <meta property="og:image" content="{% static 'img/Harmony.png' %}"/>
 <meta property="og:ttl" content="345600" />
-<meta property="og:description" content="{% for trainer in leaderboard|slice:'0:10' %}
-#{{trainer.position}}·{{trainer.trainer.nickname}}·{{trainer.trainer.flag_emoji|default_if_none:''}}·{{trainer.xp|intcomma}}·{% endfor %}" />
-<script>
-function setParam(uri, key, val) {
-  return uri
-    .replace(RegExp("([?&]"+key+"(?=[=&#]|$)[^#&]*|(?=#|$))"), "&"+key+"="+encodeURIComponent(val))
-    .replace(/^([^?&]+)&/, "$1?");
-}
-</script>
 {% endblock %}
 
 {% block content %}
 <header class="tdx-lb__title mdl-card__title mdl-shadow--4dp">
-  <h2 class="mdl-card__title-text">{% if title %}{{title}} - {% endif %}{% trans "Leaderboard" %}</h2>
+  <h2 class="mdl-card__title-text">{% blocktrans with title|default:_("International Leaderboard") as title %}{{title}}{% endblocktrans %}</h2>
 </header>
 
 
-<div class="tdx-lb__menu mdl-card__menu mdl-color-text--primary-contrast">
-  <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}-1);" {% if page == 1 %}disabled{% endif %}><i class="material-icons">navigate_before</i></button> {{page}}/{{pages}} <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" onclick="location.href = setParam(window.location.href, 'page', {{page}}+1);" {% if page == pages %}disabled{% endif %}><i class="material-icons">navigate_next</i></button>
-</div>
-
-{% for trainer in leaderboard %}
+{% for entry in leaderboard %}
 {% if forloop.first %}
 <div class="tdx-lb__title" style="width: 100%">
     <div class="tdx-lb__supporting-text mdl-card__supporting-text">
-  {% trans 'Total XP' context "Total XP of all Trainers on leaderboard" %}: {{ grand_total_xp | intword }} | {% trans 'Trainers Considered' %}: {{ grand_total_users | intcomma }}
+      {% trans 'Total XP' context "Total XP of all Trainers on leaderboard" %}: {{ aggregations.sum | intword }} |
+      {% trans 'Active Trainers' %}: {{ aggregations.count | intcomma }} (3 months) |
+      {% trans 'Stat' %}: <select name="stat" id="stat_select">
+                            {% for option in stat_options%}
+                            <option value="{{option.0}}" {% if option.0 == stat %}selected{% endif %}>{{option.1}}</option>
+                            {% endfor %}
+                          </select>
+      
     </div>
 </div>
+
+<script>
+  let search_params = {{search_params|safe}};
+  let pathname = '{% url "trainerdex:leaderboard" %}';
+
+  let href = new URL(window.location.href);
+  href.pathname = pathname;
+
+  for (let key in search_params) {
+    if (search_params[key] != null) {
+      href.searchParams.set(key, search_params[key]);
+    }
+  }
+
+  console.log(href.toString());
+
+  document.getElementById('stat_select').addEventListener('change', function() {
+    href.searchParams.set('sort', this.value);
+    window.location.href = href.toString();
+  });
+</script>
 
 <div class="table-responsive">
   <table class="mdl-data-table mdl-js-data-table" style="width: 100%">
     <thead>
       <tr>
-        <th></th>
-        <th class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;"><div id="trainer-nickname" class="trainer-nickname">{% trans "Nickname" context "onboard_enter_name_hint" %}</div> <div id="trainer-level" class="tl">{% trans "TL" context 'Short form of Trainer Level'  %}</div></th>
-        <th id="faction" class="mdl-data-table__cell--non-numeric" style="width: 32px;">{% trans 'Team' context 'faction' %}</th>
-        {% for column in trainer.columns %}
-        <th id="{{column.name}}" {% if sort_by == column.name %}class="mdl-data-table__header--sorted-descending"{% endif %} onclick="location.href = setParam(window.location.href, 'sort', '{{column.name}}');">{{column.readable_name}}</th>
-        {% if column.tooltip %}<div class="mdl-tooltip" for="{{column.name}}">
-        {{column.tooltip}}
-        </div>{% endif %}
-        {% endfor %}
+        <th class="mdl-data-table__cell" style="width: 32px; white-space: nowrap;">Rank</th>
+        <th class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;"><div id="entry-nickname" class="entry-nickname">{% trans "Nickname" context "onboard_enter_name_hint" %}</div></th>
+        <th class="mdl-data-table__cell" style="width: 32px; white-space: nowrap;"><div id="entry-level" class="tl">{% trans "TL" context 'Short form of entry Level' %}</div></th>
+        <th id="faction" class="mdl-data-table__cell--non-numeric">{% trans 'Team' context 'faction' %}</th>
+        <th id="faction" class="mdl-data-table__cell" >{{stat_label}}</th>
         <th class="mdl-data-table__cell--non-numeric">{% trans "Last Updated" %}</th>
       </tr>
     </thead>
     <tbody>
     {% endif %}
       <tr>
-        <td>{{trainer.position|ordinal}}</td>
-        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'trainerdex:profile' %}?id={{trainer.trainer.pk}}'"><div class="trainer-nickname">{{trainer.trainer.nickname}} {{trainer.trainer.flag_emoji|default_if_none:''}}</div> <div class="tl">{{trainer.level}}</div></td>
-        <td class="mdl-data-table__cell--non-numeric" style="padding-top: 0px; padding-bottom: 0px; width: 32px;"><img src="{{trainer.trainer.team.get_image_url}}" alt="{{trainer.trainer.team}}" title="{{trainer.trainer.team}}" style="width: 32px;"/></td>
-        {% for column in trainer.columns %}
-        <td>{{column.value|default_if_none:"•"|intcomma}}</td>
-        {% endfor %}
-        <td class="mdl-data-table__cell--non-numeric">{{trainer.update_time|naturalday}}</td>
+        <td class="mdl-data-table__cell" style="width: 32px;">{{entry.position|ordinal}}</td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'trainerdex:profile' nickname=entry.username%}'"><div class="trainer-nickname">{{entry.username}}</div></td>
+        <td class="mdl-data-table__cell" style="width: 32px; white-space: nowrap;"><div class="tl">{{entry.level}}</div></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: 32px;">{{entry.faction.name_en}}</td>
+        <td class="mdl-data-table__cell">{{entry.value|intcomma}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{entry.last_updated}}</td>
       </tr>
     {% if forloop.last %}
     </tbody>

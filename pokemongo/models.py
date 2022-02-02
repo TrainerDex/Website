@@ -273,7 +273,7 @@ class Trainer(models.Model):
         """Gets nickname, fallback to User username"""
         nickname: models.QuerySet[Nickname]
         if nickname := self.nickname_set.only("nickname").filter(active=True).first():
-            return nickname[0].nickname
+            return nickname.nickname
         else:
             return self.owner.username
 
