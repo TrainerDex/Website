@@ -312,11 +312,11 @@
         },
         "humanize": {
             "hashes": [
-                "sha256:32bcf712ac98ff5e73627a9d31e1ba5650619008d6d13543b5d53b48e8ab8d43",
-                "sha256:60dd8c952b1df1ad83f0903844dec50a34ba7a04eea22a6b14204ffb62dbb0a4"
+                "sha256:8d86333b8557dacffd4dce1dbe09c81c189e2caf7bb17a970b2212f0f58f10f2",
+                "sha256:ee1f872fdfc7d2ef4a28d4f80ddde9f96d36955b5d6b0dac4bdeb99502bddb00"
             ],
             "index": "pypi",
-            "version": "==3.14.0"
+            "version": "==4.0.0"
         },
         "idna": {
             "hashes": [
