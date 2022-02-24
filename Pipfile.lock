@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "de163defed743101d0e4aafde78f9ebe858ab4700431ae0770f88484877939e7"
+            "sha256": "83de4eb162bfd56c9dbc654b88516bf8f4b957b49ebc1b2c12541bb347b216db"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -282,11 +282,11 @@
         },
         "djangorestframework": {
             "hashes": [
-                "sha256:6d1d59f623a5ad0509fe0d6bfe93cbdfe17b8116ebc8eda86d45f6e16e819aaf",
-                "sha256:f747949a8ddac876e879190df194b925c177cdeb725a099db1460872f7c0a7f2"
+                "sha256:0c33407ce23acc68eca2a6e46424b008c9c02eceb8cf18581921d0092bc1f2ee",
+                "sha256:24c4bf58ed7e85d1fe4ba250ab2da926d263cd57d64b03e8dcef0ac683f8b1aa"
             ],
             "index": "pypi",
-            "version": "==3.12.4"
+            "version": "==3.13.1"
         },
         "email-reply-parser": {
             "hashes": [
