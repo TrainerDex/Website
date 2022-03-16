@@ -226,7 +226,6 @@ def LeaderboardView(
     context = {}
 
     if country:
-        country_info = get_country_info(country.upper())
         try:
             country_info = get_country_info(country.upper())
         except IndexError:
