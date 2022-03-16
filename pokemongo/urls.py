@@ -1,5 +1,6 @@
 from django.urls import include, path
 from django.views.generic import RedirectView
+
 from pokemongo.views import CreateUpdateView, LeaderboardView, TrainerRedirectorView
 
 app_name = "trainerdex"

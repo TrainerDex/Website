@@ -1,13 +1,14 @@
-from core import sitemaps
-from core.views import PrivacyView, SettingsView, TermsView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 from django.utils.translation import gettext_lazy as _
-from pokemongo.views import EditProfileView
 from rest_framework.authtoken import views
+
+from core import sitemaps
+from core.views import PrivacyView, SettingsView, TermsView
+from pokemongo.views import EditProfileView
 
 urlpatterns = [
     path(

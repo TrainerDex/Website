@@ -2,7 +2,6 @@ from datetime import datetime
 
 import discord
 import pytz
-from core.models import DiscordGuildSettings
 from dateutil.relativedelta import MO
 from dateutil.rrule import WEEKLY, rrule
 from django.conf import settings
@@ -10,6 +9,8 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from humanize import precisedelta
+
+from core.models import DiscordGuildSettings
 
 
 class Command(BaseCommand):

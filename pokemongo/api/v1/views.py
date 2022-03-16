@@ -4,13 +4,18 @@ from typing import Dict
 
 import requests
 from allauth.socialaccount.models import SocialAccount
-from core.models import DiscordGuildSettings, get_guild_info
 from django.contrib.auth import get_user_model
 from django.db.models import Avg, Count, F, Max, Min, Prefetch, Q, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from rest_framework import authentication, permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+
+from core.models import DiscordGuildSettings, get_guild_info
 from pokemongo.api.v1.serializers import (
     DetailedTrainerSerializer,
     DetailedUpdateSerializer,
@@ -24,10 +29,6 @@ from pokemongo.shortcuts import (
     filter_leaderboard_qs__update,
     get_country_info,
 )
-from rest_framework import authentication, permissions, status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
 
 logger = logging.getLogger("django.trainerdex")
 User = get_user_model()

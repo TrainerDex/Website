@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import logging
 import uuid
 from collections import defaultdict
@@ -7,7 +8,6 @@ from decimal import Decimal
 from os.path import splitext
 from typing import TYPE_CHECKING, Dict, List, Literal, NoReturn, Optional, Union
 
-from core.models import DiscordGuild, DiscordGuildMembership, DiscordRole
 from django.conf import settings
 from django.contrib.postgres import fields as postgres_fields
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -21,17 +21,19 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import npgettext_lazy, pgettext_lazy
 from exclusivebooleanfield.fields import ExclusiveBooleanField
+from pytz import common_timezones
+
+from core.models import DiscordGuild, DiscordGuildMembership, DiscordRole
 from pokemongo.shortcuts import (
     UPDATE_FIELDS_BADGES,
     UPDATE_FIELDS_TYPES,
-    UPDATE_SORTABLE_FIELDS,
     UPDATE_NON_REVERSEABLE_FIELDS,
+    UPDATE_SORTABLE_FIELDS,
     circled_level,
-    get_possible_levels_from_total_xp,
     get_country_info,
+    get_possible_levels_from_total_xp,
 )
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
-from pytz import common_timezones
 
 logger = logging.getLogger("django.trainerdex")
 

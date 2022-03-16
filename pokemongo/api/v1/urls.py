@@ -1,4 +1,5 @@
 from django.urls import include, path
+
 from pokemongo.api.v1.views import (
     DetailedLeaderboardView,
     LatestUpdateView,

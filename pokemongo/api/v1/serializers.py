@@ -3,9 +3,10 @@ from typing import Dict, List, Optional, Union
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
+
 from pokemongo.models import Faction, Trainer, Update
 from pokemongo.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
-from rest_framework import serializers
 
 User = get_user_model()
 

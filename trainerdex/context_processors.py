@@ -1,6 +1,7 @@
 from typing import Dict
 
 from django import __version__ as django_version
+
 from trainerdex import __version__ as tdx_version
 
 

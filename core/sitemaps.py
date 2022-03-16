@@ -3,6 +3,7 @@ from typing import Any, Iterable, List, Union
 
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
+
 from pokemongo.models import Community, Trainer
 from pokemongo.shortcuts import filter_leaderboard_qs
 

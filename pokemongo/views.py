@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.utils import timezone
 from django.utils.translation import get_language_from_request
 from django.utils.translation import gettext_lazy as _
+
 from pokemongo.forms import TrainerForm, UpdateForm
 from pokemongo.models import Community, Nickname, Trainer, Update
 from pokemongo.shortcuts import (

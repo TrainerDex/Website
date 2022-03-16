@@ -2,7 +2,6 @@ from datetime import date, datetime
 from typing import Iterable, List, Union
 
 import discord
-from core.models import DiscordGuildSettings
 from dateutil.relativedelta import MO
 from dateutil.rrule import WEEKLY, rrule
 from django.conf import settings
@@ -12,6 +11,8 @@ from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
 from humanize import intcomma, naturaldelta
+
+from core.models import DiscordGuildSettings
 from pokemongo.models import Trainer, Update
 from pokemongo.shortcuts import filter_leaderboard_qs
 
