@@ -24,6 +24,7 @@ Markdown = "*"
 Pillow = "*"
 Pygments = "~=2.9.0"
 django-silk = "*"
+django-allow-cidr = "*"
 
 [dev-packages]
 flake8 = "*"

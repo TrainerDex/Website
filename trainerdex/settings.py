@@ -19,6 +19,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 DEBUG = bool(int(os.environ.get("DEBUG", 0)))
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(" ")
+ALLOWED_CIDR_NETS = ["10.244.0.0/16"]
 
 ADMINS = [("Jay Turner", "jaynicholasturner@gmail.com")]
 
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "silk.middleware.SilkyMiddleware",
+    "allow_cidr.middleware.AllowCIDRMiddleware",
 ]
 
 LOCALE_PATHS = [
