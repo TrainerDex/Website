@@ -16,7 +16,6 @@ urlpatterns = [
         {
             "sitemaps": {
                 "base": sitemaps.BaseSitemap,
-                "country": sitemaps.LeaderboardCountrySitemap,
                 "trainers": sitemaps.TrainerSitemap,
                 "communities": sitemaps.LeaderboardCommunitySitemap,
             }
