@@ -3,7 +3,6 @@ from datetime import timedelta
 from math import ceil
 from typing import Optional
 
-from cities.models import Country
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -23,6 +22,7 @@ from pokemongo.shortcuts import (
     UPDATE_SORTABLE_FIELDS,
     chunks,
     filter_leaderboard_qs,
+    get_country_info,
     get_possible_levels_from_total_xp,
 )
 
@@ -226,17 +226,13 @@ def LeaderboardView(
     context = {}
 
     if country:
+        country_info = get_country_info(country.upper())
         try:
-            country = Country.objects.prefetch_related("leaderboard_trainers_country").get(
-                code__iexact=country
-            )
-        except Country.DoesNotExist:
+            country_info = get_country_info(country.upper())
+        except IndexError:
             raise Http404(_("No country found for code {country}").format(country=country))
-        context["title"] = (
-            country.alt_names.filter(language_code=get_language_from_request(request)).first()
-            or country
-        ).name
-        queryset = country.leaderboard_trainers_country
+        context["title"] = country_info.get("name")
+        queryset = Trainer.objects.filter(country_iso=country.upper())
     elif community:
         try:
             community = Community.objects.get(handle__iexact=community)

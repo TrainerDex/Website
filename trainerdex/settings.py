@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "silk",
-    "cities",
     "core",
     "pokemongo",
     "allauth",
@@ -48,12 +47,6 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.reddit",
     "allauth.socialaccount.providers.twitter",
     "widget_tweaks",
-]
-
-INSTALLED_APPS += [
-    "markdown_deux",
-    "bootstrapform",
-    "helpdesk",
 ]
 
 MIDDLEWARE = [
@@ -209,12 +202,6 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 
 GOOGLE_ANALYTICS_MEASUREMENT_ID = os.environ.get("GOOGLE_ANALYTICS_MEASUREMENT_ID", "")
 
-# Django Cities
-# https://github.com/coderholic/django-cities#configuration
-
-CITIES_LOCALES = ["LANGUAGES"]
-CITIES_POSTAL_CODES = []
-
 # Email
 # https://docs.djangoproject.com/en/2.2/topics/email/
 
@@ -230,14 +217,6 @@ DEFAULT_FROM_EMAIL = os.environ.get(
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 FILE_UPLOAD_PERMISSIONS = 0x775
-
-# Helpdesk
-
-HELPDESK_USE_CDN = True
-HELPDESK_TRANSLATE_TICKET_COMMENTS = True
-HELPDESK_AUTO_SUBSCRIBE_ON_TICKET_RESPONSE = True
-HELPDESK_STAFF_ONLY_TICKET_OWNERS = True
-HELPDESK_STAFF_ONLY_TICKET_CC = True
 
 # DISCORD
 # Could this be stored in the database?

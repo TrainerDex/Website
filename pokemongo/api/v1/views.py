@@ -1,9 +1,9 @@
 import logging
 from datetime import datetime, timedelta
+from typing import Dict
 
 import requests
 from allauth.socialaccount.models import SocialAccount
-from cities.models import Country
 from core.models import DiscordGuildSettings, get_guild_info
 from django.contrib.auth import get_user_model
 from django.db.models import Avg, Count, F, Max, Min, Prefetch, Q, Subquery, Sum, Window
@@ -19,7 +19,11 @@ from pokemongo.api.v1.serializers import (
     UserSerializer,
 )
 from pokemongo.models import Community, Nickname, Trainer, Update
-from pokemongo.shortcuts import UPDATE_FIELDS_BADGES, filter_leaderboard_qs__update
+from pokemongo.shortcuts import (
+    UPDATE_FIELDS_BADGES,
+    filter_leaderboard_qs__update,
+    get_country_info,
+)
 from rest_framework import authentication, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -431,12 +435,10 @@ class DetailedLeaderboardView(APIView):
         def get_users_for_community(community: Community):
             return community.get_members()
 
-        def get_country(code: str) -> Country:
+        def get_country(code: str) -> Dict:
             try:
-                country = Country.objects.prefetch_related("leaderboard_trainers_country").get(
-                    code__iexact=code
-                )
-            except Country.DoesNotExist:
+                country_info = get_country_info(country.upper())
+            except IndexError:
                 return Response(
                     {
                         "error": "Not Found",
@@ -446,10 +448,10 @@ class DetailedLeaderboardView(APIView):
                     },
                     status=404,
                 )
-            return country
+            return country_info
 
-        def get_users_for_country(country: Country):
-            return country.leaderboard_trainers_country.all()
+        def get_users_for_country(country: Dict):
+            return Trainer.objects.filter(country_iso=country.upper())
 
         if guild:
             guild = get_guild(guild)
@@ -476,9 +478,9 @@ class DetailedLeaderboardView(APIView):
             output = {
                 "generated": generated_time,
                 "stat": stat,
-                "country": country.code,
+                "country": country.get("code"),
             }
-            output["title"] = "{country} Leaderboard".format(country=country)
+            output["title"] = "{country} Leaderboard".format(country=country.get("name"))
             members = get_users_for_country(country)
         else:
             output = {"generated": generated_time, "stat": stat, "title": None}

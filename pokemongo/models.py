@@ -202,7 +202,10 @@ class Trainer(models.Model):
 
     def country_info(self) -> Dict:
         if self.country_iso:
-            return get_country_info(self.country_iso)
+            try:
+                return get_country_info(self.country_iso)
+            except IndexError:
+                return {}
         return {}
 
     def flag_emoji(self) -> Optional[str]:

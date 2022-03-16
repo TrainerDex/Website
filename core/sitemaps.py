@@ -1,7 +1,6 @@
 import datetime
 from typing import Any, Iterable, List, Union
 
-from cities.models import Country
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from pokemongo.models import Community, Trainer
@@ -44,23 +43,6 @@ class TrainerSitemap(Sitemap):
 
     def priority(self, obj: Trainer) -> float:
         return 0.5
-
-
-class LeaderboardCountrySitemap(Sitemap):
-    changefreq = "daily"
-
-    def items(self):
-        return Country.objects.filter(leaderboard_trainers_country__isnull=False).distinct()
-
-    def priority(self, obj: Country) -> float:
-        count = obj.leaderboard_trainers_country.count()
-        if count:
-            return 0.25 + (min(count, 100) / 200)
-        else:
-            return 0
-
-    def location(self, obj: Country) -> Any:
-        return reverse("trainerdex:leaderboard", kwargs={"country": obj.code})
 
 
 class LeaderboardCommunitySitemap(Sitemap):

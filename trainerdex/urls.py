@@ -27,7 +27,6 @@ urlpatterns = [
     path("api/v1/", include("pokemongo.api.v1.urls")),
     path("api/token-auth/", views.obtain_auth_token),
     path("api/ajax_select/", include("ajax_select.urls")),
-    path("help/", include("helpdesk.urls")),
     path("legal/privacy/", PrivacyView, name="privacy"),
     path("legal/terms/", TermsView, name="terms"),
     path("settings/", SettingsView, name="account_settings"),
