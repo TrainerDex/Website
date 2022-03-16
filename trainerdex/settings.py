@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.sitemaps",
-    "django.contrib.gis",
     "rest_framework",
     "rest_framework.authtoken",
     "silk",
@@ -94,7 +93,7 @@ WSGI_APPLICATION = "trainerdex.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.contrib.gis.db.backends.postgis"),
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
         "NAME": os.environ.get("SQL_DATABASE", "tdx"),
         "USER": os.environ.get("SQL_USER", "tdx"),
         "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
