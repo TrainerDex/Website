@@ -56,6 +56,6 @@ class TrainerForm(BetterModelForm):
             "faction",
             "statistics",
             "trainer_code",
-            "leaderboard_country",
+            "country_iso",
             "verification",
         )

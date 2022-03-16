@@ -313,7 +313,6 @@ def LeaderboardView(
             rank=Window(expression=Rank(), order_by=F(f"update__{sort_by}__max").desc())
         )
         .prefetch_related(
-            "leaderboard_country",
             Prefetch(
                 "nickname_set",
                 Nickname.objects.filter(active=True),

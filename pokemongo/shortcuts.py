@@ -827,7 +827,7 @@ def circled_level(i: int) -> str:
         return ""
 
 
-def lookup(country_code: str) -> str:
+def get_country_info(country_code: str) -> Dict:
     data = [
         {
             "code": "AD",
@@ -2580,8 +2580,7 @@ def lookup(country_code: str) -> str:
             "title": "flag for Zimbabwe",
         },
     ]
-    flags = {x["code"]: x["emoji"] for x in data}
-    return flags.get(country_code.upper())
+    return [x for x in data if x["code"] == country_code][0]
 
 
 def chunks(l, n):

@@ -5,9 +5,8 @@ from collections import defaultdict
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 from os.path import splitext
-from typing import TYPE_CHECKING, List, Literal, NoReturn, Optional, Union
+from typing import TYPE_CHECKING, Dict, List, Literal, NoReturn, Optional, Union
 
-from cities.models import Country
 from core.models import DiscordGuild, DiscordGuildMembership, DiscordRole
 from django.conf import settings
 from django.contrib.postgres import fields as postgres_fields
@@ -29,7 +28,7 @@ from pokemongo.shortcuts import (
     UPDATE_NON_REVERSEABLE_FIELDS,
     circled_level,
     get_possible_levels_from_total_xp,
-    lookup,
+    get_country_info,
 )
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 from pytz import common_timezones
@@ -135,13 +134,11 @@ class Trainer(models.Model):
         help_text=_("Fancy sharing your trainer code?" " (This information is public.)"),
     )
 
-    leaderboard_country: Country = models.ForeignKey(
-        Country,
-        on_delete=models.SET_NULL,
+    country_iso: str = models.CharField(
+        max_length=2,
         null=True,
         blank=True,
         verbose_name=_("Country"),
-        related_name="leaderboard_trainers_country",
         help_text=_("Where are you based?"),
     )
 
@@ -203,9 +200,13 @@ class Trainer(models.Model):
     def is_prefered(self) -> Literal[True]:
         return True
 
+    def country_info(self) -> Dict:
+        if self.country_iso:
+            return get_country_info(self.country_iso)
+        return {}
+
     def flag_emoji(self) -> Optional[str]:
-        if self.leaderboard_country:
-            return lookup(self.leaderboard_country.code)
+        return self.country_info().get("emoji")
 
     def submitted_picture(self) -> bool:
         return bool(self.verification)
