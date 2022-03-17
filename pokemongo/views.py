@@ -17,8 +17,6 @@ from pokemongo.forms import TrainerForm, UpdateForm
 from pokemongo.models import Community, Nickname, Trainer, Update
 from pokemongo.shortcuts import (
     BADGES,
-    UPDATE_FIELDS_BADGES,
-    UPDATE_FIELDS_TYPES,
     UPDATE_SORTABLE_FIELDS,
     chunks,
     filter_leaderboard_qs,
@@ -83,9 +81,7 @@ def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
     context = {
         "trainer": trainer,
         "updates": trainer.update_set.all(),
-        "stats": trainer.update_set.aggregate(
-            **{x: Max(x) for x in UPDATE_FIELDS_BADGES + UPDATE_FIELDS_TYPES}
-        ),
+        "stats": trainer.update_set.aggregate(**{x: Max(x) for x in UPDATE_SORTABLE_FIELDS}),
         "level": trainer.level(),
         "medal_data": {
             x.get("name"): {
