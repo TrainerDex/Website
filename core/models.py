@@ -6,7 +6,6 @@ from typing import Dict, List, Optional, Union
 import requests
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
-from django.contrib.postgres import fields as postgres_fields
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models.signals import post_save
@@ -82,7 +81,7 @@ class DiscordGuild(models.Model):
         primary_key=True,
         verbose_name="ID",
     )
-    data = postgres_fields.JSONField(null=True, blank=True)
+    data = models.JSONField(null=True, blank=True)
     cached_date = models.DateTimeField(auto_now_add=True)
     has_access = models.BooleanField(default=False)
     members = models.ManyToManyField(
@@ -292,7 +291,7 @@ class DiscordChannel(models.Model):
         on_delete=models.CASCADE,
         related_name="channels",
     )
-    data = postgres_fields.JSONField(
+    data = models.JSONField(
         null=True,
         blank=True,
     )
@@ -372,7 +371,7 @@ class DiscordRole(models.Model):
         on_delete=models.CASCADE,
         related_name="roles",
     )
-    data = postgres_fields.JSONField(
+    data = models.JSONField(
         null=True,
         blank=True,
     )
@@ -496,7 +495,7 @@ class DiscordGuildMembership(models.Model):
         max_length=32,
     )
 
-    data = postgres_fields.JSONField(
+    data = models.JSONField(
         null=True,
         blank=True,
     )
