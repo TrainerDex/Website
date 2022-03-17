@@ -34,6 +34,7 @@ from pokemongo.shortcuts import (
     get_possible_levels_from_total_xp,
 )
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
+from trainerdex.abstract_models import PublicModel
 
 logger = logging.getLogger("django.trainerdex")
 
@@ -88,7 +89,7 @@ class Faction:
         return True
 
 
-class Trainer(models.Model):
+class Trainer(PublicModel):
     owner: User = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -350,13 +351,7 @@ def new_trainer_set_nickname(sender, **kwargs) -> Optional[Nickname]:
         return nickname
 
 
-class Update(models.Model):
-    uuid = models.UUIDField(
-        unique=True,
-        default=uuid.uuid4,
-        editable=False,
-        verbose_name="UUID",
-    )
+class Update(PublicModel):
     trainer = models.ForeignKey(
         Trainer,
         on_delete=models.CASCADE,
@@ -366,6 +361,10 @@ class Update(models.Model):
         default=timezone.now,
         verbose_name=_("Time Updated"),
     )
+
+    @property
+    def submission_date(self) -> datetime:
+        return self.created_at
 
     DATABASE_SOURCES = (
         ("?", None),
@@ -390,10 +389,6 @@ class Update(models.Model):
         ("com.pkmngots.import", "Third Saturday"),
     )
 
-    submission_date = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name=_("Submission Datetime"),
-    )
     data_source = models.CharField(
         max_length=256,
         choices=DATABASE_SOURCES,

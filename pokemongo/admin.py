@@ -12,6 +12,7 @@ from pokemongo.models import (
     Update,
 )
 from pokemongo.shortcuts import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES
+from trainerdex.abstract_admin import DatedAdmin, UUIDAdmin
 
 
 def sync_members(modeladmin, request, queryset):
@@ -56,21 +57,21 @@ class ProfileBadgeHoldershipAdmin(admin.ModelAdmin):
 
 
 @admin.register(Update)
-class UpdateAdmin(admin.ModelAdmin):
+class UpdateAdmin(UUIDAdmin, DatedAdmin):
 
     autocomplete_fields = ["trainer"]
     list_display = (
         "trainer",
         "total_xp",
         "update_time",
-        "submission_date",
+        "created_at",
         "has_modified_extra_fields",
     )
     search_fields = ("trainer__nickname__nickname", "trainer__owner__username")
     ordering = ("-update_time",)
     date_hierarchy = "update_time"
 
-    readonly_fields = ["uuid", "submission_date"]
+    readonly_fields = ["uuid", "created_at"]
     fieldsets = [
         (
             None,
@@ -78,7 +79,7 @@ class UpdateAdmin(admin.ModelAdmin):
                 "fields": [
                     "uuid",
                     "trainer",
-                    "submission_date",
+                    "created_at",
                     "update_time",
                     "data_source",
                     "screenshot",
@@ -131,7 +132,7 @@ class NicknameAdmin(admin.ModelAdmin):
 
 
 @admin.register(Trainer)
-class TrainerAdmin(admin.ModelAdmin):
+class TrainerAdmin(UUIDAdmin, DatedAdmin):
 
     autocomplete_fields = [
         "owner",
