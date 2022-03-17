@@ -1,6 +1,13 @@
+from __future__ import annotations
+
+from collections import Counter
+from typing import TYPE_CHECKING
+
+from django.db.models import QuerySet
 from django.contrib import admin, messages
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as pgettext
+from django.utils.timezone import now
 
 from pokemongo.models import (
     Community,
@@ -12,7 +19,9 @@ from pokemongo.models import (
     Update,
 )
 from pokemongo.shortcuts import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES
-from trainerdex.abstract_admin import DatedAdmin, UUIDAdmin
+
+if TYPE_CHECKING:
+    from trainerdex.abstract_models import PrivateModel
 
 
 def sync_members(modeladmin, request, queryset):
@@ -26,6 +35,37 @@ def sync_members(modeladmin, request, queryset):
 
 
 sync_members.short_description = _("Sync Members for all eligible Discords")
+
+
+def soft_delete(modeladmin, request, queryset: QuerySet[PrivateModel]):
+    delete_time = now()
+    counter = Counter()
+    for obj in queryset:
+        counter += obj.soft_delete(updated_at=delete_time)
+    if counter:
+        objects_deleted_str = ", ".join(f"{count} {model}" for model, count in counter.items())
+    else:
+        objects_deleted_str = "No"
+    messages.info(request, f"{objects_deleted_str} object(s) deleted")
+
+
+soft_delete.short_description = _("Soft Delete")
+
+
+def undelete(modeladmin, request, queryset: QuerySet[PrivateModel]):
+    restore_time = now()
+    counter = Counter()
+    for obj in queryset:
+        counter += obj.undelete(updated_at=restore_time)
+
+    if counter:
+        objects_restored_str = ", ".join(f"{count} {model}" for model, count in counter.items())
+    else:
+        objects_restored_str = "No"
+    messages.info(request, f"{objects_restored_str} object(s) restored")
+
+
+undelete.short_description = _("Restore (Undelete)")
 
 
 @admin.register(Community)
@@ -57,7 +97,7 @@ class ProfileBadgeHoldershipAdmin(admin.ModelAdmin):
 
 
 @admin.register(Update)
-class UpdateAdmin(UUIDAdmin, DatedAdmin):
+class UpdateAdmin(admin.ModelAdmin):
 
     autocomplete_fields = ["trainer"]
     list_display = (
@@ -71,15 +111,31 @@ class UpdateAdmin(UUIDAdmin, DatedAdmin):
     ordering = ("-update_time",)
     date_hierarchy = "update_time"
 
-    readonly_fields = ["uuid", "created_at"]
+    readonly_fields = (
+        "uuid",
+        "created_at",
+        "updated_at",
+        "is_deleted",
+        "deleted_at",
+    )
     fieldsets = [
         (
             None,
             {
                 "fields": [
                     "uuid",
-                    "trainer",
                     "created_at",
+                    "updated_at",
+                    "is_deleted",
+                    "deleted_at",
+                ]
+            },
+        ),
+        (
+            Update._meta.verbose_name,
+            {
+                "fields": [
+                    "trainer",
                     "update_time",
                     "data_source",
                     "screenshot",
@@ -111,6 +167,7 @@ class UpdateAdmin(UUIDAdmin, DatedAdmin):
             {"fields": UPDATE_FIELDS_TYPES},
         ),
     ]
+    actions = [soft_delete, undelete]
 
 
 @admin.register(Nickname)
@@ -132,7 +189,7 @@ class NicknameAdmin(admin.ModelAdmin):
 
 
 @admin.register(Trainer)
-class TrainerAdmin(UUIDAdmin, DatedAdmin):
+class TrainerAdmin(admin.ModelAdmin):
 
     autocomplete_fields = [
         "owner",
@@ -157,10 +214,30 @@ class TrainerAdmin(UUIDAdmin, DatedAdmin):
         "owner__username",
     )
     ordering = ("nickname__nickname", "pk")
+    readonly_fields = (
+        "uuid",
+        "created_at",
+        "updated_at",
+        "is_deleted",
+        "deleted_at",
+    )
+    actions = [soft_delete, undelete]
 
     fieldsets = (
         (
             None,
+            {
+                "fields": [
+                    "uuid",
+                    "created_at",
+                    "updated_at",
+                    "is_deleted",
+                    "deleted_at",
+                ]
+            },
+        ),
+        (
+            Trainer._meta.verbose_name,
             {
                 "fields": (
                     "owner",

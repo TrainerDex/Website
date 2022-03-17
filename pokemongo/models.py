@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 from os.path import splitext
@@ -13,7 +13,7 @@ from django.contrib.postgres import fields as postgres_fields
 from django.templatetags.static import static
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models
+from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -299,6 +299,55 @@ class Trainer(PublicModel):
 
     def get_absolute_url(self):
         return reverse("trainerdex:profile", kwargs={"nickname": self.nickname})
+
+    def soft_delete(self, *args, cascade: bool = True, **kwargs) -> Counter[dict[str, int]]:
+        if self.is_deleted:
+            return Counter()
+
+        deletetion_time = kwargs.pop("updated_at", timezone.now())
+        if cascade:
+            with transaction.atomic():
+                if self.owner.is_active:
+                    self.owner.is_active = False
+                    self.owner.save(update_fields={"is_active"})
+                    owner_counter = Counter({str(self.owner._meta): 1})
+                else:
+                    owner_counter = Counter()
+
+                updates_counter = Counter()
+                for update in self.update_set.filter(is_deleted=False):
+                    updates_counter += update.soft_delete(updated_at=deletetion_time)
+
+                self_counter = super().soft_delete(*args, updated_at=deletetion_time, **kwargs)
+            return owner_counter + updates_counter + self_counter
+
+        return super().soft_delete(*args, updated_at=deletetion_time, **kwargs)
+
+    def undelete(self, *args, cascade: bool = True, **kwargs) -> Counter[dict[str, int]]:
+        if not self.is_deleted:
+            return Counter()
+
+        restore_time = kwargs.pop("updated_at", timezone.now())
+        if cascade:
+            with transaction.atomic():
+                if self.owner.is_active is False:
+                    self.owner.is_active = True
+                    self.owner.save(update_fields={"is_active"})
+                    owner_counter = Counter({str(self.owner._meta): 1})
+                else:
+                    owner_counter = Counter()
+
+                updates_counter = Counter()
+                for update in self.update_set.filter(
+                    is_deleted=True,
+                    deleted_at__gte=self.deleted_at,
+                ):
+                    updates_counter += update.undelete(updated_at=restore_time)
+
+                self_counter = super().undelete(*args, updated_at=restore_time, **kwargs)
+            return owner_counter + updates_counter + self_counter
+
+        return super().undelete(*args, updated_at=restore_time, **kwargs)
 
     class Meta:
         verbose_name = _("Trainer")
