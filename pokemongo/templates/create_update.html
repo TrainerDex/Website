@@ -24,10 +24,11 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  {% for fieldset in form.fieldsets %}
-  {% if fieldset.legend %}<h1>{{fieldset.legend}}</h1>{% endif %}
+  {% comment %} {% for fieldset in form.fieldsets %} {% endcomment %}
+  {% comment %} {% if fieldset.legend %}<h1>{{fieldset.legend}}</h1>{% endif %} {% endcomment %}
   <div class="mdl-grid">
-    {% for field in fieldset %}
+    {% for field in form %}
+    {% comment %} {% for field in fieldset %} {% endcomment %}
     {% if field.is_hidden %}
     {{ field }}
     {% else %}
@@ -84,7 +85,7 @@
     {% endif %}
     {% endfor %}
   </div>
-  {% endfor %}
+  {% comment %} {% endfor %} {% endcomment %}
   <footer class="mdl-card__actions mdl-card--border">
     <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit" name="action">{% trans "Done" context "general_done" %}</button>
   </footer>
