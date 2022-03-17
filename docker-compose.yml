@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  trainerdex-db:
+    container_name: trainerdex-db
+    image: postgres:13-bullseye
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=trainerdex
+      - POSTGRES_USER=trainerdex
+volumes:
+  postgres:
