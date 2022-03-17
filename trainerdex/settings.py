@@ -236,3 +236,5 @@ TEAMS = {
 SILKY_AUTHENTICATION = True  # User must login
 SILKY_AUTHORISATION = True  # User must have permissions
 SILKY_META = True
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
