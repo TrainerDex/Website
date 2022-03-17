@@ -11,7 +11,6 @@ from django.db.models.functions import DenseRank as Rank
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.utils import timezone
-from django.utils.translation import get_language_from_request
 from django.utils.translation import gettext_lazy as _
 
 from pokemongo.forms import TrainerForm, UpdateForm
