@@ -15,6 +15,11 @@ class Migration(migrations.Migration):
             old_name="submission_date",
             new_name="created_at",
         ),
+        migrations.RenameField(
+            model_name="trainer",
+            old_name="last_modified",
+            new_name="updated_at",
+        ),
         migrations.AlterField(
             model_name="update",
             name="created_at",
@@ -29,11 +34,6 @@ class Migration(migrations.Migration):
             model_name="trainer",
             name="is_deleted",
             field=models.BooleanField(default=False, verbose_name="Deleted"),
-        ),
-        migrations.AddField(
-            model_name="trainer",
-            name="updated_at",
-            field=models.DateTimeField(null=True, verbose_name="Updated at"),
         ),
         migrations.AddField(
             model_name="trainer",

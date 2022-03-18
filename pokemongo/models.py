@@ -146,10 +146,10 @@ class Trainer(PublicModel):
     )
 
     verified: bool = models.BooleanField(default=False, verbose_name=_("Verified"))
-    last_modified: datetime = models.DateTimeField(
-        auto_now=True,
-        verbose_name=_("Last Modified"),
-    )
+
+    @property
+    def last_modified(self) -> datetime:
+        return self.updated_at
 
     event_10b: bool = models.BooleanField(default=False)
     event_1k_users: bool = models.BooleanField(default=False)

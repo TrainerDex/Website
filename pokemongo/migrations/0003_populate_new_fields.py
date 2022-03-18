@@ -8,7 +8,6 @@ def populate_trainer_fields(apps, schema_editor):
     Trainer = apps.get_model("pokemongo", "Trainer")
     for trainer in Trainer.objects.select_related("owner").all():
         trainer.created_at = trainer.owner.date_joined
-        trainer.updated_at = trainer.owner.date_joined
         trainer.uuid = uuid.uuid4()
         trainer.save()
 
