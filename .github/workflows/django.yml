@@ -23,20 +23,20 @@ jobs:
         run: |
           pip install pipenv
           pipenv install --dev
-      # - name: Staring Postgres (Docker)
-      #   run: docker-compose -f ./docker/docker-compose.yml up -d
+      - name: Staring Postgres (Docker)
+        run: docker-compose up -d
       - name: Run Tests
         run: |
-          pipenv run python ./django/manage.py test
-      # - name: Check for uncommited migrations
-      #   run: |
-      #     pipenv run python ./django/manage.py makemigrations --check core pokemongo
-      # - name: Run Migrations
-      #   run: |
-      #     pipenv run python ./django/manage.py migrate --noinput
-      # - name: Compile Messages
-      #   run: |
-      #     pipenv run python ./django/manage.py compilemessages
-      # - name: System Check
-      #   run: |
-      #     pipenv run python ./django/manage.py check
+          pipenv run python manage.py test
+      - name: Check for uncommited migrations
+        run: |
+          pipenv run python manage.py makemigrations --check core pokemongo
+      - name: Run Migrations
+        run: |
+          pipenv run python manage.py migrate --noinput
+      - name: Compile Messages
+        run: |
+          pipenv run python manage.py compilemessages
+      - name: System Check
+        run: |
+          pipenv run python manage.py check
