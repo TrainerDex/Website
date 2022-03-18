@@ -97,8 +97,8 @@ WSGI_APPLICATION = "trainerdex.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
-        "NAME": os.environ.get("SQL_DATABASE", "tdx"),
-        "USER": os.environ.get("SQL_USER", "tdx"),
+        "NAME": os.environ.get("SQL_DATABASE", "trainerdex"),
+        "USER": os.environ.get("SQL_USER", "trainerdex"),
         "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
         "HOST": os.environ.get("SQL_HOST", "localhost"),
         "PORT": os.environ.get("SQL_PORT", "5432"),
