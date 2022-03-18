@@ -10,6 +10,7 @@ import django.db.models.deletion
 import django.utils.timezone
 import exclusivebooleanfield.fields
 from django.conf import settings
+from django.contrib.postgres.operations import CITextExtension
 from django.db import migrations, models
 
 import pokemongo.models
@@ -25,6 +26,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        CITextExtension(),
         migrations.CreateModel(
             name='Community',
             fields=[

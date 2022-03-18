@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Dict, List, Literal, NoReturn, Optional, Union
 
 from django.conf import settings
 from django.contrib.postgres import fields as postgres_fields
-from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.templatetags.static import static
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models

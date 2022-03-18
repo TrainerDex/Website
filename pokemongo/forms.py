@@ -1,55 +1,30 @@
-from django.utils.translation import pgettext
-from form_utils.forms import BetterModelForm
+from django.forms import ModelForm
 
 from pokemongo.models import Trainer, Update
 from pokemongo.shortcuts import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES
 
 
-class UpdateForm(BetterModelForm):
+class UpdateForm(ModelForm):
     class Meta:
         model = Update
-        fieldsets = [
-            (
-                "stats",
-                {
-                    "fields": [
-                        "trainer",
-                        "update_time",
-                        "data_source",
-                        "double_check_confirmation",
-                        "total_xp",
-                        "pokedex_caught",
-                        "pokedex_seen",
-                        "gymbadges_gold",
-                    ],
-                    "legend": pgettext("profile_category_stats", "Stats"),
-                },
-            ),
-            (
-                "medals",
-                {
-                    "fields": STANDARD_MEDALS,
-                    "legend": pgettext("profile_category_medals", "Medals"),
-                },
-            ),
-            (
-                "battle_hub",
-                {
-                    "fields": BATTLE_HUB_STATS,
-                    "legend": pgettext("battle_hub_category_league", "GO Battle League"),
-                },
-            ),
-            (
-                "types",
-                {
-                    "fields": UPDATE_FIELDS_TYPES,
-                    "legend": pgettext("pokemon_info_type", "Type"),
-                },
-            ),
-        ]
+        fields = (
+            [
+                "trainer",
+                "update_time",
+                "data_source",
+                "double_check_confirmation",
+                "total_xp",
+                "pokedex_caught",
+                "pokedex_seen",
+                "gymbadges_gold",
+            ]
+            + STANDARD_MEDALS
+            + BATTLE_HUB_STATS
+            + UPDATE_FIELDS_TYPES
+        )
 
 
-class TrainerForm(BetterModelForm):
+class TrainerForm(ModelForm):
     class Meta:
         model = Trainer
         fields = (
