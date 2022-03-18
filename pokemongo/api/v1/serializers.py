@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import datetime
-from typing import Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Mapping, TypeVar
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
@@ -8,15 +10,14 @@ from rest_framework import serializers
 from pokemongo.models import Faction, Trainer, Update
 from pokemongo.shortcuts import UPDATE_FIELDS_BADGES, UPDATE_FIELDS_TYPES
 
-User = get_user_model()
+if TYPE_CHECKING:
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
 
 
 class BriefUpdateSerializer(serializers.ModelSerializer):
-    xp = serializers.SerializerMethodField()
-
-    def get_xp(self, obj: Update) -> int:
-        """This field is deprecated and will be removed in API v2"""
-        return obj.total_xp
+    xp = serializers.IntegerField(source="total_xp", read_only=True)
 
     class Meta:
         model = Update
@@ -30,14 +31,13 @@ class BriefUpdateSerializer(serializers.ModelSerializer):
         ]
 
 
+_ValidatedData = TypeVar("_ValidatedData", bound=Mapping)
+
+
 class DetailedUpdateSerializer(serializers.ModelSerializer):
-    xp = serializers.SerializerMethodField()
+    xp = serializers.IntegerField(source="total_xp", read_only=True)
 
-    def get_xp(self, obj: Update) -> int:
-        """This field is deprecated and will be removed in API v2"""
-        return obj.total_xp
-
-    def validate(self, attrs: Dict) -> Dict:
+    def validate(self, attrs: _ValidatedData) -> _ValidatedData:
         """This method takes a single argument, which is a dictionary of field values.
 
         It should raise a :serializers.ValidationError: if necessary,
@@ -68,15 +68,8 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
 
 class DetailedTrainerSerializer(serializers.ModelSerializer):
     update_set = BriefUpdateSerializer(read_only=True, many=True)
-    prefered = serializers.SerializerMethodField()
-    username = serializers.SerializerMethodField()
-
-    def get_prefered(self, obj: Trainer) -> bool:
-        """This field is deprecated and will be removed in API v2"""
-        return True
-
-    def get_username(self, obj: Trainer) -> str:
-        return obj.nickname
+    prefered = serializers.BooleanField(default=True, read_only=True)
+    username = serializers.CharField(source="nickname", read_only=True)
 
     class Meta:
         model = Trainer
@@ -103,14 +96,14 @@ class DetailedTrainerSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     profiles = serializers.SerializerMethodField()
 
-    def get_profiles(self, obj: User) -> List[int]:
+    def get_profiles(self, obj: User) -> list[int]:
         """This field is deprecated and will be removed in API v2"""
         try:
             return [obj.trainer.pk]
         except User.trainer.RelatedObjectDoesNotExist:
             return []
 
-    def create(self, validated_data: Dict) -> User:
+    def create(self, validated_data: Mapping) -> User:
         user = User.objects.create_user(**validated_data)
         return user
 
@@ -164,7 +157,7 @@ class LeaderboardSerializer(serializers.Serializer):
         except IndexError:
             return "Unknown"
 
-    def get_faction(self, obj: Update) -> Dict[str, Union[str, int]]:
+    def get_faction(self, obj: Update) -> dict[str, str | int]:
         return FactionSerializer(obj.trainer.faction).data
 
     def get_xp(self, obj: Update) -> int:
@@ -181,8 +174,8 @@ class LeaderboardSerializer(serializers.Serializer):
     def get_last_updated(self, obj: Update) -> datetime.datetime:
         return obj.update_time
 
-    def get_user_id(self, obj: Update) -> Optional[int]:
-        return obj.trainer.owner.pk if obj.trainer.owner else None
+    def get_user_id(self, obj: Update) -> int:
+        return obj.trainer.owner.pk
 
     class Meta:
         model = Update

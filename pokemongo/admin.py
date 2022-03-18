@@ -3,11 +3,12 @@ from __future__ import annotations
 from collections import Counter
 from typing import TYPE_CHECKING
 
-from django.db.models import QuerySet
 from django.contrib import admin, messages
+from django.db.models import QuerySet
+from django.http import HttpRequest
+from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as pgettext
-from django.utils.timezone import now
 
 from pokemongo.models import (
     Community,
@@ -24,7 +25,9 @@ if TYPE_CHECKING:
     from trainerdex.abstract_models import PrivateModel
 
 
-def sync_members(modeladmin, request, queryset):
+def sync_members(
+    modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[Community]
+):
     for x in queryset:
         for y in x.memberships_discord.filter(communitymembershipdiscord__sync_members=True):
             results = y.sync_members()
@@ -37,7 +40,9 @@ def sync_members(modeladmin, request, queryset):
 sync_members.short_description = _("Sync Members for all eligible Discords")
 
 
-def soft_delete(modeladmin, request, queryset: QuerySet[PrivateModel]):
+def soft_delete(
+    modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[PrivateModel]
+):
     delete_time = now()
     counter = Counter()
     for obj in queryset:
@@ -52,7 +57,7 @@ def soft_delete(modeladmin, request, queryset: QuerySet[PrivateModel]):
 soft_delete.short_description = _("Soft Delete")
 
 
-def undelete(modeladmin, request, queryset: QuerySet[PrivateModel]):
+def undelete(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[PrivateModel]):
     restore_time = now()
     counter = Counter()
     for obj in queryset:

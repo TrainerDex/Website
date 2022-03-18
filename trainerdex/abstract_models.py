@@ -1,20 +1,21 @@
-from collections import Counter
 import logging
-import uuid
+from collections import Counter
+from datetime import datetime
+from uuid import UUID, uuid4
 
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import now
+from django.utils.translation import gettext_lazy as _
 
 logger = logging.getLogger(__name__)
 
 
 class PrivateModel(models.Model):
-    id = models.AutoField(_("ID"), primary_key=True)
-    created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
-    updated_at = models.DateTimeField(_("Updated at"), auto_now=True)
-    is_deleted = models.BooleanField(_("Deleted"), default=False)
-    deleted_at = models.DateTimeField(_("Deleted at"), null=True, blank=True)
+    id: int = models.AutoField(_("ID"), primary_key=True)
+    created_at: datetime = models.DateTimeField(_("Created at"), auto_now_add=True)
+    updated_at: datetime = models.DateTimeField(_("Updated at"), auto_now=True)
+    is_deleted: bool = models.BooleanField(_("Deleted"), default=False)
+    deleted_at: datetime | None = models.DateTimeField(_("Deleted at"), null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -49,7 +50,7 @@ class PrivateModel(models.Model):
 
 
 class PublicModel(PrivateModel):
-    uuid = models.UUIDField(_("UUID"), default=uuid.uuid4, unique=True, editable=False)
+    uuid: UUID = models.UUIDField(_("UUID"), default=uuid4, unique=True, editable=False)
 
     class Meta:
         abstract = True

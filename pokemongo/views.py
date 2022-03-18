@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import logging
 from datetime import timedelta
 from math import ceil
-from typing import Optional
+from typing import TYPE_CHECKING
 
 from django import forms
 from django.contrib import messages
@@ -26,8 +28,11 @@ from pokemongo.shortcuts import (
 
 logger = logging.getLogger("django.trainerdex")
 
+if TYPE_CHECKING:
+    from django.contrib.auth.models import User
 
-def _check_if_trainer_valid(user) -> bool:
+
+def _check_if_trainer_valid(user: User) -> bool:
     profile_complete = user.trainer.profile_complete
     logger.debug(
         msg="Checking {nickname}: Completed profile: {status}".format(
@@ -50,7 +55,9 @@ def _check_if_self_valid(request: HttpRequest) -> bool:
 
 
 def TrainerRedirectorView(
-    request: HttpRequest, nickname: Optional[str] = None, id: Optional[int] = None
+    request: HttpRequest,
+    nickname: str | None = None,
+    id: int | None = None,
 ) -> HttpResponse:
     if request.GET.get("nickname", nickname):
         trainer = get_object_or_404(
@@ -216,8 +223,8 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
 
 def LeaderboardView(
     request: HttpRequest,
-    country: Optional[str] = None,
-    community: Optional[str] = None,
+    country: str | None = None,
+    community: str | None = None,
 ) -> HttpResponse:
     context = {}
 

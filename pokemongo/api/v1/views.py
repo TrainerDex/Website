@@ -1,16 +1,16 @@
 import logging
 from datetime import datetime, timedelta
-from typing import Dict
+from typing import TYPE_CHECKING, Dict
 
 import requests
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
 from django.db.models import Avg, Count, F, Max, Min, Prefetch, Q, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
-from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import authentication, permissions, status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -31,7 +31,11 @@ from pokemongo.shortcuts import (
 )
 
 logger = logging.getLogger("django.trainerdex")
-User = get_user_model()
+
+if TYPE_CHECKING:
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
 
 
 def recent(value: datetime) -> bool:
@@ -57,7 +61,7 @@ class TrainerListView(APIView):
 
     authentication_classes = (authentication.TokenAuthentication,)
 
-    def get(self, request: HttpRequest) -> Response:
+    def get(self, request: Request) -> Response:
         queryset = Trainer.objects.exclude(owner__is_active=False)
         if not request.user.is_superuser:
             queryset = queryset.exclude(statistics=False)
@@ -70,13 +74,15 @@ class TrainerListView(APIView):
         serializer = DetailedTrainerSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def post(self, request: HttpRequest) -> Response:
+    def post(self, request: Request) -> Response:
         """
         This used to work as a simple post, but since the beginning of transitioning to API v2 it would have always given Validation Errors if left the same.
         Now it has a 60 minute open slot to work after the auth.User (owner) instance is created. After which, a PATCH request must be given. This is due to the nature of a Trainer being created automatically for all new auth.User
         """
 
-        trainer = Trainer.objects.get(owner__pk=request.data["owner"], owner__is_active=True)
+        trainer: Trainer = Trainer.objects.get(
+            owner__pk=request.data["owner"], owner__is_active=True
+        )
         if not recent(trainer.owner.date_joined):
             return Response(
                 {
@@ -109,7 +115,7 @@ class TrainerDetailView(APIView):
     def get_object(self, pk: int) -> Trainer:
         return get_object_or_404(Trainer, pk=pk, owner__is_active=True)
 
-    def get(self, request: HttpRequest, pk: int) -> Response:
+    def get(self, request: Request, pk: int) -> Response:
         trainer = self.get_object(pk)
         if trainer.active is True and (
             trainer.statistics is True or request.user.is_superuser is True
@@ -125,7 +131,7 @@ class TrainerDetailView(APIView):
             return Response(response, status=status.HTTP_423_LOCKED)
         return Response(None, status=status.HTTP_400_BAD_REQUEST)
 
-    def patch(self, request: HttpRequest, pk: int) -> Response:
+    def patch(self, request: Request, pk: int) -> Response:
         trainer = self.get_object(pk)
         serializer = DetailedTrainerSerializer(trainer, data=request.data, partial=True)
         if serializer.is_valid():
@@ -134,7 +140,7 @@ class TrainerDetailView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request: HttpRequest, pk: int) -> Response:
+    def delete(self, request: Request, pk: int) -> Response:
         trainer = self.get_object(pk)
         if trainer.active:
             trainer.active = False
@@ -160,12 +166,12 @@ class UpdateListView(APIView):
 
     authentication_classes = (authentication.TokenAuthentication,)
 
-    def get(self, request: HttpRequest, pk: int) -> Response:
+    def get(self, request: Request, pk: int) -> Response:
         updates = Update.objects.filter(trainer=pk, trainer__owner__is_active=True)
         serializer = DetailedUpdateSerializer(updates, many=True)
         return Response(serializer.data)
 
-    def post(self, request: HttpRequest, pk: int) -> Response:
+    def post(self, request: Request, pk: int) -> Response:
         serializer = DetailedUpdateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(trainer=get_object_or_404(Trainer, pk=pk, owner__is_active=True))
@@ -189,7 +195,7 @@ class LatestUpdateView(APIView):
 
     authentication_classes = (authentication.TokenAuthentication,)
 
-    def get(self, request: HttpRequest, pk: int) -> Response:
+    def get(self, request: Request, pk: int) -> Response:
         try:
             update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest(
                 "update_time"
@@ -199,7 +205,7 @@ class LatestUpdateView(APIView):
         serializer = DetailedUpdateSerializer(update)
         return Response(serializer.data)
 
-    def patch(self, request: HttpRequest, pk: int) -> Response:
+    def patch(self, request: Request, pk: int) -> Response:
         update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest(
             "update_time"
         )
@@ -224,14 +230,14 @@ class UpdateDetailView(APIView):
 
     authentication_classes = (authentication.TokenAuthentication,)
 
-    def get(self, request: HttpRequest, uuid: str, pk: int) -> Response:
+    def get(self, request: Request, uuid: str, pk: int) -> Response:
         update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
         serializer = DetailedUpdateSerializer(update)
         if update.trainer.id != int(pk):
             return Response(status=400)
         return Response(serializer.data)
 
-    def patch(self, request: HttpRequest, uuid: str, pk: int) -> Response:
+    def patch(self, request: Request, uuid: str, pk: int) -> Response:
         update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
         if update.created_at > (timezone.now() - timedelta(hours=12)):
             serializer = DetailedUpdateSerializer(update, data=request.data)
@@ -259,7 +265,7 @@ class LeaderboardView(APIView):
 
     def get(
         self,
-        request: HttpRequest,
+        request: Request,
         stat: str = "total_xp",
     ) -> Response:
         if stat not in VALID_LB_STATS:
@@ -315,7 +321,7 @@ class SocialLookupView(APIView):
     Register a SocialAccount. Patch if exists, post if not.
     """
 
-    def get(self, request: HttpRequest) -> Response:
+    def get(self, request: Request) -> Response:
         query = SocialAccount.objects.exclude(user__is_active=False).filter(
             provider=request.GET.get("provider")
         )
@@ -330,7 +336,7 @@ class SocialLookupView(APIView):
         serializer = SocialAllAuthSerializer(query, many=True)
         return Response(serializer.data)
 
-    def put(self, request: HttpRequest) -> Response:
+    def put(self, request: Request) -> Response:
         try:
             query = SocialAccount.objects.exclude(user__is_active=False).get(
                 provider=request.data["provider"], uid=request.data["uid"]
@@ -349,7 +355,7 @@ class SocialLookupView(APIView):
 class DetailedLeaderboardView(APIView):
     def get(
         self,
-        request: HttpRequest,
+        request: Request,
         stat: int = "total_xp",
         guild: int = None,
         community: str = None,
