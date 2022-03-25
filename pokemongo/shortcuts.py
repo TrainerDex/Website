@@ -2,7 +2,16 @@ from __future__ import annotations
 
 from datetime import date, timedelta
 from distutils.util import strtobool
-from typing import TYPE_CHECKING, Collection, Iterable, Literal, Mapping, TypedDict
+from typing import (
+    TYPE_CHECKING,
+    Collection,
+    Iterable,
+    Iterator,
+    Literal,
+    Mapping,
+    TypedDict,
+    TypeVar,
+)
 
 from dateutil.relativedelta import relativedelta
 from django.db.models import QuerySet
@@ -11,6 +20,8 @@ from django.utils.translation import pgettext as _
 
 if TYPE_CHECKING:
     from pokemongo.models import Trainer, Update
+
+T = TypeVar("T")
 
 
 def strtoboolornone(value: str) -> Literal[0, 1] | None:
@@ -2600,6 +2611,6 @@ def get_country_info(country_code: str) -> CountryInfo:
     return [x for x in data if x["code"] == country_code][0]
 
 
-def chunks(l, n):
-    for i in range(0, len(l), n):
-        yield l[i : i + n]
+def chunks(iterable: Iterable[T], size: int) -> Iterator[Iterable[T]]:
+    for i in range(0, len(iterable), size):
+        yield iterable[i : i + size]
