@@ -21,7 +21,7 @@ django-widget-tweaks = "~=1.4.8"
 Django = "~=3.2.0"
 Markdown = "*"
 Pillow = "*"
-Pygments = "~=2.9.0"
+Pygments = "~=2.11.2"
 django-silk = "*"
 django-allow-cidr = "*"
 
