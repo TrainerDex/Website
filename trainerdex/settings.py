@@ -194,7 +194,7 @@ SOCIALACCOUNT_PROVIDERS = {
         "USER_AGENT": f"django:trainerdex:{__version__} (by /u/jayturnr)",
     },
     "google": {"SCOPE": ["profile", "email"], "AUTH_PARAMS": {"access_type": "online"}},
-    "discord": {"SCOPE": ["identify", "email", "guilds", "guilds.join", "gdm.join"]},
+    "discord": {"SCOPE": ["identify", "email", "guilds", "guilds.join", "guilds.members.read"]},
 }
 SOCIALACCOUNT_QUERY_EMAIL = True
 
