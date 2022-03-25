@@ -14,45 +14,20 @@ def strtoboolornone(value) -> Union[bool, None]:
         return None
 
 
-# Bans are supposed to last 6 months, the change was made on 2018-09-01.
-# However, my code has been bugged and since I never checked in on cheaters, since they mostly left
-# I never spotted the bug. Given the SARS-COVID-19 outbreak, I've decided to reduce punishment time
-# within that time period to TWELVE weeks. I have also decided to extend the 6 month period to
-# before 2018-09-01, since it's a little unfair.
-
-COVID_START = date(2019, 12, 31)
-COVID_END = date(2021, 12, 31)  # 2 years in generous, adjust to suit
-
-
 def filter_leaderboard_qs(queryset, d: date = None):
-    base_adjustments = (
+    d = d or timezone.now().date()
+    return (
         queryset.exclude(owner__is_active=False)
         .exclude(statistics=False)
         .exclude(update__isnull=True)
         .exclude(verified=False)
+        .exclude(last_cheated__gte=d - timedelta(weeks=26))
     )
-    d = d or timezone.now().date()
-
-    if COVID_START < d < COVID_START + timedelta(weeks=26):
-        # exclude those who cheated within the past 26 weeks
-        # if that date is before the start of the pandemic
-        # exclude all those who cheated with the past 12 weeks
-        return base_adjustments.exclude(
-            last_cheated__gte=d - timedelta(weeks=26), last_cheated__lt=COVID_START
-        ).exclude(last_cheated__gte=d - timedelta(weeks=12))
-    elif COVID_START < d < COVID_END + timedelta(weeks=12):
-        # exclude all those who cheated with the past 12 weeks
-        # even thought the ban policy after COVID_END is 26 weeks, this code will only trigger
-        # within the pandemic and 12 weeks after. This means we don't have to have SQL exceptions
-        # for those who cheat just after the end of the pandemic
-        return base_adjustments.exclude(last_cheated__gte=d - timedelta(weeks=12))
-    else:
-        # Everyone else, 26 weeks, dirty bugger
-        return base_adjustments.exclude(last_cheated__gte=timedelta(weeks=26))
 
 
 def filter_leaderboard_qs__update(queryset, d: date = None):
-    base_adjustments = (
+    d = d or timezone.now().date()
+    return (
         queryset.exclude(trainer__owner__is_active=False)
         .exclude(trainer__statistics=False)
         .exclude(trainer__verified=False)
@@ -61,26 +36,8 @@ def filter_leaderboard_qs__update(queryset, d: date = None):
                 timezone.now() - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)
             )
         )
+        .exclude(trainer__last_cheated__gte=d - timedelta(weeks=26))
     )
-    d = d or timezone.now().date()
-
-    if COVID_START < d < COVID_START + timedelta(weeks=26):
-        # exclude those who cheated within the past 26 weeks
-        # if that date is before the start of the pandemic
-        # exclude all those who cheated with the past 12 weeks
-        return base_adjustments.exclude(
-            trainer__last_cheated__gte=d - timedelta(weeks=26),
-            trainer__last_cheated__lt=COVID_START,
-        ).exclude(trainer__last_cheated__gte=d - timedelta(weeks=12))
-    elif COVID_START < d < COVID_END + timedelta(weeks=12):
-        # exclude all those who cheated with the past 12 weeks
-        # even thought the ban policy after COVID_END is 26 weeks, this code will only trigger
-        # within the pandemic and 12 weeks after. This means we don't have to have SQL exceptions
-        # for those who cheat just after the end of the pandemic
-        return base_adjustments.exclude(trainer__last_cheated__gte=d - timedelta(weeks=12))
-    else:
-        # Everyone else, 26 weeks, dirty bugger
-        return base_adjustments.exclude(trainer__last_cheated__gte=timedelta(weeks=26))
 
 
 class Level:
