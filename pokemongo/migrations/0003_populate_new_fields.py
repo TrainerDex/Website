@@ -3,6 +3,7 @@
 import uuid
 
 from django.db import migrations
+from django.db.models import F
 
 
 def populate_trainer_fields(apps, schema_editor):
@@ -10,14 +11,12 @@ def populate_trainer_fields(apps, schema_editor):
     for trainer in Trainer.objects.select_related("owner").all():
         trainer.created_at = trainer.owner.date_joined
         trainer.uuid = uuid.uuid4()
-        trainer.save()
+        trainer.save(update_fields=["created_at", "uuid"])
 
 
 def populate_update_fields(apps, schema_editor):
     Update = apps.get_model("pokemongo", "Update")
-    for update in Update.objects.all():
-        update.updated_at = update.created_at
-        update.save()
+    Update.objects.all().update(updated_at=F("created_at"))
 
 
 class Migration(migrations.Migration):
