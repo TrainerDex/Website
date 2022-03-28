@@ -23,6 +23,7 @@ from django.utils.translation import npgettext_lazy, pgettext_lazy
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 from pytz import common_timezones
 
+from config.abstract_models import PublicModel
 from core.models import DiscordGuild, DiscordGuildMembership, DiscordRole
 from pokemongo.shortcuts import (
     UPDATE_FIELDS_BADGES,
@@ -35,7 +36,6 @@ from pokemongo.shortcuts import (
     get_possible_levels_from_total_xp,
 )
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
-from config.abstract_models import PublicModel
 
 logger = logging.getLogger("django.trainerdex")
 

@@ -1,5 +1,5 @@
-﻿from distutils.util import strtobool
-import os
+﻿import os
+from distutils.util import strtobool
 from pathlib import Path
 
 from django.core.management.utils import get_random_secret_key
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.reddit",
     "allauth.socialaccount.providers.twitter",
     "widget_tweaks",
+    "docs",
 ]
 
 MIDDLEWARE = [
@@ -113,16 +114,16 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -162,6 +163,9 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
+
+DOCS_ROOT = BASE_DIR / "docs/_build/html"
+
 
 # CORS
 # https://github.com/ottoyiu/django-cors-headers
@@ -247,8 +251,7 @@ SILKY_AUTHORISATION = True  # User must have permissions
 SILKY_META = True
 
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
