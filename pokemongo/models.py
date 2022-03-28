@@ -35,7 +35,7 @@ from pokemongo.shortcuts import (
     get_possible_levels_from_total_xp,
 )
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
-from trainerdex.abstract_models import PublicModel
+from config.abstract_models import PublicModel
 
 logger = logging.getLogger("django.trainerdex")
 

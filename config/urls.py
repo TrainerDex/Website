@@ -8,6 +8,7 @@ from core import sitemaps
 from core.views import PrivacyView, SettingsView, TermsView
 from pokemongo.views import EditProfileView, health_check
 
+app_name = "trainerdex"
 urlpatterns = [
     path(
         "sitemap.xml",

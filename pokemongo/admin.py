@@ -22,7 +22,7 @@ from pokemongo.models import (
 from pokemongo.shortcuts import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES
 
 if TYPE_CHECKING:
-    from trainerdex.abstract_models import PrivateModel
+    from config.abstract_models import PrivateModel
 
 
 def sync_members(
