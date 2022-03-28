@@ -67,7 +67,7 @@ MIDDLEWARE = [
 ]
 
 LOCALE_PATHS = [
-    "trainerdex/locale",
+    "config/locale",
 ]
 
 ROOT_URLCONF = "config.urls"

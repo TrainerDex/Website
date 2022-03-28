@@ -1,36 +1,35 @@
-pip:
-  - requirements.txt
-  - requirements-dev.txt
-
 dependencies:
-  - requirements.txt
-  - requirements-dev.txt
+  - Pipfile
+  - Pipfile.lock
 
 frontend:
-  - 'django/core/templates/**/*'
-  - 'django/core/static/**/*'
-  - 'django/pokemongo/templates/**/*'
-  - 'django/pokemongo/static/**/*'
+  - "core/templates/**/*"
+  - "core/static/**/*"
+  - "pokemongo/templates/**/*"
+  - "pokemongo/static/**/*"
+
+docs:
+  - "docs/"
 
 gains:
-  - 'django/core/management/commands/gains_leaderboard.py'
-  - 'django/core/management/commands/post_announcement.py'
+  - "core/management/commands/gains_leaderboard.py"
+  - "core/management/commands/post_announcement.py"
 
 backend:
-  - 'django/core/account_adapter.py'
-  - 'django/core/admin.py'
-  - 'django/core/context_processors.py'
-  - 'django/core/models.py'
-  - 'django/core/views.py'
-  - 'django/pokemongo/api/**/*'
-  - 'django/pokemongo/admin.py'
-  - 'django/pokemongo/forms.py'
-  - 'django/pokemongo/models.py'
-  - 'django/pokemongo/shortcuts.py'
-  - 'django/pokemongo/urls.py'
-  - 'django/pokemongo/validators.py'
-  - 'django/pokemongo/views.py'
+  - "core/account_adapter.py"
+  - "core/admin.py"
+  - "core/context_processors.py"
+  - "core/models.py"
+  - "core/views.py"
+  - "pokemongo/api/**/*"
+  - "pokemongo/admin.py"
+  - "pokemongo/forms.py"
+  - "pokemongo/models.py"
+  - "pokemongo/shortcuts.py"
+  - "pokemongo/urls.py"
+  - "pokemongo/validators.py"
+  - "pokemongo/views.py"
 
 migrations:
-  - 'django/core/migrations/*'
-  - 'django/pokemongo/migrations/*'
+  - "core/migrations/*"
+  - "pokemongo/migrations/*"
