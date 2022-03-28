@@ -19,8 +19,8 @@ jobs:
           cache: "pipenv"
       - name: Setting up Python environment
         run: |
-          pip install pipenv
-          pipenv install --dev
+          pip install -U pip pipenv
+          pipenv install --dev --deploy
       - name: Build Documentation
         run: |
           cd docs

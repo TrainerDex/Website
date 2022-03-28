@@ -21,8 +21,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get -y install gettext gdal-bin python3-gdal
       - name: Setting up Python environment
         run: |
-          pip install pipenv
-          pipenv install --dev
+          pip install -U pip pipenv
+          pipenv install --dev --deploy
       - name: Staring Postgres (Docker)
         run: docker-compose up -d
       - name: Run Tests
