@@ -26,6 +26,7 @@ django-silk = "*"
 django-allow-cidr = "*"
 sphinx = "*"
 django-docs = "*"
+myst-parser = "*"
 
 [dev-packages]
 flake8 = "*"

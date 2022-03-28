@@ -23,6 +23,10 @@ As this documentation grows, we plan to cover everything TrainerDex can do, incl
    :maxdepth: 2
    :caption: Contents:
 
+   leaderboards
+   profiles
+   commands
+   faq
 
 
 Index
