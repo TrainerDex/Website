@@ -70,11 +70,15 @@ class DetailedTrainerSerializer(serializers.ModelSerializer):
     update_set = BriefUpdateSerializer(read_only=True, many=True)
     prefered = serializers.BooleanField(default=True, read_only=True)
     username = serializers.CharField(source="nickname", read_only=True)
+    last_modified = serializers.DateTimeField(source="updated_at", read_only=True)
 
     class Meta:
         model = Trainer
         fields = (
             "id",
+            "uuid",
+            "created_at",
+            "updated_at",
             "last_modified",
             "owner",
             "username",
@@ -94,15 +98,6 @@ class DetailedTrainerSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    profiles = serializers.SerializerMethodField()
-
-    def get_profiles(self, obj: User) -> list[int]:
-        """This field is deprecated and will be removed in API v2"""
-        try:
-            return [obj.trainer.pk]
-        except User.trainer.RelatedObjectDoesNotExist:
-            return []
-
     def create(self, validated_data: Mapping) -> User:
         user = User.objects.create_user(**validated_data)
         return user
@@ -110,7 +105,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "username", "first_name", "last_name", "profiles", "trainer")
-        read_only_fields = ("profiles", "trainer")
+        read_only_fields = ("trainer",)
 
 
 class FactionSerializer(serializers.Serializer):
