@@ -1,20 +1,37 @@
+from __future__ import annotations
+
 from datetime import date, timedelta
 from distutils.util import strtobool
-from typing import Dict, List, Optional, Union
+from typing import (
+    TYPE_CHECKING,
+    Collection,
+    Iterable,
+    Iterator,
+    Literal,
+    Mapping,
+    TypedDict,
+    TypeVar,
+)
 
 from dateutil.relativedelta import relativedelta
+from django.db.models import QuerySet
 from django.utils import timezone
 from django.utils.translation import pgettext as _
 
+if TYPE_CHECKING:
+    from pokemongo.models import Trainer, Update
 
-def strtoboolornone(value) -> Union[bool, None]:
+T = TypeVar("T")
+
+
+def strtoboolornone(value: str) -> Literal[0, 1] | None:
     try:
         return strtobool(value)
     except (ValueError, AttributeError):
         return None
 
 
-def filter_leaderboard_qs(queryset, d: date = None):
+def filter_leaderboard_qs(queryset: QuerySet[Trainer], d: date | None = None) -> QuerySet[Trainer]:
     d = d or timezone.now().date()
     return (
         queryset.exclude(owner__is_active=False)
@@ -25,7 +42,10 @@ def filter_leaderboard_qs(queryset, d: date = None):
     )
 
 
-def filter_leaderboard_qs__update(queryset, d: date = None):
+def filter_leaderboard_qs__update(
+    queryset: QuerySet[Update],
+    d: date | None = None,
+) -> QuerySet[Update]:
     d = d or timezone.now().date()
     return (
         queryset.exclude(trainer__owner__is_active=False)
@@ -45,15 +65,15 @@ class Level:
         self,
         level: int,
         total_xp: int,
-        xp_required: Optional[int] = None,
-        quest_requirements: Optional[List[Dict[str, str]]] = None,
+        xp_required: int | None = None,
+        quest_requirements: Iterable[Mapping[str, str]] | None = None,
     ) -> None:
-        self.level = level
-        self.total_xp = total_xp
-        self.xp_required = xp_required
-        self.quest_requirements = quest_requirements
+        self.level: int = level
+        self.total_xp: int = total_xp
+        self.xp_required: int = xp_required
+        self.quest_requirements: Iterable[Mapping[str, str]] | None = quest_requirements
 
-    def requirements_to_reach(self) -> Dict[str, Union[int, Dict[str, str]]]:
+    def requirements_to_reach(self) -> dict[str, int | dict[str, str] | None]:
         return {"total_xp": self.total_xp, "quests": self.quest_requirements}
 
     @property
@@ -68,7 +88,7 @@ class Level:
         return self.level
 
 
-LEVELS: List[Level] = [
+LEVELS: Collection[Level] = [
     Level(level=1, total_xp=0, xp_required=1000),
     Level(level=2, total_xp=1000, xp_required=2000),
     Level(level=3, total_xp=3000, xp_required=3000),
@@ -122,7 +142,7 @@ LEVELS: List[Level] = [
 ]
 
 
-def get_possible_levels_from_total_xp(xp: int) -> List[Level]:
+def get_possible_levels_from_total_xp(xp: int) -> Iterable[Level]:
     if xp < LEVELS[40].total_xp:
         possible_levels = [
             x
@@ -784,7 +804,15 @@ def circled_level(i: int) -> str:
         return ""
 
 
-def get_country_info(country_code: str) -> Dict:
+class CountryInfo(TypedDict):
+    code: str
+    emoji: str
+    unicode: str
+    name: str
+    title: str
+
+
+def get_country_info(country_code: str) -> CountryInfo:
     data = [
         {
             "code": "AD",
@@ -2540,6 +2568,6 @@ def get_country_info(country_code: str) -> Dict:
     return [x for x in data if x["code"] == country_code][0]
 
 
-def chunks(l, n):
-    for i in range(0, len(l), n):
-        yield l[i : i + n]
+def chunks(iterable: Iterable[T], size: int) -> Iterator[Iterable[T]]:
+    for i in range(0, len(iterable), size):
+        yield iterable[i : i + size]

@@ -1,9 +1,9 @@
 import json
-from typing import List, Optional
 
 from allauth.socialaccount.admin import SocialAccountAdmin as BaseSocialAccountAdmin
 from allauth.socialaccount.models import SocialAccount
 from django.contrib import admin, messages
+from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.safestring import SafeString, mark_safe
 from django.utils.translation import gettext_lazy as _
@@ -21,7 +21,9 @@ from core.models import (
 )
 
 
-def sync_members(modeladmin, request, queryset) -> None:
+def sync_members(
+    modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[DiscordGuild]
+) -> None:
     for x in queryset:
         messages.success(request, x.sync_members())
 
@@ -29,7 +31,9 @@ def sync_members(modeladmin, request, queryset) -> None:
 sync_members.short_description = _("Sync members with Discord")
 
 
-def download_channels(modeladmin, request, queryset) -> None:
+def download_channels(
+    modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[DiscordGuild]
+) -> None:
     for x in queryset:
         x.download_channels()
 
@@ -103,8 +107,8 @@ class DiscordGuildAdmin(admin.ModelAdmin):
     ]
 
     def get_readonly_fields(
-        self, request: HttpRequest, obj: Optional[DiscordGuild] = None
-    ) -> List[str]:
+        self, request: HttpRequest, obj: DiscordGuild | None = None
+    ) -> list[str]:
         if obj:
             return ["id", "name", "owner", "data_prettified", "cached_date"]
         else:
@@ -165,8 +169,8 @@ class DiscordChannelAdmin(admin.ModelAdmin):
     list_filter = ["guild", "cached_date"]
 
     def get_readonly_fields(
-        self, request: HttpRequest, obj: Optional[DiscordChannel] = None
-    ) -> List[str]:
+        self, request: HttpRequest, obj: DiscordChannel | None = None
+    ) -> list[str]:
         if obj:
             return self.fields
         else:
@@ -199,8 +203,8 @@ class DiscordRoleAdmin(admin.ModelAdmin):
     list_filter = ["guild", "cached_date"]
 
     def get_readonly_fields(
-        self, request: HttpRequest, obj: Optional[DiscordRole] = None
-    ) -> List[str]:
+        self, request: HttpRequest, obj: DiscordRole | None = None
+    ) -> list[str]:
         if obj:
             return self.fields
         else:
@@ -246,8 +250,8 @@ class DiscordGuildMembershipAdmin(admin.ModelAdmin):
     list_filter = ["guild", "active", "cached_date"]
 
     def get_readonly_fields(
-        self, request: HttpRequest, obj: Optional[DiscordGuildMembership] = None
-    ) -> List[str]:
+        self, request: HttpRequest, obj: DiscordGuildMembership | None = None
+    ) -> list[str]:
         if obj:
             return ["guild", "user", "data_prettified", "cached_date"]
         else:

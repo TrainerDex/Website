@@ -21,14 +21,17 @@ django-widget-tweaks = "~=1.4.8"
 Django = "~=3.2.0"
 Markdown = "*"
 Pillow = "*"
-Pygments = "~=2.9.0"
+Pygments = "~=2.11.2"
 django-silk = "*"
 django-allow-cidr = "*"
+sphinx = "*"
+django-docs = "*"
+myst-parser = "*"
 
 [dev-packages]
 flake8 = "*"
 black = "*"
-isort = "*"
+isort = {extras = ["black"], version = "*"}
 
 [requires]
 python_version = "3.10"

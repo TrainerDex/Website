@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 import logging
 import re
-from datetime import timedelta
-from typing import Dict, List, Optional, Union
+from datetime import datetime, timedelta
 
 import requests
 from allauth.socialaccount.models import SocialAccount
+from allauth.socialaccount.providers.discord.provider import DiscordAccount
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
@@ -17,7 +19,7 @@ from pytz import common_timezones
 logger = logging.getLogger("django.trainerdex")
 
 
-def get_guild_info(guild_id: int) -> Dict:
+def get_guild_info(guild_id: int) -> dict[str, str | int | list | dict | None]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/guilds/{guild_id}",
@@ -27,7 +29,9 @@ def get_guild_info(guild_id: int) -> Dict:
     return r.json()
 
 
-def get_guild_members(guild_id: int, limit=1000) -> List[Dict]:
+def list_guild_members(
+    guild_id: int, limit=1000
+) -> list[dict[str, str | list[int] | bool | dict[str, str | bool | int]]]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     previous = None
     more = True
@@ -46,7 +50,9 @@ def get_guild_members(guild_id: int, limit=1000) -> List[Dict]:
     return result
 
 
-def get_guild_member(guild_id: int, user_id: int) -> Dict:
+def get_guild_member(
+    guild_id: int, user_id: int
+) -> dict[str, str | list[int] | bool | dict[str, str | bool | int]]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/guilds/{guild_id}/members/{user_id}",
@@ -56,7 +62,11 @@ def get_guild_member(guild_id: int, user_id: int) -> Dict:
     return r.json()
 
 
-def get_guild_channels(guild_id: int) -> List[Dict]:
+def get_guild_channels(
+    guild_id: int,
+) -> list[
+    dict[str, str | int | bool | list[dict[str, str | int]] | list[dict[str, str | bool | int]]]
+]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/guilds/{guild_id}/channels",
@@ -66,7 +76,9 @@ def get_guild_channels(guild_id: int) -> List[Dict]:
     return r.json()
 
 
-def get_channel(channel_id: int) -> Dict:
+def get_channel(
+    channel_id: int,
+) -> dict[str, str | int | bool | list[dict[str, str | int]] | list[dict[str, str | bool | int]]]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/channels/{channel_id}",
@@ -77,14 +89,11 @@ def get_channel(channel_id: int) -> Dict:
 
 
 class DiscordGuild(models.Model):
-    id = models.BigIntegerField(
-        primary_key=True,
-        verbose_name="ID",
-    )
-    data = models.JSONField(null=True, blank=True)
-    cached_date = models.DateTimeField(auto_now_add=True)
-    has_access = models.BooleanField(default=False)
-    members = models.ManyToManyField(
+    id: int = models.BigIntegerField(primary_key=True, verbose_name="ID")
+    data: dict | list = models.JSONField(null=True, blank=True)
+    cached_date: datetime = models.DateTimeField(auto_now_add=True)
+    has_access: bool = models.BooleanField(default=False)
+    members: models.QuerySet[DiscordUser] = models.ManyToManyField(
         "DiscordUser",
         through="DiscordGuildMembership",
         through_fields=("guild", "user"),
@@ -112,7 +121,7 @@ class DiscordGuild(models.Model):
             return re.sub(r"(?:Pok[eé]mon?\s?(Go)?(GO)?\s?-?\s)", "", self.name)
 
     @property
-    def owner(self) -> Union[int, SocialAccount]:
+    def owner(self) -> int | SocialAccount:
         if self.data.get("owner_id"):
             try:
                 return DiscordUser.objects.get(uid=self.data.get("owner_id"))
@@ -138,9 +147,9 @@ class DiscordGuild(models.Model):
             self.sync_roles()
 
     @transaction.atomic
-    def sync_members(self) -> Dict[str, List[str]]:
+    def sync_members(self) -> str | dict[str, list[str]]:  # Is this a bug?
         try:
-            guild_api_members = get_guild_members(self.id)
+            guild_api_members = list_guild_members(self.id)
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
             return {"warning": ["Failed to get server information from Discord"]}
@@ -229,26 +238,26 @@ class DiscordGuild(models.Model):
 
 class DiscordGuildSettings(DiscordGuild):
     # Localization settings
-    language = models.CharField(
+    language: str = models.CharField(
         default=settings.LANGUAGE_CODE,
         choices=settings.LANGUAGES,
         max_length=len(max(settings.LANGUAGES, key=lambda x: len(x[0]))[0]),
     )
-    timezone = models.CharField(
+    timezone: str = models.CharField(
         default=settings.TIME_ZONE,
         choices=((x, x) for x in common_timezones),
         max_length=len(max(common_timezones, key=len)),
     )
 
     # Needed for automatic renaming features
-    renamer = models.BooleanField(
+    renamer: bool = models.BooleanField(
         default=True,
         verbose_name=_("Rename users when they join."),
         help_text=_(
             "This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."
         ),
     )
-    renamer_with_level = models.BooleanField(
+    renamer_with_level: bool = models.BooleanField(
         default=False,
         verbose_name=_("Rename users with their level indicator"),
         help_text=_(
@@ -256,7 +265,7 @@ class DiscordGuildSettings(DiscordGuild):
             "Their name will update whenever they level up."
         ),
     )
-    renamer_with_level_format = models.CharField(
+    renamer_with_level_format: str = models.CharField(
         default="int",
         verbose_name=_("Level Indicator format"),
         max_length=50,
@@ -264,7 +273,7 @@ class DiscordGuildSettings(DiscordGuild):
     )
 
     # Needed for discordbot/management/commands/leaderboard_cron.py
-    monthly_gains_channel = models.OneToOneField(
+    monthly_gains_channel: DiscordChannel = models.OneToOneField(
         "DiscordChannel",
         on_delete=models.SET_NULL,
         null=True,
@@ -275,27 +284,27 @@ class DiscordGuildSettings(DiscordGuild):
 
 
 @receiver(post_save, sender=DiscordGuild)
-def new_guild(sender, **kwargs) -> None:
+def new_guild(sender: type[DiscordGuild], **kwargs) -> None:
     if not kwargs["raw"]:
         DiscordGuildSettings.objects.get_or_create(pk=kwargs["instance"].id)
         kwargs["instance"].sync_members()
 
 
 class DiscordChannel(models.Model):
-    id = models.BigIntegerField(
+    id: int = models.BigIntegerField(
         primary_key=True,
         verbose_name="ID",
     )
-    guild = models.ForeignKey(
+    guild: DiscordGuild = models.ForeignKey(
         DiscordGuild,
         on_delete=models.CASCADE,
         related_name="channels",
     )
-    data = models.JSONField(
+    data: dict | list = models.JSONField(
         null=True,
         blank=True,
     )
-    cached_date = models.DateTimeField(
+    cached_date: datetime = models.DateTimeField(
         auto_now_add=True,
     )
 
@@ -328,18 +337,18 @@ class DiscordChannel(models.Model):
         return channel_types.get(self.data.get("type"), "UNKNOWN")
 
     @property
-    def position(self) -> Optional[int]:
+    def position(self) -> int | None:
         return self.data.get("position")
 
     @property
-    def name(self) -> Optional[str]:
+    def name(self) -> str | None:
         return self.data.get("name")
 
     @property
-    def topic(self) -> Optional[str]:
+    def topic(self) -> str | None:
         return self.data.get("topic")
 
-    def _nsfw(self) -> Optional[bool]:
+    def _nsfw(self) -> bool | None:
         return self.data.get("nsfw")
 
     _nsfw.boolean = True
@@ -362,20 +371,20 @@ class DiscordChannel(models.Model):
 
 
 class DiscordRole(models.Model):
-    id = models.BigIntegerField(
+    id: int = models.BigIntegerField(
         primary_key=True,
         verbose_name="ID",
     )
-    guild = models.ForeignKey(
+    guild: DiscordGuild = models.ForeignKey(
         DiscordGuild,
         on_delete=models.CASCADE,
         related_name="roles",
     )
-    data = models.JSONField(
+    data: dict | list = models.JSONField(
         null=True,
         blank=True,
     )
-    cached_date = models.DateTimeField(
+    cached_date: datetime = models.DateTimeField(
         auto_now_add=True,
     )
 
@@ -395,34 +404,34 @@ class DiscordRole(models.Model):
         return f"{self.name} in {self.guild}"
 
     @property
-    def name(self) -> str:
+    def name(self) -> str | None:
         return self.data.get("name")
 
     @property
-    def color(self) -> int:
+    def color(self) -> int | None:
         return self.data.get("color")
 
-    def _hoist(self) -> bool:
+    def _hoist(self) -> bool | None:
         return self.data.get("hoist")
 
     _hoist.boolean = True
     hoist = property(_hoist)
 
     @property
-    def position(self) -> int:
+    def position(self) -> int | None:
         return self.data.get("position")
 
     @property
-    def permissions(self) -> int:
+    def permissions(self) -> int | None:
         return self.data.get("permissions")
 
-    def _managed(self) -> bool:
+    def _managed(self) -> bool | None:
         return self.data.get("managed")
 
     _managed.short_description = "managed"
     managed = property(_managed)
 
-    def _mentionable(self) -> bool:
+    def _mentionable(self) -> bool | None:
         return self.data.get("mentionable")
 
     _mentionable.short_description = "mentionable"
@@ -446,10 +455,10 @@ class DiscordRole(models.Model):
 
 
 class DiscordUserManager(models.Manager):
-    def get_queryset(self):
+    def get_queryset(self) -> models.QuerySet[DiscordUser]:
         return super(DiscordUserManager, self).get_queryset().filter(provider="discord")
 
-    def create(self, **kwargs):
+    def create(self, **kwargs) -> DiscordUser:
         kwargs.update({"provider": "discord"})
         return super(DiscordUserManager, self).create(**kwargs)
 
@@ -459,7 +468,7 @@ class DiscordUser(SocialAccount):
 
     def __str__(self) -> str:
         dflt = super(DiscordUser, self).__str__()
-        prvdr = self.get_provider_account()
+        prvdr: DiscordAccount = self.get_provider_account()
         result = prvdr.to_str()
         if result != super(type(prvdr), prvdr).to_str():
             return result
@@ -478,28 +487,28 @@ class DiscordUser(SocialAccount):
 
 
 class DiscordGuildMembership(models.Model):
-    guild = models.ForeignKey(
+    guild: DiscordGuild = models.ForeignKey(
         DiscordGuild,
         on_delete=models.CASCADE,
     )
-    user = models.ForeignKey(
+    user: DiscordUser = models.ForeignKey(
         DiscordUser,
         on_delete=models.CASCADE,
     )
-    active = models.BooleanField(
+    active: bool = models.BooleanField(
         default=True,
     )
-    nick_override = models.CharField(
+    nick_override: str | None = models.CharField(
         null=True,
         blank=True,
         max_length=32,
     )
 
-    data = models.JSONField(
+    data: dict | list = models.JSONField(
         null=True,
         blank=True,
     )
-    cached_date = models.DateTimeField(
+    cached_date: datetime = models.DateTimeField(
         auto_now_add=True,
     )
 
@@ -530,7 +539,7 @@ class DiscordGuildMembership(models.Model):
         self.refresh_from_api()
 
     @property
-    def nick(self) -> Optional[str]:
+    def nick(self) -> str | None:
         return self.data.get("nick")
 
     @property
@@ -538,22 +547,20 @@ class DiscordGuildMembership(models.Model):
         return self.nick or str(self.user)
 
     @property
-    def roles(self) -> List[DiscordRole]:
+    def roles(self) -> models.QuerySet[DiscordRole]:
         if self.data.get("roles"):
             return DiscordRole.objects.filter(id__in=[str(x) for x in self.data.get("roles")])
         else:
             return DiscordRole.objects.none()
 
-    def _deaf(self) -> bool:
-        if self.data.get("deaf"):
-            return self.data["deaf"]
+    def _deaf(self) -> bool | None:
+        return self.data.get("deaf")
 
     _deaf.boolean = True
     deaf = property(_deaf)
 
-    def _mute(self) -> bool:
-        if self.data.get("mute"):
-            return self.data["mute"]
+    def _mute(self) -> bool | None:
+        return self.data.get("mute")
 
     _mute.boolean = True
     mute = property(_mute)
