@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.twitter",
     "widget_tweaks",
     "docs",
+    "robots",
 ]
 
 MIDDLEWARE = [

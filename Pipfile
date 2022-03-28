@@ -27,6 +27,7 @@ django-allow-cidr = "*"
 sphinx = "*"
 django-docs = "*"
 myst-parser = "*"
+django-robots = "*"
 
 [dev-packages]
 flake8 = "*"
