@@ -1,5 +1,6 @@
 {
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
-    "git.autofetch": true
+    "git.autofetch": true,
+    "python.formatting.provider": "black"
 }
