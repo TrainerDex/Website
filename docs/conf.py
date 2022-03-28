@@ -29,7 +29,9 @@ author = "Jay Turner, Chad Black, and open-source contributors"
 # ones.
 extensions = ["myst_parser"]
 
-myst_enable_extensions = ["strikethrough", ]
+myst_enable_extensions = [
+    "strikethrough",
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

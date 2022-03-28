@@ -1,11 +1,10 @@
-﻿from distutils.util import strtobool
-import os
+﻿import os
+from distutils.util import strtobool
 from pathlib import Path
 
 from django.core.management.utils import get_random_secret_key
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
-import sphinx
 
 from config import __version__
 
@@ -76,9 +75,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            Path(sphinx.__path__[0]) / "themes",
-        ],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
