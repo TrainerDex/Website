@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 import re
 from datetime import datetime, timedelta
-from typing import TypeVar
 
 import requests
 from allauth.socialaccount.models import SocialAccount
@@ -19,16 +18,8 @@ from pytz import common_timezones
 
 logger = logging.getLogger("django.trainerdex")
 
-JSONString = TypeVar("JSONString", bound=str)
-JSONNumber = TypeVar("JSONNumber", bound=int)
-JSONObject = TypeVar("JSONObject", bound=dict)
-JSONArray = TypeVar("JSONArray", bound=list)
-JSONBoolean = TypeVar("JSONBoolean", bound=bool)
-JSONNull = TypeVar("JSONNull", bound=None)
-JSON = TypeVar("JSON", (JSONString, JSONNumber, JSONObject, JSONArray, JSONBoolean, JSONNull))
 
-
-def get_guild_info(guild_id: int) -> JSON:
+def get_guild_info(guild_id: int) -> dict[str, str | int | list | dict | None]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/guilds/{guild_id}",
@@ -38,7 +29,9 @@ def get_guild_info(guild_id: int) -> JSON:
     return r.json()
 
 
-def get_guild_members(guild_id: int, limit=1000) -> JSON:
+def list_guild_members(
+    guild_id: int, limit=1000
+) -> list[dict[str, str | list[int] | bool | dict[str, str | bool | int]]]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     previous = None
     more = True
@@ -57,7 +50,9 @@ def get_guild_members(guild_id: int, limit=1000) -> JSON:
     return result
 
 
-def get_guild_member(guild_id: int, user_id: int) -> JSON:
+def get_guild_member(
+    guild_id: int, user_id: int
+) -> dict[str, str | list[int] | bool | dict[str, str | bool | int]]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/guilds/{guild_id}/members/{user_id}",
@@ -67,7 +62,11 @@ def get_guild_member(guild_id: int, user_id: int) -> JSON:
     return r.json()
 
 
-def get_guild_channels(guild_id: int) -> JSON:
+def get_guild_channels(
+    guild_id: int,
+) -> list[
+    dict[str, str | int | bool | list[dict[str, str | int]] | list[dict[str, str | bool | int]]]
+]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/guilds/{guild_id}/channels",
@@ -77,7 +76,9 @@ def get_guild_channels(guild_id: int) -> JSON:
     return r.json()
 
 
-def get_channel(channel_id: int) -> JSON:
+def get_channel(
+    channel_id: int,
+) -> dict[str, str | int | bool | list[dict[str, str | int]] | list[dict[str, str | bool | int]]]:
     base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
     r = requests.get(
         f"{base_url}/channels/{channel_id}",
@@ -89,7 +90,7 @@ def get_channel(channel_id: int) -> JSON:
 
 class DiscordGuild(models.Model):
     id: int = models.BigIntegerField(primary_key=True, verbose_name="ID")
-    data: JSON = models.JSONField(null=True, blank=True)
+    data: dict | list = models.JSONField(null=True, blank=True)
     cached_date: datetime = models.DateTimeField(auto_now_add=True)
     has_access: bool = models.BooleanField(default=False)
     members: models.QuerySet[DiscordUser] = models.ManyToManyField(
@@ -148,7 +149,7 @@ class DiscordGuild(models.Model):
     @transaction.atomic
     def sync_members(self) -> str | dict[str, list[str]]:  # Is this a bug?
         try:
-            guild_api_members = get_guild_members(self.id)
+            guild_api_members = list_guild_members(self.id)
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
             return {"warning": ["Failed to get server information from Discord"]}
@@ -299,7 +300,7 @@ class DiscordChannel(models.Model):
         on_delete=models.CASCADE,
         related_name="channels",
     )
-    data: JSON = models.JSONField(
+    data: dict | list = models.JSONField(
         null=True,
         blank=True,
     )
@@ -379,7 +380,7 @@ class DiscordRole(models.Model):
         on_delete=models.CASCADE,
         related_name="roles",
     )
-    data: JSON = models.JSONField(
+    data: dict | list = models.JSONField(
         null=True,
         blank=True,
     )
@@ -503,7 +504,7 @@ class DiscordGuildMembership(models.Model):
         max_length=32,
     )
 
-    data: JSON = models.JSONField(
+    data: dict | list = models.JSONField(
         null=True,
         blank=True,
     )
