@@ -1,3 +1,0 @@
-User-Agent: MJ12Bot
-Crawl-Delay: 5
-Disallow: /profile

@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-djangorestframework = "~=3.12.4"
+djangorestframework = "~=3.13.1"
 gunicorn = "==20.1.0"
 psycopg2-binary = "*"
 certifi = "*"
@@ -14,7 +14,7 @@ requests = "*"
 python-dateutil = "~=2.8.1"
 django-ajax-selects = "*"
 django-allauth = "~=0.50.0"
-django-cors-headers = "~=3.7.0"
+django-cors-headers = "~=3.11.0"
 django-exclusivebooleanfield = "~=0.3.0"
 django-widget-tweaks = "~=1.4.8"
 "discord.py" = "<1.6.0,>=1.5.0"
@@ -27,6 +27,7 @@ django-allow-cidr = "*"
 sphinx = "*"
 django-docs = "*"
 myst-parser = "*"
+django-robots = "*"
 
 [dev-packages]
 flake8 = "*"
