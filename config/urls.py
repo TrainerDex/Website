@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import include, path, re_path
 from django.utils.translation import gettext_lazy as _
+from django.views.generic.base import RedirectView
 from rest_framework.authtoken import views
 
 from core import sitemaps
@@ -10,6 +12,7 @@ from pokemongo.views import EditProfileView, health_check
 
 app_name = "trainerdex"
 urlpatterns = [
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico'))),
     path(
         "sitemap.xml",
         sitemap,

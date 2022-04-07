@@ -249,6 +249,10 @@ TEAMS = {
 
 SILKY_AUTHENTICATION = True  # User must login
 SILKY_AUTHORISATION = True  # User must have permissions
+SILKY_IGNORE_PATHS = [
+    "/api/health/",  # DigitalOcean calls this every 10 seconds, let's exclude that.
+    "/favicon.ico",
+]
 SILKY_META = True
 
 
