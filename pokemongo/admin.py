@@ -153,6 +153,7 @@ class UpdateAdmin(admin.ModelAdmin):
             {
                 "fields": [
                     "total_xp",
+                    "level",
                     "pokedex_caught",
                     "pokedex_seen",
                     "gymbadges_gold",

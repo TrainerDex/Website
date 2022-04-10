@@ -259,17 +259,14 @@ class Trainer(PublicModel):
 
     is_on_leaderboard.boolean = True
 
-    def level(self) -> str | int | None:
-        try:
-            update: Update = (
-                self.update_set.exclude(total_xp__isnull=True)
-                .only("trainer_id", "total_xp")
-                .latest("update_time")
-            )
-        except Update.DoesNotExist:
-            return None
-        else:
-            return update.level()
+    def level(self) -> int | None:
+        if (
+            update := self.update_set.exclude(level__isnull=True)
+            .order_by("-level")
+            .only("level")
+            .first()
+        ):
+            return update.level
 
     @property
     def active(self) -> bool:
@@ -479,6 +476,13 @@ class Update(PublicModel):
         blank=True,
         verbose_name=pgettext_lazy("profile_total_xp", "Total XP"),
         validators=[MinValueValidator(100)],
+    )
+
+    level: int | None = models.SmallIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_("Level"),
+        validators=[MinValueValidator(1), MaxValueValidator(50)],
     )
 
     # Pokedex Figures
@@ -1114,15 +1118,20 @@ class Update(PublicModel):
         validators=[MaxValueValidator(1000)],
     )
 
-    def level(self) -> int | str:
+    def calculate_level_range(self) -> tuple[int, int] | None:
+        """Returns a level range for based on XP."""
         if self.total_xp:
             possible_levels = [
                 x.level for x in get_possible_levels_from_total_xp(xp=self.total_xp)
             ]
-            if min(possible_levels) == max(possible_levels):
-                return min(possible_levels)
-            else:
-                return f"{min(possible_levels)}-{max(possible_levels)}"
+            return min(possible_levels), max(possible_levels)
+
+    def calculate_level(self) -> int | None:
+        if self.total_xp:
+            min_level, max_level = self.calculate_level_range()
+
+            if min_level == max_level:
+                return min_level
 
     def __str__(self) -> str:
         return "Update(trainer: {trainer}, update_time: {time}, {stats})".format(
@@ -1167,9 +1176,39 @@ class Update(PublicModel):
             if getattr(self, x)
         ]
 
+    def prevalidate_level(self) -> None:
+        if self.level is None:
+            self.level = self.calculate_level()
+
+    def validate_level(self) -> Literal[True] | None | NoReturn:
+        self.prevalidate_level()
+
+        requires = ["total_xp", "level"]
+
+        # Only validate level if total_xp and level are both set
+        if all(getattr(self, x) for x in requires):
+            # If level is set, make sure it's correct
+            min_level, max_level = self.calculate_level_range()
+
+            if min_level <= getattr(self, "level") <= max_level:
+                return True
+            else:
+                raise ValidationError(
+                    {
+                        "level": [
+                            pgettext_lazy(
+                                "level_error",
+                                "The level calculated from the total XP is different from the level provided.",
+                            )
+                        ]
+                    }
+                )
+
     def clean(self) -> NoReturn:
         if not self.trainer:
             return
+
+        self.validate_level()
 
         if not any(
             [True if getattr(self, x) is not None else False for x in UPDATE_SORTABLE_FIELDS]
@@ -2161,13 +2200,8 @@ class Update(PublicModel):
 
 @receiver(post_save, sender=Update)
 def update_discord_level(sender, **kwargs) -> None:
-    if kwargs["created"] and not kwargs["raw"] and kwargs["instance"].total_xp:
-        level = kwargs["instance"].level()
-        if isinstance(level, str):
-            level = int(level.split("-")[0])
-            fortyplus = True
-        else:
-            fortyplus = False
+    if kwargs["created"] and not kwargs["raw"] and kwargs["instance"].level:
+        level = kwargs["instance"].level
         for discord in DiscordGuildMembership.objects.exclude(active=False).filter(
             guild__discordguildsettings__renamer=True,
             guild__discordguildsettings__renamer_with_level=True,
@@ -2182,9 +2216,6 @@ def update_discord_level(sender, **kwargs) -> None:
                 ext = str(level)
             elif discord.guild.discordguildsettings.renamer_with_level_format == "circled_level":
                 ext = circled_level(level)
-
-            if fortyplus:
-                ext += "+"
 
             if len(base) + len(ext) > 32:
                 chopped_base = base[slice(0, 32 - len(ext) - 1)]

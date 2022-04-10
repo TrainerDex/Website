@@ -266,6 +266,7 @@ def LeaderboardView(
 
     fields_to_calculate_max = {
         "total_xp",
+        "level",
         "badge_capture_total",
         "badge_travel_km",
         "badge_evolved_total",
@@ -280,12 +281,8 @@ def LeaderboardView(
         "badge_master_league",
         "update_time",
     }
-    if request.GET.get("sort"):
-        if request.GET.get("sort") in UPDATE_SORTABLE_FIELDS:
-            fields_to_calculate_max.add(request.GET.get("sort"))
-            sort_by = request.GET.get("sort")
-        else:
-            sort_by = "total_xp"
+    if (sort_by := request.GET.get("sort")) in UPDATE_SORTABLE_FIELDS:
+        fields_to_calculate_max.add(sort_by)
     else:
         sort_by = "total_xp"
     context["sort_by"] = sort_by
@@ -333,6 +330,9 @@ def LeaderboardView(
         possible_levels = [
             x.level for x in get_possible_levels_from_total_xp(xp=trainer.update__total_xp__max)
         ]
+        if trainer.update__level__max:
+            possible_levels = [x for x in possible_levels if x >= trainer.update__level__max]
+
         if min(possible_levels) == max(possible_levels):
             trainer_stats["level"] = str(min(possible_levels))
         else:
