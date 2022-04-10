@@ -90,6 +90,17 @@ class Trainer(PublicModel):
         related_name="trainer",
         verbose_name=_("User"),
     )
+
+    _nickname: str = postgres_fields.CICharField(
+        max_length=15,
+        unique=True,
+        validators=[PokemonGoUsernameValidator],
+        db_index=True,
+        verbose_name=pgettext_lazy("codename", "Nickname"),
+        help_text="A local cached version of a trainers nickname.",
+        editable=False,
+    )
+
     start_date: date | None = models.DateField(
         null=True,
         blank=True,
@@ -273,11 +284,7 @@ class Trainer(PublicModel):
     @property
     def nickname(self) -> str:
         """Gets nickname, fallback to User username"""
-        if nickname := self.nickname_set.only("nickname").filter(active=True).first():
-            nickname: Nickname
-            return nickname.nickname
-        else:
-            return self.owner.username
+        return self._nickname
 
     @property
     def username(self) -> str:
@@ -356,7 +363,9 @@ class Trainer(PublicModel):
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_profile(sender: type[User], **kwargs) -> Trainer | None:
     if kwargs["created"] and not kwargs["raw"]:
-        trainer = Trainer.objects.create(owner=kwargs["instance"])
+        trainer = Trainer.objects.create(
+            _nickname=kwargs["instance"].username, owner=kwargs["instance"]
+        )
         return trainer
 
 
@@ -377,9 +386,16 @@ class Nickname(models.Model):
     active: bool = ExclusiveBooleanField(on="trainer")
 
     def clean(self) -> None:
-        if self.active and self.trainer.owner.username != self.nickname:
-            self.trainer.owner.username = self.nickname
-            self.trainer.owner.save()
+        if self.active and (
+            (self.trainer.owner.username != self.nickname)
+            or (self.trainer._username != self.nickname)
+        ):
+            if self.trainer.owner.username != self.nickname:
+                self.trainer.owner.username = self.nickname
+                self.trainer.owner.save(update_fields="username")
+            if self.trainer._username != self.nickname:
+                self.trainer._nickname = self.nickname
+                self.trainer.save(update_fields="_nickname")
 
     def __str__(self) -> str:
         return self.nickname
@@ -1110,7 +1126,7 @@ class Update(PublicModel):
 
     def __str__(self) -> str:
         return "Update(trainer: {trainer}, update_time: {time}, {stats})".format(
-            trainer=self.trainer,
+            trainer=self.trainer_id,
             time=self.update_time,
             stats=",".join([f"{x}: {getattr(self, x)}" for x in self.modified_fields()]),
         )
