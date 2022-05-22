@@ -585,3 +585,10 @@ iframe[scrolling='no'] { overflow: hidden; }
 img.invert {
   filter: invert(0.7);
 }
+
+
+/* Fix for chips */
+
+.mdl-chip-with-contact {
+  padding-left: 0;
+}
