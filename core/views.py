@@ -12,3 +12,7 @@ def privacy(request: HttpRequest) -> HttpResponse:
 
 def terms(request: HttpRequest) -> HttpResponse:
     return render(request, "terms.html")
+
+
+def service_status(request: HttpRequest) -> HttpResponse:
+    return render(request, "status.html")

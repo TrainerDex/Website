@@ -7,7 +7,7 @@ from django.views.generic.base import RedirectView
 from rest_framework.authtoken import views
 
 from core import sitemaps
-from core.views import privacy, settings, terms
+from core.views import privacy, service_status, settings, terms
 from pokemongo.views import edit_profile, health_check
 
 app_name = "trainerdex"
@@ -33,6 +33,7 @@ urlpatterns = [
     path("api/health/", health_check),
     path("legal/privacy/", privacy, name="privacy"),
     path("legal/terms/", terms, name="terms"),
+    path("status", service_status, name="service_status"),
     path("settings/", settings, name="account_settings"),
     path("settings/profile/", edit_profile, name="profile_edit"),
     path("accounts/", include("allauth.urls")),
