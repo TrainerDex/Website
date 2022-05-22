@@ -20,34 +20,70 @@
     date
   ) {
     var card = document.createElement("div");
-    card.className =
-      "mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone";
-    var title = document.createElement("div");
-    title.className = "mdl-card__title";
-    var h3 = document.createElement("h3");
-    h3.className = "mdl-card__title-text";
-    h3.innerHTML = service_name;
-    title.appendChild(h3);
-    card.appendChild(title);
-    var content = document.createElement("div");
-    content.className = "mdl-card__supporting-text";
-    if (service_description) {
-      var description = document.createElement("p");
-      description.innerHTML = service_description;
-      content.appendChild(supporting);
-    }
-    var status_text = document.createElement("p");
-    status_text.innerHTML = `<b>Status</b>: ${status}`;
-    content.appendChild(status_text);
-    if (reason) {
-      var status_text = document.createElement("p");
-      status_text.innerHTML = `<b>Reason</b>: ${reason}`;
-      content.appendChild(status_text);
-    }
-    var status_text = document.createElement("p");
-    status_text.innerHTML = date;
-    content.appendChild(status_text);
-    card.appendChild(content);
+      card.className = "mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone";
+      var title = document.createElement("div");
+        title.className = "mdl-card__title";
+        var h3 = document.createElement("h3");
+          h3.className = "mdl-card__title-text";
+          h3.innerHTML = service_name;
+        title.appendChild(h3);
+
+        var spacer = document.createElement("div");
+          spacer.className = "mdl-layout-spacer";
+        title.appendChild(spacer);
+
+        var status_chip = document.createElement("span");
+          status_chip.className = "mdl-chip mdl-chip-with-contact";
+          var status_chip_icon = document.createElement("span");
+            if (status == "UP") {
+              status_chip_icon.className = "mdl-chip__contact mdl-color--teal mdl-color-text--white";
+            } else if (status == "UNKNOWN"){
+              status_chip_icon.className = "mdl-chip__contact mdl-color--blue-grey mdl-color-text--white";
+            } else {
+              status_chip_icon.className = "mdl-chip__contact mdl-color--red mdl-color-text--white";
+            }
+          status_chip.appendChild(status_chip_icon);
+          var status_chip_text = document.createElement("span");
+            status_chip_text.className = "mdl-chip__text";
+            status_chip_text.innerHTML = status;
+          status_chip.appendChild(status_chip_text);
+        title.appendChild(status_chip);
+        
+        if (date) {
+          var date_chip = document.createElement("span");
+            date_chip.className = "mdl-chip mdl-chip-with-contact";
+            var date_chip_icon = document.createElement("span");
+              date_chip_icon.className = "mdl-chip__contact mdl-color--teal mdl-color-text--white material-icons";
+              date_chip_icon.innerHTML = "event";
+            date_chip.appendChild(date_chip_icon);
+            var date_chip_text = document.createElement("span");
+              date_chip_text.className = "mdl-chip__text";
+              var time = moment(date).format("LLL");
+              date_chip_text.innerHTML = time;
+            date_chip.appendChild(date_chip_text);
+          title.appendChild(date_chip);
+        }
+
+      card.appendChild(title);
+      
+      var content = document.createElement("div");
+        content.className = "mdl-card__supporting-text";
+        if (service_description) {
+          var description = document.createElement("p");
+            description.innerHTML = service_description;
+          content.appendChild(description);
+        }
+        
+        var reason_text = document.createElement("p");
+          if (reason) {
+            reason_text.innerHTML = `<b>Reason</b>: ${reason}`;
+          } else {
+            reason_text.innerHTML = "<b>Reason</b>: No known faults.";
+          };
+        content.appendChild(reason_text);
+      
+      card.appendChild(content);
+
     document.getElementById("grid").appendChild(card);
   };
 
@@ -56,21 +92,37 @@
   request.send();
 
   request.onload = function () {
-    let data = JSON.parse(request.responseText);
-    for (let i = 0; i < data.length; i++) {
-      addStatusCard(
-        data[i].name,
-        data[i].description,
-        data[i].status.status,
-        data[i].status.reason,
-        data[i].status.created_at
+    if (request.status == 200) {
+      let data = JSON.parse(request.responseText);
+      for (let i = 0; i < data.length; i++) {
+        addStatusCard(
+          data[i].name,
+          data[i].description,
+          data[i].status.status,
+          data[i].status.reason,
+          data[i].status.created_at
+        );
+      }
+    } else {
+        addStatusCard(
+        "Status Service",
+        "This very service",
+        "UNKNOWN",
+        "🤷 Perhaps you're not online?",
+        null
       );
     }
+    
   };
 
   request.onerror = function () {
-    // only triggers if the request couldn't be made at all
-    alert(`Network Error`);
+    addStatusCard(
+      "Status Service",
+      "This very service",
+      "UNKNOWN",
+      "🤷 Perhaps you're not online?",
+      null
+    );
   };
 </script>
 {% endblock extra_body %}
