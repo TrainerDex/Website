@@ -1,9 +1,10 @@
 import json
+from datetime import datetime
 
 from allauth.socialaccount.admin import SocialAccountAdmin as BaseSocialAccountAdmin
 from allauth.socialaccount.models import SocialAccount
 from django.contrib import admin, messages
-from django.db.models import QuerySet
+from django.db.models import Prefetch, QuerySet
 from django.http import HttpRequest
 from django.utils.safestring import SafeString, mark_safe
 from django.utils.translation import gettext_lazy as _
@@ -18,6 +19,9 @@ from core.models import (
     DiscordGuildSettings,
     DiscordRole,
     DiscordUser,
+    Service,
+    ServiceStatus,
+    StatusChoices,
 )
 
 
@@ -274,3 +278,32 @@ admin.site.unregister(SocialAccount)
 @admin.register(SocialAccount)
 class SocialAccountAdmin(BaseSocialAccountAdmin):
     search_fields = ["user", "uid"]
+
+
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ("name", "status")
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Service]:
+        return (
+            super()
+            .get_queryset(request)
+            .prefetch_related(
+                Prefetch(
+                    "statuses",
+                    ServiceStatus.objects.order_by("-created_at"),
+                    to_attr="statuses_ordered",
+                )
+            )
+        )
+
+    def status(self, obj: Service) -> str:
+        try:
+            return obj.statuses_ordered[0].status
+        except IndexError:
+            return StatusChoices.UNKNOWN.value
+
+
+@admin.register(ServiceStatus)
+class NameAdmin(admin.ModelAdmin):
+    list_display = ("service", "status", "created_at")

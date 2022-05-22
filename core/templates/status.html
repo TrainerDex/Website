@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "System Status" %}{% endblock %}
+
+{% block content %}
+<div class="mdl-grid" id="grid">
+
+</div>
+{% endblock%}
+
+{% block extra_body %}
+<script>
+  addStatusCard = function (
+    service_name,
+    service_description,
+    status,
+    reason,
+    date
+  ) {
+    var card = document.createElement("div");
+    card.className =
+      "mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone";
+    var title = document.createElement("div");
+    title.className = "mdl-card__title";
+    var h3 = document.createElement("h3");
+    h3.className = "mdl-card__title-text";
+    h3.innerHTML = service_name;
+    title.appendChild(h3);
+    card.appendChild(title);
+    var content = document.createElement("div");
+    content.className = "mdl-card__supporting-text";
+    if (service_description) {
+      var description = document.createElement("p");
+      description.innerHTML = service_description;
+      content.appendChild(supporting);
+    }
+    var status_text = document.createElement("p");
+    status_text.innerHTML = `<b>Status</b>: ${status}`;
+    content.appendChild(status_text);
+    if (reason) {
+      var status_text = document.createElement("p");
+      status_text.innerHTML = `<b>Reason</b>: ${reason}`;
+      content.appendChild(status_text);
+    }
+    var status_text = document.createElement("p");
+    status_text.innerHTML = date;
+    content.appendChild(status_text);
+    card.appendChild(content);
+    document.getElementById("grid").appendChild(card);
+  };
+
+  let request = new XMLHttpRequest();
+  request.open("GET", "{% url 'core.api:service_list' %}");
+  request.send();
+
+  request.onload = function () {
+    let data = JSON.parse(request.responseText);
+    for (let i = 0; i < data.length; i++) {
+      addStatusCard(
+        data[i].name,
+        data[i].description,
+        data[i].status.status,
+        data[i].status.reason,
+        data[i].status.created_at
+      );
+    }
+  };
+
+  request.onerror = function () {
+    // only triggers if the request couldn't be made at all
+    alert(`Network Error`);
+  };
+</script>
+{% endblock extra_body %}

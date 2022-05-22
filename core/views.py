@@ -2,13 +2,17 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
 
-def SettingsView(request: HttpRequest) -> HttpResponse:
+def settings(request: HttpRequest) -> HttpResponse:
     return render(request, "account/account_settings.html")
 
 
-def PrivacyView(request: HttpRequest) -> HttpResponse:
+def privacy(request: HttpRequest) -> HttpResponse:
     return render(request, "privacy.html")
 
 
-def TermsView(request: HttpRequest) -> HttpResponse:
+def terms(request: HttpRequest) -> HttpResponse:
     return render(request, "terms.html")
+
+
+def service_status(request: HttpRequest) -> HttpResponse:
+    return render(request, "status.html")
