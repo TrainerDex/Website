@@ -43,11 +43,11 @@ if TYPE_CHECKING:
     from django.contrib.auth.models import User
 
 
-def VerificationImagePath(instance: Trainer, filename: str) -> str:
+def get_verification_image_path(instance: Trainer, filename: str) -> str:
     return f"v_{instance.owner.id}_{timezone.now().timestamp()}{splitext(filename)[1]}"
 
 
-def VerificationUpdateImagePath(instance: Update, filename: str) -> str:
+def get_verification_update_image_path(instance: Update, filename: str) -> str:
     return f"v_{instance.trainer.owner.id}/v_{instance.trainer.id}_{timezone.now().timestamp()}{splitext(filename)[1]}"
 
 
@@ -166,7 +166,7 @@ class Trainer(PublicModel):
     )
 
     verification = models.ImageField(
-        upload_to=VerificationImagePath,
+        upload_to=get_verification_image_path,
         blank=True,
         verbose_name=_("Screenshot"),
     )
@@ -460,7 +460,7 @@ class Update(PublicModel):
         verbose_name=_("Source"),
     )
     screenshot: models.FieldFile = models.ImageField(
-        upload_to=VerificationUpdateImagePath,
+        upload_to=get_verification_update_image_path,
         blank=True,
         verbose_name=_("Screenshot"),
         help_text=_("This should be your TOTAL XP screenshot."),

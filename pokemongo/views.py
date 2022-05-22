@@ -54,7 +54,7 @@ def _check_if_self_valid(request: HttpRequest) -> bool:
     return valid
 
 
-def TrainerRedirectorView(
+def profile_redirector(
     request: HttpRequest,
     nickname: str | None = None,
     id: int | None = None,
@@ -66,7 +66,7 @@ def TrainerRedirectorView(
             owner__is_active=True,
         )
         if nickname == trainer.nickname:
-            return TrainerProfileView(request, trainer)
+            return profile_view(request, trainer)
     elif request.GET.get("id", id):
         trainer = get_object_or_404(
             Trainer, pk=int(str(request.GET.get("id", id)).replace("/", "")), owner__is_active=True
@@ -80,7 +80,7 @@ def TrainerRedirectorView(
     return redirect("trainerdex:profile", permanent=True, **{"nickname": trainer.nickname})
 
 
-def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
+def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
         messages.warning(request, _("Please complete your profile to continue using the website."))
         return redirect("profile_edit")
@@ -151,7 +151,7 @@ def TrainerProfileView(request: HttpRequest, trainer: Trainer) -> HttpResponse:
 
 
 @login_required
-def CreateUpdateView(request: HttpRequest) -> HttpResponse:
+def new_update(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and not _check_if_self_valid(request):
         messages.warning(request, _("Please complete your profile to continue using the website."))
         return redirect("profile_edit")
@@ -221,7 +221,7 @@ def CreateUpdateView(request: HttpRequest) -> HttpResponse:
     return render(request, "create_update.html", context)
 
 
-def LeaderboardView(
+def leaderboard(
     request: HttpRequest,
     country: str | None = None,
     community: str | None = None,
@@ -373,7 +373,7 @@ def LeaderboardView(
 
 
 @login_required
-def EditProfileView(request: HttpRequest) -> HttpResponse:
+def edit_profile(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and _check_if_self_valid(request):
         if request.user.trainer.update_set.count() == 0:
             messages.warning(request, "You have not posted your stats yet.")
