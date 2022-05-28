@@ -9,7 +9,6 @@ from core.models.discord import (
     DiscordChannel,
     DiscordGuild,
     DiscordGuildMembership,
-    DiscordGuildSettings,
     DiscordRole,
     DiscordUser,
 )
@@ -42,9 +41,19 @@ download_channels.short_description = _(
 )
 
 
-class DiscordSettingsInline(admin.StackedInline):
-    model = DiscordGuildSettings
+@admin.register(DiscordGuild)
+class DiscordGuildAdmin(admin.ModelAdmin):
     fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "id",
+                    "name",
+                    "owner",
+                )
+            },
+        ),
         (
             "Localization",
             {
@@ -68,31 +77,11 @@ class DiscordSettingsInline(admin.StackedInline):
             "TrainerDex",
             {"fields": ("monthly_gains_channel",)},
         ),
-    )
-    verbose_name = _("Discord Server Settings")
-    verbose_name_plural = _("Discord Server Settings")
-    can_delete = False
-
-
-@admin.register(DiscordGuild)
-class DiscordGuildAdmin(admin.ModelAdmin):
-    fieldsets = (
-        (
-            None,
-            {
-                "fields": (
-                    "id",
-                    "name",
-                    "owner",
-                )
-            },
-        ),
         (
             "Debug",
             {"fields": ("data", "cached_date"), "classes": ("collapse",)},
         ),
     )
-    inlines = [DiscordSettingsInline]
     search_fields = ["id", "data__name"]
     actions = [sync_members, download_channels]
     list_display = [

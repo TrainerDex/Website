@@ -27,11 +27,57 @@ class DiscordGuild(models.Model):
     data: dict | list = models.JSONField(null=True, blank=True)
     cached_date: datetime = models.DateTimeField(auto_now_add=True)
     has_access: bool = models.BooleanField(default=False)
+
     members: models.QuerySet[DiscordUser] = models.ManyToManyField(
         "DiscordUser",
         through="DiscordGuildMembership",
         through_fields=("guild", "user"),
         related_name="guilds",
+    )
+
+    # Localization settings
+    language: str = models.CharField(
+        default=settings.LANGUAGE_CODE,
+        choices=settings.LANGUAGES,
+        max_length=len(max(settings.LANGUAGES, key=lambda x: len(x[0]))[0]),
+    )
+    timezone: str = models.CharField(
+        default=settings.TIME_ZONE,
+        choices=((x, x) for x in common_timezones),
+        max_length=len(max(common_timezones, key=len)),
+    )
+
+    # Needed for automatic renaming features
+    renamer: bool = models.BooleanField(
+        default=True,
+        verbose_name=_("Rename users when they join."),
+        help_text=_(
+            "This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."
+        ),
+    )
+    renamer_with_level: bool = models.BooleanField(
+        default=False,
+        verbose_name=_("Rename users with their level indicator"),
+        help_text=_(
+            "This setting will add a level to the end of their username on your server. "
+            "Their name will update whenever they level up."
+        ),
+    )
+    renamer_with_level_format: str = models.CharField(
+        default="int",
+        verbose_name=_("Level Indicator format"),
+        max_length=50,
+        choices=[("int", "40"), ("circled_level", "㊵")],
+    )
+
+    # Needed for discordbot/management/commands/leaderboard_cron.py
+    monthly_gains_channel: DiscordChannel = models.OneToOneField(
+        "DiscordChannel",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name=None,
+        limit_choices_to={"data__type": 0},
     )
 
     def _outdated(self) -> bool:
@@ -198,57 +244,7 @@ class DiscordGuild(models.Model):
 
 
 class DiscordGuildSettings(DiscordGuild):
-    # Localization settings
-    language: str = models.CharField(
-        default=settings.LANGUAGE_CODE,
-        choices=settings.LANGUAGES,
-        max_length=len(max(settings.LANGUAGES, key=lambda x: len(x[0]))[0]),
-    )
-    timezone: str = models.CharField(
-        default=settings.TIME_ZONE,
-        choices=((x, x) for x in common_timezones),
-        max_length=len(max(common_timezones, key=len)),
-    )
-
-    # Needed for automatic renaming features
-    renamer: bool = models.BooleanField(
-        default=True,
-        verbose_name=_("Rename users when they join."),
-        help_text=_(
-            "This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."
-        ),
-    )
-    renamer_with_level: bool = models.BooleanField(
-        default=False,
-        verbose_name=_("Rename users with their level indicator"),
-        help_text=_(
-            "This setting will add a level to the end of their username on your server. "
-            "Their name will update whenever they level up."
-        ),
-    )
-    renamer_with_level_format: str = models.CharField(
-        default="int",
-        verbose_name=_("Level Indicator format"),
-        max_length=50,
-        choices=[("int", "40"), ("circled_level", "㊵")],
-    )
-
-    # Needed for discordbot/management/commands/leaderboard_cron.py
-    monthly_gains_channel: DiscordChannel = models.OneToOneField(
-        "DiscordChannel",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="monthly_gains_channel",
-        limit_choices_to={"data__type": 0},
-    )
-
-
-@receiver(post_save, sender=DiscordGuild)
-def new_guild(sender: type[DiscordGuild], **kwargs) -> None:
-    if not kwargs["raw"]:
-        DiscordGuildSettings.objects.get_or_create(pk=kwargs["instance"].id)
-        kwargs["instance"].sync_members()
+    pass
 
 
 class DiscordChannel(models.Model):

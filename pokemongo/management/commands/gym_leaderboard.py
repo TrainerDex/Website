@@ -12,7 +12,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
 from humanize import intcomma
 
-from core.models.discord import DiscordGuildSettings
+from core.models.discord import DiscordGuild
 from pokemongo.models import Trainer, Update
 from pokemongo.shortcuts import filter_leaderboard_qs, filter_leaderboard_qs__update
 
@@ -238,8 +238,8 @@ It's all manual atm, sorry!
             ek_pogo = client.get_guild(319811219093716993)
             guilds = [ek_pogo]
             for guild in guilds:
-                if DiscordGuildSettings.objects.filter(id=guild.id).exists():
-                    g: DiscordGuildSettings = DiscordGuildSettings.objects.get(id=guild.id)
+                if DiscordGuild.objects.filter(id=guild.id).exists():
+                    g: DiscordGuild = DiscordGuild.objects.get(id=guild.id)
                 else:
                     continue
 

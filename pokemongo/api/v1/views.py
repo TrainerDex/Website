@@ -16,7 +16,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from core.models.discord import DiscordGuildSettings
+from core.models.discord import DiscordGuild
 from pokemongo.api.v1.serializers import (
     DetailedTrainerSerializer,
     DetailedUpdateSerializer,
@@ -370,12 +370,12 @@ class DetailedLeaderboardView(APIView):
 
         generated_time = timezone.now()
 
-        def get_guild(guild: int) -> DiscordGuildSettings:
+        def get_guild(guild: int) -> DiscordGuild:
             try:
-                server = DiscordGuildSettings.objects.get(id=guild)
-            except DiscordGuildSettings.DoesNotExist:
+                server = DiscordGuild.objects.get(id=guild)
+            except DiscordGuild.DoesNotExist:
                 logger.warn(f"Guild with id {guild} not found")
-                server = DiscordGuildSettings(id=guild)
+                server = DiscordGuild(id=guild)
                 server.refresh_from_api()
                 if not server.has_access:
                     return Response(
@@ -406,7 +406,7 @@ class DetailedLeaderboardView(APIView):
                     server.sync_members()
             return server
 
-        def get_users_for_guild(guild: DiscordGuildSettings) -> QuerySet[Trainer]:
+        def get_users_for_guild(guild: DiscordGuild) -> QuerySet[Trainer]:
             opt_out_roles = (
                 guild.roles.filter(data__name__in=["NoLB", "TrainerDex Excluded"])
                 | guild.roles.filter(exclude_roles_community_membership_discord__discord=guild)
