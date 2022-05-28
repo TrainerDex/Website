@@ -28,6 +28,7 @@ sphinx = "*"
 django-docs = "*"
 myst-parser = "*"
 django-robots = "*"
+docutils = "*"
 
 [dev-packages]
 flake8 = "*"
