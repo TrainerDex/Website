@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 from datetime import datetime, timedelta
 from typing import TYPE_CHECKING, Dict
@@ -5,7 +7,7 @@ from typing import TYPE_CHECKING, Dict
 import requests
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
-from django.db.models import Avg, Count, F, Max, Min, Prefetch, Q, Subquery, Sum, Window
+from django.db.models import Avg, Count, F, Max, Min, Prefetch, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -414,15 +416,22 @@ class DetailedLeaderboardView(APIView):
                     server.sync_members()
             return server
 
-        def get_users_for_guild(guild: DiscordGuildSettings):
-            opt_out_roles = guild.roles.filter(
-                data__name__in=["NoLB", "TrainerDex Excluded"]
-            ) | guild.roles.filter(exclude_roles_community_membership_discord__discord=guild)
-            sq = Q()
-            for x in opt_out_roles:
-                sq |= Q(discordguildmembership__data__roles__contains=[str(x.id)])
-            members = guild.members.exclude(sq)
-            return Trainer.objects.filter(owner__socialaccount__in=members)
+        def get_users_for_guild(guild: DiscordGuildSettings) -> QuerySet[Trainer]:
+            opt_out_roles = (
+                guild.roles.filter(data__name__in=["NoLB", "TrainerDex Excluded"])
+                | guild.roles.filter(exclude_roles_community_membership_discord__discord=guild)
+            ).only("id")
+
+            queryset = Trainer.objects.filter(owner__socialaccount__discordguild__id=guild.id)
+
+            if opt_out_roles:
+                queryset = queryset.exclude(
+                    owner__socialaccount__discordguildmembership__data__roles__contains=[
+                        str(x.id) for x in opt_out_roles
+                    ]
+                )
+
+            return queryset
 
         def get_community(handle: str) -> Community:
             try:
