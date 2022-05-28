@@ -94,6 +94,10 @@ class DiscordGuild(models.Model):
     def name(self) -> str:
         return self.data.get("name")
 
+    @property
+    def owner(self) -> int:
+        return self.data.get("owner_id")
+
     def __str__(self) -> str:
         return self.name or f"Discord Guild with ID {self.id}"
 
