@@ -168,7 +168,8 @@ STATIC_URL = "/static/"
 # CORS
 # https://github.com/ottoyiu/django-cors-headers
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = ["https://trainerdex.app", "https://beta.trainerdex.app"]
 
 # Django Rest Framework
 # http://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/
