@@ -509,7 +509,6 @@ class DetailedLeaderboardView(APIView):
                 "trainer",
                 "trainer__owner",
             )
-            .prefetch_related("trainer__nickname_set")
             .annotate(value=F(stat))
             .annotate(rank=Window(expression=DenseRank(), order_by=F("value").desc()))
             .order_by("rank", "-value", "update_time")

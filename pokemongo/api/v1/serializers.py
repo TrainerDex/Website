@@ -147,10 +147,7 @@ class LeaderboardSerializer(serializers.Serializer):
         return obj.trainer.id
 
     def get_username(self, obj: Update) -> str:
-        try:
-            return [x.nickname for x in obj.trainer.nickname_set.all() if x.active][0]
-        except IndexError:
-            return "Unknown"
+        return obj.trainer.nickname
 
     def get_faction(self, obj: Update) -> dict[str, str | int]:
         return FactionSerializer(obj.trainer.faction).data
