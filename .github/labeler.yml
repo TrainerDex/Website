@@ -8,9 +8,6 @@ frontend:
   - "pokemongo/templates/**/*"
   - "pokemongo/static/**/*"
 
-docs:
-  - "docs/"
-
 gains:
   - "core/management/commands/gains_leaderboard.py"
   - "core/management/commands/post_announcement.py"

@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.reddit",
     "allauth.socialaccount.providers.twitter",
     "widget_tweaks",
-    "docs",
     "robots",
 ]
 
@@ -156,8 +155,6 @@ TIME_ZONE = "UTC"
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 
@@ -167,13 +164,12 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 
-DOCS_ROOT = BASE_DIR / "docs/_build/html"
-
 
 # CORS
 # https://github.com/ottoyiu/django-cors-headers
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = ["https://trainerdex.app", "https://beta.trainerdex.app"]
 
 # Django Rest Framework
 # http://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/

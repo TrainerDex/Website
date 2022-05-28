@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timedelta
 import time
+from datetime import datetime, timedelta
 from typing import List
 
 import requests
@@ -13,7 +13,6 @@ from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from pytz import common_timezones
 
 logger = logging.getLogger("django.trainerdex")
 
@@ -41,8 +40,7 @@ class DiscordGuild(models.Model):
     )
     timezone: str = models.CharField(
         default=settings.TIME_ZONE,
-        choices=((x, x) for x in common_timezones),
-        max_length=len(max(common_timezones, key=len)),
+        max_length=255,
     )
 
     # Needed for automatic renaming features

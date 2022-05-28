@@ -1,7 +1,7 @@
 # from datetime import datetime
+# from zoneinfo import ZoneInfo
 
 # import discord
-# import pytz
 # from dateutil.relativedelta import MO
 # from dateutil.rrule import WEEKLY, rrule
 # from django.conf import settings
@@ -19,7 +19,7 @@
 #         current_time = timezone.now()
 #         rule = rrule(
 #             WEEKLY,
-#             dtstart=datetime(2016, 7, 4, 12, 0, tzinfo=pytz.utc),
+#             dtstart=datetime(2016, 7, 4, 12, 0, tzinfo=ZoneInfo("UTC")),
 #             byweekday=MO,
 #         )
 #         deadline = rule.after(current_time)
@@ -82,7 +82,7 @@
 #                                 )
 #                             )
 #                             message += "\n\n"
-#                             message += deadline.astimezone(tz=pytz.timezone(g.timezone)).strftime(
+#                             message += deadline.astimezone(tz=ZoneInfo(g.timezone)).strftime(
 #                                 "%Y %b %d %I:%M %p %Z"
 #                             )
 #                             await channel.send(message)
