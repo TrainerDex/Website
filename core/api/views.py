@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.api.serializers import ListServiceSerializer
-from core.models import Service, ServiceStatus
+from core.models.main import Service, ServiceStatus
 
 
 class ServiceListView(APIView):

@@ -12,7 +12,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
 from humanize import intcomma
 
-from core.models import DiscordGuildSettings
+from core.models.discord import DiscordGuildSettings
 from pokemongo.models import Trainer, Update
 from pokemongo.shortcuts import filter_leaderboard_qs, filter_leaderboard_qs__update
 

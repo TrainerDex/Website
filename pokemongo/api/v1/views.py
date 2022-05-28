@@ -4,7 +4,6 @@ import logging
 from datetime import datetime, timedelta
 from typing import TYPE_CHECKING, Dict
 
-import requests
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
 from django.db.models import Avg, Count, F, Max, Min, Prefetch, QuerySet, Subquery, Sum, Window
@@ -17,7 +16,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from core.models import DiscordGuildSettings, get_guild_info
+from core.models.discord import DiscordGuildSettings
 from pokemongo.api.v1.serializers import (
     DetailedTrainerSerializer,
     DetailedUpdateSerializer,
@@ -343,7 +342,7 @@ class SocialLookupView(APIView):
             query = SocialAccount.objects.exclude(user__is_active=False).get(
                 provider=request.data["provider"], uid=request.data["uid"]
             )
-        except:
+        except SocialAccount.DoesNotExist:
             serializer = SocialAllAuthSerializer(data=request.data)
         else:
             serializer = SocialAllAuthSerializer(query, data=request.data, partial=True)
@@ -376,9 +375,9 @@ class DetailedLeaderboardView(APIView):
                 server = DiscordGuildSettings.objects.get(id=guild)
             except DiscordGuildSettings.DoesNotExist:
                 logger.warn(f"Guild with id {guild} not found")
-                try:
-                    i = get_guild_info(guild)
-                except requests.exceptions.HTTPError:
+                server = DiscordGuildSettings(id=guild)
+                server.refresh_from_api()
+                if not server.has_access:
                     return Response(
                         {
                             "error": "Access Denied",
@@ -389,19 +388,10 @@ class DetailedLeaderboardView(APIView):
                         status=404,
                     )
                 else:
-                    logger.info(f"{i['name']} found. Creating.")
-                    server = DiscordGuildSettings.objects.create(
-                        id=guild, data=i, cached_date=timezone.now()
-                    )
                     server.sync_members()
 
             if not server.data or server.outdated:
-                try:
-                    server.refresh_from_api()
-                except:
-                    return Response(status=424)
-                else:
-                    server.save()
+                server.refresh_from_api()
 
                 if not server.has_access:
                     return Response(

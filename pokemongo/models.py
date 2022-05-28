@@ -24,7 +24,7 @@ from exclusivebooleanfield.fields import ExclusiveBooleanField
 from pytz import common_timezones
 
 from config.abstract_models import PublicModel
-from core.models import DiscordGuild, DiscordGuildMembership, DiscordRole
+from core.models.discord import DiscordGuild, DiscordGuildMembership, DiscordRole
 from pokemongo.shortcuts import (
     UPDATE_FIELDS_BADGES,
     UPDATE_FIELDS_TYPES,

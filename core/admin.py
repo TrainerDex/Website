@@ -1,24 +1,19 @@
-import json
-from datetime import datetime
-
 from allauth.socialaccount.admin import SocialAccountAdmin as BaseSocialAccountAdmin
 from allauth.socialaccount.models import SocialAccount
 from django.contrib import admin, messages
 from django.db.models import Prefetch, QuerySet
 from django.http import HttpRequest
-from django.utils.safestring import SafeString, mark_safe
 from django.utils.translation import gettext_lazy as _
-from pygments import highlight
-from pygments.formatters import HtmlFormatter
-from pygments.lexers import JsonLexer
 
-from core.models import (
+from core.models.discord import (
     DiscordChannel,
     DiscordGuild,
     DiscordGuildMembership,
     DiscordGuildSettings,
     DiscordRole,
     DiscordUser,
+)
+from core.models.main import (
     Service,
     ServiceStatus,
     StatusChoices,
@@ -94,7 +89,7 @@ class DiscordGuildAdmin(admin.ModelAdmin):
         ),
         (
             "Debug",
-            {"fields": ("data_prettified", "cached_date"), "classes": ("collapse",)},
+            {"fields": ("data", "cached_date"), "classes": ("collapse",)},
         ),
     )
     inlines = [DiscordSettingsInline]
@@ -106,7 +101,6 @@ class DiscordGuildAdmin(admin.ModelAdmin):
         "_outdated",
         "has_data",
         "has_access",
-        "owner",
         "cached_date",
     ]
 
@@ -114,19 +108,9 @@ class DiscordGuildAdmin(admin.ModelAdmin):
         self, request: HttpRequest, obj: DiscordGuild | None = None
     ) -> list[str]:
         if obj:
-            return ["id", "name", "owner", "data_prettified", "cached_date"]
+            return ["id", "name", "owner", "data", "cached_date"]
         else:
-            return ["name", "owner", "data_prettified", "cached_date"]
-
-    def data_prettified(self, instance: DiscordGuild) -> SafeString:
-        """Function to display pretty version of our data"""
-        response = json.dumps(instance.data, sort_keys=True, indent=2)
-        formatter = HtmlFormatter(style="colorful")
-        response = highlight(response, JsonLexer(), formatter)
-        style = "<style>" + formatter.get_style_defs() + "</style><br>"
-        return mark_safe(style + response)
-
-    data_prettified.short_description = "data"
+            return ["name", "owner", "data", "cached_date"]
 
 
 @admin.register(DiscordUser)
@@ -136,7 +120,7 @@ class DiscordUserAdmin(admin.ModelAdmin):
         "uid",
         "last_login",
         "date_joined",
-        "data_prettified",
+        "extra_data",
     ]
     search_fields = [
         "user__username",
@@ -150,26 +134,16 @@ class DiscordUserAdmin(admin.ModelAdmin):
         "last_login",
         "date_joined",
     ]
-    readonly_fields = ["uid", "last_login", "date_joined", "data_prettified"]
-
-    def data_prettified(self, instance: DiscordUser) -> SafeString:
-        """Function to display pretty version of our data"""
-        response = json.dumps(instance.extra_data, sort_keys=True, indent=2)
-        formatter = HtmlFormatter(style="colorful")
-        response = highlight(response, JsonLexer(), formatter)
-        style = "<style>" + formatter.get_style_defs() + "</style><br>"
-        return mark_safe(style + response)
-
-    data_prettified.short_description = "data"
+    readonly_fields = ["uid", "last_login", "date_joined", "extra_data"]
 
 
 @admin.register(DiscordChannel)
 class DiscordChannelAdmin(admin.ModelAdmin):
-    fields = ["guild", "data_prettified", "cached_date"]
+    fields = ["guild", "data", "cached_date"]
     readonly_fields = fields
     autocomplete_fields = ["guild"]
     search_fields = ["guild", "data__name"]
-    list_display = ["name", "type", "guild", "has_data", "cached_date"]
+    list_display = ["name", "guild", "has_data", "cached_date"]
     list_filter = ["guild", "cached_date"]
 
     def get_readonly_fields(
@@ -178,22 +152,12 @@ class DiscordChannelAdmin(admin.ModelAdmin):
         if obj:
             return self.fields
         else:
-            return ["data_prettified", "cached_date"]
-
-    def data_prettified(self, instance: DiscordChannel) -> SafeString:
-        """Function to display pretty version of our data"""
-        response = json.dumps(instance.data, sort_keys=True, indent=2)
-        formatter = HtmlFormatter(style="colorful")
-        response = highlight(response, JsonLexer(), formatter)
-        style = "<style>" + formatter.get_style_defs() + "</style><br>"
-        return mark_safe(style + response)
-
-    data_prettified.short_description = "data"
+            return ["data", "cached_date"]
 
 
 @admin.register(DiscordRole)
 class DiscordRoleAdmin(admin.ModelAdmin):
-    fields = ["guild", "data_prettified", "cached_date"]
+    fields = ["guild", "data", "cached_date"]
     readonly_fields = fields
     autocomplete_fields = ["guild"]
     search_fields = ["guild", "id"]
@@ -202,7 +166,6 @@ class DiscordRoleAdmin(admin.ModelAdmin):
         "guild",
         "has_data",
         "cached_date",
-        "position",
     ]
     list_filter = ["guild", "cached_date"]
 
@@ -212,17 +175,7 @@ class DiscordRoleAdmin(admin.ModelAdmin):
         if obj:
             return self.fields
         else:
-            return ["data_prettified", "cached_date"]
-
-    def data_prettified(self, instance: DiscordRole) -> SafeString:
-        """Function to display pretty version of our data"""
-        response = json.dumps(instance.data, sort_keys=True, indent=2)
-        formatter = HtmlFormatter(style="colorful")
-        response = highlight(response, JsonLexer(), formatter)
-        style = "<style>" + formatter.get_style_defs() + "</style><br>"
-        return mark_safe(style + response)
-
-    data_prettified.short_description = "data"
+            return ["data", "cached_date"]
 
 
 @admin.register(DiscordGuildMembership)
@@ -230,7 +183,7 @@ class DiscordGuildMembershipAdmin(admin.ModelAdmin):
     fields = [
         "guild",
         "user",
-        "data_prettified",
+        "data",
         "cached_date",
         "active",
         "nick_override",
@@ -257,19 +210,9 @@ class DiscordGuildMembershipAdmin(admin.ModelAdmin):
         self, request: HttpRequest, obj: DiscordGuildMembership | None = None
     ) -> list[str]:
         if obj:
-            return ["guild", "user", "data_prettified", "cached_date"]
+            return ["guild", "user", "data", "cached_date"]
         else:
-            return ["data_prettified", "cached_date"]
-
-    def data_prettified(self, instance: DiscordGuildMembership) -> SafeString:
-        """Function to display pretty version of our data"""
-        response = json.dumps(instance.data, sort_keys=True, indent=2)
-        formatter = HtmlFormatter(style="colorful")
-        response = highlight(response, JsonLexer(), formatter)
-        style = "<style>" + formatter.get_style_defs() + "</style><br>"
-        return mark_safe(style + response)
-
-    data_prettified.short_description = "data"
+            return ["data", "cached_date"]
 
 
 admin.site.unregister(SocialAccount)

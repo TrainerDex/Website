@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 from typing import Iterable, List, Union
 
 import discord
@@ -12,7 +12,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
 from humanize import intcomma, naturaldelta
 
-from core.models import DiscordGuildSettings
+from core.models.discord import DiscordGuildSettings
 from pokemongo.models import Trainer, Update
 from pokemongo.shortcuts import filter_leaderboard_qs
 
