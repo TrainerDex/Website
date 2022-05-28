@@ -26,6 +26,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from oauth2_provider.contrib.rest_framework import OAuth2Authentication
+from config.permissions import IsAdminUserOrReadOnlyOrTokenHasScope
 
 from core.models.discord import DiscordGuild
 from pokemongo.api.v1.serializers import (
@@ -71,7 +73,11 @@ class TrainerListView(APIView):
     Register a Trainer, needs the Primary Key of the Owner, the User object which owns the Trainer
     """
 
-    authentication_classes = (authentication.TokenAuthentication,)
+    authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
+    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    required_alternate_scopes = {
+        "GET": ["read"],
+    }
 
     def get(self, request: Request) -> Response:
         queryset = Trainer.objects.exclude(owner__is_active=False)
@@ -122,7 +128,12 @@ class TrainerDetailView(APIView):
     Archives a trainer
     """
 
-    authentication_classes = (authentication.TokenAuthentication,)
+    authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
+    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    required_alternate_scopes = {
+        "GET": ["read"],
+        "PATCH": ["write"],
+    }
 
     def get_object(self, pk: int) -> Trainer:
         return get_object_or_404(Trainer, pk=pk, owner__is_active=True)
@@ -176,7 +187,13 @@ class UpdateListView(APIView):
     Create a update
     """
 
-    authentication_classes = (authentication.TokenAuthentication,)
+    authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
+    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    required_alternate_scopes = {
+        "GET": ["read"],
+        "POST": ["write"],
+        "PATCH": ["write"],
+    }
 
     def get(self, request: Request, pk: int) -> Response:
         updates = Update.objects.filter(trainer=pk, trainer__owner__is_active=True)
@@ -205,7 +222,12 @@ class LatestUpdateView(APIView):
     Trainer, UUID and PK are locked.
     """
 
-    authentication_classes = (authentication.TokenAuthentication,)
+    authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
+    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    required_alternate_scopes = {
+        "GET": ["read"],
+        "PATCH": ["write"],
+    }
 
     def get(self, request: Request, pk: int) -> Response:
         try:
@@ -240,7 +262,12 @@ class UpdateDetailView(APIView):
     patch:
     Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked"""
 
-    authentication_classes = (authentication.TokenAuthentication,)
+    authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
+    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    required_alternate_scopes = {
+        "GET": ["read"],
+        "PATCH": ["write"],
+    }
 
     def get(self, request: Request, uuid: str, pk: int) -> Response:
         update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
@@ -274,6 +301,8 @@ class LeaderboardView(APIView):
     """
     Limited to 1000
     """
+
+    permission_classes = [permissions.AllowAny]
 
     def get(
         self,
@@ -329,9 +358,16 @@ class SocialLookupView(APIView):
             user - TrainerDex User ID, supports a comma seperated list
             trainer - TrainerDex Trainer ID
 
-    patch:
-    Register a SocialAccount. Patch if exists, post if not.
+    put:
+        Register a SocialAccount. Patch if exists, post if not.
     """
+
+    authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
+    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    required_alternate_scopes = {
+        "GET": ["read:social"],
+        "PUT": ["write:social"],
+    }
 
     def get(self, request: Request) -> Response:
         query = SocialAccount.objects.exclude(user__is_active=False).filter(
@@ -365,6 +401,8 @@ class SocialLookupView(APIView):
 
 
 class DetailedLeaderboardView(APIView):
+    permission_classes = [permissions.AllowAny]
+
     def get(
         self,
         request: Request,
