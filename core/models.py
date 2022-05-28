@@ -3,6 +3,8 @@ from __future__ import annotations
 import logging
 import re
 from datetime import datetime, timedelta
+import time
+from typing import List
 
 import requests
 from allauth.socialaccount.models import SocialAccount
@@ -20,74 +22,7 @@ from config.abstract_models import PublicModel
 
 logger = logging.getLogger("django.trainerdex")
 
-
-def get_guild_info(guild_id: int) -> dict[str, str | int | list | dict | None]:
-    base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
-    r = requests.get(
-        f"{base_url}/guilds/{guild_id}",
-        headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
-    )
-    r.raise_for_status()
-    return r.json()
-
-
-def list_guild_members(
-    guild_id: int, limit=1000
-) -> list[dict[str, str | list[int] | bool | dict[str, str | bool | int]]]:
-    base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
-    previous = None
-    more = True
-    result = []
-    while more:
-        r = requests.get(
-            f"{base_url}/guilds/{guild_id}/members",
-            headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
-            params={"limit": limit, "after": previous},
-        )
-        r.raise_for_status()
-        more = bool(r.json())
-        if more:
-            result += r.json()
-            previous = result[-1]["user"]["id"]
-    return result
-
-
-def get_guild_member(
-    guild_id: int, user_id: int
-) -> dict[str, str | list[int] | bool | dict[str, str | bool | int]]:
-    base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
-    r = requests.get(
-        f"{base_url}/guilds/{guild_id}/members/{user_id}",
-        headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
-    )
-    r.raise_for_status()
-    return r.json()
-
-
-def get_guild_channels(
-    guild_id: int,
-) -> list[
-    dict[str, str | int | bool | list[dict[str, str | int]] | list[dict[str, str | bool | int]]]
-]:
-    base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
-    r = requests.get(
-        f"{base_url}/guilds/{guild_id}/channels",
-        headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
-    )
-    r.raise_for_status()
-    return r.json()
-
-
-def get_channel(
-    channel_id: int,
-) -> dict[str, str | int | bool | list[dict[str, str | int]] | list[dict[str, str | bool | int]]]:
-    base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
-    r = requests.get(
-        f"{base_url}/channels/{channel_id}",
-        headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
-    )
-    r.raise_for_status()
-    return r.json()
+DISCORD_BASE_URL = "https://discord.com/api/v10"
 
 
 class DiscordGuild(models.Model):
@@ -118,20 +53,6 @@ class DiscordGuild(models.Model):
     def name(self) -> str:
         return self.data.get("name")
 
-    @property
-    def normalized_name(self) -> str:
-        if self.name:
-            return re.sub(r"(?:Pok[eé]mon?\s?(Go)?(GO)?\s?-?\s)", "", self.name)
-
-    @property
-    def owner(self) -> int | SocialAccount:
-        if self.data.get("owner_id"):
-            try:
-                return DiscordUser.objects.get(uid=self.data.get("owner_id"))
-            except DiscordUser.DoesNotExist:
-                pass
-        return self.data.get("owner_id")
-
     def __str__(self) -> str:
         return self.name or f"Discord Guild with ID {self.id}"
 
@@ -139,7 +60,7 @@ class DiscordGuild(models.Model):
     def refresh_from_api(self) -> None:
         logging.info(f"Updating {self}")
         try:
-            data = get_guild_info(self.id)
+            data = self._fetch_one()
             self.data = data
             self.has_access = True
             self.cached_date = timezone.now()
@@ -147,12 +68,21 @@ class DiscordGuild(models.Model):
             self.has_access = False
             logger.exception("Failed to get server information from Discord")
         else:
+            self.save(update_fields=("data", "has_access", "cached_date"))
             self.sync_roles()
+
+    def _fetch_one(self):
+        r = requests.get(
+            f"{DISCORD_BASE_URL}/guilds/{self.id}",
+            headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
+        )
+        r.raise_for_status()
+        return r.json()
 
     @transaction.atomic
     def sync_members(self) -> str | dict[str, list[str]]:  # Is this a bug?
         try:
-            guild_api_members = list_guild_members(self.id)
+            guild_api_members = self._fetch_guild_members()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
             return {"warning": ["Failed to get server information from Discord"]}
@@ -202,11 +132,34 @@ class DiscordGuild(models.Model):
             guild=self,
         )
 
+    def _fetch_guild_members(self):
+        previous = None
+        result = []
+        while True:
+            r = requests.get(
+                f"{DISCORD_BASE_URL}/guilds/{self.id}/members",
+                headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
+                params={"limit": 1000, "after": previous},
+            )
+            if r.status_code == 429:
+                time.sleep(
+                    float(r.headers.get("Retry-After", r.headers["X-RateLimit-Reset-After"]))
+                )
+                continue
+            r.raise_for_status()
+            data = r.json()
+            if data:
+                result += r.json()
+                previous = result[-1]["user"]["id"]
+            else:
+                break
+        return result
+
     @transaction.atomic
     def sync_roles(self) -> None:
         guild_roles = self.data.get("roles")
         roles = [
-            DiscordRole(id=int(role["id"]), guild=self, data=role, cached_date=timezone.now())
+            DiscordRole(id=int(role["id"]), guild=self, data=role, cached_date=self.cached_date)
             for role in guild_roles
         ]
         DiscordRole.objects.bulk_create(roles, ignore_conflicts=True)
@@ -215,7 +168,7 @@ class DiscordGuild(models.Model):
     @transaction.atomic
     def download_channels(self) -> None:
         try:
-            guild_channels = get_guild_channels(self.id)
+            guild_channels: List = self._fetch_channels()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get information")
         else:
@@ -230,6 +183,14 @@ class DiscordGuild(models.Model):
             ]
             DiscordChannel.objects.bulk_create(channels, ignore_conflicts=True)
             DiscordChannel.objects.bulk_update(channels, ["data", "cached_date"])
+
+    def _fetch_channels(self):
+        r = requests.get(
+            f"{DISCORD_BASE_URL}/guilds/{self.id}/channels",
+            headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
+        )
+        r.raise_for_status()
+        return r.json()
 
     def clean(self) -> None:
         self.refresh_from_api()
@@ -327,43 +288,24 @@ class DiscordChannel(models.Model):
         return self.name
 
     @property
-    def type(self) -> str:
-        channel_types = {
-            0: "GUILD_TEXT",
-            1: "DM",
-            2: "GUILD_VOICE",
-            3: "GROUP_DM",
-            4: "GUILD_CATEGORY",
-            5: "GUILD_NEWS",
-            6: "GUILD_STORE",
-        }
-        return channel_types.get(self.data.get("type"), "UNKNOWN")
-
-    @property
-    def position(self) -> int | None:
-        return self.data.get("position")
-
-    @property
     def name(self) -> str | None:
         return self.data.get("name")
-
-    @property
-    def topic(self) -> str | None:
-        return self.data.get("topic")
-
-    def _nsfw(self) -> bool | None:
-        return self.data.get("nsfw")
-
-    _nsfw.boolean = True
-    nsfw = property(_nsfw)
 
     def refresh_from_api(self) -> None:
         logger.info(f"Updating {self}")
         try:
-            self.data = get_channel(self.id)
+            self.data = self._fetch_one()
             self.cached_date = timezone.now()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
+
+    def _fetch_one(self):
+        r = requests.get(
+            f"{DISCORD_BASE_URL}/channels/{self.id}",
+            headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
+        )
+        r.raise_for_status()
+        return r.json()
 
     def clean(self) -> None:
         self.refresh_from_api()
@@ -410,43 +352,21 @@ class DiscordRole(models.Model):
     def name(self) -> str | None:
         return self.data.get("name")
 
-    @property
-    def color(self) -> int | None:
-        return self.data.get("color")
-
-    def _hoist(self) -> bool | None:
-        return self.data.get("hoist")
-
-    _hoist.boolean = True
-    hoist = property(_hoist)
-
-    @property
-    def position(self) -> int | None:
-        return self.data.get("position")
-
-    @property
-    def permissions(self) -> int | None:
-        return self.data.get("permissions")
-
-    def _managed(self) -> bool | None:
-        return self.data.get("managed")
-
-    _managed.short_description = "managed"
-    managed = property(_managed)
-
-    def _mentionable(self) -> bool | None:
-        return self.data.get("mentionable")
-
-    _mentionable.short_description = "mentionable"
-    mentionable = property(_mentionable)
-
     def refresh_from_api(self) -> None:
         logger.info(f"Updating {self}")
         try:
-            self.data = get_channel(self.id)
+            self.data = self._fetch_one()
             self.cached_date = timezone.now()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
+
+    def _fetch_one(self):
+        r = requests.get(
+            f"{DISCORD_BASE_URL}/channels/{self.id}",
+            headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
+        )
+        r.raise_for_status()
+        return r.json()
 
     def clean(self) -> None:
         self.refresh_from_api()
@@ -530,12 +450,12 @@ class DiscordGuildMembership(models.Model):
     has_data.short_description = _("got data")
 
     def _change_nick(self, nick: str) -> None:
-        base_url = "https://discordapp.com/api/v{version_number}".format(version_number=6)
+
         if len(nick) > 32:
             raise ValidationError("nick too long")
         logger.info(f"Renaming {self} to {nick}")
         r = requests.patch(
-            f"{base_url}/guilds/{self.guild.id}/members/{self.user.uid}",
+            f"{DISCORD_BASE_URL}/guilds/{self.guild.id}/members/{self.user.uid}",
             headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
             json={"nick": nick},
         )
@@ -551,32 +471,13 @@ class DiscordGuildMembership(models.Model):
     def display_name(self) -> str:
         return self.nick or str(self.user)
 
-    @property
-    def roles(self) -> models.QuerySet[DiscordRole]:
-        if self.data.get("roles"):
-            return DiscordRole.objects.filter(id__in=[str(x) for x in self.data.get("roles")])
-        else:
-            return DiscordRole.objects.none()
-
-    def _deaf(self) -> bool | None:
-        return self.data.get("deaf")
-
-    _deaf.boolean = True
-    deaf = property(_deaf)
-
-    def _mute(self) -> bool | None:
-        return self.data.get("mute")
-
-    _mute.boolean = True
-    mute = property(_mute)
-
     def __str__(self) -> str:
         return f"{self.display_name} in {self.guild}"
 
     def refresh_from_api(self) -> None:
         logger.info(f"Updating {self}")
         try:
-            self.data = get_guild_member(self.guild.id, self.user.uid)
+            self.data = self._fetch_one()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
         else:
@@ -584,6 +485,14 @@ class DiscordGuildMembership(models.Model):
                 self.user.extra_data = self.data["user"]
                 self.user.save()
             self.cached_date = timezone.now()
+
+    def _fetch_one(self):
+        r = requests.get(
+            f"{DISCORD_BASE_URL}/guilds/{self.guild.id}/members/{self.user.uid}",
+            headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
+        )
+        r.raise_for_status()
+        return r.json()
 
     def clean(self) -> None:
         self.refresh_from_api()
