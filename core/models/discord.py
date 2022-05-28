@@ -11,8 +11,6 @@ from allauth.socialaccount.providers.discord.provider import DiscordAccount
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from pytz import common_timezones
@@ -241,10 +239,6 @@ class DiscordGuild(models.Model):
     class Meta:
         verbose_name = _("Discord Guild")
         verbose_name_plural = _("Discord Guilds")
-
-
-class DiscordGuildSettings(DiscordGuild):
-    pass
 
 
 class DiscordChannel(models.Model):
