@@ -4,6 +4,7 @@ from uuid import UUID
 
 from django.db.models import Prefetch, QuerySet
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,6 +14,8 @@ from core.models.main import Service, ServiceStatus
 
 
 class ServiceListView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request: Request) -> Response:
         queryset: QuerySet[Service] = Service.objects.prefetch_related(
             Prefetch(
@@ -26,6 +29,8 @@ class ServiceListView(APIView):
 
 
 class ServiceDetailView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request: Request, uuid: UUID) -> Response:
         queryset: QuerySet[Service] = Service.objects.prefetch_related(
             Prefetch(
