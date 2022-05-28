@@ -422,11 +422,11 @@ class DetailedLeaderboardView(APIView):
                 | guild.roles.filter(exclude_roles_community_membership_discord__discord=guild)
             ).only("id")
 
-            queryset = Trainer.objects.filter(owner__socialaccount__discordguild__id=guild.id)
+            queryset = Trainer.objects.filter(owner__socialaccount__guilds__id=guild.id)
 
             if opt_out_roles:
                 queryset = queryset.exclude(
-                    owner__socialaccount__discordguildmembership__data__roles__contains=[
+                    owner__socialaccount__guild_memberships__data__roles__contains=[
                         str(x.id) for x in opt_out_roles
                     ]
                 )

@@ -99,6 +99,7 @@ class DiscordGuild(models.Model):
         "DiscordUser",
         through="DiscordGuildMembership",
         through_fields=("guild", "user"),
+        related_name="guilds",
     )
 
     def _outdated(self) -> bool:
@@ -492,10 +493,12 @@ class DiscordGuildMembership(models.Model):
     guild: DiscordGuild = models.ForeignKey(
         DiscordGuild,
         on_delete=models.CASCADE,
+        related_name="memberships",
     )
     user: DiscordUser = models.ForeignKey(
         DiscordUser,
         on_delete=models.CASCADE,
+        related_name="guild_memberships",
     )
     active: bool = models.BooleanField(
         default=True,
