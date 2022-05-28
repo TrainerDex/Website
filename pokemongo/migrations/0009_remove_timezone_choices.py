@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0008_add_restraints'),
+        ("pokemongo", "0008_add_restraints"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='community',
-            name='timezone',
-            field=models.CharField(default='UTC', max_length=255),
+            model_name="community",
+            name="timezone",
+            field=models.CharField(default="UTC", max_length=255),
         ),
     ]

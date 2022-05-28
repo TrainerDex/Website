@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_migrate_guild_settings_squashed'),
+        ("core", "0004_migrate_guild_settings_squashed"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='discordguild',
-            name='timezone',
-            field=models.CharField(default='UTC', max_length=255),
+            model_name="discordguild",
+            name="timezone",
+            field=models.CharField(default="UTC", max_length=255),
         ),
     ]
