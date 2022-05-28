@@ -4,7 +4,6 @@ import logging
 import time
 from datetime import datetime, timedelta
 from typing import List
-from zoneinfo import available_timezones
 
 import requests
 from allauth.socialaccount.models import SocialAccount
@@ -41,8 +40,7 @@ class DiscordGuild(models.Model):
     )
     timezone: str = models.CharField(
         default=settings.TIME_ZONE,
-        choices=((x, x) for x in available_timezones()),
-        max_length=len(max(available_timezones(), key=len)),
+        max_length=255,
     )
 
     # Needed for automatic renaming features

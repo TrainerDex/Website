@@ -7,7 +7,6 @@ from decimal import Decimal
 from os.path import splitext
 from typing import TYPE_CHECKING, Literal, NoReturn
 from uuid import UUID, uuid4
-from zoneinfo import available_timezones
 
 from django.conf import settings
 from django.contrib.postgres import fields as postgres_fields
@@ -2247,9 +2246,9 @@ class Community(models.Model):
     )
     timezone: str = models.CharField(
         default=settings.TIME_ZONE,
-        choices=((x, x) for x in available_timezones()),
-        max_length=len(max(available_timezones(), key=len)),
+        max_length=255,
     )
+
     name: str = models.CharField(max_length=70)
     description: str | None = models.TextField(null=True, blank=True)
     handle: str = models.SlugField(unique=True)
