@@ -1,3 +1,4 @@
+import oauth2_provider.urls
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -9,6 +10,7 @@ from rest_framework.authtoken import views
 from core import sitemaps
 from core.views import privacy, service_status, settings, terms
 from pokemongo.views import edit_profile, health_check
+
 
 app_name = "trainerdex"
 urlpatterns = [
@@ -30,7 +32,13 @@ urlpatterns = [
     path("api/", include("core.api.urls")),
     path("api/v1/", include("pokemongo.api.v1.urls")),
     path("api/token-auth/", views.obtain_auth_token),
-    path("api/oauth/", include("oauth2_provider.urls", namespace="oauth2_provider")),
+    path(
+        "api/oauth/",
+        include(
+            (oauth2_provider.urls.base_urlpatterns, oauth2_provider.urls.app_name),
+            namespace=oauth2_provider.urls.app_name,
+        ),
+    ),
     path("api/health/", health_check),
     path("legal/privacy/", privacy, name="privacy"),
     path("legal/terms/", terms, name="terms"),
