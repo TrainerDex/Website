@@ -20,8 +20,6 @@ Django = ">=4.0.0,<4.1.0"
 Pillow = "*"
 django-silk = ">=4.3.0"
 django-allow-cidr = ">=0.4.0"
-sphinx = "*"
-myst-parser = "*"
 django-robots = "*"
 docutils = "*"
 
