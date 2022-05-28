@@ -7,14 +7,6 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("core", "0004_rename_fields_on_DiscordGuildSettings"),
-        ("core", "0005_add_fields_to_DiscordGuild"),
-        ("core", "0006_migrate_guild_settings"),
-        ("core", "0007_remove_guild_settings_fields"),
-        ("core", "0008_remove_guild_settings_model"),
-    ]
-
     dependencies = [
         ("pokemongo", "0008_add_restraints"),
         ("core", "0003_auto_20220528_0811"),
@@ -532,8 +524,5 @@ class Migration(migrations.Migration):
                 default="UTC",
                 max_length=30,
             ),
-        ),
-        migrations.DeleteModel(
-            name="DiscordGuildSettings",
         ),
     ]
