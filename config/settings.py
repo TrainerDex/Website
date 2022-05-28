@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.twitter",
     "widget_tweaks",
     "robots",
+    "oauth2_provider",
 ]
 
 MIDDLEWARE = [
@@ -175,8 +176,25 @@ CSRF_TRUSTED_ORIGINS = ["https://trainerdex.app", "https://beta.trainerdex.app"]
 # http://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework.authentication.TokenAuthentication",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+    ),
     "DEFAULT_PERMISSION_CLASSES": ("config.permissions.IsAdminUserOrReadOnly",),
+}
+
+# Django OAuth Toolkit
+# https://django-oauth-toolkit.readthedocs.io/en/2.0.0/settings.html
+
+OAUTH2_PROVIDER = {
+    "SCOPES": {
+        "read": "Read Trainer profile and Updates",
+        "write": "Edit Trainer profile and Updates",
+        "delete:updates": "Delete Updates",
+        "read:social": "Read social accounts",
+        "write:social": "Write social accounts",
+    },
+    "DEFAULT_SCOPES": ["read"],
 }
 
 # Django AllAuth
