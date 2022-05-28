@@ -183,6 +183,20 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("config.permissions.IsAdminUserOrReadOnly",),
 }
 
+# Django OAuth Toolkit
+# https://django-oauth-toolkit.readthedocs.io/en/2.0.0/settings.html
+
+OAUTH2_PROVIDER = {
+    "SCOPES": {
+        "read": "Read Trainer profile and Updates",
+        "write": "Edit Trainer profile and Updates",
+        "delete:updates": "Delete Updates",
+        "read:social": "Read social accounts",
+        "write:social": "Write social accounts",
+    },
+    "DEFAULT_SCOPES": ["read"],
+}
+
 # Django AllAuth
 # http://django-allauth.readthedocs.io/en/latest/configuration.html
 
