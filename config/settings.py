@@ -29,6 +29,7 @@ ADMINS = [("Jay Turner", "jaynicholasturner@gmail.com")]
 INSTALLED_APPS = [
     "corsheaders",
     "django.contrib.admin",
+    "django.contrib.admindocs",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
@@ -63,6 +64,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.contrib.admindocs.middleware.XViewMiddleware",
     "silk.middleware.SilkyMiddleware",
     "allow_cidr.middleware.AllowCIDRMiddleware",
 ]

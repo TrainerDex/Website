@@ -10,7 +10,7 @@ from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from humanize import precisedelta
 
-from core.models import DiscordGuildSettings
+from core.models.discord import DiscordGuildSettings
 
 
 class Command(BaseCommand):

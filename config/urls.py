@@ -25,6 +25,7 @@ urlpatterns = [
         },
         name="django.contrib.sitemaps.views.sitemap",
     ),
+    path("api/admin/doc/", include("django.contrib.admindocs.urls")),
     path("api/admin/", admin.site.urls),
     path("api/", include("core.api.urls")),
     path("api/v1/", include("pokemongo.api.v1.urls")),

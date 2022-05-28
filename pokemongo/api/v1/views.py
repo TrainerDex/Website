@@ -1,11 +1,12 @@
+from __future__ import annotations
+
 import logging
 from datetime import datetime, timedelta
 from typing import TYPE_CHECKING, Dict
 
-import requests
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
-from django.db.models import Avg, Count, F, Max, Min, Prefetch, Q, Subquery, Sum, Window
+from django.db.models import Avg, Count, F, Max, Min, Prefetch, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -15,7 +16,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from core.models import DiscordGuildSettings, get_guild_info
+from core.models.discord import DiscordGuildSettings
 from pokemongo.api.v1.serializers import (
     DetailedTrainerSerializer,
     DetailedUpdateSerializer,
@@ -341,7 +342,7 @@ class SocialLookupView(APIView):
             query = SocialAccount.objects.exclude(user__is_active=False).get(
                 provider=request.data["provider"], uid=request.data["uid"]
             )
-        except:
+        except SocialAccount.DoesNotExist:
             serializer = SocialAllAuthSerializer(data=request.data)
         else:
             serializer = SocialAllAuthSerializer(query, data=request.data, partial=True)
@@ -374,9 +375,9 @@ class DetailedLeaderboardView(APIView):
                 server = DiscordGuildSettings.objects.get(id=guild)
             except DiscordGuildSettings.DoesNotExist:
                 logger.warn(f"Guild with id {guild} not found")
-                try:
-                    i = get_guild_info(guild)
-                except requests.exceptions.HTTPError:
+                server = DiscordGuildSettings(id=guild)
+                server.refresh_from_api()
+                if not server.has_access:
                     return Response(
                         {
                             "error": "Access Denied",
@@ -387,19 +388,10 @@ class DetailedLeaderboardView(APIView):
                         status=404,
                     )
                 else:
-                    logger.info(f"{i['name']} found. Creating.")
-                    server = DiscordGuildSettings.objects.create(
-                        id=guild, data=i, cached_date=timezone.now()
-                    )
                     server.sync_members()
 
             if not server.data or server.outdated:
-                try:
-                    server.refresh_from_api()
-                except:
-                    return Response(status=424)
-                else:
-                    server.save()
+                server.refresh_from_api()
 
                 if not server.has_access:
                     return Response(
@@ -414,15 +406,22 @@ class DetailedLeaderboardView(APIView):
                     server.sync_members()
             return server
 
-        def get_users_for_guild(guild: DiscordGuildSettings):
-            opt_out_roles = guild.roles.filter(
-                data__name__in=["NoLB", "TrainerDex Excluded"]
-            ) | guild.roles.filter(exclude_roles_community_membership_discord__discord=guild)
-            sq = Q()
-            for x in opt_out_roles:
-                sq |= Q(discordguildmembership__data__roles__contains=[str(x.id)])
-            members = guild.members.exclude(sq)
-            return Trainer.objects.filter(owner__socialaccount__in=members)
+        def get_users_for_guild(guild: DiscordGuildSettings) -> QuerySet[Trainer]:
+            opt_out_roles = (
+                guild.roles.filter(data__name__in=["NoLB", "TrainerDex Excluded"])
+                | guild.roles.filter(exclude_roles_community_membership_discord__discord=guild)
+            ).only("id")
+
+            queryset = Trainer.objects.filter(owner__socialaccount__guilds__id=guild.id)
+
+            if opt_out_roles:
+                queryset = queryset.exclude(
+                    owner__socialaccount__guild_memberships__data__roles__contains=[
+                        str(x.id) for x in opt_out_roles
+                    ]
+                )
+
+            return queryset
 
         def get_community(handle: str) -> Community:
             try:
@@ -509,7 +508,6 @@ class DetailedLeaderboardView(APIView):
                 "trainer",
                 "trainer__owner",
             )
-            .prefetch_related("trainer__nickname_set")
             .annotate(value=F(stat))
             .annotate(rank=Window(expression=DenseRank(), order_by=F("value").desc()))
             .order_by("rank", "-value", "update_time")
