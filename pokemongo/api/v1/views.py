@@ -21,14 +21,14 @@ from django.db.models import (
 from django.db.models.functions import DenseRank
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework import authentication, permissions, status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from oauth2_provider.contrib.rest_framework import OAuth2Authentication
-from config.permissions import IsAdminUserOrReadOnlyOrTokenHasScope
 
+from config.permissions import IsAdminUserOrReadOnlyOrTokenHasScope
 from core.models.discord import DiscordGuild
 from pokemongo.api.v1.serializers import (
     DetailedTrainerSerializer,

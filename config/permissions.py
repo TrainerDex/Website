@@ -2,12 +2,12 @@ from typing import Any
 
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpRequest
-from rest_framework.permissions import SAFE_METHODS, BasePermission, IsAdminUser
 from oauth2_provider.contrib.rest_framework.authentication import OAuth2Authentication
 from oauth2_provider.contrib.rest_framework.permissions import (
     TokenHasScope,
     TokenMatchesOASRequirements,
 )
+from rest_framework.permissions import SAFE_METHODS, BasePermission, IsAdminUser
 
 
 class IsAdminUserOrReadOnly(BasePermission):
