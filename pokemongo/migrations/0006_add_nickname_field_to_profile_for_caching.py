@@ -8,13 +8,23 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0005_add_deleted_at'),
+        ("pokemongo", "0005_add_deleted_at"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='trainer',
-            name='_nickname',
-            field=django.contrib.postgres.fields.citext.CICharField(help_text='A local cached version of a trainers nickname.', max_length=15, null=True, validators=[django.core.validators.RegexValidator('^[A-Za-z0-9]{3,15}$', 'Only letters and numbers are allowed.', 'invalid')], verbose_name='Nickname'),
+            model_name="trainer",
+            name="_nickname",
+            field=django.contrib.postgres.fields.citext.CICharField(
+                help_text="A local cached version of a trainers nickname.",
+                max_length=15,
+                null=True,
+                validators=[
+                    django.core.validators.RegexValidator(
+                        "^[A-Za-z0-9]{3,15}$", "Only letters and numbers are allowed.", "invalid"
+                    )
+                ],
+                verbose_name="Nickname",
+            ),
         ),
     ]

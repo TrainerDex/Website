@@ -12,11 +12,7 @@ from core.models.discord import (
     DiscordRole,
     DiscordUser,
 )
-from core.models.main import (
-    Service,
-    ServiceStatus,
-    StatusChoices,
-)
+from core.models.main import Service, ServiceStatus, StatusChoices
 
 
 def sync_members(

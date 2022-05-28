@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0004_lock_fields'),
+        ("pokemongo", "0004_lock_fields"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='trainer',
-            name='deleted_at',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Deleted at'),
+            model_name="trainer",
+            name="deleted_at",
+            field=models.DateTimeField(blank=True, null=True, verbose_name="Deleted at"),
         ),
         migrations.AddField(
-            model_name='update',
-            name='deleted_at',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Deleted at'),
+            model_name="update",
+            name="deleted_at",
+            field=models.DateTimeField(blank=True, null=True, verbose_name="Deleted at"),
         ),
     ]

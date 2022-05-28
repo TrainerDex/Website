@@ -30,7 +30,6 @@ urlpatterns = [
     path("api/", include("core.api.urls")),
     path("api/v1/", include("pokemongo.api.v1.urls")),
     path("api/token-auth/", views.obtain_auth_token),
-    path("api/ajax_select/", include("ajax_select.urls")),
     path("api/health/", health_check),
     path("legal/privacy/", privacy, name="privacy"),
     path("legal/terms/", terms, name="terms"),
@@ -40,7 +39,6 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("", include("pokemongo.urls")),
     path("silk/", include("silk.urls", namespace="silk")),
-    path("docs/", include("docs.urls")),
     re_path(r"^robots\.txt", include("robots.urls")),
 ]
 

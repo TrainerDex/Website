@@ -6,7 +6,18 @@ from typing import TYPE_CHECKING, Dict
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
-from django.db.models import Avg, Count, F, Max, Min, Prefetch, QuerySet, Subquery, Sum, Window
+from django.db.models import (
+    Avg,
+    Count,
+    F,
+    Max,
+    Min,
+    Prefetch,
+    QuerySet,
+    Subquery,
+    Sum,
+    Window,
+)
 from django.db.models.functions import DenseRank
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
