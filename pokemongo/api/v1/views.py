@@ -76,7 +76,7 @@ class TrainerListView(APIView):
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
     permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
-        "GET": ["read"],
+        "GET": [["read"]],
     }
 
     def get(self, request: Request) -> Response:
@@ -131,8 +131,8 @@ class TrainerDetailView(APIView):
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
     permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
-        "GET": ["read"],
-        "PATCH": ["write"],
+        "GET": [["read"]],
+        "PATCH": [["write"]],
     }
 
     def get_object(self, pk: int) -> Trainer:
@@ -190,9 +190,9 @@ class UpdateListView(APIView):
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
     permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
-        "GET": ["read"],
-        "POST": ["write"],
-        "PATCH": ["write"],
+        "GET": [["read"]],
+        "POST": [["write"]],
+        "PATCH": [["write"]],
     }
 
     def get(self, request: Request, pk: int) -> Response:
@@ -225,8 +225,8 @@ class LatestUpdateView(APIView):
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
     permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
-        "GET": ["read"],
-        "PATCH": ["write"],
+        "GET": [["read"]],
+        "PATCH": [["write"]],
     }
 
     def get(self, request: Request, pk: int) -> Response:
@@ -265,8 +265,8 @@ class UpdateDetailView(APIView):
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
     permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
-        "GET": ["read"],
-        "PATCH": ["write"],
+        "GET": [["read"]],
+        "PATCH": [["write"]],
     }
 
     def get(self, request: Request, uuid: str, pk: int) -> Response:
@@ -365,8 +365,8 @@ class SocialLookupView(APIView):
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
     permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
-        "GET": ["read:social"],
-        "PUT": ["write:social"],
+        "GET": [["read:social"]],
+        "PUT": [["write:social"]],
     }
 
     def get(self, request: Request) -> Response:
