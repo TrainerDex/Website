@@ -10,7 +10,7 @@ from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from humanize import precisedelta
 
-from core.models.discord import DiscordGuildSettings
+from core.models.discord import DiscordGuild
 
 
 class Command(BaseCommand):
@@ -33,8 +33,8 @@ class Command(BaseCommand):
         @client.event
         async def on_ready():
             for guild in client.guilds:
-                if DiscordGuildSettings.objects.filter(id=guild.id).exists():
-                    g: DiscordGuildSettings = DiscordGuildSettings.objects.get(id=guild.id)
+                if DiscordGuild.objects.filter(id=guild.id).exists():
+                    g: DiscordGuild = DiscordGuild.objects.get(id=guild.id)
                 else:
                     continue
 
