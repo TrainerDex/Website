@@ -1207,7 +1207,7 @@ class Update(PublicModel):
                     self.trainer.update_set.filter(update_time__lt=self.update_time)
                     .exclude(**{field.name: None})
                     .order_by("-" + field.name, "-update_time")
-                    .only(field.name, "update_time")
+                    .only(field.name, "update_time", "trainer_id")
                     .first()
                 )
 
@@ -2169,8 +2169,8 @@ def update_discord_level(sender, **kwargs) -> None:
         else:
             fortyplus = False
         for discord in DiscordGuildMembership.objects.exclude(active=False).filter(
-            guild__discordguildsettings__renamer=True,
-            guild__discordguildsettings__renamer_with_level=True,
+            guild__renamer=True,
+            guild__renamer_with_level=True,
             user__user__trainer=kwargs["instance"].trainer,
         ):
             if discord.nick_override:
@@ -2178,9 +2178,9 @@ def update_discord_level(sender, **kwargs) -> None:
             else:
                 base = kwargs["instance"].trainer.nickname
 
-            if discord.guild.discordguildsettings.renamer_with_level_format == "int":
+            if discord.guild.renamer_with_level_format == "int":
                 ext = str(level)
-            elif discord.guild.discordguildsettings.renamer_with_level_format == "circled_level":
+            elif discord.guild.renamer_with_level_format == "circled_level":
                 ext = circled_level(level)
 
             if fortyplus:
