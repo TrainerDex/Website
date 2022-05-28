@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.reddit",
     "allauth.socialaccount.providers.twitter",
     "widget_tweaks",
-    "docs",
     "robots",
 ]
 
@@ -166,8 +165,6 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
-
-DOCS_ROOT = BASE_DIR / "docs/_build/html"
 
 
 # CORS

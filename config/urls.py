@@ -40,7 +40,6 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("", include("pokemongo.urls")),
     path("silk/", include("silk.urls", namespace="silk")),
-    path("docs/", include("docs.urls")),
     re_path(r"^robots\.txt", include("robots.urls")),
 ]
 
