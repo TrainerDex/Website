@@ -1,6 +1,5 @@
 from typing import Any
 
-from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpRequest
 from oauth2_provider.contrib.rest_framework.authentication import OAuth2Authentication
 from oauth2_provider.contrib.rest_framework.permissions import (
