@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from django.contrib.postgres.fields import ArrayField
-from django.db.models import F, Subquery, CharField, QuerySet, Q
+from django.db.models import CharField, F, Q, QuerySet, Subquery
 from django.db.models.functions import Cast
 from rest_framework.request import Request
 
