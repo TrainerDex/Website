@@ -23,6 +23,7 @@ django-allow-cidr = ">=0.4.0"
 django-robots = ">=5.0"
 docutils = "*"
 django-oauth-toolkit = ">=2.0.0"
+drf-ujson2 = "*"
 
 [dev-packages]
 flake8 = "*"

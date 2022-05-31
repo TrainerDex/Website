@@ -100,7 +100,7 @@ class GlobalLeaderboardHandler(BaseHandler):
                 level=guess_level(update.max_total_xp) if update.max_total_xp else None,
                 value=update.value,
                 datetime=update.update_time.isoformat(),
-                trainer=update.trainer.uuid,
+                trainer=str(update.trainer.uuid),
             )
             for update in queryset
         ]
