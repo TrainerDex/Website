@@ -73,6 +73,7 @@ class GlobalLeaderboardHandler(BaseHandler):
                 "trainer___nickname",
                 "trainer__faction",
                 "update_time",
+                "uuid",
             )
         )
         return query[:1000]
@@ -99,8 +100,9 @@ class GlobalLeaderboardHandler(BaseHandler):
                 faction=update.trainer.faction,
                 level=guess_level(update.max_total_xp) if update.max_total_xp else None,
                 value=update.value,
-                datetime=update.update_time.isoformat(),
-                trainer=str(update.trainer.uuid),
+                trainer_uuid=str(update.trainer.uuid),
+                entry_uuid=str(update.uuid),
+                entry_time=update.update_time.isoformat(),
             )
             for update in queryset
         ]
