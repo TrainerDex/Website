@@ -1123,13 +1123,6 @@ class Update(PublicModel):
             else:
                 return f"{min(possible_levels)}-{max(possible_levels)}"
 
-    def __str__(self) -> str:
-        return "Update(trainer: {trainer}, update_time: {time}, {stats})".format(
-            trainer=self.trainer_id,
-            time=self.update_time,
-            stats=",".join([f"{x}: {getattr(self, x)}" for x in self.modified_fields()]),
-        )
-
     def has_modified_extra_fields(self) -> bool:
         return bool(self.modified_extra_fields())
 

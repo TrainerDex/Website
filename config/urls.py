@@ -31,6 +31,7 @@ urlpatterns = [
     path("api/admin/", admin.site.urls),
     path("api/", include("core.api.urls")),
     path("api/v1/", include("pokemongo.api.v1.urls")),
+    path("api/v2/", include("pokemongo.api.v2.urls")),
     path("api/token-auth/", views.obtain_auth_token),
     path(
         "api/oauth/",
