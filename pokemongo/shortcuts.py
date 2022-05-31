@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import date, timedelta
 from distutils.util import strtobool
 from typing import (
@@ -60,18 +61,12 @@ def filter_leaderboard_qs__update(
     )
 
 
+@dataclass
 class Level:
-    def __init__(
-        self,
-        level: int,
-        total_xp: int,
-        xp_required: int | None = None,
-        quest_requirements: Iterable[Mapping[str, str]] | None = None,
-    ) -> None:
-        self.level: int = level
-        self.total_xp: int = total_xp
-        self.xp_required: int = xp_required
-        self.quest_requirements: Iterable[Mapping[str, str]] | None = quest_requirements
+    level: int
+    total_xp: int
+    xp_required: int | None = None
+    quest_requirements: Iterable[Mapping[str, str]] | None = None
 
     def requirements_to_reach(self) -> dict[str, int | dict[str, str] | None]:
         return {"total_xp": self.total_xp, "quests": self.quest_requirements}

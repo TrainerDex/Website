@@ -11,7 +11,6 @@ from core import sitemaps
 from core.views import privacy, service_status, settings, terms
 from pokemongo.views import edit_profile, health_check
 
-
 app_name = "trainerdex"
 urlpatterns = [
     path("favicon.ico", RedirectView.as_view(url=staticfiles_storage.url("img/favicon.ico"))),
