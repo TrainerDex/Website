@@ -8,7 +8,7 @@ from core.utils.discord.auth import authenticate, DISCORD_BASE_URL
 from core.utils.discord.dataclasses import DiscordAuthResponse, PartialGuildObjects
 
 
-def list_guilds(application: SocialApp) -> list[PartialGuildObjects]:
+def list_bot_guilds(application: SocialApp) -> list[PartialGuildObjects]:
     assert application.provider == DiscordProvider.id
 
     # Authenticate
@@ -39,13 +39,22 @@ def list_guilds(application: SocialApp) -> list[PartialGuildObjects]:
     return guilds
 
 
-def ingest_guilds(guilds: Iterable[PartialGuildObjects]):
-    for guild in guilds:
-        DiscordGuild.objects.update_or_create(
-            id=int(guild["id"]),
-            defaults=dict(
+def upsert_guilds(guilds: Iterable[PartialGuildObjects]) -> list[DiscordGuild]:
+    return DiscordGuild.objects.bulk_upsert(
+        conflict_target="id",
+        rows=[
+            dict(
+                id=int(guild["id"]),
                 name=guild["name"],
                 owner_id=guild["owner"],
                 data=guild,
-            ),
-        )
+            )
+            for guild in guilds
+        ],
+        return_model=True,
+    )
+
+
+def get_and_insert_bot_guilds(application: SocialApp) -> list[DiscordGuild]:
+    guilds: list[PartialGuildObjects] = list_bot_guilds(application)
+    return upsert_guilds(guilds)
