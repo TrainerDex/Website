@@ -25,6 +25,9 @@ class DiscordGuild(models.Model):
     cached_date: datetime = models.DateTimeField(auto_now_add=True)
     has_access: bool = models.BooleanField(default=False)
 
+    name: str = models.CharField(max_length=100, null=True, blank=True)
+    owner_id: int = models.BigIntegerField(null=True, blank=True)
+
     members: models.QuerySet[DiscordUser] = models.ManyToManyField(
         "DiscordUser",
         through="DiscordGuildMembership",
