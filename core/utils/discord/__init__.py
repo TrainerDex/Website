@@ -4,22 +4,19 @@ from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.providers.discord.provider import DiscordProvider
 
 from core.models.discord import DiscordGuild
-from core.utils.discord.auth import authenticate, DISCORD_BASE_URL
-from core.utils.discord.dataclasses import DiscordAuthResponse, PartialGuildObjects
+from core.utils.discord.auth import DISCORD_BASE_URL
+from core.utils.discord.dataclasses import PartialGuildObject
 
 
-def list_bot_guilds(application: SocialApp) -> list[PartialGuildObjects]:
+def list_bot_guilds(application: SocialApp) -> list[PartialGuildObject]:
     assert application.provider == DiscordProvider.id
 
-    # Authenticate
-    bearer_token: DiscordAuthResponse = authenticate(application.client_id, application.secret)
-
-    guilds: list[PartialGuildObjects] = []
+    guilds: list[PartialGuildObject] = []
     has_more: bool = True
     after = None
 
     # Get guilds for bot user
-    headers = {"Authorization": f"Bearer {bearer_token['access_token']}"}
+    headers = {"Authorization": f"Bot {application.key}"}
 
     while has_more:
         r = requests.get(
@@ -27,7 +24,11 @@ def list_bot_guilds(application: SocialApp) -> list[PartialGuildObjects]:
             params={"after": after},
             headers=headers,
         )
-        r.raise_for_status()
+        try:
+            r.raise_for_status()
+        except requests.HTTPError as e:
+            print(r.text)
+            raise e
 
         if len(data := r.json()) != 200:
             has_more = False
@@ -55,5 +56,5 @@ def upsert_guilds(guilds: Iterable[PartialGuildObjects]) -> list[DiscordGuild]:
 
 
 def get_and_insert_bot_guilds(application: SocialApp) -> list[DiscordGuild]:
-    guilds: list[PartialGuildObjects] = list_bot_guilds(application)
+    guilds: list[PartialGuildObject] = list_bot_guilds(application)
     return upsert_guilds(guilds)

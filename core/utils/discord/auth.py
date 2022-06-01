@@ -3,7 +3,7 @@ import requests
 from core.utils.discord.dataclasses import DiscordAuthResponse
 
 
-DISCORD_BASE_URL = "https://discordapp.com/api/v10"
+DISCORD_BASE_URL = "https://discordapp.com/api/v9"
 
 
 def authenticate(client_id: str, secret: str) -> DiscordAuthResponse:

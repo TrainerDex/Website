@@ -8,7 +8,7 @@ class DiscordAuthResponse(TypedDict):
     scope: str
 
 
-class PartialGuildObjects(TypedDict):
+class PartialGuildObject(TypedDict):
     id: str
     name: str
     icon: str
