@@ -45,7 +45,7 @@ def list_bot_guilds(application: SocialApp) -> list[PartialGuildObject]:
 
 def upsert_guilds(guilds: Iterable[PartialGuildObject]) -> list[DiscordGuild]:
     return DiscordGuild.objects.bulk_upsert(
-        conflict_target="id",
+        conflict_target=("id",),
         rows=[
             dict(
                 id=int(guild["id"]),
