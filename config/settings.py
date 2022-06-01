@@ -254,8 +254,6 @@ FILE_UPLOAD_PERMISSIONS = 0x775
 
 # DISCORD
 # Could this be stored in the database?
-DISCORD_CLIENT_ID = int(os.environ.get("DISCORD_CLIENT_ID", "0"))
-DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET", "")
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN", "")
 
 # CONSTANTS
