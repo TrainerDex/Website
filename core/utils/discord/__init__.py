@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from typing import Iterable
+
 import requests
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.providers.discord.provider import DiscordProvider
@@ -40,7 +43,7 @@ def list_bot_guilds(application: SocialApp) -> list[PartialGuildObject]:
     return guilds
 
 
-def upsert_guilds(guilds: Iterable[PartialGuildObjects]) -> list[DiscordGuild]:
+def upsert_guilds(guilds: Iterable[PartialGuildObject]) -> list[DiscordGuild]:
     return DiscordGuild.objects.bulk_upsert(
         conflict_target="id",
         rows=[
