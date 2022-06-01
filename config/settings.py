@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.sitemaps",
+    "django.contrib.postgres",
+    "psqlextra",
     "rest_framework",
     "rest_framework.authtoken",
     "silk",
@@ -101,7 +103,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
+        "ENGINE": "psqlextra.backend",
         "NAME": os.environ.get("SQL_DATABASE", "trainerdex"),
         "USER": os.environ.get("SQL_USER", "trainerdex"),
         "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
@@ -181,8 +183,8 @@ REST_FRAMEWORK = {
         "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("config.permissions.IsAdminUserOrReadOnly",),
-    "DEFAULT_RENDERER_CLASSES": ("drf_ujson.renderers.UJSONRenderer",),
-    "DEFAULT_PARSER_CLASSES": ("drf_ujson.parsers.UJSONParser",),
+    # "DEFAULT_RENDERER_CLASSES": ("drf_ujson.renderers.UJSONRenderer",),
+    # "DEFAULT_PARSER_CLASSES": ("drf_ujson.parsers.UJSONParser",),
 }
 
 # Django OAuth Toolkit
@@ -252,8 +254,6 @@ FILE_UPLOAD_PERMISSIONS = 0x775
 
 # DISCORD
 # Could this be stored in the database?
-DISCORD_CLIENT_ID = int(os.environ.get("DISCORD_CLIENT_ID", "0"))
-DISCORD_CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET", "")
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN", "")
 
 # CONSTANTS

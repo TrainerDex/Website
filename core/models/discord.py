@@ -6,24 +6,29 @@ from datetime import datetime, timedelta
 from typing import List
 
 import requests
-from allauth.socialaccount.models import SocialAccount
+from allauth.socialaccount.models import SocialAccount, SocialApp
 from allauth.socialaccount.providers.discord.provider import DiscordAccount
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from psqlextra.manager import PostgresManager
+from psqlextra.models import PostgresModel
 
 logger = logging.getLogger("django.trainerdex")
 
 DISCORD_BASE_URL = "https://discord.com/api/v10"
 
 
-class DiscordGuild(models.Model):
+class DiscordGuild(PostgresModel):
     id: int = models.BigIntegerField(primary_key=True, verbose_name="ID")
     data: dict | list = models.JSONField(null=True, blank=True)
     cached_date: datetime = models.DateTimeField(auto_now_add=True)
     has_access: bool = models.BooleanField(default=False)
+
+    name: str = models.CharField(max_length=100, null=True, blank=True)
+    owner_id: int = models.BigIntegerField(null=True, blank=True)
 
     members: models.QuerySet[DiscordUser] = models.ManyToManyField(
         "DiscordUser",
@@ -89,12 +94,8 @@ class DiscordGuild(models.Model):
     has_data.short_description = _("got data")
 
     @property
-    def name(self) -> str:
-        return self.data.get("name")
-
-    @property
     def owner(self) -> int:
-        return self.data.get("owner_id")
+        return self.owner_id or self.data.get("owner_id")
 
     def __str__(self) -> str:
         return self.name or f"Discord Guild with ID {self.id}"
@@ -102,25 +103,27 @@ class DiscordGuild(models.Model):
     @transaction.atomic
     def refresh_from_api(self) -> None:
         logging.info(f"Updating {self}")
-        try:
-            data = self._fetch_one()
+        if data := self._fetch_one():
             self.data = data
-            self.has_access = True
             self.cached_date = timezone.now()
-        except requests.exceptions.HTTPError:
-            self.has_access = False
-            logger.exception("Failed to get server information from Discord")
-        else:
-            self.save(update_fields=("data", "has_access", "cached_date"))
+
+        self.has_access = data is not None
+
+        self.save(update_fields=("data", "has_access", "cached_date"))
+        if data:
             self.sync_roles()
 
-    def _fetch_one(self):
-        r = requests.get(
-            f"{DISCORD_BASE_URL}/guilds/{self.id}",
-            headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
-        )
-        r.raise_for_status()
-        return r.json()
+    def _fetch_one(self) -> dict | None:
+        for provider in SocialApp.objects.filter(provider="discord"):
+            r = requests.get(
+                f"{DISCORD_BASE_URL}/guilds/{self.id}",
+                headers={"Authorization": f"Bot {provider.key}"},
+            )
+            try:
+                r.raise_for_status()
+            except requests.exceptions.HTTPError:
+                continue
+            return r.json()
 
     @transaction.atomic
     def sync_members(self) -> str | dict[str, list[str]]:  # Is this a bug?
@@ -178,25 +181,27 @@ class DiscordGuild(models.Model):
     def _fetch_guild_members(self):
         previous = None
         result = []
-        while True:
-            r = requests.get(
-                f"{DISCORD_BASE_URL}/guilds/{self.id}/members",
-                headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
-                params={"limit": 1000, "after": previous},
-            )
-            if r.status_code == 429:
-                time.sleep(
-                    float(r.headers.get("Retry-After", r.headers["X-RateLimit-Reset-After"]))
+
+        for provider in SocialApp.objects.filter(provider="discord"):
+            while True:
+                r = requests.get(
+                    f"{DISCORD_BASE_URL}/guilds/{self.id}/members",
+                    headers={"Authorization": f"Bot {provider.key}"},
+                    params={"limit": 1000, "after": previous},
                 )
-                continue
-            r.raise_for_status()
-            data = r.json()
-            if data:
-                result += r.json()
-                previous = result[-1]["user"]["id"]
-            else:
-                break
-        return result
+                if r.status_code == 403:
+                    break
+                if r.status_code == 429:
+                    time.sleep(
+                        float(r.headers.get("Retry-After", r.headers["X-RateLimit-Reset-After"]))
+                    )
+                    continue
+                r.raise_for_status()
+                if data := r.json():
+                    result += data
+                    previous = result[-1]["user"]["id"]
+                else:
+                    return result
 
     @transaction.atomic
     def sync_roles(self) -> None:
@@ -228,12 +233,16 @@ class DiscordGuild(models.Model):
             DiscordChannel.objects.bulk_update(channels, ["data", "cached_date"])
 
     def _fetch_channels(self):
-        r = requests.get(
-            f"{DISCORD_BASE_URL}/guilds/{self.id}/channels",
-            headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
-        )
-        r.raise_for_status()
-        return r.json()
+        for provider in SocialApp.objects.filter(provider="discord"):
+            r = requests.get(
+                f"{DISCORD_BASE_URL}/guilds/{self.id}/channels",
+                headers={"Authorization": f"Bot {provider.key}"},
+            )
+            try:
+                r.raise_for_status()
+            except requests.exceptions.HTTPError:
+                continue
+            return r.json()
 
     def clean(self) -> None:
         self.refresh_from_api()
@@ -243,7 +252,7 @@ class DiscordGuild(models.Model):
         verbose_name_plural = _("Discord Guilds")
 
 
-class DiscordChannel(models.Model):
+class DiscordChannel(PostgresModel):
     id: int = models.BigIntegerField(
         primary_key=True,
         verbose_name="ID",
@@ -304,7 +313,7 @@ class DiscordChannel(models.Model):
         verbose_name_plural = _("Discord Channels")
 
 
-class DiscordRole(models.Model):
+class DiscordRole(PostgresModel):
     id: int = models.BigIntegerField(
         primary_key=True,
         verbose_name="ID",
@@ -366,7 +375,7 @@ class DiscordRole(models.Model):
         ordering = ["guild__id", "-data__position"]
 
 
-class DiscordUserManager(models.Manager):
+class DiscordUserManager(PostgresManager):
     def get_queryset(self) -> models.QuerySet[DiscordUser]:
         return super(DiscordUserManager, self).get_queryset().filter(provider="discord")
 
@@ -398,7 +407,7 @@ class DiscordUser(SocialAccount):
         verbose_name_plural = _("Discord Users")
 
 
-class DiscordGuildMembership(models.Model):
+class DiscordGuildMembership(PostgresModel):
     guild: DiscordGuild = models.ForeignKey(
         DiscordGuild,
         on_delete=models.CASCADE,
