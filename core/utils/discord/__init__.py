@@ -46,7 +46,7 @@ def upsert_guilds(guilds: Iterable[PartialGuildObjects]) -> list[DiscordGuild]:
         rows=[
             dict(
                 id=int(guild["id"]),
-                name=guild["name"],
+                name=guild.get("name"),
                 data=guild,
             )
             for guild in guilds
