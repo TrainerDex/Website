@@ -13,13 +13,15 @@ from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from psqlextra.manager import PostgresManager
+from psqlextra.models import PostgresModel
 
 logger = logging.getLogger("django.trainerdex")
 
 DISCORD_BASE_URL = "https://discord.com/api/v10"
 
 
-class DiscordGuild(models.Model):
+class DiscordGuild(PostgresModel):
     id: int = models.BigIntegerField(primary_key=True, verbose_name="ID")
     data: dict | list = models.JSONField(null=True, blank=True)
     cached_date: datetime = models.DateTimeField(auto_now_add=True)
@@ -246,7 +248,7 @@ class DiscordGuild(models.Model):
         verbose_name_plural = _("Discord Guilds")
 
 
-class DiscordChannel(models.Model):
+class DiscordChannel(PostgresModel):
     id: int = models.BigIntegerField(
         primary_key=True,
         verbose_name="ID",
@@ -307,7 +309,7 @@ class DiscordChannel(models.Model):
         verbose_name_plural = _("Discord Channels")
 
 
-class DiscordRole(models.Model):
+class DiscordRole(PostgresModel):
     id: int = models.BigIntegerField(
         primary_key=True,
         verbose_name="ID",
@@ -369,7 +371,7 @@ class DiscordRole(models.Model):
         ordering = ["guild__id", "-data__position"]
 
 
-class DiscordUserManager(models.Manager):
+class DiscordUserManager(PostgresManager):
     def get_queryset(self) -> models.QuerySet[DiscordUser]:
         return super(DiscordUserManager, self).get_queryset().filter(provider="discord")
 
@@ -401,7 +403,7 @@ class DiscordUser(SocialAccount):
         verbose_name_plural = _("Discord Users")
 
 
-class DiscordGuildMembership(models.Model):
+class DiscordGuildMembership(PostgresModel):
     guild: DiscordGuild = models.ForeignKey(
         DiscordGuild,
         on_delete=models.CASCADE,

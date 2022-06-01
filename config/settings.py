@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.sitemaps",
+    "django.contrib.postgres",
+    "psqlextra",
     "rest_framework",
     "rest_framework.authtoken",
     "silk",
@@ -101,7 +103,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
+        "ENGINE": "psqlextra.backend",
         "NAME": os.environ.get("SQL_DATABASE", "trainerdex"),
         "USER": os.environ.get("SQL_USER", "trainerdex"),
         "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
