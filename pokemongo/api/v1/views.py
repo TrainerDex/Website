@@ -293,7 +293,7 @@ VALID_LB_STATS = UPDATE_FIELDS_BADGES + [
     "pokedex_caught",
     "pokedex_seen",
     "total_xp",
-    "gymbadges_gold",
+    "gym_gold",
 ]
 
 

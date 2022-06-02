@@ -167,47 +167,47 @@ def get_level(level: int) -> Level:
 
 
 STANDARD_MEDALS = [
-    "badge_travel_km",
-    "badge_pokedex_entries",
-    "badge_capture_total",
-    "badge_evolved_total",
-    "badge_hatched_total",
-    "badge_pokestops_visited",
-    "badge_unique_pokestops",
-    "badge_big_magikarp",
-    "badge_battle_attack_won",
-    "badge_battle_training_won",
-    "badge_small_rattata",
-    "badge_pikachu",
-    "badge_unown",
-    "badge_pokedex_entries_gen2",
-    "badge_raid_battle_won",
-    "badge_legendary_battle_won",
-    "badge_berries_fed",
-    "badge_hours_defended",
-    "badge_pokedex_entries_gen3",
-    "badge_challenge_quests",
-    "badge_max_level_friends",
-    "badge_trading",
-    "badge_trading_distance",
-    "badge_pokedex_entries_gen4",
-    "badge_great_league",
-    "badge_ultra_league",
-    "badge_master_league",
-    "badge_photobomb",
-    "badge_pokedex_entries_gen5",
-    "badge_pokemon_purified",
-    "badge_rocket_grunts_defeated",
-    "badge_rocket_giovanni_defeated",
-    "badge_buddy_best",
-    "badge_pokedex_entries_gen6",
-    "badge_7_day_streaks",
-    "badge_unique_raid_bosses_defeated",
-    "badge_raids_with_friends",
-    "badge_pokemon_caught_at_your_lures",
-    "badge_wayfarer",
-    "badge_total_mega_evos",
-    "badge_unique_mega_evos",
+    "travel_km",
+    "pokedex_entries",
+    "capture_total",
+    "evolved_total",
+    "hatched_total",
+    "pokestops_visited",
+    "unique_pokestops",
+    "big_magikarp",
+    "battle_attack_won",
+    "battle_training_won",
+    "small_rattata",
+    "pikachu",
+    "unown",
+    "pokedex_entries_gen2",
+    "raid_battle_won",
+    "legendary_battle_won",
+    "berries_fed",
+    "hours_defended",
+    "pokedex_entries_gen3",
+    "challenge_quests",
+    "max_level_friends",
+    "trading",
+    "trading_distance",
+    "pokedex_entries_gen4",
+    "great_league",
+    "ultra_league",
+    "master_league",
+    "photobomb",
+    "pokedex_entries_gen5",
+    "pokemon_purified",
+    "rocket_grunts_defeated",
+    "rocket_giovanni_defeated",
+    "buddy_best",
+    "pokedex_entries_gen6",
+    "seven_day_streaks",
+    "unique_raid_bosses_defeated",
+    "raids_with_friends",
+    "pokemon_caught_at_your_lures",
+    "wayfarer",
+    "total_mega_evos",
+    "unique_mega_evos",
 ]
 
 BATTLE_HUB_STATS = [
@@ -220,24 +220,24 @@ BATTLE_HUB_STATS = [
 UPDATE_FIELDS_BADGES = STANDARD_MEDALS + BATTLE_HUB_STATS
 
 UPDATE_FIELDS_TYPES = [
-    "badge_type_normal",
-    "badge_type_fighting",
-    "badge_type_flying",
-    "badge_type_poison",
-    "badge_type_ground",
-    "badge_type_rock",
-    "badge_type_bug",
-    "badge_type_ghost",
-    "badge_type_steel",
-    "badge_type_fire",
-    "badge_type_water",
-    "badge_type_grass",
-    "badge_type_electric",
-    "badge_type_psychic",
-    "badge_type_ice",
-    "badge_type_dragon",
-    "badge_type_dark",
-    "badge_type_fairy",
+    "type_normal",
+    "type_fighting",
+    "type_flying",
+    "type_poison",
+    "type_ground",
+    "type_rock",
+    "type_bug",
+    "type_ghost",
+    "type_steel",
+    "type_fire",
+    "type_water",
+    "type_grass",
+    "type_electric",
+    "type_psychic",
+    "type_ice",
+    "type_dragon",
+    "type_dark",
+    "type_fairy",
 ]
 
 UPDATE_SORTABLE_FIELDS = (
@@ -245,7 +245,7 @@ UPDATE_SORTABLE_FIELDS = (
         "total_xp",
         "pokedex_caught",
         "pokedex_seen",
-        "gymbadges_gold",
+        "gym_gold",
     ]
     + UPDATE_FIELDS_BADGES
     + UPDATE_FIELDS_TYPES
@@ -264,7 +264,7 @@ UPDATE_NON_REVERSEABLE_FIELDS = (
 BADGES = [
     {
         "id": 1,
-        "name": "badge_travel_km",
+        "name": "travel_km",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -272,7 +272,7 @@ BADGES = [
     },
     {
         "id": 2,
-        "name": "badge_pokedex_entries",
+        "name": "pokedex_entries",
         "bronze": 5,
         "silver": 50,
         "gold": 100,
@@ -280,7 +280,7 @@ BADGES = [
     },
     {
         "id": 3,
-        "name": "badge_capture_total",
+        "name": "capture_total",
         "bronze": 30,
         "silver": 500,
         "gold": 2000,
@@ -288,7 +288,7 @@ BADGES = [
     },
     {
         "id": 5,
-        "name": "badge_evolved_total",
+        "name": "evolved_total",
         "bronze": 3,
         "silver": 20,
         "gold": 200,
@@ -296,7 +296,7 @@ BADGES = [
     },
     {
         "id": 6,
-        "name": "badge_hatched_total",
+        "name": "hatched_total",
         "bronze": 10,
         "silver": 100,
         "gold": 500,
@@ -304,7 +304,7 @@ BADGES = [
     },
     {
         "id": 8,
-        "name": "badge_pokestops_visited",
+        "name": "pokestops_visited",
         "bronze": 100,
         "silver": 1000,
         "gold": 2000,
@@ -312,7 +312,7 @@ BADGES = [
     },
     {
         "id": 9,
-        "name": "badge_unique_pokestops",
+        "name": "unique_pokestops",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -320,7 +320,7 @@ BADGES = [
     },
     {
         "id": 11,
-        "name": "badge_big_magikarp",
+        "name": "big_magikarp",
         "bronze": 3,
         "silver": 50,
         "gold": 300,
@@ -328,7 +328,7 @@ BADGES = [
     },
     {
         "id": 13,
-        "name": "badge_battle_attack_won",
+        "name": "battle_attack_won",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -336,7 +336,7 @@ BADGES = [
     },
     {
         "id": 14,
-        "name": "badge_battle_training_won",
+        "name": "battle_training_won",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -344,7 +344,7 @@ BADGES = [
     },
     {
         "id": 36,
-        "name": "badge_small_rattata",
+        "name": "small_rattata",
         "bronze": 3,
         "silver": 50,
         "gold": 300,
@@ -352,7 +352,7 @@ BADGES = [
     },
     {
         "id": 37,
-        "name": "badge_pikachu",
+        "name": "pikachu",
         "bronze": 3,
         "silver": 50,
         "gold": 300,
@@ -360,7 +360,7 @@ BADGES = [
     },
     {
         "id": 38,
-        "name": "badge_unown",
+        "name": "unown",
         "bronze": 3,
         "silver": 10,
         "gold": 26,
@@ -368,7 +368,7 @@ BADGES = [
     },
     {
         "id": 39,
-        "name": "badge_pokedex_entries_gen2",
+        "name": "pokedex_entries_gen2",
         "bronze": 3,
         "silver": 10,
         "gold": 26,
@@ -376,7 +376,7 @@ BADGES = [
     },
     {
         "id": 40,
-        "name": "badge_raid_battle_won",
+        "name": "raid_battle_won",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -384,7 +384,7 @@ BADGES = [
     },
     {
         "id": 41,
-        "name": "badge_legendary_battle_won",
+        "name": "legendary_battle_won",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -392,7 +392,7 @@ BADGES = [
     },
     {
         "id": 42,
-        "name": "badge_berries_fed",
+        "name": "berries_fed",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -400,7 +400,7 @@ BADGES = [
     },
     {
         "id": 43,
-        "name": "badge_hours_defended",
+        "name": "hours_defended",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -408,7 +408,7 @@ BADGES = [
     },
     {
         "id": 45,
-        "name": "badge_pokedex_entries_gen3",
+        "name": "pokedex_entries_gen3",
         "bronze": 5,
         "silver": 40,
         "gold": 90,
@@ -416,7 +416,7 @@ BADGES = [
     },
     {
         "id": 46,
-        "name": "badge_challenge_quests",
+        "name": "challenge_quests",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -424,7 +424,7 @@ BADGES = [
     },
     {
         "id": 48,
-        "name": "badge_max_level_friends",
+        "name": "max_level_friends",
         "bronze": 1,
         "silver": 2,
         "gold": 3,
@@ -432,7 +432,7 @@ BADGES = [
     },
     {
         "id": 49,
-        "name": "badge_trading",
+        "name": "trading",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -440,7 +440,7 @@ BADGES = [
     },
     {
         "id": 50,
-        "name": "badge_trading_distance",
+        "name": "trading_distance",
         "bronze": 1000,
         "silver": 10000,
         "gold": 1000000,
@@ -448,7 +448,7 @@ BADGES = [
     },
     {
         "id": 51,
-        "name": "badge_pokedex_entries_gen4",
+        "name": "pokedex_entries_gen4",
         "bronze": 5,
         "silver": 30,
         "gold": 80,
@@ -456,7 +456,7 @@ BADGES = [
     },
     {
         "id": 52,
-        "name": "badge_great_league",
+        "name": "great_league",
         "bronze": 5,
         "silver": 50,
         "gold": 200,
@@ -464,7 +464,7 @@ BADGES = [
     },
     {
         "id": 53,
-        "name": "badge_ultra_league",
+        "name": "ultra_league",
         "bronze": 5,
         "silver": 50,
         "gold": 200,
@@ -472,7 +472,7 @@ BADGES = [
     },
     {
         "id": 54,
-        "name": "badge_master_league",
+        "name": "master_league",
         "bronze": 5,
         "silver": 50,
         "gold": 200,
@@ -480,7 +480,7 @@ BADGES = [
     },
     {
         "id": 55,
-        "name": "badge_photobomb",
+        "name": "photobomb",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -488,7 +488,7 @@ BADGES = [
     },
     {
         "id": 56,
-        "name": "badge_pokedex_entries_gen5",
+        "name": "pokedex_entries_gen5",
         "bronze": 5,
         "silver": 50,
         "gold": 100,
@@ -496,7 +496,7 @@ BADGES = [
     },
     {
         "id": 57,
-        "name": "badge_pokemon_purified",
+        "name": "pokemon_purified",
         "bronze": 5,
         "silver": 50,
         "gold": 500,
@@ -504,7 +504,7 @@ BADGES = [
     },
     {
         "id": 58,
-        "name": "badge_rocket_grunts_defeated",
+        "name": "rocket_grunts_defeated",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -512,7 +512,7 @@ BADGES = [
     },
     {
         "id": 59,
-        "name": "badge_rocket_giovanni_defeated",
+        "name": "rocket_giovanni_defeated",
         "bronze": 1,
         "silver": 5,
         "gold": 20,
@@ -520,7 +520,7 @@ BADGES = [
     },
     {
         "id": 60,
-        "name": "badge_buddy_best",
+        "name": "buddy_best",
         "bronze": 1,
         "silver": 10,
         "gold": 100,
@@ -528,7 +528,7 @@ BADGES = [
     },
     {
         "id": 61,
-        "name": "badge_pokedex_entries_gen6",
+        "name": "pokedex_entries_gen6",
         "bronze": 5,
         "silver": 25,
         "gold": 50,
@@ -536,7 +536,7 @@ BADGES = [
     },
     {
         "id": 64,
-        "name": "badge_7_day_streaks",
+        "name": "7_day_streaks",
         "bronze": 1,
         "silver": 10,
         "gold": 50,
@@ -544,7 +544,7 @@ BADGES = [
     },
     {
         "id": 65,
-        "name": "badge_unique_raid_bosses_defeated",
+        "name": "unique_raid_bosses_defeated",
         "bronze": 2,
         "silver": 10,
         "gold": 50,
@@ -552,7 +552,7 @@ BADGES = [
     },
     {
         "id": 66,
-        "name": "badge_raids_with_friends",
+        "name": "raids_with_friends",
         "bronze": 10,
         "silver": 100,
         "gold": 1000,
@@ -560,7 +560,7 @@ BADGES = [
     },
     {
         "id": 67,
-        "name": "badge_pokemon_caught_at_your_lures",
+        "name": "pokemon_caught_at_your_lures",
         "bronze": 5,
         "silver": 25,
         "gold": 500,
@@ -568,7 +568,7 @@ BADGES = [
     },
     {
         "id": 68,
-        "name": "badge_wayfarer",
+        "name": "wayfarer",
         "bronze": 50,
         "silver": 500,
         "gold": 1000,
@@ -576,7 +576,7 @@ BADGES = [
     },
     {
         "id": 69,
-        "name": "badge_total_mega_evos",
+        "name": "total_mega_evos",
         "bronze": 1,
         "silver": 50,
         "gold": 500,
@@ -584,7 +584,7 @@ BADGES = [
     },
     {
         "id": 70,
-        "name": "badge_unique_mega_evos",
+        "name": "unique_mega_evos",
         "bronze": 1,
         "silver": 24,
         "gold": 36,
@@ -592,7 +592,7 @@ BADGES = [
     },
     {
         "id": 18,
-        "name": "badge_type_normal",
+        "name": "type_normal",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -600,7 +600,7 @@ BADGES = [
     },
     {
         "id": 19,
-        "name": "badge_type_fighting",
+        "name": "type_fighting",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -608,7 +608,7 @@ BADGES = [
     },
     {
         "id": 20,
-        "name": "badge_type_flying",
+        "name": "type_flying",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -616,7 +616,7 @@ BADGES = [
     },
     {
         "id": 21,
-        "name": "badge_type_poison",
+        "name": "type_poison",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -624,7 +624,7 @@ BADGES = [
     },
     {
         "id": 22,
-        "name": "badge_type_ground",
+        "name": "type_ground",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -632,7 +632,7 @@ BADGES = [
     },
     {
         "id": 23,
-        "name": "badge_type_rock",
+        "name": "type_rock",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -640,7 +640,7 @@ BADGES = [
     },
     {
         "id": 24,
-        "name": "badge_type_bug",
+        "name": "type_bug",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -648,7 +648,7 @@ BADGES = [
     },
     {
         "id": 25,
-        "name": "badge_type_ghost",
+        "name": "type_ghost",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -656,7 +656,7 @@ BADGES = [
     },
     {
         "id": 26,
-        "name": "badge_type_steel",
+        "name": "type_steel",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -664,7 +664,7 @@ BADGES = [
     },
     {
         "id": 27,
-        "name": "badge_type_fire",
+        "name": "type_fire",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -672,7 +672,7 @@ BADGES = [
     },
     {
         "id": 28,
-        "name": "badge_type_water",
+        "name": "type_water",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -680,7 +680,7 @@ BADGES = [
     },
     {
         "id": 29,
-        "name": "badge_type_grass",
+        "name": "type_grass",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -688,7 +688,7 @@ BADGES = [
     },
     {
         "id": 30,
-        "name": "badge_type_electric",
+        "name": "type_electric",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -696,7 +696,7 @@ BADGES = [
     },
     {
         "id": 31,
-        "name": "badge_type_psychic",
+        "name": "type_psychic",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -704,7 +704,7 @@ BADGES = [
     },
     {
         "id": 32,
-        "name": "badge_type_ice",
+        "name": "type_ice",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -712,7 +712,7 @@ BADGES = [
     },
     {
         "id": 33,
-        "name": "badge_type_dragon",
+        "name": "type_dragon",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -720,7 +720,7 @@ BADGES = [
     },
     {
         "id": 34,
-        "name": "badge_type_dark",
+        "name": "type_dark",
         "bronze": 10,
         "silver": 50,
         "gold": 200,
@@ -728,7 +728,7 @@ BADGES = [
     },
     {
         "id": 35,
-        "name": "badge_type_fairy",
+        "name": "type_fairy",
         "bronze": 10,
         "silver": 50,
         "gold": 200,

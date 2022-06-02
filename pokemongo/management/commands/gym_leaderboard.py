@@ -64,7 +64,7 @@
 #         key = settings.DISCORD_TOKEN
 #         current_time = timezone.now()
 #         # stat = kwargs.get("stat", "total_xp")
-#         stat = "gymbadges_gold"
+#         stat = "gym_gold"
 #         rule = rrule(
 #             WEEKLY,
 #             dtstart=datetime(2016, 7, 4, 12, 0, tzinfo=timezone.utc),
@@ -169,13 +169,13 @@
 #                 "valor": client.get_emoji(430113457149575168),
 #                 "instinct": client.get_emoji(430113431333371924),
 #                 "travel_km": client.get_emoji(743122298126467144),
-#                 "badge_travel_km": client.get_emoji(743122298126467144),
+#                 "travel_km": client.get_emoji(743122298126467144),
 #                 "capture_total": client.get_emoji(743122649529450566),
-#                 "badge_capture_total": client.get_emoji(743122649529450566),
+#                 "capture_total": client.get_emoji(743122649529450566),
 #                 "pokestops_visited": client.get_emoji(743122864303243355),
-#                 "badge_pokestops_visited": client.get_emoji(743122864303243355),
+#                 "pokestops_visited": client.get_emoji(743122864303243355),
 #                 "total_xp": client.get_emoji(743121748630831165),
-#                 "gymbadges_gold": client.get_emoji(743853262469333042),
+#                 "gym_gold": client.get_emoji(743853262469333042),
 #                 "number": "#",
 #             }
 #             verbose_names = {
@@ -183,11 +183,11 @@
 #                 "mystic": pgettext("team_name_team1", "Team Mystic"),
 #                 "valor": pgettext("team_name_team2", "Team Valor"),
 #                 "instinct": pgettext("team_name_team3", "Team Instinct"),
-#                 "badge_travel_km": pgettext("badge_travel_km_title", "Jogger"),
-#                 "badge_capture_total": pgettext("badge_capture_total_title", "Collector"),
-#                 "badge_pokestops_visited": pgettext("badge_pokestops_visited_title", "Backpacker"),
+#                 "travel_km": pgettext("travel_km_title", "Jogger"),
+#                 "capture_total": pgettext("capture_total_title", "Collector"),
+#                 "pokestops_visited": pgettext("pokestops_visited_title", "Backpacker"),
 #                 "total_xp": pgettext("profile_total_xp", "Total XP"),
-#                 "gymbadges_gold": pgettext("gymbadges_gold", "Gold Gyms"),
+#                 "gym_gold": pgettext("gym_gold", "Gold Gyms"),
 #             }
 
 #             title = _(
