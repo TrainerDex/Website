@@ -331,18 +331,21 @@ class LeaderboardView(APIView):
                     .values("pk")
                 )
             )
-            .prefetch_related(
-                "trainer",
-                "trainer__owner",
-                Prefetch(
-                    "trainer__nickname_set",
-                    Nickname.objects.filter(active=True),
-                    to_attr="_nickname",
-                ),
+            .select_related("trainer__owner")
+            .annotate(
+                value=F(stat),
+                datetime=F("update_time"),
+                rank=Window(expression=DenseRank(), order_by=F("value").desc()),
             )
-            .annotate(value=F(stat), datetime=F("update_time"))
-            .annotate(rank=Window(expression=DenseRank(), order_by=F("value").desc()))
-            .order_by("rank", "-value", "datetime")
+            .order_by("rank", "datetime")
+            .only(
+                "total_xp",
+                "trainer__id",
+                "trainer___nickname",
+                "trainer__faction",
+                "update_time",
+                "trainer__owner__id",
+            )
         )
         serializer = LeaderboardSerializer(leaderboard[:1000], many=True)
         return Response(serializer.data)
@@ -553,13 +556,18 @@ class DetailedLeaderboardView(APIView):
                     .values("pk")
                 )
             )
-            .select_related(
-                "trainer",
-                "trainer__owner",
-            )
+            .select_related("trainer__owner")
             .annotate(value=F(stat))
             .annotate(rank=Window(expression=DenseRank(), order_by=F("value").desc()))
-            .order_by("rank", "-value", "update_time")
+            .order_by("rank", "update_time")
+            .only(
+                "total_xp",
+                "trainer__id",
+                "trainer___nickname",
+                "trainer__faction",
+                "update_time",
+                "trainer__owner__id",
+            )
         )
         serializer = LeaderboardSerializer(leaderboard, many=True)
         output["aggregations"] = leaderboard.aggregate(

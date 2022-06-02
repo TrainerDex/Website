@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import datetime
 from typing import TYPE_CHECKING, Mapping, TypeVar
 
 from allauth.socialaccount.models import SocialAccount
@@ -408,48 +407,43 @@ class FactionSerializer(serializers.Serializer):
 
 
 class LeaderboardSerializer(serializers.Serializer):
-    level = serializers.SerializerMethodField()
-    position = serializers.SerializerMethodField()
-    id = serializers.SerializerMethodField()
-    username = serializers.SerializerMethodField()
-    faction = serializers.SerializerMethodField()
-    xp = serializers.SerializerMethodField()
-    total_xp = serializers.SerializerMethodField()
-    value = serializers.SerializerMethodField()
-    last_updated = serializers.SerializerMethodField()
-    user_id = serializers.SerializerMethodField()
-
-    def get_position(self, obj: Update) -> int:
-        return obj.rank
-
-    def get_level(self, obj: Update) -> str:
-        return str(obj.level())
-
-    def get_id(self, obj: Update) -> int:
-        return obj.trainer.id
-
-    def get_username(self, obj: Update) -> str:
-        return obj.trainer.nickname
-
-    def get_faction(self, obj: Update) -> dict[str, str | int]:
-        return FactionSerializer(obj.trainer.faction).data
-
-    def get_xp(self, obj: Update) -> int:
-        """This field is deprecated and will be removed in API v2"""
-        return obj.total_xp
-
-    def get_total_xp(self, obj: Update) -> int:
-        """This field is deprecated and will be removed in API v2"""
-        return obj.total_xp
-
-    def get_value(self, obj: Update) -> int:
-        return obj.value
-
-    def get_last_updated(self, obj: Update) -> datetime.datetime:
-        return obj.update_time
-
-    def get_user_id(self, obj: Update) -> int:
-        return obj.trainer.owner.pk
+    level = serializers.CharField(
+        read_only=True,
+    )
+    position = serializers.IntegerField(
+        source="rank",
+        read_only=True,
+    )
+    id = serializers.IntegerField(
+        source="trainer.id",
+        read_only=True,
+    )
+    username = serializers.CharField(
+        source="trainer._nickname",
+        read_only=True,
+    )
+    faction = FactionSerializer(
+        source="trainer.faction",
+        read_only=True,
+    )
+    xp = serializers.IntegerField(
+        source="total_xp",
+        read_only=True,
+    )
+    total_xp = serializers.IntegerField(
+        read_only=True,
+    )
+    value = serializers.IntegerField(
+        read_only=True,
+    )
+    last_updated = serializers.DateTimeField(
+        source="update_time",
+        read_only=True,
+    )
+    user_id = serializers.IntegerField(
+        source="trainer.owner.id",
+        read_only=True,
+    )
 
     class Meta:
         model = Update
