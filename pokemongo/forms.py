@@ -16,7 +16,7 @@ class UpdateForm(ModelForm):
                 "total_xp",
                 "pokedex_caught",
                 "pokedex_seen",
-                "gymbadges_gold",
+                "gym_gold",
             ]
             + STANDARD_MEDALS
             + BATTLE_HUB_STATS

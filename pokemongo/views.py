@@ -8,15 +8,15 @@ from typing import TYPE_CHECKING
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Max, Prefetch, Sum, Window
-from django.db.models.functions import DenseRank as Rank
+from django.db.models import F, Max, Sum, Window
+from django.db.models.functions import DenseRank
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from pokemongo.forms import TrainerForm, UpdateForm
-from pokemongo.models import Community, Nickname, Trainer, Update
+from pokemongo.models import Community, Trainer, Update
 from pokemongo.shortcuts import (
     BADGES,
     UPDATE_SORTABLE_FIELDS,
@@ -266,29 +266,26 @@ def leaderboard(
 
     fields_to_calculate_max = {
         "total_xp",
-        "badge_capture_total",
-        "badge_travel_km",
-        "badge_evolved_total",
-        "badge_hatched_total",
-        "badge_pokestops_visited",
-        "badge_raid_battle_won",
-        "badge_legendary_battle_won",
-        "badge_hours_defended",
-        "badge_pokedex_entries_gen4",
-        "badge_great_league",
-        "badge_ultra_league",
-        "badge_master_league",
+        "capture_total",
+        "travel_km",
+        "evolved_total",
+        "hatched_total",
+        "pokestops_visited",
+        "raid_battle_won",
+        "legendary_battle_won",
+        "hours_defended",
+        "great_league",
+        "ultra_league",
+        "master_league",
         "update_time",
     }
-    if request.GET.get("sort"):
-        if request.GET.get("sort") in UPDATE_SORTABLE_FIELDS:
-            fields_to_calculate_max.add(request.GET.get("sort"))
-            sort_by = request.GET.get("sort")
+
+    if order_by := request.GET.get("sort", "total_xp"):
+        if order_by in UPDATE_SORTABLE_FIELDS:
+            fields_to_calculate_max.add(order_by)
         else:
-            sort_by = "total_xp"
-    else:
-        sort_by = "total_xp"
-    context["sort_by"] = sort_by
+            order_by = "total_xp"
+    context["sort_by"] = order_by
 
     context["grand_total_users"] = total_users = queryset.count()
 
@@ -299,7 +296,7 @@ def leaderboard(
         return render(request, "leaderboard.html", context, status=404)
 
     queryset = queryset.annotate(*[Max("update__" + x) for x in fields_to_calculate_max]).exclude(
-        **{f"update__{sort_by}__max__isnull": True}
+        **{f"update__{order_by}__max__isnull": True}
     )
 
     Results = []
@@ -308,16 +305,22 @@ def leaderboard(
 
     queryset = (
         queryset.annotate(
-            rank=Window(expression=Rank(), order_by=F(f"update__{sort_by}__max").desc())
+            rank=Window(
+                expression=DenseRank(),
+                order_by=F(f"update__{order_by}__max").desc(),
+            )
         )
-        .prefetch_related(
-            Prefetch(
-                "nickname_set",
-                Nickname.objects.filter(active=True),
-                to_attr="_nickname",
-            ),
+        .order_by(
+            "rank",
+            "update__update_time__max",
+            "faction",
         )
-        .order_by("rank", "update__update_time__max", "faction")
+        .only(
+            "id",
+            "_nickname",
+            "country_iso",
+            "faction",
+        )
     )
 
     for trainer in queryset:
@@ -326,7 +329,7 @@ def leaderboard(
         trainer_stats = {
             "position": trainer.rank,
             "trainer": trainer,
-            "xp": trainer.update__total_xp__max,
+            "total_xp": trainer.update__total_xp__max,
             "update_time": trainer.update__update_time__max,
         }
 
@@ -350,7 +353,7 @@ def leaderboard(
             }
             for x in FIELDS
         ]
-        FIELDS.insert(0, FIELDS.pop([FIELDS.index(x) for x in FIELDS if x["name"] == sort_by][0]))
+        FIELDS.insert(0, FIELDS.pop([FIELDS.index(x) for x in FIELDS if x["name"] == order_by][0]))
         trainer_stats["columns"] = FIELDS
         Results.append(trainer_stats)
 

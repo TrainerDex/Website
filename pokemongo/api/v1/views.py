@@ -6,19 +6,9 @@ from typing import TYPE_CHECKING, Dict
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
-from django.db.models import (
-    Avg,
-    Count,
-    F,
-    Max,
-    Min,
-    Prefetch,
-    QuerySet,
-    Subquery,
-    Sum,
-    Window,
-)
+from django.db.models import Avg, Count, F, Max, Min, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
@@ -37,7 +27,7 @@ from pokemongo.api.v1.serializers import (
     SocialAllAuthSerializer,
     UserSerializer,
 )
-from pokemongo.models import Community, Nickname, Trainer, Update
+from pokemongo.models import Community, Trainer, Update
 from pokemongo.shortcuts import (
     UPDATE_FIELDS_BADGES,
     filter_leaderboard_qs__update,
@@ -60,7 +50,11 @@ def recent(value: datetime) -> bool:
 
 class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
-    queryset = User.objects.exclude(is_active=False)
+    queryset = (
+        User.objects.select_related("trainer")
+        .exclude(is_active=False)
+        .only("id", "username", "trainer__uuid", "trainer__id")
+    )
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
@@ -80,14 +74,16 @@ class TrainerListView(APIView):
     }
 
     def get(self, request: Request) -> Response:
-        queryset = Trainer.objects.exclude(owner__is_active=False)
+        queryset = Trainer.objects.prefetch_related("update_set").exclude(owner__is_active=False)
+
         if not request.user.is_superuser:
             queryset = queryset.exclude(statistics=False)
-        if request.GET.get("q") or request.GET.get("t"):
-            if request.GET.get("q"):
-                queryset = queryset.filter(nickname__nickname__iexact=request.GET.get("q"))
-            if request.GET.get("t"):
-                queryset = queryset.filter(faction=request.GET.get("t"))
+
+        if nickname_filter := request.query_params.get("q"):
+            queryset = queryset.filter(nickname__nickname__iexact=nickname_filter)
+
+        if team_filter := request.query_params.get("t"):
+            queryset = queryset.filter(faction=team_filter)
 
         serializer = DetailedTrainerSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -98,7 +94,7 @@ class TrainerListView(APIView):
         Now it has a 60 minute open slot to work after the auth.User (owner) instance is created. After which, a PATCH request must be given. This is due to the nature of a Trainer being created automatically for all new auth.User
         """
 
-        trainer: Trainer = Trainer.objects.get(
+        trainer: Trainer = Trainer.objects.prefetch_related("update_set").get(
             owner__pk=request.data["owner"], owner__is_active=True
         )
         if not recent(trainer.owner.date_joined):
@@ -136,16 +132,22 @@ class TrainerDetailView(APIView):
     }
 
     def get_object(self, pk: int) -> Trainer:
-        return get_object_or_404(Trainer, pk=pk, owner__is_active=True)
+        try:
+            return (
+                Trainer.objects.exclude(owner__is_active=False)
+                .prefetch_related("update_set")
+                .select_related("owner")
+                .get(pk=pk)
+            )
+        except Trainer.DoesNotExist:
+            raise Http404("No %s matches the given query." % Trainer._meta.object_name)
 
     def get(self, request: Request, pk: int) -> Response:
         trainer = self.get_object(pk)
-        if trainer.active is True and (
-            trainer.statistics is True or request.user.is_superuser is True
-        ):
+        if trainer.active and (trainer.statistics or request.user.is_superuser):
             serializer = DetailedTrainerSerializer(trainer)
             return Response(serializer.data)
-        elif (trainer.active is False) or (trainer.statistics is False):
+        elif (not trainer.active) or (not trainer.statistics):
             response = {
                 "code": 1,
                 "reason": "Profile deactivated",
@@ -293,7 +295,7 @@ VALID_LB_STATS = UPDATE_FIELDS_BADGES + [
     "pokedex_caught",
     "pokedex_seen",
     "total_xp",
-    "gymbadges_gold",
+    "gym_gold",
 ]
 
 
@@ -316,9 +318,9 @@ class LeaderboardView(APIView):
             )
         generated_time = timezone.now()
         query = filter_leaderboard_qs__update(Update.objects)
-        if request.GET.get("users"):
+        if request.query_params.get("users"):
             query = filter_leaderboard_qs__update(
-                Update.objects.filter(trainer_id__in=request.GET.get("users").split(","))
+                Update.objects.filter(trainer_id__in=request.query_params.get("users").split(","))
             )
         leaderboard = (
             Update.objects.filter(
@@ -331,18 +333,21 @@ class LeaderboardView(APIView):
                     .values("pk")
                 )
             )
-            .prefetch_related(
-                "trainer",
-                "trainer__owner",
-                Prefetch(
-                    "trainer__nickname_set",
-                    Nickname.objects.filter(active=True),
-                    to_attr="_nickname",
-                ),
+            .select_related("trainer__owner")
+            .annotate(
+                value=F(stat),
+                datetime=F("update_time"),
+                rank=Window(expression=DenseRank(), order_by=F("value").desc()),
             )
-            .annotate(value=F(stat), datetime=F("update_time"))
-            .annotate(rank=Window(expression=DenseRank(), order_by=F("value").desc()))
-            .order_by("rank", "-value", "datetime")
+            .order_by("rank", "datetime")
+            .only(
+                "total_xp",
+                "trainer__id",
+                "trainer___nickname",
+                "trainer__faction",
+                "update_time",
+                "trainer__owner__id",
+            )
         )
         serializer = LeaderboardSerializer(leaderboard[:1000], many=True)
         return Response(serializer.data)
@@ -371,14 +376,14 @@ class SocialLookupView(APIView):
 
     def get(self, request: Request) -> Response:
         query = SocialAccount.objects.exclude(user__is_active=False).filter(
-            provider=request.GET.get("provider")
+            provider=request.query_params.get("provider")
         )
-        if request.GET.get("uid"):
-            query = query.filter(uid__in=request.GET.get("uid").split(","))
-        elif request.GET.get("user"):
-            query = query.filter(user__in=request.GET.get("user").split(","))
-        elif request.GET.get("trainer"):
-            query = query.filter(user__trainer=request.GET.get("trainer"))
+        if request.query_params.get("uid"):
+            query = query.filter(uid__in=request.query_params.get("uid").split(","))
+        elif request.query_params.get("user"):
+            query = query.filter(user__in=request.query_params.get("user").split(","))
+        elif request.query_params.get("trainer"):
+            query = query.filter(user__trainer=request.query_params.get("trainer"))
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = SocialAllAuthSerializer(query, many=True)
@@ -553,13 +558,18 @@ class DetailedLeaderboardView(APIView):
                     .values("pk")
                 )
             )
-            .select_related(
-                "trainer",
-                "trainer__owner",
-            )
+            .select_related("trainer__owner")
             .annotate(value=F(stat))
             .annotate(rank=Window(expression=DenseRank(), order_by=F("value").desc()))
-            .order_by("rank", "-value", "update_time")
+            .order_by("rank", "update_time")
+            .only(
+                "total_xp",
+                "trainer__id",
+                "trainer___nickname",
+                "trainer__faction",
+                "update_time",
+                "trainer__owner__id",
+            )
         )
         serializer = LeaderboardSerializer(leaderboard, many=True)
         output["aggregations"] = leaderboard.aggregate(
