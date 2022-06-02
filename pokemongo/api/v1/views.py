@@ -8,6 +8,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
 from django.db.models import Avg, Count, F, Max, Min, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
@@ -73,7 +74,7 @@ class TrainerListView(APIView):
     }
 
     def get(self, request: Request) -> Response:
-        queryset = Trainer.objects.exclude(owner__is_active=False)
+        queryset = Trainer.objects.prefetch_related("update_set").exclude(owner__is_active=False)
 
         if not request.user.is_superuser:
             queryset = queryset.exclude(statistics=False)
@@ -93,7 +94,7 @@ class TrainerListView(APIView):
         Now it has a 60 minute open slot to work after the auth.User (owner) instance is created. After which, a PATCH request must be given. This is due to the nature of a Trainer being created automatically for all new auth.User
         """
 
-        trainer: Trainer = Trainer.objects.get(
+        trainer: Trainer = Trainer.objects.prefetch_related("update_set").get(
             owner__pk=request.data["owner"], owner__is_active=True
         )
         if not recent(trainer.owner.date_joined):
@@ -131,7 +132,15 @@ class TrainerDetailView(APIView):
     }
 
     def get_object(self, pk: int) -> Trainer:
-        return get_object_or_404(Trainer, pk=pk, owner__is_active=True)
+        try:
+            return (
+                Trainer.objects.exclude(owner__is_active=False)
+                .prefetch_related("update_set")
+                .select_related("owner")
+                .get(pk=pk)
+            )
+        except Trainer.DoesNotExist:
+            raise Http404("No %s matches the given query." % Trainer._meta.object_name)
 
     def get(self, request: Request, pk: int) -> Response:
         trainer = self.get_object(pk)

@@ -343,7 +343,7 @@ class DetailedTrainerSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     username = serializers.CharField(
-        source="nickname",
+        source="_nickname",
         read_only=True,
     )
     last_modified = serializers.DateTimeField(
