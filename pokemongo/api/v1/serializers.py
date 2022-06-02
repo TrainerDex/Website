@@ -378,13 +378,15 @@ class DetailedTrainerSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    uuid = serializers.UUIDField(source="trainer.uuid", read_only=True)
+
     def create(self, validated_data: Mapping) -> User:
         user = User.objects.create_user(**validated_data)
         return user
 
     class Meta:
         model = User
-        fields = ("id", "username", "first_name", "last_name", "trainer")
+        fields = ("id", "uuid", "username", "trainer")
         read_only_fields = ("trainer",)
 
 
