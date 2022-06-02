@@ -6,18 +6,7 @@ from typing import TYPE_CHECKING, Dict
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
-from django.db.models import (
-    Avg,
-    Count,
-    F,
-    Max,
-    Min,
-    Prefetch,
-    QuerySet,
-    Subquery,
-    Sum,
-    Window,
-)
+from django.db.models import Avg, Count, F, Max, Min, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -37,7 +26,7 @@ from pokemongo.api.v1.serializers import (
     SocialAllAuthSerializer,
     UserSerializer,
 )
-from pokemongo.models import Community, Nickname, Trainer, Update
+from pokemongo.models import Community, Trainer, Update
 from pokemongo.shortcuts import (
     UPDATE_FIELDS_BADGES,
     filter_leaderboard_qs__update,
@@ -85,13 +74,15 @@ class TrainerListView(APIView):
 
     def get(self, request: Request) -> Response:
         queryset = Trainer.objects.exclude(owner__is_active=False)
+
         if not request.user.is_superuser:
             queryset = queryset.exclude(statistics=False)
-        if request.GET.get("q") or request.GET.get("t"):
-            if request.GET.get("q"):
-                queryset = queryset.filter(nickname__nickname__iexact=request.GET.get("q"))
-            if request.GET.get("t"):
-                queryset = queryset.filter(faction=request.GET.get("t"))
+
+        if nickname_filter := request.query_params.get("q"):
+            queryset = queryset.filter(nickname__nickname__iexact=nickname_filter)
+
+        if team_filter := request.query_params.get("t"):
+            queryset = queryset.filter(faction=team_filter)
 
         serializer = DetailedTrainerSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -144,12 +135,10 @@ class TrainerDetailView(APIView):
 
     def get(self, request: Request, pk: int) -> Response:
         trainer = self.get_object(pk)
-        if trainer.active is True and (
-            trainer.statistics is True or request.user.is_superuser is True
-        ):
+        if trainer.active and (trainer.statistics or request.user.is_superuser):
             serializer = DetailedTrainerSerializer(trainer)
             return Response(serializer.data)
-        elif (trainer.active is False) or (trainer.statistics is False):
+        elif (not trainer.active) or (not trainer.statistics):
             response = {
                 "code": 1,
                 "reason": "Profile deactivated",
@@ -320,9 +309,9 @@ class LeaderboardView(APIView):
             )
         generated_time = timezone.now()
         query = filter_leaderboard_qs__update(Update.objects)
-        if request.GET.get("users"):
+        if request.query_params.get("users"):
             query = filter_leaderboard_qs__update(
-                Update.objects.filter(trainer_id__in=request.GET.get("users").split(","))
+                Update.objects.filter(trainer_id__in=request.query_params.get("users").split(","))
             )
         leaderboard = (
             Update.objects.filter(
@@ -378,14 +367,14 @@ class SocialLookupView(APIView):
 
     def get(self, request: Request) -> Response:
         query = SocialAccount.objects.exclude(user__is_active=False).filter(
-            provider=request.GET.get("provider")
+            provider=request.query_params.get("provider")
         )
-        if request.GET.get("uid"):
-            query = query.filter(uid__in=request.GET.get("uid").split(","))
-        elif request.GET.get("user"):
-            query = query.filter(user__in=request.GET.get("user").split(","))
-        elif request.GET.get("trainer"):
-            query = query.filter(user__trainer=request.GET.get("trainer"))
+        if request.query_params.get("uid"):
+            query = query.filter(uid__in=request.query_params.get("uid").split(","))
+        elif request.query_params.get("user"):
+            query = query.filter(user__in=request.query_params.get("user").split(","))
+        elif request.query_params.get("trainer"):
+            query = query.filter(user__trainer=request.query_params.get("trainer"))
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = SocialAllAuthSerializer(query, many=True)
