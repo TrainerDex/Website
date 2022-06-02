@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-02 13:57+0100\n"
+"POT-Creation-Date: 2022-06-02 15:33+0100\n"
 "PO-Revision-Date: 2021-05-25 20:15\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Traditional, Hong Kong\n"
@@ -2459,7 +2459,7 @@ msgstr "找不到要處理的社區{community}"
 msgid "Access denied"
 msgstr "拒絕被使用"
 
-#: .\pokemongo\views.py:393
+#: .\pokemongo\views.py:396
 msgid ""
 "Thank you for filling out your profile. Your screenshots have been sent for "
 "verification. Join our Discord. https://discord.gg/Anz3UpM"
@@ -2467,7 +2467,7 @@ msgstr ""
 "感謝您填寫個人資料。您的屏幕截圖已發送進行驗證。加入我們的Discord。 https://"
 "discord.gg/Anz3UpM"
 
-#: .\pokemongo\views.py:400
+#: .\pokemongo\views.py:403
 msgid "Profile edited successfully."
 msgstr "個人資料編輯成功。"
 
