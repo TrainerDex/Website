@@ -204,7 +204,10 @@ class UpdateListView(APIView):
         return Response(serializer.data)
 
     def post(self, request: Request, pk: int) -> Response:
-        serializer = DetailedUpdateSerializer(data=request.data)
+        modified_data = {
+            OLD_NEW_STAT_MAP.get(key, key): value for key, value in request.data.items()
+        }
+        serializer = DetailedUpdateSerializer(data=modified_data)
         if serializer.is_valid():
             serializer.save(trainer=get_object_or_404(Trainer, pk=pk, owner__is_active=True))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -247,7 +250,10 @@ class LatestUpdateView(APIView):
             "update_time"
         )
         if update.created_at > (timezone.now() - timedelta(hours=12)):
-            serializer = DetailedUpdateSerializer(update, data=request.data)
+            modified_data = {
+                OLD_NEW_STAT_MAP.get(key, key): value for key, value in request.data.items()
+            }
+            serializer = DetailedUpdateSerializer(update, data=modified_data)
             if serializer.is_valid():
                 serializer.save(trainer=update.trainer, uuid=update.uuid, pk=update.pk)
                 return Response(serializer.data)
@@ -282,7 +288,10 @@ class UpdateDetailView(APIView):
     def patch(self, request: Request, uuid: str, pk: int) -> Response:
         update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
         if update.created_at > (timezone.now() - timedelta(hours=12)):
-            serializer = DetailedUpdateSerializer(update, data=request.data)
+            modified_data = {
+                OLD_NEW_STAT_MAP.get(key, key): value for key, value in request.data.items()
+            }
+            serializer = DetailedUpdateSerializer(update, data=modified_data)
             if serializer.is_valid():
                 serializer.save(trainer=update.trainer, uuid=update.uuid, pk=update.pk)
                 return Response(serializer.data)
