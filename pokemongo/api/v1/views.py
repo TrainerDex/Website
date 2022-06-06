@@ -29,7 +29,8 @@ from pokemongo.api.v1.serializers import (
 )
 from pokemongo.models import Community, Trainer, Update
 from pokemongo.shortcuts import (
-    UPDATE_FIELDS_BADGES,
+    OLD_NEW_STAT_MAP,
+    UPDATE_SORTABLE_FIELDS,
     filter_leaderboard_qs__update,
     get_country_info,
 )
@@ -291,14 +292,6 @@ class UpdateDetailView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-VALID_LB_STATS = UPDATE_FIELDS_BADGES + [
-    "pokedex_caught",
-    "pokedex_seen",
-    "total_xp",
-    "gym_gold",
-]
-
-
 class LeaderboardView(APIView):
     """
     Limited to 1000
@@ -311,7 +304,9 @@ class LeaderboardView(APIView):
         request: Request,
         stat: str = "total_xp",
     ) -> Response:
-        if stat not in VALID_LB_STATS:
+        stat = OLD_NEW_STAT_MAP.get(stat, stat)
+
+        if stat not in UPDATE_SORTABLE_FIELDS:
             return Response(
                 {"state": "error", "reason": "invalid stat"},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -416,7 +411,9 @@ class DetailedLeaderboardView(APIView):
         community: str = None,
         country: str = None,
     ) -> Response:
-        if stat not in VALID_LB_STATS:
+        stat = OLD_NEW_STAT_MAP.get(stat, stat)
+
+        if stat not in UPDATE_SORTABLE_FIELDS:
             return Response(
                 {"state": "error", "reason": "invalid stat"},
                 status=status.HTTP_400_BAD_REQUEST,
