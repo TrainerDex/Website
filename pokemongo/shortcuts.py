@@ -210,6 +210,9 @@ STANDARD_MEDALS = [
     "wayfarer",
     "total_mega_evos",
     "unique_mega_evos",
+    "trainers_referred",
+    "mvt",
+    "mini_collection",
 ]
 
 BATTLE_HUB_STATS = [
@@ -307,6 +310,9 @@ OLD_NEW_STAT_MAP = {
     "badge_wayfarer": "wayfarer",
     "badge_total_mega_evos": "total_mega_evos",
     "badge_unique_mega_evos": "unique_mega_evos",
+    "badge_mvt": "mvt",
+    "badge_mini_collection": "mini_collection",
+    "badge_battle_hub_stats_wins": "battle_hub_stats_wins",
     "badge_type_normal": "type_normal",
     "badge_type_fighting": "type_fighting",
     "badge_type_flying": "type_flying",
@@ -673,6 +679,30 @@ BADGES = [
         "silver": 24,
         "gold": 36,
         "platinum": 46,
+    },
+    {
+        "id": 73,
+        "name": "trainers_referred",
+        "bronze": 1,
+        "silver": 10,
+        "gold": 20,
+        "platinum": 50,
+    },
+    {
+        "id": 76,
+        "name": "mvt",
+        "bronze": 1,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 500,
+    },
+    {
+        "id": 1002,
+        "name": "mini_collection",
+        "bronze": 1,
+        "silver": 1,
+        "gold": 1,
+        "platinum": 1,
     },
     {
         "id": 18,
