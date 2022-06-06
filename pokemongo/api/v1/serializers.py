@@ -182,6 +182,14 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
         source="pokedex_entries_gen6",
         read_only=True,
     )
+    badge_pokedex_entries_gen7 = serializers.IntegerField(
+        source="pokedex_entries_gen7",
+        read_only=True,
+    )
+    badge_pokedex_entries_gen8 = serializers.IntegerField(
+        source="pokedex_entries_gen8",
+        read_only=True,
+    )
     badge_seven_day_streaks = serializers.IntegerField(
         source="seven_day_streaks",
         read_only=True,
@@ -208,6 +216,14 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
     )
     badge_unique_mega_evos = serializers.IntegerField(
         source="unique_mega_evos",
+        read_only=True,
+    )
+    badge_trainers_referred = serializers.IntegerField(
+        source="trainers_referred",
+        read_only=True,
+    )
+    badge_mvt = serializers.IntegerField(
+        source="mvt",
         read_only=True,
     )
     badge_type_normal = serializers.IntegerField(
@@ -304,8 +320,10 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
                 "gym_gold",
             ]
             + [f"badge_{x}" for x in STANDARD_MEDALS]
+            + STANDARD_MEDALS
             + BATTLE_HUB_STATS
             + [f"badge_{x}" for x in UPDATE_FIELDS_TYPES]
+            + UPDATE_FIELDS_TYPES
         )
         for field in optional_fields:
             try:
