@@ -212,7 +212,6 @@ STANDARD_MEDALS = [
     "unique_mega_evos",
     "trainers_referred",
     "mvt",
-    "mini_collection",
 ]
 
 BATTLE_HUB_STATS = [
@@ -251,6 +250,7 @@ UPDATE_SORTABLE_FIELDS = (
         "pokedex_caught",
         "pokedex_seen",
         "gym_gold",
+        "mini_collection",
     ]
     + UPDATE_FIELDS_BADGES
     + UPDATE_FIELDS_TYPES
@@ -261,6 +261,7 @@ UPDATE_NON_REVERSEABLE_FIELDS = (
         "total_xp",
         "pokedex_caught",
         "pokedex_seen",
+        "mini_collection",
     ]
     + UPDATE_FIELDS_BADGES
     + UPDATE_FIELDS_TYPES

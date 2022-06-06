@@ -13,10 +13,8 @@ class UpdateForm(ModelForm):
                 "update_time",
                 "data_source",
                 "double_check_confirmation",
-                "total_xp",
-                "pokedex_caught",
-                "pokedex_seen",
                 "gym_gold",
+                "mini_collection",
             ]
             + STANDARD_MEDALS
             + BATTLE_HUB_STATS
