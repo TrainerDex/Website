@@ -332,7 +332,7 @@ OLD_NEW_STAT_MAP = {
     "badge_type_dragon": "type_dragon",
     "badge_type_dark": "type_dark",
     "badge_type_fairy": "type_fairy",
-    "gymbadge_gold": "gym_gold",
+    "gymbadges_gold": "gym_gold",
 }
 
 
