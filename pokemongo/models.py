@@ -840,7 +840,7 @@ class Update(PublicModel):
         help_text=pgettext_lazy(
             "pokedex_entries_gen7_help",
             "Register {0} Pokémon first discovered in the Alola region to the Pokédex.",
-        ).format(88),
+        ).format(50),
         validators=[
             MaxValueValidator(88),
         ],
@@ -853,7 +853,7 @@ class Update(PublicModel):
         help_text=pgettext_lazy(
             "pokedex_entries_gen8_help",
             "Register {0} Pokémon first discovered in the Alola region to the Pokédex.",
-        ).format(89),
+        ).format(50),
         validators=[
             MaxValueValidator(89),
         ],
@@ -941,6 +941,41 @@ class Update(PublicModel):
             "Mega Evolve {0} different species of Pokémon.",
             46,
         ).format(46),
+    )
+    # 72, 77 and 79 seem to be route maker related
+
+    # 73 - Friend Finder
+    trainers_referred: int | None = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("trainers_referred_title", "Friend Finder"),
+        help_text=npgettext_lazy(
+            "trainers_referred_help",
+            "Refer a Trainer",
+            "Refer {0} Trainers",
+            20,
+        ).format(20),
+    )
+
+    # 74 - Come kind of invisible pokestop icon?
+
+    # 76 - Raid Expert
+    mvt: int | None = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("mvt_title", "Raid Expert"),
+        help_text=pgettext_lazy(
+            "mvt_help",
+            "Made the Raid Battle Trainer Achievements screen {0} times.",
+        ).format(200),
+    )
+
+    # 1002
+    mini_collection: int | None = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("mini_collection_title", "Elite Collector"),
+        help_text=pgettext_lazy("mini_collection_help", "Complete Collection Challenges."),
     )
 
     battle_hub_stats_wins: int | None = models.PositiveIntegerField(

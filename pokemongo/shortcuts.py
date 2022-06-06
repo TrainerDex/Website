@@ -201,6 +201,8 @@ STANDARD_MEDALS = [
     "rocket_giovanni_defeated",
     "buddy_best",
     "pokedex_entries_gen6",
+    "pokedex_entries_gen7",
+    "pokedex_entries_gen8",
     "seven_day_streaks",
     "unique_raid_bosses_defeated",
     "raids_with_friends",
@@ -208,6 +210,8 @@ STANDARD_MEDALS = [
     "wayfarer",
     "total_mega_evos",
     "unique_mega_evos",
+    "trainers_referred",
+    "mvt",
 ]
 
 BATTLE_HUB_STATS = [
@@ -246,6 +250,7 @@ UPDATE_SORTABLE_FIELDS = (
         "pokedex_caught",
         "pokedex_seen",
         "gym_gold",
+        "mini_collection",
     ]
     + UPDATE_FIELDS_BADGES
     + UPDATE_FIELDS_TYPES
@@ -256,6 +261,7 @@ UPDATE_NON_REVERSEABLE_FIELDS = (
         "total_xp",
         "pokedex_caught",
         "pokedex_seen",
+        "mini_collection",
     ]
     + UPDATE_FIELDS_BADGES
     + UPDATE_FIELDS_TYPES
@@ -296,6 +302,8 @@ OLD_NEW_STAT_MAP = {
     "badge_rocket_giovanni_defeated": "rocket_giovanni_defeated",
     "badge_buddy_best": "buddy_best",
     "badge_pokedex_entries_gen6": "pokedex_entries_gen6",
+    "badge_pokedex_entries_gen7": "pokedex_entries_gen7",
+    "badge_pokedex_entries_gen8": "pokedex_entries_gen8",
     "badge_seven_day_streaks": "seven_day_streaks",
     "badge_unique_raid_bosses_defeated": "unique_raid_bosses_defeated",
     "badge_raids_with_friends": "raids_with_friends",
@@ -303,6 +311,9 @@ OLD_NEW_STAT_MAP = {
     "badge_wayfarer": "wayfarer",
     "badge_total_mega_evos": "total_mega_evos",
     "badge_unique_mega_evos": "unique_mega_evos",
+    "badge_mvt": "mvt",
+    "badge_mini_collection": "mini_collection",
+    "badge_battle_hub_stats_wins": "battle_hub_stats_wins",
     "badge_type_normal": "type_normal",
     "badge_type_fighting": "type_fighting",
     "badge_type_flying": "type_flying",
@@ -599,6 +610,22 @@ BADGES = [
         "platinum": 72,
     },
     {
+        "id": 62,
+        "name": "pokedex_entries_gen7",
+        "bronze": 5,
+        "silver": 25,
+        "gold": 50,
+        "platinum": 86,
+    },
+    {
+        "id": 63,
+        "name": "pokedex_entries_gen8",
+        "bronze": 5,
+        "silver": 25,
+        "gold": 50,
+        "platinum": 89,
+    },
+    {
         "id": 64,
         "name": "7_day_streaks",
         "bronze": 1,
@@ -653,6 +680,30 @@ BADGES = [
         "silver": 24,
         "gold": 36,
         "platinum": 46,
+    },
+    {
+        "id": 73,
+        "name": "trainers_referred",
+        "bronze": 1,
+        "silver": 10,
+        "gold": 20,
+        "platinum": 50,
+    },
+    {
+        "id": 76,
+        "name": "mvt",
+        "bronze": 1,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 500,
+    },
+    {
+        "id": 1002,
+        "name": "mini_collection",
+        "bronze": 1,
+        "silver": 1,
+        "gold": 1,
+        "platinum": 1,
     },
     {
         "id": 18,

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-02 13:57+0100\n"
+"POT-Creation-Date: 2022-06-02 15:33+0100\n"
 "PO-Revision-Date: 2021-12-24 00:51+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/trainerdex/"
@@ -2561,7 +2561,7 @@ msgstr "Nessuna comunità trovata come {community}"
 msgid "Access denied"
 msgstr "Accesso negato"
 
-#: .\pokemongo\views.py:393
+#: .\pokemongo\views.py:396
 msgid ""
 "Thank you for filling out your profile. Your screenshots have been sent for "
 "verification. Join our Discord. https://discord.gg/Anz3UpM"
@@ -2570,7 +2570,7 @@ msgstr ""
 "inviate per la verifica. Unisciti al nostro Discord. https://discord.gg/"
 "Anz3UpM"
 
-#: .\pokemongo\views.py:400
+#: .\pokemongo\views.py:403
 msgid "Profile edited successfully."
 msgstr "Profilo modificato correttamente."
 
