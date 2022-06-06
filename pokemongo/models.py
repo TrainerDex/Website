@@ -840,7 +840,7 @@ class Update(PublicModel):
         help_text=pgettext_lazy(
             "pokedex_entries_gen7_help",
             "Register {0} Pokémon first discovered in the Alola region to the Pokédex.",
-        ).format(88),
+        ).format(50),
         validators=[
             MaxValueValidator(88),
         ],
@@ -853,7 +853,7 @@ class Update(PublicModel):
         help_text=pgettext_lazy(
             "pokedex_entries_gen8_help",
             "Register {0} Pokémon first discovered in the Alola region to the Pokédex.",
-        ).format(89),
+        ).format(50),
         validators=[
             MaxValueValidator(89),
         ],
