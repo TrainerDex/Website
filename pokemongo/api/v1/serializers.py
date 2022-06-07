@@ -348,8 +348,10 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
                 "gym_gold",
             ]
             + [f"badge_{x}" for x in STANDARD_MEDALS]
+            + STANDARD_MEDALS
             + BATTLE_HUB_STATS
             + [f"badge_{x}" for x in UPDATE_FIELDS_TYPES]
+            + UPDATE_FIELDS_TYPES
             + ["data_source"]
         )
 
