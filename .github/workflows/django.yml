@@ -9,19 +9,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    
-    strategy:
-      matrix:
-        python-version:
-        - '3.10'
-        - '3.11-dev'
 
     steps:
       - uses: actions/checkout@v2.3.4
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.10
         uses: actions/setup-python@v3.1.2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.10"
           cache: "pipenv"
       - name: Install Dependencies from APT
         run: sudo apt-get update && sudo apt-get -y install gettext gdal-bin python3-gdal
