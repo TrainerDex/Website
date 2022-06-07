@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from pokemongo.models import Faction, Trainer, Update
-from pokemongo.shortcuts import STANDARD_MEDALS, BATTLE_HUB_STATS, UPDATE_FIELDS_TYPES
+from pokemongo.shortcuts import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import User
