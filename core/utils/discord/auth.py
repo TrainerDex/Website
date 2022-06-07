@@ -2,7 +2,6 @@ import requests
 
 from core.utils.discord.dataclasses import DiscordAuthResponse
 
-
 DISCORD_BASE_URL = "https://discordapp.com/api/v9"
 
 

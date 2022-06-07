@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0006_update_managers'),
+        ("core", "0006_update_managers"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='discordguild',
-            name='name',
+            model_name="discordguild",
+            name="name",
             field=models.CharField(blank=True, max_length=100, null=True),
         ),
         migrations.AddField(
-            model_name='discordguild',
-            name='owner_id',
+            model_name="discordguild",
+            name="owner_id",
             field=models.BigIntegerField(blank=True, null=True),
         ),
     ]
