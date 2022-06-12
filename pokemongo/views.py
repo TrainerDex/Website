@@ -403,7 +403,3 @@ def edit_profile(request: HttpRequest) -> HttpResponse:
                     messages.success(request, _("Profile edited successfully."))
                     return redirect("account_settings")
     return render(request, "edit_profile.html", {"form": form})
-
-
-def health_check(request: HttpRequest) -> HttpResponse:
-    return HttpResponse("OK")

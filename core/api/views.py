@@ -4,9 +4,15 @@ from uuid import UUID
 
 from django.db.models import Prefetch, QuerySet
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import (
+    api_view,
+    authentication_classes,
+    permission_classes,
+)
 from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
 
 from core.api.serializers import ListServiceSerializer
@@ -42,3 +48,10 @@ class ServiceDetailView(APIView):
         service: Service = get_object_or_404(queryset, uuid=uuid)
         serializer = ListServiceSerializer(service)
         return Response(serializer.data)
+
+
+@api_view(["GET"])
+@authentication_classes([])
+@permission_classes([AllowAny])
+def health_check(request: Request) -> Response:
+    return Response(status=HTTP_204_NO_CONTENT)
