@@ -16,7 +16,6 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
 
-from core.api.decorators import required_scopes
 from core.api.serializers import ListServiceSerializer
 from core.models.main import Service, ServiceStatus
 
@@ -59,9 +58,12 @@ def health_check(request: Request) -> Response:
     return Response(status=HTTP_204_NO_CONTENT)
 
 
-@api_view(["GET"])
-@authentication_classes([OAuth2Authentication])
-@permission_classes([TokenHasScope])
-@required_scopes(["read"])
-def test_oauth(request: Request) -> Response:
-    return Response(status=HTTP_204_NO_CONTENT)
+class TestOAuthView(APIView):
+    """An API which does nothing but check if the OAuth2 token is authenticated and has the read scope."""
+
+    authentication_classes = [OAuth2Authentication]
+    permission_classes = [TokenHasScope]
+    required_scopes = ["read"]
+
+    def get(self, request: Request) -> Response:
+        return Response(status=HTTP_204_NO_CONTENT)
