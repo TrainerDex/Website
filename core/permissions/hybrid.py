@@ -1,22 +1,17 @@
-from typing import Any
-
-from django.http import HttpRequest
 from oauth2_provider.contrib.rest_framework.authentication import OAuth2Authentication
 from oauth2_provider.contrib.rest_framework.permissions import (
     TokenHasScope,
     TokenMatchesOASRequirements,
 )
-from rest_framework.permissions import SAFE_METHODS, BasePermission, IsAdminUser
+from rest_framework.request import Request
+from rest_framework.permissions import BasePermission, IsAdminUser
+
+from core.permissions.legacy import IsStaffOrReadOnly
 
 
-class IsAdminUserOrReadOnly(BasePermission):
-    def has_permission(self, request: HttpRequest, view: Any) -> bool:
-        return request.method in SAFE_METHODS or request.user and request.user.is_staff
-
-
-class IsAdminUserOrReadOnlyOrTokenHasScope(BasePermission):
-    def has_permission(self, request: HttpRequest, view):
-        is_authenticated = IsAdminUserOrReadOnly().has_permission(request, view)
+class IsStaffOrReadOnlyOrTokenHasScope(BasePermission):
+    def has_permission(self, request: Request, view):
+        is_authenticated = IsStaffOrReadOnly().has_permission(request, view)
         oauth2authenticated = False
         if is_authenticated:
             oauth2authenticated = isinstance(
@@ -29,8 +24,8 @@ class IsAdminUserOrReadOnlyOrTokenHasScope(BasePermission):
         )
 
 
-class IsAdminUserOrTokenHasScope(BasePermission):
-    def has_permission(self, request: HttpRequest, view):
+class IsStaffOrTokenHasScope(BasePermission):
+    def has_permission(self, request: Request, view):
         is_authenticated = IsAdminUser().has_permission(request, view)
         oauth2authenticated = False
         if is_authenticated:
@@ -44,8 +39,8 @@ class IsAdminUserOrTokenHasScope(BasePermission):
         )
 
 
-class IsAdminUserOrTokenMatchesOASRequirements(BasePermission):
-    def has_permission(self, request, view):
+class IsStaffOrTokenMatchesOASRequirements(BasePermission):
+    def has_permission(self, request: Request, view):
         is_authenticated = IsAdminUser().has_permission(request, view)
         oauth2authenticated = False
         if is_authenticated:
@@ -59,9 +54,9 @@ class IsAdminUserOrTokenMatchesOASRequirements(BasePermission):
         )
 
 
-class IsAdminUserOrReadOnlyOrTokenHasScope(BasePermission):
-    def has_permission(self, request, view):
-        is_authenticated = IsAdminUserOrReadOnly().has_permission(request, view)
+class IsStaffOrReadOnlyTokenMatchesOASRequirements(BasePermission):
+    def has_permission(self, request: Request, view):
+        is_authenticated = IsStaffOrReadOnly().has_permission(request, view)
         oauth2authenticated = False
         if is_authenticated:
             oauth2authenticated = isinstance(
