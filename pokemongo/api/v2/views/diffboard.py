@@ -18,10 +18,8 @@ from pokemongo.api.v2.querysets import get_discord_trainer_query, get_queryset_f
 
 
 @api_view(["GET"])
-@authentication_classes([])
-# @authentication_classes([OAuth2Authentication])
-# @permission_classes([IsAuthenticated])
-@permission_classes([])
+@authentication_classes([OAuth2Authentication])
+@permission_classes([IsAuthenticated])
 def get_discord_diffboard(request: Request, guild_id: id) -> Response:
     assert DiscordGuild.objects.filter(id=guild_id).exists()
 
@@ -33,15 +31,12 @@ def get_discord_diffboard(request: Request, guild_id: id) -> Response:
     assert dt1 is not None
     assert dt2 is not None
 
-    if (
-        request.user.is_authenticated
-        and (
-            request.user.is_staff
-            or request.user.socialaccount_set.filter(
-                Q(guild_memberships__guild_id=guild_id) & Q(guild_memberships__active=True)
-            ).exists()
-        )
-    ) or True:
+    if request.user.is_authenticated and (
+        request.user.is_staff
+        or request.user.socialaccount_set.filter(
+            Q(guild_memberships__guild_id=guild_id) & Q(guild_memberships__active=True)
+        ).exists()
+    ):
         trainers = get_discord_trainer_query(dt2, guild_id)
         queryset = get_queryset_for_diffboard(trainers, dt1, dt2, stat, dt0)
         return Response(queryset, status=200)
