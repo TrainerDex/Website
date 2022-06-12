@@ -4,7 +4,7 @@ from uuid import UUID
 
 from django.db.models import Prefetch, QuerySet
 from django.shortcuts import get_object_or_404
-from oauth2_provider.contrib.rest_framework import OAuth2Authentication
+from oauth2_provider.contrib.rest_framework import OAuth2Authentication, TokenHasScope
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -16,6 +16,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
 
+from core.api.decorators import required_scopes
 from core.api.serializers import ListServiceSerializer
 from core.models.main import Service, ServiceStatus
 
@@ -60,6 +61,7 @@ def health_check(request: Request) -> Response:
 
 @api_view(["GET"])
 @authentication_classes([OAuth2Authentication])
-@permission_classes([AllowAny])
+@permission_classes([TokenHasScope])
+@required_scopes(["read"])
 def test_oauth(request: Request) -> Response:
     return Response(status=HTTP_204_NO_CONTENT)
