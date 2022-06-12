@@ -4,6 +4,7 @@ from uuid import UUID
 
 from django.db.models import Prefetch, QuerySet
 from django.shortcuts import get_object_or_404
+from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -54,4 +55,11 @@ class ServiceDetailView(APIView):
 @authentication_classes([])
 @permission_classes([AllowAny])
 def health_check(request: Request) -> Response:
+    return Response(status=HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET"])
+@authentication_classes([OAuth2Authentication])
+@permission_classes([AllowAny])
+def test_oauth(request: Request) -> Response:
     return Response(status=HTTP_204_NO_CONTENT)
