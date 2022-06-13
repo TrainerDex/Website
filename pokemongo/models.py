@@ -387,12 +387,12 @@ class Nickname(models.Model):
     def clean(self) -> None:
         if self.active and (
             (self.trainer.owner.username != self.nickname)
-            or (self.trainer._username != self.nickname)
+            or (self.trainer._nickname != self.nickname)
         ):
             if self.trainer.owner.username != self.nickname:
                 self.trainer.owner.username = self.nickname
                 self.trainer.owner.save(update_fields=["username"])
-            if self.trainer._username != self.nickname:
+            if self.trainer._nickname != self.nickname:
                 self.trainer._nickname = self.nickname
                 self.trainer.save(update_fields=["_nickname"])
 
