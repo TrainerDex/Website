@@ -391,10 +391,10 @@ class Nickname(models.Model):
         ):
             if self.trainer.owner.username != self.nickname:
                 self.trainer.owner.username = self.nickname
-                self.trainer.owner.save(update_fields="username")
+                self.trainer.owner.save(update_fields=["username"])
             if self.trainer._username != self.nickname:
                 self.trainer._nickname = self.nickname
-                self.trainer.save(update_fields="_nickname")
+                self.trainer.save(update_fields=["_nickname"])
 
     def __str__(self) -> str:
         return self.nickname
