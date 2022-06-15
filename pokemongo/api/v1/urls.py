@@ -3,7 +3,6 @@ from django.urls import include, path
 from pokemongo.api.v1.views import (
     DetailedLeaderboardView,
     LatestUpdateView,
-    LeaderboardView,
     SocialLookupView,
     TrainerDetailView,
     TrainerListView,
