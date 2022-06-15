@@ -3,6 +3,7 @@ from datetime import datetime
 
 from django.db.models import Q
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -18,7 +19,7 @@ from pokemongo.api.v2.querysets import get_discord_trainer_query, get_queryset_f
 
 
 @api_view(["GET"])
-@authentication_classes([OAuth2Authentication])
+@authentication_classes([OAuth2Authentication, SessionAuthentication])
 @permission_classes([IsAuthenticated])
 def get_discord_diffboard(request: Request, guild_id: id) -> Response:
     assert DiscordGuild.objects.filter(id=guild_id).exists()

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from django.db.models import Q
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -27,7 +28,7 @@ def get_global_leaderboard(request: Request) -> Response:
 
 
 @api_view(["GET"])
-@authentication_classes([OAuth2Authentication])
+@authentication_classes([OAuth2Authentication, SessionAuthentication])
 @permission_classes([IsAuthenticated])
 def get_discord_leaderboard(request: Request, guild_id: id) -> Response:
     guild = DiscordGuild.objects.only("id", "data").get(id=guild_id)
