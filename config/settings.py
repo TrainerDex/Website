@@ -182,7 +182,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": ("config.permissions.IsAdminUserOrReadOnly",),
+    "DEFAULT_PERMISSION_CLASSES": ("core.permissions.IsStaffOrReadOnly",),
     # "DEFAULT_RENDERER_CLASSES": ("drf_ujson.renderers.UJSONRenderer",),
     # "DEFAULT_PARSER_CLASSES": ("drf_ujson.parsers.UJSONParser",),
 }

@@ -9,7 +9,7 @@ from rest_framework.authtoken import views
 
 from core import sitemaps
 from core.views import privacy, service_status, settings, terms
-from pokemongo.views import edit_profile, health_check
+from pokemongo.views import edit_profile
 
 app_name = "trainerdex"
 urlpatterns = [
@@ -39,7 +39,6 @@ urlpatterns = [
             namespace=oauth2_provider.urls.app_name,
         ),
     ),
-    path("api/health/", health_check),
     path("legal/privacy/", privacy, name="privacy"),
     path("legal/terms/", terms, name="terms"),
     path("status/", service_status, name="service_status"),

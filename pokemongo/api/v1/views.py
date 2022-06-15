@@ -18,7 +18,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from config.permissions import IsAdminUserOrReadOnlyOrTokenHasScope
+from core.permissions import IsStaffOrReadOnlyOrTokenHasScope
 from core.models.discord import DiscordGuild
 from pokemongo.api.v1.serializers import (
     DetailedTrainerSerializer,
@@ -69,7 +69,7 @@ class TrainerListView(APIView):
     """
 
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
-    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    permission_classes = [IsStaffOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
         "GET": [["read"]],
     }
@@ -126,7 +126,7 @@ class TrainerDetailView(APIView):
     """
 
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
-    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    permission_classes = [IsStaffOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
         "GET": [["read"]],
         "PATCH": [["write"]],
@@ -191,7 +191,7 @@ class UpdateListView(APIView):
     """
 
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
-    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    permission_classes = [IsStaffOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
         "GET": [["read"]],
         "POST": [["write"]],
@@ -229,7 +229,7 @@ class LatestUpdateView(APIView):
     """
 
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
-    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    permission_classes = [IsStaffOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
         "GET": [["read"]],
         "PATCH": [["write"]],
@@ -272,7 +272,7 @@ class UpdateDetailView(APIView):
     Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked"""
 
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
-    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    permission_classes = [IsStaffOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
         "GET": [["read"]],
         "PATCH": [["write"]],
@@ -372,7 +372,7 @@ class SocialLookupView(APIView):
     """
 
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
-    permission_classes = [IsAdminUserOrReadOnlyOrTokenHasScope]
+    permission_classes = [IsStaffOrReadOnlyOrTokenHasScope]
     required_alternate_scopes = {
         "GET": [["read:social"]],
         "PUT": [["write:social"]],
