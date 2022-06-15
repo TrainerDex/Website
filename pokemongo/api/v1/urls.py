@@ -19,7 +19,6 @@ urlpatterns = [
         "leaderboard/",
         include(
             [
-                path("", LeaderboardView.as_view()),
                 path("v1.1/", DetailedLeaderboardView.as_view()),
                 path("v1.1/<str:stat>/", DetailedLeaderboardView.as_view()),
                 path("discord/<int:guild>/", DetailedLeaderboardView.as_view()),
@@ -37,7 +36,6 @@ urlpatterns = [
                     "community/<slug:community>/<str:stat>/",
                     DetailedLeaderboardView.as_view(),
                 ),
-                path("<str:stat>/", LeaderboardView.as_view()),
             ]
         ),
     ),

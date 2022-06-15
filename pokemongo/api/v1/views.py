@@ -301,62 +301,6 @@ class UpdateDetailView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-class LeaderboardView(APIView):
-    """
-    Limited to 1000
-    """
-
-    permission_classes = [permissions.AllowAny]
-
-    def get(
-        self,
-        request: Request,
-        stat: str = "total_xp",
-    ) -> Response:
-        stat = OLD_NEW_STAT_MAP.get(stat, stat)
-
-        if stat not in UPDATE_SORTABLE_FIELDS:
-            return Response(
-                {"state": "error", "reason": "invalid stat"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        generated_time = timezone.now()
-        query = filter_leaderboard_qs__update(Update.objects)
-        if request.query_params.get("users"):
-            query = filter_leaderboard_qs__update(
-                Update.objects.filter(trainer_id__in=request.query_params.get("users").split(","))
-            )
-        leaderboard = (
-            Update.objects.filter(
-                pk__in=Subquery(
-                    query.filter(update_time__lte=generated_time)
-                    .annotate(value=F(stat))
-                    .exclude(value__isnull=True)
-                    .order_by("trainer", "-value")
-                    .distinct("trainer")
-                    .values("pk")
-                )
-            )
-            .select_related("trainer__owner")
-            .annotate(
-                value=F(stat),
-                datetime=F("update_time"),
-                rank=Window(expression=DenseRank(), order_by=F("value").desc()),
-            )
-            .order_by("rank", "datetime")
-            .only(
-                "total_xp",
-                "trainer__id",
-                "trainer___nickname",
-                "trainer__faction",
-                "update_time",
-                "trainer__owner__id",
-            )
-        )
-        serializer = LeaderboardSerializer(leaderboard[:1000], many=True)
-        return Response(serializer.data)
-
-
 class SocialLookupView(APIView):
     """
     get:
