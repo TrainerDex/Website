@@ -3,8 +3,8 @@ from oauth2_provider.contrib.rest_framework.permissions import (
     TokenHasScope,
     TokenMatchesOASRequirements,
 )
-from rest_framework.request import Request
 from rest_framework.permissions import BasePermission, IsAdminUser
+from rest_framework.request import Request
 
 from core.permissions.legacy import IsStaffOrReadOnly
 

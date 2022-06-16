@@ -1,7 +1,6 @@
 from django.urls import path
 
-from pokemongo.api.v2.views.leaderboard.interface import LeaderboardView
-
+from pokemongo.api.v2.views import LeaderboardView
 
 app_name = "trainerdex.api.2"
 

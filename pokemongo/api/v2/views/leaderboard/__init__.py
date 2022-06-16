@@ -1,1 +1,2 @@
 from .snapshot import DiscordSnapshotLeaderboardView, SnapshotLeaderboardView
+from .view_finder import LeaderboardView

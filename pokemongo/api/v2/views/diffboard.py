@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from datetime import datetime
 
 from django.db.models import Q
@@ -15,7 +16,10 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from core.models.discord import DiscordGuild
-from pokemongo.api.v2.querysets import get_discord_trainer_query, get_queryset_for_diffboard
+from pokemongo.api.v2.querysets import (
+    get_discord_trainer_query,
+    get_queryset_for_diffboard,
+)
 
 
 @api_view(["GET"])

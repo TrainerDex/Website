@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 from datetime import datetime
 
+from dateutil.relativedelta import relativedelta
 from django.db.models import Q, QuerySet
 
 from pokemongo.models import Trainer
-from dateutil.relativedelta import relativedelta
 
 
 def get_discord_trainer_query(dt: datetime, guild_id: int) -> QuerySet[Trainer]:
