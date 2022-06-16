@@ -1,7 +1,7 @@
-from .legacy import IsStaffOrReadOnly
 from .hybrid import (
     IsStaffOrReadOnlyOrTokenHasScope,
+    IsStaffOrReadOnlyTokenMatchesOASRequirements,
     IsStaffOrTokenHasScope,
     IsStaffOrTokenMatchesOASRequirements,
-    IsStaffOrReadOnlyTokenMatchesOASRequirements,
 )
+from .legacy import IsStaffOrReadOnly

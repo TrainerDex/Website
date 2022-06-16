@@ -1,5 +1,4 @@
 from django.http import HttpRequest
-
 from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 

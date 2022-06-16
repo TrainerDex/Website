@@ -19,10 +19,6 @@ urlpatterns = [
     path("profile/", profile_redirector, name="profile"),
     path("profile/id/<int:id>/", profile_redirector, name="profile"),
     path("new/", new_update, name="update_stats"),
-    path(
-        "tools/update_stats/",
-        RedirectView.as_view(pattern_name="trainerdex:update_stats", permanent=True),
-    ),
     path("u/<str:nickname>/", profile_redirector, name="profile"),
     path(
         "",

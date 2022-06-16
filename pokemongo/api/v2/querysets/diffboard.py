@@ -3,18 +3,18 @@ from __future__ import annotations
 from datetime import datetime
 
 from django.db.models import (
+    Case,
     DecimalField,
     ExpressionWrapper,
     F,
-    Q,
     OuterRef,
+    Q,
     QuerySet,
     Subquery,
-    Window,
-    Case,
     When,
+    Window,
 )
-from django.db.models.functions import ExtractDay, ExtractSecond, DenseRank
+from django.db.models.functions import DenseRank, ExtractDay, ExtractSecond
 
 from pokemongo.models import Trainer, Update
 
