@@ -115,5 +115,5 @@ class SnapshotLeaderboardView(iSnapshotLeaderboardView):
     authentication_classes = []
     permission_classes = []
 
-    def get_leaderboard_title(self, _) -> str:
+    def get_leaderboard_title(self) -> str:
         return "Global"
