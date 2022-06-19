@@ -27,7 +27,7 @@ class SnapshotLeaderboardSerializer(serializers.Serializer):
     generated = serializers.DateTimeField()
     date = serializers.DateField()
     title = serializers.CharField()
-    field = serializers.CharField()
+    stat = serializers.CharField()
     aggregations = SnapshotLeaderboardAggegrationSerializer()
     entries = SnapshotLeaderboardEntrySerializer(many=True)
 

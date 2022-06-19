@@ -47,7 +47,7 @@ class iSnapshotLeaderboardView(iLeaderboardView):
             "generated": timezone.now(),
             "date": self.args["date"],
             "title": self.get_leaderboard_title(),
-            "field": self.args["stat"],
+            "stat": self.args["stat"],
             "aggregations": aggregate,
             "entries": queryset,
         }
