@@ -113,7 +113,7 @@ class iGainLeaderboardView(iLeaderboardView):
                     Update.objects.annotate(value=F(stat))
                     .filter(
                         trainer__id=OuterRef("id"),
-                        update_time=F("subtrahend_datetime"),
+                        update_time=OuterRef("subtrahend_datetime"),
                         value__isnull=False,
                     )
                     .order_by("-update_time")
@@ -134,16 +134,20 @@ class iGainLeaderboardView(iLeaderboardView):
                     Update.objects.annotate(value=F(stat))
                     .filter(
                         trainer__id=OuterRef("id"),
-                        update_time=F("minuend_datetime"),
+                        update_time=OuterRef("minuend_datetime"),
                         value__isnull=False,
                     )
                     .order_by("-update_time")
                     .values("value")[:1]
                 ),
-                difference_duration=F("dt2") - F("dt1"),
-                difference_value=F("value2") - F("value1"),
+                difference_duration=F("minuend_datetime") - F("subtrahend_datetime"),
+                difference_value=F("minuend_value") - F("subtrahend_value"),
                 difference_value_rate=ExpressionWrapper(
-                    F("valuediff") / (ExtractDay("dtdiff") + (ExtractSecond("dtdiff") / 86400)),
+                    F("difference_value")
+                    / (
+                        ExtractDay("difference_duration")
+                        + (ExtractSecond("difference_duration") / 86400)
+                    ),
                     output_field=DecimalField(max_digits=10, decimal_places=2),
                 ),
                 difference_value_percentage=ExpressionWrapper(
