@@ -185,6 +185,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("core.permissions.IsStaffOrReadOnly",),
     # "DEFAULT_RENDERER_CLASSES": ("drf_ujson.renderers.UJSONRenderer",),
     # "DEFAULT_PARSER_CLASSES": ("drf_ujson.parsers.UJSONParser",),
+    "PAGE_SIZE": 50,
 }
 
 # Django OAuth Toolkit

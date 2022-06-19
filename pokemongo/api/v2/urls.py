@@ -5,6 +5,7 @@ from pokemongo.api.v2.views import (
     NicknameViewSet,
     TrainerDetailView,
     SocialAccountViewSet,
+    UpdateViewSet,
 )
 
 app_name = "trainerdex.api.2"
@@ -15,6 +16,7 @@ urlpatterns = [
     path("trainers/<uuid:uuid>/", TrainerDetailView.as_view()),
     path("trainers/<uuid:uuid>/nicknames/", NicknameViewSet.as_view({"get": "list"})),
     path("trainers/<uuid:uuid>/social/", SocialAccountViewSet.as_view({"get": "list"})),
+    path("trainers/<uuid:uuid>/stats/", UpdateViewSet.as_view({"get": "list"})),
 ]
 
 
