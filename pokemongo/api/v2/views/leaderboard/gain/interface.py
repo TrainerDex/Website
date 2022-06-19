@@ -23,7 +23,6 @@ from django.db.models.functions import DenseRank, ExtractDay, ExtractSecond
 from django.utils import timezone
 from isodate import parse_date, parse_duration
 from rest_framework.request import Request
-from rest_framework.response import Response
 
 from pokemongo.api.v2.paginators.leaderboard import GainLeaderboardPaginator
 from pokemongo.api.v2.views.leaderboard.interface import (
