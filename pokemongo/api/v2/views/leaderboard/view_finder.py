@@ -10,7 +10,7 @@ from pokemongo.api.v2.views.leaderboard.snapshot.interface import (
 )
 
 
-class LeaderboardView(APIView):
+class LeaderboardViewFinder(APIView):
     def get(self, request: Request) -> Response:
         # Get the mode and subset from the request
         mode = LeaderboardMode(request.query_params.get("mode", "snapshot"))

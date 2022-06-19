@@ -1,11 +1,11 @@
 from django.urls import path
 
-from pokemongo.api.v2.views import LeaderboardView
+from pokemongo.api.v2.views import LeaderboardViewFinder
 
 app_name = "trainerdex.api.2"
 
 urlpatterns = [
-    path("leaderboard/", LeaderboardView.as_view()),
+    path("leaderboard/", LeaderboardViewFinder.as_view()),
 ]
 
 

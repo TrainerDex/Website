@@ -1,1 +1,1 @@
-from .leaderboard import LeaderboardView
+from .leaderboard import LeaderboardViewFinder
