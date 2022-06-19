@@ -9,10 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 
 from core.models.discord import DiscordGuild
+from pokemongo.api.v2.views.leaderboard.gain.interface import iGainLeaderboardView
 from pokemongo.api.v2.views.leaderboard.interface import TrainerSubset
-from pokemongo.api.v2.views.leaderboard.gain.interface import (
-    iGainLeaderboardView,
-)
 from pokemongo.models import Trainer
 
 
