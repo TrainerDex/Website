@@ -15,10 +15,6 @@ URLs for the v2 API.
 
 /api/v2/leaderboard
 
-Do we want seperate endpoints for global and discord leaderboards?
-Do we want the diffboard to be a seperate endpoint?
-URLs can be a bit long and confusing for these endpoints. Perhaps one endpoint controlled with params?
-
 /api/v2/trainers/@me
 /api/v2/trainers/<trainer_name>
 /api/v2/trainers/<trainer_name>/nicknames
