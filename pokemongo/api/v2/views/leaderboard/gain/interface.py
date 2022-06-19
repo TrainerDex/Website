@@ -44,13 +44,13 @@ class iGainLeaderboardView(iLeaderboardView):
         ...
 
     def parse_args(self, request: Request) -> dict:
-        assert (date1_str := request.query_params.get("subtrahend_date", None))
-        assert (date2_str := request.query_params.get("subtrahend_date", None))
-        duration_str = request.query_params.get("duration", None)
+        assert (subtrahend_date_str := request.query_params.get("subtrahend_date"))
+        assert (minuend_date_str := request.query_params.get("minuend_date"))
+        duration_str = request.query_params.get("duration")
 
         self.args = dict(
-            subtrahend_date=parse_date(date1_str),
-            minuend_date=parse_date(date2_str),
+            subtrahend_date=parse_date(subtrahend_date_str),
+            minuend_date=parse_date(minuend_date_str),
             stat=request.query_params.get("stat", "total_xp"),
         )
         self.args["duration"] = (
