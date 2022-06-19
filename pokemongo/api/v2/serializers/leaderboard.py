@@ -68,5 +68,5 @@ class GainLeaderboardSerializer(serializers.Serializer):
     duration = serializers.DurationField()
     title = serializers.CharField()
     stat = serializers.CharField()
-    aggregations = SnapshotLeaderboardAggegrationSerializer()
-    entries = SnapshotLeaderboardEntrySerializer(many=True)
+    aggregations = GainLeaderboardAggegrationSerializer()
+    entries = GainLeaderboardEntrySerializer(many=True)
