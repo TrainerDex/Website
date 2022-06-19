@@ -17,6 +17,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
+from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 
 from core.models.discord import DiscordGuild
 from core.permissions import IsStaffOrReadOnlyOrTokenHasScope
@@ -34,6 +36,10 @@ from pokemongo.shortcuts import (
     filter_leaderboard_qs__update,
     get_country_info,
 )
+
+API_V1_RENDERER_CLASSES = [JSONRenderer, BrowsableAPIRenderer]
+API_V1_PARSER_CLASSES = [JSONParser, FormParser, MultiPartParser]
+
 
 logger = logging.getLogger("django.trainerdex")
 
@@ -57,6 +63,8 @@ class UserViewSet(ModelViewSet):
         .only("id", "username", "trainer__uuid", "trainer__id")
     )
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    renderer_classes = API_V1_RENDERER_CLASSES
+    parser_classes = API_V1_PARSER_CLASSES
 
 
 class TrainerListView(APIView):
@@ -73,6 +81,8 @@ class TrainerListView(APIView):
     required_alternate_scopes = {
         "GET": [["read"]],
     }
+    renderer_classes = API_V1_RENDERER_CLASSES
+    parser_classes = API_V1_PARSER_CLASSES
 
     def get(self, request: Request) -> Response:
         queryset = Trainer.objects.prefetch_related("update_set").exclude(owner__is_active=False)
@@ -131,6 +141,8 @@ class TrainerDetailView(APIView):
         "GET": [["read"]],
         "PATCH": [["write"]],
     }
+    renderer_classes = API_V1_RENDERER_CLASSES
+    parser_classes = API_V1_PARSER_CLASSES
 
     def get_object(self, pk: int) -> Trainer:
         try:
@@ -197,6 +209,8 @@ class UpdateListView(APIView):
         "POST": [["write"]],
         "PATCH": [["write"]],
     }
+    renderer_classes = API_V1_RENDERER_CLASSES
+    parser_classes = API_V1_PARSER_CLASSES
 
     def get(self, request: Request, pk: int) -> Response:
         updates = Update.objects.filter(trainer=pk, trainer__owner__is_active=True)
@@ -234,6 +248,8 @@ class LatestUpdateView(APIView):
         "GET": [["read"]],
         "PATCH": [["write"]],
     }
+    renderer_classes = API_V1_RENDERER_CLASSES
+    parser_classes = API_V1_PARSER_CLASSES
 
     def get(self, request: Request, pk: int) -> Response:
         try:
@@ -277,6 +293,8 @@ class UpdateDetailView(APIView):
         "GET": [["read"]],
         "PATCH": [["write"]],
     }
+    renderer_classes = API_V1_RENDERER_CLASSES
+    parser_classes = API_V1_PARSER_CLASSES
 
     def get(self, request: Request, uuid: str, pk: int) -> Response:
         update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
@@ -321,6 +339,8 @@ class SocialLookupView(APIView):
         "GET": [["read:social"]],
         "PUT": [["write:social"]],
     }
+    renderer_classes = API_V1_RENDERER_CLASSES
+    parser_classes = API_V1_PARSER_CLASSES
 
     def get(self, request: Request) -> Response:
         query = SocialAccount.objects.exclude(user__is_active=False).filter(
@@ -355,6 +375,8 @@ class SocialLookupView(APIView):
 
 class DetailedLeaderboardView(APIView):
     permission_classes = [permissions.AllowAny]
+    renderer_classes = API_V1_RENDERER_CLASSES
+    parser_classes = API_V1_PARSER_CLASSES
 
     def get(
         self,

@@ -1,4 +1,4 @@
-import os
+﻿import os
 from distutils.util import strtobool
 from pathlib import Path
 
@@ -178,15 +178,22 @@ CSRF_TRUSTED_ORIGINS = ["https://trainerdex.app", "https://beta.trainerdex.app"]
 # http://www.django-rest-framework.org/tutorial/4-authentication-and-permissions/
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
+    "DEFAULT_RENDERER_CLASSES": [
+        "drf_ujson.renderers.UJSONRenderer",
+        "rest_framework.parsers.FormParser",
+        "rest_framework.parsers.MultiPartParser",
+    ],
+    "DEFAULT_PARSER_CLASSES": [
+        "drf_ujson.parsers.UJSONParser",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
         "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
-    ),
-    "DEFAULT_PERMISSION_CLASSES": ("core.permissions.IsStaffOrReadOnly",),
-    # "DEFAULT_RENDERER_CLASSES": ("drf_ujson.renderers.UJSONRenderer",),
-    # "DEFAULT_PARSER_CLASSES": ("drf_ujson.parsers.UJSONParser",),
-    "COERCE_DECIMAL_TO_STRING": False,
+    ],
+    "DEFAULT_PERMISSION_CLASSES": ["core.permissions.IsStaffOrReadOnly"],
     "PAGE_SIZE": 50,
+    "COERCE_DECIMAL_TO_STRING": False,
 }
 
 # Django OAuth Toolkit
