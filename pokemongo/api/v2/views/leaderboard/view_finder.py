@@ -4,13 +4,14 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from pokemongo.api.v2.views.leaderboard.interface import LeaderboardMode, TrainerSubset
-from pokemongo.api.v2.views.leaderboard.snapshot.interface import (
+from pokemongo.api.v2.views.leaderboard import (
+    iGainLeaderboardView,
     iSnapshotLeaderboardView,
 )
+from pokemongo.api.v2.views.leaderboard.interface import LeaderboardMode, TrainerSubset
 
 
-class LeaderboardView(APIView):
+class LeaderboardViewFinder(APIView):
     def get(self, request: Request) -> Response:
         # Get the mode and subset from the request
         mode = LeaderboardMode(request.query_params.get("mode", "snapshot"))
@@ -20,6 +21,10 @@ class LeaderboardView(APIView):
         # Loop over subclasses of iLeaderboardView to find the correct one
         if mode == LeaderboardMode.SNAPSHOT:
             iklass = iSnapshotLeaderboardView
+        elif mode == LeaderboardMode.GAIN:
+            iklass = iGainLeaderboardView
+        else:
+            raise ValueError(f"Unknown mode: {mode}")
 
         for subclass in iklass.__subclasses__():
             if subclass.SUBSET == subset:

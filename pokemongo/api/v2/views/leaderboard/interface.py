@@ -29,8 +29,7 @@ class iLeaderboardView(GenericAPIView):
     def get(self, request: Request) -> Response:
         data = self.get_data(request)
 
-        serializer: Serializer = self.get_serializer(data)
-        return Response(serializer.data)
+        return self.get_paginated_response(data)
 
     @abstractmethod
     def get_data(self, request: Request) -> Any:

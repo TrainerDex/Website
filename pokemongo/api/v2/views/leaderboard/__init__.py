@@ -1,2 +1,5 @@
+from .gain import DiscordGainLeaderboardView, GainLeaderboardView
+from .gain.interface import iGainLeaderboardView
 from .snapshot import DiscordSnapshotLeaderboardView, SnapshotLeaderboardView
-from .view_finder import LeaderboardView
+from .snapshot.interface import iSnapshotLeaderboardView
+from .view_finder import LeaderboardViewFinder

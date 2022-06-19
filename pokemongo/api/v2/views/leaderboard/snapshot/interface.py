@@ -2,14 +2,16 @@ from __future__ import annotations
 
 import datetime
 from abc import abstractmethod
+from typing import List
 
 from dateutil.relativedelta import relativedelta
 from django.db.models import Avg, Count, F, Max, Min, Q, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.utils import timezone
+from isodate import parse_date
 from rest_framework.request import Request
 
-from pokemongo.api.v2.serializers.leaderboard import SnapshotLeaderboardSerializer
+from pokemongo.api.v2.paginators.leaderboard import SnapshotLeaderboardPaginator
 from pokemongo.api.v2.views.leaderboard.interface import (
     LeaderboardMode,
     TrainerSubset,
@@ -21,7 +23,7 @@ from pokemongo.models import Trainer, Update
 class iSnapshotLeaderboardView(iLeaderboardView):
     MODE = LeaderboardMode.SNAPSHOT
 
-    serializer_class = SnapshotLeaderboardSerializer
+    pagination_class = SnapshotLeaderboardPaginator
 
     @abstractmethod
     def get_leaderboard_title(self) -> str:
@@ -29,9 +31,7 @@ class iSnapshotLeaderboardView(iLeaderboardView):
 
     def parse_args(self, request: Request) -> dict:
         self.args = dict(
-            date=datetime.date.fromisoformat(
-                request.query_params.get("date", datetime.date.today().isoformat())
-            ),
+            date=parse_date(request.query_params.get("date", datetime.date.today().isoformat())),
             stat=request.query_params.get("stat", "total_xp"),
             show_inactive=request.query_params.get("show_inactive", "false") == "true",
         )
@@ -44,13 +44,15 @@ class iSnapshotLeaderboardView(iLeaderboardView):
         queryset = self.get_queryset(subquery)
         aggregate = self.aggregate_queryset(queryset)
 
+        page: List = self.paginate_queryset(queryset)
+
         return {
-            "generated": timezone.now().isoformat(),
+            "generated": timezone.now(),
             "date": self.args["date"],
             "title": self.get_leaderboard_title(),
-            "field": self.args["stat"],
+            "stat": self.args["stat"],
             "aggregations": aggregate,
-            "entries": queryset,
+            "entries": page,
         }
 
     def get_trainer_subquery(self) -> QuerySet[Trainer]:
@@ -102,7 +104,6 @@ class iSnapshotLeaderboardView(iLeaderboardView):
     def aggregate_queryset(self, queryset: QuerySet[Update]) -> dict:
         return queryset.aggregate(
             average=Avg("value"),
-            count=Count("value"),
             min=Min("value"),
             max=Max("value"),
             sum=Sum("value"),
