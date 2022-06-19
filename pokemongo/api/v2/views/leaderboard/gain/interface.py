@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from typing import List
 
 from dateutil.relativedelta import relativedelta
 from django.db.models import (
@@ -22,8 +23,9 @@ from django.db.models.functions import DenseRank, ExtractDay, ExtractSecond
 from django.utils import timezone
 from isodate import parse_date, parse_duration
 from rest_framework.request import Request
+from rest_framework.response import Response
 
-from pokemongo.api.v2.serializers.leaderboard import GainLeaderboardSerializer
+from pokemongo.api.v2.paginators.leaderboard import GainLeaderboardPaginator
 from pokemongo.api.v2.views.leaderboard.interface import (
     LeaderboardMode,
     TrainerSubset,
@@ -35,7 +37,7 @@ from pokemongo.models import Trainer, Update
 class iGainLeaderboardView(iLeaderboardView):
     MODE = LeaderboardMode.GAIN
 
-    serializer_class = GainLeaderboardSerializer
+    pagination_class = GainLeaderboardPaginator
 
     @abstractmethod
     def get_leaderboard_title(self) -> str:
@@ -64,6 +66,8 @@ class iGainLeaderboardView(iLeaderboardView):
         queryset = self.get_queryset(trainer_queryset)
         aggregate = self.aggregate_queryset(queryset)
 
+        page: List = self.paginate_queryset(queryset)
+
         return {
             "generated": timezone.now().isoformat(),
             "subtrahend_date": self.args["subtrahend_date"],
@@ -72,7 +76,7 @@ class iGainLeaderboardView(iLeaderboardView):
             "title": self.get_leaderboard_title(),
             "stat": self.args["stat"],
             "aggregations": aggregate,
-            "entries": queryset,
+            "entries": page,
         }
 
     def get_trainer_queryset(self) -> QuerySet[Trainer]:
@@ -169,7 +173,6 @@ class iGainLeaderboardView(iLeaderboardView):
 
     def aggregate_queryset(self, queryset: QuerySet[Update]) -> dict:
         return queryset.aggregate(
-            trainer_count=Count("uuid"),
             average_rate=Avg("difference_value_rate"),
             min_rate=Min("difference_value_rate"),
             max_rate=Max("difference_value_rate"),

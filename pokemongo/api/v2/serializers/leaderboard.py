@@ -3,7 +3,6 @@ from rest_framework import serializers
 
 class SnapshotLeaderboardAggegrationSerializer(serializers.Serializer):
     average = serializers.DecimalField(decimal_places=2, max_digits=15)
-    count = serializers.IntegerField()
     min = serializers.DecimalField(decimal_places=2, max_digits=15)
     max = serializers.DecimalField(decimal_places=2, max_digits=15)
     sum = serializers.DecimalField(decimal_places=2, max_digits=15)
@@ -19,11 +18,10 @@ class SnapshotLeaderboardEntrySerializer(serializers.Serializer):
     entry_datetime = serializers.DateTimeField()
 
 
-class SnapshotLeaderboardSerializer(serializers.Serializer):
-    """
-    Serializer for the SnapshotLeaderboard class.
-    """
-
+class SnapshotLeaderboardPaginatedResponseSerializer(serializers.Serializer):
+    count = serializers.IntegerField(default=None)
+    next = serializers.URLField(default=None)
+    previous = serializers.URLField(default=None)
     generated = serializers.DateTimeField()
     date = serializers.DateField()
     title = serializers.CharField()
@@ -33,7 +31,6 @@ class SnapshotLeaderboardSerializer(serializers.Serializer):
 
 
 class GainLeaderboardAggegrationSerializer(serializers.Serializer):
-    trainer_count = serializers.IntegerField()
     average_rate = serializers.DecimalField(decimal_places=2, max_digits=15)
     min_rate = serializers.DecimalField(decimal_places=2, max_digits=15)
     max_rate = serializers.DecimalField(decimal_places=2, max_digits=15)
@@ -57,11 +54,10 @@ class GainLeaderboardEntrySerializer(serializers.Serializer):
     difference_value_percentage = serializers.DecimalField(decimal_places=2, max_digits=15)
 
 
-class GainLeaderboardSerializer(serializers.Serializer):
-    """
-    Serializer for the SnapshotLeaderboard class.
-    """
-
+class GainLeaderboardPaginatedResponseSerializer(serializers.Serializer):
+    count = serializers.IntegerField(default=None)
+    next = serializers.URLField(default=None)
+    previous = serializers.URLField(default=None)
     generated = serializers.DateTimeField()
     subtrahend_date = serializers.DateField()
     minuend_date = serializers.DateField()
