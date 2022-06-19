@@ -8,7 +8,6 @@ from dateutil.relativedelta import relativedelta
 from django.db.models import (
     Avg,
     Case,
-    Count,
     DecimalField,
     ExpressionWrapper,
     F,

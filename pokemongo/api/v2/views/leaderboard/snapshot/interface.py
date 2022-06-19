@@ -5,7 +5,7 @@ from abc import abstractmethod
 from typing import List
 
 from dateutil.relativedelta import relativedelta
-from django.db.models import Avg, Count, F, Max, Min, Q, QuerySet, Subquery, Sum, Window
+from django.db.models import Avg, F, Max, Min, Q, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.utils import timezone
 from rest_framework.request import Request
