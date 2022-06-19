@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from django.db.models import Avg, Count, F, Max, Min, Q, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.utils import timezone
+from isodate import date_isoformat, parse_date
 from rest_framework.request import Request
 
 from pokemongo.api.v2.serializers.leaderboard import SnapshotLeaderboardSerializer
@@ -29,9 +30,7 @@ class iSnapshotLeaderboardView(iLeaderboardView):
 
     def parse_args(self, request: Request) -> dict:
         self.args = dict(
-            date=datetime.date.fromisoformat(
-                request.query_params.get("date", datetime.date.today().isoformat())
-            ),
+            date=parse_date(request.query_params.get("date", datetime.date.today().isoformat())),
             stat=request.query_params.get("stat", "total_xp"),
             show_inactive=request.query_params.get("show_inactive", "false") == "true",
         )
@@ -45,7 +44,7 @@ class iSnapshotLeaderboardView(iLeaderboardView):
         aggregate = self.aggregate_queryset(queryset)
 
         return {
-            "generated": timezone.now().isoformat(),
+            "generated": timezone.now(),
             "date": self.args["date"],
             "title": self.get_leaderboard_title(),
             "field": self.args["stat"],

@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime
-
 from django.db.models import Q
+from isodate import parse_datetime
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import (
@@ -28,9 +27,9 @@ from pokemongo.api.v2.querysets import (
 def get_discord_diffboard(request: Request, guild_id: id) -> Response:
     assert DiscordGuild.objects.filter(id=guild_id).exists()
 
-    dt0 = datetime.fromisoformat(dt0) if (dt0 := request.query_params.get("dt0", None)) else None
-    dt1 = datetime.fromisoformat(dt1) if (dt1 := request.query_params.get("dt1", None)) else None
-    dt2 = datetime.fromisoformat(dt2) if (dt2 := request.query_params.get("dt2", None)) else None
+    dt0 = parse_datetime(dt0) if (dt0 := request.query_params.get("dt0", None)) else None
+    dt1 = parse_datetime(dt1) if (dt1 := request.query_params.get("dt1", None)) else None
+    dt2 = parse_datetime(dt2) if (dt2 := request.query_params.get("dt2", None)) else None
     stat = request.query_params.get("stat", "total_xp")
 
     assert dt1 is not None

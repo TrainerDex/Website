@@ -23,6 +23,7 @@ docutils = "*"
 django-oauth-toolkit = ">=2.0.0"
 drf-ujson2 = "*"
 django-postgres-extra = "*"
+isodate = "*"
 
 [dev-packages]
 flake8 = "*"
