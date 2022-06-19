@@ -1,4 +1,4 @@
-﻿import os
+import os
 from distutils.util import strtobool
 from pathlib import Path
 
@@ -185,6 +185,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("core.permissions.IsStaffOrReadOnly",),
     # "DEFAULT_RENDERER_CLASSES": ("drf_ujson.renderers.UJSONRenderer",),
     # "DEFAULT_PARSER_CLASSES": ("drf_ujson.parsers.UJSONParser",),
+    "COERCE_DECIMAL_TO_STRING": False,
     "PAGE_SIZE": 50,
 }
 
