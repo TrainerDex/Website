@@ -155,11 +155,11 @@ class iGainLeaderboardView(iLeaderboardView):
                     output_field=DecimalField(max_digits=10, decimal_places=2),
                 ),
             )
-            .exclude(Q(subtrahend_datetime=True) & Q(minuend_datetime=True))
+            .exclude(Q(subtrahend_datetime__isnull=True) & Q(minuend_datetime__isnull=True))
             .annotate(
                 rank=Case(
                     When(
-                        Q(subtrahend_datetime=False) & Q(minuend_datetime=False),
+                        Q(subtrahend_datetime__isnull=False) & Q(minuend_datetime__isnull=False),
                         Window(
                             DenseRank(),
                             order_by=F("difference_value_rate").desc(nulls_last=True),
