@@ -28,6 +28,7 @@ from rest_framework.request import Request
 from pokemongo.api.v2.serializers.leaderboard import GainLeaderboardSerializer
 from pokemongo.api.v2.views.leaderboard.interface import (
     LeaderboardMode,
+    TrainerSubset,
     iLeaderboardView,
 )
 from pokemongo.models import Trainer, Update
@@ -189,3 +190,13 @@ class iGainLeaderboardView(iLeaderboardView):
             max_change=Max("difference_value"),
             sum_change=Sum("difference_value"),
         )
+
+
+class GainLeaderboardView(iGainLeaderboardView):
+    SUBSET = TrainerSubset.GLOBAL
+
+    authentication_classes = []
+    permission_classes = []
+
+    def get_leaderboard_title(self) -> str:
+        return "Global"
