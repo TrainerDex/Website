@@ -8,7 +8,6 @@ from dateutil.relativedelta import relativedelta
 from django.db.models import Avg, Count, F, Max, Min, Q, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.utils import timezone
-from isodate import parse_date
 from rest_framework.request import Request
 
 from pokemongo.api.v2.paginators.leaderboard import SnapshotLeaderboardPaginator
@@ -29,9 +28,26 @@ class iSnapshotLeaderboardView(iLeaderboardView):
     def get_leaderboard_title(self) -> str:
         ...
 
+    @staticmethod
+    def datetime_from_isoformat_midnight(date_string: str) -> datetime.datetime:
+        if date_string is None:
+            return datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+
+        # Split this at the separator
+        dstr = date_string[0:10]
+        tstr = date_string[11:]
+
+        if tstr:
+            return datetime.datetime.fromisoformat(date_string)
+        else:
+            return datetime.datetime.combine(datetime.date.fromisoformat(dstr), datetime.time.max)
+
     def parse_args(self, request: Request) -> dict:
+        dt_str = request.query_params.get("datetime", request.query_params.get("date"))
+        dt = self.datetime_from_isoformat_midnight(dt_str)
+
         self.args = dict(
-            date=parse_date(request.query_params.get("date", datetime.date.today().isoformat())),
+            datetime=dt,
             stat=request.query_params.get("stat", "total_xp"),
             show_inactive=request.query_params.get("show_inactive", "false") == "true",
         )
@@ -47,8 +63,8 @@ class iSnapshotLeaderboardView(iLeaderboardView):
         page: List = self.paginate_queryset(queryset)
 
         return {
-            "generated": timezone.now(),
-            "date": self.args["date"],
+            "generated_datetime": timezone.now(),
+            "datetime": self.args["datetime"],
             "title": self.get_leaderboard_title(),
             "stat": self.args["stat"],
             "aggregations": aggregate,
@@ -60,7 +76,7 @@ class iSnapshotLeaderboardView(iLeaderboardView):
             Q(owner__is_active=False)
             | Q(statistics=False)
             | Q(verified=False)
-            | Q(last_cheated__gte=(self.args["date"] - relativedelta(weeks=26)))
+            | Q(last_cheated__gte=(self.args["datetime"] - relativedelta(weeks=26)))
         )
 
     def get_subquery(self, trainer_subquery: Subquery) -> QuerySet[Update]:
@@ -71,15 +87,15 @@ class iSnapshotLeaderboardView(iLeaderboardView):
             .filter(
                 (
                     Q(
-                        update_time__date__gte=(
-                            self.args["date"]
+                        update_time__gte=(
+                            self.args["datetime"]
                             - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)
                         )
                     )
                     if not self.args["show_inactive"]
                     else Q()
                 ),
-                update_time__date__lte=self.args["date"],
+                update_time__lte=self.args["datetime"],
                 value__gt=0,
             )
             .order_by("trainer", "-value")
