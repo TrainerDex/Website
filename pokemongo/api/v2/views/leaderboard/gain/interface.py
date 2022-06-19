@@ -12,10 +12,8 @@ from django.db.models import (
     F,
     Max,
     Min,
-    OuterRef,
     Q,
     QuerySet,
-    Subquery,
     Sum,
     When,
     Window,
@@ -98,47 +96,33 @@ class iGainLeaderboardView(iLeaderboardView):
 
         return (
             trainer_queryset.annotate(
-                subtrahend_datetime=Subquery(
-                    Update.objects.annotate(value=F(self.args["stat"]))
-                    .filter(
-                        trainer__id=OuterRef("id"),
-                        update_time__gt=subtrahend_daterange[0],
-                        update_time__lte=subtrahend_daterange[1],
-                        value__isnull=False,
-                    )
-                    .order_by("-update_time")
-                    .values("update_time")[:1]
+                subtrahend_datetime=Max(
+                    F("update__update_time"),
+                    filter=(
+                        Q(update__update_time__range=subtrahend_daterange)
+                        & Q(**{f"update__{stat}__isnull": False})
+                    ),
                 ),
-                subtrahend_value=Subquery(
-                    Update.objects.annotate(value=F(stat))
-                    .filter(
-                        trainer__id=OuterRef("id"),
-                        update_time=OuterRef("subtrahend_datetime"),
-                        value__isnull=False,
-                    )
-                    .order_by("-update_time")
-                    .values("value")[:1]
+                subtrahend_value=Max(
+                    F(f"update__{stat}"),
+                    filter=(
+                        Q(update__update_time__range=subtrahend_daterange)
+                        & Q(**{f"update__{stat}__isnull": False})
+                    ),
                 ),
-                minuend_datetime=Subquery(
-                    Update.objects.annotate(value=F(stat))
-                    .filter(
-                        trainer__id=OuterRef("id"),
-                        update_time__gt=minuend_daterange[0],
-                        update_time__lte=minuend_daterange[1],
-                        value__isnull=False,
-                    )
-                    .order_by("-update_time")
-                    .values("update_time")[:1]
+                minuend_datetime=Max(
+                    F("update__update_time"),
+                    filter=(
+                        Q(update__update_time__range=minuend_daterange)
+                        & Q(**{f"update__{stat}__isnull": False})
+                    ),
                 ),
-                minuend_value=Subquery(
-                    Update.objects.annotate(value=F(stat))
-                    .filter(
-                        trainer__id=OuterRef("id"),
-                        update_time=OuterRef("minuend_datetime"),
-                        value__isnull=False,
-                    )
-                    .order_by("-update_time")
-                    .values("value")[:1]
+                minuend_value=Max(
+                    F(f"update__{stat}"),
+                    filter=(
+                        Q(update__update_time__range=minuend_daterange)
+                        & Q(**{f"update__{stat}__isnull": False})
+                    ),
                 ),
                 difference_duration=F("minuend_datetime") - F("subtrahend_datetime"),
                 difference_value=F("minuend_value") - F("subtrahend_value"),
