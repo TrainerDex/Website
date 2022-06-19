@@ -1,6 +1,10 @@
 from django.urls import path
 
-from pokemongo.api.v2.views import LeaderboardViewFinder, TrainerDetailView
+from pokemongo.api.v2.views import (
+    LeaderboardViewFinder,
+    NicknameViewSet,
+    TrainerDetailView,
+)
 
 app_name = "trainerdex.api.2"
 
@@ -8,6 +12,7 @@ urlpatterns = [
     path("leaderboard/", LeaderboardViewFinder.as_view()),
     path("trainers/@me/", TrainerDetailView.as_view()),
     path("trainers/<uuid:uuid>/", TrainerDetailView.as_view()),
+    path("trainers/<uuid:uuid>/nicknames/", NicknameViewSet.as_view({"get": "list"})),
 ]
 
 

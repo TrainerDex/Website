@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from pokemongo.models import Nickname
+
 
 class TrainerDetailSerializer(serializers.Serializer):
     uuid = serializers.UUIDField()
@@ -17,3 +19,9 @@ class TrainerDetailSerializer(serializers.Serializer):
     has_cheated = serializers.BooleanField()
     last_cheated = serializers.DateField()
     currently_banned = serializers.BooleanField()
+
+
+class NicknameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Nickname
+        fields = ("nickname", "active")
