@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from datetime import datetime
 from typing import List
 
 from dateutil.relativedelta import relativedelta
 from django.db.models import (
     Avg,
     Case,
-    Count,
     DecimalField,
     ExpressionWrapper,
     F,
@@ -21,9 +21,8 @@ from django.db.models import (
 )
 from django.db.models.functions import DenseRank, ExtractDay, ExtractSecond
 from django.utils import timezone
-from isodate import parse_date, parse_duration
+from isodate import parse_duration
 from rest_framework.request import Request
-from rest_framework.response import Response
 
 from pokemongo.api.v2.paginators.leaderboard import GainLeaderboardPaginator
 from pokemongo.api.v2.views.leaderboard.interface import (
@@ -44,19 +43,28 @@ class iGainLeaderboardView(iLeaderboardView):
         ...
 
     def parse_args(self, request: Request) -> dict:
-        assert (subtrahend_date_str := request.query_params.get("subtrahend_date"))
-        assert (minuend_date_str := request.query_params.get("minuend_date"))
+        assert (
+            subtrahend_datetime_str := request.query_params.get("subtrahend_datetime")
+        ), "subtrahend_datetime is required"
+        assert (
+            minuend_datetime_str := request.query_params.get("minuend_datetime")
+        ), "minuend_datetime is required"
         duration_str = request.query_params.get("duration")
 
         self.args = dict(
-            subtrahend_date=parse_date(subtrahend_date_str),
-            minuend_date=parse_date(minuend_date_str),
+            subtrahend_datetime=datetime.fromisoformat(subtrahend_datetime_str),
+            minuend_datetime=datetime.fromisoformat(minuend_datetime_str),
             stat=request.query_params.get("stat", "total_xp"),
         )
+
+        assert (
+            self.args["minuend_datetime"] > self.args["subtrahend_datetime"]
+        ), "minuend_datetime must be after subtrahend_datetime"
+
         self.args["duration"] = (
             parse_duration(duration_str)
             if duration_str
-            else (self.args["minuend_date"] - self.args["subtrahend_date"])
+            else (self.args["minuend_datetime"] - self.args["subtrahend_datetime"])
         )
 
     def get_data(self, request: Request):
@@ -69,9 +77,9 @@ class iGainLeaderboardView(iLeaderboardView):
         page: List = self.paginate_queryset(queryset)
 
         return {
-            "generated": timezone.now().isoformat(),
-            "subtrahend_date": self.args["subtrahend_date"],
-            "minuend_date": self.args["minuend_date"],
+            "generated_datetime": timezone.now().isoformat(),
+            "subtrahend_datetime": self.args["subtrahend_datetime"],
+            "minuend_datetime": self.args["minuend_datetime"],
             "duration": self.args["duration"],
             "title": self.get_leaderboard_title(),
             "stat": self.args["stat"],
@@ -84,18 +92,18 @@ class iGainLeaderboardView(iLeaderboardView):
             Q(owner__is_active=False)
             | Q(statistics=False)
             | Q(verified=False)
-            | Q(last_cheated__gte=(self.args["subtrahend_date"] - relativedelta(weeks=26)))
+            | Q(last_cheated__gte=(self.args["subtrahend_datetime"] - relativedelta(weeks=26)))
         )
 
     def get_queryset(self, trainer_queryset: QuerySet[Trainer]) -> QuerySet[Trainer]:
         stat: str = self.args["stat"]
         subtrahend_daterange = (
-            self.args["subtrahend_date"] - self.args["duration"],
-            self.args["subtrahend_date"],
+            self.args["subtrahend_datetime"] - self.args["duration"],
+            self.args["subtrahend_datetime"],
         )
         minuend_daterange = (
-            self.args["minuend_date"] - self.args["duration"],
-            self.args["minuend_date"],
+            self.args["minuend_datetime"] - self.args["duration"],
+            self.args["minuend_datetime"],
         )
 
         return (
