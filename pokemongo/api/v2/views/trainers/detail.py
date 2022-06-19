@@ -16,7 +16,18 @@ class TrainerDetailView(GenericAPIView):
     required_scopes = ["read"]
     serializer_class = TrainerDetailSerializer
 
-    queryset = Trainer.objects.filter(owner__is_active=True)
+    queryset = Trainer.objects.filter(owner__is_active=True).only(
+        "uuid",
+        "created_at",
+        "updated_at",
+        "_nickname",
+        "start_date",
+        "faction",
+        "trainer_code",
+        "verified",
+        "statistics",
+        "last_cheated",
+    )
     lookup_field = "uuid"
 
     def has_permission(self, request: Request, trainer: Trainer) -> bool:
