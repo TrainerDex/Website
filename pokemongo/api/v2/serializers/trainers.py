@@ -1,3 +1,4 @@
+from allauth.socialaccount.models import SocialAccount
 from rest_framework import serializers
 
 from pokemongo.models import Nickname
@@ -25,3 +26,9 @@ class NicknameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Nickname
         fields = ("nickname", "active")
+
+
+class SocialAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SocialAccount
+        fields = ("provider", "uid")

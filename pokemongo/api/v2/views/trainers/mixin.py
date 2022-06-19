@@ -9,7 +9,12 @@ class CheckTrainerPermissionsMixin:
         """Returns the trainer object for the given uuid."""
         return Trainer.objects.only("uuid", "statistics").get(uuid=uuid)
 
-    def has_permission(self, request: Request, trainer_or_uuid: Trainer | UUID) -> bool:
+    def has_permission(
+        self,
+        request: Request,
+        trainer_or_uuid: Trainer | UUID,
+        allow_others: bool = True,
+    ) -> bool:
         """Controls access to profiles based on the user's permissions."""
         if isinstance(trainer_or_uuid, (UUID, str)):
             trainer = self.get_trainer_from_uuid(trainer_or_uuid)
@@ -21,7 +26,9 @@ class CheckTrainerPermissionsMixin:
         if self.check_if_superuser_client_credentials(request):
             return True
         else:
-            return (request.user.trainer.uuid == trainer.uuid) or trainer.statistics
+            return (request.user.trainer.uuid == trainer.uuid) or (
+                allow_others and trainer.statistics
+            )
 
     def check_if_superuser_client_credentials(self, request: Request) -> bool:
         """Checks if the request is made by a superuser-provided confidential client."""
