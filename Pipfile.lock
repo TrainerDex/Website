@@ -208,11 +208,11 @@
         },
         "django-silk": {
             "hashes": [
-                "sha256:15ce316ac56d202bc7f0edab52d90d9b5282a41cbef9e38faab27e642d8a4e2b",
-                "sha256:b010e51d9a2408ca0471bc943941676950f1d2906af3d09f9ffcd56f232688fc"
+                "sha256:476dac9f573bf206d34ef8a8407b51de28d4b7be8adbddcc3addcd25f2479e9b",
+                "sha256:c3f673eef78cecc22c94a3683b0f870e6e8c7a7b79227e5568dca76b8c047278"
             ],
             "index": "pypi",
-            "version": "==4.3.0"
+            "version": "==4.4.0"
         },
         "django-widget-tweaks": {
             "hashes": [
@@ -548,11 +548,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:2a5de5d1ed1fd6dfbe4f1a1079af816032e2d8dfc0975265b57a61429511d10c",
-                "sha256:a4c782ac58fcc9e3a86e5e1a4c74cf9d24bf21e4f1562043309022e1bb76951c"
+                "sha256:990a4f7861b31532871ab72331e755b5f14efbe52d336ea7f6118144dd478741",
+                "sha256:c1848f654aea2e3526d17fc3ce6aeaa5e7e24e66e645b5be2171f3f6b4e5a178"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==62.5.0"
+            "version": "==62.6.0"
         },
         "six": {
             "hashes": [
