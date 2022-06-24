@@ -3,6 +3,13 @@
   import Leaderboard from "./lib/Leaderboard.svelte";
 </script>
 
+<svelte:head>
+  <link
+    href="https://fonts.googleapis.com/css?family=Raleway"
+    rel="stylesheet"
+  />
+</svelte:head>
+
 <main>
   <!-- <img src={logo} alt="Svelte Logo" /> -->
   <h1>TrainerDex</h1>
@@ -12,8 +19,8 @@
 
 <style>
   :root {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-family: "Raleway", "Roboto", "Segoe UI", Roboto, Oxygen, Ubuntu,
+      Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
 
   main {
@@ -28,8 +35,7 @@
   }
 
   h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
+    color: #ca3755;
     font-size: 4rem;
     font-weight: 100;
     line-height: 1.1;
