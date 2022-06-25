@@ -1,45 +1,55 @@
 <script lang="ts">
   // import logo from "./assets/svelte.png";
   import Leaderboard from "./lib/Leaderboard.svelte";
+
+  import type { TopAppBarComponentDev } from "@smui/top-app-bar";
+  import TopAppBar, {
+    Row,
+    Section,
+    Title,
+    AutoAdjust,
+  } from "@smui/top-app-bar";
+  import IconButton from "@smui/icon-button";
+
+  let topAppBar: TopAppBarComponentDev;
 </script>
 
-<svelte:head>
-  <link
-    href="https://fonts.googleapis.com/css?family=Raleway"
-    rel="stylesheet"
-  />
-  <link
-    href="https://cdn.jsdelivr.net/npm/svelte-material-ui@4.0.0/bare.min.css"
-    rel="stylesheet"
-  />
-  <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet"
-  />
-  <link
-    href="https://cdn.jsdelivr.net/npm/@mdi/font@6.2.95/css/materialdesignicons.min.css"
-    rel="stylesheet"
-  />
-  <!-- <link
-    rel="stylesheet"
-    href="/src/theme/_smui-theme.scss"
-    media="(prefers-color-scheme: light)"
-  />
-  <link
-    rel="stylesheet"
-    href="/src/theme/dark/_smui-theme.scss"
-    media="screen and (prefers-color-scheme: dark)"
-  /> -->
-</svelte:head>
-
-<main>
-  <!-- <img src={logo} alt="Svelte Logo" /> -->
-  <h1>TrainerDex</h1>
-
+<TopAppBar bind:this={topAppBar} variant="fixed">
+  <Row>
+    <Section>
+      <!-- <IconButton class="material-icons">menu</IconButton> -->
+      <Title>TrainerDex</Title>
+    </Section>
+    <!-- <Section align="end" toolbar>
+      <IconButton class="material-icons" aria-label="Download"
+        >file_download</IconButton
+      >
+      <IconButton class="material-icons" aria-label="Print this page"
+        >print</IconButton
+      >
+      <IconButton class="material-icons" aria-label="Bookmark this page"
+        >bookmark</IconButton
+      >
+    </Section> -->
+  </Row>
+</TopAppBar>
+<AutoAdjust {topAppBar}>
   <Leaderboard />
-</main>
+</AutoAdjust>
 
 <style lang="scss">
+  /* Hide everything above this component. */
+  :global(app),
+  :global(body),
+  :global(html) {
+    margin: 0;
+    padding: 0;
+    display: block !important;
+    height: auto !important;
+    width: auto !important;
+    position: static !important;
+  }
+
   :root {
     font-family: "Raleway", "Roboto", "Segoe UI", Roboto, Oxygen, Ubuntu,
       Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
