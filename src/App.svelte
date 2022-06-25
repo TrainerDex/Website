@@ -9,6 +9,18 @@
     rel="stylesheet"
   />
   <link
+    href="https://cdn.jsdelivr.net/npm/svelte-material-ui@4.0.0/bare.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/@mdi/font@6.2.95/css/materialdesignicons.min.css"
+    rel="stylesheet"
+  />
+  <!-- <link
     rel="stylesheet"
     href="/src/theme/_smui-theme.scss"
     media="(prefers-color-scheme: light)"
@@ -17,7 +29,7 @@
     rel="stylesheet"
     href="/src/theme/dark/_smui-theme.scss"
     media="screen and (prefers-color-scheme: dark)"
-  />
+  /> -->
 </svelte:head>
 
 <main>
