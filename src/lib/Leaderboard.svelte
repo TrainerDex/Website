@@ -84,12 +84,5 @@
         </Row>
       {/each}
     </Body>
-
-    <LinearProgress
-      indeterminate
-      bind:closed={loaded}
-      aria-label="Data is being loaded..."
-      slot="progress"
-    />
   </DataTable>
 {/await}
