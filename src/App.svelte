@@ -37,7 +37,7 @@
   <Leaderboard />
 </AutoAdjust>
 
-<style lang="scss">
+<style>
   /* Hide everything above this component. */
   :global(app),
   :global(body),
