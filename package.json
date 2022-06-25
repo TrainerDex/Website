@@ -8,8 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "prepare": "npm run smui-theme-light && npm run smui-theme-dark",
-    "smui-theme-light": "smui-theme compile src/smui.css -i src/theme",
-    "smui-theme-dark": "smui-theme compile src/smui-dark.css -i src/theme/dark",
+    "smui-theme-light": "smui-theme compile dist/smui.css -i src/theme",
+    "smui-theme-dark": "smui-theme compile dist/smui-dark.css -i src/theme/dark",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {

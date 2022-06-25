@@ -1,7 +1,5 @@
 <script lang="ts">
   // import logo from "./assets/svelte.png";
-  import theme from "./smui.css";
-  import themeDark from "./smui-dark.css";
   import Leaderboard from "./lib/Leaderboard.svelte";
 </script>
 
@@ -10,22 +8,26 @@
     href="https://fonts.googleapis.com/css?family=Raleway"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href={theme} media="(prefers-color-scheme: light)" />
   <link
     rel="stylesheet"
-    href={themeDark}
+    href="/src/theme/_smui-theme.scss"
+    media="(prefers-color-scheme: light)"
+  />
+  <link
+    rel="stylesheet"
+    href="/src/theme/dark/_smui-theme.scss"
     media="screen and (prefers-color-scheme: dark)"
   />
 </svelte:head>
 
 <main>
   <!-- <img src={logo} alt="Svelte Logo" /> -->
-  <h1 class="primary">TrainerDex</h1>
+  <h1>TrainerDex</h1>
 
   <Leaderboard />
 </main>
 
-<style>
+<style lang="scss">
   :root {
     font-family: "Raleway", "Roboto", "Segoe UI", Roboto, Oxygen, Ubuntu,
       Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
