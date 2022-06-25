@@ -1,6 +1,7 @@
 <script lang="ts">
   import DataTable, { Head, Body, Row, Cell } from "@smui/data-table";
   import LinearProgress from "@smui/linear-progress";
+  import { getStatByParameter, StatMeta, TotalXP } from "../models/stats";
 
   type SnapshotLeaderboardAggregation = {
     average: number;
@@ -35,10 +36,12 @@
   let loaded = false;
 
   async function loadLeaderboard(
-    stat: string = "total_xp"
+    stat: StatMeta = TotalXP
   ): Promise<SnapshotLeaderboard> {
     if (typeof fetch !== "undefined") {
-      return fetch(`https://trainerdex.app/api/v2/leaderboard/?stat=${stat}`)
+      return fetch(
+        `https://trainerdex.app/api/v2/leaderboard/?stat=${stat.parameter}`
+      )
         .then((response) => response.json())
         .then((json) => json);
     }
@@ -70,7 +73,7 @@
       <Row>
         <Cell numeric>Rank</Cell>
         <Cell style="width: 100%;">Name</Cell>
-        <Cell>{leaderboard.stat}</Cell>
+        <Cell>{getStatByParameter(leaderboard.stat).name}</Cell>
         <Cell>Submitted at</Cell>
       </Row>
     </Head>
