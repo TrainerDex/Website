@@ -51,8 +51,8 @@
     <Head>
       <Row>
         <Cell numeric>Rank</Cell>
-        <Cell style="width: 100%;">Name</Cell>
-        <Cell>{getStatByParameter(leaderboard.stat).name}</Cell>
+        <Cell>Name</Cell>
+        <Cell numeric>{getStatByParameter(leaderboard.stat).name}</Cell>
         <Cell>Submitted at</Cell>
       </Row>
     </Head>
@@ -61,7 +61,7 @@
         <Row>
           <Cell numeric>{entry.rank}</Cell>
           <Cell>{entry.username}</Cell>
-          <Cell>{formatValue(entry.value, leaderboard.stat)}</Cell>
+          <Cell numeric>{formatValue(entry.value, leaderboard.stat)}</Cell>
           <Cell>{moment(entry.entry_datetime).format("ll")}</Cell>
         </Row>
       {/each}
