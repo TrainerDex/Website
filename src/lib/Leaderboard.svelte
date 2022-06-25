@@ -8,38 +8,7 @@
     formatValue,
   } from "../models/stats";
   import moment from "moment";
-
-  type SnapshotLeaderboardAggregation = {
-    average: number;
-    min: number;
-    max: number;
-    sum: number;
-  };
-
-  type SnapshotLeaderboardEntry = {
-    rank: number;
-    username: string;
-    faction: number;
-    value: number;
-    trainer_uuid: string;
-    entry_uuid: string;
-    entry_datetime: Date;
-  };
-
-  type SnapshotLeaderboard = {
-    count: number | null;
-    next: URL | null;
-    previous: URL | null;
-    generated_datetime: Date;
-    datetime: Date;
-    title: string;
-    stat: string;
-    aggregations: SnapshotLeaderboardAggregation;
-    entries: SnapshotLeaderboardEntry[];
-  };
-
-  let leaderboard: SnapshotLeaderboard | null = null;
-  let loaded = false;
+  import type { SnapshotLeaderboard } from "src/models/leaderboard";
 
   async function loadLeaderboard(
     stat: StatMeta | string = TotalXP
@@ -71,7 +40,6 @@
 
     <LinearProgress
       indeterminate
-      bind:closed={loaded}
       aria-label="Data is being loaded..."
       slot="progress"
     />
