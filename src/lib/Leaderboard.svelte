@@ -4,7 +4,6 @@
   import IconButton from "@smui/icon-button";
   import { Label } from "@smui/common";
   import LinearProgress from "@smui/linear-progress";
-  import Card, { Content } from "@smui/card";
   import {
     getStatByParameter,
     TotalXP,
