@@ -1,4 +1,4 @@
-import { intComma } from 'humanize-plus';
+import humanize from 'humanize-plus';
 
 export class StatMeta {
 	parameter: string;
@@ -25,7 +25,7 @@ export class StatMeta {
 	}
 
 	formatValue(value: number): string {
-		return `${this.prefix}${intComma(value, this.precision)}${this.suffix}`;
+		return `${this.prefix}${humanize.intComma(value, this.precision)}${this.suffix}`;
 	}
 }
 
@@ -33,7 +33,7 @@ export const TotalXP = new StatMeta('total_xp', 'Total XP', 'Total XP', 0, '', '
 
 export const listOfStats: StatMeta[] = [
 	TotalXP,
-	new StatMeta('travel_km', 'Jogger', `Walk ${intComma(10000)} km.`, 1, '', ' km')
+	new StatMeta('travel_km', 'Jogger', `Walk ${humanize.intComma(10000)} km.`, 1, '', ' km')
 ];
 
 export function getStatByParameter(parameter: string): StatMeta | null {
@@ -47,7 +47,7 @@ export function getStatByName(name: string): StatMeta | null {
 export function formatValue(value: number, statString: string): string {
 	let stat: StatMeta | null = getStatByParameter(statString);
 	if (stat === null) {
-		return intComma(value);
+		return humanize.intComma(value);
 	}
 	return stat.formatValue(value);
 }
