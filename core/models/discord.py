@@ -109,7 +109,7 @@ class DiscordGuild(PostgresModel):
 
         self.has_access = data is not None
 
-        self.save(update_fields=("data", "has_access", "cached_date"))
+        self.save()
         if data:
             self.sync_roles()
 
