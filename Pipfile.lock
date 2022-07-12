@@ -177,10 +177,11 @@
         },
         "django-allow-cidr": {
             "hashes": [
-                "sha256:6807727e590bfa9ee69dd8ec4ea816668a0b4ae78aaba9b02e68b5ab5e2a5209"
+                "sha256:2fd88ffe697caf0c1d0fd147b88cf44d81282c069bbc475166a2ff1637ad9155",
+                "sha256:d17347e75d6c02864022f52ed608775a5e9ab144d1a82bb40853714f125f5d87"
             ],
             "index": "pypi",
-            "version": "==0.4.1"
+            "version": "==0.5.0"
         },
         "django-cors-headers": {
             "hashes": [
@@ -357,13 +358,6 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==2.1.1"
-        },
-        "netaddr": {
-            "hashes": [
-                "sha256:9666d0232c32d2656e5e5f8d735f58fd6c7457ce52fc21c98d45f2af78f990ac",
-                "sha256:d6cc57c7a07b1d9d2e917aa8b36ae8ce61c35ba3fcd1b83ca31c5a0ee2b5a243"
-            ],
-            "version": "==0.8.0"
         },
         "oauthlib": {
             "hashes": [
