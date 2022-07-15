@@ -9,6 +9,7 @@
         "donjayamanne.python-environment-manager",
         "njqdev.vscode-python-typehint",
         "github.copilot",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "svelte.svelte-vscode"
     ]
 }
