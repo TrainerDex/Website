@@ -1,8 +1,7 @@
 import App from './Leaderboard.svelte';
 
 const app = new App({
-	target: document.getElementById('app-target'),
-	props: JSON.parse(document.getElementById('app-props').textContent)
+	target: document.getElementById('app-target')
 });
 
 export default app;
