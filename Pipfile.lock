@@ -207,11 +207,11 @@
         },
         "django-postgres-extra": {
             "hashes": [
-                "sha256:275e3c741ca73024215244aa3f57c03aed8def45a0c906fc746f7d7381793345",
-                "sha256:e73d2672aa8268be4cb9d37f84ac16671a2524e72577865b8e4e8168c3906722"
+                "sha256:0ab6a54e0b24159d6fc2b110bca44c98e3b11471c6b236eb0b5c27e8912fd9e0",
+                "sha256:ee405f9d3560fbe9bd0bd4ad6c5a33f15a38ce50c34d9fe8cdf0b9f7f3409c9d"
             ],
             "index": "pypi",
-            "version": "==2.0.5"
+            "version": "==2.0.6"
         },
         "django-robots": {
             "hashes": [
@@ -575,11 +575,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:16923d366ced322712c71ccb97164d07472abeecd13f3a6c283f6d5d26722793",
-                "sha256:db3b8e2f922b2a910a29804776c643ea609badb6a32c4bcc226fd4fd902cce65"
+                "sha256:0d33c374d41c7863419fc8f6c10bfe25b7b498aa34164d135c622e52580c6b16",
+                "sha256:c04b44a57a6265fe34a4a444e965884716d34bae963119a76353434d6f18e450"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==63.1.0"
+            "version": "==63.2.0"
         },
         "six": {
             "hashes": [
