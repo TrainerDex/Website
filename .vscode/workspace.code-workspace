@@ -1,0 +1,39 @@
+{
+	"folders": [
+		{
+			"path": "..",
+			"name": "Root"
+		},
+		{
+			"path": "../backend",
+			"name": "Django"
+		},
+		{
+			"path": "../frontend",
+			"name": "Svelte"
+		}
+	],
+	"settings": {
+		"python.linting.flake8Enabled": true,
+		"python.linting.enabled": true,
+		"git.autofetch": true,
+		"python.formatting.provider": "black",
+		"python.envFile": "${workspaceFolder}/.env",
+		"editor.formatOnSave": true
+	},
+	"extensions": {
+		"recommendations": [
+			"aaron-bond.better-comments",
+			"batisteo.vscode-django",
+			"bibhasdn.django-snippets",
+			"mikestead.dotenv",
+			"ms-python.vscode-pylance",
+			"ms-python.python",
+			"donjayamanne.python-environment-manager",
+			"njqdev.vscode-python-typehint",
+			"github.copilot",
+			"ms-azuretools.vscode-docker",
+			"svelte.svelte-vscode"
+		]
+	}
+}
