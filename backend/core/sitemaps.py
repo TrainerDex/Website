@@ -62,5 +62,5 @@ class LeaderboardCommunitySitemap(Sitemap):
         else:
             return 0.0
 
-    def location(self, obj: Community) -> str:
-        return reverse("trainerdex:leaderboard", kwargs={"community": obj.handle})
+    # def location(self, obj: Community) -> str:
+    #     return reverse("trainerdex:leaderboard", kwargs={"community": obj.handle})

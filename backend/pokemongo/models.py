@@ -2323,8 +2323,8 @@ class Community(models.Model):
 
         return qs
 
-    def get_absolute_url(self) -> str:
-        return reverse("trainerdex:leaderboard", kwargs={"community": self.handle})
+    # def get_absolute_url(self) -> str:
+    #     return reverse("trainerdex:leaderboard", kwargs={"community": self.handle})
 
     class Meta:
         verbose_name = _("Community")
