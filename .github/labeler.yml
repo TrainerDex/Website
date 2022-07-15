@@ -3,31 +3,21 @@ dependencies:
   - Pipfile.lock
 
 frontend:
-  - "core/templates/**/*"
-  - "core/static/**/*"
-  - "pokemongo/templates/**/*"
-  - "pokemongo/static/**/*"
+  - "backend/core/templates/**/*"
+  - "backend/core/static/**/*"
+  - "backend/pokemongo/templates/**/*"
+  - "backend/pokemongo/static/**/*"
   - "frontend/"
 
 gains:
-  - "core/management/commands/gains_leaderboard.py"
-  - "core/management/commands/post_announcement.py"
+  - "backend/core/management/commands/gains_leaderboard.py"
+  - "backend/core/management/commands/post_announcement.py"
 
 backend:
-  - "core/account_adapter.py"
-  - "core/admin.py"
-  - "core/context_processors.py"
-  - "core/models.py"
-  - "core/views.py"
-  - "pokemongo/api/**/*"
-  - "pokemongo/admin.py"
-  - "pokemongo/forms.py"
-  - "pokemongo/models.py"
-  - "pokemongo/shortcuts.py"
-  - "pokemongo/urls.py"
-  - "pokemongo/validators.py"
-  - "pokemongo/views.py"
+  - "backend/core/*.py"
+  - "backend/pokemongo/api/**/*"
+  - "backend/pokemongo/*.py"
 
 migrations:
-  - "core/migrations/*"
-  - "pokemongo/migrations/*"
+  - "backend/core/migrations/*"
+  - "backend/pokemongo/migrations/*"

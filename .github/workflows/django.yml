@@ -19,6 +19,7 @@ jobs:
           cache: "pipenv"
       - name: Install Dependencies from APT
         run: sudo apt-get update && sudo apt-get -y install gettext gdal-bin python3-gdal
+      - run: cd backend
       - name: Setting up Python environment
         run: |
           pip install -U pip pipenv

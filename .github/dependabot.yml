@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "pip"
-    directory: "/"
+    directory: "/backend"
     schedule:
       interval: "daily"
     target-branch: develop
@@ -16,7 +16,7 @@ updates:
       - "pip"
 
   - package-ecosystem: "github-actions"
-    directory: "/"
+    directory: "/backend"
     schedule:
       interval: "daily"
     target-branch: develop
