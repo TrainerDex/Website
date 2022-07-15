@@ -19,25 +19,25 @@ jobs:
           cache: "pipenv"
       - name: Install Dependencies from APT
         run: sudo apt-get update && sudo apt-get -y install gettext gdal-bin python3-gdal
-      - run: cd backend
       - name: Setting up Python environment
         run: |
           pip install -U pip pipenv
+          cd backend
           pipenv install --dev --deploy
       - name: Staring Postgres (Docker)
-        run: docker-compose up -d
+        run: cd backend && docker-compose up -d
       - name: Run Tests
         run: |
-          pipenv run python manage.py test
+          cd backend && pipenv run python manage.py test
       - name: Check for uncommited migrations
         run: |
-          pipenv run python manage.py makemigrations --check core pokemongo
+          cd backend && pipenv run python manage.py makemigrations --check core pokemongo
       - name: Run Migrations
         run: |
-          pipenv run python manage.py migrate --noinput
+          cd backend && pipenv run python manage.py migrate --noinput
       - name: Compile Messages
         run: |
-          pipenv run python manage.py compilemessages
+          cd backend && pipenv run python manage.py compilemessages
       - name: System Check
         run: |
-          pipenv run python manage.py check
+          cd backend && pipenv run python manage.py check
