@@ -6,7 +6,7 @@
 	import LinearProgress from '@smui/linear-progress';
 	import { getStatByParameter, TotalXP, formatValue, listOfStats } from '../models/stats';
 	import moment from 'moment';
-	import type { SnapshotLeaderboard } from 'src/models/leaderboard';
+	import type { SnapshotLeaderboard } from '../models/leaderboard';
 	import Pagination from './Pagination.svelte';
 
 	let statString = TotalXP.parameter;

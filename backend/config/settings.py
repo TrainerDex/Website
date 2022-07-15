@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "robots",
     "oauth2_provider",
+    "django_svelte",
 ]
 
 MIDDLEWARE = [
@@ -166,7 +167,9 @@ USE_TZ = True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
-
+STATICFILES_DIRS = [
+    BASE_DIR.parent / "frontend" / "public" / "build",
+]
 
 # CORS
 # https://github.com/ottoyiu/django-cors-headers

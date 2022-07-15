@@ -1,20 +1,17 @@
 from django.urls import include, path
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 
-from pokemongo.views import leaderboard, new_update, profile_redirector
+from pokemongo.views import new_update, profile_redirector
 
 app_name = "trainerdex"
 
 urlpatterns = [
     path(
-        "leaderboard/",
-        include(
-            [
-                path("", leaderboard, name="leaderboard"),
-                path("country/<str:country>", leaderboard, name="leaderboard"),
-                path("community/<slug:community>", leaderboard, name="leaderboard"),
-            ]
+        "leaderboard",
+        TemplateView.as_view(
+            template_name="leaderboard.html",
         ),
+        name="leaderboard",
     ),
     path("profile/", profile_redirector, name="profile"),
     path("profile/id/<int:id>/", profile_redirector, name="profile"),
