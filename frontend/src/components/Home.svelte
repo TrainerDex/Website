@@ -11,7 +11,9 @@
 	<Cell span={4}>
 		<Paper>
 			<Title>Leaderboard</Title>
-			<Content><Leaderboard {stat} rowsPerPage={10} /></Content>
+			<Content style="margin: 0px -16px -24px -16px"
+				><Leaderboard {stat} rowsPerPage={10} /></Content
+			>
 		</Paper>
 	</Cell>
 	<Cell span={4}>
@@ -21,14 +23,14 @@
 		</Paper>
 	</Cell>
 	<Cell span={4}>
-		<iframe
-			src="https://discord.com/widget?id=364313717720219651&theme=dark"
-			width="350"
-			height="500"
-			allowtransparency={true}
-			frameborder="0"
-			sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-			title="Discord Widget"
-		/>
+		<Paper style="padding: 0px">
+			<iframe
+				src="https://discord.com/widget?id=364313717720219651&theme=light"
+				height="500"
+				allowtransparency={true}
+				sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+				title="Discord Widget"
+			/>
+		</Paper>
 	</Cell>
 </LayoutGrid>
