@@ -3,7 +3,7 @@
 
 	import Leaderboard from './Leaderboard.svelte';
 
-	export let stat: string;
+	export let stat: string | undefined = undefined;
 </script>
 
 <Paper>
