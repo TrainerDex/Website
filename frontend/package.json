@@ -37,6 +37,7 @@
     "@smui/data-table": "^6.0.0-beta.16",
     "@smui/icon-button": "^6.0.0-beta.16",
     "@smui/linear-progress": "^6.0.0-beta.16",
+    "@smui/paper": "^6.0.0-beta.16",
     "@smui/select": "^6.0.0-beta.16",
     "@smui/top-app-bar": "^6.0.0-beta.16",
     "humanize-plus": "^1.8.2",
