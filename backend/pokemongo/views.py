@@ -221,6 +221,14 @@ def new_update(request: HttpRequest) -> HttpResponse:
     return render(request, "create_update.html", context)
 
 
+def home(request: HttpRequest) -> HttpResponse:
+    return render(request, "home.html", {"props": request.GET})
+
+
+def leaderboard(request: HttpRequest) -> HttpResponse:
+    return render(request, "leaderboard.html", {"props": request.GET})
+
+
 @login_required
 def edit_profile(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and _check_if_self_valid(request):

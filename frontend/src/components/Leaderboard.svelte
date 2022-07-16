@@ -9,15 +9,22 @@
 	import type { SnapshotLeaderboard } from '../models/leaderboard';
 	import Pagination from './Pagination.svelte';
 
-	let statString = TotalXP.parameter;
-	$: stat = getStatByParameter(statString);
+	export let stat: string = TotalXP.parameter;
+
+	// assert stat is in listOfStats on the parameter key
+	if (!listOfStats.find((s) => s.parameter === stat)) {
+		console.warn(`${stat} is not a valid stat parameter`);
+		stat = TotalXP.parameter;
+	}
+
+	$: statMetaData = getStatByParameter(stat);
 
 	let leaderboard: SnapshotLeaderboard;
 
 	$: loaded = leaderboard?.count ?? false;
 
 	let rowsPerPage = 25;
-	$: rowOffset = stat ? 0 : 0; // This resets rowOffset to 0 when stat is changed.
+	$: rowOffset = statMetaData ? 0 : 0; // This resets rowOffset to 0 when stat is changed.
 
 	$: maximumRowOffset = loaded ? Math.ceil(leaderboard.count - rowsPerPage) : 0;
 
@@ -27,7 +34,7 @@
 	$: loadPage = async (): Promise<void> => {
 		if (typeof fetch !== 'undefined') {
 			leaderboard = await fetch(
-				`https://trainerdex.app/api/v2/leaderboard/?stat=${stat.parameter}&limit=${rowsPerPage}&offset=${rowOffset}`
+				`https://trainerdex.app/api/v2/leaderboard/?stat=${statMetaData.parameter}&limit=${rowsPerPage}&offset=${rowOffset}`
 			)
 				.then((response) => response.json())
 				.then((json) => json);
@@ -60,7 +67,7 @@
 		<Pagination slot="paginate">
 			<svelte:fragment slot="stat">
 				<Label>Selected Stat</Label>
-				<Select variant="outlined" bind:value={statString} noLabel>
+				<Select variant="outlined" bind:value={stat} noLabel>
 					{#each listOfStats as stat}
 						<Option value={stat.parameter}>{stat.name}</Option>
 					{/each}

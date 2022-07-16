@@ -6,13 +6,14 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import replace from '@rollup/plugin-replace';
+import fs from 'fs';
 
 // const production = !process.env.ROLLUP_WATCH;
 const production = false;
 
 function componentExportDetails(componentName) {
 	return {
-		input: `src/components/${componentName}.ts`,
+		input: `src/components/${componentName}.svelte.ts`,
 		output: {
 			sourcemap: true,
 			format: 'iife',
@@ -62,6 +63,13 @@ function componentExportDetails(componentName) {
 let exportable = [];
 
 // Add your component names here!
-['Leaderboard', 'Pagination'].forEach((d) => exportable.push(componentExportDetails(d)));
+
+// Get all components from the src/components directory
+const components = fs.readdirSync('./src/components'); // returns an array of all files in the directory
+for (let i = 0; i < components.length; i++) {
+	if (components[i].endsWith('.svelte.ts')) {
+		exportable.push(componentExportDetails(components[i].replace('.svelte.ts', '')));
+	}
+}
 
 export default exportable;
