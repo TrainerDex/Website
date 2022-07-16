@@ -2,7 +2,7 @@
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import Paper, { Title, Content } from '@smui/paper';
 
-	import Leaderboard from './Leaderboard.svelte';
+	import Leaderboard from '../components/LeaderboardComponent.svelte';
 
 	export let stat: string | undefined = undefined;
 </script>

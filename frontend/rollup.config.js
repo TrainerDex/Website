@@ -13,7 +13,7 @@ const production = false;
 
 function componentExportDetails(componentName) {
 	return {
-		input: `src/components/${componentName}.svelte.ts`,
+		input: `src/pages/${componentName}.svelte.ts`,
 		output: {
 			sourcemap: true,
 			format: 'iife',
@@ -64,11 +64,11 @@ let exportable = [];
 
 // Add your component names here!
 
-// Get all components from the src/components directory
-const components = fs.readdirSync('./src/components'); // returns an array of all files in the directory
-for (let i = 0; i < components.length; i++) {
-	if (components[i].endsWith('.svelte.ts')) {
-		exportable.push(componentExportDetails(components[i].replace('.svelte.ts', '')));
+// Get all Pages from the src/pages directory
+const pages = fs.readdirSync('./src/pages'); // returns an array of all files in the directory
+for (let i = 0; i < pages.length; i++) {
+	if (pages[i].endsWith('.svelte.ts')) {
+		exportable.push(componentExportDetails(pages[i].replace('.svelte.ts', '')));
 	}
 }
 
