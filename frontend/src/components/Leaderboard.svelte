@@ -23,7 +23,7 @@
 
 	$: loaded = leaderboard?.count ?? false;
 
-	let rowsPerPage = 25;
+	export let rowsPerPage = 25;
 	$: rowOffset = statMetaData ? 0 : 0; // This resets rowOffset to 0 when stat is changed.
 
 	$: maximumRowOffset = loaded ? Math.ceil(leaderboard.count - rowsPerPage) : 0;

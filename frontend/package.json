@@ -1,6 +1,5 @@
 {
   "name": "trainerdex",
-  "version": "0.0.1",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
@@ -33,9 +32,9 @@
   },
   "type": "module",
   "dependencies": {
-    "@smui/card": "^6.0.0-beta.16",
     "@smui/data-table": "^6.0.0-beta.16",
     "@smui/icon-button": "^6.0.0-beta.16",
+    "@smui/layout-grid": "^6.0.0-beta.16",
     "@smui/linear-progress": "^6.0.0-beta.16",
     "@smui/paper": "^6.0.0-beta.16",
     "@smui/select": "^6.0.0-beta.16",
