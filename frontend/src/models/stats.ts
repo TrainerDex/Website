@@ -45,7 +45,7 @@ export function getStatByName(name: string): StatMeta | null {
 }
 
 export function formatValue(value: number, statString: string): string {
-	let stat: StatMeta | null = getStatByParameter(statString);
+	const stat: StatMeta | null = getStatByParameter(statString);
 	if (stat === null) {
 		return humanize.intComma(value);
 	}
