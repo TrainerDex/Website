@@ -25,6 +25,7 @@ drf-ujson2 = "*"
 django-postgres-extra = "*"
 isodate = "*"
 gitpython = "*"
+pytesseract = "*"
 
 [dev-packages]
 flake8 = "*"
