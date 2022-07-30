@@ -144,4 +144,4 @@ class ActivityViewOCR(APIView):
                         print(f"{target_word} = {line}")
                         search_pattern = SearchPattern.NONE
 
-        return Response(data=stats, status=204)
+        return Response(data=stats, status=200)
