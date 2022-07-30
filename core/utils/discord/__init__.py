@@ -30,7 +30,6 @@ def list_bot_guilds(application: SocialApp) -> list[PartialGuildObject]:
         try:
             r.raise_for_status()
         except requests.HTTPError as e:
-            print(r.text)
             raise e
 
         if len(data := r.json()) != 200:
