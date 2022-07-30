@@ -105,7 +105,6 @@ class ActivityViewOCR(APIView):
         stats = {}
         target_words = iter(["Distance", "Pokémon", "PokéStops", "Total"])
         target_word = next(target_words)
-        print("Looking for:", target_word)
         search_pattern = SearchPattern.KEY
 
         for block in blocks:
@@ -125,7 +124,6 @@ class ActivityViewOCR(APIView):
                         target_word,
                     ).ratio()
                     if similarity_index > 0.5:
-                        print(f"{unit.text} is similar to {target_word} ({similarity_index})")
                         search_pattern = SearchPattern.VALUE
 
                 if search_pattern == SearchPattern.VALUE:
@@ -141,7 +139,6 @@ class ActivityViewOCR(APIView):
                         else:
                             stats[target_word] = int(line)
 
-                        print(f"{target_word} = {line}")
                         search_pattern = SearchPattern.NONE
 
         return Response(data=stats, status=200)
