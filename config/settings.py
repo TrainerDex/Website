@@ -6,7 +6,6 @@ from django.core.management.utils import get_random_secret_key
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
 
-from config import __version__
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,7 +88,6 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "core.context_processors.google_analytics",
-                "config.context_processors.version",
             ],
         },
     },
@@ -225,7 +223,7 @@ SOCIALACCOUNT_PROVIDERS = {
     "reddit": {
         "AUTH_PARAMS": {"duration": "permanent"},
         "SCOPE": ["identity", "submit"],
-        "USER_AGENT": f"django:trainerdex:{__version__} (by /u/jayturnr)",
+        "USER_AGENT": f"django:trainerdex (by /u/jayturnr)",
     },
     "google": {"SCOPE": ["profile", "email"], "AUTH_PARAMS": {"access_type": "online"}},
     "discord": {"SCOPE": ["identify", "email", "guilds", "guilds.join", "guilds.members.read"]},
