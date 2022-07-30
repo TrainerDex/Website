@@ -33,6 +33,7 @@ from pokemongo.shortcuts import (
     circled_level,
     get_country_info,
     get_possible_levels_from_total_xp,
+    get_level,
 )
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 
@@ -215,17 +216,13 @@ class Trainer(PublicModel):
 
     is_on_leaderboard.boolean = True
 
-    def level(self) -> str | int | None:
+    def get_level(self) -> str | int | None:
         try:
-            update: Update = (
-                self.update_set.exclude(total_xp__isnull=True)
-                .only("trainer_id", "total_xp")
-                .latest("update_time")
-            )
+            update: Update = self.update_set.only("trainer_level").latest("update_time")
         except Update.DoesNotExist:
             return None
         else:
-            return update.level()
+            return update.trainer_level
 
     @property
     def active(self) -> bool:
@@ -317,11 +314,15 @@ class Trainer(PublicModel):
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_profile(sender: type[User], **kwargs) -> Trainer | None:
-    if kwargs["created"] and not kwargs["raw"]:
-        trainer = Trainer.objects.create(
-            _nickname=kwargs["instance"].username, owner=kwargs["instance"]
-        )
+def create_profile(
+    sender: type[models.Model],
+    created: bool = None,
+    raw: bool = None,
+    instance: User = None,
+    **kwargs,
+) -> Trainer | None:
+    if created and not raw:
+        trainer = Trainer.objects.create(_nickname=instance.username, owner=instance)
         return trainer
 
 
@@ -361,11 +362,17 @@ class Nickname(models.Model):
 
 
 @receiver(post_save, sender=Trainer)
-def new_trainer_set_nickname(sender: type[Trainer], **kwargs) -> Nickname | None:
-    if kwargs["created"] and not kwargs["raw"]:
+def new_trainer_set_nickname(
+    sender: type[models.Model],
+    created: bool = None,
+    raw: bool = None,
+    instance: Trainer = None,
+    **kwargs,
+) -> Nickname | None:
+    if created and not raw:
         nickname = Nickname.objects.create(
-            trainer=kwargs["instance"],
-            nickname=kwargs["instance"].owner.username,
+            trainer=instance,
+            nickname=instance.owner.username,
             active=True,
         )
         return nickname
@@ -425,6 +432,12 @@ class Update(PublicModel):
         blank=True,
         verbose_name=pgettext_lazy("profile_total_xp", "Total XP"),
         validators=[MinValueValidator(100)],
+    )
+    trainer_level: int | None = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("profile_trainer_level", "Trainer Level"),
+        validators=[MinValueValidator(1), MaxValueValidator(50)],
     )
 
     # Pokedex Figures
@@ -1093,16 +1106,6 @@ class Update(PublicModel):
         validators=[MaxValueValidator(1000)],
     )
 
-    def level(self) -> int | str:
-        if self.total_xp:
-            possible_levels = [
-                x.level for x in get_possible_levels_from_total_xp(xp=self.total_xp)
-            ]
-            if min(possible_levels) == max(possible_levels):
-                return min(possible_levels)
-            else:
-                return f"{min(possible_levels)}-{max(possible_levels)}"
-
     def has_modified_extra_fields(self) -> bool:
         return bool(self.modified_extra_fields())
 
@@ -1140,6 +1143,22 @@ class Update(PublicModel):
         ]
 
     def clean(self) -> NoReturn | None:
+        if self.trainer_level and self.trainer_level not in map(
+            lambda x: x.level, (levels := get_possible_levels_from_total_xp(self.total_xp))
+        ):
+            formatted_levels = ", ".join(map(lambda x: str(x.level), levels))
+            raise ValidationError(
+                pgettext_lazy(
+                    "trainer_level_error",
+                    "The Trainer Level is not valid for the entered Total XP. Expected one of {levels}, got {trainer_level}.",
+                ).format(levels=formatted_levels, trainer_level=self.trainer_level)
+            )
+        elif (
+            not self.trainer_level
+            and len((levels := get_possible_levels_from_total_xp(self.total_xp))) == 1
+        ):
+            self.trainer_level = levels[0].level
+
         if not self.trainer:
             return
 
@@ -2132,31 +2151,29 @@ class Update(PublicModel):
 
 
 @receiver(post_save, sender=Update)
-def update_discord_level(sender, **kwargs) -> None:
-    if kwargs["created"] and not kwargs["raw"] and kwargs["instance"].total_xp:
-        level = kwargs["instance"].level()
-        if isinstance(level, str):
-            level = int(level.split("-")[0])
-            fortyplus = True
-        else:
-            fortyplus = False
+def update_discord_level(
+    sender: type[models.Model],
+    created: bool = None,
+    raw: bool = None,
+    instance: Update = None,
+    **kwargs,
+) -> None:
+    if created and not raw and instance.trainer_level:
+        discord: DiscordGuildMembership
         for discord in DiscordGuildMembership.objects.exclude(active=False).filter(
             guild__renamer=True,
             guild__renamer_with_level=True,
-            user__user__trainer=kwargs["instance"].trainer,
+            user__user__trainer=instance.trainer,
         ):
             if discord.nick_override:
                 base = discord.nick_override
             else:
-                base = kwargs["instance"].trainer.nickname
+                base = instance.trainer.nickname
 
             if discord.guild.renamer_with_level_format == "int":
-                ext = str(level)
+                ext = str(instance.trainer_level)
             elif discord.guild.renamer_with_level_format == "circled_level":
-                ext = circled_level(level)
-
-            if fortyplus:
-                ext += "+"
+                ext = circled_level(instance.trainer_level)
 
             if len(base) + len(ext) > 32:
                 chopped_base = base[slice(0, 32 - len(ext) - 1)]

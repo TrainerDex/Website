@@ -8,10 +8,11 @@ from typing import TYPE_CHECKING
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Max, Sum, Window
+from django.db.models import F, Max, Sum, Window, Subquery, OuterRef
 from django.db.models.functions import DenseRank
 from django.http import Http404, HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -23,7 +24,6 @@ from pokemongo.shortcuts import (
     chunks,
     filter_leaderboard_qs,
     get_country_info,
-    get_possible_levels_from_total_xp,
 )
 
 logger = logging.getLogger("django.trainerdex")
@@ -89,7 +89,7 @@ def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
         "trainer": trainer,
         "updates": trainer.update_set.all(),
         "stats": trainer.update_set.aggregate(**{x: Max(x) for x in UPDATE_SORTABLE_FIELDS}),
-        "level": trainer.level(),
+        "level": trainer.get_level(),
         "medal_data": {
             x.get("name"): {
                 **x,
@@ -295,8 +295,20 @@ def leaderboard(
         context["leaderboard"] = None
         return render(request, "leaderboard.html", context, status=404)
 
-    queryset = queryset.annotate(*[Max("update__" + x) for x in fields_to_calculate_max]).exclude(
-        **{f"update__{order_by}__max__isnull": True}
+    queryset = queryset.annotate(
+        level=Subquery(
+            Update.objects.filter(trainer=OuterRef("pk"), **{f"{order_by}__isnull": False})
+            .values("trainer_level")
+            .order_by("-update_time")[:1]
+        ),
+        **{
+            f"update__{field}__max": Subquery(
+                Update.objects.filter(trainer=OuterRef("pk"), **{f"{order_by}__isnull": False})
+                .values(field)
+                .order_by("-update_time")[:1]
+            )
+            for field in fields_to_calculate_max
+        },
     )
 
     Results = []
@@ -331,15 +343,8 @@ def leaderboard(
             "trainer": trainer,
             "total_xp": trainer.update__total_xp__max,
             "update_time": trainer.update__update_time__max,
+            "level": trainer.level,
         }
-
-        possible_levels = [
-            x.level for x in get_possible_levels_from_total_xp(xp=trainer.update__total_xp__max)
-        ]
-        if min(possible_levels) == max(possible_levels):
-            trainer_stats["level"] = str(min(possible_levels))
-        else:
-            trainer_stats["level"] = f"{min(possible_levels)}-{max(possible_levels)}"
 
         FIELDS = fields_to_calculate_max.copy()
         FIELDS.remove("update_time")

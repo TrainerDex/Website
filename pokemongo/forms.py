@@ -13,6 +13,7 @@ class UpdateForm(ModelForm):
                 "update_time",
                 "data_source",
                 "double_check_confirmation",
+                "trainer_level",
                 "total_xp",
                 "gym_gold",
                 "mini_collection",

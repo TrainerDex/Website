@@ -107,6 +107,7 @@ class UpdateAdmin(admin.ModelAdmin):
     autocomplete_fields = ["trainer"]
     list_display = (
         "trainer",
+        "trainer_level",
         "total_xp",
         "update_time",
         "created_at",
@@ -151,6 +152,7 @@ class UpdateAdmin(admin.ModelAdmin):
             pgettext("profile_category_stats", "Stats"),
             {
                 "fields": [
+                    "trainer_level",
                     "total_xp",
                     "pokedex_caught",
                     "pokedex_seen",

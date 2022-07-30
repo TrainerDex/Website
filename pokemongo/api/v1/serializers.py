@@ -30,6 +30,7 @@ class BriefUpdateSerializer(serializers.ModelSerializer):
             "trainer",
             "update_time",
             "xp",
+            "trainer_level",
             "total_xp",
             "modified_extra_fields",
         ]
@@ -342,6 +343,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
                 "update_time",
                 "xp",
                 "total_xp",
+                "trainer_level",
                 "pokedex_caught",
                 "pokedex_seen",
                 "gymbadges_gold",
@@ -428,7 +430,9 @@ class FactionSerializer(serializers.Serializer):
 
 class LeaderboardSerializer(serializers.Serializer):
     level = serializers.CharField(
+        source="trainer_level",
         read_only=True,
+        default="40+",
     )
     position = serializers.IntegerField(
         source="rank",
@@ -472,7 +476,7 @@ class LeaderboardSerializer(serializers.Serializer):
             "id",
             "username",
             "faction",
-            "level",
+            "trainer_level",
             "xp",
             "total_xp",
             "stat",
