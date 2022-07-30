@@ -15,7 +15,3 @@ COPY Pipfile.lock Pipfile.lock
 RUN pipenv sync
 
 COPY . .
-
-# RUN pipenv run python manage.py migrate --no-color --noinput -v 3
-
-# RUN pipenv run gunicorn --worker-tmp-dir /dev/shm config.wsgi
