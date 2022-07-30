@@ -143,7 +143,6 @@ class UpdateAdmin(admin.ModelAdmin):
                     "trainer",
                     "update_time",
                     "data_source",
-                    "screenshot",
                     "double_check_confirmation",
                 ]
             },
@@ -204,8 +203,7 @@ class TrainerAdmin(admin.ModelAdmin):
         "faction",
         "currently_banned",
         "is_on_leaderboard",
-        "is_verified",
-        "awaiting_verification",
+        "verified",
     )
     list_filter = (
         "faction",
@@ -254,7 +252,7 @@ class TrainerAdmin(admin.ModelAdmin):
                 )
             },
         ),
-        (_("Reports"), {"fields": ("last_cheated", "verified", "verification")}),
+        (_("Reports"), {"fields": ("last_cheated", "verified")}),
         (
             _("Leaderboard"),
             {"fields": ("country_iso", "statistics", "legacy_40")},

@@ -42,14 +42,6 @@ if TYPE_CHECKING:
     from django.contrib.auth.models import User
 
 
-def get_verification_image_path(instance: Trainer, filename: str) -> str:
-    return f"v_{instance.owner.id}_{timezone.now().timestamp()}{splitext(filename)[1]}"
-
-
-def get_verification_update_image_path(instance: Update, filename: str) -> str:
-    return f"v_{instance.trainer.owner.id}/v_{instance.trainer.id}_{timezone.now().timestamp()}{splitext(filename)[1]}"
-
-
 def get_path_for_badges(instance: ProfileBadge, filename: str) -> str:
     return f"profile/badges/{instance.slug}{splitext(filename)[1]}"
 
@@ -164,12 +156,6 @@ class Trainer(PublicModel):
         help_text=pgettext_lazy("level_40", "Achieve level 40 by December 31, 2020."),
     )
 
-    verification = models.ImageField(
-        upload_to=get_verification_image_path,
-        blank=True,
-        verbose_name=_("Screenshot"),
-    )
-
     def team(self) -> Faction | None:
         if self.faction:
             return Faction(int(self.faction))
@@ -219,42 +205,13 @@ class Trainer(PublicModel):
     def flag_emoji(self) -> str | None:
         return self.country_info().get("emoji")
 
-    def submitted_picture(self) -> bool:
-        return bool(self.verification)
-
-    submitted_picture.boolean = True
-
-    def awaiting_verification(self) -> bool:
-        if bool(self.verification) is True and bool(self.verified) is False:
-            return True
-        return False
-
-    awaiting_verification.boolean = True
-    awaiting_verification.short_description = _("Awaiting Verification")
-
-    def is_verified(self) -> bool:
-        return self.verified
-
-    is_verified.boolean = True
-    is_verified.short_description = _("Verified")
-
-    def is_verified_and_saved(self) -> bool:
-        return bool(bool(self.verified) and bool(self.verification))
-
-    is_verified_and_saved.boolean = True
-
     def verification_status(self) -> str:
-        if self.is_verified():
-            return _("Verified")
-        elif self.awaiting_verification():
-            return _("Awaiting Verification")
-        else:
-            return _("Unverified")
+        return _("Verified") if self.verified else _("Unverified")
 
-    is_verified.short_description = _("Verification Status")
+    verification_status.short_description = _("Verification Status")
 
     def is_on_leaderboard(self) -> bool:
-        return bool(self.is_verified and self.statistics and not self.currently_banned())
+        return self.verified and self.statistics and not self.currently_banned()
 
     is_on_leaderboard.boolean = True
 
@@ -276,7 +233,7 @@ class Trainer(PublicModel):
 
     @property
     def profile_complete(self) -> bool:
-        return bool(self.verification) or self.verified
+        return self.verified
 
     profile_completed_optional = profile_complete
 
@@ -457,12 +414,6 @@ class Update(PublicModel):
         choices=DATABASE_SOURCES,
         default="?",
         verbose_name=_("Source"),
-    )
-    screenshot: models.FieldFile = models.ImageField(
-        upload_to=get_verification_update_image_path,
-        blank=True,
-        verbose_name=_("Screenshot"),
-        help_text=_("This should be your TOTAL XP screenshot."),
     )
 
     # Error Override Checks

@@ -32,5 +32,4 @@ class TrainerForm(ModelForm):
             "statistics",
             "trainer_code",
             "country_iso",
-            "verification",
         )

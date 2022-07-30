@@ -33,13 +33,13 @@ if TYPE_CHECKING:
 
 
 def _check_if_trainer_valid(user: User) -> bool:
-    profile_complete = user.trainer.profile_complete
+    verified = user.trainer.verified
     logger.debug(
         msg="Checking {nickname}: Completed profile: {status}".format(
-            nickname=user.username, status=profile_complete
+            nickname=user.username, status=verified
         ),
     )
-    return profile_complete
+    return verified
 
 
 def _check_if_self_valid(request: HttpRequest) -> bool:
@@ -382,7 +382,6 @@ def edit_profile(request: HttpRequest) -> HttpResponse:
             messages.warning(request, "You have not posted your stats yet.")
 
     form = TrainerForm(instance=request.user.trainer)
-    form.fields["verification"].required = not request.user.trainer.verified
 
     if request.method == "POST":
         form = TrainerForm(request.POST, request.FILES, instance=request.user.trainer)

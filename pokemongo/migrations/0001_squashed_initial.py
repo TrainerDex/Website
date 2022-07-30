@@ -663,7 +663,7 @@ class Migration(migrations.Migration):
                     "verification",
                     models.ImageField(
                         blank=True,
-                        upload_to=pokemongo.models.get_verification_image_path,
+                        upload_to=lambda instance, filename: "",
                         verbose_name="Screenshot",
                     ),
                 ),
@@ -742,7 +742,7 @@ class Migration(migrations.Migration):
                     models.ImageField(
                         blank=True,
                         help_text="This should be your TOTAL XP screenshot.",
-                        upload_to=pokemongo.models.get_verification_update_image_path,
+                        upload_to=lambda instance, filename: "",
                         verbose_name="Screenshot",
                     ),
                 ),
