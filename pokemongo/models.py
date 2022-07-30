@@ -1143,8 +1143,13 @@ class Update(PublicModel):
         ]
 
     def clean(self) -> NoReturn | None:
-        if self.trainer_level and self.trainer_level not in map(
-            lambda x: x.level, (levels := get_possible_levels_from_total_xp(self.total_xp))
+        if (
+            self.total_xp
+            and self.trainer_level
+            and self.trainer_level
+            not in map(
+                lambda x: x.level, (levels := get_possible_levels_from_total_xp(self.total_xp))
+            )
         ):
             formatted_levels = ", ".join(map(lambda x: str(x.level), levels))
             raise ValidationError(
@@ -1154,7 +1159,8 @@ class Update(PublicModel):
                 ).format(levels=formatted_levels, trainer_level=self.trainer_level)
             )
         elif (
-            not self.trainer_level
+            self.total_xp
+            and not self.trainer_level
             and len((levels := get_possible_levels_from_total_xp(self.total_xp))) == 1
         ):
             self.trainer_level = levels[0].level
@@ -1223,12 +1229,6 @@ class Update(PublicModel):
                         field.name,
                     )
                     if bool(leading_value):
-                        print(
-                            "comparing",
-                            field.name,
-                            getattr(self, field.name),
-                            leading_value,
-                        )
                         if getattr(self, field.name) > (leading_value * Decimal("1.5")):
                             soft_error_dict[field.name].append(
                                 ValidationError(
