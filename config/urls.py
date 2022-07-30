@@ -9,6 +9,7 @@ from rest_framework.authtoken import views
 
 from core import sitemaps
 from core.views import privacy, service_status, settings, terms
+from ocr.views import ActivityViewOCR
 from pokemongo.views import edit_profile
 
 app_name = "trainerdex"
@@ -29,6 +30,7 @@ urlpatterns = [
     path("api/admin/doc/", include("django.contrib.admindocs.urls")),
     path("api/admin/", admin.site.urls),
     path("api/", include("core.api.urls")),
+    path("api/ocr/", include("ocr.urls")),
     path("api/v1/", include("pokemongo.api.v1.urls")),
     path("api/v2/", include("pokemongo.api.v2.urls")),
     path("api/token-auth/", views.obtain_auth_token),

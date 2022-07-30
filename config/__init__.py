@@ -1,18 +1,10 @@
-import subprocess
-
-commit_count = (
-    subprocess.run(["git", "rev-list", "HEAD", "--count"], stdout=subprocess.PIPE)
-    .stdout.decode("utf-8")
-    .strip()
-)
-commit_sha = (
-    subprocess.run(["git", "rev-parse", "--short", "HEAD"], stdout=subprocess.PIPE)
-    .stdout.decode("utf-8")
-    .strip()
-)
+import git
 
 
-__version__ = "0.{commit_count}-{commit_sha}".format(
-    commit_count=commit_count, commit_sha=commit_sha
-)
-VERSION = __version__
+def get_version():
+    repo = git.Repo(search_parent_directories=True)
+    count = len(list(repo.iter_commits()))
+    return f"0.{count} ({repo.head.commit.hexsha[:7]})"
+
+
+__version__ = get_version()
