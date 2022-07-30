@@ -1229,12 +1229,6 @@ class Update(PublicModel):
                         field.name,
                     )
                     if bool(leading_value):
-                        print(
-                            "comparing",
-                            field.name,
-                            getattr(self, field.name),
-                            leading_value,
-                        )
                         if getattr(self, field.name) > (leading_value * Decimal("1.5")):
                             soft_error_dict[field.name].append(
                                 ValidationError(
