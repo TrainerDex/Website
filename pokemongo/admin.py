@@ -107,6 +107,7 @@ class UpdateAdmin(admin.ModelAdmin):
     autocomplete_fields = ["trainer"]
     list_display = (
         "trainer",
+        "trainer_level",
         "total_xp",
         "update_time",
         "created_at",
@@ -143,7 +144,6 @@ class UpdateAdmin(admin.ModelAdmin):
                     "trainer",
                     "update_time",
                     "data_source",
-                    "screenshot",
                     "double_check_confirmation",
                 ]
             },
@@ -152,6 +152,7 @@ class UpdateAdmin(admin.ModelAdmin):
             pgettext("profile_category_stats", "Stats"),
             {
                 "fields": [
+                    "trainer_level",
                     "total_xp",
                     "pokedex_caught",
                     "pokedex_seen",
@@ -204,8 +205,7 @@ class TrainerAdmin(admin.ModelAdmin):
         "faction",
         "currently_banned",
         "is_on_leaderboard",
-        "is_verified",
-        "awaiting_verification",
+        "verified",
     )
     list_filter = (
         "faction",
@@ -254,7 +254,7 @@ class TrainerAdmin(admin.ModelAdmin):
                 )
             },
         ),
-        (_("Reports"), {"fields": ("last_cheated", "verified", "verification")}),
+        (_("Reports"), {"fields": ("last_cheated", "verified")}),
         (
             _("Leaderboard"),
             {"fields": ("country_iso", "statistics", "legacy_40")},

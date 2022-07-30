@@ -13,6 +13,7 @@ class UpdateForm(ModelForm):
                 "update_time",
                 "data_source",
                 "double_check_confirmation",
+                "trainer_level",
                 "total_xp",
                 "gym_gold",
                 "mini_collection",
@@ -32,5 +33,4 @@ class TrainerForm(ModelForm):
             "statistics",
             "trainer_code",
             "country_iso",
-            "verification",
         )
