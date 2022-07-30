@@ -382,10 +382,6 @@ class Update(PublicModel):
         verbose_name=_("Time Updated"),
     )
 
-    @property
-    def submission_date(self) -> datetime:
-        return self.created_at
-
     DATABASE_SOURCES = (
         ("?", None),
         ("cs_social_twitter", "Twitter (Found)"),
