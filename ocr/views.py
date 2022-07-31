@@ -278,18 +278,19 @@ class ActivityViewOCR(APIView):
                 found_target.right_image
             ).strip()
 
+        print(found_targets)
         return {
             "total_xp": self.strip_non_digits(
-                found_targets.get(SearchTerms.TOTAL_XP).found_value,
+                found_targets[SearchTerms.TOTAL_XP].found_value,
             ),
             "travel_km": self.process_km_text(
-                found_targets.get(SearchTerms.DISTANCE_TRAVELED).found_value,
+                found_targets[SearchTerms.DISTANCE_TRAVELED].found_value,
             ),
             "capture_total": self.strip_non_digits(
-                found_targets.get(SearchTerms.POKEMON_CAUGHT).found_value,
+                found_targets[SearchTerms.POKEMON_CAUGHT].found_value,
             ),
             "pokestops_visited": self.strip_non_digits(
-                found_targets.get(SearchTerms.POKESTOPS_SPUN).found_value,
+                found_targets[SearchTerms.POKESTOPS_SPUN].found_value,
             ),
         }
 
