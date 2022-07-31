@@ -2,7 +2,6 @@ import re
 from collections import defaultdict
 from decimal import Decimal
 from difflib import SequenceMatcher
-from enum import Enum
 from typing import Iterator, List, NamedTuple
 
 import pytesseract
@@ -84,12 +83,6 @@ class Line(NamedTuple):
         return f"[{self.page_num}:{self.block_num}:{self.par_num}:{self.line_num}] {self.bounding_box}: {self.text}"
 
 
-class SearchPattern(Enum):
-    NONE = 0
-    KEY = 1
-    VALUE = 2
-
-
 class ActivityViewOCR(APIView):
     parser_classes = [FileUploadParser]
     # authentication_classes = [TokenAuthentication, OAuth2Authentication]
@@ -128,48 +121,98 @@ class ActivityViewOCR(APIView):
         Image.open(file_object).verify()
 
         image = Image.open(file_object)
-        image_rgb = image.convert("RGB")
-        data = pytesseract.image_to_data(image_rgb, output_type=pytesseract.Output.DICT)
 
-        blocks = self.process_lines(self.process_words(data))
+        image_left = image.crop((0, 0, image.width // 2, image.height))
+        image_right = image.crop((image.width // 2, 0, image.width, image.height))
+
+        left_data = pytesseract.image_to_data(
+            image_left.convert("RGB"),
+            output_type=pytesseract.Output.DICT,
+        )
+
+        left_lines = list(self.process_lines(self.process_words(left_data)))
 
         stats = {}
         target_words = iter(["Distance", "Pokémon", "PokéStops", "Total"])
         target_word = next(target_words)
-        search_pattern = SearchPattern.KEY
 
-        for block in blocks:
-            if search_pattern == SearchPattern.NONE:
-                try:
-                    target_word = next(target_words)
-                except StopIteration:
+        found_targets: dict[str, Line] = {}
+
+        while True:
+            if target_word is None:
+                break
+            # print("Searching for", target_word)
+            for line in left_lines:
+                if target_word in found_targets:
                     break
-                else:
-                    search_pattern = SearchPattern.KEY
-
-            for unit in block.words:
-                if search_pattern == SearchPattern.KEY:
+                # print("Processing line:", line)
+                for word in line.words:
                     similarity_index = SequenceMatcher(
                         None,
-                        unit.text,
+                        word.text,
                         target_word,
                     ).ratio()
                     if similarity_index > 0.5:
-                        search_pattern = SearchPattern.VALUE
+                        # print(f"Found {target_word} at {line}")
+                        found_targets[target_word] = line
+                        if target_word == "Total":
+                            print(line)
+                            for word in line.words:
+                                print(word)
+                                word.crop(image_left).show()
 
-                if search_pattern == SearchPattern.VALUE:
-                    if (line := re.sub(r"[^0-9]", "", unit.text)).strip():
-                        if target_word == "Distance":
-                            # Distance is in the form of "69,023.2" or "69.023,2". We need to convert it to "69023.2"
-                            separators = re.sub("[0-9]", "", unit.text)
-                            for sep in separators[:-1]:
-                                line = unit.text.replace(sep, "")
-                            if separators:
-                                line = line.replace(separators[-1], ".")
-                            stats[target_word] = Decimal(line)
-                        else:
-                            stats[target_word] = int(line)
+                                if word.text == "q":
+                                    image.crop(
+                                        (
+                                            word.left,
+                                            word.top,
+                                            word.width + (image.width // 2),
+                                            word.top + word.height,
+                                        )
+                                    ).show()
+                        break
+            target_word = next(target_words, None)
 
-                        search_pattern = SearchPattern.NONE
+        # right_data = pytesseract.image_to_data(
+        #     image_right.convert("RGB"),
+        #     output_type=pytesseract.Output.DICT,
+        # )
+        # right_lines = self.process_lines(self.process_words(left_data))
 
-        return Response(data=stats, status=200)
+        new_stat_images: dict[str, Image.Image] = {}
+        new_stat_images_str: dict[str, str] = {}
+
+        for target, line in found_targets.items():
+            # Crop image to the same vertile space as the line, but the width is the full image width, except the left 64 pixels, to cut out the rubbish, and the right 24 pixels to cut out the border
+            line_height = line.bounding_box[3] - line.bounding_box[1]
+            padding = 0  # (line_height // image_right.height) ** 0.05
+            top = line.bounding_box[1] - padding
+            bottom = line.bounding_box[3] + padding
+            left = 64
+            right = image_right.width - 24
+
+            new_stat_images[target] = image_right.convert("RGB").crop((left, top, right, bottom))
+            # new_stat_images[target].show()
+            new_stat_images_str[target] = pytesseract.image_to_string(
+                new_stat_images[target]
+            ).strip()
+
+        print(new_stat_images_str)
+
+        return Response(data=new_stat_images_str, status=200)
+
+
+# if search_pattern == SearchPattern.VALUE:
+#     if (line := re.sub(r"[^0-9]", "", word.text)).strip():
+#         if target_word == "Distance":
+#             # Distance is in the form of "69,023.2" or "69.023,2". We need to convert it to "69023.2"
+#             separators = re.sub("[0-9]", "", word.text)
+#             for sep in separators[:-1]:
+#                 line = word.text.replace(sep, "")
+#             if separators:
+#                 line = line.replace(separators[-1], ".")
+#             stats[target_word] = Decimal(line)
+#         else:
+#             stats[target_word] = int(line)
+
+#         search_pattern = SearchPattern.NONE
