@@ -270,9 +270,6 @@ class ActivityViewOCR(APIView):
 
         print(found_targets)
         return {
-            "total_xp": self.strip_non_digits(
-                found_targets[SearchTerms.TOTAL_XP].found_value,
-            ),
             "travel_km": self.process_km_text(
                 found_targets[SearchTerms.DISTANCE_TRAVELED].found_value,
             ),
@@ -281,6 +278,9 @@ class ActivityViewOCR(APIView):
             ),
             "pokestops_visited": self.strip_non_digits(
                 found_targets[SearchTerms.POKESTOPS_SPUN].found_value,
+            ),
+            "total_xp": self.strip_non_digits(
+                found_targets[SearchTerms.TOTAL_XP].found_value,
             ),
         }
 
