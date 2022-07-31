@@ -31,6 +31,18 @@ class Unit(NamedTuple):
     conf: Decimal
     text: str
 
+    @property
+    def bounding_box(self):
+        return (
+            self.left,
+            self.top,
+            self.left + self.width,
+            self.top + self.height,
+        )
+
+    def __str__(self):
+        return f"[{self.page_num}:{self.block_num}:{self.par_num}:{self.line_num}:{self.word_num}] {self.bounding_box}: {self.text}"
+
 
 class Block(NamedTuple):
     page_num: int
