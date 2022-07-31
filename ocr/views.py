@@ -76,7 +76,8 @@ class ActivityViewOCR(APIView):
         file_object: UploadedFile = request.data["file"]
         Image.open(file_object).verify()
 
-        image_rgb = Image.open(file_object).convert("RGB")
+        image = Image.open(file_object)
+        image_rgb = image.convert("RGB")
         data = pytesseract.image_to_data(image_rgb, output_type=pytesseract.Output.DICT)
 
         units = [
