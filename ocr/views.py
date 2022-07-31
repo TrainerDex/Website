@@ -3,7 +3,7 @@ from collections import defaultdict
 from decimal import Decimal
 from difflib import SequenceMatcher
 from enum import Enum
-from typing import List, NamedTuple
+from typing import Iterator, List, NamedTuple
 
 import pytesseract
 from django.core.files.uploadedfile import UploadedFile
@@ -72,6 +72,32 @@ class ActivityViewOCR(APIView):
     authentication_classes = []
     permission_classes = []
 
+    def process_units(self, d: dict) -> Iterator[Unit]:
+        for i in range(len(d["level"])):
+            if isinstance(d["text"], str) and d["text"].strip():
+                yield Unit(
+                    level=d["level"][i],
+                    page_num=d["page_num"][i],
+                    block_num=d["block_num"][i],
+                    par_num=d["par_num"][i],
+                    line_num=d["line_num"][i],
+                    word_num=d["word_num"][i],
+                    left=d["left"][i],
+                    top=d["top"][i],
+                    width=d["width"][i],
+                    height=d["height"][i],
+                    conf=Decimal(d["conf"][i]),
+                    text=d["text"][i],
+                )
+
+    def process_blocks(self, u: Iterator[Unit]) -> Iterator[Block]:
+        block_dict = defaultdict(list)
+        for unit in u:
+            block_dict[(unit.page_num, unit.block_num, unit.par_num, unit.line_num)].append(unit)
+
+        for key, units in block_dict.items():
+            yield Block(*key, units=units)
+
     def put(self, request: Request):
         file_object: UploadedFile = request.data["file"]
         Image.open(file_object).verify()
@@ -80,31 +106,7 @@ class ActivityViewOCR(APIView):
         image_rgb = image.convert("RGB")
         data = pytesseract.image_to_data(image_rgb, output_type=pytesseract.Output.DICT)
 
-        units = [
-            Unit(
-                level=data["level"][i],
-                page_num=data["page_num"][i],
-                block_num=data["block_num"][i],
-                par_num=data["par_num"][i],
-                line_num=data["line_num"][i],
-                word_num=data["word_num"][i],
-                left=data["left"][i],
-                top=data["top"][i],
-                width=data["width"][i],
-                height=data["height"][i],
-                conf=Decimal(data["conf"][i]),
-                text=data["text"][i],
-            )
-            for i in range(len(data["level"]))
-        ]
-        block_dict = defaultdict(list)
-        for unit in units:
-            if unit.text.strip():
-                block_dict[(unit.page_num, unit.block_num, unit.par_num, unit.line_num)].append(
-                    unit
-                )
-        del units
-        blocks = [Block(*key, units=units) for key, units in block_dict.items()]
+        blocks = self.process_blocks(self.process_units(data))
 
         stats = {}
         target_words = iter(["Distance", "Pokémon", "PokéStops", "Total"])
