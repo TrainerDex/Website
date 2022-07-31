@@ -261,9 +261,6 @@ class ActivityViewOCR(APIView):
 
             target_word = next(target_words, None)
 
-        new_stat_images: dict[str, Image.Image] = {}
-        new_stat_images_str: dict[str, str] = {}
-
         for found_target in found_targets.values():
             line = found_target.left_line
             line_height = line.bounding_box[3] - line.bounding_box[1]
