@@ -17,7 +17,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
-class Unit(NamedTuple):
+class Word(NamedTuple):
     level: int
     page_num: int
     block_num: int
@@ -44,24 +44,24 @@ class Unit(NamedTuple):
         return f"[{self.page_num}:{self.block_num}:{self.par_num}:{self.line_num}:{self.word_num}] {self.bounding_box}: {self.text}"
 
 
-class Block(NamedTuple):
+class Line(NamedTuple):
     page_num: int
     block_num: int
     par_num: int
     line_num: int
-    units: List[Unit]
+    words: List[Word]
 
     @property
     def text(self):
-        return " ".join(unit.text for unit in self.units)
+        return " ".join(unit.text for unit in self.words)
 
     @property
     def bounding_box(self):
         return (
-            min(unit.left for unit in self.units),
-            min(unit.top for unit in self.units),
-            max(unit.left + unit.width for unit in self.units),
-            max(unit.top + unit.height for unit in self.units),
+            min(unit.left for unit in self.words),
+            min(unit.top for unit in self.words),
+            max(unit.left + unit.width for unit in self.words),
+            max(unit.top + unit.height for unit in self.words),
         )
 
     def crop(self, image: Image.Image) -> Image.Image:
@@ -84,10 +84,10 @@ class ActivityViewOCR(APIView):
     authentication_classes = []
     permission_classes = []
 
-    def process_units(self, d: dict) -> Iterator[Unit]:
+    def process_words(self, d: dict) -> Iterator[Word]:
         for i in range(len(d["level"])):
             if isinstance(d["text"], str) and d["text"].strip():
-                yield Unit(
+                yield Word(
                     level=d["level"][i],
                     page_num=d["page_num"][i],
                     block_num=d["block_num"][i],
@@ -102,13 +102,13 @@ class ActivityViewOCR(APIView):
                     text=d["text"][i],
                 )
 
-    def process_blocks(self, u: Iterator[Unit]) -> Iterator[Block]:
-        block_dict = defaultdict(list)
-        for unit in u:
-            block_dict[(unit.page_num, unit.block_num, unit.par_num, unit.line_num)].append(unit)
+    def process_lines(self, words: Iterator[Word]) -> Iterator[Line]:
+        lines = defaultdict(list)
+        for word in words:
+            lines[(word.page_num, word.block_num, word.par_num, word.line_num)].append(word)
 
-        for key, units in block_dict.items():
-            yield Block(*key, units=units)
+        for key, line in lines.items():
+            yield Line(*key, words=line)
 
     def put(self, request: Request):
         file_object: UploadedFile = request.data["file"]
@@ -118,7 +118,7 @@ class ActivityViewOCR(APIView):
         image_rgb = image.convert("RGB")
         data = pytesseract.image_to_data(image_rgb, output_type=pytesseract.Output.DICT)
 
-        blocks = self.process_blocks(self.process_units(data))
+        blocks = self.process_lines(self.process_words(data))
 
         stats = {}
         target_words = iter(["Distance", "Pokémon", "PokéStops", "Total"])
@@ -134,7 +134,7 @@ class ActivityViewOCR(APIView):
                 else:
                     search_pattern = SearchPattern.KEY
 
-            for unit in block.units:
+            for unit in block.words:
                 if search_pattern == SearchPattern.KEY:
                     similarity_index = SequenceMatcher(
                         None,
