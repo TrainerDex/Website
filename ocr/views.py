@@ -252,7 +252,7 @@ class ActivityViewOCR(APIView):
                     similarity_index = SequenceMatcher(
                         None,
                         word.text,
-                        target_word,
+                        target_word.value,
                     ).ratio()
                     if similarity_index > 0.5:
                         found_targets[target_word].left_line = found_target
