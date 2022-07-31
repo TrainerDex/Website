@@ -25,6 +25,8 @@ drf-ujson2 = "*"
 django-postgres-extra = "*"
 isodate = "*"
 pytesseract = "*"
+numpy = "*"
+opencv-python-headless = "*"
 
 [dev-packages]
 flake8 = "*"
