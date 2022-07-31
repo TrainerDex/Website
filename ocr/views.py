@@ -40,6 +40,9 @@ class Word(NamedTuple):
             self.top + self.height,
         )
 
+    def crop(self, image: Image.Image) -> Image.Image:
+        return image.crop(self.bounding_box)
+
     def __str__(self):
         return f"[{self.page_num}:{self.block_num}:{self.par_num}:{self.line_num}:{self.word_num}] {self.bounding_box}: {self.text}"
 
@@ -62,6 +65,16 @@ class Line(NamedTuple):
             min(unit.top for unit in self.words),
             max(unit.left + unit.width for unit in self.words),
             max(unit.top + unit.height for unit in self.words),
+        )
+
+    @property
+    def weighted_avg_conf(self):
+        return sum(unit.conf for unit in self.words) / len(self.words)
+
+    @property
+    def avg_conf_by_length(self):
+        return sum(unit.conf * len(unit.text) for unit in self.words) / len(
+            self.words * len(self.text)
         )
 
     def crop(self, image: Image.Image) -> Image.Image:
