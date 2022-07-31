@@ -86,7 +86,7 @@ class ActivityViewOCR(APIView):
 
     def process_words(self, d: dict) -> Iterator[Word]:
         for i in range(len(d["level"])):
-            if isinstance(d["text"], str) and d["text"].strip():
+            if isinstance(d["text"][i], str) and d["text"][i].strip():
                 yield Word(
                     level=d["level"][i],
                     page_num=d["page_num"][i],
