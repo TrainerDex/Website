@@ -234,22 +234,26 @@ class ActivityViewOCR(APIView):
         target_word = next(target_words)
 
         found_targets: dict[str, FoundTarget] = defaultdict(FoundTarget)
+        used_words = []
 
         while True:
             if target_word is None:
                 break
-            for found_target in left_lines:
+            for line in left_lines:
                 if target_word in found_targets:
                     break
-                for word in found_target.words:
+                for word in line.words:
+                    if word in used_words:
+                        continue
                     similarity_index = SequenceMatcher(
                         None,
                         word.text,
                         target_word.value,
                     ).ratio()
                     if similarity_index > 0.5:
-                        found_targets[target_word].left_line = found_target
-                        found_targets[target_word].left_image = found_target.crop(image_left)
+                        used_words.append(word)
+                        found_targets[target_word].left_line = line
+                        found_targets[target_word].left_image = line.crop(image_left)
                         break
 
             target_word = next(target_words, None)
