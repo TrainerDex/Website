@@ -210,7 +210,12 @@ class ActivityViewOCR(APIView):
     def strip_non_digits(s: str) -> int:
         if s is None:
             return None
-        return int(re.sub("[^0-9]", "", s))
+
+        s = re.sub("[^0-9]", "", s)
+        try:
+            return int(s)
+        except ValueError:
+            return None
 
     def get_stats_from_activity_section(self, image: Image.Image) -> dict:
         image_left = image.crop((0, 0, image.width // 2, image.height))
