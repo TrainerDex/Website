@@ -2320,16 +2320,14 @@ class CommunityMembershipDiscord(models.Model):
     def members_queryset(self) -> models.QuerySet[Trainer]:
         if self.sync_members:
             qs = Trainer.objects.exclude(owner__is_active=False).filter(
-                owner__socialaccount__discordguildmembership__guild__communitymembershipdiscord=self
+                owner__socialaccount__guild_memberships__guild__communitymembershipdiscord=self
             )
 
             if self.include_roles.exists():
                 q = models.Q()
                 for role in self.include_roles.all():
                     q = q | models.Q(
-                        owner__socialaccount__discordguildmembership__data__roles__contains=str(
-                            role.id
-                        )
+                        owner__socialaccount__guild_memberships__data__roles__contains=str(role.id)
                     )
                 qs = qs.filter(q)
 
@@ -2337,9 +2335,7 @@ class CommunityMembershipDiscord(models.Model):
                 q = models.Q()
                 for role in self.exclude_roles.all():
                     q = q | models.Q(
-                        owner__socialaccount__discordguildmembership__data__roles__contains=str(
-                            role.id
-                        )
+                        owner__socialaccount__guild_memberships__data__roles__contains=str(role.id)
                     )
                 qs = qs.exclude(q)
 
