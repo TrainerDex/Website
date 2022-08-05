@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 from collections import defaultdict
 from dataclasses import dataclass
@@ -7,7 +9,6 @@ from enum import Enum
 from math import sqrt
 from typing import Iterator, List, NamedTuple, Optional
 
-import cv2 as cv
 import numpy as np
 import pytesseract
 from django.contrib.staticfiles import finders
@@ -20,6 +21,12 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+
+try:
+    import cv2 as cv
+except ImportError:
+    cv = None
 
 
 class BoundingBox(NamedTuple):
@@ -293,6 +300,9 @@ class ActivityViewOCR(APIView):
         }
 
     def put(self, request: Request):
+        if cv is None:
+            raise ImportError("OpenCV is not installed")
+
         file_object: UploadedFile = request.data["file"]
         Image.open(file_object).verify()
 
