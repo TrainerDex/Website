@@ -6,16 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pokemongo', '0011_missing_stats'),
+        ("pokemongo", "0011_missing_stats"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='trainer',
-            name='verification',
+            model_name="trainer",
+            name="verification",
         ),
         migrations.RemoveField(
-            model_name='update',
-            name='screenshot',
+            model_name="update",
+            name="screenshot",
         ),
     ]
