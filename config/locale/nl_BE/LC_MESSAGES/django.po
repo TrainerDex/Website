@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: trainerdex\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-05 19:22+0000\n"
+"POT-Creation-Date: 2022-08-05 20:30+0000\n"
 "PO-Revision-Date: 2021-05-25 20:15\n"
 "Last-Translator: \n"
 "Language-Team: Dutch, Belgium\n"
@@ -16,10 +16,6 @@ msgstr ""
 "X-Crowdin-Language: nl-BE\n"
 "X-Crowdin-File: /master/django.pot\n"
 "X-Crowdin-File-ID: 38\n"
-
-#: config/abstract_models.py:14
-msgid "ID"
-msgstr ""
 
 #: config/abstract_models.py:15
 msgid "Created at"
@@ -35,10 +31,6 @@ msgstr ""
 
 #: config/abstract_models.py:18
 msgid "Deleted at"
-msgstr ""
-
-#: config/abstract_models.py:53
-msgid "UUID"
 msgstr ""
 
 #: config/settings.py:139
