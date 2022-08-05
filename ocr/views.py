@@ -11,6 +11,7 @@ from typing import Iterator, List, NamedTuple, Optional
 
 import numpy as np
 import pytesseract
+from asgiref.sync import async_to_sync
 from django.contrib.staticfiles import finders
 from django.core.files.uploadedfile import UploadedFile
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
@@ -299,7 +300,8 @@ class ActivityViewOCR(APIView):
             ),
         }
 
-    def put(self, request: Request):
+    @async_to_sync
+    async def put(self, request: Request):
         if cv is None:
             raise ImportError("OpenCV is not installed")
 

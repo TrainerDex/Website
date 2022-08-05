@@ -27,6 +27,7 @@ isodate = "*"
 pytesseract = "*"
 numpy = "*"
 opencv-python = "*"
+uvicorn = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 flake8 = "*"
