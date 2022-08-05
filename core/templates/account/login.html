@@ -16,47 +16,50 @@
     </div>
     {% get_providers as socialaccount_providers %}
     <form class="login" method="POST" action="{% url 'account_login' %}">
-    <div class="mdl-card__supporting-text">
-      {% blocktrans %}If you already have an account, you can login below or via a third party account.{% endblocktrans %}
-      {% include "socialaccount/snippets/login_extra.html" %}
-      <div id="form_login">
-        {% csrf_token %}
-        {% for hidden in form.hidden_fields %}
-        {{ hidden }}
-        {% endfor %}
-        {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.login.errors %} is-invalid{% endif %}" style="width: 100%;">
-            {{ form.login|add_class:"mdl-textfield__input"|remove_attr:"placeholder" }}
-            <label class="mdl-textfield__label" for="{{form.login.id_for_label}}">{{form.login.label}}</label>
-            {% for error in form.login.errors %}
-              <span class="mdl-textfield__error">{{error}}</span>
-            {% endfor %}
+      {% csrf_token %}
+      <div class="mdl-card__supporting-text">
+        {% blocktrans %}If you already have an account, you can login below or via a third party account.{% endblocktrans %}
+        {% include "socialaccount/snippets/login_extra.html" %}
+        <div id="form_login">
+          {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+          {% endfor %}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.login.errors %} is-invalid{% endif %}" style="width: 100%;">
+              {{ form.login|add_class:"mdl-textfield__input"|remove_attr:"placeholder" }}
+              <label class="mdl-textfield__label" for="{{form.login.id_for_label}}">{{form.login.label}}</label>
+              {% for error in form.login.errors %}
+                <span class="mdl-textfield__error">{{error}}</span>
+              {% endfor %}
+          </div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.password.errors %} is-invalid{% endif %}" style="width: 100%;">
+              {{ form.password|add_class:"mdl-textfield__input"|remove_attr:"placeholder" }}
+              <label class="mdl-textfield__label" for="{{form.password.id_for_label}}">{{form.password.label}}</label>
+              {% for error in form.password.errors %}
+                <span class="mdl-textfield__error">{{error}}</span>
+              {% endfor %}
+          </div>
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{form.remember.id_for_label}}" style="width: 100%;">
+            {% render_field form.remember class+="mdl-checkbox__input" %}
+            <span class="mdl-checkbox__label">{{form.remember.label}}</span>
+          </label>
         </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{% if form.password.errors %} is-invalid{% endif %}" style="width: 100%;">
-            {{ form.password|add_class:"mdl-textfield__input"|remove_attr:"placeholder" }}
-            <label class="mdl-textfield__label" for="{{form.password.id_for_label}}">{{form.password.label}}</label>
-            {% for error in form.password.errors %}
-              <span class="mdl-textfield__error">{{error}}</span>
-            {% endfor %}
-        </div>
-        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{form.remember.id_for_label}}" style="width: 100%;">
-          {% render_field form.remember class+="mdl-checkbox__input" %}
-          <span class="mdl-checkbox__label">{{form.remember.label}}</span>
-        </label>
       </div>
-    </div>
-    <div class="mdl-card__actions mdl-card--border">
-      <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit">{% trans "Login" %} &raquo;</button>
-    </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" type="submit">{% trans "Login" %} &raquo;</button>
+      </div>
+    </form>
     {% if socialaccount_providers %}
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    <form method="POST">
+      {% csrf_token %}
+      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    </form>
     {% endif %}
     <a class="mdl-card__menu mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" href="{% url 'account_reset_password' %}" title="{% trans 'Forget/Reset Password' %}">
       <i class="material-icons">priority_high</i>
     </a>
-    </form>
   </div>
 </div>
 {% endblock %}
