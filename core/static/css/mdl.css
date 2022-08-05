@@ -166,10 +166,12 @@ li.mdl-menu__item > i.material-icons {
   }
 
   .trainerdex-logo {
-    display: block !important;
-    position: absolute;
-    left: calc(50vw);
+    display: flex;
     transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .trainerdex-more-button {

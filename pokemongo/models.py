@@ -33,6 +33,7 @@ from pokemongo.shortcuts import (
     circled_level,
     get_country_info,
     get_possible_levels_from_total_xp,
+    get_level,
 )
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 
@@ -40,14 +41,6 @@ logger = logging.getLogger("django.trainerdex")
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import User
-
-
-def get_verification_image_path(instance: Trainer, filename: str) -> str:
-    return f"v_{instance.owner.id}_{timezone.now().timestamp()}{splitext(filename)[1]}"
-
-
-def get_verification_update_image_path(instance: Update, filename: str) -> str:
-    return f"v_{instance.trainer.owner.id}/v_{instance.trainer.id}_{timezone.now().timestamp()}{splitext(filename)[1]}"
 
 
 def get_path_for_badges(instance: ProfileBadge, filename: str) -> str:
@@ -164,12 +157,6 @@ class Trainer(PublicModel):
         help_text=pgettext_lazy("level_40", "Achieve level 40 by December 31, 2020."),
     )
 
-    verification = models.ImageField(
-        upload_to=get_verification_image_path,
-        blank=True,
-        verbose_name=_("Screenshot"),
-    )
-
     def team(self) -> Faction | None:
         if self.faction:
             return Faction(int(self.faction))
@@ -219,56 +206,23 @@ class Trainer(PublicModel):
     def flag_emoji(self) -> str | None:
         return self.country_info().get("emoji")
 
-    def submitted_picture(self) -> bool:
-        return bool(self.verification)
-
-    submitted_picture.boolean = True
-
-    def awaiting_verification(self) -> bool:
-        if bool(self.verification) is True and bool(self.verified) is False:
-            return True
-        return False
-
-    awaiting_verification.boolean = True
-    awaiting_verification.short_description = _("Awaiting Verification")
-
-    def is_verified(self) -> bool:
-        return self.verified
-
-    is_verified.boolean = True
-    is_verified.short_description = _("Verified")
-
-    def is_verified_and_saved(self) -> bool:
-        return bool(bool(self.verified) and bool(self.verification))
-
-    is_verified_and_saved.boolean = True
-
     def verification_status(self) -> str:
-        if self.is_verified():
-            return _("Verified")
-        elif self.awaiting_verification():
-            return _("Awaiting Verification")
-        else:
-            return _("Unverified")
+        return _("Verified") if self.verified else _("Unverified")
 
-    is_verified.short_description = _("Verification Status")
+    verification_status.short_description = _("Verification Status")
 
     def is_on_leaderboard(self) -> bool:
-        return bool(self.is_verified and self.statistics and not self.currently_banned())
+        return self.verified and self.statistics and not self.currently_banned()
 
     is_on_leaderboard.boolean = True
 
-    def level(self) -> str | int | None:
+    def get_level(self) -> str | int | None:
         try:
-            update: Update = (
-                self.update_set.exclude(total_xp__isnull=True)
-                .only("trainer_id", "total_xp")
-                .latest("update_time")
-            )
+            update: Update = self.update_set.only("trainer_level").latest("update_time")
         except Update.DoesNotExist:
             return None
         else:
-            return update.level()
+            return update.trainer_level
 
     @property
     def active(self) -> bool:
@@ -276,7 +230,7 @@ class Trainer(PublicModel):
 
     @property
     def profile_complete(self) -> bool:
-        return bool(self.verification) or self.verified
+        return self.verified
 
     profile_completed_optional = profile_complete
 
@@ -360,11 +314,15 @@ class Trainer(PublicModel):
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_profile(sender: type[User], **kwargs) -> Trainer | None:
-    if kwargs["created"] and not kwargs["raw"]:
-        trainer = Trainer.objects.create(
-            _nickname=kwargs["instance"].username, owner=kwargs["instance"]
-        )
+def create_profile(
+    sender: type[models.Model],
+    created: bool = None,
+    raw: bool = None,
+    instance: User = None,
+    **kwargs,
+) -> Trainer | None:
+    if created and not raw:
+        trainer = Trainer.objects.create(_nickname=instance.username, owner=instance)
         return trainer
 
 
@@ -404,11 +362,17 @@ class Nickname(models.Model):
 
 
 @receiver(post_save, sender=Trainer)
-def new_trainer_set_nickname(sender: type[Trainer], **kwargs) -> Nickname | None:
-    if kwargs["created"] and not kwargs["raw"]:
+def new_trainer_set_nickname(
+    sender: type[models.Model],
+    created: bool = None,
+    raw: bool = None,
+    instance: Trainer = None,
+    **kwargs,
+) -> Nickname | None:
+    if created and not raw:
         nickname = Nickname.objects.create(
-            trainer=kwargs["instance"],
-            nickname=kwargs["instance"].owner.username,
+            trainer=instance,
+            nickname=instance.owner.username,
             active=True,
         )
         return nickname
@@ -424,10 +388,6 @@ class Update(PublicModel):
         default=timezone.now,
         verbose_name=_("Time Updated"),
     )
-
-    @property
-    def submission_date(self) -> datetime:
-        return self.created_at
 
     DATABASE_SOURCES = (
         ("?", None),
@@ -458,12 +418,6 @@ class Update(PublicModel):
         default="?",
         verbose_name=_("Source"),
     )
-    screenshot: models.FieldFile = models.ImageField(
-        upload_to=get_verification_update_image_path,
-        blank=True,
-        verbose_name=_("Screenshot"),
-        help_text=_("This should be your TOTAL XP screenshot."),
-    )
 
     # Error Override Checks
     double_check_confirmation: bool = models.BooleanField(
@@ -478,6 +432,12 @@ class Update(PublicModel):
         blank=True,
         verbose_name=pgettext_lazy("profile_total_xp", "Total XP"),
         validators=[MinValueValidator(100)],
+    )
+    trainer_level: int | None = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("profile_trainer_level", "Trainer Level"),
+        validators=[MinValueValidator(1), MaxValueValidator(50)],
     )
 
     # Pokedex Figures
@@ -1146,16 +1106,6 @@ class Update(PublicModel):
         validators=[MaxValueValidator(1000)],
     )
 
-    def level(self) -> int | str:
-        if self.total_xp:
-            possible_levels = [
-                x.level for x in get_possible_levels_from_total_xp(xp=self.total_xp)
-            ]
-            if min(possible_levels) == max(possible_levels):
-                return min(possible_levels)
-            else:
-                return f"{min(possible_levels)}-{max(possible_levels)}"
-
     def has_modified_extra_fields(self) -> bool:
         return bool(self.modified_extra_fields())
 
@@ -1193,6 +1143,28 @@ class Update(PublicModel):
         ]
 
     def clean(self) -> NoReturn | None:
+        if (
+            self.total_xp
+            and self.trainer_level
+            and self.trainer_level
+            not in map(
+                lambda x: x.level, (levels := get_possible_levels_from_total_xp(self.total_xp))
+            )
+        ):
+            formatted_levels = ", ".join(map(lambda x: str(x.level), levels))
+            raise ValidationError(
+                pgettext_lazy(
+                    "trainer_level_error",
+                    "The Trainer Level is not valid for the entered Total XP. Expected one of {levels}, got {trainer_level}.",
+                ).format(levels=formatted_levels, trainer_level=self.trainer_level)
+            )
+        elif (
+            self.total_xp
+            and not self.trainer_level
+            and len((levels := get_possible_levels_from_total_xp(self.total_xp))) == 1
+        ):
+            self.trainer_level = levels[0].level
+
         if not self.trainer:
             return
 
@@ -1257,12 +1229,6 @@ class Update(PublicModel):
                         field.name,
                     )
                     if bool(leading_value):
-                        print(
-                            "comparing",
-                            field.name,
-                            getattr(self, field.name),
-                            leading_value,
-                        )
                         if getattr(self, field.name) > (leading_value * Decimal("1.5")):
                             soft_error_dict[field.name].append(
                                 ValidationError(
@@ -2185,31 +2151,29 @@ class Update(PublicModel):
 
 
 @receiver(post_save, sender=Update)
-def update_discord_level(sender, **kwargs) -> None:
-    if kwargs["created"] and not kwargs["raw"] and kwargs["instance"].total_xp:
-        level = kwargs["instance"].level()
-        if isinstance(level, str):
-            level = int(level.split("-")[0])
-            fortyplus = True
-        else:
-            fortyplus = False
+def update_discord_level(
+    sender: type[models.Model],
+    created: bool = None,
+    raw: bool = None,
+    instance: Update = None,
+    **kwargs,
+) -> None:
+    if created and not raw and instance.trainer_level:
+        discord: DiscordGuildMembership
         for discord in DiscordGuildMembership.objects.exclude(active=False).filter(
             guild__renamer=True,
             guild__renamer_with_level=True,
-            user__user__trainer=kwargs["instance"].trainer,
+            user__user__trainer=instance.trainer,
         ):
             if discord.nick_override:
                 base = discord.nick_override
             else:
-                base = kwargs["instance"].trainer.nickname
+                base = instance.trainer.nickname
 
             if discord.guild.renamer_with_level_format == "int":
-                ext = str(level)
+                ext = str(instance.trainer_level)
             elif discord.guild.renamer_with_level_format == "circled_level":
-                ext = circled_level(level)
-
-            if fortyplus:
-                ext += "+"
+                ext = circled_level(instance.trainer_level)
 
             if len(base) + len(ext) > 32:
                 chopped_base = base[slice(0, 32 - len(ext) - 1)]
@@ -2356,16 +2320,14 @@ class CommunityMembershipDiscord(models.Model):
     def members_queryset(self) -> models.QuerySet[Trainer]:
         if self.sync_members:
             qs = Trainer.objects.exclude(owner__is_active=False).filter(
-                owner__socialaccount__discordguildmembership__guild__communitymembershipdiscord=self
+                owner__socialaccount__guild_memberships__guild__communitymembershipdiscord=self
             )
 
             if self.include_roles.exists():
                 q = models.Q()
                 for role in self.include_roles.all():
                     q = q | models.Q(
-                        owner__socialaccount__discordguildmembership__data__roles__contains=str(
-                            role.id
-                        )
+                        owner__socialaccount__guild_memberships__data__roles__contains=str(role.id)
                     )
                 qs = qs.filter(q)
 
@@ -2373,9 +2335,7 @@ class CommunityMembershipDiscord(models.Model):
                 q = models.Q()
                 for role in self.exclude_roles.all():
                     q = q | models.Q(
-                        owner__socialaccount__discordguildmembership__data__roles__contains=str(
-                            role.id
-                        )
+                        owner__socialaccount__guild_memberships__data__roles__contains=str(role.id)
                     )
                 qs = qs.exclude(q)
 

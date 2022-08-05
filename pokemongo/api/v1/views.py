@@ -536,6 +536,7 @@ class DetailedLeaderboardView(APIView):
             .order_by("rank", "update_time")
             .only(
                 "total_xp",
+                "trainer_level",
                 "trainer__id",
                 "trainer___nickname",
                 "trainer__faction",

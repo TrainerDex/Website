@@ -112,6 +112,7 @@
       <thead>
         <tr id="header">
           <th id="header:update_time">{% trans "Time Updated" %}</th>
+          <th id="header:total_xp">{% trans "Level" context "profile_player_level" %}</th>
           <th id="header:total_xp">{% trans "Total XP" context "profile_total_xp" %}</th>
           {% for medal in medal_data.values %}
           {% if stats|get:medal.name %}
@@ -124,6 +125,7 @@
       {% for update in updates %}
         <tr id="{{update.uuid}}">
           <td id="{{update.uuid}}:update_time">{{update.update_time|default_if_none:""|naturalday}}</td>
+          <td id="{{update.uuid}}:trainer_level">{{update.trainer_level|default_if_none:"40+"}}</td>
           <td id="{{update.uuid}}:total_xp">{{update.total_xp|default_if_none:""|intcomma}}</td>
           {% for key in medal_data %}
           {% if stats|get:key %}

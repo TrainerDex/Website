@@ -61,7 +61,7 @@ function setParam(uri, key, val) {
     {% endif %}
       <tr>
         <td>{{entry.position|ordinal}}</td>
-        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'trainerdex:profile' %}?id={{entry.trainer.id}}'"><div class="trainer-nickname">{{entry.trainer.nickname}} {{entry.trainer.flag_emoji|default_if_none:''}}</div> <div class="tl">{{entry.level}}</div></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'trainerdex:profile' %}?id={{entry.trainer.id}}'"><div class="trainer-nickname">{{entry.trainer.nickname}} {{entry.trainer.flag_emoji|default_if_none:''}}</div> <div class="tl">{{entry.level|default_if_none:'40+'}}</div></td>
         <td class="mdl-data-table__cell--non-numeric" style="padding-top: 0px; padding-bottom: 0px; width: 32px;"><img src="{{entry.trainer.team.get_image_url}}" alt="{{entry.trainer.team}}" title="{{entry.trainer.team}}" style="width: 32px;"/></td>
         {% for column in entry.columns %}
         <td>{{column.value|default_if_none:"•"|intcomma}}</td>
