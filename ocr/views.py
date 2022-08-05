@@ -98,7 +98,7 @@ class Line(NamedTuple):
 
 @dataclass
 class FoundTarget:
-    left_line: Optional[Line] = None
+    left_word: Optional[Word] = None
     left_image: Optional[Image.Image] = None
     right_image: Optional[Image.Image] = None
     found_value: Optional[str] = None
@@ -244,10 +244,10 @@ class ActivityViewOCR(APIView):
         while True:
             if target_word is None:
                 break
-            for line in left_lines:
+            for word in left_lines:
                 if target_word in found_targets:
                     break
-                for word in line.words:
+                for word in word.words:
                     if word in used_words:
                         continue
                     similarity_index = SequenceMatcher(
@@ -257,18 +257,18 @@ class ActivityViewOCR(APIView):
                     ).ratio()
                     if similarity_index > 0.5:
                         used_words.append(word)
-                        found_targets[target_word].left_line = line
-                        found_targets[target_word].left_image = line.crop(image_left)
+                        found_targets[target_word].left_word = word
+                        found_targets[target_word].left_image = word.crop(image_left)
                         break
 
             target_word = next(target_words, None)
 
         for found_target in found_targets.values():
-            line = found_target.left_line
-            line_height = line.bounding_box[3] - line.bounding_box[1]
-            padding = line_height // 3
-            top = line.bounding_box[1] - padding
-            bottom = line.bounding_box[3] + padding
+            word = found_target.left_word
+            word_height = word.bounding_box[3] - word.bounding_box[1]
+            padding = word_height // 3
+            top = word.bounding_box[1] - padding
+            bottom = word.bounding_box[3] + padding
             left = 64
             right = image_right.width - 24
 
@@ -277,7 +277,6 @@ class ActivityViewOCR(APIView):
                 found_target.right_image
             ).strip()
 
-        print(found_targets)
         return {
             "travel_km": self.process_km_text(
                 found_targets[SearchTerms.DISTANCE_TRAVELED].found_value,
