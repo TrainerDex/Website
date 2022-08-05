@@ -26,13 +26,12 @@ django-postgres-extra = "*"
 isodate = "*"
 pytesseract = "*"
 numpy = "*"
-opencv-python-headless = "*"
+opencv-python = "*"
 
 [dev-packages]
 flake8 = "*"
 black = "*"
 isort = {extras = ["black"], version = "*"}
-opencv-python = "*"
 
 [requires]
 python_version = "3.10"
