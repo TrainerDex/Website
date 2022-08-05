@@ -8,6 +8,7 @@ RUN apt-get install -y python3-opencv
 RUN apt-get install -y ffmpeg
 RUN apt-get install -y libsm6
 RUN apt-get install -y libxext6
+RUN apt-get install -y gettext
 
 RUN pip install -U pipenv virtualenv
 
