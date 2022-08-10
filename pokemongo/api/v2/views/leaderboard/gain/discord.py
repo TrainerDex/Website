@@ -31,8 +31,8 @@ class DiscordGainLeaderboardView(iGainLeaderboardView):
         super().parse_args(request)
         self.args["guild"] = self.get_guild(request.query_params.get("guild_id"))
 
-    def get_trainer_subquery(self) -> QuerySet[Trainer]:
-        queryset = super().get_trainer_subquery()
+    def get_trainer_queryset(self) -> QuerySet[Trainer]:
+        queryset = super().get_trainer_queryset()
         return queryset.filter(owner__socialaccount__guilds__id=self.args["guild"].id)
 
     def in_guild(self, request: Request) -> bool:
