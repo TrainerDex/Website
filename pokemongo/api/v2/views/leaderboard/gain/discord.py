@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from django.db.models import Q, QuerySet, Subquery
+from django.db.models import Q, QuerySet
 from oauth2_provider.contrib.rest_framework.authentication import OAuth2Authentication
 from requests import Response
 from rest_framework.authentication import SessionAuthentication
@@ -8,7 +8,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 
-from core.models.discord import DiscordGuild, DiscordRole
+from core.models.discord import DiscordGuild
 from pokemongo.api.v2.views.leaderboard.gain.interface import iGainLeaderboardView
 from pokemongo.api.v2.views.leaderboard.interface import TrainerSubset
 from pokemongo.models import Trainer
@@ -33,20 +33,7 @@ class DiscordGainLeaderboardView(iGainLeaderboardView):
 
     def get_trainer_queryset(self) -> QuerySet[Trainer]:
         queryset = super().get_trainer_queryset()
-
-        opt_out_roles: QuerySet[DiscordRole] = self.guild.roles.filter(
-            data__name__in=["NoLB", "TrainerDex Excluded"]
-        ).union(
-            self.guild.roles.filter(exclude_roles_community_membership_discord__discord=self.guild)
-        )
-
-        queryset = queryset.filter(owner__socialaccount__guilds__id=self.guild.id).exclude(
-            owner__socialaccount__guild_memberships__data__roles__contains=Subquery(
-                opt_out_roles.values_list("id", flat=True)
-            )
-        )
-
-        return queryset
+        return queryset.filter(owner__socialaccount__guilds__id=self.guild.id)
 
     def in_guild(self, request: Request) -> bool:
         if not request.user or not request.user.is_authenticated:
