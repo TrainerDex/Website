@@ -23,7 +23,7 @@ class DiscordSnapshotLeaderboardView(iSnapshotLeaderboardView):
     permission_classes = [IsAuthenticated]
 
     def get_leaderboard_title(self) -> str:
-        return str(self.args["guild"])
+        return str(self.guild)
 
     @staticmethod
     def get_guild(id: int | str) -> DiscordGuild:
@@ -31,11 +31,11 @@ class DiscordSnapshotLeaderboardView(iSnapshotLeaderboardView):
 
     def parse_args(self, request: Request) -> None:
         super().parse_args(request)
-        self.args["guild"] = self.get_guild(request.query_params.get("guild_id"))
+        self.guild: DiscordGuild = self.get_guild(request.query_params.get("guild_id"))
 
     def get_trainer_subquery(self) -> QuerySet[Trainer]:
         queryset = super().get_trainer_subquery()
-        return queryset.filter(owner__socialaccount__guilds__id=self.args["guild"].id)
+        return queryset.filter(owner__socialaccount__guilds__id=self.guild.id)
 
     def in_guild(self, request: Request) -> bool:
         if not request.user or not request.user.is_authenticated:
