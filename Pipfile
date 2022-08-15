@@ -28,6 +28,7 @@ pytesseract = "*"
 numpy = "*"
 opencv-python = "*"
 uvicorn = {extras = ["standard"], version = "*"}
+certifi = "*"
 
 [dev-packages]
 flake8 = "*"
