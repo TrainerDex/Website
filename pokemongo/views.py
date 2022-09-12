@@ -310,7 +310,7 @@ def leaderboard(
         },
     )
 
-    Results = []
+    results = []
     GRAND_TOTAL = queryset.aggregate(Sum("update__total_xp__max"))
     context["grand_total_xp"] = GRAND_TOTAL["update__total_xp__max__sum"]
 
@@ -358,7 +358,7 @@ def leaderboard(
         ]
         FIELDS = sorted(FIELDS, key=lambda x: 0 if x["name"] == order_by else 1)
         trainer_stats["columns"] = FIELDS
-        Results.append(trainer_stats)
+        results.append(trainer_stats)
 
     try:
         page = int(request.GET.get("page") or 1)
@@ -366,7 +366,7 @@ def leaderboard(
         page = 1
     context["page"] = page
     context["pages"] = ceil(total_users / 100)
-    pages = chunks(Results, 100)
+    pages = chunks(results, 100)
 
     x = 0
     for y in pages:
