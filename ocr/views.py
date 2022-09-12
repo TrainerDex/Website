@@ -208,11 +208,9 @@ class ActivityViewOCR(APIView):
         )
 
     def process_km_text(self, s: str) -> Decimal:
-        if s is None:
-            return None
-
         # Distance is in the form of "69,023.2" or "69.023,2". We need to convert it to "69023.2"
-        return Decimal(self.strip_non_digits(s)) / 10
+        if s and (stripped := self.strip_non_digits(s)):
+            return Decimal(stripped) / 10
 
     @staticmethod
     def strip_non_digits(s: str) -> int:
