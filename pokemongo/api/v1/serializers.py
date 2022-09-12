@@ -7,7 +7,12 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from pokemongo.models import Faction, Trainer, Update
-from pokemongo.shortcuts import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES
+from pokemongo.shortcuts import (
+    BATTLE_HUB_STATS,
+    STANDARD_MEDALS,
+    UPDATE_FIELDS_TYPES,
+    UPDATE_SORTABLE_FIELDS,
+)
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import User
@@ -356,6 +361,12 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
             + UPDATE_FIELDS_TYPES
             + ["data_source"]
         )
+
+
+class LatestStatsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Update
+        fields = UPDATE_SORTABLE_FIELDS
 
 
 class DetailedTrainerSerializer(serializers.ModelSerializer):

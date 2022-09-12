@@ -8,7 +8,17 @@ from typing import TYPE_CHECKING
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Max, Sum, Window, Subquery, OuterRef
+from django.db.models import (
+    F,
+    Max,
+    OuterRef,
+    Prefetch,
+    Q,
+    QuerySet,
+    Subquery,
+    Sum,
+    Window,
+)
 from django.db.models.functions import DenseRank
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -59,23 +69,37 @@ def profile_redirector(
     nickname: str | None = None,
     id: int | None = None,
 ) -> HttpResponse:
-    if request.GET.get("nickname", nickname):
-        trainer = get_object_or_404(
-            Trainer,
-            nickname__nickname__iexact=request.GET.get("nickname", nickname),
-            owner__is_active=True,
+
+    BASE_QUERYSET: QuerySet[Trainer] = (
+        Trainer.objects.filter(owner__is_active=True)
+        .prefetch_related(
+            "update_set",
         )
+        .annotate(
+            level=Max(
+                "update__trainer_level",
+                filter=Q(**{"update__trainer_level__isnull": False}),
+            )
+        )
+    )
+
+    if nickname or (nickname := request.GET.get("nickname")):
+        try:
+            trainer = BASE_QUERYSET.get(nickname__nickname__iexact=nickname)
+        except Trainer.DoesNotExist:
+            raise Http404("Trainer not found")
+
         if nickname == trainer.nickname:
             return profile_view(request, trainer)
-    elif request.GET.get("id", id):
-        trainer = get_object_or_404(
-            Trainer, pk=int(str(request.GET.get("id", id)).replace("/", "")), owner__is_active=True
-        )
+    elif id or (id := request.GET.get("id")):
+        try:
+            trainer = BASE_QUERYSET.get(pk=id)
+        except Trainer.DoesNotExist:
+            raise Http404("Trainer not found")
     elif not request.user.is_authenticated:
         return redirect("account_login")
     else:
-        trainer = request.user.trainer
-        return redirect("trainerdex:profile", **{"nickname": trainer.nickname})
+        return redirect("trainerdex:profile", **{"nickname": request.user.username})
 
     return redirect("trainerdex:profile", permanent=True, **{"nickname": trainer.nickname})
 
@@ -88,7 +112,15 @@ def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
     context = {
         "trainer": trainer,
         "updates": trainer.update_set.all(),
-        "stats": trainer.update_set.aggregate(**{x: Max(x) for x in UPDATE_SORTABLE_FIELDS}),
+        "stats": trainer.update_set.aggregate(
+            **{
+                field: Max(
+                    field,
+                    filter=Q(**{f"{field}__isnull": False}),
+                )
+                for field in UPDATE_SORTABLE_FIELDS
+            }
+        ),
         "level": trainer.get_level(),
         "medal_data": {
             x.get("name"): {
@@ -174,7 +206,6 @@ def new_update(request: HttpRequest) -> HttpResponse:
                     "data_source": "web_detailed",
                 },
             )
-            form.fields["double_check_confirmation"].widget = forms.HiddenInput()
     else:
         if request.method == "POST":
             form = UpdateForm(
@@ -188,7 +219,6 @@ def new_update(request: HttpRequest) -> HttpResponse:
             form = UpdateForm(
                 initial={"trainer": request.user.trainer, "data_source": "web_detailed"}
             )
-            form.fields["double_check_confirmation"].widget = forms.HiddenInput()
     form.fields["update_time"].widget = forms.HiddenInput()
     form.fields["data_source"].widget = forms.HiddenInput()
     form.fields["data_source"].disabled = True
@@ -204,8 +234,6 @@ def new_update(request: HttpRequest) -> HttpResponse:
                 "trainerdex:profile",
                 **{"nickname": request.user.trainer.nickname},
             )
-        else:
-            form.fields["double_check_confirmation"].required = True
 
     if existing:
         messages.info(
