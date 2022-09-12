@@ -419,13 +419,6 @@ class Update(PublicModel):
         verbose_name=_("Source"),
     )
 
-    # Error Override Checks
-    double_check_confirmation: bool = models.BooleanField(
-        default=False,
-        verbose_name=_("I have double checked this information and it is correct."),
-        help_text=_("This will silence some errors."),
-    )
-
     # Can be seen on main profile
     total_xp: int | None = models.BigIntegerField(
         null=True,

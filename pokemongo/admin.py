@@ -144,7 +144,6 @@ class UpdateAdmin(admin.ModelAdmin):
                     "trainer",
                     "update_time",
                     "data_source",
-                    "double_check_confirmation",
                 ]
             },
         ),

@@ -174,7 +174,6 @@ def new_update(request: HttpRequest) -> HttpResponse:
                     "data_source": "web_detailed",
                 },
             )
-            form.fields["double_check_confirmation"].widget = forms.HiddenInput()
     else:
         if request.method == "POST":
             form = UpdateForm(
@@ -188,7 +187,6 @@ def new_update(request: HttpRequest) -> HttpResponse:
             form = UpdateForm(
                 initial={"trainer": request.user.trainer, "data_source": "web_detailed"}
             )
-            form.fields["double_check_confirmation"].widget = forms.HiddenInput()
     form.fields["update_time"].widget = forms.HiddenInput()
     form.fields["data_source"].widget = forms.HiddenInput()
     form.fields["data_source"].disabled = True
@@ -204,8 +202,6 @@ def new_update(request: HttpRequest) -> HttpResponse:
                 "trainerdex:profile",
                 **{"nickname": request.user.trainer.nickname},
             )
-        else:
-            form.fields["double_check_confirmation"].required = True
 
     if existing:
         messages.info(
