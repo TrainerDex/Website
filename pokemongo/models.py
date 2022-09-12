@@ -192,9 +192,6 @@ class Trainer(PublicModel):
     def is_prefered(self) -> Literal[True]:
         return True
 
-    def flag_emoji(self) -> str | None:
-        return self.country.unicode_flag
-
     def verification_status(self) -> str:
         return _("Verified") if self.verified else _("Unverified")
 
