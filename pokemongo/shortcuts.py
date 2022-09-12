@@ -2,16 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date, timedelta
-from distutils.util import strtobool
-from typing import (
-    TYPE_CHECKING,
-    Collection,
-    Iterable,
-    Iterator,
-    Literal,
-    Mapping,
-    TypeVar,
-)
+from typing import TYPE_CHECKING, Collection, Iterable, Iterator, Mapping, TypeVar
 
 from dateutil.relativedelta import relativedelta
 from django.db.models import QuerySet
@@ -22,13 +13,6 @@ if TYPE_CHECKING:
     from pokemongo.models import Trainer, Update
 
 T = TypeVar("T")
-
-
-def strtoboolornone(value: str) -> Literal[0, 1] | None:
-    try:
-        return strtobool(value)
-    except (ValueError, AttributeError):
-        return None
 
 
 def filter_leaderboard_qs(queryset: QuerySet[Trainer], d: date | None = None) -> QuerySet[Trainer]:
@@ -156,13 +140,6 @@ def get_possible_levels_from_total_xp(xp: int) -> Iterable[Level]:
         ]
 
     return possible_levels
-
-
-def get_level(level: int) -> Level:
-    if level <= len(LEVELS):
-        return LEVELS[level - 1]
-    else:
-        raise ValueError
 
 
 OLD_NEW_STAT_MAP = {
