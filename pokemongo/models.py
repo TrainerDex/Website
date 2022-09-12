@@ -217,6 +217,9 @@ class Trainer(PublicModel):
     is_on_leaderboard.boolean = True
 
     def get_level(self) -> str | int | None:
+        if (level := getattr(self, "level", None)) is not None:
+            return level
+
         try:
             update: Update = self.update_set.only("trainer_level").latest("update_time")
         except Update.DoesNotExist:
