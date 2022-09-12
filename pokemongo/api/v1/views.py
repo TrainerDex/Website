@@ -6,7 +6,21 @@ from typing import TYPE_CHECKING, Dict
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
-from django.db.models import Avg, Count, F, Max, Min, QuerySet, Subquery, Sum, Window
+from django.db.models import (
+    Avg,
+    Count,
+    F,
+    Max,
+    Min,
+    Q,
+    QuerySet,
+    Subquery,
+    Sum,
+    Window,
+    Value,
+    CharField,
+    IntegerField,
+)
 from django.db.models.functions import DenseRank
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -23,6 +37,7 @@ from core.permissions import IsStaffOrReadOnlyOrTokenHasScope
 from pokemongo.api.v1.serializers import (
     DetailedTrainerSerializer,
     DetailedUpdateSerializer,
+    LatestStatsSerializer,
     LeaderboardSerializer,
     SocialAllAuthSerializer,
     UserSerializer,
@@ -30,6 +45,7 @@ from pokemongo.api.v1.serializers import (
 from pokemongo.models import Community, Trainer, Update
 from pokemongo.shortcuts import (
     OLD_NEW_STAT_MAP,
+    UPDATE_NON_REVERSEABLE_FIELDS,
     UPDATE_SORTABLE_FIELDS,
     filter_leaderboard_qs__update,
     get_country_info,
@@ -299,6 +315,37 @@ class UpdateDetailView(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class LatestStatsView(APIView):
+    """
+    get:
+    Gets detailed view of the latest update
+
+    patch:
+    Allows editting of update within 12 hours of creation, after that time, all updates are denied.
+    Trainer, UUID and PK are locked.
+    """
+
+    authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
+    permission_classes = [IsStaffOrReadOnlyOrTokenHasScope]
+    required_alternate_scopes = {
+        "GET": [["read"]],
+    }
+
+    def get(self, request: Request, pk: int) -> Response:
+        latest_stats = Trainer.objects.filter(pk=pk).aggregate(
+            **{
+                field.name: Max(
+                    f"update__{field.name}",
+                    filter=Q(**{f"update__{field.name}__isnull": False}),
+                )
+                for field in Update._meta.get_fields()
+                if (field.name in UPDATE_SORTABLE_FIELDS or field.name == "update_time")
+            },
+        )
+        serializer = LatestStatsSerializer(latest_stats)
+        return Response(serializer.data)
 
 
 class SocialLookupView(APIView):
