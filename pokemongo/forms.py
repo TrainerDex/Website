@@ -36,5 +36,5 @@ class TrainerForm(ModelForm):
             "faction",
             "statistics",
             "trainer_code",
-            "country_iso",
+            "country",
         )

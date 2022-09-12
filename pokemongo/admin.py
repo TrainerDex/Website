@@ -258,6 +258,6 @@ class TrainerAdmin(admin.ModelAdmin):
         (_("Reports"), {"fields": ("last_cheated", "verified")}),
         (
             _("Leaderboard"),
-            {"fields": ("country_iso", "statistics", "legacy_40")},
+            {"fields": ("country", "statistics", "legacy_40")},
         ),
     )

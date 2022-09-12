@@ -8,28 +8,19 @@ from typing import TYPE_CHECKING
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import (
-    F,
-    Max,
-    OuterRef,
-    Prefetch,
-    Q,
-    QuerySet,
-    Subquery,
-    Sum,
-    Window,
-)
+from django.db.models import F, Max, OuterRef, Q, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.http import Http404, HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django_countries import countries
 
 from pokemongo.fields import BaseStatistic
 from pokemongo.forms import TrainerForm, UpdateForm
 from pokemongo.models import Community, Trainer, Update
-from pokemongo.shortcuts import chunks, filter_leaderboard_qs, get_country_info
+from pokemongo.shortcuts import chunks, filter_leaderboard_qs
 
 logger = logging.getLogger("django.trainerdex")
 
@@ -236,11 +227,10 @@ def leaderboard(
 
     if country:
         try:
-            country_info = get_country_info(country.upper())
-        except IndexError:
+            context["title"] = dict(countries)[country.upper()]
+        except KeyError:
             raise Http404(_("No country found for code {country}").format(country=country))
-        context["title"] = country_info.get("name")
-        queryset = Trainer.objects.filter(country_iso=country.upper())
+        queryset = Trainer.objects.filter(country=country.upper())
     elif community:
         try:
             community = Community.objects.get(handle__iexact=community)
@@ -339,7 +329,7 @@ def leaderboard(
         .only(
             "id",
             "_nickname",
-            "country_iso",
+            "country",
             "faction",
         )
     )

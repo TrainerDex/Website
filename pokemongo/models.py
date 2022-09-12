@@ -20,6 +20,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import npgettext_lazy, pgettext_lazy
+from django_countries.fields import CountryField
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 
 from config.abstract_models import PublicModel
@@ -30,12 +31,7 @@ from pokemongo.fields import (
     DecimalStatistic,
     IntegerStatistic,
 )
-from pokemongo.shortcuts import (
-    CountryInfo,
-    circled_level,
-    get_country_info,
-    get_possible_levels_from_total_xp,
-)
+from pokemongo.shortcuts import circled_level, get_possible_levels_from_total_xp
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 
 logger = logging.getLogger("django.trainerdex")
@@ -135,10 +131,10 @@ class Trainer(PublicModel):
         help_text=_("Fancy sharing your trainer code?" " (This information is public.)"),
     )
 
-    country_iso: str | None = models.CharField(
-        max_length=2,
+    country = CountryField(
         null=True,
         blank=True,
+        multiple=False,
         verbose_name=_("Country"),
         help_text=_("Where are you based?"),
     )
@@ -196,16 +192,8 @@ class Trainer(PublicModel):
     def is_prefered(self) -> Literal[True]:
         return True
 
-    def country_info(self) -> CountryInfo | dict:
-        if self.country_iso:
-            try:
-                return get_country_info(self.country_iso)
-            except IndexError:
-                return {}
-        return {}
-
     def flag_emoji(self) -> str | None:
-        return self.country_info().get("emoji")
+        return self.country.unicode_flag
 
     def verification_status(self) -> str:
         return _("Verified") if self.verified else _("Unverified")
