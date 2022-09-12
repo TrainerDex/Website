@@ -37,7 +37,7 @@ function setParam(uri, key, val) {
 {% if forloop.first %}
 <div class="tdx-lb__title" style="width: 100%">
     <div class="tdx-lb__supporting-text mdl-card__supporting-text">
-  {% trans 'Total XP' context "Total XP of all Trainers on leaderboard" %}: {{ grand_total_xp | intword }} | {% trans 'Trainers Considered' %}: {{ grand_total_users | intcomma }}
+    {{ stat_name }}: {{ grand_stat | intword }} | {% trans 'Trainers Considered' %}: {{ grand_total_users | intcomma }}
     </div>
 </div>
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date, timedelta
-from typing import TYPE_CHECKING, Collection, Iterable, Iterator, Mapping, TypeVar
+from typing import TYPE_CHECKING, Collection, Iterable, Mapping
 
 from dateutil.relativedelta import relativedelta
 from django.db.models import QuerySet
@@ -11,8 +11,6 @@ from django.utils.translation import pgettext as _
 
 if TYPE_CHECKING:
     from pokemongo.models import Trainer, Update
-
-T = TypeVar("T")
 
 
 def filter_leaderboard_qs(queryset: QuerySet[Trainer], d: date | None = None) -> QuerySet[Trainer]:
@@ -271,8 +269,3 @@ def circled_level(i: int) -> str:
         return chr(numbers[i - 1])
     except IndexError:
         return ""
-
-
-def chunks(iterable: Iterable[T], size: int) -> Iterator[Iterable[T]]:
-    for i in range(0, len(iterable), size):
-        yield iterable[i : i + size]

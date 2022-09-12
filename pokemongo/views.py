@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Max, OuterRef, Q, QuerySet, Subquery, Sum, Window
+from django.db.models import Count, F, Max, OuterRef, Q, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
@@ -20,7 +20,7 @@ from django_countries import countries
 from pokemongo.fields import BaseStatistic
 from pokemongo.forms import TrainerForm, UpdateForm
 from pokemongo.models import Community, Trainer, Update
-from pokemongo.shortcuts import chunks, filter_leaderboard_qs
+from pokemongo.shortcuts import filter_leaderboard_qs
 
 logger = logging.getLogger("django.trainerdex")
 
@@ -264,15 +264,8 @@ def leaderboard(
         "total_xp",
         "capture_total",
         "travel_km",
-        "evolved_total",
-        "hatched_total",
         "pokestops_visited",
-        "raid_battle_won",
-        "legendary_battle_won",
-        "hours_defended",
-        "great_league",
-        "ultra_league",
-        "master_league",
+        "gym_gold",
         "update_time",
     }
 
@@ -285,8 +278,14 @@ def leaderboard(
         else:
             order_by = "total_xp"
     context["sort_by"] = order_by
+    context["stat_name"] = Update._meta.get_field(order_by).verbose_name
 
-    context["grand_total_users"] = total_users = queryset.count()
+    totals = queryset.annotate(order_by=Max(f"update__{order_by}")).aggregate(
+        grand_stat=Sum("order_by"),
+        grand_total_users=Count("id"),
+    )
+    context["grand_total_users"] = total_users = totals["grand_total_users"]
+    context["grand_stat"] = totals["grand_stat"]
 
     if total_users == 0:
         context["page"] = 0
@@ -301,7 +300,7 @@ def leaderboard(
             .order_by("-update_time")[:1]
         ),
         **{
-            f"update__{field}__max": Subquery(
+            f"max_{field}": Subquery(
                 Update.objects.filter(trainer=OuterRef("pk"), **{f"{order_by}__isnull": False})
                 .values(field)
                 .order_by("-update_time")[:1]
@@ -310,20 +309,26 @@ def leaderboard(
         },
     )
 
+    try:
+        page = int(request.GET.get("page") or 1)
+    except ValueError:
+        page = 1
+    context["page"] = page
+    PAGE_SIZE = 100
+    context["pages"] = ceil(total_users / PAGE_SIZE)
+
     results = []
-    GRAND_TOTAL = queryset.aggregate(Sum("update__total_xp__max"))
-    context["grand_total_xp"] = GRAND_TOTAL["update__total_xp__max__sum"]
 
     queryset = (
         queryset.annotate(
             rank=Window(
                 expression=DenseRank(),
-                order_by=F(f"update__{order_by}__max").desc(),
+                order_by=F(f"max_{order_by}").desc(),
             )
         )
         .order_by(
             "rank",
-            "update__update_time__max",
+            "max_update_time",
             "faction",
         )
         .only(
@@ -334,14 +339,14 @@ def leaderboard(
         )
     )
 
-    for trainer in queryset:
-        if not trainer.update__total_xp__max:
-            continue
+    queryset_chunk = queryset[(page - 1) * PAGE_SIZE : page * PAGE_SIZE]
+    for trainer in queryset_chunk:
+        print(trainer)
         trainer_stats = {
             "position": trainer.rank,
             "trainer": trainer,
-            "total_xp": trainer.update__total_xp__max,
-            "update_time": trainer.update__update_time__max,
+            "total_xp": trainer.max_total_xp,
+            "update_time": trainer.max_update_time,
             "level": trainer.level,
         }
 
@@ -351,7 +356,7 @@ def leaderboard(
                 "name": field.name,
                 "readable_name": field.verbose_name,
                 "tooltip": field.help_text,
-                "value": getattr(trainer, f"update__{field.name}__max"),
+                "value": getattr(trainer, f"max_{field.name}"),
             }
             for field in Update.get_sortable_fields()
             if field.name in FIELDS
@@ -360,20 +365,7 @@ def leaderboard(
         trainer_stats["columns"] = FIELDS
         results.append(trainer_stats)
 
-    try:
-        page = int(request.GET.get("page") or 1)
-    except ValueError:
-        page = 1
-    context["page"] = page
-    context["pages"] = ceil(total_users / 100)
-    pages = chunks(results, 100)
-
-    x = 0
-    for y in pages:
-        x += 1
-        if x == context["page"]:
-            context["leaderboard"] = y
-            break
+    context["leaderboard"] = results
 
     return render(request, "leaderboard.html", context)
 
