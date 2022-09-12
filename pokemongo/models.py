@@ -32,8 +32,8 @@ from pokemongo.shortcuts import (
     CountryInfo,
     circled_level,
     get_country_info,
-    get_possible_levels_from_total_xp,
     get_level,
+    get_possible_levels_from_total_xp,
 )
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 

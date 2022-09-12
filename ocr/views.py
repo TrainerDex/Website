@@ -23,7 +23,6 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-
 try:
     import cv2 as cv
 except ImportError:

@@ -8,18 +8,18 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
 from django.db.models import (
     Avg,
+    CharField,
     Count,
     F,
+    IntegerField,
     Max,
     Min,
     Q,
     QuerySet,
     Subquery,
     Sum,
-    Window,
     Value,
-    CharField,
-    IntegerField,
+    Window,
 )
 from django.db.models.functions import DenseRank
 from django.http import Http404

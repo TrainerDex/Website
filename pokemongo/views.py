@@ -8,7 +8,17 @@ from typing import TYPE_CHECKING
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Max, Sum, Window, Subquery, OuterRef, Q, QuerySet, Prefetch
+from django.db.models import (
+    F,
+    Max,
+    OuterRef,
+    Prefetch,
+    Q,
+    QuerySet,
+    Subquery,
+    Sum,
+    Window,
+)
 from django.db.models.functions import DenseRank
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
