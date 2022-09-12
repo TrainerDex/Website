@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from datetime import timedelta
 from math import ceil
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 
 from django import forms
 from django.contrib import messages
@@ -19,7 +19,14 @@ from django_countries import countries
 
 from pokemongo.fields import BaseStatistic
 from pokemongo.forms import TrainerForm, UpdateForm
-from pokemongo.models import Community, Trainer, Update
+from pokemongo.models import (
+    BATTLE_HUB_STATS,
+    STANDARD_MEDALS,
+    UPDATE_FIELDS_TYPES,
+    Community,
+    Trainer,
+    Update,
+)
 from pokemongo.shortcuts import filter_leaderboard_qs
 
 logger = logging.getLogger("django.trainerdex")
@@ -193,6 +200,56 @@ def new_update(request: HttpRequest) -> HttpResponse:
     form.fields["data_source"].disabled = True
     form.fields["trainer"].widget = forms.HiddenInput()
     form.trainer = request.user.trainer
+
+    def sort_by_medal(queryset: QuerySet[Trainer]) -> Callable[[BaseStatistic], float]:
+        def _sort_by_medal(stat: BaseStatistic) -> float:
+            value = queryset.get(stat.name, None)
+            medal = stat.medal_data
+            print(medal, value)
+            if value is None:
+                return float(f"5.{medal.stat_id}")
+            elif medal.platinum and medal.platinum <= value:
+                return float(f"1.{medal.stat_id}")
+            elif medal.gold and medal.gold <= value:
+                return float(f"2.{medal.stat_id}")
+            elif medal.silver and medal.silver <= value:
+                return float(f"3.{medal.stat_id}")
+            else:
+                return float(f"4.{medal.stat_id}")
+
+        return _sort_by_medal
+
+    latest_stats = Trainer.objects.filter(pk=request.user.trainer.pk).aggregate(
+        **{
+            field.name: Max(
+                f"update__{field.name}",
+                filter=Q(**{f"update__{field.name}__isnull": False}),
+            )
+            for field in STANDARD_MEDALS + BATTLE_HUB_STATS + UPDATE_FIELDS_TYPES
+        },
+    )
+
+    try:
+
+        form.order_fields(
+            [
+                "trainer",
+                "update_time",
+                "data_source",
+                "trainer_level",
+                "total_xp",
+                "gym_gold",
+                "mini_collection",
+            ]
+            + [field.name for field in sorted(STANDARD_MEDALS, key=sort_by_medal(latest_stats))]
+            + [field.name for field in BATTLE_HUB_STATS]
+            + [
+                field.name
+                for field in sorted(UPDATE_FIELDS_TYPES, key=sort_by_medal(latest_stats))
+            ]
+        )
+    except Exception:
+        pass
 
     if request.method == "POST":
         form.data_source = "web_detailed"
