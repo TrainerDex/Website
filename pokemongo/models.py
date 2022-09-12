@@ -1468,12 +1468,14 @@ class Update(PublicModel):
         latest_stats_prior = Trainer.objects.filter(pk=self.trainer.pk).aggregate(**AGGREGATES)
 
         for field in Update.get_non_reversable_fields():
-            if bool(new_stat := getattr(self, field.name)):
-                if new_stat < (old_stat := latest_stats_prior[f"max_{field.name}"]):
+            if (new_stat := getattr(self, field.name)) is not None:
+                if (
+                    latest_stat := latest_stats_prior[f"max_{field.name}"]
+                ) is not None and new_stat < latest_stat:
                     error_dict[field.name].append(
                         _(
-                            "The new value for {field} is less than the previous value of {old_stat}.",
-                        ).format(field=field.verbose_name, old_stat=old_stat)
+                            "The new value for {field} is less than the previous value of {latest_stat}.",
+                        ).format(field=field.verbose_name, latest_stat=latest_stat)
                     )
 
         if error_dict:
