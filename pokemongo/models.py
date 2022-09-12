@@ -1193,13 +1193,6 @@ class Update(PublicModel):
                         & models.Q(**{f"update__{field.name}__isnull": False})
                     ),
                 )
-                AGGREGATES[f"date_{field.name}"] = models.Max(
-                    models.F("update__update_time"),
-                    filter=(
-                        models.Q(update__update_time__lt=self.update_time)
-                        & models.Q(**{f"update__{field.name}__isnull": False})
-                    ),
-                )
 
         latest_stats_prior = Trainer.objects.filter(pk=self.trainer.pk).aggregate(**AGGREGATES)
 
