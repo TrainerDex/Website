@@ -10,7 +10,6 @@ from typing import (
     Iterator,
     Literal,
     Mapping,
-    TypedDict,
     TypeVar,
 )
 
@@ -18,8 +17,6 @@ from dateutil.relativedelta import relativedelta
 from django.db.models import QuerySet
 from django.utils import timezone
 from django.utils.translation import pgettext as _
-
-from pokemongo.fields import BaseStatistic
 
 if TYPE_CHECKING:
     from pokemongo.models import Trainer, Update
