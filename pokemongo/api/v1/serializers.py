@@ -6,12 +6,14 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from pokemongo.models import Faction, Trainer, Update
-from pokemongo.shortcuts import (
+from pokemongo.fields import BaseStatistic
+from pokemongo.models import (
     BATTLE_HUB_STATS,
     STANDARD_MEDALS,
     UPDATE_FIELDS_TYPES,
-    UPDATE_SORTABLE_FIELDS,
+    Faction,
+    Trainer,
+    Update,
 )
 
 if TYPE_CHECKING:
@@ -325,11 +327,11 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
                 "gymbadges_gold",
                 "gym_gold",
             ]
-            + [f"badge_{x}" for x in STANDARD_MEDALS]
-            + STANDARD_MEDALS
-            + BATTLE_HUB_STATS
-            + [f"badge_{x}" for x in UPDATE_FIELDS_TYPES]
-            + UPDATE_FIELDS_TYPES
+            + [f"badge_{field.name}" for field in STANDARD_MEDALS]
+            + [field.name for field in STANDARD_MEDALS]
+            + [field.name for field in BATTLE_HUB_STATS]
+            + [f"badge_{field.name}" for field in UPDATE_FIELDS_TYPES]
+            + [field.name for field in UPDATE_FIELDS_TYPES]
         )
         for field in optional_fields:
             try:
@@ -354,11 +356,11 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
                 "gymbadges_gold",
                 "gym_gold",
             ]
-            + [f"badge_{x}" for x in STANDARD_MEDALS]
-            + STANDARD_MEDALS
-            + BATTLE_HUB_STATS
-            + [f"badge_{x}" for x in UPDATE_FIELDS_TYPES]
-            + UPDATE_FIELDS_TYPES
+            + [f"badge_{field.name}" for field in STANDARD_MEDALS]
+            + [field.name for field in STANDARD_MEDALS]
+            + [field.name for field in BATTLE_HUB_STATS]
+            + [f"badge_{field.name}" for field in UPDATE_FIELDS_TYPES]
+            + [field.name for field in UPDATE_FIELDS_TYPES]
             + ["data_source"]
         )
 
@@ -366,7 +368,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
 class LatestStatsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Update
-        fields = UPDATE_SORTABLE_FIELDS
+        fields = [field.name for field in Update.get_stat_fields()]
 
 
 class DetailedTrainerSerializer(serializers.ModelSerializer):

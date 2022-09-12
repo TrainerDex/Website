@@ -26,15 +26,10 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from pokemongo.fields import BaseStatistic
 from pokemongo.forms import TrainerForm, UpdateForm
 from pokemongo.models import Community, Trainer, Update
-from pokemongo.shortcuts import (
-    BADGES,
-    UPDATE_SORTABLE_FIELDS,
-    chunks,
-    filter_leaderboard_qs,
-    get_country_info,
-)
+from pokemongo.shortcuts import chunks, filter_leaderboard_qs, get_country_info
 
 logger = logging.getLogger("django.trainerdex")
 
@@ -109,74 +104,57 @@ def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
         messages.warning(request, _("Please complete your profile to continue using the website."))
         return redirect("profile_edit")
 
+    updates = trainer.update_set.all()
+    stats = trainer.update_set.aggregate(
+        **{
+            field.name: Max(
+                field.name,
+                filter=Q(**{f"{field.name}__isnull": False}),
+            )
+            for field in Update.get_stat_fields()
+        }
+    )
+    level = trainer.get_level()
+    medal_data = {field.name: field.medal_data for field in Update.get_stat_fields()}
+
     context = {
         "trainer": trainer,
-        "updates": trainer.update_set.all(),
-        "stats": trainer.update_set.aggregate(
-            **{
-                field: Max(
-                    field,
-                    filter=Q(**{f"{field}__isnull": False}),
-                )
-                for field in UPDATE_SORTABLE_FIELDS
-            }
-        ),
-        "level": trainer.get_level(),
-        "medal_data": {
-            x.get("name"): {
-                **x,
-                **{
-                    "verbose_name": Update._meta.get_field(x.get("name")).verbose_name,
-                    "tooltip": Update._meta.get_field(x.get("name")).help_text,
-                },
-            }
-            for x in BADGES
-            if x.get("name") in (x.name for x in Update._meta.get_fields())
-        },
+        "updates": updates,
+        "stats": stats,
+        "level": level,
+        "medal_data": medal_data,
     }
 
     context["bronze_medals"] = len(
         [
             True
-            for x in context["medal_data"].values()
-            if x.get("bronze")
-            and context["stats"].get(x["name"])
-            and (context["stats"].get(x["name"]) >= x["bronze"])
+            for name, medal in medal_data.items()
+            if medal.bronze and stats.get(name) and medal.bronze >= stats.get(name)
         ]
     )
     context["silver_medals"] = len(
         [
             True
-            for x in context["medal_data"].values()
-            if x.get("silver")
-            and context["stats"].get(x["name"])
-            and (context["stats"].get(x["name"]) >= x["silver"])
+            for name, medal in medal_data.items()
+            if medal.silver and stats.get(name) and medal.silver >= stats.get(name)
         ]
     )
     context["gold_medals"] = len(
         [
             True
-            for x in context["medal_data"].values()
-            if x.get("gold")
-            and context["stats"].get(x["name"])
-            and (context["stats"].get(x["name"]) >= x["gold"])
+            for name, medal in medal_data.items()
+            if medal.gold and stats.get(name) and medal.gold >= stats.get(name)
         ]
     )
     context["platinum_medals"] = len(
         [
             True
-            for x in context["medal_data"].values()
-            if x.get("platinum")
-            and context["stats"].get(x["name"])
-            and (context["stats"].get(x["name"]) >= x["platinum"])
+            for name, medal in medal_data.items()
+            if medal.platinum and stats.get(name) and medal.platinum >= stats.get(name)
         ]
     )
     context["medals_count"] = len(
-        [
-            True
-            for x in context["medal_data"].values()
-            if x.get("platinum") and context["stats"].get(x["name"])
-        ]
+        [True for name, medal in medal_data.items() if medal.platinum and stats.get(name)]
     )
 
     return render(request, "profile.html", context)
@@ -309,7 +287,10 @@ def leaderboard(
     }
 
     if order_by := request.GET.get("sort", "total_xp"):
-        if order_by in UPDATE_SORTABLE_FIELDS:
+        if (
+            isinstance((order_by_field := Update._meta.get_field(order_by)), BaseStatistic)
+            and order_by_field.sortable
+        ):
             fields_to_calculate_max.add(order_by)
         else:
             order_by = "total_xp"
@@ -375,18 +356,17 @@ def leaderboard(
         }
 
         FIELDS = fields_to_calculate_max.copy()
-        FIELDS.remove("update_time")
-        FIELDS = [x for x in UPDATE_SORTABLE_FIELDS if x in FIELDS]
         FIELDS = [
             {
-                "name": x,
-                "readable_name": Update._meta.get_field(x).verbose_name,
-                "tooltip": Update._meta.get_field(x).help_text,
-                "value": getattr(trainer, "update__{field}__max".format(field=x)),
+                "name": field.name,
+                "readable_name": field.verbose_name,
+                "tooltip": field.help_text,
+                "value": getattr(trainer, f"update__{field.name}__max"),
             }
-            for x in FIELDS
+            for field in Update.get_sortable_fields()
+            if field.name in FIELDS
         ]
-        FIELDS.insert(0, FIELDS.pop([FIELDS.index(x) for x in FIELDS if x["name"] == order_by][0]))
+        FIELDS = sorted(FIELDS, key=lambda x: 0 if x["name"] == order_by else 1)
         trainer_stats["columns"] = FIELDS
         Results.append(trainer_stats)
 

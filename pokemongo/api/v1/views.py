@@ -42,11 +42,10 @@ from pokemongo.api.v1.serializers import (
     SocialAllAuthSerializer,
     UserSerializer,
 )
+from pokemongo.fields import BaseStatistic
 from pokemongo.models import Community, Trainer, Update
 from pokemongo.shortcuts import (
     OLD_NEW_STAT_MAP,
-    UPDATE_NON_REVERSEABLE_FIELDS,
-    UPDATE_SORTABLE_FIELDS,
     filter_leaderboard_qs__update,
     get_country_info,
 )
@@ -340,8 +339,9 @@ class LatestStatsView(APIView):
                     f"update__{field.name}",
                     filter=Q(**{f"update__{field.name}__isnull": False}),
                 )
-                for field in Update._meta.get_fields()
-                if (field.name in UPDATE_SORTABLE_FIELDS or field.name == "update_time")
+                for field in (
+                    Update.get_sortable_fields() + [Update._meta.get_field("update_time")]
+                )
             },
         )
         serializer = LatestStatsSerializer(latest_stats)
@@ -413,7 +413,10 @@ class DetailedLeaderboardView(APIView):
     ) -> Response:
         stat = OLD_NEW_STAT_MAP.get(stat, stat)
 
-        if stat not in UPDATE_SORTABLE_FIELDS:
+        if (
+            not isinstance(field := Update._meta.get_field(stat), BaseStatistic)
+            or not field.sortable
+        ):
             return Response(
                 {"state": "error", "reason": "invalid stat"},
                 status=status.HTTP_400_BAD_REQUEST,
