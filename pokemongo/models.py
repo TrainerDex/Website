@@ -1103,7 +1103,6 @@ class Update(PublicModel):
             gym_list_button=pgettext_lazy("gym_list_button", "List"),
             profile_category_gymbadges=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
         ),
-        validators=[MaxValueValidator(1000)],
     )
 
     def has_modified_extra_fields(self) -> bool:
