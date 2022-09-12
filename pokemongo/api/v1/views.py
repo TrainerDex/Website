@@ -6,25 +6,12 @@ from typing import TYPE_CHECKING, Dict
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
-from django.db.models import (
-    Avg,
-    CharField,
-    Count,
-    F,
-    IntegerField,
-    Max,
-    Min,
-    Q,
-    QuerySet,
-    Subquery,
-    Sum,
-    Value,
-    Window,
-)
+from django.db.models import Avg, Count, F, Max, Min, Q, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django_countries import countries
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework import authentication, permissions, status
 from rest_framework.request import Request
@@ -42,14 +29,9 @@ from pokemongo.api.v1.serializers import (
     SocialAllAuthSerializer,
     UserSerializer,
 )
+from pokemongo.fields import BaseStatistic
 from pokemongo.models import Community, Trainer, Update
-from pokemongo.shortcuts import (
-    OLD_NEW_STAT_MAP,
-    UPDATE_NON_REVERSEABLE_FIELDS,
-    UPDATE_SORTABLE_FIELDS,
-    filter_leaderboard_qs__update,
-    get_country_info,
-)
+from pokemongo.shortcuts import OLD_NEW_STAT_MAP, filter_leaderboard_qs__update
 
 logger = logging.getLogger("django.trainerdex")
 
@@ -340,8 +322,9 @@ class LatestStatsView(APIView):
                     f"update__{field.name}",
                     filter=Q(**{f"update__{field.name}__isnull": False}),
                 )
-                for field in Update._meta.get_fields()
-                if (field.name in UPDATE_SORTABLE_FIELDS or field.name == "update_time")
+                for field in (
+                    Update.get_sortable_fields() + [Update._meta.get_field("update_time")]
+                )
             },
         )
         serializer = LatestStatsSerializer(latest_stats)
@@ -413,7 +396,10 @@ class DetailedLeaderboardView(APIView):
     ) -> Response:
         stat = OLD_NEW_STAT_MAP.get(stat, stat)
 
-        if stat not in UPDATE_SORTABLE_FIELDS:
+        if (
+            not isinstance(field := Update._meta.get_field(stat), BaseStatistic)
+            or not field.sortable
+        ):
             return Response(
                 {"state": "error", "reason": "invalid stat"},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -492,23 +478,8 @@ class DetailedLeaderboardView(APIView):
         def get_users_for_community(community: Community):
             return community.get_members()
 
-        def get_country(code: str) -> Dict:
-            try:
-                country_info = get_country_info(country.upper())
-            except IndexError:
-                return Response(
-                    {
-                        "error": "Not Found",
-                        "cause": "There is no known country with this code.",
-                        "solution": "Double check your spelling.",
-                        "guild": code,
-                    },
-                    status=404,
-                )
-            return country_info
-
         def get_users_for_country(country: Dict):
-            return Trainer.objects.filter(country_iso=country.upper())
+            return Trainer.objects.filter(country=country.upper())
 
         if guild:
             guild = get_guild(guild)
@@ -529,15 +500,23 @@ class DetailedLeaderboardView(APIView):
             output["title"] = "{community} Leaderboard".format(community=community)
             members = get_users_for_community(community)
         elif country:
-            country = get_country(country)
-            if isinstance(country, Response):
-                return country
+            country_name = dict(countries).get(country.upper())
+            if country_name is None:
+                return Response(
+                    {
+                        "error": "Not Found",
+                        "cause": "There is no known country with this code.",
+                        "solution": "Double check your spelling.",
+                        "guild": country.upper(),
+                    },
+                    status=404,
+                )
             output = {
                 "generated": generated_time,
                 "stat": stat,
-                "country": country.get("code"),
+                "country": country,
             }
-            output["title"] = "{country} Leaderboard".format(country=country.get("name"))
+            output["title"] = f"{country_name} Leaderboard"
             members = get_users_for_country(country)
         else:
             output = {"generated": generated_time, "stat": stat, "title": None}

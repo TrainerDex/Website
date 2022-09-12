@@ -20,21 +20,18 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import npgettext_lazy, pgettext_lazy
+from django_countries.fields import CountryField
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 
 from config.abstract_models import PublicModel
 from core.models.discord import DiscordGuild, DiscordGuildMembership, DiscordRole
-from pokemongo.shortcuts import (
-    UPDATE_FIELDS_BADGES,
-    UPDATE_FIELDS_TYPES,
-    UPDATE_NON_REVERSEABLE_FIELDS,
-    UPDATE_SORTABLE_FIELDS,
-    CountryInfo,
-    circled_level,
-    get_country_info,
-    get_level,
-    get_possible_levels_from_total_xp,
+from pokemongo.fields import (
+    BaseStatistic,
+    BigIntegerStatistic,
+    DecimalStatistic,
+    IntegerStatistic,
 )
+from pokemongo.shortcuts import circled_level, get_possible_levels_from_total_xp
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 
 logger = logging.getLogger("django.trainerdex")
@@ -134,10 +131,10 @@ class Trainer(PublicModel):
         help_text=_("Fancy sharing your trainer code?" " (This information is public.)"),
     )
 
-    country_iso: str | None = models.CharField(
-        max_length=2,
+    country = CountryField(
         null=True,
         blank=True,
+        multiple=False,
         verbose_name=_("Country"),
         help_text=_("Where are you based?"),
     )
@@ -194,17 +191,6 @@ class Trainer(PublicModel):
 
     def is_prefered(self) -> Literal[True]:
         return True
-
-    def country_info(self) -> CountryInfo | dict:
-        if self.country_iso:
-            try:
-                return get_country_info(self.country_iso)
-            except IndexError:
-                return {}
-        return {}
-
-    def flag_emoji(self) -> str | None:
-        return self.country_info().get("emoji")
 
     def verification_status(self) -> str:
         return _("Verified") if self.verified else _("Unverified")
@@ -423,7 +409,7 @@ class Update(PublicModel):
     )
 
     # Can be seen on main profile
-    total_xp: int | None = models.BigIntegerField(
+    total_xp: int | None = BigIntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("profile_total_xp", "Total XP"),
@@ -437,7 +423,7 @@ class Update(PublicModel):
     )
 
     # Pokedex Figures
-    pokedex_caught: int | None = models.PositiveIntegerField(
+    pokedex_caught: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_page_caught", "Unique Species Caught"),
@@ -447,7 +433,7 @@ class Update(PublicModel):
         ).format(screen_title_pokedex=pgettext_lazy("screen_title_pokedex", "POKÉDEX")),
         validators=[MinValueValidator(1)],
     )
-    pokedex_seen: int | None = models.PositiveIntegerField(
+    pokedex_seen: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_page_seen", "Unique Species Seen"),
@@ -460,7 +446,7 @@ class Update(PublicModel):
 
     # Medals
     # 1
-    travel_km: Decimal | None = models.DecimalField(
+    travel_km: Decimal | None = DecimalStatistic(
         max_digits=16,
         decimal_places=2,
         null=True,
@@ -468,9 +454,14 @@ class Update(PublicModel):
         verbose_name=pgettext_lazy("travel_km_title", "Jogger"),
         help_text=pgettext_lazy("travel_km_help", "Walk {0:0,g} km.").format(10000.0),
         validators=[MinValueValidator(Decimal(0.0))],
+        stat_id=1,
+        bronze=Decimal(10),
+        silver=Decimal(100),
+        gold=Decimal(1000),
+        platinum=Decimal(10000),
     )
     # 2
-    pokedex_entries: int | None = models.PositiveIntegerField(
+    pokedex_entries: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_entries_title", "Kanto"),
@@ -478,38 +469,63 @@ class Update(PublicModel):
             "pokedex_entries_help", "Register {0} Kanto region Pokémon in the Pokédex."
         ).format(151),
         validators=[MaxValueValidator(151), MinValueValidator(1)],
+        stat_id=2,
+        bronze=5,
+        silver=50,
+        gold=100,
+        platinum=151,
     )
     # 3
-    capture_total: int | None = models.BigIntegerField(
+    capture_total: int | None = BigIntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("capture_total_title", "Collector"),
         help_text=pgettext_lazy("capture_total_help", "Catch {0} Pokémon.").format(50000),
         validators=[MinValueValidator(1)],
+        stat_id=3,
+        bronze=30,
+        silver=500,
+        gold=2000,
+        platinum=50000,
     )
     # 5
-    evolved_total: int | None = models.PositiveIntegerField(
+    evolved_total: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("evolved_total_title", "Scientist"),
         help_text=pgettext_lazy("evolved_total_help", "Evolve {0} Pokémon.").format(2000),
+        stat_id=5,
+        bronze=3,
+        silver=20,
+        gold=200,
+        platinum=2000,
     )
     # 6
-    hatched_total: int | None = models.PositiveIntegerField(
+    hatched_total: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("hatched_total_title", "Breeder"),
         help_text=pgettext_lazy("hatched_total_help", "Hatch {0} eggs.").format(2500),
+        stat_id=6,
+        bronze=10,
+        silver=100,
+        gold=500,
+        platinum=2500,
     )
     # 8
-    pokestops_visited: int | None = models.PositiveIntegerField(
+    pokestops_visited: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokestops_visited_title", "Backpacker"),
         help_text=pgettext_lazy("pokestops_visited_help", "Visit {0} PokéStops.").format(50000),
+        stat_id=8,
+        bronze=100,
+        silver=1000,
+        gold=2000,
+        platinum=50000,
     )
     # 9
-    unique_pokestops: int | None = models.PositiveIntegerField(
+    unique_pokestops: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("unique_pokestops_title", "Sightseer"),
@@ -519,44 +535,74 @@ class Update(PublicModel):
             "Visit {0} unique PokéStops.",
             2000,
         ).format(2000),
+        stat_id=9,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=2000,
     )
     # 11
-    big_magikarp: int | None = models.PositiveIntegerField(
+    big_magikarp: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("big_magikarp_title", "Fisher"),
         help_text=pgettext_lazy("big_magikarp_help", "Catch {0} big Magikarp.").format(1000),
+        stat_id=11,
+        bronze=3,
+        silver=50,
+        gold=300,
+        platinum=1000,
     )
     # 13
-    battle_attack_won: int | None = models.PositiveIntegerField(
+    battle_attack_won: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("battle_attack_won_title", "Battle Girl"),
         help_text=pgettext_lazy("battle_attack_won_help", "Win {0} Gym battles.").format(4000),
+        stat_id=13,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=4000,
     )
     # 14
-    battle_training_won: int | None = models.PositiveIntegerField(
+    battle_training_won: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("battle_training_won_title", "Ace Trainer"),
         help_text=pgettext_lazy("battle_training_won_help", "Train {0} times.").format(2000),
+        stat_id=14,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=2000,
     )
     # 36
-    small_rattata: int | None = models.PositiveIntegerField(
+    small_rattata: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("small_rattata_title", "Youngster"),
         help_text=pgettext_lazy("small_rattata_help", "Catch {0} tiny Rattata.").format(1000),
+        stat_id=36,
+        bronze=3,
+        silver=50,
+        gold=300,
+        platinum=1000,
     )
     # 37
-    pikachu: int | None = models.PositiveIntegerField(
+    pikachu: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pikachu_title", "Pikachu Fan"),
         help_text=pgettext_lazy("pikachu_help", "Catch {0} Pikachu.").format(1000),
+        stat_id=37,
+        bronze=3,
+        silver=50,
+        gold=300,
+        platinum=1000,
     )
     # 38
-    unown: int | None = models.PositiveIntegerField(
+    unown: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("unown_title", "Unown"),
@@ -564,9 +610,14 @@ class Update(PublicModel):
         validators=[
             MaxValueValidator(28),
         ],
+        stat_id=38,
+        bronze=3,
+        silver=10,
+        gold=26,
+        platinum=28,
     )
     # 39
-    pokedex_entries_gen2: int | None = models.PositiveIntegerField(
+    pokedex_entries_gen2: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_entries_gen2_title", "Johto"),
@@ -577,39 +628,64 @@ class Update(PublicModel):
         validators=[
             MaxValueValidator(100),
         ],
+        stat_id=39,
+        bronze=3,
+        silver=10,
+        gold=26,
+        platinum=100,
     )
     # 40
-    raid_battle_won: int | None = models.PositiveIntegerField(
+    raid_battle_won: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("raid_battle_won_title", "Champion"),
         help_text=pgettext_lazy("raid_battle_won_help", "Win {0} raids.").format(2000),
+        stat_id=40,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=2000,
     )
     # 41
-    legendary_battle_won: int | None = models.PositiveIntegerField(
+    legendary_battle_won: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("legendary_battle_won_title", "Battle Legend"),
         help_text=pgettext_lazy("legendary_battle_won_help", "Win {0} Legendary raids.").format(
             2000
         ),
+        stat_id=41,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=2000,
     )
     # 42
-    berries_fed: int | None = models.PositiveIntegerField(
+    berries_fed: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("berries_fed_title", "Berry Master"),
         help_text=pgettext_lazy("berries_fed_help", "Feed {0} Berries at Gyms.").format(15000),
+        stat_id=42,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=15000,
     )
     # 43
-    hours_defended: int | None = models.PositiveIntegerField(
+    hours_defended: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("hours_defended_title", "Gym Leader"),
         help_text=pgettext_lazy("hours_defended_help", "Defend Gyms for {0} hours.").format(15000),
+        stat_id=43,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=15000,
     )
     # 45
-    pokedex_entries_gen3: int | None = models.PositiveIntegerField(
+    pokedex_entries_gen3: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_entries_gen3_title", "Hoenn"),
@@ -620,18 +696,28 @@ class Update(PublicModel):
         validators=[
             MaxValueValidator(135),
         ],
+        stat_id=45,
+        bronze=5,
+        silver=40,
+        gold=90,
+        platinum=135,
     )
     # 46
-    challenge_quests: int | None = models.PositiveIntegerField(
+    challenge_quests: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("challenge_quests_title", "Pokémon Ranger"),
         help_text=pgettext_lazy(
             "challenge_quests_help", "Complete {0} Field Research tasks."
         ).format(2500),
+        stat_id=46,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=2500,
     )
     # 48
-    max_level_friends: int | None = models.PositiveIntegerField(
+    max_level_friends: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("max_level_friends_title", "Idol"),
@@ -641,16 +727,26 @@ class Update(PublicModel):
             plural="Become Best Friends with {0} Trainers.",
             number=20,
         ).format(20),
+        stat_id=48,
+        bronze=1,
+        silver=2,
+        gold=3,
+        platinum=20,
     )
     # 49
-    trading: int | None = models.PositiveIntegerField(
+    trading: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("trading_title", "Gentleman"),
         help_text=pgettext_lazy("trading_help", "Trade {0} Pokémon.").format(2500),
+        stat_id=49,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=2500,
     )
     # 50
-    trading_distance: int | None = models.PositiveIntegerField(
+    trading_distance: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("trading_distance_title", "Pilot"),
@@ -658,9 +754,14 @@ class Update(PublicModel):
             "trading_distance_help",
             "Earn {0} km across the distance of all Pokémon trades.",
         ).format(10000000),
+        stat_id=50,
+        bronze=1000,
+        silver=10000,
+        gold=1000000,
+        platinum=10000000,
     )
     # 51
-    pokedex_entries_gen4: int | None = models.PositiveIntegerField(
+    pokedex_entries_gen4: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_entries_gen4__title", "Sinnoh"),
@@ -671,9 +772,14 @@ class Update(PublicModel):
         validators=[
             MaxValueValidator(107),
         ],
+        stat_id=51,
+        bronze=5,
+        silver=30,
+        gold=80,
+        platinum=107,
     )
     # 52
-    great_league: int | None = models.PositiveIntegerField(
+    great_league: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("great_league_title", "Great League Veteran"),
@@ -683,9 +789,14 @@ class Update(PublicModel):
             plural="Win {0} Trainer Battles in the Great League.",
             number=1000,
         ).format(1000),
+        stat_id=52,
+        bronze=5,
+        silver=50,
+        gold=200,
+        platinum=1000,
     )
     # 53
-    ultra_league: int | None = models.PositiveIntegerField(
+    ultra_league: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("ultra_league_title", "Ultra League Veteran"),
@@ -695,9 +806,14 @@ class Update(PublicModel):
             plural="Win {0} Trainer Battles in the Ultra League.",
             number=1000,
         ).format(1000),
+        stat_id=53,
+        bronze=5,
+        silver=50,
+        gold=200,
+        platinum=1000,
     )
     # 54
-    master_league: int | None = models.PositiveIntegerField(
+    master_league: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("master_league_title", "Master League Veteran"),
@@ -707,9 +823,14 @@ class Update(PublicModel):
             plural="Win {0} Trainer Battles in the Master League.",
             number=1000,
         ).format(1000),
+        stat_id=54,
+        bronze=5,
+        silver=50,
+        gold=200,
+        platinum=1000,
     )
     # 55
-    photobomb: int | None = models.PositiveIntegerField(
+    photobomb: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("photobomb_title", "Cameraman"),
@@ -719,9 +840,14 @@ class Update(PublicModel):
             plural="Have {0} surprise encounters in GO Snapshot.",
             number=400,
         ).format(400),
+        stat_id=55,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=400,
     )
     # 56
-    pokedex_entries_gen5: int | None = models.PositiveIntegerField(
+    pokedex_entries_gen5: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_entries_gen5__title", "Unova"),
@@ -732,27 +858,42 @@ class Update(PublicModel):
         validators=[
             MaxValueValidator(156),
         ],
+        stat_id=56,
+        bronze=5,
+        silver=50,
+        gold=100,
+        platinum=156,
     )
     # 57
-    pokemon_purified: int | None = models.PositiveIntegerField(
+    pokemon_purified: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokemon_purified_title", "Purifier"),
         help_text=pgettext_lazy("pokemon_purified_help", "Purify {0} Shadow Pokémon.").format(
             1000
         ),
+        stat_id=57,
+        bronze=5,
+        silver=50,
+        gold=500,
+        platinum=1000,
     )
     # 58
-    rocket_grunts_defeated: int | None = models.PositiveIntegerField(
+    rocket_grunts_defeated: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("rocket_grunts_defeated_title", "Hero"),
         help_text=pgettext_lazy(
             "rocket_grunts_defeated_help", "Defeat {0} Team GO Rocket Grunts."
         ).format(2000),
+        stat_id=58,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=2000,
     )
     # 59
-    rocket_giovanni_defeated: int | None = models.PositiveIntegerField(
+    rocket_giovanni_defeated: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("rocket_giovanni_defeated_title", "Ultra Hero"),
@@ -762,9 +903,14 @@ class Update(PublicModel):
             plural="Defeat the Team GO Rocket Boss {0} times. ",
             number=50,
         ).format(50),
+        stat_id=59,
+        bronze=1,
+        silver=5,
+        gold=20,
+        platinum=50,
     )
     # 60
-    buddy_best: int | None = models.PositiveIntegerField(
+    buddy_best: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("buddy_best_title", "Best Buddy"),
@@ -774,9 +920,14 @@ class Update(PublicModel):
             plural="Have {0} Best Buddies.",
             number=200,
         ).format(200),
+        stat_id=60,
+        bronze=1,
+        silver=10,
+        gold=100,
+        platinum=2000,
     )
     # 61
-    pokedex_entries_gen6: int | None = models.PositiveIntegerField(
+    pokedex_entries_gen6: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_entries_gen6__title", "Kalos"),
@@ -787,9 +938,14 @@ class Update(PublicModel):
         validators=[
             MaxValueValidator(72),
         ],
+        stat_id=61,
+        bronze=5,
+        silver=25,
+        gold=50,
+        platinum=72,
     )
     # 62
-    pokedex_entries_gen7: int | None = models.PositiveIntegerField(
+    pokedex_entries_gen7: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_entries_gen7__title", "Alola"),
@@ -800,9 +956,14 @@ class Update(PublicModel):
         validators=[
             MaxValueValidator(88),
         ],
+        stat_id=62,
+        bronze=5,
+        silver=25,
+        gold=50,
+        platinum=86,
     )
     # 63
-    pokedex_entries_gen8: int | None = models.PositiveIntegerField(
+    pokedex_entries_gen8: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_entries_gen8__title", "Galar"),
@@ -813,9 +974,14 @@ class Update(PublicModel):
         validators=[
             MaxValueValidator(89),
         ],
+        stat_id=63,
+        bronze=5,
+        silver=25,
+        gold=50,
+        platinum=89,
     )
     # 64
-    seven_day_streaks: int | None = models.PositiveIntegerField(
+    seven_day_streaks: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("seven_day_streaks_title", "Triathlete"),
@@ -825,9 +991,14 @@ class Update(PublicModel):
             "Achieve a Pokémon catch streak or PokéStop spin streak of seven days {0} times.",
             100,
         ).format(100),
+        stat_id=64,
+        bronze=1,
+        silver=10,
+        gold=50,
+        platinum=100,
     )
     # 65
-    unique_raid_bosses_defeated: int | None = models.PositiveIntegerField(
+    unique_raid_bosses_defeated: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("unique_raid_bosses_defeated_title", "Rising Star"),
@@ -837,9 +1008,14 @@ class Update(PublicModel):
             "Defeat {0} different species of Pokémon in raids.",
             150,
         ).format(150),
+        stat_id=65,
+        bronze=2,
+        silver=10,
+        gold=50,
+        platinum=150,
     )
     # 66
-    raids_with_friends: int | None = models.PositiveIntegerField(
+    raids_with_friends: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("raids_with_friends_title", "Rising Star Duo"),
@@ -849,9 +1025,14 @@ class Update(PublicModel):
             "Win {0} raids with a friend.",
             2000,
         ).format(2000),
+        stat_id=66,
+        bronze=10,
+        silver=100,
+        gold=1000,
+        platinum=2000,
     )
     # 67
-    pokemon_caught_at_your_lures: int | None = models.PositiveIntegerField(
+    pokemon_caught_at_your_lures: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokemon_caught_at_your_lures_title", "Picnicker"),
@@ -861,9 +1042,14 @@ class Update(PublicModel):
             "Use a Lure Module to help another Trainer catch {0} Pokémon.",
             1,
         ).format(2500),
+        stat_id=67,
+        bronze=5,
+        silver=25,
+        gold=500,
+        platinum=2000,
     )
     # 68
-    wayfarer: int | None = models.PositiveIntegerField(
+    wayfarer: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("wayfarer_title", "Wayfarer"),
@@ -873,9 +1059,14 @@ class Update(PublicModel):
             plural="Earn {0} Wayfarer Agreements",
             number=1500,
         ).format(1500),
+        stat_id=68,
+        bronze=50,
+        silver=500,
+        gold=1000,
+        platinum=1500,
     )
     # 69
-    total_mega_evos: int | None = models.PositiveIntegerField(
+    total_mega_evos: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("total_mega_evos_title", "Successor"),
@@ -885,9 +1076,14 @@ class Update(PublicModel):
             "Mega Evolve a Pokémon {0} times.",
             1000,
         ).format(1000),
+        stat_id=69,
+        bronze=1,
+        silver=50,
+        gold=500,
+        platinum=1000,
     )
     # 70
-    unique_mega_evos: int | None = models.PositiveIntegerField(
+    unique_mega_evos: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("unique_mega_evos_title", "Mega Evolution Guru"),
@@ -897,11 +1093,16 @@ class Update(PublicModel):
             "Mega Evolve {0} different species of Pokémon.",
             46,
         ).format(46),
+        stat_id=70,
+        bronze=1,
+        silver=24,
+        gold=36,
+        platinum=46,
     )
     # 72, 77 and 79 seem to be route maker related
 
     # 73 - Friend Finder
-    trainers_referred: int | None = models.PositiveIntegerField(
+    trainers_referred: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("trainers_referred_title", "Friend Finder"),
@@ -911,12 +1112,17 @@ class Update(PublicModel):
             "Refer {0} Trainers",
             20,
         ).format(20),
+        stat_id=73,
+        bronze=1,
+        silver=10,
+        gold=20,
+        platinum=50,
     )
 
     # 74 - Come kind of invisible pokestop icon?
 
     # 76 - Raid Expert
-    mvt: int | None = models.PositiveIntegerField(
+    mvt: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("mvt_title", "Raid Expert"),
@@ -924,17 +1130,23 @@ class Update(PublicModel):
             "mvt_help",
             "Made the Raid Battle Trainer Achievements screen {0} times.",
         ).format(200),
+        stat_id=76,
+        bronze=1,
+        silver=50,
+        gold=200,
+        platinum=500,
     )
 
     # 1002
-    mini_collection: int | None = models.PositiveIntegerField(
+    mini_collection: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("mini_collection_title", "Elite Collector"),
         help_text=pgettext_lazy("mini_collection_help", "Complete Collection Challenges."),
+        stat_id=1002,
     )
 
-    battle_hub_stats_wins: int | None = models.PositiveIntegerField(
+    battle_hub_stats_wins: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("battle_hub_stats_wins", "Wins"),
@@ -943,7 +1155,7 @@ class Update(PublicModel):
             "You can find this by clicking the {screen_title_battle_hub} button in your game.",
         ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
     )
-    battle_hub_stats_battles: int | None = models.PositiveIntegerField(
+    battle_hub_stats_battles: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("battle_hub_stats_battles", "Battles"),
@@ -952,7 +1164,7 @@ class Update(PublicModel):
             "You can find this by clicking the {screen_title_battle_hub} button in your game.",
         ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
     )
-    battle_hub_stats_stardust: int | None = models.PositiveIntegerField(
+    battle_hub_stats_stardust: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("battle_hub_stats_stardust", "Stardust Earned"),
@@ -961,7 +1173,7 @@ class Update(PublicModel):
             "You can find this by clicking the {screen_title_battle_hub} button in your game.",
         ).format(screen_title_battle_hub=pgettext_lazy("screen_title_battle_hub", "Battle")),
     )
-    battle_hub_stats_streak: int | None = models.PositiveIntegerField(
+    battle_hub_stats_streak: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("battle_hub_stats_streak", "Longest Streak"),
@@ -973,122 +1185,212 @@ class Update(PublicModel):
 
     # Type Medals
 
-    type_normal: int | None = models.PositiveIntegerField(
+    type_normal: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_normal_title", "Schoolkid"),
         help_text=pgettext_lazy("type_normal_help", "Catch {0} Normal-type Pokémon.").format(200),
+        stat_id=18,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_fighting: int | None = models.PositiveIntegerField(
+    type_fighting: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_fighting_title", "Black Belt"),
         help_text=pgettext_lazy("type_fighting_help", "Catch {0} Fighting-type Pokémon.").format(
             200
         ),
+        stat_id=19,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_flying: int | None = models.PositiveIntegerField(
+    type_flying: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_flying_title", "Bird Keeper"),
         help_text=pgettext_lazy("type_flying_help", "Catch {0} Flying-type Pokémon.").format(200),
+        stat_id=20,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_poison: int | None = models.PositiveIntegerField(
+    type_poison: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_poison_title", "Punk Girl"),
         help_text=pgettext_lazy("type_poison_help", "Catch {0} Poison-type Pokémon.").format(200),
+        stat_id=21,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_ground: int | None = models.PositiveIntegerField(
+    type_ground: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_ground_title", "Ruin Maniac"),
         help_text=pgettext_lazy("type_ground_help", "Catch {0} Ground-type Pokémon.").format(200),
+        stat_id=22,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_rock: int | None = models.PositiveIntegerField(
+    type_rock: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_rock_title", "Hiker"),
         help_text=pgettext_lazy("type_rock_help", "Catch {0} Rock-type Pokémon.").format(200),
+        stat_id=23,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_bug: int | None = models.PositiveIntegerField(
+    type_bug: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_bug_title", "Bug Catcher"),
         help_text=pgettext_lazy("type_bug_help", "Catch {0} Bug-type Pokémon.").format(200),
+        stat_id=24,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_ghost: int | None = models.PositiveIntegerField(
+    type_ghost: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_ghost_title", "Hex Maniac"),
         help_text=pgettext_lazy("type_ghost_help", "Catch {0} Ghost-type Pokémon.").format(200),
+        stat_id=25,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_steel: int | None = models.PositiveIntegerField(
+    type_steel: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_steel_title", "Rail Staff"),
         help_text=pgettext_lazy("type_steel_help", "Catch {0} Steel-type Pokémon.").format(200),
+        stat_id=26,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_fire: int | None = models.PositiveIntegerField(
+    type_fire: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_fire_title", "Kindler"),
         help_text=pgettext_lazy("type_fire_help", "Catch {0} Fire-type Pokémon.").format(200),
+        stat_id=27,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_water: int | None = models.PositiveIntegerField(
+    type_water: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_water_title", "Swimmer"),
         help_text=pgettext_lazy("type_water_help", "Catch {0} Water-type Pokémon.").format(200),
+        stat_id=28,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_grass: int | None = models.PositiveIntegerField(
+    type_grass: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_grass_title", "Gardener"),
         help_text=pgettext_lazy("type_grass_help", "Catch {0} Grass-type Pokémon.").format(200),
+        stat_id=29,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_electric: int | None = models.PositiveIntegerField(
+    type_electric: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_electric_title", "Rocker"),
         help_text=pgettext_lazy("type_electric_help", "Catch {0} Electric-type Pokémon.").format(
             200
         ),
+        stat_id=30,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_psychic: int | None = models.PositiveIntegerField(
+    type_psychic: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_psychic_title", "Psychic"),
         help_text=pgettext_lazy("type_psychic_help", "Catch {0} Psychic-type Pokémon.").format(
             200
         ),
+        stat_id=31,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_ice: int | None = models.PositiveIntegerField(
+    type_ice: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_ice_title", "Skier"),
         help_text=pgettext_lazy("type_ice_help", "Catch {0} Ice-type Pokémon.").format(200),
+        stat_id=32,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_dragon: int | None = models.PositiveIntegerField(
+    type_dragon: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_dragon_title", "Dragon Tamer"),
         help_text=pgettext_lazy("type_dragon_help", "Catch {0} Dragon-type Pokémon.").format(200),
+        stat_id=33,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_dark: int | None = models.PositiveIntegerField(
+    type_dark: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_dark_title", "Delinquent"),
         help_text=pgettext_lazy("type_dark_help", "Catch {0} Dark-type Pokémon.").format(200),
+        stat_id=34,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
-    type_fairy: int | None = models.PositiveIntegerField(
+    type_fairy: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_fairy_title", "Fairy Tale Girl"),
         help_text=pgettext_lazy("type_fairy_help", "Catch {0} Fairy-type Pokémon.").format(200),
+        stat_id=35,
+        bronze=10,
+        silver=50,
+        gold=200,
+        platinum=2500,
     )
 
-    gym_gold: int | None = models.PositiveIntegerField(
+    gym_gold: int | None = IntegerStatistic(
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("gym_gold_title", "Gold Gym Badges"),
@@ -1099,6 +1401,7 @@ class Update(PublicModel):
             gym_list_button=pgettext_lazy("gym_list_button", "List"),
             profile_category_gymbadges=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
         ),
+        reversable=True,
     )
 
     def has_modified_extra_fields(self) -> bool:
@@ -1106,35 +1409,11 @@ class Update(PublicModel):
 
     has_modified_extra_fields.boolean = True
 
-    def modified_fields(self) -> list[str]:
-        return [
-            x
-            for x in (
-                UPDATE_FIELDS_BADGES
-                + UPDATE_FIELDS_TYPES
-                + [
-                    "pokedex_caught",
-                    "pokedex_seen",
-                    "gym_gold",
-                    "total_xp",
-                ]
-            )
-            if getattr(self, x)
-        ]
-
     def modified_extra_fields(self) -> list[str]:
         return [
-            x
-            for x in (
-                UPDATE_FIELDS_BADGES
-                + UPDATE_FIELDS_TYPES
-                + [
-                    "pokedex_caught",
-                    "pokedex_seen",
-                    "gym_gold",
-                ]
-            )
-            if getattr(self, x)
+            field.name
+            for field in self.get_stat_fields()
+            if field not in STANDARD_OCR_STATS and getattr(self, field.name) is not None
         ]
 
     def clean(self) -> NoReturn | None:
@@ -1163,45 +1442,41 @@ class Update(PublicModel):
         ):
             self.trainer_level = levels[0].level
 
-        if not any([(getattr(self, x) is not None) for x in UPDATE_SORTABLE_FIELDS]):
+        REQUIRED_FIELDS = Update.get_stat_fields()
+
+        if not any([(getattr(self, field.name) is not None) for field in REQUIRED_FIELDS]):
             raise ValidationError(
                 _("You must fill out at least ONE of the following stats.\n{stats}").format(
-                    stats=", ".join(
-                        [
-                            str(Update._meta.get_field(x).verbose_name)
-                            for x in UPDATE_SORTABLE_FIELDS
-                        ]
-                    )
+                    stats=", ".join([str(field.verbose_name) for field in REQUIRED_FIELDS])
                 )
             )
 
         error_dict: defaultdict[str, list[str]] = defaultdict(list)
 
-        AGGREGATES = {}
-        for field in Update._meta.get_fields():
-            if field.name in UPDATE_NON_REVERSEABLE_FIELDS and bool(
-                new_stat := getattr(self, field.name)
-            ):
-                AGGREGATES[f"max_{field.name}"] = models.Max(
-                    f"update__{field.name}",
-                    filter=(
-                        models.Q(update__update_time__lt=self.update_time)
-                        & models.Q(**{f"update__{field.name}__isnull": False})
-                    ),
-                )
+        AGGREGATES = {
+            f"max_{field.name}": models.Max(
+                f"update__{field.name}",
+                filter=(
+                    models.Q(update__update_time__lt=self.update_time)
+                    & models.Q(**{f"update__{field.name}__isnull": False})
+                ),
+            )
+            for field in Update.get_non_reversable_fields()
+            if bool(new_stat := getattr(self, field.name))
+        }
 
         latest_stats_prior = Trainer.objects.filter(pk=self.trainer.pk).aggregate(**AGGREGATES)
 
-        for field in Update._meta.get_fields():
-            if field.name in UPDATE_NON_REVERSEABLE_FIELDS:
-                # 1 - Value must be higher than or equal to than previous value
-                if bool(new_stat := getattr(self, field.name)):
-                    if new_stat < (old_stat := latest_stats_prior[f"max_{field.name}"]):
-                        error_dict[field.name].append(
-                            _(
-                                "The new value for {field} is less than the previous value of {old_stat}.",
-                            ).format(field=field.verbose_name, old_stat=old_stat)
-                        )
+        for field in Update.get_non_reversable_fields():
+            if (new_stat := getattr(self, field.name)) is not None:
+                if (
+                    latest_stat := latest_stats_prior[f"max_{field.name}"]
+                ) is not None and new_stat < latest_stat:
+                    error_dict[field.name].append(
+                        _(
+                            "The new value for {field} is less than the previous value of {latest_stat}.",
+                        ).format(field=field.verbose_name, latest_stat=latest_stat)
+                    )
 
         if error_dict:
             raise ValidationError(error_dict)
@@ -1211,6 +1486,102 @@ class Update(PublicModel):
         ordering = ["-update_time"]
         verbose_name = _("Update")
         verbose_name_plural = _("Updates")
+
+    @classmethod
+    def get_stat_fields(cls) -> list[BaseStatistic]:
+        return [field for field in cls._meta.get_fields() if isinstance(field, BaseStatistic)]
+
+    @classmethod
+    def get_sortable_fields(cls) -> list[BaseStatistic]:
+        return [field for field in cls.get_stat_fields() if field.sortable]
+
+    @classmethod
+    def get_non_reversable_fields(cls) -> list[BaseStatistic]:
+        return [field for field in cls.get_stat_fields() if not field.reversable]
+
+
+STANDARD_OCR_STATS: list[BaseStatistic] = [
+    Update.total_xp.field,
+    Update.travel_km.field,
+    Update.pokedex_entries.field,
+    Update.capture_total.field,
+]
+
+STANDARD_MEDALS: list[BaseStatistic] = [
+    Update.travel_km.field,
+    Update.pokedex_entries.field,
+    Update.capture_total.field,
+    Update.evolved_total.field,
+    Update.hatched_total.field,
+    Update.pokestops_visited.field,
+    Update.unique_pokestops.field,
+    Update.big_magikarp.field,
+    Update.battle_attack_won.field,
+    Update.battle_training_won.field,
+    Update.small_rattata.field,
+    Update.pikachu.field,
+    Update.unown.field,
+    Update.pokedex_entries_gen2.field,
+    Update.raid_battle_won.field,
+    Update.legendary_battle_won.field,
+    Update.berries_fed.field,
+    Update.hours_defended.field,
+    Update.pokedex_entries_gen3.field,
+    Update.challenge_quests.field,
+    Update.max_level_friends.field,
+    Update.trading.field,
+    Update.trading_distance.field,
+    Update.pokedex_entries_gen4.field,
+    Update.great_league.field,
+    Update.ultra_league.field,
+    Update.master_league.field,
+    Update.photobomb.field,
+    Update.pokedex_entries_gen5.field,
+    Update.pokemon_purified.field,
+    Update.rocket_grunts_defeated.field,
+    Update.rocket_giovanni_defeated.field,
+    Update.buddy_best.field,
+    Update.pokedex_entries_gen6.field,
+    Update.pokedex_entries_gen7.field,
+    Update.pokedex_entries_gen8.field,
+    Update.seven_day_streaks.field,
+    Update.unique_raid_bosses_defeated.field,
+    Update.raids_with_friends.field,
+    Update.pokemon_caught_at_your_lures.field,
+    Update.wayfarer.field,
+    Update.total_mega_evos.field,
+    Update.unique_mega_evos.field,
+    Update.trainers_referred.field,
+    Update.mvt.field,
+]
+
+BATTLE_HUB_STATS: list[BaseStatistic] = [
+    Update.battle_hub_stats_wins.field,
+    Update.battle_hub_stats_battles.field,
+    Update.battle_hub_stats_stardust.field,
+    Update.battle_hub_stats_streak.field,
+]
+
+UPDATE_FIELDS_TYPES: list[BaseStatistic] = [
+    Update.type_normal.field,
+    Update.type_fighting.field,
+    Update.type_flying.field,
+    Update.type_poison.field,
+    Update.type_ground.field,
+    Update.type_rock.field,
+    Update.type_bug.field,
+    Update.type_ghost.field,
+    Update.type_steel.field,
+    Update.type_fire.field,
+    Update.type_water.field,
+    Update.type_grass.field,
+    Update.type_electric.field,
+    Update.type_psychic.field,
+    Update.type_ice.field,
+    Update.type_dragon.field,
+    Update.type_dark.field,
+    Update.type_fairy.field,
+]
 
 
 @receiver(post_save, sender=Update)

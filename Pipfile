@@ -13,7 +13,7 @@ django-allauth = "~=0.51.0"
 django-cors-headers = ">=3.10.1"
 django-exclusivebooleanfield = "~=0.3.0"
 django-widget-tweaks = ">=1.4.11"
-Django = ">=4.0.1,<4.2.0"
+Django = ">=4.1.0,<4.2.0"
 Pillow = "*"
 django-silk = ">=4.3.0"
 django-allow-cidr = ">=0.4.0"
@@ -29,6 +29,7 @@ opencv-python = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 requests = "==2.28.1"
 certifi = "==2022.6.15"
+django-countries = {version = "==7.3.2", extras = ["pyuca"]}
 
 [dev-packages]
 flake8 = "*"

@@ -3,38 +3,31 @@ from __future__ import annotations
 import logging
 from datetime import timedelta
 from math import ceil
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import (
-    F,
-    Max,
-    OuterRef,
-    Prefetch,
-    Q,
-    QuerySet,
-    Subquery,
-    Sum,
-    Window,
-)
+from django.db.models import Count, F, Max, OuterRef, Q, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.http import Http404, HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django_countries import countries
 
+from pokemongo.fields import BaseStatistic
 from pokemongo.forms import TrainerForm, UpdateForm
-from pokemongo.models import Community, Trainer, Update
-from pokemongo.shortcuts import (
-    BADGES,
-    UPDATE_SORTABLE_FIELDS,
-    chunks,
-    filter_leaderboard_qs,
-    get_country_info,
+from pokemongo.models import (
+    BATTLE_HUB_STATS,
+    STANDARD_MEDALS,
+    UPDATE_FIELDS_TYPES,
+    Community,
+    Trainer,
+    Update,
 )
+from pokemongo.shortcuts import filter_leaderboard_qs
 
 logger = logging.getLogger("django.trainerdex")
 
@@ -109,74 +102,57 @@ def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
         messages.warning(request, _("Please complete your profile to continue using the website."))
         return redirect("profile_edit")
 
+    updates = trainer.update_set.all()
+    stats = trainer.update_set.aggregate(
+        **{
+            field.name: Max(
+                field.name,
+                filter=Q(**{f"{field.name}__isnull": False}),
+            )
+            for field in Update.get_stat_fields()
+        }
+    )
+    level = trainer.get_level()
+    medal_data = {field.name: field.medal_data for field in Update.get_stat_fields()}
+
     context = {
         "trainer": trainer,
-        "updates": trainer.update_set.all(),
-        "stats": trainer.update_set.aggregate(
-            **{
-                field: Max(
-                    field,
-                    filter=Q(**{f"{field}__isnull": False}),
-                )
-                for field in UPDATE_SORTABLE_FIELDS
-            }
-        ),
-        "level": trainer.get_level(),
-        "medal_data": {
-            x.get("name"): {
-                **x,
-                **{
-                    "verbose_name": Update._meta.get_field(x.get("name")).verbose_name,
-                    "tooltip": Update._meta.get_field(x.get("name")).help_text,
-                },
-            }
-            for x in BADGES
-            if x.get("name") in (x.name for x in Update._meta.get_fields())
-        },
+        "updates": updates,
+        "stats": stats,
+        "level": level,
+        "medal_data": medal_data,
     }
 
     context["bronze_medals"] = len(
         [
             True
-            for x in context["medal_data"].values()
-            if x.get("bronze")
-            and context["stats"].get(x["name"])
-            and (context["stats"].get(x["name"]) >= x["bronze"])
+            for name, medal in medal_data.items()
+            if medal.bronze and stats.get(name) and medal.bronze >= stats.get(name)
         ]
     )
     context["silver_medals"] = len(
         [
             True
-            for x in context["medal_data"].values()
-            if x.get("silver")
-            and context["stats"].get(x["name"])
-            and (context["stats"].get(x["name"]) >= x["silver"])
+            for name, medal in medal_data.items()
+            if medal.silver and stats.get(name) and medal.silver >= stats.get(name)
         ]
     )
     context["gold_medals"] = len(
         [
             True
-            for x in context["medal_data"].values()
-            if x.get("gold")
-            and context["stats"].get(x["name"])
-            and (context["stats"].get(x["name"]) >= x["gold"])
+            for name, medal in medal_data.items()
+            if medal.gold and stats.get(name) and medal.gold >= stats.get(name)
         ]
     )
     context["platinum_medals"] = len(
         [
             True
-            for x in context["medal_data"].values()
-            if x.get("platinum")
-            and context["stats"].get(x["name"])
-            and (context["stats"].get(x["name"]) >= x["platinum"])
+            for name, medal in medal_data.items()
+            if medal.platinum and stats.get(name) and medal.platinum >= stats.get(name)
         ]
     )
     context["medals_count"] = len(
-        [
-            True
-            for x in context["medal_data"].values()
-            if x.get("platinum") and context["stats"].get(x["name"])
-        ]
+        [True for name, medal in medal_data.items() if medal.platinum and stats.get(name)]
     )
 
     return render(request, "profile.html", context)
@@ -225,6 +201,56 @@ def new_update(request: HttpRequest) -> HttpResponse:
     form.fields["trainer"].widget = forms.HiddenInput()
     form.trainer = request.user.trainer
 
+    def sort_by_medal(queryset: QuerySet[Trainer]) -> Callable[[BaseStatistic], float]:
+        def _sort_by_medal(stat: BaseStatistic) -> float:
+            value = queryset.get(stat.name, None)
+            medal = stat.medal_data
+            print(medal, value)
+            if value is None:
+                return (5, medal.stat_id)
+            elif medal.platinum and medal.platinum <= value:
+                return (1, medal.stat_id)
+            elif medal.gold and medal.gold <= value:
+                return (2, medal.stat_id)
+            elif medal.silver and medal.silver <= value:
+                return (3, medal.stat_id)
+            else:
+                return (4, medal.stat_id)
+
+        return _sort_by_medal
+
+    latest_stats = Trainer.objects.filter(pk=request.user.trainer.pk).aggregate(
+        **{
+            field.name: Max(
+                f"update__{field.name}",
+                filter=Q(**{f"update__{field.name}__isnull": False}),
+            )
+            for field in STANDARD_MEDALS + BATTLE_HUB_STATS + UPDATE_FIELDS_TYPES
+        },
+    )
+
+    try:
+
+        form.order_fields(
+            [
+                "trainer",
+                "update_time",
+                "data_source",
+                "trainer_level",
+                "total_xp",
+                "gym_gold",
+                "mini_collection",
+            ]
+            + [field.name for field in sorted(STANDARD_MEDALS, key=sort_by_medal(latest_stats))]
+            + [field.name for field in BATTLE_HUB_STATS]
+            + [
+                field.name
+                for field in sorted(UPDATE_FIELDS_TYPES, key=sort_by_medal(latest_stats))
+            ]
+        )
+    except Exception:
+        pass
+
     if request.method == "POST":
         form.data_source = "web_detailed"
         if form.is_valid():
@@ -258,11 +284,10 @@ def leaderboard(
 
     if country:
         try:
-            country_info = get_country_info(country.upper())
-        except IndexError:
+            context["title"] = dict(countries)[country.upper()]
+        except KeyError:
             raise Http404(_("No country found for code {country}").format(country=country))
-        context["title"] = country_info.get("name")
-        queryset = Trainer.objects.filter(country_iso=country.upper())
+        queryset = Trainer.objects.filter(country=country.upper())
     elif community:
         try:
             community = Community.objects.get(handle__iexact=community)
@@ -296,26 +321,28 @@ def leaderboard(
         "total_xp",
         "capture_total",
         "travel_km",
-        "evolved_total",
-        "hatched_total",
         "pokestops_visited",
-        "raid_battle_won",
-        "legendary_battle_won",
-        "hours_defended",
-        "great_league",
-        "ultra_league",
-        "master_league",
+        "gym_gold",
         "update_time",
     }
 
     if order_by := request.GET.get("sort", "total_xp"):
-        if order_by in UPDATE_SORTABLE_FIELDS:
+        if (
+            isinstance((order_by_field := Update._meta.get_field(order_by)), BaseStatistic)
+            and order_by_field.sortable
+        ):
             fields_to_calculate_max.add(order_by)
         else:
             order_by = "total_xp"
     context["sort_by"] = order_by
+    context["stat_name"] = Update._meta.get_field(order_by).verbose_name
 
-    context["grand_total_users"] = total_users = queryset.count()
+    totals = queryset.annotate(order_by=Max(f"update__{order_by}")).aggregate(
+        grand_stat=Sum("order_by"),
+        grand_total_users=Count("id"),
+    )
+    context["grand_total_users"] = total_users = totals["grand_total_users"]
+    context["grand_stat"] = totals["grand_stat"]
 
     if total_users == 0:
         context["page"] = 0
@@ -330,7 +357,7 @@ def leaderboard(
             .order_by("-update_time")[:1]
         ),
         **{
-            f"update__{field}__max": Subquery(
+            f"max_{field}": Subquery(
                 Update.objects.filter(trainer=OuterRef("pk"), **{f"{order_by}__isnull": False})
                 .values(field)
                 .order_by("-update_time")[:1]
@@ -339,71 +366,63 @@ def leaderboard(
         },
     )
 
-    Results = []
-    GRAND_TOTAL = queryset.aggregate(Sum("update__total_xp__max"))
-    context["grand_total_xp"] = GRAND_TOTAL["update__total_xp__max__sum"]
-
-    queryset = (
-        queryset.annotate(
-            rank=Window(
-                expression=DenseRank(),
-                order_by=F(f"update__{order_by}__max").desc(),
-            )
-        )
-        .order_by(
-            "rank",
-            "update__update_time__max",
-            "faction",
-        )
-        .only(
-            "id",
-            "_nickname",
-            "country_iso",
-            "faction",
-        )
-    )
-
-    for trainer in queryset:
-        if not trainer.update__total_xp__max:
-            continue
-        trainer_stats = {
-            "position": trainer.rank,
-            "trainer": trainer,
-            "total_xp": trainer.update__total_xp__max,
-            "update_time": trainer.update__update_time__max,
-            "level": trainer.level,
-        }
-
-        FIELDS = fields_to_calculate_max.copy()
-        FIELDS.remove("update_time")
-        FIELDS = [x for x in UPDATE_SORTABLE_FIELDS if x in FIELDS]
-        FIELDS = [
-            {
-                "name": x,
-                "readable_name": Update._meta.get_field(x).verbose_name,
-                "tooltip": Update._meta.get_field(x).help_text,
-                "value": getattr(trainer, "update__{field}__max".format(field=x)),
-            }
-            for x in FIELDS
-        ]
-        FIELDS.insert(0, FIELDS.pop([FIELDS.index(x) for x in FIELDS if x["name"] == order_by][0]))
-        trainer_stats["columns"] = FIELDS
-        Results.append(trainer_stats)
-
     try:
         page = int(request.GET.get("page") or 1)
     except ValueError:
         page = 1
     context["page"] = page
-    context["pages"] = ceil(total_users / 100)
-    pages = chunks(Results, 100)
+    PAGE_SIZE = 100
+    context["pages"] = ceil(total_users / PAGE_SIZE)
 
-    x = 0
-    for y in pages:
-        x += 1
-        if x == context["page"]:
-            context["leaderboard"] = y
-            break
+    results = []
+
+    queryset = (
+        queryset.annotate(
+            rank=Window(
+                expression=DenseRank(),
+                order_by=F(f"max_{order_by}").desc(),
+            )
+        )
+        .order_by(
+            "rank",
+            "max_update_time",
+            "faction",
+        )
+        .only(
+            "id",
+            "_nickname",
+            "country",
+            "faction",
+        )
+    )
+
+    queryset_chunk = queryset[(page - 1) * PAGE_SIZE : page * PAGE_SIZE]
+    for trainer in queryset_chunk:
+        print(trainer)
+        trainer_stats = {
+            "position": trainer.rank,
+            "trainer": trainer,
+            "total_xp": trainer.max_total_xp,
+            "update_time": trainer.max_update_time,
+            "level": trainer.level,
+        }
+
+        FIELDS = fields_to_calculate_max.copy()
+        FIELDS = [
+            {
+                "name": field.name,
+                "readable_name": field.verbose_name,
+                "tooltip": field.help_text,
+                "value": getattr(trainer, f"max_{field.name}"),
+            }
+            for field in Update.get_sortable_fields()
+            if field.name in FIELDS
+        ]
+        FIELDS = sorted(FIELDS, key=lambda x: 0 if x["name"] == order_by else 1)
+        trainer_stats["columns"] = FIELDS
+        results.append(trainer_stats)
+
+    context["leaderboard"] = results
 
     return render(request, "leaderboard.html", context)
 

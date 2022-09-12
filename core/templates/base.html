@@ -87,7 +87,7 @@
           <div class="trainerdex-header-navigation-container">
             <nav class="trainerdex-header-navigation mdl-navigation">
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:leaderboard' %}">{% trans "Leaderboard" %}</a>
-              {% if user.trainer.country_iso %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:leaderboard' country=user.trainer.country_iso %}">{{user.trainer.country_iso}} {% trans "Leaderboard" %}</a>{% endif %}
+              {% if user.trainer.country %}<a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:leaderboard' country=user.trainer.country.code %}">{{user.trainer.country.name}} {% trans "Leaderboard" %}</a>{% endif %}
               {% if user.is_authenticated %}
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'trainerdex:profile' %}">{% user_display user %}</a>
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="{% url 'account_logout' %}">{% trans "Sign Out" context "general_sign_out" %}</a>
@@ -108,7 +108,7 @@
           <a class="mdl-navigation__link" href="{% url 'account_login' %}"><i class="material-icons" role="presentation">login</i>{% trans "Login" %}</a>
           {% endif %}
           <a class="mdl-navigation__link" href="{% url 'trainerdex:leaderboard' %}"><i class="material-icons" role="presentation">assessment</i>{% trans "Leaderboard" %}</a>
-          {% if user.trainer.country_iso %}<a class="mdl-navigation__link" href="{% url 'trainerdex:leaderboard' country=user.trainer.country_iso %}"><div class="material-icons" role="presentation">{{user.trainer.flag_emoji}}</div></a>{% endif %}
+          {% if user.trainer.country %}<a class="mdl-navigation__link" href="{% url 'trainerdex:leaderboard' country=user.trainer.country.code %}"><div class="material-icons" role="presentation">{{user.trainer.country.unicode_flag}}</div>{{user.trainer.country.name}}</a>{% endif %}
           <div class="mdl-menu__item--full-bleed-divider"></div>
           <div class="mdl-layout-spacer"></div>
           {% if user.is_staff %}<a class="mdl-navigation__link mdl-menu__item--full-bleed-divider" href="{% url 'admin:index' %}">{% trans "Admin Panel" %}</a>{% endif %}
