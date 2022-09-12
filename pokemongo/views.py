@@ -207,15 +207,15 @@ def new_update(request: HttpRequest) -> HttpResponse:
             medal = stat.medal_data
             print(medal, value)
             if value is None:
-                return float(f"5.{medal.stat_id}")
+                return (5, medal.stat_id)
             elif medal.platinum and medal.platinum <= value:
-                return float(f"1.{medal.stat_id}")
+                return (1, medal.stat_id)
             elif medal.gold and medal.gold <= value:
-                return float(f"2.{medal.stat_id}")
+                return (2, medal.stat_id)
             elif medal.silver and medal.silver <= value:
-                return float(f"3.{medal.stat_id}")
+                return (3, medal.stat_id)
             else:
-                return float(f"4.{medal.stat_id}")
+                return (4, medal.stat_id)
 
         return _sort_by_medal
 
