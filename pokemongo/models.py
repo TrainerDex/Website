@@ -1142,6 +1142,9 @@ class Update(PublicModel):
         ]
 
     def clean(self) -> NoReturn | None:
+        if not self.trainer:
+            return
+
         if (
             self.total_xp
             and self.trainer_level
@@ -1164,12 +1167,7 @@ class Update(PublicModel):
         ):
             self.trainer_level = levels[0].level
 
-        if not self.trainer:
-            return
-
-        if not any(
-            [True if getattr(self, x) is not None else False for x in UPDATE_SORTABLE_FIELDS]
-        ):
+        if not any([(getattr(self, x) is not None) for x in UPDATE_SORTABLE_FIELDS]):
             raise ValidationError(
                 _("You must fill out at least ONE of the following stats.\n{stats}").format(
                     stats=", ".join(
