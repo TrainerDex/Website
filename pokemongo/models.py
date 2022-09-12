@@ -1201,7 +1201,7 @@ class Update(PublicModel):
                     ),
                 )
 
-        latest_stats_prior = self.trainer.update_set.aggregate(**AGGREGATES)
+        latest_stats_prior = Trainer.objects.filter(pk=self.trainer.pk).aggregate(**AGGREGATES)
 
         for field in Update._meta.get_fields():
             if field.name in UPDATE_NON_REVERSEABLE_FIELDS:
