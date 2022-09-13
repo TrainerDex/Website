@@ -1470,7 +1470,7 @@ class Update(PublicModel):
         for field in Update.get_non_reversable_fields():
             if (new_stat := getattr(self, field.name)) is not None:
                 if (
-                    latest_stat := latest_stats_prior[f"max_{field.name}"]
+                    latest_stat := latest_stats_prior.get(f"max_{field.name}")
                 ) is not None and new_stat < latest_stat:
                     error_dict[field.name].append(
                         _(
