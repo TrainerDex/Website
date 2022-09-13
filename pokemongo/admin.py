@@ -158,6 +158,7 @@ class UpdateAdmin(admin.ModelAdmin):
                     "pokedex_caught",
                     "pokedex_seen",
                     "gym_gold",
+                    "mini_collection",
                 ],
             },
         ),
