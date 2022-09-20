@@ -445,12 +445,7 @@ class DiscordUser(SocialAccount):
     objects = DiscordUserManager()
 
     def __str__(self) -> str:
-        dflt = super(DiscordUser, self).__str__()
-        prvdr: DiscordAccount = self.get_provider_account()
-        result = prvdr.to_str()
-        if result != super(type(prvdr), prvdr).to_str():
-            return result
-        return dflt
+        return self.get_provider_account().to_str()
 
     def has_data(self) -> bool:
         return bool(self.extra_data)
