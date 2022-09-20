@@ -1,6 +1,9 @@
+from typing import Union
+
 from allauth.socialaccount.admin import SocialAccountAdmin as BaseSocialAccountAdmin
 from allauth.socialaccount.models import SocialAccount
-from django.contrib import admin, messages
+from django import forms
+from django.contrib import admin
 from django.db.models import Prefetch, QuerySet
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
@@ -15,26 +18,43 @@ from core.models.discord import (
 from core.models.main import Service, ServiceStatus, StatusChoices
 
 
-def sync_members(
-    modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[DiscordGuild]
+def refresh_from_api(
+    modeladmin: admin.ModelAdmin,
+    request: HttpRequest,
+    queryset: Union[
+        QuerySet[DiscordGuild],
+        QuerySet[DiscordChannel],
+        QuerySet[DiscordRole],
+        QuerySet[DiscordGuildMembership],
+    ],
 ) -> None:
     for x in queryset:
-        messages.success(request, x.sync_members())
+        x.refresh_from_api()
 
 
-sync_members.short_description = _("Sync members with Discord")
+refresh_from_api.short_description = _("Refresh from API.")
 
 
-def download_channels(
-    modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[DiscordGuild]
-) -> None:
-    for x in queryset:
-        x.download_channels()
+class DiscordGuildAdminForm(forms.ModelForm):
+    class Meta:
+        model = DiscordGuild
+        fields = "__all__"
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in [
+            "roles_to_append_on_approval",
+            "roles_to_remove_on_approval",
+            "valor_role",
+            "mystic_role",
+            "instinct_role",
+            "tl40_role",
+            "tl50_role",
+            "mod_role_ids",
+        ]:
+            self.fields[field].queryset = self.instance.roles.all()
 
-download_channels.short_description = _(
-    "Download channels from Discord. Currently doesn't delete them."
-)
+        self.fields["leaderboard_channel"].queryset = self.instance.channels.filter(data__type=0)
 
 
 @admin.register(DiscordGuild)
@@ -60,26 +80,48 @@ class DiscordGuildAdmin(admin.ModelAdmin):
             },
         ),
         (
-            "Welcomer",
+            "Approvals",
             {
                 "fields": (
-                    "renamer",
-                    "renamer_with_level",
-                    "renamer_with_level_format",
+                    "assign_roles_on_join",
+                    "set_nickname_on_join",
+                    "set_nickname_on_update",
+                    "level_format",
                 )
             },
         ),
         (
-            "TrainerDex",
-            {"fields": ("monthly_gains_channel",)},
+            "Roles",
+            {
+                "fields": (
+                    "roles_to_append_on_approval",
+                    "roles_to_remove_on_approval",
+                    "valor_role",
+                    "mystic_role",
+                    "instinct_role",
+                    "tl40_role",
+                    "tl50_role",
+                    "mod_role_ids",
+                )
+            },
+        ),
+        (
+            "Leaderboards",
+            {
+                "fields": (
+                    "weekly_leaderboards_enabled",
+                    "leaderboard_channel",
+                )
+            },
         ),
         (
             "Debug",
             {"fields": ("data", "cached_date"), "classes": ("collapse",)},
         ),
     )
+    form = DiscordGuildAdminForm
     search_fields = ["id", "data__name"]
-    actions = [sync_members, download_channels]
+    actions = [refresh_from_api]
     list_display = [
         "name",
         "id",
@@ -120,6 +162,7 @@ class DiscordUserAdmin(admin.ModelAdmin):
         "date_joined",
     ]
     readonly_fields = ["uid", "last_login", "date_joined", "extra_data"]
+    actions = [refresh_from_api]
 
 
 @admin.register(DiscordChannel)
@@ -128,6 +171,7 @@ class DiscordChannelAdmin(admin.ModelAdmin):
     readonly_fields = fields
     autocomplete_fields = ["guild"]
     search_fields = ["guild", "data__name"]
+    actions = [refresh_from_api]
     list_display = ["name", "guild", "has_data", "cached_date"]
     list_filter = ["guild", "cached_date"]
 
@@ -153,6 +197,7 @@ class DiscordRoleAdmin(admin.ModelAdmin):
         "cached_date",
     ]
     list_filter = ["guild", "cached_date"]
+    actions = [refresh_from_api]
 
     def get_readonly_fields(
         self, request: HttpRequest, obj: DiscordRole | None = None
@@ -190,6 +235,7 @@ class DiscordGuildMembershipAdmin(admin.ModelAdmin):
         "cached_date",
     ]
     list_filter = ["guild", "active", "cached_date"]
+    actions = [refresh_from_api]
 
     def get_readonly_fields(
         self, request: HttpRequest, obj: DiscordGuildMembership | None = None
