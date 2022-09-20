@@ -182,38 +182,45 @@ class DiscordGuild(PostgresModel):
     def sync_members(self) -> str | dict[str, list[str]]:  # Is this a bug?
         try:
             guild_api_members = self._fetch_guild_members()
+            cache_date = timezone.now()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
             return {"warning": ["Failed to get server information from Discord"]}
-        existing_social_accounts_uids = DiscordUser.objects.values_list("uid", flat=True)
-        existing_social_accounts = list(DiscordUser.objects.all())
-        existing_discord_memberships = list(
-            DiscordGuildMembership.objects.filter(guild=self).prefetch_related("user")
-        )
-        new_discord_memberships = []
-        amended_discord_memberships = []
-        for x in guild_api_members:
-            if x["user"]["id"] in existing_social_accounts_uids:
-                existing_membership = [
-                    y for y in existing_discord_memberships if y.user.uid == x["user"]["id"]
-                ]
-                if existing_membership:
-                    e = existing_membership[0]
-                    e.data = x
-                    e.cached_date = timezone.now()
-                    amended_discord_memberships.append(e)
+        existing_social_accounts: dict[str, DiscordUser] = {
+            str(user.uid): user for user in DiscordUser.objects.all()
+        }
+        existing_discord_memberships: dict[str, DiscordGuildMembership] = {
+            str(membership.user.uid): membership
+            for membership in DiscordGuildMembership.objects.filter(guild=self).prefetch_related(
+                "user"
+            )
+        }
+
+        new_discord_memberships: list[DiscordGuildMembership] = list()
+        amended_discord_memberships: set[DiscordGuildMembership] = set()
+
+        amended_user_data: set[DiscordUser] = set()
+
+        for member_data in guild_api_members:
+            if (user_id := str(member_data["user"]["id"])) in existing_social_accounts.keys():
+                if membership := existing_discord_memberships.get(user_id):
+                    membership.data = member_data
+                    membership.cached_date = cache_date
+                    amended_discord_memberships.add(membership)
                 else:
-                    new_discord_memberships.append(
-                        DiscordGuildMembership(
-                            guild=self,
-                            user=[y for y in existing_social_accounts if y.uid == x["user"]["id"]][
-                                0
-                            ],
-                            active=True,
-                            data=x,
-                            cached_date=timezone.now(),
-                        )
+                    membership = DiscordGuildMembership(
+                        guild=self,
+                        user=existing_social_accounts[user_id],
+                        active=True,
+                        data=member_data,
+                        cached_date=cache_date,
                     )
+                    new_discord_memberships.append(membership)
+
+                if not membership.user.extra_data:
+                    membership.user.extra_data = member_data["user"]
+                    amended_user_data.add(membership.user)
+
         DiscordGuildMembership.objects.filter(guild=self, active=False).filter(
             user__uid__in=[x["user"]["id"] for x in guild_api_members]
         ).update(active=True)
@@ -224,6 +231,8 @@ class DiscordGuild(PostgresModel):
         DiscordGuildMembership.objects.filter(guild=self, active=True).exclude(
             user__uid__in=[x["user"]["id"] for x in guild_api_members]
         ).update(active=False)
+
+        DiscordUser.objects.bulk_update(amended_user_data, ["extra_data"])
 
         return _("Succesfully updated {x} of {y} {guild} members").format(
             x=DiscordGuildMembership.objects.filter(guild=self).count(),
