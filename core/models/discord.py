@@ -48,37 +48,88 @@ class DiscordGuild(PostgresModel):
         max_length=255,
     )
 
-    # Needed for automatic renaming features
-    renamer: bool = models.BooleanField(
+    assign_roles_on_join: bool = models.BooleanField(
         default=True,
-        verbose_name=_("Rename users when they join."),
-        help_text=_(
-            "This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."
-        ),
     )
-    renamer_with_level: bool = models.BooleanField(
-        default=False,
-        verbose_name=_("Rename users with their level indicator"),
-        help_text=_(
-            "This setting will add a level to the end of their username on your server. "
-            "Their name will update whenever they level up."
-        ),
+    set_nickname_on_join: bool = models.BooleanField(
+        default=True,
     )
-    renamer_with_level_format: str = models.CharField(
+    set_nickname_on_update: bool = models.BooleanField(
+        default=True,
+    )
+    level_format: str = models.CharField(
         default="int",
         verbose_name=_("Level Indicator format"),
         max_length=50,
-        choices=[("int", "40"), ("circled_level", "㊵")],
+        choices=[("none", "None"), ("int", "40"), ("circled_level", "㊵")],
     )
 
-    # Needed for discordbot/management/commands/leaderboard_cron.py
-    monthly_gains_channel: DiscordChannel = models.OneToOneField(
-        "DiscordChannel",
+    roles_to_append_on_approval: List["DiscordRole"] = models.ManyToManyField(
+        "DiscordRole",
+        db_constraint=False,
+        blank=True,
+        related_name="+",
+    )
+    roles_to_remove_on_approval: List["DiscordRole"] = models.ManyToManyField(
+        "DiscordRole",
+        db_constraint=False,
+        blank=True,
+        related_name="+",
+    )
+    mystic_role: "DiscordRole" | None = models.ForeignKey(
+        "DiscordRole",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name=None,
-        limit_choices_to={"data__type": 0},
+        related_name="+",
+    )
+    valor_role: "DiscordRole" | None = models.ForeignKey(
+        "DiscordRole",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+    instinct_role: "DiscordRole" | None = models.ForeignKey(
+        "DiscordRole",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+    tl40_role: "DiscordRole" | None = models.ForeignKey(
+        "DiscordRole",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+    tl50_role: "DiscordRole" | None = models.ForeignKey(
+        "DiscordRole",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+
+    weekly_leaderboards_enabled: bool = models.BooleanField(
+        default=False,
+    )
+    leaderboard_channel: "DiscordChannel" | None = models.ForeignKey(
+        "DiscordChannel",
+        db_constraint=False,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+        limit_choices_to=models.Q(data__type=0),
+    )
+
+    mod_role_ids: List["DiscordRole"] = models.ManyToManyField(
+        "DiscordRole",
+        db_constraint=False,
+        blank=True,
+        related_name="+",
     )
 
     def _outdated(self) -> bool:
@@ -112,6 +163,8 @@ class DiscordGuild(PostgresModel):
         self.save()
         if data:
             self.sync_roles()
+            self.sync_members()
+            self.sync_channels()
 
     def _fetch_one(self) -> dict | None:
         for provider in SocialApp.objects.filter(provider="discord"):
@@ -212,9 +265,10 @@ class DiscordGuild(PostgresModel):
         ]
         DiscordRole.objects.bulk_create(roles, ignore_conflicts=True)
         DiscordRole.objects.bulk_update(roles, ["data", "cached_date"])
+        DiscordRole.objects.filter(guild=self).exclude(id__in=[x.id for x in roles]).delete()
 
     @transaction.atomic
-    def download_channels(self) -> None:
+    def sync_channels(self) -> None:
         try:
             guild_channels: List = self._fetch_channels()
         except requests.exceptions.HTTPError:
@@ -231,6 +285,9 @@ class DiscordGuild(PostgresModel):
             ]
             DiscordChannel.objects.bulk_create(channels, ignore_conflicts=True)
             DiscordChannel.objects.bulk_update(channels, ["data", "cached_date"])
+            DiscordChannel.objects.filter(guild=self).exclude(
+                id__in=[x.id for x in channels]
+            ).delete()
 
     def _fetch_channels(self):
         for provider in SocialApp.objects.filter(provider="discord"):
@@ -344,7 +401,7 @@ class DiscordRole(PostgresModel):
     has_data.short_description = _("got data")
 
     def __str__(self) -> str:
-        return f"{self.name} in {self.guild}"
+        return self.name
 
     @property
     def name(self) -> str | None:

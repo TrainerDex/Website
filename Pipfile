@@ -35,6 +35,7 @@ django-countries = {version = "==7.3.2", extras = ["pyuca"]}
 flake8 = "*"
 black = "*"
 isort = {extras = ["black"], version = "*"}
+tzdata = "*"
 
 [requires]
 python_version = "3.10"
