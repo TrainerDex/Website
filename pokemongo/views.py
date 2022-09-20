@@ -205,7 +205,6 @@ def new_update(request: HttpRequest) -> HttpResponse:
         def _sort_by_medal(stat: BaseStatistic) -> float:
             value = queryset.get(stat.name, None)
             medal = stat.medal_data
-            print(medal, value)
             if value is None:
                 return (5, medal.stat_id)
             elif medal.platinum and medal.platinum <= value:
@@ -398,7 +397,6 @@ def leaderboard(
 
     queryset_chunk = queryset[(page - 1) * PAGE_SIZE : page * PAGE_SIZE]
     for trainer in queryset_chunk:
-        print(trainer)
         trainer_stats = {
             "position": trainer.rank,
             "trainer": trainer,
