@@ -8,10 +8,10 @@ from typing import TYPE_CHECKING, Callable
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import FieldDoesNotExist
 from django.db.models import (
     Count,
     F,
-    FieldDoesNotExist,
     Max,
     OuterRef,
     Q,
