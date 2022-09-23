@@ -8,7 +8,18 @@ from typing import TYPE_CHECKING, Callable
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, F, Max, OuterRef, Q, QuerySet, Subquery, Sum, Window
+from django.db.models import (
+    Count,
+    F,
+    FieldDoesNotExist,
+    Max,
+    OuterRef,
+    Q,
+    QuerySet,
+    Subquery,
+    Sum,
+    Window,
+)
 from django.db.models.functions import DenseRank
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
@@ -317,26 +328,26 @@ def leaderboard(
     queryset = filter_leaderboard_qs(queryset)
 
     fields_to_calculate_max = {
-        "total_xp",
-        "capture_total",
-        "travel_km",
-        "pokestops_visited",
-        "gym_gold",
-        "update_time",
+        Update.total_xp.field.name,
+        Update.capture_total.field.name,
+        Update.travel_km.field.name,
+        Update.pokestops_visited.field.name,
+        Update.gym_gold.field.name,
+        Update.update_time.field.name,
     }
 
-    if order_by := request.GET.get("sort", "total_xp"):
-        if (
-            isinstance((order_by_field := Update._meta.get_field(order_by)), BaseStatistic)
-            and order_by_field.sortable
-        ):
-            fields_to_calculate_max.add(order_by)
-        else:
-            order_by = "total_xp"
-    context["sort_by"] = order_by
-    context["stat_name"] = Update._meta.get_field(order_by).verbose_name
+    try:
+        order_by_field = Update._meta.get_field(request.GET["sort"])
+    except (FieldDoesNotExist, KeyError):
+        order_by_field = Update.total_xp.field
 
-    totals = queryset.annotate(order_by=Max(f"update__{order_by}")).aggregate(
+    if order_by_field.sortable:
+        fields_to_calculate_max.add(order_by_field.name)
+
+    context["sort_by"] = order_by_field.name
+    context["stat_name"] = order_by_field.verbose_name
+
+    totals = queryset.annotate(order_by=Max(f"update__{order_by_field.name}")).aggregate(
         grand_stat=Sum("order_by"),
         grand_total_users=Count("id"),
     )
@@ -351,13 +362,17 @@ def leaderboard(
 
     queryset = queryset.annotate(
         level=Subquery(
-            Update.objects.filter(trainer=OuterRef("pk"), **{f"{order_by}__isnull": False})
+            Update.objects.filter(
+                trainer=OuterRef("pk"), **{f"{order_by_field.name}__isnull": False}
+            )
             .values("trainer_level")
             .order_by("-update_time")[:1]
         ),
         **{
             f"max_{field}": Subquery(
-                Update.objects.filter(trainer=OuterRef("pk"), **{f"{order_by}__isnull": False})
+                Update.objects.filter(
+                    trainer=OuterRef("pk"), **{f"{order_by_field.name}__isnull": False}
+                )
                 .values(field)
                 .order_by("-update_time")[:1]
             )
@@ -379,7 +394,7 @@ def leaderboard(
         queryset.annotate(
             rank=Window(
                 expression=DenseRank(),
-                order_by=F(f"max_{order_by}").desc(),
+                order_by=F(f"max_{order_by_field.name}").desc(),
             )
         )
         .order_by(
@@ -416,7 +431,7 @@ def leaderboard(
             for field in Update.get_sortable_fields()
             if field.name in FIELDS
         ]
-        FIELDS = sorted(FIELDS, key=lambda x: 0 if x["name"] == order_by else 1)
+        FIELDS = sorted(FIELDS, key=lambda x: 0 if x["name"] == order_by_field.name else 1)
         trainer_stats["columns"] = FIELDS
         results.append(trainer_stats)
 
