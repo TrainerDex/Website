@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-djangorestframework = "~=3.13.1"
+djangorestframework = "~=3.14.0"
 gunicorn = "==20.1.0"
 psycopg2-binary = "*"
 humanize = "*"
@@ -34,7 +34,7 @@ django-countries = {version = "==7.3.2", extras = ["pyuca"]}
 [dev-packages]
 flake8 = "*"
 black = "*"
-isort = {extras = ["black"], version = "*"}
+isort = "*"
 tzdata = "*"
 
 [requires]
