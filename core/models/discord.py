@@ -362,6 +362,8 @@ class DiscordChannel(PostgresModel):
             self.cached_date = timezone.now()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
+        else:
+            self.save()
 
     def _fetch_one(self):
         r = requests.get(
@@ -423,6 +425,8 @@ class DiscordRole(PostgresModel):
             self.cached_date = timezone.now()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
+        else:
+            self.save()
 
     def _fetch_one(self):
         r = requests.get(
@@ -537,13 +541,14 @@ class DiscordGuildMembership(PostgresModel):
         logger.info(f"Updating {self}")
         try:
             self.data = self._fetch_one()
+            self.cached_date = timezone.now()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
         else:
+            self.save()
             if not self.user.extra_data:
                 self.user.extra_data = self.data["user"]
                 self.user.save()
-            self.cached_date = timezone.now()
 
     def _fetch_one(self):
         r = requests.get(

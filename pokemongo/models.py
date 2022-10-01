@@ -1593,31 +1593,33 @@ def update_discord_level(
     **kwargs,
 ) -> None:
     if created and not raw and instance.trainer_level:
-        discord: DiscordGuildMembership
-        for discord in DiscordGuildMembership.objects.exclude(active=False).filter(
-            guild__renamer=True,
-            guild__renamer_with_level=True,
-            user__user__trainer=instance.trainer,
+        membership: DiscordGuildMembership
+        for membership in (
+            DiscordGuildMembership.objects.select_related("guild")
+            .exclude(active=False)
+            .filter(
+                guild__set_nickname_on_update=True,
+                user__user__trainer=instance.trainer,
+            )
         ):
-            if discord.nick_override:
-                base = discord.nick_override
-            else:
-                base = instance.trainer.nickname
+            base = membership.nick_override or instance.trainer.nickname
 
-            if discord.guild.renamer_with_level_format == "int":
+            if membership.guild.level_format == "int":
                 ext = str(instance.trainer_level)
-            elif discord.guild.renamer_with_level_format == "circled_level":
+            elif membership.guild.level_format == "circled_level":
                 ext = circled_level(instance.trainer_level)
+            else:
+                ext = ""
 
-            if len(base) + len(ext) > 32:
+            if (len(base) + len(ext)) > 32:
                 chopped_base = base[slice(0, 32 - len(ext) - 1)]
                 combined = f"{chopped_base}…{ext}"
-            elif len(base) + len(ext) == 32:
+            elif (len(base) + len(ext)) == 32:
                 combined = f"{base}{ext}"
             else:
                 combined = f"{base} {ext}"
 
-            discord._change_nick(combined)
+            membership._change_nick(combined)
 
 
 class ProfileBadge(models.Model):
