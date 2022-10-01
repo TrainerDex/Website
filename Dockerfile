@@ -10,7 +10,8 @@ RUN apt-get install -y libsm6
 RUN apt-get install -y libxext6
 RUN apt-get install -y gettext
 
-RUN pip install -U pipenv virtualenv
+RUN pip install -U pip
+RUN pip install -U requirementslib
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -18,8 +19,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /opt/trainerdex
 
 COPY Pipfile Pipfile
-COPY Pipfile.lock Pipfile.lock
-
-RUN pipenv sync
+RUN python -c 'from requirementslib.models.pipfile import Pipfile; pf = Pipfile.load("."); pkgs = [pf.requirements]; print("\n".join([pkg.as_line() for section in pkgs for pkg in section]))' > requirements.txt
+RUN pip install -r requirements.txt
 
 COPY . .
