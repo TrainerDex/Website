@@ -1,8 +1,9 @@
 {
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true,
-    "git.autofetch": true,
-    "python.formatting.provider": "black",
-    "python.envFile": "${workspaceFolder}/.env",
-    "editor.formatOnSave": true
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true,
+  "git.autofetch": true,
+  "python.formatting.provider": "black",
+  "python.envFile": "${workspaceFolder}/.env",
+  "editor.formatOnSave": true,
+  "cSpell.words": ["pokestops", "pokemon", "TrainerDex"]
 }
