@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from datetime import timedelta
+from decimal import Decimal
 from math import ceil
 from typing import TYPE_CHECKING, Callable
 
@@ -43,11 +44,11 @@ from pokemongo.shortcuts import filter_leaderboard_qs
 logger = logging.getLogger("django.trainerdex")
 
 if TYPE_CHECKING:
-    from django.contrib.auth.models import User
+    from django.contrib.auth.models import AbstractUser
 
 
-def _check_if_trainer_valid(user: User) -> bool:
-    verified = user.trainer.verified
+def _check_if_trainer_valid(user: AbstractUser) -> bool:
+    verified = user.trainer.verified  # type: ignore
     logger.debug(
         msg="Checking {nickname}: Completed profile: {status}".format(
             nickname=user.username, status=verified
@@ -57,8 +58,10 @@ def _check_if_trainer_valid(user: User) -> bool:
 
 
 def _check_if_self_valid(request: HttpRequest) -> bool:
+    if not isinstance(request.user, AbstractUser):
+        return False
     valid = _check_if_trainer_valid(request.user)
-    if valid and request.user.trainer.start_date is None:
+    if valid and request.user.trainer.start_date is None:  # type: ignore
         messages.warning(
             request,
             _(
@@ -71,7 +74,7 @@ def _check_if_self_valid(request: HttpRequest) -> bool:
 def profile_redirector(
     request: HttpRequest,
     nickname: str | None = None,
-    id: int | None = None,
+    id: int | str | None = None,
 ) -> HttpResponse:
 
     BASE_QUERYSET: QuerySet[Trainer] = (
@@ -103,9 +106,16 @@ def profile_redirector(
     elif not request.user.is_authenticated:
         return redirect("account_login")
     else:
-        return redirect("trainerdex:profile", **{"nickname": request.user.username})
+        return redirect(
+            "trainerdex:profile",
+            **{"nickname": request.user.username},  # type: ignore
+        )
 
-    return redirect("trainerdex:profile", permanent=True, **{"nickname": trainer.nickname})
+    return redirect(
+        "trainerdex:profile",
+        permanent=True,
+        **{"nickname": trainer.nickname},
+    )
 
 
 def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
@@ -114,7 +124,7 @@ def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
         return redirect("profile_edit")
 
     updates = trainer.update_set.all()
-    stats = trainer.update_set.aggregate(
+    stats: dict[str, Decimal | int] = trainer.update_set.aggregate(
         **{
             field.name: Max(
                 field.name,
@@ -138,28 +148,28 @@ def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
         [
             True
             for name, medal in medal_data.items()
-            if medal.bronze and stats.get(name) and medal.bronze >= stats.get(name)
+            if medal.bronze and (stat := stats.get(name)) and medal.bronze >= stat
         ]
     )
     context["silver_medals"] = len(
         [
             True
             for name, medal in medal_data.items()
-            if medal.silver and stats.get(name) and medal.silver >= stats.get(name)
+            if medal.silver and (stat := stats.get(name)) and medal.silver >= stat
         ]
     )
     context["gold_medals"] = len(
         [
             True
             for name, medal in medal_data.items()
-            if medal.gold and stats.get(name) and medal.gold >= stats.get(name)
+            if medal.gold and (stat := stats.get(name)) and medal.gold >= stat
         ]
     )
     context["platinum_medals"] = len(
         [
             True
             for name, medal in medal_data.items()
-            if medal.platinum and stats.get(name) and medal.platinum >= stats.get(name)
+            if medal.platinum and (stat := stats.get(name)) and medal.platinum >= stat
         ]
     )
     context["medals_count"] = len(
@@ -176,7 +186,7 @@ def new_update(request: HttpRequest) -> HttpResponse:
         return redirect("profile_edit")
 
     try:
-        existing = request.user.trainer.update_set.filter(
+        existing = request.user.trainer.update_set.filter(  # type: ignore
             update_time__gte=timezone.now() - timedelta(hours=6)
         ).latest("update_time")
     except Update.DoesNotExist:
@@ -189,7 +199,7 @@ def new_update(request: HttpRequest) -> HttpResponse:
             form = UpdateForm(
                 instance=existing,
                 initial={
-                    "trainer": request.user.trainer,
+                    "trainer": request.user.trainer,  # type: ignore
                     "data_source": "web_detailed",
                 },
             )
@@ -198,22 +208,27 @@ def new_update(request: HttpRequest) -> HttpResponse:
             form = UpdateForm(
                 request.POST,
                 initial={
-                    "trainer": request.user.trainer,
+                    "trainer": request.user.trainer,  # type: ignore
                     "data_source": "web_detailed",
                 },
             )
         else:
             form = UpdateForm(
-                initial={"trainer": request.user.trainer, "data_source": "web_detailed"}
+                initial={
+                    "trainer": request.user.trainer,  # type: ignore
+                    "data_source": "web_detailed",
+                }
             )
     form.fields["update_time"].widget = forms.HiddenInput()
     form.fields["data_source"].widget = forms.HiddenInput()
     form.fields["data_source"].disabled = True
     form.fields["trainer"].widget = forms.HiddenInput()
-    form.trainer = request.user.trainer
+    form.trainer = request.user.trainer  # type: ignore
 
-    def sort_by_medal(queryset: QuerySet[Trainer]) -> Callable[[BaseStatistic], float]:
-        def _sort_by_medal(stat: BaseStatistic) -> float:
+    def sort_by_medal(
+        queryset: dict[str, Decimal | int]
+    ) -> Callable[[BaseStatistic], tuple[int, int]]:
+        def _sort_by_medal(stat: BaseStatistic) -> tuple[int, int]:
             value = queryset.get(stat.name, None)
             medal = stat.medal_data
             if value is None:
@@ -229,7 +244,7 @@ def new_update(request: HttpRequest) -> HttpResponse:
 
         return _sort_by_medal
 
-    latest_stats = Trainer.objects.filter(pk=request.user.trainer.pk).aggregate(
+    latest_stats = Trainer.objects.filter(pk=request.user.trainer.pk).aggregate(  # type: ignore
         **{
             field.name: Max(
                 f"update__{field.name}",
@@ -262,13 +277,13 @@ def new_update(request: HttpRequest) -> HttpResponse:
         pass
 
     if request.method == "POST":
-        form.data_source = "web_detailed"
+        form.data_source = "web_detailed"  # type: ignore
         if form.is_valid():
             form.save()
             messages.success(request, _("Statistics updated"))
             return redirect(
                 "trainerdex:profile",
-                **{"nickname": request.user.trainer.nickname},
+                **{"nickname": request.user.trainer.nickname},  # type: ignore
             )
 
     if existing:
@@ -300,7 +315,7 @@ def leaderboard(
         queryset = Trainer.objects.filter(country=country.upper())
     elif community:
         try:
-            community = Community.objects.get(handle__iexact=community)
+            community_obj = Community.objects.get(handle__iexact=community)
         except Community.DoesNotExist:
             if not request.user.is_authenticated:
                 return redirect(
@@ -313,14 +328,14 @@ def leaderboard(
                 _("No community found for handle {community}").format(community=community)
             )
 
-        if not community.privacy_public and not request.user.is_superuser:
+        if not community_obj.privacy_public and not request.user.is_superuser:  # type: ignore
             if (not request.user.is_authenticated) or (
-                not community.get_members().filter(id=request.user.trainer.id).exists()
+                not community_obj.get_members().filter(id=request.user.trainer.id).exists()  # type: ignore
             ):
                 raise Http404(_("Access denied"))
 
-        context["title"] = community.name
-        queryset = community.get_members()
+        context["title"] = community_obj.name
+        queryset = community_obj.get_members()
     else:
         context["title"] = None
         queryset = Trainer.objects
@@ -328,18 +343,18 @@ def leaderboard(
     queryset = filter_leaderboard_qs(queryset)
 
     fields_to_calculate_max = {
-        Update.total_xp.field.name,
-        Update.capture_total.field.name,
-        Update.travel_km.field.name,
-        Update.pokestops_visited.field.name,
-        Update.gym_gold.field.name,
-        Update.update_time.field.name,
+        Update.total_xp.field.name,  # type: ignore
+        Update.capture_total.field.name,  # type: ignore
+        Update.travel_km.field.name,  # type: ignore
+        Update.pokestops_visited.field.name,  # type: ignore
+        Update.gym_gold.field.name,  # type: ignore
+        Update.update_time.field.name,  # type: ignore
     }
 
     try:
-        order_by_field = Update._meta.get_field(request.GET["sort"])
+        order_by_field: BaseStatistic = Update._meta.get_field(request.GET["sort"])  # type: ignore
     except (FieldDoesNotExist, KeyError):
-        order_by_field = Update.total_xp.field
+        order_by_field = Update.total_xp.field  # type: ignore
 
     if order_by_field.sortable:
         fields_to_calculate_max.add(order_by_field.name)
@@ -413,11 +428,11 @@ def leaderboard(
     queryset_chunk = queryset[(page - 1) * PAGE_SIZE : page * PAGE_SIZE]
     for trainer in queryset_chunk:
         trainer_stats = {
-            "position": trainer.rank,
+            "position": trainer.rank,  # type: ignore
             "trainer": trainer,
-            "total_xp": trainer.max_total_xp,
-            "update_time": trainer.max_update_time,
-            "level": trainer.level,
+            "total_xp": trainer.max_total_xp,  # type: ignore
+            "update_time": trainer.max_update_time,  # type: ignore
+            "level": trainer.level,  # type: ignore
         }
 
         FIELDS = fields_to_calculate_max.copy()
@@ -443,17 +458,17 @@ def leaderboard(
 @login_required
 def edit_profile(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated and _check_if_self_valid(request):
-        if request.user.trainer.update_set.count() == 0:
+        if request.user.trainer.update_set.count() == 0:  # type: ignore
             messages.warning(request, "You have not posted your stats yet.")
 
-    form = TrainerForm(instance=request.user.trainer)
+    form = TrainerForm(instance=request.user.trainer)  # type: ignore
 
     if request.method == "POST":
-        form = TrainerForm(request.POST, request.FILES, instance=request.user.trainer)
+        form = TrainerForm(request.POST, request.FILES, instance=request.user.trainer)  # type: ignore
         if form.is_valid():
             if form.has_changed():
                 form.save()
-                if not request.user.trainer.verified:
+                if not request.user.trainer.verified:  # type: ignore
                     messages.success(
                         request,
                         _(
