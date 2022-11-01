@@ -13,6 +13,7 @@ class MedalData(NamedTuple):
     platinum: Union[int, Decimal, None]
     reversable: bool
     sortable: bool
+    name: str
     verbose_name: str
     tooltip: str
 
@@ -48,6 +49,7 @@ class BaseStatistic(models.Field):
             platinum=self.platinum,
             reversable=self.reversable,
             sortable=self.sortable,
+            name=self.name,
             verbose_name=self.verbose_name,
             tooltip=self.help_text,
         )
