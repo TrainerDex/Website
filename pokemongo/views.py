@@ -4,11 +4,12 @@ import logging
 from datetime import timedelta
 from decimal import Decimal
 from math import ceil
-from typing import TYPE_CHECKING, Callable
+from typing import Callable
 
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import FieldDoesNotExist
 from django.db.models import (
     Count,
@@ -43,8 +44,6 @@ from pokemongo.shortcuts import filter_leaderboard_qs
 
 logger = logging.getLogger("django.trainerdex")
 
-if TYPE_CHECKING:
-    from django.contrib.auth.models import AbstractUser
 
 
 def _check_if_trainer_valid(user: AbstractUser) -> bool:
