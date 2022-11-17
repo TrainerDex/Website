@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class PrivateModel(models.Model):
-    id: int = models.AutoField(_("ID"), primary_key=True)
+    id: int = models.AutoField("ID", primary_key=True)
     created_at: datetime = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at: datetime = models.DateTimeField(_("Updated at"), auto_now=True)
     is_deleted: bool = models.BooleanField(_("Deleted"), default=False)
@@ -50,7 +50,7 @@ class PrivateModel(models.Model):
 
 
 class PublicModel(PrivateModel):
-    uuid: UUID = models.UUIDField(_("UUID"), default=uuid4, unique=True, editable=False)
+    uuid: UUID = models.UUIDField("UUID", default=uuid4, unique=True, editable=False)
 
     class Meta:
         abstract = True

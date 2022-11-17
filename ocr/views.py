@@ -11,6 +11,7 @@ from typing import Iterator, List, NamedTuple, Optional
 
 import numpy as np
 import pytesseract
+from asgiref.sync import async_to_sync
 from django.contrib.staticfiles import finders
 from django.core.files.uploadedfile import UploadedFile
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
@@ -21,7 +22,6 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 
 try:
     import cv2 as cv
@@ -207,11 +207,9 @@ class ActivityViewOCR(APIView):
         )
 
     def process_km_text(self, s: str) -> Decimal:
-        if s is None:
-            return None
-
         # Distance is in the form of "69,023.2" or "69.023,2". We need to convert it to "69023.2"
-        return Decimal(self.strip_non_digits(s)) / 10
+        if s and (stripped := self.strip_non_digits(s)):
+            return Decimal(stripped) / 10
 
     @staticmethod
     def strip_non_digits(s: str) -> int:
@@ -299,7 +297,8 @@ class ActivityViewOCR(APIView):
             ),
         }
 
-    def put(self, request: Request):
+    @async_to_sync
+    async def put(self, request: Request):
         if cv is None:
             raise ImportError("OpenCV is not installed")
 

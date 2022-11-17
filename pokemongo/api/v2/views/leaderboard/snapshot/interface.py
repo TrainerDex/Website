@@ -44,13 +44,10 @@ class iSnapshotLeaderboardView(iLeaderboardView):
 
     def parse_args(self, request: Request) -> dict:
         dt_str = request.query_params.get("datetime", request.query_params.get("date"))
-        dt = self.datetime_from_isoformat_midnight(dt_str)
 
-        self.args = dict(
-            datetime=dt,
-            stat=request.query_params.get("stat", "total_xp"),
-            show_inactive=request.query_params.get("show_inactive", "false") == "true",
-        )
+        self.datetime: datetime.datetime = self.datetime_from_isoformat_midnight(dt_str)
+        self.stat: str = request.query_params.get("stat", "total_xp")
+        self.show_inactive: bool = request.query_params.get("show_inactive", "false") == "true"
 
     def get_data(self, request: Request):
         self.parse_args(request)
@@ -64,9 +61,9 @@ class iSnapshotLeaderboardView(iLeaderboardView):
 
         return {
             "generated_datetime": timezone.now(),
-            "datetime": self.args["datetime"],
+            "datetime": self.datetime,
             "title": self.get_leaderboard_title(),
-            "stat": self.args["stat"],
+            "stat": self.stat,
             "aggregations": aggregate,
             "entries": page,
         }
@@ -76,26 +73,26 @@ class iSnapshotLeaderboardView(iLeaderboardView):
             Q(owner__is_active=False)
             | Q(statistics=False)
             | Q(verified=False)
-            | Q(last_cheated__gte=(self.args["datetime"] - relativedelta(weeks=26)))
+            | Q(last_cheated__gte=(self.datetime - relativedelta(weeks=26)))
         )
 
     def get_subquery(self, trainer_subquery: Subquery) -> QuerySet[Update]:
         return (
-            Update.objects.alias(value=F(self.args["stat"]))
+            Update.objects.alias(value=F(self.stat))
             .filter(trainer__id__in=trainer_subquery)
             .exclude(value__isnull=True)
             .filter(
                 (
                     Q(
                         update_time__gte=(
-                            self.args["datetime"]
+                            self.datetime
                             - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)
                         )
                     )
-                    if not self.args["show_inactive"]
+                    if not self.show_inactive
                     else Q()
                 ),
-                update_time__lte=self.args["datetime"],
+                update_time__lte=self.datetime,
                 value__gt=0,
             )
             .order_by("trainer", "-value")
@@ -106,10 +103,10 @@ class iSnapshotLeaderboardView(iLeaderboardView):
         return (
             Update.objects.filter(pk__in=subquery)
             .annotate(
-                rank=Window(DenseRank(), order_by=F(self.args["stat"]).desc()),
+                rank=Window(DenseRank(), order_by=F(self.stat).desc()),
                 username=F("trainer___nickname"),
                 faction=F("trainer__faction"),
-                value=F(self.args["stat"]),
+                value=F(self.stat),
                 trainer_uuid=F("trainer__uuid"),
                 entry_uuid=F("uuid"),
                 entry_datetime=F("update_time"),

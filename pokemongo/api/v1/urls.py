@@ -2,6 +2,7 @@ from django.urls import include, path
 
 from pokemongo.api.v1.views import (
     DetailedLeaderboardView,
+    LatestStatsView,
     LatestUpdateView,
     SocialLookupView,
     TrainerDetailView,
@@ -44,6 +45,7 @@ urlpatterns = [
         include(
             [
                 path("", TrainerDetailView.as_view()),
+                path("stats/", LatestStatsView.as_view(), name="latest_stats"),
                 path("updates/", UpdateListView.as_view()),
                 path("updates/latest/", LatestUpdateView.as_view(), name="latest_update"),
                 path("updates/<uuid:uuid>/", UpdateDetailView.as_view()),

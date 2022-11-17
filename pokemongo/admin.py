@@ -11,6 +11,9 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy as pgettext
 
 from pokemongo.models import (
+    BATTLE_HUB_STATS,
+    STANDARD_MEDALS,
+    UPDATE_FIELDS_TYPES,
     Community,
     CommunityMembershipDiscord,
     Nickname,
@@ -19,7 +22,6 @@ from pokemongo.models import (
     Trainer,
     Update,
 )
-from pokemongo.shortcuts import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES
 
 if TYPE_CHECKING:
     from config.abstract_models import PrivateModel
@@ -144,7 +146,6 @@ class UpdateAdmin(admin.ModelAdmin):
                     "trainer",
                     "update_time",
                     "data_source",
-                    "double_check_confirmation",
                 ]
             },
         ),
@@ -157,20 +158,21 @@ class UpdateAdmin(admin.ModelAdmin):
                     "pokedex_caught",
                     "pokedex_seen",
                     "gym_gold",
+                    "mini_collection",
                 ],
             },
         ),
         (
             pgettext("profile_category_medals", "Medals"),
-            {"fields": STANDARD_MEDALS},
+            {"fields": [field.name for field in STANDARD_MEDALS]},
         ),
         (
             pgettext("battle_hub_category_league", "GO Battle League"),
-            {"fields": BATTLE_HUB_STATS},
+            {"fields": [field.name for field in BATTLE_HUB_STATS]},
         ),
         (
             pgettext("pokemon_info_type", "Type"),
-            {"fields": UPDATE_FIELDS_TYPES},
+            {"fields": [field.name for field in UPDATE_FIELDS_TYPES]},
         ),
     ]
     actions = [soft_delete, undelete]
@@ -257,6 +259,6 @@ class TrainerAdmin(admin.ModelAdmin):
         (_("Reports"), {"fields": ("last_cheated", "verified")}),
         (
             _("Leaderboard"),
-            {"fields": ("country_iso", "statistics", "legacy_40")},
+            {"fields": ("country", "statistics", "legacy_40")},
         ),
     )

@@ -48,37 +48,88 @@ class DiscordGuild(PostgresModel):
         max_length=255,
     )
 
-    # Needed for automatic renaming features
-    renamer: bool = models.BooleanField(
+    assign_roles_on_join: bool = models.BooleanField(
         default=True,
-        verbose_name=_("Rename users when they join."),
-        help_text=_(
-            "This setting will rename a user to their Pokémon Go username whenever they join your server and when their name changes on here."
-        ),
     )
-    renamer_with_level: bool = models.BooleanField(
-        default=False,
-        verbose_name=_("Rename users with their level indicator"),
-        help_text=_(
-            "This setting will add a level to the end of their username on your server. "
-            "Their name will update whenever they level up."
-        ),
+    set_nickname_on_join: bool = models.BooleanField(
+        default=True,
     )
-    renamer_with_level_format: str = models.CharField(
+    set_nickname_on_update: bool = models.BooleanField(
+        default=True,
+    )
+    level_format: str = models.CharField(
         default="int",
         verbose_name=_("Level Indicator format"),
         max_length=50,
-        choices=[("int", "40"), ("circled_level", "㊵")],
+        choices=[("none", "None"), ("int", "40"), ("circled_level", "㊵")],
     )
 
-    # Needed for discordbot/management/commands/leaderboard_cron.py
-    monthly_gains_channel: DiscordChannel = models.OneToOneField(
-        "DiscordChannel",
+    roles_to_append_on_approval: List["DiscordRole"] = models.ManyToManyField(
+        "DiscordRole",
+        db_constraint=False,
+        blank=True,
+        related_name="+",
+    )
+    roles_to_remove_on_approval: List["DiscordRole"] = models.ManyToManyField(
+        "DiscordRole",
+        db_constraint=False,
+        blank=True,
+        related_name="+",
+    )
+    mystic_role: "DiscordRole" | None = models.ForeignKey(
+        "DiscordRole",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name=None,
-        limit_choices_to={"data__type": 0},
+        related_name="+",
+    )
+    valor_role: "DiscordRole" | None = models.ForeignKey(
+        "DiscordRole",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+    instinct_role: "DiscordRole" | None = models.ForeignKey(
+        "DiscordRole",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+    tl40_role: "DiscordRole" | None = models.ForeignKey(
+        "DiscordRole",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+    tl50_role: "DiscordRole" | None = models.ForeignKey(
+        "DiscordRole",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+
+    weekly_leaderboards_enabled: bool = models.BooleanField(
+        default=False,
+    )
+    leaderboard_channel: "DiscordChannel" | None = models.ForeignKey(
+        "DiscordChannel",
+        db_constraint=False,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+        limit_choices_to=models.Q(data__type=0),
+    )
+
+    mod_role_ids: List["DiscordRole"] = models.ManyToManyField(
+        "DiscordRole",
+        db_constraint=False,
+        blank=True,
+        related_name="+",
     )
 
     def _outdated(self) -> bool:
@@ -112,6 +163,8 @@ class DiscordGuild(PostgresModel):
         self.save()
         if data:
             self.sync_roles()
+            self.sync_members()
+            self.sync_channels()
 
     def _fetch_one(self) -> dict | None:
         for provider in SocialApp.objects.filter(provider="discord"):
@@ -129,38 +182,45 @@ class DiscordGuild(PostgresModel):
     def sync_members(self) -> str | dict[str, list[str]]:  # Is this a bug?
         try:
             guild_api_members = self._fetch_guild_members()
+            cache_date = timezone.now()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
             return {"warning": ["Failed to get server information from Discord"]}
-        existing_social_accounts_uids = DiscordUser.objects.values_list("uid", flat=True)
-        existing_social_accounts = list(DiscordUser.objects.all())
-        existing_discord_memberships = list(
-            DiscordGuildMembership.objects.filter(guild=self).prefetch_related("user")
-        )
-        new_discord_memberships = []
-        amended_discord_memberships = []
-        for x in guild_api_members:
-            if x["user"]["id"] in existing_social_accounts_uids:
-                existing_membership = [
-                    y for y in existing_discord_memberships if y.user.uid == x["user"]["id"]
-                ]
-                if existing_membership:
-                    e = existing_membership[0]
-                    e.data = x
-                    e.cached_date = timezone.now()
-                    amended_discord_memberships.append(e)
+        existing_social_accounts: dict[str, DiscordUser] = {
+            str(user.uid): user for user in DiscordUser.objects.all()
+        }
+        existing_discord_memberships: dict[str, DiscordGuildMembership] = {
+            str(membership.user.uid): membership
+            for membership in DiscordGuildMembership.objects.filter(guild=self).prefetch_related(
+                "user"
+            )
+        }
+
+        new_discord_memberships: list[DiscordGuildMembership] = list()
+        amended_discord_memberships: set[DiscordGuildMembership] = set()
+
+        amended_user_data: set[DiscordUser] = set()
+
+        for member_data in guild_api_members:
+            if (user_id := str(member_data["user"]["id"])) in existing_social_accounts.keys():
+                if membership := existing_discord_memberships.get(user_id):
+                    membership.data = member_data
+                    membership.cached_date = cache_date
+                    amended_discord_memberships.add(membership)
                 else:
-                    new_discord_memberships.append(
-                        DiscordGuildMembership(
-                            guild=self,
-                            user=[y for y in existing_social_accounts if y.uid == x["user"]["id"]][
-                                0
-                            ],
-                            active=True,
-                            data=x,
-                            cached_date=timezone.now(),
-                        )
+                    membership = DiscordGuildMembership(
+                        guild=self,
+                        user=existing_social_accounts[user_id],
+                        active=True,
+                        data=member_data,
+                        cached_date=cache_date,
                     )
+                    new_discord_memberships.append(membership)
+
+                if not membership.user.extra_data:
+                    membership.user.extra_data = member_data["user"]
+                    amended_user_data.add(membership.user)
+
         DiscordGuildMembership.objects.filter(guild=self, active=False).filter(
             user__uid__in=[x["user"]["id"] for x in guild_api_members]
         ).update(active=True)
@@ -171,6 +231,8 @@ class DiscordGuild(PostgresModel):
         DiscordGuildMembership.objects.filter(guild=self, active=True).exclude(
             user__uid__in=[x["user"]["id"] for x in guild_api_members]
         ).update(active=False)
+
+        DiscordUser.objects.bulk_update(amended_user_data, ["extra_data"])
 
         return _("Succesfully updated {x} of {y} {guild} members").format(
             x=DiscordGuildMembership.objects.filter(guild=self).count(),
@@ -212,9 +274,10 @@ class DiscordGuild(PostgresModel):
         ]
         DiscordRole.objects.bulk_create(roles, ignore_conflicts=True)
         DiscordRole.objects.bulk_update(roles, ["data", "cached_date"])
+        DiscordRole.objects.filter(guild=self).exclude(id__in=[x.id for x in roles]).delete()
 
     @transaction.atomic
-    def download_channels(self) -> None:
+    def sync_channels(self) -> None:
         try:
             guild_channels: List = self._fetch_channels()
         except requests.exceptions.HTTPError:
@@ -231,6 +294,9 @@ class DiscordGuild(PostgresModel):
             ]
             DiscordChannel.objects.bulk_create(channels, ignore_conflicts=True)
             DiscordChannel.objects.bulk_update(channels, ["data", "cached_date"])
+            DiscordChannel.objects.filter(guild=self).exclude(
+                id__in=[x.id for x in channels]
+            ).delete()
 
     def _fetch_channels(self):
         for provider in SocialApp.objects.filter(provider="discord"):
@@ -296,6 +362,8 @@ class DiscordChannel(PostgresModel):
             self.cached_date = timezone.now()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
+        else:
+            self.save()
 
     def _fetch_one(self):
         r = requests.get(
@@ -344,7 +412,7 @@ class DiscordRole(PostgresModel):
     has_data.short_description = _("got data")
 
     def __str__(self) -> str:
-        return f"{self.name} in {self.guild}"
+        return self.name
 
     @property
     def name(self) -> str | None:
@@ -357,6 +425,8 @@ class DiscordRole(PostgresModel):
             self.cached_date = timezone.now()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
+        else:
+            self.save()
 
     def _fetch_one(self):
         r = requests.get(
@@ -388,12 +458,7 @@ class DiscordUser(SocialAccount):
     objects = DiscordUserManager()
 
     def __str__(self) -> str:
-        dflt = super(DiscordUser, self).__str__()
-        prvdr: DiscordAccount = self.get_provider_account()
-        result = prvdr.to_str()
-        if result != super(type(prvdr), prvdr).to_str():
-            return result
-        return dflt
+        return self.get_provider_account().to_str()
 
     def has_data(self) -> bool:
         return bool(self.extra_data)
@@ -476,13 +541,14 @@ class DiscordGuildMembership(PostgresModel):
         logger.info(f"Updating {self}")
         try:
             self.data = self._fetch_one()
+            self.cached_date = timezone.now()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get server information from Discord")
         else:
+            self.save()
             if not self.user.extra_data:
                 self.user.extra_data = self.data["user"]
                 self.user.save()
-            self.cached_date = timezone.now()
 
     def _fetch_one(self):
         r = requests.get(

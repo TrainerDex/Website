@@ -51,20 +51,18 @@ class iGainLeaderboardView(iLeaderboardView):
         ), "minuend_datetime is required"
         duration_str = request.query_params.get("duration")
 
-        self.args = dict(
-            subtrahend_datetime=datetime.fromisoformat(subtrahend_datetime_str),
-            minuend_datetime=datetime.fromisoformat(minuend_datetime_str),
-            stat=request.query_params.get("stat", "total_xp"),
-        )
+        self.subtrahend_datetime = datetime.fromisoformat(subtrahend_datetime_str)
+        self.minuend_datetime = datetime.fromisoformat(minuend_datetime_str)
+        self.stat = request.query_params.get("stat", "total_xp")
 
         assert (
-            self.args["minuend_datetime"] > self.args["subtrahend_datetime"]
+            self.minuend_datetime > self.subtrahend_datetime
         ), "minuend_datetime must be after subtrahend_datetime"
 
-        self.args["duration"] = (
+        self.duration = (
             parse_duration(duration_str)
             if duration_str
-            else (self.args["minuend_datetime"] - self.args["subtrahend_datetime"])
+            else (self.minuend_datetime - self.subtrahend_datetime)
         )
 
     def get_data(self, request: Request):
@@ -78,11 +76,11 @@ class iGainLeaderboardView(iLeaderboardView):
 
         return {
             "generated_datetime": timezone.now().isoformat(),
-            "subtrahend_datetime": self.args["subtrahend_datetime"],
-            "minuend_datetime": self.args["minuend_datetime"],
-            "duration": self.args["duration"],
+            "subtrahend_datetime": self.subtrahend_datetime,
+            "minuend_datetime": self.minuend_datetime,
+            "duration": self.duration,
             "title": self.get_leaderboard_title(),
-            "stat": self.args["stat"],
+            "stat": self.stat,
             "aggregations": aggregate,
             "entries": page,
         }
@@ -92,18 +90,18 @@ class iGainLeaderboardView(iLeaderboardView):
             Q(owner__is_active=False)
             | Q(statistics=False)
             | Q(verified=False)
-            | Q(last_cheated__gte=(self.args["subtrahend_datetime"] - relativedelta(weeks=26)))
+            | Q(last_cheated__gte=(self.subtrahend_datetime - relativedelta(weeks=26)))
         )
 
     def get_queryset(self, trainer_queryset: QuerySet[Trainer]) -> QuerySet[Trainer]:
-        stat: str = self.args["stat"]
+        stat: str = self.stat
         subtrahend_daterange = (
-            self.args["subtrahend_datetime"] - self.args["duration"],
-            self.args["subtrahend_datetime"],
+            self.subtrahend_datetime - self.duration,
+            self.subtrahend_datetime,
         )
         minuend_daterange = (
-            self.args["minuend_datetime"] - self.args["duration"],
-            self.args["minuend_datetime"],
+            self.minuend_datetime - self.duration,
+            self.minuend_datetime,
         )
 
         return (

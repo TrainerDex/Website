@@ -13,7 +13,7 @@
 <meta property="og:image" content="{% static 'img/Harmony.png' %}"/>
 <meta property="og:ttl" content="345600" />
 <meta property="og:description" content="{% for entry in leaderboard|slice:'0:10' %}
-#{{entry.position}}·{{entry.trainer.nickname}}·{{entry.trainer.flag_emoji|default_if_none:''}}·{{entry.total_xp|intcomma}}·{% endfor %}" />
+#{{entry.position}}·{{entry.trainer.nickname}}·{{entry.trainer.country.unicode_flag}}·{{entry.total_xp|intcomma}}·{% endfor %}" />
 <script>
 function setParam(uri, key, val) {
   return uri
@@ -37,7 +37,7 @@ function setParam(uri, key, val) {
 {% if forloop.first %}
 <div class="tdx-lb__title" style="width: 100%">
     <div class="tdx-lb__supporting-text mdl-card__supporting-text">
-  {% trans 'Total XP' context "Total XP of all Trainers on leaderboard" %}: {{ grand_total_xp | intword }} | {% trans 'Trainers Considered' %}: {{ grand_total_users | intcomma }}
+    {{ stat_name }}: {{ grand_stat | intword }} | {% trans 'Trainers Considered' %}: {{ grand_total_users | intcomma }}
     </div>
 </div>
 
@@ -61,7 +61,7 @@ function setParam(uri, key, val) {
     {% endif %}
       <tr>
         <td>{{entry.position|ordinal}}</td>
-        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'trainerdex:profile' %}?id={{entry.trainer.id}}'"><div class="trainer-nickname">{{entry.trainer.nickname}} {{entry.trainer.flag_emoji|default_if_none:''}}</div> <div class="tl">{{entry.level|default_if_none:'40+'}}</div></td>
+        <td class="mdl-data-table__cell--non-numeric" style="width: auto; white-space: nowrap;" onclick="location.href = '{% url 'trainerdex:profile' %}?id={{entry.trainer.id}}'"><div class="trainer-nickname">{{entry.trainer.nickname}} {{entry.trainer.country.unicode_flag}}</div> <div class="tl">{{entry.level|default_if_none:'40+'}}</div></td>
         <td class="mdl-data-table__cell--non-numeric" style="padding-top: 0px; padding-bottom: 0px; width: 32px;"><img src="{{entry.trainer.team.get_image_url}}" alt="{{entry.trainer.team}}" title="{{entry.trainer.team}}" style="width: 32px;"/></td>
         {% for column in entry.columns %}
         <td>{{column.value|default_if_none:"•"|intcomma}}</td>
