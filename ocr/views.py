@@ -120,8 +120,6 @@ class SearchTerms(Enum):
 
 class ActivityViewOCR(APIView):
     parser_classes = [FileUploadParser]
-    # authentication_classes = [TokenAuthentication, OAuth2Authentication]
-    # permission_classes = [IsAdminUser]
     authentication_classes = []
     permission_classes = []
 
