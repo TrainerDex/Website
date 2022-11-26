@@ -86,7 +86,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "core.context_processors.google_analytics",
             ],
         },
     },
@@ -224,14 +223,9 @@ SOCIALACCOUNT_PROVIDERS = {
         "SCOPE": ["identity", "submit"],
         "USER_AGENT": f"django:trainerdex (by /u/jayturnr)",
     },
-    "google": {"SCOPE": ["profile", "email"], "AUTH_PARAMS": {"access_type": "online"}},
     "discord": {"SCOPE": ["identify", "email", "guilds", "guilds.join", "guilds.members.read"]},
 }
 SOCIALACCOUNT_QUERY_EMAIL = True
-
-# Google Analytics
-
-GOOGLE_ANALYTICS_MEASUREMENT_ID = os.environ.get("GOOGLE_ANALYTICS_MEASUREMENT_ID", "")
 
 # Email
 # https://docs.djangoproject.com/en/2.2/topics/email/
