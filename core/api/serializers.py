@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from core.models.discord import DiscordGuild
 from core.models.main import ServiceStatus
 
 
@@ -29,3 +30,10 @@ class DetailServiceSerializer(serializers.Serializer):
     def get_statuses(self, obj):
         serializer = ServiceStatusSerializer(obj.statuses_ordered, many=True)
         return serializer.data
+
+
+class DiscordPreferencesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DiscordGuild
+        exclude = ["data", "cached_date", "has_access", "owner_id", "members"]
+        read_only_fields = ["id", "name"]
