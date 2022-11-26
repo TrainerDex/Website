@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block head_title %}{% trans "404 Not Found" %}{% endblock %}
+
+{% block content %}
+<div class="mdl-grid mdl-grid--no-spacing">
+  <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">429 Too Many Requests</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      <p>{% trans "You need to chill the fuck out. Stop spamming that button or I will ban you." %}</p>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{% url 'trainerdex:leaderboard' %}">
+        {% trans 'Return to Leaderboard' %}
+      </a>
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="https://discord.gg/pFhMS3s">
+        {% trans 'Visit our Discord' %}
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
