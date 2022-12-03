@@ -1,17 +1,17 @@
 # syntax=docker/dockerfile:1
 FROM python:3.10-slim
 
-RUN apt-get update 
-RUN apt-get install -y tesseract-ocr-all
-RUN apt-get install -y python3-pip
-RUN apt-get install -y python3-opencv
-RUN apt-get install -y ffmpeg
-RUN apt-get install -y libsm6
-RUN apt-get install -y libxext6
-RUN apt-get install -y gettext
+RUN apt-get update && apt-get install -y tesseract-ocr-all \
+    python3-pip \
+    python3-opencv \
+    ffmpeg \
+    libsm6 \
+    libxext6 \
+    gettext \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pip install -U pip
-RUN pip install -U requirementslib
+RUN pip install -U pip && pip install -U requirementslib
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
