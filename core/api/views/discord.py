@@ -1,9 +1,9 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAdminUser
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 
 from core.api.serializers import DiscordPreferencesSerializer
 from core.models.discord import DiscordGuild
+from core.permissions.legacy import IsStaff
 
 
 class DiscordPreferencesView(ModelViewSet):
@@ -30,4 +30,4 @@ class DiscordPreferencesView(ModelViewSet):
     )
     authentication_classes = [OAuth2Authentication]
     serializer_class = DiscordPreferencesSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsStaff]

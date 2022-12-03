@@ -8,7 +8,7 @@
       "program": "${workspaceFolder}/manage.py",
       "args": ["runserver"],
       "django": true,
-      "justMyCode": true,
+      "justMyCode": false,
       "envFile": "${workspaceFolder}/.env"
     }
   ]

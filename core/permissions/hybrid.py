@@ -9,9 +9,9 @@ from rest_framework.request import Request
 from core.permissions.legacy import IsStaffOrReadOnly
 
 
-class IsStaffOrReadOnlyOrTokenHasScope(BasePermission):
+class IsStaffOrReadOnlyOrTokenHasScope(IsStaffOrReadOnly):
     def has_permission(self, request: Request, view):
-        is_authenticated = IsStaffOrReadOnly().has_permission(request, view)
+        is_authenticated = super().has_permission(request, view)
         oauth2authenticated = False
         if is_authenticated:
             oauth2authenticated = isinstance(
@@ -54,9 +54,9 @@ class IsStaffOrTokenMatchesOASRequirements(BasePermission):
         )
 
 
-class IsStaffOrReadOnlyTokenMatchesOASRequirements(BasePermission):
+class IsStaffOrReadOnlyTokenMatchesOASRequirements(IsStaffOrReadOnly):
     def has_permission(self, request: Request, view):
-        is_authenticated = IsStaffOrReadOnly().has_permission(request, view)
+        is_authenticated = super().has_permission(request, view)
         oauth2authenticated = False
         if is_authenticated:
             oauth2authenticated = isinstance(
