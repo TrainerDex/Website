@@ -27,7 +27,7 @@ pytesseract = "*"
 numpy = "*"
 opencv-python = "*"
 uvicorn = {extras = ["standard"], version = "*"}
-requests = "==2.28.1"
+requests = "==2.28.2"
 certifi = "==2022.12.7"
 django-countries = {version = "==7.5", extras = ["pyuca"]}
 
