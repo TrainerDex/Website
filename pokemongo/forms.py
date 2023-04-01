@@ -21,6 +21,7 @@ class UpdateForm(ModelForm):
                 "total_xp",
                 "gym_gold",
                 "mini_collection",
+                "butterfly_collector",
             ]
             + [field.name for field in STANDARD_MEDALS]
             + [field.name for field in BATTLE_HUB_STATS]

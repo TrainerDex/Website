@@ -6,7 +6,6 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from pokemongo.fields import BaseStatistic
 from pokemongo.models import (
     BATTLE_HUB_STATS,
     STANDARD_MEDALS,
@@ -327,7 +326,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
                 "gymbadges_gold",
                 "gym_gold",
             ]
-            + [f"badge_{field.name}" for field in STANDARD_MEDALS]
+            + [f"badge_{field.name}" for field in STANDARD_MEDALS if field.stat_id < 79]
             + [field.name for field in STANDARD_MEDALS]
             + [field.name for field in BATTLE_HUB_STATS]
             + [f"badge_{field.name}" for field in UPDATE_FIELDS_TYPES]
@@ -356,7 +355,7 @@ class DetailedUpdateSerializer(serializers.ModelSerializer):
                 "gymbadges_gold",
                 "gym_gold",
             ]
-            + [f"badge_{field.name}" for field in STANDARD_MEDALS]
+            + [f"badge_{field.name}" for field in STANDARD_MEDALS if field.stat_id < 79]
             + [field.name for field in STANDARD_MEDALS]
             + [field.name for field in BATTLE_HUB_STATS]
             + [f"badge_{field.name}" for field in UPDATE_FIELDS_TYPES]
@@ -499,7 +498,6 @@ class LeaderboardSerializer(serializers.Serializer):
 
 
 class SocialAllAuthSerializer(serializers.ModelSerializer):
-
     trainer = serializers.SerializerMethodField()
 
     def get_trainer(self, obj: SocialAccount) -> int:

@@ -1137,6 +1137,55 @@ class Update(PublicModel):
         platinum=500,
     )
 
+    # 79
+    pokedex_entries_gen8a: int | None = IntegerStatistic(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("pokedex_entries_gen8a_title", "Hisui"),
+        help_text=pgettext_lazy(
+            "pokedex_entries_gen8a_help",
+            "Register {0} Pokémon first discovered in the Hisui region to the Pokédex.",
+        ).format(5),
+        validators=[
+            MaxValueValidator(7),
+        ],
+        stat_id=79,
+        bronze=1,
+        silver=3,
+        gold=5,
+        platinum=7,
+    )
+    # 81
+    capture_large_pokemon: int | None = IntegerStatistic(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("capture_large_pokemon_title", "Jumbo Pokémon Collector"),
+        help_text=pgettext_lazy(
+            "capture_large_pokemon_help",
+            "Catch {0} XXL Pokémon.",
+        ).format(100),
+        stat_id=81,
+        bronze=5,
+        silver=25,
+        gold=100,
+        platinum=500,
+    )
+    # 82
+    capture_small_pokemon: int | None = IntegerStatistic(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("capture_small_pokemon_title", "Tiny Pokémon Collector"),
+        help_text=pgettext_lazy(
+            "capture_small_pokemon_help",
+            "Catch {0} XXS Pokémon.",
+        ).format(100),
+        stat_id=82,
+        bronze=5,
+        silver=25,
+        gold=100,
+        platinum=500,
+    )
+
     # 1002
     mini_collection: int | None = IntegerStatistic(
         null=True,
@@ -1144,6 +1193,20 @@ class Update(PublicModel):
         verbose_name=pgettext_lazy("mini_collection_title", "Elite Collector"),
         help_text=pgettext_lazy("mini_collection_help", "Complete Collection Challenges."),
         stat_id=1002,
+    )
+
+    # 1003
+    butterfly_collector: int | None = IntegerStatistic(
+        null=True,
+        blank=True,
+        verbose_name=pgettext_lazy("butterfly_collector_title", "Vivillon Collector"),
+        help_text=pgettext_lazy(
+            "butterfly_collector_help", "Collect Vivillon from all over the world."
+        ),
+        stat_id=1003,
+        validators=[
+            MaxValueValidator(18),
+        ],
     )
 
     battle_hub_stats_wins: int | None = IntegerStatistic(
@@ -1553,6 +1616,9 @@ STANDARD_MEDALS: list[BaseStatistic] = [
     Update.unique_mega_evos.field,
     Update.trainers_referred.field,
     Update.mvt.field,
+    Update.pokedex_entries_gen8a.field,
+    Update.capture_large_pokemon.field,
+    Update.capture_small_pokemon.field,
 ]
 
 BATTLE_HUB_STATS: list[BaseStatistic] = [
