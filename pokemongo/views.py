@@ -45,7 +45,6 @@ from pokemongo.shortcuts import filter_leaderboard_qs
 logger = logging.getLogger("django.trainerdex")
 
 
-
 def _check_if_trainer_valid(user: AbstractUser) -> bool:
     verified = user.trainer.verified  # type: ignore
     logger.debug(
@@ -75,7 +74,6 @@ def profile_redirector(
     nickname: str | None = None,
     id: int | str | None = None,
 ) -> HttpResponse:
-
     BASE_QUERYSET: QuerySet[Trainer] = (
         Trainer.objects.filter(owner__is_active=True)
         .prefetch_related(
@@ -254,7 +252,6 @@ def new_update(request: HttpRequest) -> HttpResponse:
     )
 
     try:
-
         form.order_fields(
             [
                 "trainer",
@@ -264,6 +261,7 @@ def new_update(request: HttpRequest) -> HttpResponse:
                 "total_xp",
                 "gym_gold",
                 "mini_collection",
+                "butterfly_collector",
             ]
             + [field.name for field in sorted(STANDARD_MEDALS, key=sort_by_medal(latest_stats))]
             + [field.name for field in BATTLE_HUB_STATS]
