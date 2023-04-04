@@ -2,5 +2,4 @@ dependencies:
   - Pipfile
 
 migrations:
-  - "core/migrations/*"
-  - "pokemongo/migrations/*"
+  - "*/migrations/*"
