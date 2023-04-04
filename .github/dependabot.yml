@@ -4,7 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    target-branch: develop
+    target-branch: main
     reviewers:
       - turnrdev
     assignees:
@@ -18,8 +18,8 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
-    target-branch: develop
+      interval: "monthly"
+    target-branch: main
     reviewers:
       - turnrdev
     assignees:
