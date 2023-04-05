@@ -18,6 +18,8 @@ class UpdateForm(ModelForm):
                 "update_time",
                 "data_source",
                 "trainer_level",
+                "pokedex_caught",
+                "pokedex_seen",
                 "total_xp",
                 "gym_gold",
                 "mini_collection",
