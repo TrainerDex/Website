@@ -7,7 +7,6 @@ from typing import List
 
 import requests
 from allauth.socialaccount.models import SocialAccount, SocialApp
-from allauth.socialaccount.providers.discord.provider import DiscordAccount
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
@@ -16,7 +15,7 @@ from django.utils.translation import gettext_lazy as _
 from psqlextra.manager import PostgresManager
 from psqlextra.models import PostgresModel
 
-logger = logging.getLogger("django.trainerdex")
+logger = logging.getLogger(f"trainerdex.website.{__name__}")
 
 DISCORD_BASE_URL = "https://discord.com/api/v10"
 
@@ -153,7 +152,6 @@ class DiscordGuild(PostgresModel):
 
     @transaction.atomic
     def refresh_from_api(self) -> None:
-        logging.info(f"Updating {self}")
         if data := self._fetch_one():
             self.data = data
             self.cached_date = timezone.now()
@@ -356,7 +354,6 @@ class DiscordChannel(PostgresModel):
         return self.data.get("name")
 
     def refresh_from_api(self) -> None:
-        logger.info(f"Updating {self}")
         try:
             self.data = self._fetch_one()
             self.cached_date = timezone.now()
@@ -419,7 +416,6 @@ class DiscordRole(PostgresModel):
         return self.data.get("name")
 
     def refresh_from_api(self) -> None:
-        logger.info(f"Updating {self}")
         try:
             self.data = self._fetch_one()
             self.cached_date = timezone.now()
@@ -513,17 +509,13 @@ class DiscordGuildMembership(PostgresModel):
     has_data.short_description = _("got data")
 
     def _change_nick(self, nick: str) -> None:
-
         if len(nick) > 32:
             raise ValidationError("nick too long")
-        logger.info(f"Renaming {self} to {nick}")
-        r = requests.patch(
+        requests.patch(
             f"{DISCORD_BASE_URL}/guilds/{self.guild.id}/members/{self.user.uid}",
             headers={"Authorization": f"Bot {settings.DISCORD_TOKEN}"},
             json={"nick": nick},
         )
-        logger.info(r.status_code)
-        logger.info(r.text)
         self.refresh_from_api()
 
     @property
@@ -538,7 +530,6 @@ class DiscordGuildMembership(PostgresModel):
         return f"{self.display_name} in {self.guild}"
 
     def refresh_from_api(self) -> None:
-        logger.info(f"Updating {self}")
         try:
             self.data = self._fetch_one()
             self.cached_date = timezone.now()

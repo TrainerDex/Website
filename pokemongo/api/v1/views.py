@@ -33,7 +33,7 @@ from pokemongo.fields import BaseStatistic
 from pokemongo.models import Community, Trainer, Update
 from pokemongo.shortcuts import OLD_NEW_STAT_MAP, filter_leaderboard_qs__update
 
-logger = logging.getLogger("django.trainerdex")
+logger = logging.getLogger(f"trainerdex.website.{__name__}")
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import User
@@ -267,7 +267,8 @@ class UpdateDetailView(APIView):
     Gets detailed view
 
     patch:
-    Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked"""
+    Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked
+    """
 
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
     permission_classes = [IsStaffOrReadOnlyOrTokenHasScope]
