@@ -15,11 +15,8 @@ import pytesseract
 from asgiref.sync import async_to_sync
 from django.contrib.staticfiles import finders
 from django.core.files.uploadedfile import UploadedFile
-from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from PIL import Image, ImageDraw
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.parsers import FileUploadParser
-from rest_framework.permissions import IsAdminUser
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView

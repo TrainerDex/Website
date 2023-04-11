@@ -7,7 +7,6 @@ from typing import Any
 from rest_framework.generics import GenericAPIView
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.serializers import Serializer
 
 
 class LeaderboardMode(Enum):

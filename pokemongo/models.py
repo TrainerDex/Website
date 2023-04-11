@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING, Literal, NoReturn
 from uuid import UUID, uuid4
 
 from django.conf import settings
-from django.contrib.postgres import fields as postgres_fields
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models, transaction
