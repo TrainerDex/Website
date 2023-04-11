@@ -9,7 +9,6 @@ import pokemongo.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("pokemongo", "0015_rm_double_check_confirmation"),
     ]

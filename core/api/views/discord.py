@@ -1,5 +1,5 @@
-from rest_framework.viewsets import ModelViewSet
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication
+from rest_framework.viewsets import ModelViewSet
 
 from core.api.serializers import DiscordPreferencesSerializer
 from core.models.discord import DiscordGuild

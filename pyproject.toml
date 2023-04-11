@@ -1,18 +1,11 @@
 [tool.black]
-    line-length = 99
-    target-version = ['py38']
-    include = '\.py$'
-    exclude = '''
-    /(
-          \.eggs
-        | \.git
-        | \.mypy_cache
-        | \.tox
-        | \.venv
-        | _build
-        | buck-out
-        | build
-        | dist
-        | env
-    )/
-    '''
+line-length = 117
+target-version = ['py311']
+
+
+[tool.isort]
+profile = "black"
+py_version = 311
+line_length = 117
+combine_as_imports = true
+known_first_party = ["trainerdex"]

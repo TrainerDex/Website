@@ -11,7 +11,6 @@ def cache_nicknames(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("pokemongo", "0006_add_nickname_field_to_profile_for_caching"),
     ]

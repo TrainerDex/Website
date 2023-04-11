@@ -1,7 +1,2 @@
 from .discord import DiscordPreferencesView
-from .services import (
-    health_check,
-    ServiceListView,
-    ServiceDetailView,
-    TestOAuthView,
-)
+from .services import ServiceDetailView, ServiceListView, TestOAuthView, health_check

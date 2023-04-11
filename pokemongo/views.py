@@ -9,17 +9,7 @@ from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import FieldDoesNotExist
-from django.db.models import (
-    Count,
-    F,
-    Max,
-    OuterRef,
-    Q,
-    QuerySet,
-    Subquery,
-    Sum,
-    Window,
-)
+from django.db.models import Count, F, Max, OuterRef, Q, QuerySet, Subquery, Sum, Window
 from django.db.models.functions import DenseRank
 from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
@@ -30,14 +20,7 @@ from django_countries import countries
 
 from pokemongo.fields import BaseStatistic
 from pokemongo.forms import TrainerForm, UpdateForm
-from pokemongo.models import (
-    BATTLE_HUB_STATS,
-    STANDARD_MEDALS,
-    UPDATE_FIELDS_TYPES,
-    Community,
-    Trainer,
-    Update,
-)
+from pokemongo.models import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES, Community, Trainer, Update
 from pokemongo.shortcuts import filter_leaderboard_qs
 
 
@@ -137,9 +120,7 @@ def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
             if medal.platinum and (stat := stats.get(name)) and medal.platinum >= stat
         ]
     )
-    context["medals_count"] = len(
-        [True for name, medal in medal_data.items() if medal.platinum and stats.get(name)]
-    )
+    context["medals_count"] = len([True for name, medal in medal_data.items() if medal.platinum and stats.get(name)])
 
     return render(request, "profile.html", context)
 
@@ -186,9 +167,7 @@ def new_update(request: HttpRequest) -> HttpResponse:
     form.fields["trainer"].widget = forms.HiddenInput()
     form.trainer = request.user.trainer  # type: ignore
 
-    def sort_by_medal(
-        queryset: dict[str, Decimal | int]
-    ) -> Callable[[BaseStatistic], tuple[int, int]]:
+    def sort_by_medal(queryset: dict[str, Decimal | int]) -> Callable[[BaseStatistic], tuple[int, int]]:
         def _sort_by_medal(stat: BaseStatistic) -> tuple[int, int]:
             value = queryset.get(stat.name, None)
             medal = stat.medal_data
@@ -229,10 +208,7 @@ def new_update(request: HttpRequest) -> HttpResponse:
             ]
             + [field.name for field in sorted(STANDARD_MEDALS, key=sort_by_medal(latest_stats))]
             + [field.name for field in BATTLE_HUB_STATS]
-            + [
-                field.name
-                for field in sorted(UPDATE_FIELDS_TYPES, key=sort_by_medal(latest_stats))
-            ]
+            + [field.name for field in sorted(UPDATE_FIELDS_TYPES, key=sort_by_medal(latest_stats))]
         )
     except Exception:
         pass
@@ -250,9 +226,7 @@ def new_update(request: HttpRequest) -> HttpResponse:
     if existing:
         messages.info(
             request,
-            _(
-                "Since you have posted in the past hour, you are currently updating your previous post."
-            ),
+            _("Since you have posted in the past hour, you are currently updating your previous post."),
         )
 
     context = {
@@ -285,9 +259,7 @@ def leaderboard(
                         reverse("trainerdex:leaderboard", **{"community": community}),
                     )
                 )
-            raise Http404(
-                _("No community found for handle {community}").format(community=community)
-            )
+            raise Http404(_("No community found for handle {community}").format(community=community))
 
         if not community_obj.privacy_public and not request.user.is_superuser:  # type: ignore
             if (not request.user.is_authenticated) or (
@@ -338,17 +310,13 @@ def leaderboard(
 
     queryset = queryset.annotate(
         level=Subquery(
-            Update.objects.filter(
-                trainer=OuterRef("pk"), **{f"{order_by_field.name}__isnull": False}
-            )
+            Update.objects.filter(trainer=OuterRef("pk"), **{f"{order_by_field.name}__isnull": False})
             .values("trainer_level")
             .order_by("-update_time")[:1]
         ),
         **{
             f"max_{field}": Subquery(
-                Update.objects.filter(
-                    trainer=OuterRef("pk"), **{f"{order_by_field.name}__isnull": False}
-                )
+                Update.objects.filter(trainer=OuterRef("pk"), **{f"{order_by_field.name}__isnull": False})
                 .values(field)
                 .order_by("-update_time")[:1]
             )

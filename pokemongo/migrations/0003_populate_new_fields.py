@@ -20,7 +20,6 @@ def populate_update_fields(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("pokemongo", "0002_add_standard_fields"),
     ]

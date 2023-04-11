@@ -34,9 +34,7 @@ def filter_leaderboard_qs__update(
         .exclude(trainer__statistics=False)
         .exclude(trainer__verified=False)
         .exclude(
-            update_time__lt=(
-                timezone.now() - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)
-            )
+            update_time__lt=(timezone.now() - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0))
         )
         .exclude(trainer__last_cheated__gte=d - timedelta(weeks=26))
     )
@@ -123,8 +121,7 @@ def get_possible_levels_from_total_xp(xp: int) -> Iterable[Level]:
         possible_levels = [
             x
             for x in filter(
-                lambda x: x.total_xp <= xp
-                and (x.total_xp + x.xp_required > xp if x.xp_required else True),
+                lambda x: x.total_xp <= xp and (x.total_xp + x.xp_required > xp if x.xp_required else True),
                 LEVELS,
             )
         ]

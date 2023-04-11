@@ -5,11 +5,7 @@ from uuid import UUID
 from django.db.models import Prefetch, QuerySet
 from django.shortcuts import get_object_or_404
 from oauth2_provider.contrib.rest_framework import OAuth2Authentication, TokenHasScope
-from rest_framework.decorators import (
-    api_view,
-    authentication_classes,
-    permission_classes,
-)
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response

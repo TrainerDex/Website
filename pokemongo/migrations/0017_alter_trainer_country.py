@@ -5,7 +5,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("pokemongo", "0016_alter_update_battle_attack_won_and_more"),
     ]

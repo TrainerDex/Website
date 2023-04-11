@@ -189,9 +189,7 @@ class DiscordGuild(PostgresModel):
         }
         existing_discord_memberships: dict[str, DiscordGuildMembership] = {
             str(membership.user.uid): membership
-            for membership in DiscordGuildMembership.objects.filter(guild=self).prefetch_related(
-                "user"
-            )
+            for membership in DiscordGuildMembership.objects.filter(guild=self).prefetch_related("user")
         }
 
         new_discord_memberships: list[DiscordGuildMembership] = list()
@@ -222,9 +220,7 @@ class DiscordGuild(PostgresModel):
         DiscordGuildMembership.objects.filter(guild=self, active=False).filter(
             user__uid__in=[x["user"]["id"] for x in guild_api_members]
         ).update(active=True)
-        DiscordGuildMembership.objects.bulk_update(
-            amended_discord_memberships, ["data", "cached_date"]
-        )
+        DiscordGuildMembership.objects.bulk_update(amended_discord_memberships, ["data", "cached_date"])
         DiscordGuildMembership.objects.bulk_create(new_discord_memberships, ignore_conflicts=True)
         DiscordGuildMembership.objects.filter(guild=self, active=True).exclude(
             user__uid__in=[x["user"]["id"] for x in guild_api_members]
@@ -252,9 +248,7 @@ class DiscordGuild(PostgresModel):
                 if r.status_code == 403:
                     break
                 if r.status_code == 429:
-                    time.sleep(
-                        float(r.headers.get("Retry-After", r.headers["X-RateLimit-Reset-After"]))
-                    )
+                    time.sleep(float(r.headers.get("Retry-After", r.headers["X-RateLimit-Reset-After"])))
                     continue
                 r.raise_for_status()
                 if data := r.json():
@@ -292,9 +286,7 @@ class DiscordGuild(PostgresModel):
             ]
             DiscordChannel.objects.bulk_create(channels, ignore_conflicts=True)
             DiscordChannel.objects.bulk_update(channels, ["data", "cached_date"])
-            DiscordChannel.objects.filter(guild=self).exclude(
-                id__in=[x.id for x in channels]
-            ).delete()
+            DiscordChannel.objects.filter(guild=self).exclude(id__in=[x.id for x in channels]).delete()
 
     def _fetch_channels(self):
         for provider in SocialApp.objects.filter(provider="discord"):

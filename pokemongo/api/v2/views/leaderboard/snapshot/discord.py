@@ -10,9 +10,7 @@ from rest_framework.request import Request
 
 from core.models.discord import DiscordGuild
 from pokemongo.api.v2.views.leaderboard.interface import TrainerSubset
-from pokemongo.api.v2.views.leaderboard.snapshot.interface import (
-    iSnapshotLeaderboardView,
-)
+from pokemongo.api.v2.views.leaderboard.snapshot.interface import iSnapshotLeaderboardView
 from pokemongo.models import Trainer
 
 

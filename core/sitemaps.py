@@ -32,12 +32,7 @@ class TrainerSitemap(Sitemap):
     changefreq = "weekly"
 
     def items(self) -> QuerySet[Trainer]:
-        return (
-            filter_leaderboard_qs(Trainer.objects)
-            .order_by("id")
-            .prefetch_related("update_set")
-            .distinct()
-        )
+        return filter_leaderboard_qs(Trainer.objects).order_by("id").prefetch_related("update_set").distinct()
 
     def lastmod(self, obj: Trainer) -> datetime.datetime:
         return max(
