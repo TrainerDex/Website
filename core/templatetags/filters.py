@@ -1,13 +1,11 @@
-import typing
-
 from django import template
 
 register = template.Library()
 
 
 @register.filter
-def get(d: typing.Any, key: str, fallback: typing.Any = None) -> typing.Any:
+def get(obj, key, fallback=None):
     try:
-        return getattr(d, key)
+        return getattr(obj, key)
     except AttributeError:
-        return d.get(key, fallback)
+        return obj.get(key, fallback)

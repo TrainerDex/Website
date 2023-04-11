@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
+from collections.abc import Iterator
 from dataclasses import dataclass
 from decimal import Decimal
 from difflib import SequenceMatcher
 from enum import Enum
 from math import sqrt
-from typing import Iterator, List, NamedTuple, Optional
+from typing import NamedTuple
 
 import numpy as np
 import pytesseract
@@ -71,7 +72,7 @@ class Line(NamedTuple):
     block_num: int
     par_num: int
     line_num: int
-    words: List[Word]
+    words: list[Word]
 
     @property
     def text(self):
@@ -103,10 +104,10 @@ class Line(NamedTuple):
 
 @dataclass
 class FoundTarget:
-    left_word: Optional[Word] = None
-    left_image: Optional[Image.Image] = None
-    right_image: Optional[Image.Image] = None
-    found_value: Optional[str] = None
+    left_word: Word | None = None
+    left_image: Image.Image | None = None
+    right_image: Image.Image | None = None
+    found_value: str | None = None
 
 
 class SearchTerms(Enum):

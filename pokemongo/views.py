@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import timedelta
 from decimal import Decimal
 from math import ceil
-from typing import Callable
 
 from django import forms
 from django.contrib import messages

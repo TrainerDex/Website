@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Mapping, TypeVar
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, TypeVar
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model

@@ -1,5 +1,3 @@
-from typing import Union
-
 from allauth.socialaccount.admin import SocialAccountAdmin as BaseSocialAccountAdmin
 from allauth.socialaccount.models import SocialAccount
 from django import forms
@@ -16,12 +14,10 @@ from core.models.main import Service, ServiceStatus, StatusChoices
 def refresh_from_api(
     modeladmin: admin.ModelAdmin,
     request: HttpRequest,
-    queryset: Union[
-        QuerySet[DiscordGuild],
-        QuerySet[DiscordChannel],
-        QuerySet[DiscordRole],
-        QuerySet[DiscordGuildMembership],
-    ],
+    queryset: QuerySet[DiscordGuild]
+    | QuerySet[DiscordChannel]
+    | QuerySet[DiscordRole]
+    | QuerySet[DiscordGuildMembership],
 ) -> None:
     for x in queryset:
         x.refresh_from_api()

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import datetime
-from typing import Iterable
+from collections.abc import Iterable
 
 from django.contrib.sitemaps import Sitemap
 from django.db.models import QuerySet

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, timedelta
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
@@ -462,7 +462,7 @@ class DetailedLeaderboardView(APIView):
         def get_users_for_community(community: Community):
             return community.get_members()
 
-        def get_users_for_country(country: Dict):
+        def get_users_for_country(country: str):
             return Trainer.objects.filter(country=country.upper())
 
         if guild:

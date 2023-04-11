@@ -1,5 +1,3 @@
-from typing import Union
-
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, AnonymousUser
 from oauth2_provider.models import AbstractAccessToken, AbstractApplication
@@ -13,13 +11,13 @@ class IsStaff(BasePermission):
     """
 
     @staticmethod
-    def user_is_staff(user: Union[AbstractBaseUser, AnonymousUser, None]) -> bool:
+    def user_is_staff(user: AbstractBaseUser | AnonymousUser | None) -> bool:
         return isinstance(user, AbstractUser) and user.is_staff
 
     @staticmethod
     def get_user_from_oauth2_request(
         request: Request,
-    ) -> Union[AbstractBaseUser, None]:
+    ) -> AbstractBaseUser | None:
         if isinstance(request.auth, AbstractAccessToken) and isinstance(
             request.auth.application, AbstractApplication
         ):

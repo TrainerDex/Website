@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 import time
 from datetime import datetime, timedelta
-from typing import List
 
 import requests
 from allauth.socialaccount.models import SocialAccount, SocialApp
@@ -63,13 +62,13 @@ class DiscordGuild(PostgresModel):
         choices=[("none", "None"), ("int", "40"), ("circled_level", "㊵")],
     )
 
-    roles_to_append_on_approval: List["DiscordRole"] = models.ManyToManyField(
+    roles_to_append_on_approval: list["DiscordRole"] = models.ManyToManyField(
         "DiscordRole",
         db_constraint=False,
         blank=True,
         related_name="+",
     )
-    roles_to_remove_on_approval: List["DiscordRole"] = models.ManyToManyField(
+    roles_to_remove_on_approval: list["DiscordRole"] = models.ManyToManyField(
         "DiscordRole",
         db_constraint=False,
         blank=True,
@@ -124,7 +123,7 @@ class DiscordGuild(PostgresModel):
         limit_choices_to=models.Q(data__type=0),
     )
 
-    mod_role_ids: List["DiscordRole"] = models.ManyToManyField(
+    mod_role_ids: list["DiscordRole"] = models.ManyToManyField(
         "DiscordRole",
         db_constraint=False,
         blank=True,
@@ -271,7 +270,7 @@ class DiscordGuild(PostgresModel):
     @transaction.atomic
     def sync_channels(self) -> None:
         try:
-            guild_channels: List = self._fetch_channels()
+            guild_channels: list = self._fetch_channels()
         except requests.exceptions.HTTPError:
             logger.exception("Failed to get information")
         else:

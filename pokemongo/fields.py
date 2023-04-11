@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import NamedTuple, Union
+from typing import NamedTuple
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -7,10 +7,10 @@ from django.utils.translation import gettext_lazy as _
 
 class MedalData(NamedTuple):
     stat_id: int
-    bronze: Union[int, Decimal, None]
-    silver: Union[int, Decimal, None]
-    gold: Union[int, Decimal, None]
-    platinum: Union[int, Decimal, None]
+    bronze: int | Decimal | None
+    silver: int | Decimal | None
+    gold: int | Decimal | None
+    platinum: int | Decimal | None
     reversable: bool
     sortable: bool
     name: str
@@ -23,10 +23,10 @@ class BaseStatistic(models.Field):
         self,
         /,
         stat_id: int = None,
-        bronze: Union[int, Decimal] = None,
-        silver: Union[int, Decimal] = None,
-        gold: Union[int, Decimal] = None,
-        platinum: Union[int, Decimal] = None,
+        bronze: int | Decimal | None = None,
+        silver: int | Decimal | None = None,
+        gold: int | Decimal | None = None,
+        platinum: int | Decimal | None = None,
         reversable: bool = False,
         sortable: bool = True,
         **kwargs,

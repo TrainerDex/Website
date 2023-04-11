@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from collections.abc import Collection, Iterable, Mapping
 from dataclasses import dataclass
 from datetime import date, timedelta
-from typing import TYPE_CHECKING, Collection, Iterable, Mapping
+from typing import TYPE_CHECKING
 
 from dateutil.relativedelta import relativedelta
 from django.db.models import QuerySet

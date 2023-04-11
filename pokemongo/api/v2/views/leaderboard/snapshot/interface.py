@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import datetime
 from abc import abstractmethod
-from typing import List
 
 from dateutil.relativedelta import relativedelta
 from django.db.models import Avg, F, Max, Min, Q, QuerySet, Subquery, Sum, Window
@@ -53,7 +52,7 @@ class iSnapshotLeaderboardView(iLeaderboardView):
         queryset = self.get_queryset(subquery)
         aggregate = self.aggregate_queryset(queryset)
 
-        page: List = self.paginate_queryset(queryset)
+        page: list = self.paginate_queryset(queryset)
 
         return {
             "generated_datetime": timezone.now(),
