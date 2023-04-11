@@ -13,11 +13,8 @@ def populate_extra_fields(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0007_discordguild_name_discordguild_owner_id"),
     ]
 
-    operations = [
-        migrations.RunPython(populate_extra_fields, reverse_code=migrations.RunPython.noop)
-    ]
+    operations = [migrations.RunPython(populate_extra_fields, reverse_code=migrations.RunPython.noop)]

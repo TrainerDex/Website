@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("pokemongo", "0009_remove_timezone_choices"),
     ]

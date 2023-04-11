@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("pokemongo", "0008_add_restraints"),
         ("core", "0003_auto_20220528_0811"),

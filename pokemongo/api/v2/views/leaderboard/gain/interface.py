@@ -5,31 +5,14 @@ from datetime import datetime
 from typing import List
 
 from dateutil.relativedelta import relativedelta
-from django.db.models import (
-    Avg,
-    Case,
-    DecimalField,
-    ExpressionWrapper,
-    F,
-    Max,
-    Min,
-    Q,
-    QuerySet,
-    Sum,
-    When,
-    Window,
-)
+from django.db.models import Avg, Case, DecimalField, ExpressionWrapper, F, Max, Min, Q, QuerySet, Sum, When, Window
 from django.db.models.functions import DenseRank, ExtractDay, ExtractSecond
 from django.utils import timezone
 from isodate import parse_duration
 from rest_framework.request import Request
 
 from pokemongo.api.v2.paginators.leaderboard import GainLeaderboardPaginator
-from pokemongo.api.v2.views.leaderboard.interface import (
-    LeaderboardMode,
-    TrainerSubset,
-    iLeaderboardView,
-)
+from pokemongo.api.v2.views.leaderboard.interface import LeaderboardMode, TrainerSubset, iLeaderboardView
 from pokemongo.models import Trainer, Update
 
 
@@ -46,23 +29,17 @@ class iGainLeaderboardView(iLeaderboardView):
         assert (
             subtrahend_datetime_str := request.query_params.get("subtrahend_datetime")
         ), "subtrahend_datetime is required"
-        assert (
-            minuend_datetime_str := request.query_params.get("minuend_datetime")
-        ), "minuend_datetime is required"
+        assert (minuend_datetime_str := request.query_params.get("minuend_datetime")), "minuend_datetime is required"
         duration_str = request.query_params.get("duration")
 
         self.subtrahend_datetime = datetime.fromisoformat(subtrahend_datetime_str)
         self.minuend_datetime = datetime.fromisoformat(minuend_datetime_str)
         self.stat = request.query_params.get("stat", "total_xp")
 
-        assert (
-            self.minuend_datetime > self.subtrahend_datetime
-        ), "minuend_datetime must be after subtrahend_datetime"
+        assert self.minuend_datetime > self.subtrahend_datetime, "minuend_datetime must be after subtrahend_datetime"
 
         self.duration = (
-            parse_duration(duration_str)
-            if duration_str
-            else (self.minuend_datetime - self.subtrahend_datetime)
+            parse_duration(duration_str) if duration_str else (self.minuend_datetime - self.subtrahend_datetime)
         )
 
     def get_data(self, request: Request):
@@ -109,39 +86,32 @@ class iGainLeaderboardView(iLeaderboardView):
                 subtrahend_datetime=Max(
                     F("update__update_time"),
                     filter=(
-                        Q(update__update_time__range=subtrahend_daterange)
-                        & Q(**{f"update__{stat}__isnull": False})
+                        Q(update__update_time__range=subtrahend_daterange) & Q(**{f"update__{stat}__isnull": False})
                     ),
                 ),
                 subtrahend_value=Max(
                     F(f"update__{stat}"),
                     filter=(
-                        Q(update__update_time__range=subtrahend_daterange)
-                        & Q(**{f"update__{stat}__isnull": False})
+                        Q(update__update_time__range=subtrahend_daterange) & Q(**{f"update__{stat}__isnull": False})
                     ),
                 ),
                 minuend_datetime=Max(
                     F("update__update_time"),
                     filter=(
-                        Q(update__update_time__range=minuend_daterange)
-                        & Q(**{f"update__{stat}__isnull": False})
+                        Q(update__update_time__range=minuend_daterange) & Q(**{f"update__{stat}__isnull": False})
                     ),
                 ),
                 minuend_value=Max(
                     F(f"update__{stat}"),
                     filter=(
-                        Q(update__update_time__range=minuend_daterange)
-                        & Q(**{f"update__{stat}__isnull": False})
+                        Q(update__update_time__range=minuend_daterange) & Q(**{f"update__{stat}__isnull": False})
                     ),
                 ),
                 difference_duration=F("minuend_datetime") - F("subtrahend_datetime"),
                 difference_value=F("minuend_value") - F("subtrahend_value"),
                 difference_value_rate=ExpressionWrapper(
                     F("difference_value")
-                    / (
-                        ExtractDay("difference_duration")
-                        + (ExtractSecond("difference_duration") / 86400)
-                    ),
+                    / (ExtractDay("difference_duration") + (ExtractSecond("difference_duration") / 86400)),
                     output_field=DecimalField(max_digits=10, decimal_places=2),
                 ),
                 difference_value_percentage=ExpressionWrapper(

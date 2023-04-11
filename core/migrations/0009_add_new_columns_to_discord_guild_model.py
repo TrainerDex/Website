@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0008_prefill_extra_fields"),
     ]
@@ -49,9 +48,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="discordguild",
             name="mod_role_ids",
-            field=models.ManyToManyField(
-                blank=True, db_constraint=False, related_name="+", to="core.discordrole"
-            ),
+            field=models.ManyToManyField(blank=True, db_constraint=False, related_name="+", to="core.discordrole"),
         ),
         migrations.AddField(
             model_name="discordguild",
@@ -67,16 +64,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="discordguild",
             name="roles_to_append_on_approval",
-            field=models.ManyToManyField(
-                blank=True, db_constraint=False, related_name="+", to="core.discordrole"
-            ),
+            field=models.ManyToManyField(blank=True, db_constraint=False, related_name="+", to="core.discordrole"),
         ),
         migrations.AddField(
             model_name="discordguild",
             name="roles_to_remove_on_approval",
-            field=models.ManyToManyField(
-                blank=True, db_constraint=False, related_name="+", to="core.discordrole"
-            ),
+            field=models.ManyToManyField(blank=True, db_constraint=False, related_name="+", to="core.discordrole"),
         ),
         migrations.AddField(
             model_name="discordguild",

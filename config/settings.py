@@ -3,8 +3,7 @@ from distutils.util import strtobool
 from pathlib import Path
 
 from django.core.management.utils import get_random_secret_key
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext_lazy
+from django.utils.translation import gettext_lazy as _, pgettext_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -236,9 +235,7 @@ EMAIL_USE_TLS = bool(int(os.environ.get("EMAIL_USE_TLS", 1)))
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "postmaster@mmg.trainerdex.app")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "password")
-DEFAULT_FROM_EMAIL = os.environ.get(
-    "DEFAULT_FROM_EMAIL", "TrainerDex Support <jay@trainerdex.app>"
-)
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "TrainerDex Support <jay@trainerdex.app>")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 FILE_UPLOAD_PERMISSIONS = 0x775

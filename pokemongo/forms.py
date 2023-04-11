@@ -1,12 +1,6 @@
 from django.forms import ModelForm
 
-from pokemongo.models import (
-    BATTLE_HUB_STATS,
-    STANDARD_MEDALS,
-    UPDATE_FIELDS_TYPES,
-    Trainer,
-    Update,
-)
+from pokemongo.models import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES, Trainer, Update
 
 
 class UpdateForm(ModelForm):

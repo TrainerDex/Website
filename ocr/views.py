@@ -92,9 +92,7 @@ class Line(NamedTuple):
 
     @property
     def avg_conf_by_length(self):
-        return sum(unit.conf * len(unit.text) for unit in self.words) / len(
-            self.words * len(self.text)
-        )
+        return sum(unit.conf * len(unit.text) for unit in self.words) / len(self.words * len(self.text))
 
     def crop(self, image: Image.Image) -> Image.Image:
         return image.crop(self.bounding_box)
@@ -168,9 +166,7 @@ class ActivityViewOCR(APIView):
         top_left = min_loc
         bottom_right = (top_left[0] + w, top_left[1] + h)
 
-        return BoundingBox(
-            left=top_left[0], top=top_left[1], right=bottom_right[0], bottom=bottom_right[1]
-        )
+        return BoundingBox(left=top_left[0], top=top_left[1], right=bottom_right[0], bottom=bottom_right[1])
 
     @staticmethod
     def get_distance_between_two_pixels(p1: np.ndarray, p2: np.ndarray) -> float:
@@ -276,9 +272,7 @@ class ActivityViewOCR(APIView):
             right = image_right.width - 24
 
             found_target.right_image = image_right.convert("RGB").crop((left, top, right, bottom))
-            found_target.found_value = pytesseract.image_to_string(
-                found_target.right_image
-            ).strip()
+            found_target.found_value = pytesseract.image_to_string(found_target.right_image).strip()
 
         return {
             "travel_km": self.process_km_text(

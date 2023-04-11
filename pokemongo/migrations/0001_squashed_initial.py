@@ -17,7 +17,6 @@ import pokemongo.models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -562,9 +561,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "id",
-                    models.AutoField(
-                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
-                    ),
+                    models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
                 ),
                 (
                     "start_date",
@@ -572,9 +569,7 @@ class Migration(migrations.Migration):
                         blank=True,
                         help_text="The date you created your Pokémon Go account.",
                         null=True,
-                        validators=[
-                            django.core.validators.MinValueValidator(datetime.date(2016, 7, 5))
-                        ],
+                        validators=[django.core.validators.MinValueValidator(datetime.date(2016, 7, 5))],
                         verbose_name="Start Date",
                     ),
                 ),
@@ -687,21 +682,15 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "id",
-                    models.AutoField(
-                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
-                    ),
+                    models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
                 ),
                 (
                     "uuid",
-                    models.UUIDField(
-                        default=uuid.uuid4, editable=False, unique=True, verbose_name="UUID"
-                    ),
+                    models.UUIDField(default=uuid.uuid4, editable=False, unique=True, verbose_name="UUID"),
                 ),
                 (
                     "update_time",
-                    models.DateTimeField(
-                        default=django.utils.timezone.now, verbose_name="Time Updated"
-                    ),
+                    models.DateTimeField(default=django.utils.timezone.now, verbose_name="Time Updated"),
                 ),
                 (
                     "submission_date",
@@ -1409,9 +1398,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "id",
-                    models.AutoField(
-                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
-                    ),
+                    models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
                 ),
                 ("awarded_on", models.DateTimeField(auto_now_add=True)),
                 ("reason_given", models.CharField(max_length=64)),
@@ -1427,33 +1414,25 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "badge",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="pokemongo.ProfileBadge"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="pokemongo.ProfileBadge"),
                 ),
                 (
                     "trainer",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="pokemongo.Trainer"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="pokemongo.Trainer"),
                 ),
             ],
         ),
         migrations.AddField(
             model_name="profilebadge",
             name="members",
-            field=models.ManyToManyField(
-                through="pokemongo.ProfileBadgeHoldership", to="pokemongo.Trainer"
-            ),
+            field=models.ManyToManyField(through="pokemongo.ProfileBadgeHoldership", to="pokemongo.Trainer"),
         ),
         migrations.CreateModel(
             name="Nickname",
             fields=[
                 (
                     "id",
-                    models.AutoField(
-                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
-                    ),
+                    models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
                 ),
                 (
                     "nickname",
@@ -1490,9 +1469,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "id",
-                    models.AutoField(
-                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
-                    ),
+                    models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
                 ),
                 (
                     "sync_members",
@@ -1503,15 +1480,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "community",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="pokemongo.Community"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="pokemongo.Community"),
                 ),
                 (
                     "discord",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="core.DiscordGuild"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="core.DiscordGuild"),
                 ),
                 (
                     "exclude_roles",

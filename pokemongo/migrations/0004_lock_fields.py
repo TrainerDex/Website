@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("pokemongo", "0003_populate_new_fields"),
     ]
@@ -25,9 +24,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="trainer",
             name="uuid",
-            field=models.UUIDField(
-                default=uuid.uuid4, editable=False, unique=True, verbose_name="UUID"
-            ),
+            field=models.UUIDField(default=uuid.uuid4, editable=False, unique=True, verbose_name="UUID"),
         ),
         migrations.AlterField(
             model_name="update",

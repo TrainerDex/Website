@@ -11,11 +11,7 @@ from django.utils import timezone
 from rest_framework.request import Request
 
 from pokemongo.api.v2.paginators.leaderboard import SnapshotLeaderboardPaginator
-from pokemongo.api.v2.views.leaderboard.interface import (
-    LeaderboardMode,
-    TrainerSubset,
-    iLeaderboardView,
-)
+from pokemongo.api.v2.views.leaderboard.interface import LeaderboardMode, TrainerSubset, iLeaderboardView
 from pokemongo.models import Trainer, Update
 
 
@@ -85,8 +81,7 @@ class iSnapshotLeaderboardView(iLeaderboardView):
                 (
                     Q(
                         update_time__gte=(
-                            self.datetime
-                            - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)
+                            self.datetime - relativedelta(months=3, hour=0, minute=0, second=0, microsecond=0)
                         )
                     )
                     if not self.show_inactive

@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0001_squashed_initial"),
     ]
@@ -26,9 +25,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "uuid",
-                    models.UUIDField(
-                        default=uuid.uuid4, editable=False, unique=True, verbose_name="UUID"
-                    ),
+                    models.UUIDField(default=uuid.uuid4, editable=False, unique=True, verbose_name="UUID"),
                 ),
                 ("name", models.CharField(max_length=32, verbose_name="name")),
                 ("description", models.TextField(blank=True, verbose_name="description")),
@@ -50,9 +47,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "uuid",
-                    models.UUIDField(
-                        default=uuid.uuid4, editable=False, unique=True, verbose_name="UUID"
-                    ),
+                    models.UUIDField(default=uuid.uuid4, editable=False, unique=True, verbose_name="UUID"),
                 ),
                 (
                     "status",

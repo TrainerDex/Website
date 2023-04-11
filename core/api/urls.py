@@ -1,12 +1,6 @@
 from django.urls import path
 
-from core.api.views import (
-    DiscordPreferencesView,
-    ServiceDetailView,
-    ServiceListView,
-    TestOAuthView,
-    health_check,
-)
+from core.api.views import DiscordPreferencesView, ServiceDetailView, ServiceListView, TestOAuthView, health_check
 
 app_name = "core.api"
 
@@ -22,9 +16,7 @@ urlpatterns = [
     ),
     path(
         "discord/preferences/<int:pk>/",
-        DiscordPreferencesView.as_view(
-            {"get": "retrieve", "patch": "partial_update", "delete": "destroy"}
-        ),
+        DiscordPreferencesView.as_view({"get": "retrieve", "patch": "partial_update", "delete": "destroy"}),
         name="discord_preferences",
     ),
 ]

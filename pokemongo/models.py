@@ -17,19 +17,13 @@ from django.dispatch import receiver
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import npgettext_lazy, pgettext_lazy
+from django.utils.translation import gettext_lazy as _, npgettext_lazy, pgettext_lazy
 from django_countries.fields import CountryField
 from exclusivebooleanfield.fields import ExclusiveBooleanField
 
 from config.abstract_models import PublicModel
 from core.models.discord import DiscordGuild, DiscordGuildMembership, DiscordRole
-from pokemongo.fields import (
-    BaseStatistic,
-    BigIntegerStatistic,
-    DecimalStatistic,
-    IntegerStatistic,
-)
+from pokemongo.fields import BaseStatistic, BigIntegerStatistic, DecimalStatistic, IntegerStatistic
 from pokemongo.shortcuts import circled_level, get_possible_levels_from_total_xp
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
 
@@ -115,9 +109,7 @@ class Trainer(PublicModel):
     )
 
     daily_goal: int | None = models.PositiveIntegerField(null=True, blank=True)
-    total_goal: int | None = models.BigIntegerField(
-        null=True, blank=True, validators=[MinValueValidator(100)]
-    )
+    total_goal: int | None = models.BigIntegerField(null=True, blank=True, validators=[MinValueValidator(100)])
 
     trainer_code: str | None = models.CharField(
         null=True,
@@ -330,8 +322,7 @@ class Nickname(models.Model):
 
     def clean(self) -> None:
         if self.active and (
-            (self.trainer.owner.username != self.nickname)
-            or (self.trainer._nickname != self.nickname)
+            (self.trainer.owner.username != self.nickname) or (self.trainer._nickname != self.nickname)
         ):
             if self.trainer.owner.username != self.nickname:
                 self.trainer.owner.username = self.nickname
@@ -462,9 +453,9 @@ class Update(PublicModel):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokedex_entries_title", "Kanto"),
-        help_text=pgettext_lazy(
-            "pokedex_entries_help", "Register {0} Kanto region Pokémon in the Pokédex."
-        ).format(151),
+        help_text=pgettext_lazy("pokedex_entries_help", "Register {0} Kanto region Pokémon in the Pokédex.").format(
+            151
+        ),
         validators=[MaxValueValidator(151), MinValueValidator(1)],
         stat_id=2,
         bronze=5,
@@ -648,9 +639,7 @@ class Update(PublicModel):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("legendary_battle_won_title", "Battle Legend"),
-        help_text=pgettext_lazy("legendary_battle_won_help", "Win {0} Legendary raids.").format(
-            2000
-        ),
+        help_text=pgettext_lazy("legendary_battle_won_help", "Win {0} Legendary raids.").format(2000),
         stat_id=41,
         bronze=10,
         silver=100,
@@ -704,9 +693,7 @@ class Update(PublicModel):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("challenge_quests_title", "Pokémon Ranger"),
-        help_text=pgettext_lazy(
-            "challenge_quests_help", "Complete {0} Field Research tasks."
-        ).format(2500),
+        help_text=pgettext_lazy("challenge_quests_help", "Complete {0} Field Research tasks.").format(2500),
         stat_id=46,
         bronze=10,
         silver=100,
@@ -866,9 +853,7 @@ class Update(PublicModel):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("pokemon_purified_title", "Purifier"),
-        help_text=pgettext_lazy("pokemon_purified_help", "Purify {0} Shadow Pokémon.").format(
-            1000
-        ),
+        help_text=pgettext_lazy("pokemon_purified_help", "Purify {0} Shadow Pokémon.").format(1000),
         stat_id=57,
         bronze=5,
         silver=50,
@@ -880,9 +865,7 @@ class Update(PublicModel):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("rocket_grunts_defeated_title", "Hero"),
-        help_text=pgettext_lazy(
-            "rocket_grunts_defeated_help", "Defeat {0} Team GO Rocket Grunts."
-        ).format(2000),
+        help_text=pgettext_lazy("rocket_grunts_defeated_help", "Defeat {0} Team GO Rocket Grunts.").format(2000),
         stat_id=58,
         bronze=10,
         silver=100,
@@ -1197,9 +1180,7 @@ class Update(PublicModel):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("butterfly_collector_title", "Vivillon Collector"),
-        help_text=pgettext_lazy(
-            "butterfly_collector_help", "Collect Vivillon from all over the world."
-        ),
+        help_text=pgettext_lazy("butterfly_collector_help", "Collect Vivillon from all over the world."),
         stat_id=1003,
         validators=[
             MaxValueValidator(18),
@@ -1260,9 +1241,7 @@ class Update(PublicModel):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_fighting_title", "Black Belt"),
-        help_text=pgettext_lazy("type_fighting_help", "Catch {0} Fighting-type Pokémon.").format(
-            200
-        ),
+        help_text=pgettext_lazy("type_fighting_help", "Catch {0} Fighting-type Pokémon.").format(200),
         stat_id=19,
         bronze=10,
         silver=50,
@@ -1383,9 +1362,7 @@ class Update(PublicModel):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_electric_title", "Rocker"),
-        help_text=pgettext_lazy("type_electric_help", "Catch {0} Electric-type Pokémon.").format(
-            200
-        ),
+        help_text=pgettext_lazy("type_electric_help", "Catch {0} Electric-type Pokémon.").format(200),
         stat_id=30,
         bronze=10,
         silver=50,
@@ -1396,9 +1373,7 @@ class Update(PublicModel):
         null=True,
         blank=True,
         verbose_name=pgettext_lazy("type_psychic_title", "Psychic"),
-        help_text=pgettext_lazy("type_psychic_help", "Catch {0} Psychic-type Pokémon.").format(
-            200
-        ),
+        help_text=pgettext_lazy("type_psychic_help", "Catch {0} Psychic-type Pokémon.").format(200),
         stat_id=31,
         bronze=10,
         silver=50,
@@ -1484,9 +1459,7 @@ class Update(PublicModel):
             self.total_xp
             and self.trainer_level
             and self.trainer_level
-            not in map(
-                lambda x: x.level, (levels := get_possible_levels_from_total_xp(self.total_xp))
-            )
+            not in map(lambda x: x.level, (levels := get_possible_levels_from_total_xp(self.total_xp)))
         ):
             formatted_levels = ", ".join(map(lambda x: str(x.level), levels))
             raise ValidationError(
@@ -1745,26 +1718,19 @@ class Community(models.Model):
     privacy_public: bool = models.BooleanField(
         default=False,
         verbose_name=_("Publicly Viewable"),
-        help_text=_(
-            "By default, this is off." " Turn this on to share your community with the world."
-        ),
+        help_text=_("By default, this is off." " Turn this on to share your community with the world."),
     )
     privacy_public_join: bool = models.BooleanField(
         default=False,
         verbose_name=_("Publicly Joinable"),
         help_text=_(
-            "By default, this is off."
-            " Turn this on to make your community free to join."
-            " No invites required."
+            "By default, this is off." " Turn this on to make your community free to join." " No invites required."
         ),
     )
     privacy_tournaments: bool = models.BooleanField(
         default=False,
         verbose_name=_("Tournament: Publicly Viewable"),
-        help_text=_(
-            "By default, this is off."
-            " Turn this on to share your tournament results with the world."
-        ),
+        help_text=_("By default, this is off." " Turn this on to share your tournament results with the world."),
     )
 
     memberships_personal: models.QuerySet[Trainer] = models.ManyToManyField(Trainer, blank=True)
@@ -1825,17 +1791,13 @@ class CommunityMembershipDiscord(models.Model):
             if self.include_roles.exists():
                 q = models.Q()
                 for role in self.include_roles.all():
-                    q = q | models.Q(
-                        owner__socialaccount__guild_memberships__data__roles__contains=str(role.id)
-                    )
+                    q = q | models.Q(owner__socialaccount__guild_memberships__data__roles__contains=str(role.id))
                 qs = qs.filter(q)
 
             if self.exclude_roles.exists():
                 q = models.Q()
                 for role in self.exclude_roles.all():
-                    q = q | models.Q(
-                        owner__socialaccount__guild_memberships__data__roles__contains=str(role.id)
-                    )
+                    q = q | models.Q(owner__socialaccount__guild_memberships__data__roles__contains=str(role.id))
                 qs = qs.exclude(q)
 
             return qs

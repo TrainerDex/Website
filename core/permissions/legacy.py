@@ -1,7 +1,7 @@
 from typing import Union
 
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import AnonymousUser, AbstractUser
+from django.contrib.auth.models import AbstractUser, AnonymousUser
 from oauth2_provider.models import AbstractAccessToken, AbstractApplication
 from rest_framework.permissions import SAFE_METHODS, BasePermission
 from rest_framework.request import Request
@@ -33,9 +33,7 @@ class IsStaff(BasePermission):
         return None
 
     def has_permission(self, request: Request, view):
-        return self.user_is_staff(request.user) or self.user_is_staff(
-            self.get_user_from_oauth2_request(request)
-        )
+        return self.user_is_staff(request.user) or self.user_is_staff(self.get_user_from_oauth2_request(request))
 
 
 class IsStaffOrReadOnly(IsStaff):

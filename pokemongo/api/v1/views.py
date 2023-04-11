@@ -202,9 +202,7 @@ class UpdateListView(APIView):
         return Response(serializer.data)
 
     def post(self, request: Request, pk: int) -> Response:
-        modified_data = {
-            OLD_NEW_STAT_MAP.get(key, key): value for key, value in request.data.items()
-        }
+        modified_data = {OLD_NEW_STAT_MAP.get(key, key): value for key, value in request.data.items()}
         serializer = DetailedUpdateSerializer(data=modified_data)
         if serializer.is_valid():
             serializer.save(trainer=get_object_or_404(Trainer, pk=pk, owner__is_active=True))
@@ -235,22 +233,16 @@ class LatestUpdateView(APIView):
 
     def get(self, request: Request, pk: int) -> Response:
         try:
-            update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest(
-                "update_time"
-            )
+            update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest("update_time")
         except Update.DoesNotExist:
             return Response(None, status=404)
         serializer = DetailedUpdateSerializer(update)
         return Response(serializer.data)
 
     def patch(self, request: Request, pk: int) -> Response:
-        update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest(
-            "update_time"
-        )
+        update = Update.objects.filter(trainer=pk, trainer__owner__is_active=True).latest("update_time")
         if update.created_at > (timezone.now() - timedelta(hours=12)):
-            modified_data = {
-                OLD_NEW_STAT_MAP.get(key, key): value for key, value in request.data.items()
-            }
+            modified_data = {OLD_NEW_STAT_MAP.get(key, key): value for key, value in request.data.items()}
             serializer = DetailedUpdateSerializer(update, data=modified_data)
             if serializer.is_valid():
                 serializer.save(trainer=update.trainer, uuid=update.uuid, pk=update.pk)
@@ -287,9 +279,7 @@ class UpdateDetailView(APIView):
     def patch(self, request: Request, uuid: str, pk: int) -> Response:
         update = get_object_or_404(Update, trainer=pk, uuid=uuid, trainer__owner__is_active=True)
         if update.created_at > (timezone.now() - timedelta(hours=12)):
-            modified_data = {
-                OLD_NEW_STAT_MAP.get(key, key): value for key, value in request.data.items()
-            }
+            modified_data = {OLD_NEW_STAT_MAP.get(key, key): value for key, value in request.data.items()}
             serializer = DetailedUpdateSerializer(update, data=modified_data)
             if serializer.is_valid():
                 serializer.save(trainer=update.trainer, uuid=update.uuid, pk=update.pk)
@@ -323,9 +313,7 @@ class LatestStatsView(APIView):
                     f"update__{field.name}",
                     filter=Q(**{f"update__{field.name}__isnull": False}),
                 )
-                for field in (
-                    Update.get_sortable_fields() + [Update._meta.get_field("update_time")]
-                )
+                for field in (Update.get_sortable_fields() + [Update._meta.get_field("update_time")])
             },
         )
         serializer = LatestStatsSerializer(latest_stats)
@@ -397,10 +385,7 @@ class DetailedLeaderboardView(APIView):
     ) -> Response:
         stat = OLD_NEW_STAT_MAP.get(stat, stat)
 
-        if (
-            not isinstance(field := Update._meta.get_field(stat), BaseStatistic)
-            or not field.sortable
-        ):
+        if not isinstance(field := Update._meta.get_field(stat), BaseStatistic) or not field.sortable:
             return Response(
                 {"state": "error", "reason": "invalid stat"},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -454,9 +439,7 @@ class DetailedLeaderboardView(APIView):
 
             if opt_out_roles:
                 queryset = queryset.exclude(
-                    owner__socialaccount__guild_memberships__data__roles__contains=[
-                        str(x.id) for x in opt_out_roles
-                    ]
+                    owner__socialaccount__guild_memberships__data__roles__contains=[str(x.id) for x in opt_out_roles]
                 )
 
             return queryset

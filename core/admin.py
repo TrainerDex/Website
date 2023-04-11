@@ -8,19 +8,11 @@ from django.db.models import Prefetch, QuerySet
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
-from core.models.discord import (
-    DiscordChannel,
-    DiscordGuild,
-    DiscordGuildMembership,
-    DiscordRole,
-    DiscordUser,
-)
+from core.models.discord import DiscordChannel, DiscordGuild, DiscordGuildMembership, DiscordRole, DiscordUser
 from core.models.main import Service, ServiceStatus, StatusChoices
 
 
-@admin.action(
-    description=_("Refresh from API.")
-)
+@admin.action(description=_("Refresh from API."))
 def refresh_from_api(
     modeladmin: admin.ModelAdmin,
     request: HttpRequest,
@@ -33,8 +25,6 @@ def refresh_from_api(
 ) -> None:
     for x in queryset:
         x.refresh_from_api()
-
-
 
 
 class DiscordGuildAdminForm(forms.ModelForm):
@@ -133,9 +123,7 @@ class DiscordGuildAdmin(admin.ModelAdmin):
         "cached_date",
     ]
 
-    def get_readonly_fields(
-        self, request: HttpRequest, obj: DiscordGuild | None = None
-    ) -> list[str]:
+    def get_readonly_fields(self, request: HttpRequest, obj: DiscordGuild | None = None) -> list[str]:
         if obj:
             return ["id", "name", "owner", "data", "cached_date"]
         else:
@@ -177,9 +165,7 @@ class DiscordChannelAdmin(admin.ModelAdmin):
     list_display = ["name", "guild", "has_data", "cached_date"]
     list_filter = ["guild", "cached_date"]
 
-    def get_readonly_fields(
-        self, request: HttpRequest, obj: DiscordChannel | None = None
-    ) -> list[str]:
+    def get_readonly_fields(self, request: HttpRequest, obj: DiscordChannel | None = None) -> list[str]:
         if obj:
             return self.fields
         else:
@@ -201,9 +187,7 @@ class DiscordRoleAdmin(admin.ModelAdmin):
     list_filter = ["guild", "cached_date"]
     actions = [refresh_from_api]
 
-    def get_readonly_fields(
-        self, request: HttpRequest, obj: DiscordRole | None = None
-    ) -> list[str]:
+    def get_readonly_fields(self, request: HttpRequest, obj: DiscordRole | None = None) -> list[str]:
         if obj:
             return self.fields
         else:
@@ -239,9 +223,7 @@ class DiscordGuildMembershipAdmin(admin.ModelAdmin):
     list_filter = ["guild", "active", "cached_date"]
     actions = [refresh_from_api]
 
-    def get_readonly_fields(
-        self, request: HttpRequest, obj: DiscordGuildMembership | None = None
-    ) -> list[str]:
+    def get_readonly_fields(self, request: HttpRequest, obj: DiscordGuildMembership | None = None) -> list[str]:
         if obj:
             return ["guild", "user", "data", "cached_date"]
         else:

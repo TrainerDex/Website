@@ -7,8 +7,7 @@ from django.contrib import admin, messages
 from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.utils.timezone import now
-from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext_lazy as pgettext
+from django.utils.translation import gettext_lazy as _, pgettext_lazy as pgettext
 
 from pokemongo.models import (
     BATTLE_HUB_STATS,
@@ -27,12 +26,8 @@ if TYPE_CHECKING:
     from config.abstract_models import PrivateModel
 
 
-@admin.action(
-    description=_("Sync Members for all eligible Discords")
-)
-def sync_members(
-    modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[Community]
-):
+@admin.action(description=_("Sync Members for all eligible Discords"))
+def sync_members(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[Community]):
     for x in queryset:
         for y in x.memberships_discord.filter(communitymembershipdiscord__sync_members=True):
             results = y.sync_members()
@@ -42,14 +37,8 @@ def sync_members(
                 messages.warning(request, message)
 
 
-
-
-@admin.action(
-    description=_("Soft Delete")
-)
-def soft_delete(
-    modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[PrivateModel]
-):
+@admin.action(description=_("Soft Delete"))
+def soft_delete(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[PrivateModel]):
     delete_time = now()
     counter = Counter()
     for obj in queryset:
@@ -61,11 +50,7 @@ def soft_delete(
     messages.info(request, f"{objects_deleted_str} object(s) deleted")
 
 
-
-
-@admin.action(
-    description=_("Restore (Undelete)")
-)
+@admin.action(description=_("Restore (Undelete)"))
 def undelete(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[PrivateModel]):
     restore_time = now()
     counter = Counter()
@@ -79,11 +64,8 @@ def undelete(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: Query
     messages.info(request, f"{objects_restored_str} object(s) restored")
 
 
-
-
 @admin.register(Community)
 class CommunityAdmin(admin.ModelAdmin):
-
     search_fields = ("name", "short_description", "handle")
     autocomplete_fields = ["memberships_personal", "memberships_discord"]
     actions = [sync_members]
@@ -91,27 +73,23 @@ class CommunityAdmin(admin.ModelAdmin):
 
 @admin.register(CommunityMembershipDiscord)
 class CommunityMembershipDiscordAdmin(admin.ModelAdmin):
-
     autocomplete_fields = ["community", "discord"]
 
 
 @admin.register(ProfileBadge)
 class ProfileBadgeAdmin(admin.ModelAdmin):
-
     autocomplete_fields = ["members"]
     search_fields = ("title", "slug")
 
 
 @admin.register(ProfileBadgeHoldership)
 class ProfileBadgeHoldershipAdmin(admin.ModelAdmin):
-
     autocomplete_fields = ["trainer", "badge", "awarded_by"]
     search_fields = ("trainer__nickname__nickname", "badge__title", "badge__slug")
 
 
 @admin.register(Update)
 class UpdateAdmin(admin.ModelAdmin):
-
     autocomplete_fields = ["trainer"]
     list_display = (
         "trainer",
@@ -186,7 +164,6 @@ class UpdateAdmin(admin.ModelAdmin):
 
 @admin.register(Nickname)
 class NicknameAdmin(admin.ModelAdmin):
-
     search_fields = (
         "nickname",
         "trainer__owner__first_name",
@@ -204,7 +181,6 @@ class NicknameAdmin(admin.ModelAdmin):
 
 @admin.register(Trainer)
 class TrainerAdmin(admin.ModelAdmin):
-
     autocomplete_fields = [
         "owner",
     ]

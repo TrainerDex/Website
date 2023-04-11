@@ -6,14 +6,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from pokemongo.models import (
-    BATTLE_HUB_STATS,
-    STANDARD_MEDALS,
-    UPDATE_FIELDS_TYPES,
-    Faction,
-    Trainer,
-    Update,
-)
+from pokemongo.models import BATTLE_HUB_STATS, STANDARD_MEDALS, UPDATE_FIELDS_TYPES, Faction, Trainer, Update
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import User
