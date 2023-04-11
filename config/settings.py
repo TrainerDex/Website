@@ -221,7 +221,7 @@ SOCIALACCOUNT_PROVIDERS = {
     "reddit": {
         "AUTH_PARAMS": {"duration": "permanent"},
         "SCOPE": ["identity", "submit"],
-        "USER_AGENT": f"django:trainerdex (by /u/jayturnr)",
+        "USER_AGENT": "django:trainerdex (by /u/jayturnr)",
     },
     "discord": {"SCOPE": ["identify", "email", "guilds", "guilds.join", "guilds.members.read"]},
 }
@@ -261,11 +261,41 @@ SILKY_AUTHORISATION = True  # User must have permissions
 SILKY_IGNORE_PATHS = [
     "/api/health/",  # DigitalOcean calls this every 10 seconds, let's exclude that.
     "/favicon.ico",
+    "/api/ocr/activity-view/",
+    "/sitemap.xml",
+    "/api/ocr/activity-view/",
+    "/api/v2/leaderboard/",
 ]
 SILKY_META = True
+SILKY_MAX_REQUEST_BODY_SIZE = -1  # Silk takes anything <0 as no limit
+SILKY_MAX_RESPONSE_BODY_SIZE = 1024  # If response body>1024 bytes, ignore
+SILKY_INTERCEPT_PERCENT = 50  # log only 50% of requests
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "console": {
+            "format": "%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "console",
+        },
+    },
+    "loggers": {
+        "gunicorn": {  # this was what I was missing, I kept using django and not seeing any server logs
+            "level": "INFO",
+            "handlers": ["console"],
+            "propagate": True,
+        },
+    },
+}

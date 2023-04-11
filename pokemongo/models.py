@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import logging
 from collections import Counter, defaultdict
 from datetime import date, datetime, timedelta
 from decimal import Decimal
@@ -33,8 +32,6 @@ from pokemongo.fields import (
 )
 from pokemongo.shortcuts import circled_level, get_possible_levels_from_total_xp
 from pokemongo.validators import PokemonGoUsernameValidator, TrainerCodeValidator
-
-logger = logging.getLogger("django.trainerdex")
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import User

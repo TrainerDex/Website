@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import logging
 from datetime import timedelta
 from decimal import Decimal
 from math import ceil
@@ -9,7 +8,6 @@ from typing import Callable
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import FieldDoesNotExist
 from django.db.models import (
     Count,
@@ -41,32 +39,6 @@ from pokemongo.models import (
     Update,
 )
 from pokemongo.shortcuts import filter_leaderboard_qs
-
-logger = logging.getLogger("django.trainerdex")
-
-
-def _check_if_trainer_valid(user: AbstractUser) -> bool:
-    verified = user.trainer.verified  # type: ignore
-    logger.debug(
-        msg="Checking {nickname}: Completed profile: {status}".format(
-            nickname=user.username, status=verified
-        ),
-    )
-    return verified
-
-
-def _check_if_self_valid(request: HttpRequest) -> bool:
-    if not isinstance(request.user, AbstractUser):
-        return False
-    valid = _check_if_trainer_valid(request.user)
-    if valid and request.user.trainer.start_date is None:  # type: ignore
-        messages.warning(
-            request,
-            _(
-                "Please set your trainer start date. You can edit your profile in the settings section on the menu."
-            ),
-        )
-    return valid
 
 
 def profile_redirector(
@@ -116,10 +88,6 @@ def profile_redirector(
 
 
 def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
-    if request.user.is_authenticated and not _check_if_self_valid(request):
-        messages.warning(request, _("Please complete your profile to continue using the website."))
-        return redirect("profile_edit")
-
     updates = trainer.update_set.all()
     stats: dict[str, Decimal | int] = trainer.update_set.aggregate(
         **{
@@ -178,10 +146,6 @@ def profile_view(request: HttpRequest, trainer: Trainer) -> HttpResponse:
 
 @login_required
 def new_update(request: HttpRequest) -> HttpResponse:
-    if request.user.is_authenticated and not _check_if_self_valid(request):
-        messages.warning(request, _("Please complete your profile to continue using the website."))
-        return redirect("profile_edit")
-
     try:
         existing = request.user.trainer.update_set.filter(  # type: ignore
             update_time__gte=timezone.now() - timedelta(hours=6)
@@ -454,10 +418,6 @@ def leaderboard(
 
 @login_required
 def edit_profile(request: HttpRequest) -> HttpResponse:
-    if request.user.is_authenticated and _check_if_self_valid(request):
-        if request.user.trainer.update_set.count() == 0:  # type: ignore
-            messages.warning(request, "You have not posted your stats yet.")
-
     form = TrainerForm(instance=request.user.trainer)  # type: ignore
 
     if request.method == "POST":
