@@ -4,13 +4,12 @@ import datetime
 import uuid
 from decimal import Decimal
 
-import django.contrib.postgres.fields.citext
 import django.core.validators
 import django.db.models.deletion
 import django.utils.timezone
 import exclusivebooleanfield.fields
 from django.conf import settings
-from django.contrib.postgres.operations import CITextExtension
+from django.contrib.postgres.operations import CreateCollation
 from django.db import migrations, models
 
 import pokemongo.models
@@ -25,7 +24,12 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        CITextExtension(),
+        CreateCollation(
+            "case_insensitive",
+            provider="icu",
+            locale="und-u-ks-level2",
+            deterministic=False,
+        ),
         migrations.CreateModel(
             name="Community",
             fields=[
@@ -1436,7 +1440,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "nickname",
-                    django.contrib.postgres.fields.citext.CICharField(
+                    models.CharField(
+                        db_collation="case_insensitive",
                         db_index=True,
                         max_length=15,
                         unique=True,

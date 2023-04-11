@@ -71,7 +71,7 @@ class Trainer(PublicModel):
         verbose_name=_("User"),
     )
 
-    _nickname: str = postgres_fields.CICharField(
+    _nickname: str = models.CharField(
         max_length=15,
         unique=True,
         validators=[PokemonGoUsernameValidator],
@@ -79,6 +79,7 @@ class Trainer(PublicModel):
         verbose_name=pgettext_lazy("codename", "Nickname"),
         help_text="A local cached version of a trainers nickname.",
         editable=False,
+        db_collation="case_insensitive",
     )
 
     start_date: date | None = models.DateField(
@@ -311,12 +312,13 @@ class Nickname(models.Model):
         db_index=True,
         verbose_name=pgettext_lazy("player_term", "Trainer"),
     )
-    nickname: str = postgres_fields.CICharField(
+    nickname: str = models.CharField(
         max_length=15,
         unique=True,
         validators=[PokemonGoUsernameValidator],
         db_index=True,
         verbose_name=pgettext_lazy("codename", "Nickname"),
+        db_collation="case_insensitive",
     )
     active: bool = ExclusiveBooleanField(on="trainer")
 
