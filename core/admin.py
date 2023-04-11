@@ -18,6 +18,9 @@ from core.models.discord import (
 from core.models.main import Service, ServiceStatus, StatusChoices
 
 
+@admin.action(
+    description=_("Refresh from API.")
+)
 def refresh_from_api(
     modeladmin: admin.ModelAdmin,
     request: HttpRequest,
@@ -32,7 +35,6 @@ def refresh_from_api(
         x.refresh_from_api()
 
 
-refresh_from_api.short_description = _("Refresh from API.")
 
 
 class DiscordGuildAdminForm(forms.ModelForm):

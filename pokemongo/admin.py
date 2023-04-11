@@ -27,6 +27,9 @@ if TYPE_CHECKING:
     from config.abstract_models import PrivateModel
 
 
+@admin.action(
+    description=_("Sync Members for all eligible Discords")
+)
 def sync_members(
     modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[Community]
 ):
@@ -39,9 +42,11 @@ def sync_members(
                 messages.warning(request, message)
 
 
-sync_members.short_description = _("Sync Members for all eligible Discords")
 
 
+@admin.action(
+    description=_("Soft Delete")
+)
 def soft_delete(
     modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[PrivateModel]
 ):
@@ -56,9 +61,11 @@ def soft_delete(
     messages.info(request, f"{objects_deleted_str} object(s) deleted")
 
 
-soft_delete.short_description = _("Soft Delete")
 
 
+@admin.action(
+    description=_("Restore (Undelete)")
+)
 def undelete(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet[PrivateModel]):
     restore_time = now()
     counter = Counter()
@@ -72,7 +79,6 @@ def undelete(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: Query
     messages.info(request, f"{objects_restored_str} object(s) restored")
 
 
-undelete.short_description = _("Restore (Undelete)")
 
 
 @admin.register(Community)
