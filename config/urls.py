@@ -9,7 +9,6 @@ from rest_framework.authtoken import views
 
 from core import sitemaps
 from core.views import privacy, service_status, settings, terms
-from ocr.views import ActivityViewOCR
 from pokemongo.views import edit_profile
 
 app_name = "trainerdex"
