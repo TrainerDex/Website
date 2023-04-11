@@ -61,7 +61,10 @@ class Word(NamedTuple):
         return image.crop(self.bounding_box)
 
     def __str__(self):
-        return f"[{self.page_num}:{self.block_num}:{self.par_num}:{self.line_num}:{self.word_num}] {self.bounding_box}: {self.text}"
+        return (
+            f"[{self.page_num}:{self.block_num}:{self.par_num}:{self.line_num}:{self.word_num}]"
+            f" {self.bounding_box}: {self.text}"
+        )
 
 
 class Line(NamedTuple):

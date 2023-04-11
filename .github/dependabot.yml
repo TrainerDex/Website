@@ -14,7 +14,6 @@ updates:
     labels:
       - "dependencies"
       - "pip"
-
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

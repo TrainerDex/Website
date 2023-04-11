@@ -89,8 +89,10 @@ class TrainerListView(APIView):
 
     def post(self, request: Request) -> Response:
         """
-        This used to work as a simple post, but since the beginning of transitioning to API v2 it would have always given Validation Errors if left the same.
-        Now it has a 60 minute open slot to work after the auth.User (owner) instance is created. After which, a PATCH request must be given. This is due to the nature of a Trainer being created automatically for all new auth.User
+        This used to work as a simple post, but since the beginning of transitioning to API v2 it would have always
+        given Validation Errors if left the same. Now it has a 60 minute open slot to work after the
+        auth.User (owner) instance is created. After which, a PATCH request must be given.
+        This is due to the nature of a Trainer being created automatically for all new auth.User
         """
 
         trainer: Trainer = Trainer.objects.prefetch_related("update_set").get(
@@ -99,7 +101,10 @@ class TrainerListView(APIView):
         if not recent(trainer.owner.date_joined):
             return Response(
                 {
-                    "_error": "profile already exists, please use patch on trainer uri instead or check the owner pk is correct",
+                    "_error": (
+                        "profile already exists, please use patch on trainer uri instead"
+                        " or check the owner pk is correct"
+                    ),
                     "_profile_id": trainer.pk,
                 },
                 status=status.HTTP_400_BAD_REQUEST,
@@ -182,7 +187,8 @@ class TrainerDetailView(APIView):
 class UpdateListView(APIView):
     """
     get:
-    Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise, returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
+    Takes Trainer ID as part of URL, optional param: detail, shows all detail, otherwise,
+    returns a list of objects with fields 'time_updated' (datetime), 'xp'(int) and 'fields_updated' (list)
 
     post:
     Create a update
@@ -259,7 +265,8 @@ class UpdateDetailView(APIView):
     Gets detailed view
 
     patch:
-    Allows editting of update within first half hour of creation, after that time, all updates are denied. Trainer, UUID and PK are locked
+    Allows editting of update within first half hour of creation, after that time, all updates are denied.
+    Trainer, UUID and PK are locked
     """
 
     authentication_classes = (authentication.TokenAuthentication, OAuth2Authentication)
@@ -326,7 +333,8 @@ class SocialLookupView(APIView):
         kwargs:
             provider (requiered) - platform, options are 'twitter', 'discord', 'reddit'
 
-            uid - Social ID, supports a comma seperated list. Could be useful for passing a list of users in a server to retrieve a list of UserIDs, which could then be passed to api/v1/leaderboard/
+            uid - Social ID, supports a comma seperated list. Could be useful for passing a list of users in a server
+                to retrieve a list of UserIDs, which could then be passed to api/v1/leaderboard/
             user - TrainerDex User ID, supports a comma seperated list
             trainer - TrainerDex Trainer ID
 

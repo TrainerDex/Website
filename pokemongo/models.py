@@ -418,7 +418,10 @@ class Update(PublicModel):
         verbose_name=pgettext_lazy("pokedex_page_caught", "Unique Species Caught"),
         help_text=pgettext_lazy(
             "pokedex_help",
-            "You can find this by clicking the {screen_title_pokedex} button in your game. It should then be listed at the top of the screen.",
+            (
+                "You can find this by clicking the {screen_title_pokedex} button in your game."
+                " It should then be listed at the top of the screen."
+            ),
         ).format(screen_title_pokedex=pgettext_lazy("screen_title_pokedex", "POKÉDEX")),
         validators=[MinValueValidator(1)],
     )
@@ -428,7 +431,10 @@ class Update(PublicModel):
         verbose_name=pgettext_lazy("pokedex_page_seen", "Unique Species Seen"),
         help_text=pgettext_lazy(
             "pokedex_help",
-            "You can find this by clicking the {screen_title_pokedex} button in your game. It should then be listed at the top of the screen.",
+            (
+                "You can find this by clicking the {screen_title_pokedex} button in your game."
+                " It should then be listed at the top of the screen."
+            ),
         ).format(screen_title_pokedex=pgettext_lazy("screen_title_pokedex", "POKÉDEX")),
         validators=[MinValueValidator(1)],
     )
@@ -1432,7 +1438,10 @@ class Update(PublicModel):
         verbose_name=pgettext_lazy("gym_gold_title", "Gold Gym Badges"),
         help_text=pgettext_lazy(
             "gym_gold_help",
-            "You can find this by clicking the {gym_list_button} button under the {profile_category_gymbadges} category on your profile in game, and then counting how many are gold.",
+            (
+                "You can find this by clicking the {gym_list_button} button under the {profile_category_gymbadges}"
+                " category on your profile in game, and then counting how many are gold."
+            ),
         ).format(
             gym_list_button=pgettext_lazy("gym_list_button", "List"),
             profile_category_gymbadges=pgettext_lazy("profile_category_gymbadges", "Gym Badges"),
@@ -1466,7 +1475,10 @@ class Update(PublicModel):
             raise ValidationError(
                 pgettext_lazy(
                     "trainer_level_error",
-                    "The Trainer Level is not valid for the entered Total XP. Expected one of {levels}, got {trainer_level}.",
+                    (
+                        "The Trainer Level is not valid for the entered Total XP."
+                        " Expected one of {levels}, got {trainer_level}."
+                    ),
                 ).format(levels=formatted_levels, trainer_level=self.trainer_level)
             )
         elif (

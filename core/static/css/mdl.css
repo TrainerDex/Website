@@ -1,9 +1,13 @@
-html, body {
-  font-family: 'Roboto', 'Helvetica', sans-serif;
+html,
+body {
+  font-family: "Roboto", "Helvetica", sans-serif;
 }
 
-h1, h2, th, .mdl-typography--text-uppercase .trainerdex-profile-username {
-  font-family: 'Raleway', 'Roboto', 'Helvetica', sans-serif;
+h1,
+h2,
+th,
+.mdl-typography--text-uppercase .trainerdex-profile-username {
+  font-family: "Raleway", "Roboto", "Helvetica", sans-serif;
 }
 
 li.mdl-menu__item > i.material-icons {
@@ -35,7 +39,7 @@ li.mdl-menu__item > i.material-icons {
 }
 
 .welcome-cards .mdl-card__actions a {
-  color: #00BCD4;
+  color: #00bcd4;
   text-decoration: none;
 }
 .trainerdex-card__alert {
@@ -50,11 +54,10 @@ li.mdl-menu__item > i.material-icons {
 .trainerdex-card__alert > .mdl-card__title {
   color: #f2f2f2;
   height: 176px;
-  background-image: url('/static/img/alert.png');
+  background-image: url("/static/img/alert.png");
   background-position: center top 18%;
   background-size: cover;
   background-repeat: no-repeat;
-
 }
 .trainerdex-card__alert > .mdl-card__menu {
   color: #fff;
@@ -80,13 +83,13 @@ li.mdl-menu__item > i.material-icons {
 }
 
 .trainerdex-drawer-header {
-  background-color: #ca3755!important;
-  color: #f2f2f2!important;
+  background-color: #ca3755 !important;
+  color: #f2f2f2 !important;
 }
 
 .trainerdex-navigation {
-  background-color: #f2f2f2!important;
-  color: #332e20!important;
+  background-color: #f2f2f2 !important;
+  color: #332e20 !important;
 }
 
 .trainerdex-header {
@@ -117,7 +120,7 @@ li.mdl-menu__item > i.material-icons {
   order: 1;
   width: 500px;
   transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-  width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .trainerdex-header-navigation {
@@ -128,7 +131,6 @@ li.mdl-menu__item > i.material-icons {
   justify-content: flex-end;
   width: 800px;
 }
-
 
 .trainerdex-header-navigation .mdl-navigation__link {
   display: inline-block;
@@ -149,14 +151,14 @@ li.mdl-menu__item > i.material-icons {
 }
 
 .tdx-lb__title {
-  background-color: #ca3755!important;
-  color: #f2f2f2!important;
+  background-color: #ca3755 !important;
+  color: #f2f2f2 !important;
 }
 .tdx-lb__menu {
-  color: #f2f2f2!important;
+  color: #f2f2f2 !important;
 }
 .tdx-lb__supporting-text {
-  color: #f2f2f2!important;
+  color: #f2f2f2 !important;
 }
 
 /**** Mobile layout ****/
@@ -251,17 +253,17 @@ li.mdl-menu__item > i.material-icons {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  color: #332e20!important;
+  color: #332e20 !important;
   font-weight: 500;
-  -webkit-tap-highlight-color: #ca3755!important;
+  -webkit-tap-highlight-color: #ca3755 !important;
 }
 .trainerdex-layout .trainerdex-navigation .mdl-navigation__link:hover {
-  background-color: #ca3755!important;
-  color: #f2f2f2!important;
+  background-color: #ca3755 !important;
+  color: #f2f2f2 !important;
 }
 .trainerdex-navigation .mdl-navigation__link .material-icons {
   font-size: 24px;
-  color: #332e20!important;
+  color: #332e20 !important;
   margin-right: 32px;
 }
 
@@ -275,16 +277,16 @@ li.mdl-menu__item > i.material-icons {
   align-items: center;
 }
 .trainerdex-chart:nth-child(1) {
-  color: #ACEC00;
+  color: #acec00;
 }
 .trainerdex-chart:nth-child(2) {
-  color: #00BBD6;
+  color: #00bbd6;
 }
 .trainerdex-chart:nth-child(3) {
-  color: #BA65C9;
+  color: #ba65c9;
 }
 .trainerdex-chart:nth-child(4) {
-  color: #EF3C79;
+  color: #ef3c79;
 }
 .trainerdex-graphs {
   padding: 16px 32px;
@@ -302,10 +304,12 @@ li.mdl-menu__item > i.material-icons {
 * not float around outside their container in IE10/11.
 * Using a browserhacks.com solution for now.
 */
-_:-ms-input-placeholder, :root .trainerdex-graphs {
+_:-ms-input-placeholder,
+:root .trainerdex-graphs {
   min-height: 664px;
 }
-_:-ms-input-placeholder, :root .trainerdex-graph {
+_:-ms-input-placeholder,
+:root .trainerdex-graph {
   max-height: 300px;
 }
 /* TODO end */
@@ -345,7 +349,7 @@ background-position: right 1% top -2%;
 background-repeat: no-repeat;
 }*/
 .trainerdex-cards .mdl-card__actions a {
-  color: #00BCD4;
+  color: #00bcd4;
   text-decoration: none;
 }
 
@@ -381,7 +385,7 @@ background-repeat: no-repeat;
   font-size: 1.3rem;
 }
 
-.mdl-cell--gravatar-box{
+.mdl-cell--gravatar-box {
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -413,7 +417,6 @@ background-repeat: no-repeat;
   background-image: url("/static/img/faction/3-bg.png");
 }
 
-
 .social-btn {
   background-position: center;
   background-size: contain;
@@ -432,13 +435,13 @@ background-image: url('http://trainerdex.app/static/img/twitter.svg');
 }
 */
 .social-btn__facebook {
-  background-image: url('http://trainerdex.app/static/img/facebook.svg');
+  background-image: url("http://trainerdex.app/static/img/facebook.svg");
 }
 .social-btn__gplus {
-  background-image: url('http://trainerdex.app/static/img/googleplus.svg');
+  background-image: url("http://trainerdex.app/static/img/googleplus.svg");
 }
 .social-btn__discord {
-  background-image: url('http://trainerdex.app/static/img/discord.svg');
+  background-image: url("http://trainerdex.app/static/img/discord.svg");
 }
 .social-btn__share {
   color: rgba(0, 0, 0, 0.54);
@@ -460,12 +463,14 @@ u.dotted {
   z-index: 900;
 }
 
-iframe[scrolling='no'] { overflow: hidden; }
+iframe[scrolling="no"] {
+  overflow: hidden;
+}
 
 /* Table responsive */
 
 .table-responsive {
-  min-height: .01%;
+  min-height: 0.01%;
   overflow-x: auto;
 }
 @media screen and (max-width: 767px) {
@@ -515,8 +520,8 @@ iframe[scrolling='no'] { overflow: hidden; }
 }
 
 .leaderboard-link {
-  color: rgba(0,0,0,.87);
-  text-decoration-color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, 0.87);
+  text-decoration-color: rgba(0, 0, 0, 0.87);
   text-decoration-line: none;
 }
 
@@ -546,14 +551,14 @@ iframe[scrolling='no'] { overflow: hidden; }
 }
 
 .tl {
-  float:right;
-  text-align:right;
-  width:50%;
+  float: right;
+  text-align: right;
+  width: 50%;
 }
 .trainer-nickname {
-  float:left;
-  text-align:left;
-  width:50%;
+  float: left;
+  text-align: left;
+  width: 50%;
 }
 
 .mdl-button--fab {
@@ -573,7 +578,7 @@ iframe[scrolling='no'] { overflow: hidden; }
   position: fixed;
   bottom: 0;
   height: 53px; /* Based on default height on setup */
-  z-index:10;
+  z-index: 10;
   background: white; /* Based on default background, must change to support theming */
 }
 .mdl-card__floating-action-bar > .mdl-card__actions > .mdl-button {
@@ -587,7 +592,6 @@ iframe[scrolling='no'] { overflow: hidden; }
 img.invert {
   filter: invert(0.7);
 }
-
 
 /* Fix for chips */
 
