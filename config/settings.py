@@ -19,7 +19,7 @@ DEBUG = strtobool(os.environ.get("DEBUG", "False"))
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(" ")
 ALLOWED_CIDR_NETS = ["10.244.0.0/16"]
 
-ADMINS = [("Jay Turner", "jaynicholasturner@gmail.com")]
+ADMINS = [("Developers", "devs@trainerdex.app")]
 
 # Application definition
 
