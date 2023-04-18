@@ -26,14 +26,14 @@ class Command(BaseCommand):
         trainer_json = json.dumps(
             dict(
                 uuid=str(trainer.uuid),
-                start_date=trainer.start_date.isoformat(),
+                start_date=trainer.start_date.isoformat() if trainer.start_date else None,
                 faction=trainer.faction,
                 last_cheated=trainer.last_cheated.isoformat() if trainer.last_cheated else None,
                 statistics=trainer.statistics,
                 daily_goal=trainer.daily_goal,
                 total_goal=trainer.total_goal,
                 trainer_code=trainer.trainer_code,
-                country=str(trainer.country),
+                country=str(trainer.country) or None,
                 verified=trainer.verified,
                 event_10b=trainer.event_10b,
                 event_1k_users=trainer.event_1k_users,
