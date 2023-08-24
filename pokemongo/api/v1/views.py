@@ -331,7 +331,7 @@ class SocialLookupView(APIView):
     """
     get:
         kwargs:
-            provider (requiered) - platform, options are 'twitter', 'discord', 'reddit'
+            provider (requiered) - platform, options are 'discord', 'reddit'
 
             uid - Social ID, supports a comma seperated list. Could be useful for passing a list of users in a server
                 to retrieve a list of UserIDs, which could then be passed to api/v1/leaderboard/
