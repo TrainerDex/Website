@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y tesseract-ocr-all \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install -U pip && pip install -U requirementslib
+RUN pip install -U pip && pip install -U "requirementslib==2.3.0"
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
