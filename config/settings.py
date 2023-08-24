@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.discord",
     "allauth.socialaccount.providers.reddit",
-    "allauth.socialaccount.providers.twitter",
     "widget_tweaks",
     "robots",
     "oauth2_provider",
