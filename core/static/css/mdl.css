@@ -429,17 +429,6 @@ background-repeat: no-repeat;
   opacity: 0.46;
   border-radius: 2px;
 }
-/*
-.social-btn__twitter {
-background-image: url('http://trainerdex.app/static/img/twitter.svg');
-}
-*/
-.social-btn__facebook {
-  background-image: url("http://trainerdex.app/static/img/facebook.svg");
-}
-.social-btn__gplus {
-  background-image: url("http://trainerdex.app/static/img/googleplus.svg");
-}
 .social-btn__discord {
   background-image: url("http://trainerdex.app/static/img/discord.svg");
 }
