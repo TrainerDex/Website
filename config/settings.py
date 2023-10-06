@@ -65,6 +65,7 @@ MIDDLEWARE = [
     "django.contrib.admindocs.middleware.XViewMiddleware",
     "silk.middleware.SilkyMiddleware",
     "allow_cidr.middleware.AllowCIDRMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 LOCALE_PATHS = [
