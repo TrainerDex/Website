@@ -31,6 +31,7 @@ requests = "*"
 certifi = "*"
 django-countries = {version = "==7.5.1", extras = ["pyuca"]}
 psycopg = ">=3.1.8"
+pandas = "*"
 
 [dev-packages]
 flake8 = "*"
